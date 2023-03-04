@@ -20,3 +20,7 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+
+Route::get('/media', function () {
+    return view('dashboard.media.index');   
+});
