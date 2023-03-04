@@ -70,26 +70,30 @@
                         <div
                             class="flex absolute bg-emerald-50 opacity-40 w-32 h-32 top-[15px] rounded-b-xl border drop-shadow-md">
                         </div>
-                        <nav class="flex absolute top-[15px] w-36">
+                        <nav class="flex absolute top-[15px] w-36 mr-10">
                             <ul class="ml-4 text-left">
                                 <li class="group">
                                     <a class="mt-2 nav-a" href="">
                                         <svg class="fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
                                             width="16" viewBox="0 0 24 24">
+                                            <title>My Profile</title>
                                             <path
                                                 d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z" />
                                         </svg>
-                                        <span class="ml-1"> My Profile</span>
+                                        <span class="ml-1 sm:hidden"> P </span>
+                                        <span class="ml-1 hidden sm:flex"> My Profile</span>
                                     </a>
                                 </li>
                                 <li class="group">
                                     <a class="mt-2 nav-a" href="">
                                         <svg class="fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
                                             width="16" height="24" viewBox="0 0 24 24">
+                                            <title>Notifikasi</title>
                                             <path
                                                 d="M12 .02c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.99 6.98l-6.99 5.666-6.991-5.666h13.981zm.01 10h-14v-8.505l7 5.673 7-5.672v8.504z" />
                                         </svg>
-                                        <span class="ml-1"> Notifikasi</span>
+                                        <span class="ml-1 sm:hidden"> N </span>
+                                        <span class="ml-1 hidden sm:flex"> Notifikasi</span>
                                     </a>
                                 </li>
                                 <li class="group">
@@ -98,11 +102,12 @@
                                         <button type="submit" class="mt-2 nav-a">
                                             <svg class="fill-current w-4" role="img" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <title>LOGOUT</title>
+                                                <title>Logout</title>
                                                 <path
                                                     d="M12 0C5.373 0 0 5.37 0 12s5.373 12 12 12c6.63 0 12-5.37 12-12S18.63 0 12 0zm-.84 4.67h1.68v8.36h-1.68V4.67zM12 18.155c-3.24-.002-5.865-2.63-5.864-5.868 0-2.64 1.767-4.956 4.314-5.655v1.71c-1.628.64-2.698 2.21-2.695 3.96 0 2.345 1.903 4.244 4.248 4.243 2.344-.002 4.244-1.903 4.243-4.248 0-1.745-1.07-3.312-2.694-3.95V6.63c2.55.7 4.314 3.018 4.314 5.66 0 3.24-2.626 5.864-5.865 5.864z" />
                                             </svg>
-                                            <span class="ml-1"> Logout </span>
+                                            <span class="ml-1 sm:hidden"> L </span>
+                                            <span class="ml-1 hidden sm:flex"> Logout </span>
                                         </button>
                                     </form>
                                 </li>

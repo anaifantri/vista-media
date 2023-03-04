@@ -14,7 +14,7 @@
     <!-- Container start -->
     <div class="container bg-zinc-100 mx-auto flex h-screen w-full position-relative">
         <div
-            class="m-auto w-60 h-80 sm:h-[500px] sm:w-[360px] bg-zinc-100 position-absolute p-5 rounded-xl drop-shadow-xl sm:shadow-2xl items-center justify-center sm:rounded-2xl">
+            class="m-auto w-60 h-[340px] sm:h-[500px] sm:w-[360px] bg-zinc-100 position-absolute p-5 rounded-xl drop-shadow-xl sm:shadow-2xl items-center justify-center sm:rounded-2xl">
             <!-- Logo start-->
             <div
                 class="drop-shadow-lg m-auto sm:mt-5 w-20 h-20 sm:w-[90px] sm:h-[90px] flex position-relative bg-white rounded-full border">
@@ -31,12 +31,25 @@
             <!-- Text tittle end-->
             <!-- Form login start-->
             @if (session()->has('loginError'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('loginError') }}
-                    <button type="button" data-bs-dimiss="alert" aria-label="Close"></button>
+                <div id="failAllert" name="failAllert"
+                    class="m-auto flex relative rounded-lg border border-red-600 bg-opacity-60 bg-red-200 drop-shadow-xl shadow-inner w-48 h-8 sm:w-60 sm:h-10"
+                    role="alert">
+                    <div class="flex m-auto text-red-800">
+                        <svg class="w-6 fill-red-700 mr-3" clip-rule="evenodd" fill-rule="evenodd"
+                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="m2.095 19.886 9.248-16.5c.133-.237.384-.384.657-.384.272 0 .524.147.656.384l9.248 16.5c.064.115.096.241.096.367 0 .385-.309.749-.752.749h-18.496c-.44 0-.752-.36-.752-.749 0-.126.031-.252.095-.367zm9.907-6.881c-.414 0-.75.336-.75.75v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5c0-.414-.336-.75-.75-.75zm-.002-3c-.552 0-1 .448-1 1s.448 1 1 1 1-.448 1-1-.448-1-1-1z"
+                                fill-rule="nonzero" />
+                        </svg>
+                        {{ session('loginError') }}
+                    </div>
+                    <button id="btAllert" name="btAllert"
+                        class="flex absolute w-4 h-4 mr-1 mx-44 sm:mx-[220px] mt-0 items-center justify-center text-red-800"
+                        type="button"> x </button>
                 </div>
             @endif
-            <div class="m-auto position-relative items-center justify-center flex">
+            <div class="m-auto relative items-center justify-center flex">
                 <form action="/login" method="post">
                     @csrf
                     <!-- Input username start-->
@@ -69,6 +82,11 @@
         </div>
     </div>
     <!-- Container end -->
+
+    <!-- Javascript start -->
+    <script src="/js/login.js"></script>
+    <!-- Javascript end -->
+
 </body>
 
 </html>

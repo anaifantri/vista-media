@@ -43,9 +43,9 @@ media.addEventListener('click', function () {
     mediaChild.classList.toggle('hidden');
 });
 // Marketing
-const marketing = document.querySelector('#marketing');
-const marketingChild = document.querySelector('#marketingChild');
-const marketingArrow = document.querySelector('#marketingArrow');
+const marketing = document.getElementById('marketing');
+const marketingChild = document.getElementById('marketingChild');
+const marketingArrow = document.getElementById('marketingArrow');
 
 marketing.addEventListener('click', function () {
     marketing.classList.toggle('group');
