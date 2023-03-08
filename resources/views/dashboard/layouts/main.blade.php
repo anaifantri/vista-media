@@ -8,6 +8,7 @@
     @vite('resources/css/app.css')
     <title>VISTA MEDIA | Dashboard</title>
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
