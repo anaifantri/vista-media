@@ -696,7 +696,7 @@
                     <ul id="userChild" name="userChild" class="hidden">
                         @can('isAdmin')
                             <li class="group">
-                                <a class="nav-a ml-[40px] border-t-[1px]" href="#">
+                                <a class="nav-a ml-[40px] border-t-[1px]" href="/dashboard/users">
                                     <svg class="nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path
