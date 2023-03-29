@@ -1,6 +1,6 @@
 @canany(['isAdmin', 'isMedia', 'isMarketing', 'isAccounting', 'isWorkshop'])
     <div name="nav-menu" id="nav-menu"
-        class="h-max -ml-[266px] sm:ml-0 md:ml-0 lg:ml-0 z-10 py-2 bg-emerald-50 max-w-[250px] w-full top-14 rounded-lg shadow-lg transition duration-500 ease-in-out sticky">
+        class="h-screen -ml-[266px] sm:ml-0 md:ml-0 lg:ml-0 z-10 py-2 bg-emerald-50 max-w-[250px] w-full top-14 transition duration-500 ease-in-out sticky">
         <nav>
             <ul class="block">
                 <div>

@@ -21,4 +21,4 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
-Route::get('/dashboard/users',[UserController::class, 'index'])->middleware('auth');
+Route::resource('/dashboard/users', UserController::class)->middleware('auth');

@@ -1,44 +1,57 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex border-b m-3 items-center p-2">
+    <div class="flex border-b my-3 items-center p-2">
         <h1 class="text-4xl text-emerald-700 tracking-wider font-semibold"> List User</h1>
     </div>
-    <div class="flex relative">
-        <a href="#"
-            class="flex absolute w-40 h-8 bg-teal-500 rounded-lg text-white items-center justify-center hover:bg-teal-600">
+    <div class="flex relative justify-end">
+        <a href="/dashboard/users/create"
+            class="flex absolute btn-primary border border-white items-center justify-center mr-[300px]">
             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                     fill-rule="nonzero" />
             </svg>
-            <span>Tambah User</span>
+            <span class="mx-1">Tambah User</span>
         </a>
     </div>
+    @if (session()->has('success'))
+        <div
+            class="flex absolute rounded-lg border border-white bg-opacity-60 bg-green-200 drop-shadow-xl shadow-inner w-max h-10 p-2">
+            <div class="flex text-green-900 text-sm items-center">
+                <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                </svg>
+                <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+            </div>
+        </div>
+    @endif
     <div class="flex relative mt-12">
         <table class="table-auto">
             <thead>
-                <tr class="text-left border-t border-b">
-                    <th class="px-2 py-1 items-center text-sm">No.</th>
-                    <th class="px-2 py-1 items-center text-sm">Nama</th>
-                    <th class="px-2 py-1 items-center text-sm">User Name</th>
-                    <th class="px-2 py-1 items-center text-sm">Email</th>
-                    <th class="px-2 py-1 items-center text-sm">No. Hp.</th>
-                    <th class="px-2 py-1 items-center text-sm">Level</th>
-                    <th class="flex px-2 py-1 items-center text-sm">Action</th>
+                <tr class="text-left border-t border-b bg-teal-50 h-9">
+                    <th class="px-2 py-1 items-center text-sm w-5">No.</th>
+                    <th class="px-2 py-1 items-center text-sm w-28">Nama</th>
+                    <th class="px-2 py-1 items-center text-sm w-24">User Name</th>
+                    <th class="px-2 py-1 items-center text-sm w-44">Email</th>
+                    <th class="px-2 py-1 items-center text-sm w-24">No. Hp.</th>
+                    <th class="px-2 py-1 items-center text-sm w-24">Level</th>
+                    <th class="px-2 py-1 items-center text-sm w-32">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($users as $user)
                     <tr class="border-b">
-                        <td class="px-2 py-1 items-center text-sm">{{ $loop->iteration }}</td>
-                        <td class="px-2 py-1 items-center text-sm">{{ $user->name }}</td>
-                        <td class="px-2 py-1 items-center text-sm">{{ $user->username }}</td>
-                        <td class="px-2 py-1 items-center text-sm">{{ $user->email }}</td>
-                        <td class="px-2 py-1 items-center text-sm">{{ $user->phone }}</td>
-                        <td class="px-2 py-1 items-center text-sm">{{ $user->level }}</td>
-                        <td class="flex px-2 py-1 items-center text-sm">
+                        <td class="px-2 py-1 items-center text-sm w-5 text-center">{{ $loop->iteration }}</td>
+                        <td class="px-2 py-1 items-center text-sm w-28">{{ $user->name }}</td>
+                        <td class="px-2 py-1 items-center text-sm w-24">{{ $user->username }}</td>
+                        <td class="px-2 py-1 items-center text-sm w-44">{{ $user->email }}</td>
+                        <td class="px-2 py-1 items-center text-sm w-24">{{ $user->phone }}</td>
+                        <td class="px-2 py-1 items-center text-sm w-24">{{ $user->level }}</td>
+                        <td class="flex px-2 py-1 items-center text-sm w-32">
                             <a href="/dashboard/users/{{ $user->id }}"
                                 class="flex items-center justify-center text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
@@ -64,7 +77,7 @@
                                 @csrf
                                 <button
                                     class="flex items-center justify-center text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md mr-1"
-                                    onclick="return confirm('Are You Sure')">
+                                    onclick="return confirm('Apakah anda yakin ingin menghapus User {{ $user->username }} ?')">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +90,6 @@
                         </td>
                     </tr>
                 @endforeach
-
             </tbody>
         </table>
     </div>
