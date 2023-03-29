@@ -21,7 +21,7 @@
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Detail User</h4>
                     </div>
                     <div class="mt-5 w-full">
-                        <div class="border-b mt-2 mt-2"><label class="text-sm text-teal-700">Nama</label>
+                        <div class="border-b mt-2"><label class="text-sm text-teal-700">Nama</label>
                             <h6 class="text-base font-semibold text-teal-900">{{ $user->name }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Username</label>
