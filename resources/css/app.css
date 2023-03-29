@@ -70,3 +70,20 @@
 .btn-danger {
     @apply p-2 w-max h-8 bg-red-600 rounded-lg text-white hover:bg-red-700 drop-shadow-md;
 }
+
+/* alert */
+.alert-primary {
+    @apply  text-teal-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-teal-200 drop-shadow-xl shadow-inner w-max h-10 p-2;
+}   
+
+.alert-success {
+    @apply  text-green-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-green-200 drop-shadow-xl shadow-inner w-max h-10 p-2;
+}
+
+.alert-warning {
+    @apply  text-yellow-700 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-yellow-200 drop-shadow-xl shadow-inner w-max h-10 p-2;
+}
+
+.alert-danger {
+    @apply  text-red-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-red-200 drop-shadow-xl shadow-inner w-max h-10 p-2;
+}

@@ -707,18 +707,6 @@
                             </li>
                             <li class="group">
                                 <a class="nav-a ml-[40px]" href="#">
-                                    <svg class="nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m10.5 17.25c0-.414.336-.75.75-.75h10c.414 0 .75.336.75.75s-.336.75-.75.75h-10c-.414 0-.75-.336-.75-.75zm-1.5-3.55c0-.53-.47-1-1-1h-5c-.53 0-1 .47-1 1v4.3c0 .53.47 1 1 1h5c.53 0 1-.47 1-1zm1.5-1.7c0-.414.336-.75.75-.75h10c.414 0 .75.336.75.75s-.336.75-.75.75h-10c-.414 0-.75-.336-.75-.75zm-1.5-6c0-.53-.47-1-1-1h-5c-.53 0-1 .47-1 1v4.3c0 .53.47 1 1 1h5c.53 0 1-.47 1-1zm1.5.75c0-.414.336-.75.75-.75h10c.414 0 .75.336.75.75s-.336.75-.75.75h-10c-.414 0-.75-.336-.75-.75z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="flex w-40"> Divisi </span>
-                                </a>
-                            </li>
-                            <li class="group">
-                                <a class="nav-a ml-[40px]" href="#">
                                     <svg class="nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path fill="none" d="M0 0h24v24H0V0z" />

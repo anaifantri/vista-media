@@ -17,9 +17,8 @@
         </a>
     </div>
     @if (session()->has('success'))
-        <div
-            class="flex absolute rounded-lg border border-white bg-opacity-60 bg-green-200 drop-shadow-xl shadow-inner w-max h-10 p-2">
-            <div class="flex text-green-900 text-sm items-center">
+        <div class="flex absolute">
+            <div class="flex alert-success">
                 <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24">
                     <path

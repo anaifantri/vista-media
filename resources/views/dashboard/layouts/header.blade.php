@@ -5,8 +5,8 @@
             <div class="flex items-center px-4 max-w-[250px] w-full">
                 <a href="#" class="flex font-bold text-lg py-3">
                     <div
-                        class="flex mx-2 items-center w-[30] h-[30] rounded-full bg-white border-slate-200 drop-shadow-xl shadow-inner">
-                        <img class="w-8 h-8 flex m-auto" src="/img/logo-vista-media.png" alt="">
+                        class="flex mx-2 items-center w-[30px] h-[30px] rounded-full bg-white border border-slate-200 drop-shadow-xl shadow-inner">
+                        <img class="w-[26px] h-[26px] flex m-auto" src="/img/logo-vista-media.png" alt="">
                     </div>
                     <span class="text-white mx-1">Vista</span>
                     <span class="text-red-500 mx-1">Media</span>
@@ -50,12 +50,14 @@
                 <div>
                     <div class="group" id="profile" name="profile">
                         <a href="#" class="right-nav">
-                            <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="24"
-                                enable-background="new 0 0 48 48" viewBox="0 0 48 48">
-                                <path
-                                    d="M24,6C14.1,6,6,14.1,6,24s8.1,18,18,18s18-8.1,18-18S33.9,6,24,6z M24,13c2.2,0,4,1.8,4,4c0,2.2-1.8,4-4,4c-2.2,0-4-1.8-4-4C20,14.8,21.8,13,24,13z M14,34c0-5.5,4.5-10,10-10c5.5,0,10,4.5,10,10H14z" />
-                            </svg>
-                            <Span class="hidden sm:flex ml-1">{{ auth()->user()->name }}</Span>
+                            @if (auth()->user()->avatar)
+                                <img class="m-auto img-preview flex rounded-full items-center w-8 h-8"
+                                    src="{{ asset('storage/' . auth()->user()->avatar) }}">
+                            @else
+                                <img class="m-auto img-preview flex rounded-full items-center w-8 h-8"
+                                    src="/img/photo_profile.png">
+                            @endif
+                            <Span class="hidden sm:flex ml-2">{{ auth()->user()->name }}</Span>
                             <svg name="profileArrow" id="profileArrow"
                                 class="ml-1 fill-current transition duration-300 ease-in-out" role="img"
                                 width="20" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
@@ -65,7 +67,7 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="flex absolute items-center mr-3 opacity-0 transition duration-1000 ease-in-out origin-center"
+                    <div class="flex absolute items-center mr-3 opacity-0 transition duration-500 ease-in-out origin-center"
                         id="profileChild" name="profileChild">
                         <div
                             class="flex absolute bg-emerald-50 opacity-40 w-32 h-32 top-[15px] rounded-b-xl border drop-shadow-md">
