@@ -51,11 +51,10 @@
                     <div class="group" id="profile" name="profile">
                         <a href="#" class="right-nav">
                             @if (auth()->user()->avatar)
-                                <img class="m-auto img-preview flex rounded-full items-center w-8 h-8"
+                                <img class="m-auto flex rounded-full items-center w-8 h-8"
                                     src="{{ asset('storage/' . auth()->user()->avatar) }}">
                             @else
-                                <img class="m-auto img-preview flex rounded-full items-center w-8 h-8"
-                                    src="/img/photo_profile.png">
+                                <img class="m-auto flex rounded-full items-center w-8 h-8" src="/img/photo_profile.png">
                             @endif
                             <Span class="hidden sm:flex ml-2">{{ auth()->user()->name }}</Span>
                             <svg name="profileArrow" id="profileArrow"
