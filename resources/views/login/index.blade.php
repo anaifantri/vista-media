@@ -31,7 +31,7 @@
             <!-- Text tittle end-->
             <!-- Form login start-->
             @if (session()->has('loginError'))
-                <div id="failAllert" name="failAllert"
+                <div id="failAlert" name="failAlert"
                     class="m-auto flex relative rounded-lg border border-red-600 bg-opacity-60 bg-red-200 drop-shadow-xl shadow-inner w-48 h-8 sm:w-60 sm:h-10"
                     role="alert">
                     <div class="flex m-auto text-red-800">
@@ -44,7 +44,7 @@
                         </svg>
                         {{ session('loginError') }}
                     </div>
-                    <button id="btAllert" name="btAllert"
+                    <button id="btAlert" name="btAllert"
                         class="flex absolute w-4 h-4 mr-1 mx-44 sm:mx-[220px] mt-0 items-center justify-center text-red-800"
                         type="button"> x </button>
                 </div>
@@ -84,7 +84,7 @@
     <!-- Container end -->
 
     <!-- Javascript start -->
-    <script src="/js/login.js"></script>
+    <script src="/js/alert.js"></script>
     <!-- Javascript end -->
 
 </body>

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Main start*/
 /* Header */
 .navbar-fixed {
     @apply fixed z-[9999];
@@ -39,9 +40,19 @@
 .nav-a {
     @apply flex items-center text-sm text-slate-700 py-1 group-hover:text-emerald-600;
 }
+.active {
+    @apply text-emerald-600;
+}
 .nav-svg{
     @apply flex fill-current mr-2 w-4  ;
 }
 .svg-arrow {
     @apply flex fill-current w-2;
 }
+/* Main end*/
+
+/* Area start*/
+.input-area {
+@apply ml-3 p-1 rounded-sm bg-white text-slate-600;
+}
+/* Area end*/
