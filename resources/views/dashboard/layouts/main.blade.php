@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
-    <title>VISTA MEDIA | Dashboard</title>
+    <title>VISTA MEDIA | {{ $title }}</title>
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -21,7 +22,7 @@
             @include('dashboard.layouts.sidebar')
             <!-- Sidebar End-->
             <!-- Main Section start -->
-            <div class="h-screen px-4 w-full z-0 relative border-l">
+            <div class="p-2 w-full z-0 relative border-l">
                 @yield('container')
             </div>
             <!-- Main Section end -->

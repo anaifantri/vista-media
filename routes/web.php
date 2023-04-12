@@ -6,6 +6,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\CityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +28,10 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 Route::resource('/dashboard/users', UserController::class)->middleware('auth');
 Route::resource('/dashboard/clients', ClientController::class)->middleware('auth');
 Route::resource('/dashboard/contacts', ContactController::class)->middleware('auth');
+
+Route::resource('/dashboard/media/area', AreaController::class)->middleware('auth');
+Route::resource('/dashboard/media/cities', CityController::class)->middleware('auth');
+
+Route::get('/dashboard/media', function () {
+    return view('dashboard.media.index');   
+});
