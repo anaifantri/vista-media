@@ -3,6 +3,7 @@
 @section('container')
     <div class="flex relative mt-1">
         <div class="flex">
+            <!-- Logo Client Start -->
             <div class="flex justify-center items-center w-72">
                 <div class="d-flex items-center p-8">
                     @if ($client->logo)
@@ -15,6 +16,8 @@
                     <span class="flex justify-center text-teal-700 text-sm">{{ $client->company }}</span>
                 </div>
             </div>
+            <!-- Logo Client End -->
+            <!-- Detail Client Start -->
             <div class="flex w-96">
                 <div class="p-2 w-full">
                     <div class="flex items-center mb-3">
@@ -95,11 +98,16 @@
                     </div>
                 </div>
             </div>
+            <!-- Detail Client End -->
+            <!-- Kontak Person Start -->
             <div class="flex p-2 relative w-96 border-l">
                 <div class="flex mb-3 mx-3">
+                    <!-- Title Kontak Person Start -->
                     <div class="w-48">
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900 w-48">Kontak Person</h4>
                     </div>
+                    <!-- Title Kontak Person End -->
+                    <!-- Button Add Kontak Person Start -->
                     <div class="flex absolute w-48 mt-10">
                         <button class="flex items-center btn-primary mx-1" type="button" id="btnAdd" name="btnAdd">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
@@ -112,101 +120,10 @@
                         </button>
                     </div>
                 </div>
+                <!-- Button Add Kontak Person End -->
                 <div class="absolute items-center mt-[70px] p-2 w-96">
-                    <div class="w-96 hidden border-t" id="addContact" name="addContact">
-                        <form class="flex" method="post" action="/dashboard/contacts" enctype="multipart/form-data">
-                            @csrf
-                            <div class="flex justify-center w-44">
-                                <div class="d-flex items-center p-8">
-                                    <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
-                                    <img class="m-auto photo-preview rounded-full flex items-center w-20 h-20"
-                                        src="/img/photo_profile.png">
-                                    <input
-                                        class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-40 mt-5 @error('avatar') is-invalid @enderror"
-                                        type="file" id="photo" name="photo" onchange="previewPhoto()">
-                                    @error('logo')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="mt-2 w-52">
-                                <div class="mt-1"><label class="text-sm text-teal-700">Nama</label>
-                                    <input id="client_name" name="client_name"
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300"
-                                        value="{{ $client->id }}" type="hidden">
-                                    <input
-                                        class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
-                                        type="text" id="name" name="name" placeholder="Nama"
-                                        value="{{ old('name') }}" autofocus required>
-                                    @error('name')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="mt-1"><label class="text-sm text-teal-700">Email</label>
-                                    <input
-                                        class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
-                                        type="text" id="email" name="email" placeholder="Email"
-                                        value="{{ old('email') }}">
-                                    @error('email')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="border-b mt-1"><label class="text-sm text-teal-700">No. Handphone</label>
-                                    <input
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
-                                        type="text" id="phone" name="phone" placeholder="No. Hp"
-                                        value="{{ old('phone') }}">
-                                    @error('phone')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="border-b mt-1"><label class="text-sm text-teal-700">Jabatan</label>
-                                    <input
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
-                                        type="text" id="position" name="position" placeholder="Jabatan"
-                                        value="{{ old('position') }}">
-                                    @error('position')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="flex mt-2">
-                                    <button class="flex items-center justify-center btn-primary mx-1" type="submit"
-                                        id="btnSubmit" name="btnSubmit">
-                                        <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" viewBox="0 0 24 24">
-                                            <path
-                                                d="M15.004 3h2.996v5h-2.996v-5zm8.996 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9zm-2 2h-14v1h14v-1zm0 2h-14v1h14v-1zm0 2h-14v1h14v-1z" />
-                                        </svg>
-                                        <span class="mx-2"> Save </span>
-                                    </button>
-                                    <a href="/dashboard/clients/{{ $client->id }}"
-                                        class="flex items-center justify-center btn-danger mx-1" id="btnCancel"
-                                        name="btnCancel">
-                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                                fill-rule="nonzero" />
-                                        </svg>
-                                        <span class="mx-1"> Cancel </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    <!-- Show Kontak Person Start -->
                     @foreach ($contacts as $contact)
-                        {{-- @if ($contact->client_name === $client->name) --}}
                         <div class="flex w-96 border-t">
                             <h6 class="flex absolute text-sm mx-3 mt-3 font-semibold text-teal-900">
                                 {{ $loop->iteration }}
@@ -236,8 +153,9 @@
                                     <h6 class="text-sm font-semibold text-teal-900">{{ $contact->position }}</h6>
                                 </div>
                                 <div class="flex mt-2">
-                                    <a href="/dashboard/clients/{{ $contact->id }}/edit"
-                                        class="flex items-center justify-center btn-warning mx-1">
+                                    <a href="/dashboard/contacts/{{ $contact->id, $client->id }}/edit"
+                                        class="flex items-center justify-center btn-warning mx-1" name="btnEdit"
+                                        id="btnEdit">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -266,12 +184,118 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- @endif --}}
                     @endforeach
+                    <!-- Show Kontak Person End -->
                 </div>
             </div>
         </div>
     </div>
+    <!-- Add Kontak Person Start -->
+    <div class="left-0 top-0 h-screen hidden w-full fixed justify-center items-center bg-black bg-opacity-50"
+        id="addContact" name="addContact">
+        <div class="w-[600px] h-[400px] bg-white rounded-xl border flex">
+            <div class="flex absolute w-[600px] p-1">
+                <h4 class="p-2 text-lg text-center font-semibold tracking-wider text-teal-900 border-b w-full rounded-lg">
+                    Tambah
+                    Kontak Person
+                </h4>
+            </div>
+            <form class="flex" method="post" action="/dashboard/contacts" enctype="multipart/form-data">
+                @csrf
+                <div class="flex justify-center w-[290px] bg-white p-1 mt-12">
+                    <div class="d-flex items-center p-3">
+                        <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
+                        <img class="m-auto photo-preview rounded-full flex items-center w-20 h-20"
+                            src="/img/photo_profile.png">
+                        <input
+                            class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full mt-5 @error('avatar') is-invalid @enderror"
+                            type="file" id="photo" name="photo" onchange="previewPhoto()">
+                        @error('logo')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="mt-12 w-[290px] bg-white p-1">
+                    <div class="mt-1"><label class="text-sm text-teal-700">Nama Klien</label>
+                        <input id="client_name" name="client_name"
+                            class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                            type="text" value="{{ $client->name }}" autofocus required readonly>
+                    </div>
+                    <div class="mt-1"><label class="text-sm text-teal-700">Nama</label>
+                        <input id="client_id" name="client_id"
+                            class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300"
+                            value="{{ $client->id }}" type="hidden">
+                        <input
+                            class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                            type="text" id="name" name="name" placeholder="Nama"
+                            value="{{ old('name') }}" autofocus required>
+                        @error('name')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="mt-1"><label class="text-sm text-teal-700">Email</label>
+                        <input
+                            class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
+                            type="text" id="email" name="email" placeholder="Email"
+                            value="{{ old('email') }}">
+                        @error('email')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="border-b mt-1"><label class="text-sm text-teal-700">No. Handphone</label>
+                        <input
+                            class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                            type="text" id="phone" name="phone" placeholder="No. Hp"
+                            value="{{ old('phone') }}">
+                        @error('phone')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="mt-1"><label class="text-sm text-teal-700">Jabatan</label>
+                        <input
+                            class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                            type="text" id="position" name="position" placeholder="Jabatan"
+                            value="{{ old('position') }}">
+                        @error('position')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="flex mt-5">
+                        <button class="flex items-center justify-center btn-primary mx-1" type="submit" id="btnSubmit"
+                            name="btnSubmit">
+                            <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M15.004 3h2.996v5h-2.996v-5zm8.996 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9zm-2 2h-14v1h14v-1zm0 2h-14v1h14v-1zm0 2h-14v1h14v-1z" />
+                            </svg>
+                            <span class="mx-2"> Save </span>
+                        </button>
+                        <button class="flex items-center justify-center btn-danger mx-1" id="btnCancel" name="btnCancel">
+                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="mx-1"> Cancel </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add Kontak Person End -->
     <!-- Script Preview Photo start-->
     <script>
         function previewPhoto() {
@@ -290,18 +314,22 @@
         }
     </script>
     <!-- Script Preview Photo end-->
+
+    <!-- Script Add Contact start-->
     <script>
-        const btnAdd = document.querySelector('#btnAdd');
-        const btnCancel = document.querySelector('#btnCancel');
-        const addContact = document.querySelector('#addContact');
+        const btnAdd = document.getElementById('btnAdd');
+        const addContact = document.getElementById('addContact');
+        const btnCancel = document.getElementById('btnCancel');
 
         btnAdd.addEventListener('click', function() {
             addContact.classList.remove('hidden');
             addContact.classList.add('flex');
         });
+
         btnCancel.addEventListener('click', function() {
             addContact.classList.add('hidden');
             addContact.classList.remove('flex');
         });
     </script>
+    <!-- Script Add Contact end-->
 @endsection

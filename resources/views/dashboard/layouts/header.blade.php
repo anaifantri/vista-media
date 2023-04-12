@@ -1,4 +1,4 @@
-<header class="bg-cyan-800 top-0 left-0 absolute w-full flex items-center z-10">
+<header class="bg-cyan-800 top-0 left-0 absolute w-full flex items-center">
     <div class="w-full">
         <!-- Logo & Tittle Start-->
         <div class="flex items-center relative justify-between">

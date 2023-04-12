@@ -21,7 +21,7 @@
             @include('dashboard.layouts.sidebar')
             <!-- Sidebar End-->
             <!-- Main Section start -->
-            <div class="px-4 w-full z-0 relative border-l">
+            <div class="h-screen px-4 w-full z-0 relative border-l">
                 @yield('container')
             </div>
             <!-- Main Section end -->
