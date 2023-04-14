@@ -40,7 +40,7 @@
                         <th class="index-td w-8">No.</th>
                         <th class="index-td w-16">Kode</th>
                         <th class="index-td w-36">Provinsi</th>
-                        <th class="index-td w-24">Nama Area</th>
+                        <th class="index-td w-36">Nama Area</th>
                         <th class="index-td w-24">Latitude</th>
                         <th class="index-td w-24">Longitude</th>
                         <th class="index-td w-20">Zoom</th>
@@ -54,7 +54,7 @@
                             <td class="index-td w-8">{{ $loop->iteration }}</td>
                             <td class="index-td w-16">{{ $area->area_code }}</td>
                             <td class="index-td w-36">{{ $area->provinsi }}</td>
-                            <td class="index-td w-24">{{ $area->area }}</td>
+                            <td class="index-td w-36">{{ $area->area }}</td>
                             <td class="index-td w-24">{{ $area->lat }}</td>
                             <td class="index-td w-24">{{ $area->lng }}</td>
                             <td class="index-td w-20">{{ $area->zoom }}</td>

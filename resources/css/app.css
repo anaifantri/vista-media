@@ -15,7 +15,7 @@
 }
 
 .right-profile-show{
-    @apply scale-100;
+    @apply translate-y-[170px];
 }
 
 .hamburger-line {

@@ -27,8 +27,7 @@ const profileArrow = document.querySelector('#profileArrow');
 profile.addEventListener('click', function () {
     profile.classList.toggle('group');
     profileArrow.classList.toggle('rotate-180');
-    profileChild.classList.toggle('opacity-0');
-    profileChild.classList.toggle('opacity-100');
+    profileChild.classList.toggle('right-profile-show');
 });
 
 // Sidebar dropdown

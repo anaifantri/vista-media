@@ -38,8 +38,8 @@
                 <thead class="bg-slate-100">
                     <tr class="index-tr">
                         <th class="index-td w-8">No.</th>
-                        <th class="index-td w-24">Area</th>
-                        <th class="index-td w-24">Kota</th>
+                        <th class="index-td w-36">Area</th>
+                        <th class="index-td w-36">Kota</th>
                         <th class="index-td w-24">Latitude</th>
                         <th class="index-td w-24">Longitude</th>
                         <th class="index-td w-20">Zoom</th>
@@ -51,8 +51,8 @@
                     @foreach ($cities as $cities)
                         <tr class="index-tr">
                             <td class="index-td w-8">{{ $loop->iteration }}</td>
-                            <td class="index-td w-24">{{ $cities->area }}</td>
-                            <td class="index-td w-24">{{ $cities->city }}</td>
+                            <td class="index-td w-36">{{ $cities->area }}</td>
+                            <td class="index-td w-36">{{ $cities->city }}</td>
                             <td class="index-td w-24">{{ $cities->lat }}</td>
                             <td class="index-td w-24">{{ $cities->lng }}</td>
                             <td class="index-td w-20">{{ $cities->zoom }}</td>
