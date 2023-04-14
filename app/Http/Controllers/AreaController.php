@@ -14,7 +14,7 @@ class AreaController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('dashboard.media.area.index',[
+        return response()-> view ('dashboard.media.area.index', [
             'areas'=>Area::all(),
             'title' => 'Area'
         ]);
@@ -59,7 +59,7 @@ class AreaController extends Controller
         // $lng = $request->input('lng');
         // $zoom = $request->input('zoom');
         // $username = $request->input('username');
-        return redirect('/dashboard/media/area')->with('success','Area baru '. $area . ' berhasil ditambahkan');
+        return redirect('/dashboard/media/area')->with('success','Area '. $area . ' berhasil ditambahkan');
         // return request()->all();
     }
 

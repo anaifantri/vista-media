@@ -47,8 +47,7 @@
             <div class="flex justify-start items-center mt-10 w-80 ml-0">
                 <!-- Form Button Show Area start -->
                 <div class="flex mx-1 mt-5 items-center">
-                    <a class="flex justify-center ml-1 w-32 h-8 hover:bg-teal-600 rounded-md bg-teal-500 items-center text-white drop-shadow-lg"
-                        href="/dashboard/media/area">
+                    <a class="flex justify-center items-center mx-1 btn-primary" href="/dashboard/media/area">
                         <svg class="fill-current w-6" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -60,8 +59,7 @@
                     <form action="/dashboard/media/area/{{ $area->id }}" method="post" class="d-inline m-1">
                         @method('delete')
                         @csrf
-                        <button
-                            class="text-white items-center flex justify-center w-24 h-8 bg-red-500 rounded-md hover:bg-red-600"
+                        <button class="items-center flex justify-center mx-1 btn-danger"
                             onclick="return confirm('Apakah anda yakin ingin menghapus area {{ $area->area }} ?')">
                             <svg class="w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">

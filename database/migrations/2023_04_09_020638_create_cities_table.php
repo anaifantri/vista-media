@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->integer('area_code');
+            $table->string('area');
             $table->string('city')->unique();
             $table->double('lat')->unique();
             $table->double('lng')->unique();

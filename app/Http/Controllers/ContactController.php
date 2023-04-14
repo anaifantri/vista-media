@@ -67,7 +67,8 @@ class ContactController extends Controller
     public function edit(Contact $contact): Response
     {
         return response()->view('dashboard.marketing.contacts.edit', [
-            'contact' => $contact
+            'contact' => $contact,
+            'title' => 'Edit Kontak Person'
         ]);
     }
 

@@ -17,7 +17,8 @@ class UserController extends Controller
     public function index(): Response
     {
         return response()->view('dashboard.users.users.index', [
-            'users' => User::all()
+            'users' => User::all(),
+            'title' => 'Daftar User'
         ]);
     }
 
@@ -26,7 +27,9 @@ class UserController extends Controller
      */
     public function create(): Response
     {
-        return response()->view('dashboard.users.users.create');
+        return response()->view('dashboard.users.users.create', [
+            'title' => 'Tambah User'
+        ]);
     }
 
     /**
@@ -65,7 +68,8 @@ class UserController extends Controller
     public function show(User $user): Response
     {
         return response()->view('dashboard.users.users.show', [
-            'user' => $user
+            'user' => $user,
+            'title' => 'Detail User'
         ]);
     }
 
@@ -75,7 +79,8 @@ class UserController extends Controller
     public function edit(User $user): Response
     {
         return response()->view('dashboard.users.users.edit', [
-            'user' => $user
+            'user' => $user,
+            'title' => 'Edit User'
         ]);
     }
 

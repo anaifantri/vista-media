@@ -31,6 +31,7 @@ Route::resource('/dashboard/contacts', ContactController::class)->middleware('au
 
 Route::resource('/dashboard/media/area', AreaController::class)->middleware('auth');
 Route::resource('/dashboard/media/cities', CityController::class)->middleware('auth');
+Route::get('/showArea', [CityController::class,'showArea']);
 
 Route::get('/dashboard/media', function () {
     return view('dashboard.media.index');   

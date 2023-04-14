@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Area;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,7 +17,8 @@ class CityController extends Controller
     {
         return response()-> view ('dashboard.media.cities.index',[
             'cities'=>City::all(),
-            'title' => 'Kota'
+            'title' => 'Daftar Kota',
+            'areas'=>Area::all()
         ]);
     }
 
@@ -25,7 +27,15 @@ class CityController extends Controller
      */
     public function create(): Response
     {
-        //
+        return response()->view('dashboard.media.cities.create', [
+            'title' => 'Tambah Kota',
+        ]);
+    }
+
+    public function showArea(){
+        $dataArea = Area::All();
+
+        return response()->json(['dataArea'=> $dataArea]);
     }
 
     /**
@@ -33,7 +43,32 @@ class CityController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if($request->area == 'Pilih Area'){
+            return back()->withErrors(['area' => ['Silahkan pilih area']]);
+        }
+
+        if($request->city == 'Pilih Kota'){
+            return back()->withErrors(['city' => ['Silahkan pilih Kota'],'area' => ['Silahkan pilih Area']]);
+        }
+
+        $validateData = $request->validate([
+            'area' => 'required',
+            'city' => 'required|unique:cities',
+            'lat' => 'required',
+            'lng' => 'required',
+            'zoom' => 'required'
+        ]);
+
+        $validateData['area'] = $request->input('area');
+        $validateData['city'] = $request->input('city');
+        $validateData['lat'] = $request->input('lat');
+        $validateData['lng'] = $request->input('lng');
+        $validateData['zoom'] = $request->input('zoom');
+        $validateData['username'] = auth()->user()->name;
+        City::create($validateData);
+
+        $city = $request->input('city');
+        return redirect('/dashboard/media/cities')->with('success','Kota '. $city . ' berhasil ditambahkan');
     }
 
     /**
@@ -41,7 +76,11 @@ class CityController extends Controller
      */
     public function show(City $city): Response
     {
-        //
+        return response()-> view ('dashboard.media.cities.show', [
+            'city' => $city,
+            'title' => 'Kota ' . $city->city,
+            'areas'=>Area::all()
+        ]);
     }
 
     /**
@@ -65,6 +104,8 @@ class CityController extends Controller
      */
     public function destroy(City $city): RedirectResponse
     {
-        //
+        City::destroy($city->id);
+
+        return redirect('/dashboard/media/cities')->with('success','Kota '. $city->city .' berhasil dihapus');
     }
 }

@@ -1,16 +1,16 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Create New Area start -->
+    <!-- Create New City start -->
     <div class="flex relative h-screen w-full">
-        <!-- Title Create New Area start -->
+        <!-- Title Create New City start -->
         <div class="flex absolute mx-3 border-b p-2">
-            <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN AREA</h1>
+            <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN KOTA</h1>
         </div>
-        <!-- Title Create New Area end -->
-        <div class="items-center mt-10 w-[360px] ml-0">
-            <!-- Form Create New Area start -->
-            <form action="/dashboard/media/area" method="post">
+        <!-- Title Create New City end -->
+        <div class="items-center mt-10 w-80 ml-0">
+            <!-- Form Create New City start -->
+            <form action="/dashboard/media/cities" method="post">
                 @csrf
                 <div class="flex mx-5 mt-3">
                     <span class="w-32">Kode Area</span>
@@ -19,18 +19,24 @@
                 </div>
                 <div class="flex mx-5 mt-3
                         items-center">
-                    <span class="w-32">Nama Provinsi</span>
-                    <select id="provinsi" name="provinsi" class="ml-3 p-1 rounded-md w-[210px] h-8 outline-none border"
+                    <span class="w-32">Nama Area</span>
+                    <select id="area" name="area" class="ml-3 p-1 rounded-md w-[298px] h-8 outline-none border"
                         type="text" autofocus>
                     </select>
                 </div>
-                <div class="flex mx-5 mt-3">
-                    <span class="w-32">Nama Area</span>
-                    <input id="area" name="area" class="flex input-area @error('area') is-invalid @enderror"
-                        type="text" placeholder="Nama Area" readonly required>
-                </div>
                 @error('area')
-                    <div id="areaAlert" name="areaAlert" class="text-red-600 flex ml-28">
+                    <div class="text-red-600 flex ml-28">
+                        {{ $message }}
+                    </div>
+                @enderror
+                <div class="flex mx-5 mt-3">
+                    <span class="w-32">Nama Kota</span>
+                    <select id="city" name="city" class="ml-3 p-1 rounded-md border w-[298px] h-8 outline-none"
+                        type="text">
+                    </select>
+                </div>
+                @error('city')
+                    <div class="text-red-600 flex ml-28">
                         {{ $message }}
                     </div>
                 @enderror
@@ -61,7 +67,7 @@
                         </svg>
                         <span class="mx-1">Save</span>
                     </button>
-                    <a class="flex justify-center items-center mx-2 btn-danger" href="/dashboard/media/area">
+                    <a class="flex justify-center items-center mx-2 btn-danger" href="/dashboard/media/cities">
                         <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24">
                             <path
@@ -71,18 +77,18 @@
                     </a>
                 </div>
             </form>
-            <!-- Form Create New Area end -->
+            <!-- Form Create New City end -->
         </div>
-        <!-- Create New Area end -->
-        <!-- Maps Area start -->
+        <!-- Create New City end -->
+        <!-- Maps City start -->
         <div class="" id="map" class="items-center mt-10 w-full">
         </div>
-        <!-- Maps Area end -->
+        <!-- Maps City end -->
     </div>
-    <!-- Script Area start -->
+    <!-- Script City start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
         defer></script>
 
-    <script src="/js/createarea.js"></script>
-    <!-- Script Area end -->
+    <script src="/js/createcity.js"></script>
+    <!-- Script City end -->
 @endsection

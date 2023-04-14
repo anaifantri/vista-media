@@ -17,7 +17,8 @@ class ClientController extends Controller
     public function index(): Response
     {
         return response()->view('dashboard.marketing.clients.index', [
-            'clients' => Client::all()
+            'clients' => Client::all(),
+            'title' => 'Daftar Klien'
         ]);
     }
 
@@ -26,7 +27,9 @@ class ClientController extends Controller
      */
     public function create(): Response
     {
-        return response()->view('dashboard.marketing.clients.create');
+        return response()->view('dashboard.marketing.clients.create', [
+            'title' => 'Tambah Klien'
+        ]);
     }
 
     /**
@@ -65,7 +68,8 @@ class ClientController extends Controller
     {
         return response()->view('dashboard.marketing.clients.show', [
             'client' => $client,
-            'contacts' => Contact::all()
+            'contacts' => Contact::all(),
+            'title' => 'Detail Klien'
         ]);
     }
 
@@ -75,7 +79,8 @@ class ClientController extends Controller
     public function edit(Client $client): Response
     {
         return response()->view('dashboard.marketing.clients.edit', [
-            'client' => $client
+            'client' => $client,
+            'title' => 'Edit Klien'
         ]);
     }
 

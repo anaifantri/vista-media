@@ -93,8 +93,38 @@
 }
 /* Main end*/
 
-/* Area start*/
+/* Form start*/
 .input-area {
-@apply ml-3 p-1 rounded-sm bg-white text-slate-600;
+@apply ml-3 p-1 bg-white text-slate-600 rounded-md border;
 }
-/* Area end*/
+/* Form end*/
+
+/* index start */
+.index-container {
+    @apply flex relative h-screen w-max;
+}
+.index-title {
+    @apply flex absolute p-2 w-full;
+}
+.index-btnAdd {
+    @apply flex absolute mt-14 px-2 justify-end w-full;
+}
+.index-alert {
+    @apply mt-12 flex absolute;
+}
+.index-table {
+    @apply flex mt-24 p-2;
+}
+.index-tr {
+    @apply w-full flex relative items-center text-sm text-cyan-800 border-t border-b m-auto h-10;
+}
+.index-td {
+    @apply flex justify-center items-center;
+}
+.index-link {
+    @apply flex items-center justify-center;
+}
+.index-h1 {
+    @apply flex text-xl text-cyan-800 font-bold tracking-wider border-b w-full py-1;
+}
+/* index end */

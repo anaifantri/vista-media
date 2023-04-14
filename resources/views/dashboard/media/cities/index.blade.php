@@ -2,73 +2,64 @@
 
 @section('container')
     <!-- Container Index City start -->
-    <div class="flex relative h-screen w-max">
+    <div class="index-container">
         <!-- Title City start -->
-        <div class="flex absolute p-2 w-full">
-            <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider border-b w-full py-1"> KOTA MEDIA OOH</h1>
+        <div class="index-title">
+            <h1 class="index-h1">DAFTAR KOTA</h1>
         </div>
         <!-- Title city end -->
         <!-- Button Create New City start -->
-        <div class="flex absolute mt-14 px-2 justify-end w-full">
-            <a href="/dashboard/media/cities/create"
-                class="flex items-center justify-center bg-sky-500 w-48 h-8 rounded-lg text-white hover:bg-sky-700"><span></span>
-                <svg class="fill-current w-6 mx-2" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+        <div class="index-btnAdd">
+            <a href="/dashboard/media/cities/create" class="index-link btn-primary"><span></span>
+                <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                         fill-rule="nonzero" />
                 </svg>
-                Create New City</a>
+                <span class="mx-1"> Tambah Kota </span>
+            </a>
         </div>
         <!-- Button Create New City end -->
         <!-- Alert Success Create New City start -->
         @if (session()->has('success'))
-            <div id="failAlert" name="failAlert"
-                class="mt-12 flex absolute rounded-lg border border-green-600 bg-opacity-60 bg-green-200 drop-shadow-xl shadow-inner w-48  h-8 sm:w-96 sm:h-10"
-                role="alert">
-                <div class="flex m-auto text-green-700">
-                    <svg class="w-6 fill-green-700 mr-3" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="m2.095 19.886 9.248-16.5c.133-.237.384-.384.657-.384.272 0 .524.147.656.384l9.248 16.5c.064.115.096.241.096.367 0 .385-.309.749-.752.749h-18.496c-.44 0-.752-.36-.752-.749 0-.126.031-.252.095-.367zm9.907-6.881c-.414 0-.75.336-.75.75v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5c0-.414-.336-.75-.75-.75zm-.002-3c-.552 0-1 .448-1 1s.448 1 1 1 1-.448 1-1-.448-1-1-1z"
-                            fill-rule="nonzero" />
-                    </svg>
-                    {{ session('success') }}
-                </div>
-                <button id="btAlert" name="btAlert"
-                    class="flex absolute w-4 h-4 mr-1 mx-44 sm:mx-[360px] mt-0 items-center justify-center text-red-800"
-                    type="button"> x </button>
+            <div class="index-alert alert-success" role="alert">
+                <svg class="fill-current mx-1 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                </svg>
+                <span class="mx-1">{{ session('success') }}</span>
             </div>
         @endif
         <!-- Alert Success Create New City end -->
         <!-- View City start -->
-        <div class="flex mt-24 p-2">
+        <div class="index-table">
             <table class="table-auto bg-white">
                 <thead class="bg-slate-100">
-                    <tr class="w-full flex relative items-center text-sm text-cyan-800 border-t border-b m-auto h-10">
-                        <th class="flex justify-center items-center w-8">No.</th>
-                        <th class="flex justify-center items-center w-16">Area</th>
-                        <th class="flex justify-center items-center w-24">Kota</th>
-                        <th class="flex justify-center items-center w-24">Latitude</th>
-                        <th class="flex justify-center items-center w-24">Longitude</th>
-                        <th class="flex justify-center items-center w-20">Zoom</th>
-                        <th class="flex justify-center items-center w-24">Dibuat Oleh</th>
-                        <th class="flex justify-center items-center w-36">Action</th>
+                    <tr class="index-tr">
+                        <th class="index-td w-8">No.</th>
+                        <th class="index-td w-24">Area</th>
+                        <th class="index-td w-24">Kota</th>
+                        <th class="index-td w-24">Latitude</th>
+                        <th class="index-td w-24">Longitude</th>
+                        <th class="index-td w-20">Zoom</th>
+                        <th class="index-td w-24">Dibuat Oleh</th>
+                        <th class="index-td w-36">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($cities as $cities)
-                        <tr class="w-full flex relative items-center text-sm text-cyan-800 border-b m-auto h-8">
-                            <td class="flex justify-center items-center w-8">{{ $loop->iteration }}</td>
-                            <td class="flex justify-center items-center w-16">{{ $area->area_code }}</td>
-                            <td class="flex justify-center items-center w-24">{{ $area->city }}</td>
-                            <td class="flex justify-center items-center w-24">{{ $area->lat }}</td>
-                            <td class="flex justify-center items-center w-24">{{ $area->lng }}</td>
-                            <td class="flex justify-center items-center w-20">{{ $area->zoom }}</td>
-                            <td class="flex justify-center items-center w-24">{{ $area->username }}</td>
-                            <td class="flex justify-center items-center w-36">
-                                <a href="/dashboard/media/area/{{ $area->id }}"
-                                    class="text-white m-1 items-center flex justify-center w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
+                        <tr class="index-tr">
+                            <td class="index-td w-8">{{ $loop->iteration }}</td>
+                            <td class="index-td w-24">{{ $cities->area }}</td>
+                            <td class="index-td w-24">{{ $cities->city }}</td>
+                            <td class="index-td w-24">{{ $cities->lat }}</td>
+                            <td class="index-td w-24">{{ $cities->lng }}</td>
+                            <td class="index-td w-20">{{ $cities->zoom }}</td>
+                            <td class="index-td w-24">{{ $cities->username }}</td>
+                            <td class="index-td w-36">
+                                <a href="/dashboard/media/cities/{{ $cities->id }}"
+                                    class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
                                     <svg class="w-5 fill-current" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -82,8 +73,7 @@
                                     class="d-inline m-1">
                                     @method('delete')
                                     @csrf
-                                    <button
-                                        class="text-white items-center flex justify-center w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                    <button class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
                                         onclick="return confirm('Apakah anda yakin ingin menghapus area {{ $cities->city }} ?')">
                                         <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg" width="24"
                                             height="24" viewBox="0 0 24 24">
