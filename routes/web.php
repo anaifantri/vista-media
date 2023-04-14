@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\AreaController;
-use App\Http\Controllers\CityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::resource('/dashboard/marketing/contacts', ContactController::class)->midd
 
 Route::resource('/dashboard/media/area', AreaController::class)->middleware('auth');
 Route::resource('/dashboard/media/cities', CityController::class)->middleware('auth');
+Route::resource('/dashboard/media/billboards', ProductController::class)->middleware('auth');
 Route::get('/showArea', [CityController::class,'showArea']);
 
 Route::get('/dashboard/media', function () {
