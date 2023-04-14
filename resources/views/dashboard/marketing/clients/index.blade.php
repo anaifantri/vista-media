@@ -6,7 +6,7 @@
             <h1 class="index-h1"> Daftar Klien</h1>
         </div>
         <div class="index-btnAdd">
-            <a href="/dashboard/clients/create" class="index-link btn-primary">
+            <a href="/dashboard/marketing/clients/create" class="index-link btn-primary">
                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -54,7 +54,7 @@
                             <td class="index-td text-sm w-32">{{ $client->phone }}</td>
 
                             <td class="index-td text-sm w-32">
-                                <a href="/dashboard/clients/{{ $client->id }}"
+                                <a href="/dashboard/marketing/clients/{{ $client->id }}"
                                     class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -64,7 +64,7 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <a href="/dashboard/clients/{{ $client->id }}/edit"
+                                <a href="/dashboard/marketing/clients/{{ $client->id }}/edit"
                                     class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -74,7 +74,8 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <form action="/dashboard/clients/{{ $client->id }}" method="post" class="flex m-auto">
+                                <form action="/dashboard/marketing/clients/{{ $client->id }}" method="post"
+                                    class="flex m-auto">
                                     @method('delete')
                                     @csrf
                                     <button

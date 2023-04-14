@@ -3,7 +3,7 @@
 @section('container')
     <div class="flex relative mt-5 items-center">
         <div class="flex">
-            <form class="flex" method="post" action="/dashboard/users" enctype="multipart/form-data">
+            <form class="flex" method="post" action="/dashboard/users/users" enctype="multipart/form-data">
                 @csrf
                 <div class="flex justify-center items-center w-72">
                     <div class="d-flex items-center p-8">
@@ -102,7 +102,7 @@
                                     </svg>
                                     <span class="mx-2"> Save </span>
                                 </button>
-                                <a href="/dashboard/users" class="flex items-center justify-center btn-danger mx-1">
+                                <a href="/dashboard/users/users" class="flex items-center justify-center btn-danger mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">

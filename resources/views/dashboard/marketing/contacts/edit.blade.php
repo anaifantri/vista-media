@@ -10,7 +10,8 @@
                     Kontak Person
                 </h4>
             </div>
-            <form class="flex" method="post" action="/dashboard/contacts/{{ $contact->id }}" enctype="multipart/form-data">
+            <form class="flex" method="post" action="/dashboard/marketing/contacts/{{ $contact->id }}"
+                enctype="multipart/form-data">
                 @method('put')
                 @csrf
                 <div class="flex justify-center w-[290px] bg-white p-1 mt-12">
@@ -97,7 +98,7 @@
                             </svg>
                             <span class="mx-2"> Save </span>
                         </button>
-                        <a href="/dashboard/clients/{{ $contact->client_id }}"
+                        <a href="/dashboard/marketing/clients/{{ $contact->client_id }}"
                             class="flex items-center justify-center btn-danger mx-1" id="editCancel" name="editCancel">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

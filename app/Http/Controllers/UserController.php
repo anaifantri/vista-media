@@ -58,7 +58,7 @@ class UserController extends Controller
 
         User::create($validateData);
         
-        return redirect('/dashboard/users')->with('success','User baru '. $request->username . ' berhasil ditambahkan');
+        return redirect('/dashboard/users/users')->with('success','User baru '. $request->username . ' berhasil ditambahkan');
         
     }
 
@@ -132,7 +132,7 @@ class UserController extends Controller
         User::where('id', $user->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/users')->with('success','User Has Been Updated');
+        return redirect('/dashboard/users/users')->with('success','User Has Been Updated');
     }
 
     /**
@@ -146,6 +146,6 @@ class UserController extends Controller
 
         User::destroy($user->id);
 
-        return redirect('/dashboard/users')->with('success','User ' . $user->username . ' berhasil dihapus');
+        return redirect('/dashboard/users/users')->with('success','User ' . $user->username . ' berhasil dihapus');
     }
 }

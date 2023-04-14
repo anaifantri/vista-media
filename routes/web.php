@@ -25,9 +25,9 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
-Route::resource('/dashboard/users', UserController::class)->middleware('auth');
-Route::resource('/dashboard/clients', ClientController::class)->middleware('auth');
-Route::resource('/dashboard/contacts', ContactController::class)->middleware('auth');
+Route::resource('/dashboard/users/users', UserController::class)->middleware('auth');
+Route::resource('/dashboard/marketing/clients', ClientController::class)->middleware('auth');
+Route::resource('/dashboard/marketing/contacts', ContactController::class)->middleware('auth');
 
 Route::resource('/dashboard/media/area', AreaController::class)->middleware('auth');
 Route::resource('/dashboard/media/cities', CityController::class)->middleware('auth');

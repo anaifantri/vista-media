@@ -50,7 +50,7 @@ class ContactController extends Controller
 
         Contact::create($validateData);
 
-        return redirect('/dashboard/clients/'. $request->client_id)->with('success','Kontak baru '. $request->name . ' berhasil ditambahkan');
+        return redirect('/dashboard/marketing/clients/'. $request->client_id)->with('success','Kontak baru '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -107,7 +107,7 @@ class ContactController extends Controller
         Contact::where('id', $contact->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/clients/'. $request->client_id)->with('success','Kontak person '. $request->name . ' berhasil di update');
+        return redirect('/dashboard/marketing/clients/'. $request->client_id)->with('success','Kontak person '. $request->name . ' berhasil di update');
     }
 
     /**
@@ -121,6 +121,6 @@ class ContactController extends Controller
 
         Contact::destroy($contact->id);
 
-        return redirect('/dashboard/clients/'. $contact->client_name)->with('success','Contact ' . $contact->name . ' berhasil dihapus');
+        return redirect('/dashboard/marketing/clients/'. $contact->client_name)->with('success','Contact ' . $contact->name . ' berhasil dihapus');
     }
 }

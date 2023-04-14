@@ -110,7 +110,7 @@
                     <!-- Sidebar Marketing start-->
                     <li class="group" id="marketing" name="marketing">
                         @canany(['isAdmin', 'isMarketing'])
-                            <a href="#" class="nav-a mx-4">
+                            <a href="#" class="nav-a mx-4 {{ Request::is('dashboard/marketing*') ? 'active' : '' }}">
                                 <svg role="img" class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <title>MARKETING</title>
                                     <path
@@ -132,7 +132,7 @@
                         <!-- Client Start -->
                         <li class="group">
                             @canany(['isAdmin', 'isMarketing'])
-                                <a class="nav-a ml-[40px] border-t-[1px]" href="/dashboard/clients">
+                                <a class="nav-a ml-[40px] border-t-[1px]" href="/dashboard/marketing/clients">
                                     <svg class="nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path
@@ -342,7 +342,7 @@
                     <!-- Sidebar Accounting start-->
                     <li id="accounting" name="accounting" class="group">
                         @canany(['isAdmin', 'isAccounting'])
-                            <a href="#" class="nav-a mx-4">
+                            <a href="#" class="nav-a mx-4 {{ Request::is('dashboard/accounting*') ? 'active' : '' }}">
                                 <svg role="img" class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <title>ACCOUNTING</title>
                                     <path
@@ -555,7 +555,7 @@
                     <!-- Sidebar Workshop start-->
                     <li id="workshop" name="workshop" class="group">
                         @canany(['isAdmin', 'isWorkshop'])
-                            <a href="#" class="nav-a mx-4">
+                            <a href="#" class="nav-a mx-4 {{ Request::is('dashboard/workshop*') ? 'active' : '' }}">
                                 <svg role="img" class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <title>WORKSHOP</title>
                                     <path
@@ -668,7 +668,7 @@
                     <!-- Sidebar User start-->
                     <li id="user" name="user" class="group">
                         @can('isAdmin')
-                            <a href="#" class="nav-a mx-4">
+                            <a href="#" class="nav-a mx-4 {{ Request::is('dashboard/users*') ? 'active' : '' }}">
                                 <svg role="img" class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <title>User</title>
                                     <path
@@ -689,7 +689,7 @@
                     <ul id="userChild" name="userChild" class="hidden">
                         @can('isAdmin')
                             <li class="group">
-                                <a class="nav-a ml-[40px] border-t-[1px]" href="/dashboard/users">
+                                <a class="nav-a ml-[40px] border-t-[1px]" href="/dashboard/users/users">
                                     <svg class="nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path

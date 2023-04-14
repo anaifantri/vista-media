@@ -58,7 +58,8 @@
                             </h6>
                         </div>
                         <div class="flex mt-2">
-                            <a href="/dashboard/clients" class="flex items-center justify-center btn-primary mx-1">
+                            <a href="/dashboard/marketing/clients"
+                                class="flex items-center justify-center btn-primary mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +69,7 @@
                                 </svg>
                                 <span class="mx-1"> Back to Klien </span>
                             </a>
-                            <a href="/dashboard/clients/{{ $client->id }}/edit"
+                            <a href="/dashboard/marketing/clients/{{ $client->id }}/edit"
                                 class="flex items-center justify-center btn-warning mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -79,7 +80,8 @@
                                 </svg>
                                 <span class="mx-1"> Edit </span>
                             </a>
-                            <form action="/dashboard/clients/{{ $client->id }}" method="post" class="d-inline">
+                            <form action="/dashboard/marketing/clients/{{ $client->id }}" method="post"
+                                class="d-inline">
                                 @method('delete')
                                 @csrf
                                 <button class="flex items-center justify-center btn-danger mx-1"
@@ -153,7 +155,7 @@
                                     <h6 class="text-sm font-semibold text-teal-900">{{ $contact->position }}</h6>
                                 </div>
                                 <div class="flex mt-2">
-                                    <a href="/dashboard/contacts/{{ $contact->id, $client->id }}/edit"
+                                    <a href="/dashboard/marketing/contacts/{{ $contact->id, $client->id }}/edit"
                                         class="flex items-center justify-center btn-warning mx-1" name="btnEdit"
                                         id="btnEdit">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
@@ -165,7 +167,7 @@
                                         </svg>
                                         <span class="mx-1"> Edit </span>
                                     </a>
-                                    <form action="/dashboard/contacts/{{ $contact->id }}" method="post"
+                                    <form action="/dashboard/marketing/contacts/{{ $contact->id }}" method="post"
                                         class="d-inline">
                                         @method('delete')
                                         @csrf
@@ -200,7 +202,7 @@
                     Kontak Person
                 </h4>
             </div>
-            <form class="flex" method="post" action="/dashboard/contacts" enctype="multipart/form-data">
+            <form class="flex" method="post" action="/dashboard/marketing/contacts" enctype="multipart/form-data">
                 @csrf
                 <div class="flex justify-center w-[290px] bg-white p-1 mt-12">
                     <div class="d-flex items-center p-3">

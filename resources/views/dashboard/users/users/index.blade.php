@@ -6,7 +6,7 @@
             <h1 class="index-h1"> List User</h1>
         </div>
         <div class="index-btnAdd">
-            <a href="/dashboard/users/create" class="index-link btn-primary">
+            <a href="/dashboard/users/users/create" class="index-link btn-primary">
                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -49,7 +49,7 @@
                             <td class="index-td text-sm w-24">{{ $user->phone }}</td>
                             <td class="index-td text-sm w-24">{{ $user->level }}</td>
                             <td class="index-td text-sm w-32">
-                                <a href="/dashboard/users/{{ $user->id }}"
+                                <a href="/dashboard/users/users/{{ $user->id }}"
                                     class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -59,7 +59,7 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <a href="/dashboard/users/{{ $user->id }}/edit"
+                                <a href="/dashboard/users/users/{{ $user->id }}/edit"
                                     class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -69,7 +69,8 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <form action="/dashboard/users/{{ $user->id }}" method="post" class="flex m-auto">
+                                <form action="/dashboard/users/users/{{ $user->id }}" method="post"
+                                    class="flex m-auto">
                                     @method('delete')
                                     @csrf
                                     <button

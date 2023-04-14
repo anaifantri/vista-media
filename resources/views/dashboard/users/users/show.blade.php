@@ -45,7 +45,7 @@
                             </h6>
                         </div>
                         <div class="flex mt-2">
-                            <a href="/dashboard/users" class="flex items-center justify-center btn-primary mx-1">
+                            <a href="/dashboard/users/users" class="flex items-center justify-center btn-primary mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +55,7 @@
                                 </svg>
                                 <span class="mx-1"> Back to User </span>
                             </a>
-                            <a href="/dashboard/users/{{ $user->id }}/edit"
+                            <a href="/dashboard/users/users/{{ $user->id }}/edit"
                                 class="flex items-center justify-center btn-warning mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -66,7 +66,7 @@
                                 </svg>
                                 <span class="mx-1"> Edit </span>
                             </a>
-                            <form action="/dashboard/users/{{ $user->id }}" method="post" class="d-inline">
+                            <form action="/dashboard/users/users/{{ $user->id }}" method="post" class="d-inline">
                                 @method('delete')
                                 @csrf
                                 <button class="flex items-center justify-center btn-danger mx-1"
