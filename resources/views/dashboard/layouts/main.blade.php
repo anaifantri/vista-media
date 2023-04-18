@@ -17,7 +17,7 @@
     <!-- Header end-->
     <!-- Main start-->
     <div class="w-full">
-        <div class="flex relative mt-2">
+        <div class="flex relative mt-8">
             <!-- Sidebar start-->
             @include('dashboard.layouts.sidebar')
             <!-- Sidebar End-->
