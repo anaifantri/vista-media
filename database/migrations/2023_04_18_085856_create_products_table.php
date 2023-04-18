@@ -13,28 +13,26 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('area_id')->constrained();
+            $table->foreignId('city_id')->constrained();
+            $table->foreignId('size_id')->constrained();
+            $table->foreignId('product_category_id')->constrained();
+            $table->foreignId('led_id')->nullable()->constrained();
+            $table->foreignId('vendor_id')->nullable()->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->string('code')->unique();
             $table->string('address');
-            $table->string('area');
-            $table->string('city');
             $table->string('photo');
             $table->string('lat');
             $table->string('lng');
-            $table->string('desc_code');
+            $table->string('sector');
+            $table->integer('qty');
+            $table->string('property_status');
             $table->string('build_status');
             $table->string('sale_status');
             $table->string('road_segment');
             $table->string('max_distance');
             $table->string('speed_average');
-            $table->boolean('city_center')->nullable();
-            $table->boolean('airport')->nullable();
-            $table->boolean('tourism')->nullable();
-            $table->boolean('mall')->nullable();
-            $table->boolean('hotel')->nullable();
-            $table->boolean('restaurant')->nullable();
-            $table->boolean('office_center')->nullable();
-            $table->boolean('housing_area')->nullable();
-            $table->string('username');
             $table->timestamps();
         });
     }

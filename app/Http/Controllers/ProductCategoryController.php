@@ -2,33 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Area;
-use App\Models\City;
 use App\Models\ProductCategory;
-use App\Models\Size;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProductController extends Controller
+class ProductCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(): Response
     {
-        $products = Product::with('area')->get();
-        $areas = Area::with('products')->get();
-        $cities = City::with('products')->get();
-        $product_categories = ProductCategory::with('products')->get();
-        $sizes = Size::with('products')->get();
-
-        return response()-> view ('dashboard.media.billboards.index', [
-            'products'=>Product::all(),
-            'title' => 'Daftar Billboard',
-            compact('products', 'areas', 'cities', 'product_categories', 'sizes')
-        ]);
+        //
     }
 
     /**
@@ -50,7 +36,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product): Response
+    public function show(ProductCategory $productCategory): Response
     {
         //
     }
@@ -58,7 +44,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product): Response
+    public function edit(ProductCategory $productCategory): Response
     {
         //
     }
@@ -66,7 +52,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product): RedirectResponse
+    public function update(Request $request, ProductCategory $productCategory): RedirectResponse
     {
         //
     }
@@ -74,7 +60,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product): RedirectResponse
+    public function destroy(ProductCategory $productCategory): RedirectResponse
     {
         //
     }

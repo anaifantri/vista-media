@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 
-class Area extends Model
+class ProductCategory extends Model
 {
     protected $guarded = ['id'];
 
     public function products(){
-        return $this->hasMany(Product::class, 'area_id', 'id');
+        return $this->hasMany(Product::class, 'product_category_id', 'id');
     }
 }

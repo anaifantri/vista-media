@@ -31,28 +31,21 @@
             <!-- Text tittle end-->
             <!-- Form login start-->
             @if (session()->has('loginError'))
-                <<<<<<< HEAD <div class="flex items-center justify-center m-auto">
+                <div class="flex items-center justify-center m-auto">
                     <div class="flex alert-danger">
-                        <svg class="w-6 fill-current mx-1" clip-rule="evenodd" fill-rule="evenodd"=======<div
-                            id="failAlert" name="failAlert"
-                            class="m-auto flex relative rounded-lg border border-red-600 bg-opacity-60 bg-red-200 drop-shadow-xl shadow-inner w-48 h-8 sm:w-60 sm:h-10"
-                            role="alert">
-                            <div class="flex m-auto text-red-800">
-                                <svg class="w-6 fill-red-700 mr-3" clip-rule="evenodd" fill-rule="evenodd">>>>>>>
-                                    beaa14f1a55f2b250cf9a72c3d80716468efbc1b
-                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m2.095 19.886 9.248-16.5c.133-.237.384-.384.657-.384.272 0 .524.147.656.384l9.248 16.5c.064.115.096.241.096.367 0 .385-.309.749-.752.749h-18.496c-.44 0-.752-.36-.752-.749 0-.126.031-.252.095-.367zm9.907-6.881c-.414 0-.75.336-.75.75v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5c0-.414-.336-.75-.75-.75zm-.002-3c-.552 0-1 .448-1 1s.448 1 1 1 1-.448 1-1-.448-1-1-1z"
-                                        fill-rule="nonzero" />
-                                </svg>
-                                <span class="font-semibold mx-1">Warning!!</span> {{ session('loginError') }}
-                            </div>
-                            <<<<<<< HEAD=======<button id="btAlert" name="btAllert"
-                                class="flex absolute w-4 h-4 mr-1 mx-44 sm:mx-[220px] mt-0 items-center justify-center text-red-800"
-                                type="button"> x </button>
-                                >>>>>>> beaa14f1a55f2b250cf9a72c3d80716468efbc1b
+                        <div class="flex m-auto text-red-800">
+                            <svg class="w-6 fill-current mx-1" clip-rule="evenodd" fill-rule="evenodd"
+                                beaa14f1a55f2b250cf9a72c3d80716468efbc1bbeaa14f1a55f2b250cf9a72c3d80716468efbc1b
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m2.095 19.886 9.248-16.5c.133-.237.384-.384.657-.384.272 0 .524.147.656.384l9.248 16.5c.064.115.096.241.096.367 0 .385-.309.749-.752.749h-18.496c-.44 0-.752-.36-.752-.749 0-.126.031-.252.095-.367zm9.907-6.881c-.414 0-.75.336-.75.75v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5c0-.414-.336-.75-.75-.75zm-.002-3c-.552 0-1 .448-1 1s.448 1 1 1 1-.448 1-1-.448-1-1-1z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="font-semibold mx-1">Warning!!</span> {{ session('loginError') }}
+                        </div>
                     </div>
+                </div>
             @endif
             <div class="m-auto relative items-center justify-center flex">
                 <form action="/login" method="post">

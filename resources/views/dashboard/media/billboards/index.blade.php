@@ -37,8 +37,8 @@
                         <th class="index-td text-sm w-24">Jenis</th>
                         <th class="index-td text-sm w-24">BL/FL</th>
                         <th class="index-td text-sm w-24">Side</th>
-                        <th class="index-td text-sm w-24">Size - V/H</th>
-                        <th class="index-td text-sm w-32">Action</th>
+                        <th class="index-td text-sm w-32">Size - V/H</th>
+                        <th class="index-td text-sm w-36">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,15 +46,16 @@
                         <tr class="index-tr">
                             <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
                             <td class="index-td text-sm w-28">{{ $product->code }}</td>
-                            <td class="index-td text-sm w-60">{{ $product->address }}</td>
-                            <td class="index-td text-sm w-44">{{ $product->city }}</td>
+                            <td class="flex justify-start items-center text-sm w-60">{{ $product->address }}</td>
+                            <td class="index-td text-sm w-44">{{ $product->city->city }}</td>
+                            <td class="index-td text-sm w-24">{{ $product->product_category->name }}</td>
+                            <td class="index-td text-sm w-24">{{ $product->product_category->lighting }}</td>
                             <td class="index-td text-sm w-24"></td>
-                            <td class="index-td text-sm w-24"></td>
-                            <td class="index-td text-sm w-24"></td>
-                            <td class="index-td text-sm w-24"></td>
-                            <td class="index-td text-sm w-32">
+                            <td class="index-td text-sm w-32">{{ $product->size->size }} - {{ $product->size->orientation }}
+                            </td>
+                            <td class="index-td text-sm w-36">
                                 <a href="/dashboard/media/billboards/{{ $product->id }}"
-                                    class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
+                                    class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +65,7 @@
                                     </svg>
                                 </a>
                                 <a href="/dashboard/media/billboards/{{ $product->id }}/edit"
-                                    class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
+                                    class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -74,11 +75,11 @@
                                     </svg>
                                 </a>
                                 <form action="/dashboard/media/billboards/{{ $product->id }}" method="post"
-                                    class="flex m-auto">
+                                    class="flex m-1">
                                     @method('delete')
                                     @csrf
                                     <button
-                                        class="index-link text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md mr-1"
+                                        class="index-link text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
                                         onclick="return confirm('Apakah anda yakin ingin menghapus lokasi billboard {{ $product->address }} ?')">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
