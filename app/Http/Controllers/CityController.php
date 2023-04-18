@@ -52,13 +52,14 @@ class CityController extends Controller
         }
 
         $validateData = $request->validate([
+            'code' => 'required',
             'area' => 'required',
             'city' => 'required|unique:cities',
             'lat' => 'required',
             'lng' => 'required',
             'zoom' => 'required'
         ]);
-
+        $validateData['code'] = $request->input('code');
         $validateData['area'] = $request->input('area');
         $validateData['city'] = $request->input('city');
         $validateData['lat'] = $request->input('lat');

@@ -12,8 +12,13 @@
         <!-- Show City start -->
         <div class="items-center mt-10 w-[370px] ml-0">
             <div class="flex mx-5 mt-3">
-                <span class="w-36">Nama Kota</span>
+                <span class="w-36">Kode Kota</span>
                 <label class="flex items-center w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="code">
+                    {{ $city->code }}</label>
+            </div>
+            <div class="flex mx-5 mt-3">
+                <span class="w-36">Nama Kota</span>
+                <label class="flex items-center w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="city">
                     {{ $city->city }}</label>
             </div>
             <div class="flex mx-5 mt-3">

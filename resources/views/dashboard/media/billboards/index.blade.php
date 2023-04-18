@@ -29,14 +29,14 @@
         <div class="index-table">
             <table class="table-auto">
                 <thead>
-                    <tr class="index-tr">
+                    <tr class="index-tr bg-slate-50">
                         <th class="index-td text-sm w-5">No.</th>
                         <th class="index-td text-sm w-28">Kode</th>
                         <th class="index-td text-sm w-60">Lokasi</th>
-                        <th class="index-td text-sm w-44">Kota</th>
-                        <th class="index-td text-sm w-24">Jenis</th>
-                        <th class="index-td text-sm w-24">BL/FL</th>
-                        <th class="index-td text-sm w-24">Side</th>
+                        <th class="index-td text-sm w-16">Kota</th>
+                        <th class="index-td text-sm w-16">Jenis</th>
+                        <th class="index-td text-sm w-16">BL/FL</th>
+                        <th class="index-td text-sm w-16">Side</th>
                         <th class="index-td text-sm w-32">Size - V/H</th>
                         <th class="index-td text-sm w-36">Action</th>
                     </tr>
@@ -47,10 +47,22 @@
                             <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
                             <td class="index-td text-sm w-28">{{ $product->code }}</td>
                             <td class="flex justify-start items-center text-sm w-60">{{ $product->address }}</td>
-                            <td class="index-td text-sm w-44">{{ $product->city->city }}</td>
-                            <td class="index-td text-sm w-24">{{ $product->product_category->name }}</td>
-                            <td class="index-td text-sm w-24">{{ $product->product_category->lighting }}</td>
-                            <td class="index-td text-sm w-24"></td>
+                            <td class="index-td text-sm w-16">{{ $product->city->code }}</td>
+                            <td class="index-td text-sm w-16">
+                                @if ($product->product_category->name == 'Billboard')
+                                    BB
+                                @elseif ($product->product_category->name == 'Videotron')
+                                    VT
+                                @endif
+                            </td>
+                            <td class="index-td text-sm w-16">
+                                @if ($product->product_category->lighting == 'Frontlight')
+                                    FL
+                                @elseif ($product->product_category->lighting == 'Backlight')
+                                    BL
+                                @endif
+                            </td>
+                            <td class="index-td text-sm w-16">{{ $product->size->side }}</td>
                             <td class="index-td text-sm w-32">{{ $product->size->size }} - {{ $product->size->orientation }}
                             </td>
                             <td class="index-td text-sm w-36">

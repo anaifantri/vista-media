@@ -40,6 +40,16 @@
                         {{ $message }}
                     </div>
                 @enderror
+                <div class="flex mx-5 mt-3">
+                    <span class="w-32">Kode Kota</span>
+                    <input id="code" name="code" class="input-area" type="text" placeholder="Kode Kota" readonly
+                        required>
+                </div>
+                @error('code')
+                    <div class="text-red-600 flex ml-28">
+                        {{ $message }}
+                    </div>
+                @enderror
                 <input id="coordinate" name="coordinate" class="hidden" type="text" disabled>
                 <div class="flex mx-5 mt-3">
                     <span class="w-32">Latitude</span>
