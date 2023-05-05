@@ -19,6 +19,25 @@ class User extends Authenticatable
      */
     protected $guarded = ['id'];
 
+    public function sizes(){
+        return $this->hasMany(Size::class, 'user_id', 'id');
+    }
+
+    public function product_categories(){
+        return $this->hasMany(ProductCategory::class, 'user_id', 'id');
+    }
+
+    public function leds(){
+        return $this->hasMany(Led::class, 'user_id', 'id');
+    }
+
+    public function vendors(){
+        return $this->hasMany(Vendor::class, 'user_id', 'id');
+    }
+
+    public function vendor_categories(){
+        return $this->hasMany(VendorCategory::class, 'user_id', 'id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

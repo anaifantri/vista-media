@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Led;
+use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +16,15 @@ class LedController extends Controller
      */
     public function index(): Response
     {
-        //
+        $leds = LED::with('vendor')->get();
+        $vendors = Vendor::with('leds')->get();
+        $users = User::with('leds')->get();
+
+        return response()-> view ('dashboard.media.leds.index', [
+            'leds'=>Led::all(),
+            'title' => 'Daftar Jenis LED',
+            compact('leds', 'users', 'vendors')
+        ]);
     }
 
     /**

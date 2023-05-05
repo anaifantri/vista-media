@@ -14,7 +14,7 @@ class AreaController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('dashboard.media.area.index', [
+        return response()-> view ('dashboard.media.areas.index', [
             'areas'=>Area::all(),
             'title' => 'Area'
         ]);
@@ -25,7 +25,7 @@ class AreaController extends Controller
      */
     public function create(): Response
     {
-        return response()-> view ('dashboard.media.area.create', [
+        return response()-> view ('dashboard.media.areas.create', [
             'title' => 'Menambahkan Area'
         ]);
     }
@@ -68,7 +68,7 @@ class AreaController extends Controller
      */
     public function show(Area $area): Response
     {
-        return response()-> view ('dashboard.media.area.show', [
+        return response()-> view ('dashboard.media.areas.show', [
             'area' => $area,
             'title' => 'Area ' . $area->area
         ]);

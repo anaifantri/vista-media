@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProductController extends Controller
+class VideotronController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,12 +24,13 @@ class ProductController extends Controller
         $product_categories = ProductCategory::with('products')->get();
         $sizes = Size::with('products')->get();
 
-        return response()-> view ('dashboard.media.billboards.index', [
+        return response()-> view ('dashboard.media.videotrons.index', [
             'products'=>Product::all(),
             'title' => 'Daftar Billboard',
             compact('products', 'areas', 'cities', 'product_categories', 'sizes')
         ]);
     }
+
     /**
      * Show the form for creating a new resource.
      */

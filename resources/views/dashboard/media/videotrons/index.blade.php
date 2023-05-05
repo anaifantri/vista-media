@@ -3,7 +3,7 @@
 @section('container')
     <div class="index-container">
         <div class="index-title">
-            <h1 class="index-h1">Daftar Lokasi Billboard</h1>
+            <h1 class="index-h1">Daftar Lokasi Videotron</h1>
         </div>
         <div class="index-btnAdd">
             <a href="/dashboard/media/products/create" class="index-link btn-primary">
@@ -13,7 +13,7 @@
                         d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                         fill-rule="nonzero" />
                 </svg>
-                <span class="mx-1">Tambah Billboard</span>
+                <span class="mx-1">Tambah Videotron</span>
             </a>
         </div>
         @if (session()->has('success'))
@@ -35,7 +35,7 @@
                         <th class="index-td text-sm w-60">Lokasi</th>
                         <th class="index-td text-sm w-16">Kota</th>
                         <th class="index-td text-sm w-16">Jenis</th>
-                        <th class="index-td text-sm w-16">BL/FL</th>
+                        <th class="index-td text-sm w-16">Pixel</th>
                         <th class="index-td text-sm w-16">Side</th>
                         <th class="index-td text-sm w-32">Size - V/H</th>
                         <th class="index-td text-sm w-36">Action</th>
@@ -66,7 +66,7 @@
                             <td class="index-td text-sm w-32">{{ $product->size->size }} -
                                 @if ($product->size->orientation == 'Vertikal')
                                     V
-                                @elseif ($product->size->orientation == 'Horizontal')
+                                @elseif ($product->product_category->lighting == 'Horizontal')
                                     H
                                 @endif
                             </td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +15,13 @@ class ProductCategoryController extends Controller
      */
     public function index(): Response
     {
-        //
+        $users = User::with('product_categories')->get();
+        $product_categories = ProductCategory::with('user')->get();
+        return response()-> view ('dashboard.media.product-categories.index', [
+            'product_categories'=>ProductCategory::all(),
+            'title' => 'Daftar Ukuran',
+            compact('product_categories', 'users')
+        ]);
     }
 
     /**

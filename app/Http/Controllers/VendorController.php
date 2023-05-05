@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vendor;
+use App\Models\User;
+use App\Models\VendorCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +16,15 @@ class VendorController extends Controller
      */
     public function index(): Response
     {
-        //
+        $vendors = Vendor::with('vendor_category')->get();
+        $vendor_categories = VendorCategory::with('vendors')->get();
+        $users = User::with('vendors')->get();
+
+        return response()-> view ('dashboard.media.vendors.index', [
+            'vendors'=>Vendor::all(),
+            'title' => 'Daftar Vendor',
+            compact('vendors', 'users', 'vendor_categories')
+        ]);
     }
 
     /**

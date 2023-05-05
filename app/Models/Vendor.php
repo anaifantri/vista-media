@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
     protected $guarded = ['id'];
+
+    public function leds(){
+        return $this->hasMany(Led::class, 'vendor_id', 'id');
+    }
+
+    public function vendor_category(){
+        return $this->belongsTo(VendorCategory::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

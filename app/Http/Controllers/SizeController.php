@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Size;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +15,13 @@ class SizeController extends Controller
      */
     public function index(): Response
     {
-        //
+        $users = User::with('sizes')->get();
+        $sizes = Size::with('user')->get();
+        return response()-> view ('dashboard.media.sizes.index', [
+            'sizes'=>Size::all(),
+            'title' => 'Daftar Ukuran',
+            compact('sizes', 'users')
+        ]);
     }
 
     /**
@@ -62,6 +69,8 @@ class SizeController extends Controller
      */
     public function destroy(Size $size): RedirectResponse
     {
-        //
+        Size::destroy($size->id);
+
+        return redirect('/dashboard/media/sizes')->with('success','Ukuran '. $size->size . $size->side .' sisi '. $size->orientation .' berhasil dihapus');
     }
 }

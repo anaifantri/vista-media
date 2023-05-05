@@ -3,17 +3,17 @@
 @section('container')
     <div class="index-container">
         <div class="index-title">
-            <h1 class="index-h1">Daftar Lokasi Billboard</h1>
+            <h1 class="index-h1">Daftar Katagori Vendor</h1>
         </div>
         <div class="index-btnAdd">
-            <a href="/dashboard/media/products/create" class="index-link btn-primary">
+            <a href="/dashboard/media/vendor-categories/create" class="index-link btn-primary">
                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                         fill-rule="nonzero" />
                 </svg>
-                <span class="mx-1">Tambah Billboard</span>
+                <span class="mx-1">Tambah Katagori Vendor</span>
             </a>
         </div>
         @if (session()->has('success'))
@@ -31,47 +31,21 @@
                 <thead>
                     <tr class="index-tr bg-slate-50">
                         <th class="index-td text-sm w-5">No.</th>
-                        <th class="index-td text-sm w-28">Kode</th>
-                        <th class="index-td text-sm w-60">Lokasi</th>
-                        <th class="index-td text-sm w-16">Kota</th>
-                        <th class="index-td text-sm w-16">Jenis</th>
-                        <th class="index-td text-sm w-16">BL/FL</th>
-                        <th class="index-td text-sm w-16">Side</th>
-                        <th class="index-td text-sm w-32">Size - V/H</th>
+                        <th class="index-td text-sm w-28">Katagori</th>
+                        <th class="index-td text-sm w-80">Deskripsi</th>
+                        <th class="index-td text-sm w-32">Dibuat Oleh</th>
                         <th class="index-td text-sm w-36">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product)
+                    @foreach ($vendor_categories as $vendor_category)
                         <tr class="index-tr">
                             <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
-                            <td class="index-td text-sm w-28">{{ $product->code }}</td>
-                            <td class="flex justify-start items-center text-sm w-60">{{ $product->address }}</td>
-                            <td class="index-td text-sm w-16">{{ $product->city->code }}</td>
-                            <td class="index-td text-sm w-16">
-                                @if ($product->product_category->name == 'Billboard')
-                                    BB
-                                @elseif ($product->product_category->name == 'Videotron')
-                                    VT
-                                @endif
-                            </td>
-                            <td class="index-td text-sm w-16">
-                                @if ($product->product_category->lighting == 'Frontlight')
-                                    FL
-                                @elseif ($product->product_category->lighting == 'Backlight')
-                                    BL
-                                @endif
-                            </td>
-                            <td class="index-td text-sm w-16">{{ $product->size->side }}</td>
-                            <td class="index-td text-sm w-32">{{ $product->size->size }} -
-                                @if ($product->size->orientation == 'Vertikal')
-                                    V
-                                @elseif ($product->size->orientation == 'Horizontal')
-                                    H
-                                @endif
-                            </td>
+                            <td class="index-td text-sm w-28">{{ $vendor_category->name }}</td>
+                            <td class="index-td text-sm w-80">{{ $vendor_category->description }}</td>
+                            <td class="index-td text-sm w-32">{{ $vendor_category->user->name }}</td>
                             <td class="index-td text-sm w-36">
-                                <a href="/dashboard/media/billboards/{{ $product->id }}"
+                                <a href="/dashboard/media/vendor-categories/{{ $vendor_category->id }}"
                                     class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -81,7 +55,7 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <a href="/dashboard/media/billboards/{{ $product->id }}/edit"
+                                <a href="/dashboard/media/vendor-categories/{{ $vendor_category->id }}/edit"
                                     class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -91,13 +65,13 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <form action="/dashboard/media/billboards/{{ $product->id }}" method="post"
+                                <form action="/dashboard/media/vendor-categories/{{ $vendor_category->id }}" method="post"
                                     class="flex m-1">
                                     @method('delete')
                                     @csrf
                                     <button
                                         class="index-link text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus lokasi billboard {{ $product->address }} ?')">
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus katagori vendor {{ $vendor_category->name }} ?')">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">

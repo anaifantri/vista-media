@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProductController extends Controller
+class BillboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,6 +30,7 @@ class ProductController extends Controller
             compact('products', 'areas', 'cities', 'product_categories', 'sizes')
         ]);
     }
+
     /**
      * Show the form for creating a new resource.
      */
