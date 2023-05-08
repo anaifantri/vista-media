@@ -24,6 +24,12 @@ class ProductCategoryController extends Controller
         ]);
     }
 
+    public function showCategory(){
+        $dataCategory = ProductCategory::All();
+
+        return response()->json(['dataCategory'=> $dataCategory]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

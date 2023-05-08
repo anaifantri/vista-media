@@ -24,6 +24,12 @@ class SizeController extends Controller
         ]);
     }
 
+    public function showSize(){
+        $dataSize = Size::All();
+
+        return response()->json(['dataSize'=> $dataSize]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

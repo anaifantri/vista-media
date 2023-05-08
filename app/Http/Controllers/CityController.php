@@ -32,12 +32,11 @@ class CityController extends Controller
         ]);
     }
 
-    public function showArea(){
-        $dataArea = Area::All();
+    public function showCity(){
+        $dataCity = City::All();
 
-        return response()->json(['dataArea'=> $dataArea]);
+        return response()->json(['dataCity'=> $dataCity]);
     }
-
     /**
      * Store a newly created resource in storage.
      */

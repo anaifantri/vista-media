@@ -75,7 +75,7 @@
         </div>
         <!-- Create New Area end -->
         <!-- Maps Area start -->
-        <div class="" id="map" class="items-center mt-10 w-full">
+        <div class="map" id="map">
         </div>
         <!-- Maps Area end -->
     </div>

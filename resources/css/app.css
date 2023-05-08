@@ -128,3 +128,15 @@
     @apply flex text-xl text-cyan-800 font-bold tracking-wider border-b w-full py-1;
 }
 /* index end */
+
+/* maps start */
+.map {
+    @apply w-full h-[500px]; 
+        
+}
+.map-product {
+    @apply w-[500px] h-[250px] rounded-xl; 
+        
+}
+
+/* maps end */

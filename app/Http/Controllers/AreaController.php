@@ -20,6 +20,12 @@ class AreaController extends Controller
         ]);
     }
 
+    public function showArea(){
+        $dataArea = Area::All();
+
+        return response()->json(['dataArea'=> $dataArea]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

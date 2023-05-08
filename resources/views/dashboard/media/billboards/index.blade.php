@@ -6,7 +6,7 @@
             <h1 class="index-h1">Daftar Lokasi Billboard</h1>
         </div>
         <div class="index-btnAdd">
-            <a href="/dashboard/media/products/create" class="index-link btn-primary">
+            <a href="/dashboard/media/billboards/create" class="index-link btn-primary">
                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path

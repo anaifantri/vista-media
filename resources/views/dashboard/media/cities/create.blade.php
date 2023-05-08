@@ -91,7 +91,7 @@
         </div>
         <!-- Create New City end -->
         <!-- Maps City start -->
-        <div class="" id="map" class="items-center mt-10 w-full">
+        <div class="map" id="map">
         </div>
         <!-- Maps City end -->
     </div>

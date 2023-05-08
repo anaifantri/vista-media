@@ -36,7 +36,9 @@ class BillboardController extends Controller
      */
     public function create(): Response
     {
-        //
+        return response()-> view ('dashboard.media.billboards.create', [
+            'title' => 'Menambahkan Billboard'
+        ]);
     }
 
     /**
