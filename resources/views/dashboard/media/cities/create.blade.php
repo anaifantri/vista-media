@@ -15,16 +15,26 @@
                 <div class="flex mx-5 mt-3">
                     <span class="w-32">Kode Area</span>
                     <input id="area_code" name="area_code" class="input-area" type="text" placeholder="Kode Area" readonly
-                        required>
+                        required value="{{ old('area_code') }}">
+                    <input id="area" name="area" class="input-area" type="text" hidden
+                        value="{{ old('area') }}">
                 </div>
                 <div class="flex mx-5 mt-3
                         items-center">
                     <span class="w-32">Nama Area</span>
-                    <select id="area" name="area" class="ml-3 p-1 rounded-md w-[298px] h-8 outline-none border"
-                        type="text" autofocus>
+                    <select id="area_id" name="area_id" class="ml-3 p-1 rounded-md w-[298px] h-8 outline-none border"
+                        type="text" autofocus value="{{ old('area_id') }}">
+                        {{-- <option value="Pilih Area">Pilih Area</option>
+                        @foreach ($areas as $area)
+                            @if (old('area_id') == $area->id)
+                                <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
+                            @else
+                                <option value="{{ $area->id }}">{{ $area->area }}</option>
+                            @endif
+                        @endforeach --}}
                     </select>
                 </div>
-                @error('area')
+                @error('area_id')
                     <div class="text-red-600 flex ml-28">
                         {{ $message }}
                     </div>

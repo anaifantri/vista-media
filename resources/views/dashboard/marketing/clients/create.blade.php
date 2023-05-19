@@ -10,7 +10,7 @@
                         <label class="flex justify-center text-sm text-teal-700 mb-2">Logo Perusahaan</label>
                         <img class="m-auto img-preview flex items-center w-48 h-48" src="/img/photo_profile.png">
                         <input
-                            class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('avatar') is-invalid @enderror"
+                            class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('photo') is-invalid @enderror"
                             type="file" id="logo" name="logo" onchange="previewImage()">
                         @error('logo')
                             <div class="invalid-feedback">

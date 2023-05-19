@@ -24,7 +24,7 @@
             <div class="flex mx-5 mt-3">
                 <span class="w-36">Nama Area</span>
                 <label class="flex items-center w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900"
-                    for="code">{{ $city->area }}</label>
+                    for="code">{{ $city->area->area }}</label>
             </div>
             <div class="flex mx-5 mt-3">
                 <span class="w-36">Latitude</span>
@@ -47,7 +47,7 @@
                     mx-5 mt-3">
                 <span class="w-36">Dibuat Oleh</span>
                 <label class="flex items-center w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="zoom"
-                    id="username" name="username">{{ $city->username }}</label>
+                    id="username" name="username">{{ $city->user->name }}</label>
             </div>
             <div class="flex
                     mx-5 mt-3">

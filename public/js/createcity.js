@@ -1,3 +1,4 @@
+const area_id = document.getElementById("area_id");
 const area = document.getElementById("area");
 const city = document.getElementById("city");
 const code = document.getElementById("code");
@@ -21,30 +22,44 @@ xhrArea.onreadystatechange = () => {
         const status = xhrArea.status;
         if (status === 0 || (status >= 200 && status < 400)) {
             // The request has been completed successfully
-            // console.log(xhrArea.responseText);
 
             obj = JSON.parse(xhrArea.responseText);
             const option = [];
 
-            // console.log(obj.dataArea);
-            // console.log(obj.dataArea[0]['area']);
+            if (area_code.value != '') {
+                option[0] = document.createElement('option');
+                option[0].appendChild(document.createTextNode(['Pilih Area']));
+                option[0].setAttribute('value', 'Pilih Area');
+                area_id.appendChild(option[0]);
 
-            option[0] = document.createElement('option');
-            option[0].appendChild(document.createTextNode(['Pilih Area']));
-            area.appendChild(option[0]);
+                for (i = 0; i < obj.dataArea.length; i++) {
+                    option[i + 1] = document.createElement('option');
+                    option[i + 1].appendChild(document.createTextNode(obj.dataArea[i]['area']));
+                    option[i + 1].setAttribute('value', obj.dataArea[i]['id']);
+                    if (area_code.value == obj.dataArea[i]['area_code']) {
+                        option[i + 1].setAttribute('selected', 'selected');
+                    }
+                    area_id.appendChild(option[i + 1]);
+                }
+            } else {
 
-            for (i = 0; i < obj.dataArea.length; i++) {
-                option[i + 1] = document.createElement('option');
-                option[i + 1].appendChild(document.createTextNode(obj.dataArea[i]['area']));
-                // option[i + 1].setAttribute('value', i + 1);
-                area.appendChild(option[i + 1]);
+                option[0] = document.createElement('option');
+                option[0].appendChild(document.createTextNode(['Pilih Area']));
+                option[0].setAttribute('value', 'Pilih Area');
+                area_id.appendChild(option[0]);
+
+                for (i = 0; i < obj.dataArea.length; i++) {
+                    option[i + 1] = document.createElement('option');
+                    option[i + 1].appendChild(document.createTextNode(obj.dataArea[i]['area']));
+                    option[i + 1].setAttribute('value', obj.dataArea[i]['id']);
+                    area_id.appendChild(option[i + 1]);
+                }
             }
-        } else {
-            // Oh no! There has been an error with the request!
         }
+    } else {
+        // Oh no! There has been an error with the request!
     }
 }
-
 // City --> start
 class City {
     constructor(code, area, city, lat, lng, zoom) {
@@ -84,28 +99,57 @@ optionCity[0] = document.createElement('option');
 optionCity[0].appendChild(document.createTextNode(['Pilih Kota']));
 city.appendChild(optionCity[0]);
 
-area.addEventListener('change', function () {
+if (area.value != '') {
+    // console.log(area.value);
     while (city.hasChildNodes()) {
         city.removeChild(city.firstChild);
     }
 
     optionCity[0] = document.createElement('option');
     optionCity[0].appendChild(document.createTextNode(['Pilih Kota']));
+    optionCity[0].setAttribute('value', 'Pilih Kota');
     city.appendChild(optionCity[0]);
 
     for (let i = 0; i < objCity.length; i++) {
-        if (objCity[i].area === area.value) {
+        if (objCity[i].area == area.value) {
             optionCity[i + 1] = document.createElement('option');
             optionCity[i + 1].appendChild(document.createTextNode(objCity[i].city));
             optionCity[i + 1].setAttribute('value', objCity[i].city);
             city.appendChild(optionCity[i + 1]);
         }
     }
-    for (let i = 0; i < obj.dataArea.length; i++) {
-        if (obj.dataArea[i].area === area.value) {
+}
+
+area_id.addEventListener('change', function () {
+    for (i = 0; i < obj.dataArea.length; i++) {
+        if (obj.dataArea[i].id == area_id.value) {
+            area.value = obj.dataArea[i].area;
             area_code.value = obj.dataArea[i].area_code;
         }
     }
+
+    while (city.hasChildNodes()) {
+        city.removeChild(city.firstChild);
+    }
+
+    optionCity[0] = document.createElement('option');
+    optionCity[0].appendChild(document.createTextNode(['Pilih Kota']));
+    optionCity[0].setAttribute('value', 'Pilih Kota');
+    city.appendChild(optionCity[0]);
+
+    for (let i = 0; i < objCity.length; i++) {
+        if (objCity[i].area == area.value) {
+            optionCity[i + 1] = document.createElement('option');
+            optionCity[i + 1].appendChild(document.createTextNode(objCity[i].city));
+            optionCity[i + 1].setAttribute('value', objCity[i].city);
+            city.appendChild(optionCity[i + 1]);
+        }
+    }
+    // for (let i = 0; i < obj.dataArea.length; i++) {
+    //     if (obj.dataArea[i].area == area_id.value) {
+    //         area_code.value = obj.dataArea[i].area_code;
+    //     }
+    // }
 })
 
 // City --> end

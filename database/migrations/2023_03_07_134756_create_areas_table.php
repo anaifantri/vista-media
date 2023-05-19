@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->integer('area_code');
             $table->string('provinsi');
             $table->string('area');
             $table->double('lat');
             $table->double('lng');
             $table->float('zoom');
-            $table->string('username');
+
             $table->timestamps();
         });
     }

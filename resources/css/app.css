@@ -51,7 +51,7 @@
 }
 
 .is-invalid {
-    @apply outline-red-500 border-red-500;
+    @apply border-red-500;
 }
 
 .invalid-feedback {
@@ -135,7 +135,12 @@
         
 }
 .map-product {
-    @apply w-[500px] h-[250px] rounded-xl; 
+    @apply w-[495px] h-[280px] rounded-xl; 
+        
+}
+
+.photo-product {
+    @apply w-[495px] h-[330px] rounded-xl; 
         
 }
 

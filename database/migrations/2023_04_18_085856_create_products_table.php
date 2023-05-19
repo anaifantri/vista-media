@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('lat');
             $table->string('lng');
             $table->string('sector');
+            $table->string('lighting');
             $table->integer('qty');
             $table->string('property_status');
             $table->string('build_status');

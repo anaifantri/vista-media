@@ -33,11 +33,13 @@
                         <th class="index-td text-sm w-5">No.</th>
                         <th class="index-td text-sm w-28">Kode</th>
                         <th class="index-td text-sm w-60">Lokasi</th>
-                        <th class="index-td text-sm w-16">Kota</th>
-                        <th class="index-td text-sm w-16">Jenis</th>
-                        <th class="index-td text-sm w-16">BL/FL</th>
-                        <th class="index-td text-sm w-16">Side</th>
-                        <th class="index-td text-sm w-32">Size - V/H</th>
+                        <th class="index-td text-sm w-24">Kota</th>
+                        <th class="index-td text-sm w-12">Jenis</th>
+                        <th class="index-td text-sm w-12">BL/FL</th>
+                        <th class="index-td text-sm w-12">Side</th>
+                        <th class="index-td text-sm w-28">Size - V/H</th>
+                        <th class="index-td text-sm w-20">Kondisi</th>
+                        <th class="index-td text-sm w-20">Status</th>
                         <th class="index-td text-sm w-36">Action</th>
                     </tr>
                 </thead>
@@ -47,31 +49,33 @@
                             <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
                             <td class="index-td text-sm w-28">{{ $product->code }}</td>
                             <td class="flex justify-start items-center text-sm w-60">{{ $product->address }}</td>
-                            <td class="index-td text-sm w-16">{{ $product->city->code }}</td>
-                            <td class="index-td text-sm w-16">
+                            <td class="index-td text-sm w-24">{{ $product->city->city }}</td>
+                            <td class="index-td text-sm w-12">
                                 @if ($product->product_category->name == 'Billboard')
                                     BB
                                 @elseif ($product->product_category->name == 'Videotron')
                                     VT
                                 @endif
                             </td>
-                            <td class="index-td text-sm w-16">
-                                @if ($product->product_category->lighting == 'Frontlight')
+                            <td class="index-td text-sm w-12">
+                                @if ($product->lighting == 'Frontlight')
                                     FL
-                                @elseif ($product->product_category->lighting == 'Backlight')
+                                @elseif ($product->lighting == 'Backlight')
                                     BL
                                 @endif
                             </td>
-                            <td class="index-td text-sm w-16">{{ $product->size->side }}</td>
-                            <td class="index-td text-sm w-32">{{ $product->size->size }} -
+                            <td class="index-td text-sm w-12">{{ $product->size->side }}</td>
+                            <td class="index-td text-sm w-28">{{ $product->size->size }} -
                                 @if ($product->size->orientation == 'Vertikal')
                                     V
                                 @elseif ($product->size->orientation == 'Horizontal')
                                     H
                                 @endif
                             </td>
+                            <td class="index-td text-sm w-20">{{ $product->build_status }}</td>
+                            <td class="index-td text-sm w-20">{{ $product->sale_status }}</td>
                             <td class="index-td text-sm w-36">
-                                <a href="/dashboard/media/billboards/{{ $product->id }}"
+                                <a href="/dashboard/media/products/{{ $product->id }}"
                                     class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -91,13 +95,13 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <form action="/dashboard/media/billboards/{{ $product->id }}" method="post"
+                                <form action="/dashboard/media/products/{{ $product->id }}" method="post"
                                     class="flex m-1">
                                     @method('delete')
                                     @csrf
                                     <button
                                         class="index-link text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus lokasi billboard {{ $product->address }} ?')">
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus billboard dengan kode {{ $product->code }} ?')">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">

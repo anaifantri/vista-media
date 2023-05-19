@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,9 +15,12 @@ class AreaController extends Controller
      */
     public function index(): Response
     {
+        $areas = Area::with('user')->with('cities')->get();
+        $users = User::with('areas')->get();
         return response()-> view ('dashboard.media.areas.index', [
             'areas'=>Area::all(),
-            'title' => 'Area'
+            'title' => 'Area',
+            compact('areas', 'users')
         ]);
     }
 
@@ -55,7 +59,7 @@ class AreaController extends Controller
         $validateData['lat'] = $request->input('lat');
         $validateData['lng'] = $request->input('lng');
         $validateData['zoom'] = $request->input('zoom');
-        $validateData['username'] = auth()->user()->name;
+        $validateData['user_id'] = auth()->user()->id;
         Area::create($validateData);
 
         // $area_code = $request->input('area_code');
@@ -104,6 +108,7 @@ class AreaController extends Controller
      */
     public function destroy(Area $area): RedirectResponse
     {
+        // dd($area->id);
         Area::destroy($area->id);
 
         return redirect('/dashboard/media/area')->with('success','Area '. $area->area .' berhasil dihapus');

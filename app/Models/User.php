@@ -38,6 +38,14 @@ class User extends Authenticatable
     public function vendor_categories(){
         return $this->hasMany(VendorCategory::class, 'user_id', 'id');
     }
+
+    public function areas(){
+        return $this->hasMany(Area::class, 'user_id', 'id');
+    }
+
+    public function cities(){
+        return $this->hasMany(City::class, 'user_id', 'id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

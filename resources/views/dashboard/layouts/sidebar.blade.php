@@ -39,7 +39,7 @@
                     <!-- Child Media OOH start-->
                     <ul class="hidden" id="mediaChild" name="mediaChild">
                         @canany(['isAdmin', 'isMedia'])
-                            <span class="flex nav-a ml-[40px] border-t-[1px]"> Daftar OOH </span>
+                            <span class="flex nav-a ml-[40px] border-t-[1px]"> Data OOH </span>
                             <li class="group">
                                 <a class="nav-a ml-[40px] border-t-[1px]" href="/dashboard/media/billboards">
                                     <svg class="nav-svg" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24">
@@ -117,7 +117,7 @@
                                     <span class="flex w-40"> Jenis LED </span>
                                 </a>
                             </li>
-                            <span class="flex nav-a ml-[40px] border-t-[1px] border-b-[1px]"> Daftar Vendor </span>
+                            <span class="flex nav-a ml-[40px] border-t-[1px] border-b-[1px]"> Data Vendor </span>
                             <li class="group">
                                 <a class="nav-a ml-[40px]" href="/dashboard/media/vendors">
                                     <svg class="nav-svg" xmlns="http://www.w3.org/2000/svg" role="img"

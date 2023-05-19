@@ -13,4 +13,12 @@ class City extends Model
     public function products(){
         return $this->hasMany(Product::class, 'city_id', 'id');
     }
+
+    public function area(){
+        return $this->belongsTo(Area::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\Size;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -29,6 +30,12 @@ class ProductController extends Controller
             'title' => 'Daftar Billboard',
             compact('products', 'areas', 'cities', 'product_categories', 'sizes')
         ]);
+    }
+
+    public function showProduct(){
+        $dataProduct = Product::All();
+
+        return response()->json(['dataProduct'=> $dataProduct]);
     }
     /**
      * Show the form for creating a new resource.
@@ -51,7 +58,7 @@ class ProductController extends Controller
      */
     public function show(Product $product): Response
     {
-        //
+        dd($product->id);
     }
 
     /**
@@ -75,6 +82,15 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
-        //
+        // dd($product->product_category->name);
+        if($product->photo){
+            Storage::delete($product->photo);
+        }
+
+        Product::destroy($product->id);
+
+        if ($product->product_category->name === 'Billboard'){
+            return redirect('/dashboard/media/billboards')->with('success','Billboard dengan kode ' . $product->code . ' berhasil dihapus');
+        }
     }
 }

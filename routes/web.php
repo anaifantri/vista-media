@@ -49,10 +49,11 @@ Route::resource('/dashboard/media/product-categories', ProductCategoryController
 Route::resource('/dashboard/media/leds', LedController::class)->middleware('auth');
 Route::resource('/dashboard/media/vendors', VendorController::class)->middleware('auth');
 Route::resource('/dashboard/media/vendor-categories', VendorCategoryController::class)->middleware('auth');
-Route::get('/showArea', [AreaController::class,'showArea']);
-Route::get('/showCity', [CityController::class,'showCity']);
-Route::get('/showSize', [SizeController::class,'showSize']);
-Route::get('/showCategory', [ProductCategoryController::class,'showCategory']);
+Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware('auth');
+Route::get('/showArea', [AreaController::class,'showArea'])->middleware('auth');
+Route::get('/showCity', [CityController::class,'showCity'])->middleware('auth');
+Route::get('/showSize', [SizeController::class,'showSize'])->middleware('auth');
+Route::get('/showCategory', [ProductCategoryController::class,'showCategory'])->middleware('auth');
 
 Route::get('/dashboard/media', function () {
     return view('dashboard.media.index');   

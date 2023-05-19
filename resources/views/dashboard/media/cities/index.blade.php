@@ -38,8 +38,9 @@
                 <thead class="bg-slate-100">
                     <tr class="index-tr">
                         <th class="index-td w-8">No.</th>
-                        <th class="index-td w-36">Kode</th>
+                        <th class="index-td w-36">Area</th>
                         <th class="index-td w-36">Kota</th>
+                        <th class="index-td w-36">Kode</th>
                         <th class="index-td w-24">Latitude</th>
                         <th class="index-td w-24">Longitude</th>
                         <th class="index-td w-20">Zoom</th>
@@ -51,12 +52,13 @@
                     @foreach ($cities as $cities)
                         <tr class="index-tr">
                             <td class="index-td w-8">{{ $loop->iteration }}</td>
-                            <td class="index-td w-36">{{ $cities->code }}</td>
+                            <td class="index-td w-36">{{ $cities->area->area }}</td>
                             <td class="index-td w-36">{{ $cities->city }}</td>
+                            <td class="index-td w-36">{{ $cities->code }}</td>
                             <td class="index-td w-24">{{ $cities->lat }}</td>
                             <td class="index-td w-24">{{ $cities->lng }}</td>
                             <td class="index-td w-20">{{ $cities->zoom }}</td>
-                            <td class="index-td w-24">{{ $cities->username }}</td>
+                            <td class="index-td w-24">{{ $cities->user->name }}</td>
                             <td class="index-td w-36">
                                 <a href="/dashboard/media/cities/{{ $cities->id }}"
                                     class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
@@ -92,7 +94,4 @@
         <!-- View City end -->
     </div>
     <!-- Container Index City end -->
-    <!-- Script City start -->
-    <script src="/js/alert.js"></script>
-    <!-- Script City end -->
 @endsection

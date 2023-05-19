@@ -21,7 +21,7 @@
             @include('dashboard.layouts.sidebar')
             <!-- Sidebar End-->
             <!-- Main Section start -->
-            <div class="p-2 w-full z-0 relative border-l">
+            <div class="flex p-2 w-full z-0 relative border-l">
                 @yield('container')
             </div>
             <!-- Main Section end -->

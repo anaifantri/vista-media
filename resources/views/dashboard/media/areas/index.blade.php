@@ -58,7 +58,7 @@
                             <td class="index-td w-24">{{ $area->lat }}</td>
                             <td class="index-td w-24">{{ $area->lng }}</td>
                             <td class="index-td w-20">{{ $area->zoom }}</td>
-                            <td class="index-td w-24">{{ $area->username }}</td>
+                            <td class="index-td w-24">{{ $area->user->name }}</td>
                             <td class="index-td w-36">
                                 <a href="/dashboard/media/area/{{ $area->id }}"
                                     class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
