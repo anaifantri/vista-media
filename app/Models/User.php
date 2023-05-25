@@ -23,10 +23,6 @@ class User extends Authenticatable
         return $this->hasMany(Size::class, 'user_id', 'id');
     }
 
-    public function product_categories(){
-        return $this->hasMany(ProductCategory::class, 'user_id', 'id');
-    }
-
     public function leds(){
         return $this->hasMany(Led::class, 'user_id', 'id');
     }

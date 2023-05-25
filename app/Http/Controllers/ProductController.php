@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Area;
 use App\Models\City;
-use App\Models\ProductCategory;
 use App\Models\Size;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,13 +21,12 @@ class ProductController extends Controller
         $products = Product::with('area')->get();
         $areas = Area::with('products')->get();
         $cities = City::with('products')->get();
-        $product_categories = ProductCategory::with('products')->get();
         $sizes = Size::with('products')->get();
 
         return response()-> view ('dashboard.media.billboards.index', [
             'products'=>Product::all(),
             'title' => 'Daftar Billboard',
-            compact('products', 'areas', 'cities', 'product_categories', 'sizes')
+            compact('products', 'areas', 'cities', 'sizes')
         ]);
     }
 
@@ -89,7 +87,7 @@ class ProductController extends Controller
 
         Product::destroy($product->id);
 
-        if ($product->product_category->name === 'Billboard'){
+        if ($product->category === 'Billboard'){
             return redirect('/dashboard/media/billboards')->with('success','Billboard dengan kode ' . $product->code . ' berhasil dihapus');
         }
     }

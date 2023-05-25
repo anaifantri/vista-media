@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('area_id')->constrained();
             $table->foreignId('city_id')->constrained();
             $table->foreignId('size_id')->constrained();
-            $table->foreignId('product_category_id')->constrained();
             $table->foreignId('led_id')->nullable()->constrained();
             $table->foreignId('vendor_id')->nullable()->constrained();
             $table->foreignId('user_id')->constrained();
             $table->string('code')->unique();
+            $table->string('category');
             $table->string('address');
             $table->string('photo');
             $table->string('lat');

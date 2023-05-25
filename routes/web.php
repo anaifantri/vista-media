@@ -53,7 +53,7 @@ Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware('auth');
 Route::get('/showCity', [CityController::class,'showCity'])->middleware('auth');
 Route::get('/showSize', [SizeController::class,'showSize'])->middleware('auth');
-Route::get('/showCategory', [ProductCategoryController::class,'showCategory'])->middleware('auth');
+Route::get('/test', [BillboardController::class,'test'])->middleware('auth');
 
 Route::get('/dashboard/media', function () {
     return view('dashboard.media.index');   

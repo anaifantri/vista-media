@@ -104,7 +104,7 @@
     @apply flex relative h-screen w-max;
 }
 .index-title {
-    @apply flex absolute p-2 w-full;
+    @apply flex absolute p-1 w-full;
 }
 .index-btnAdd {
     @apply flex absolute mt-14 px-2 justify-end w-full;
@@ -113,7 +113,7 @@
     @apply mt-12 flex absolute;
 }
 .index-table {
-    @apply flex mt-24 p-2;
+    @apply flex mt-20 p-2;
 }
 .index-tr {
     @apply w-full flex relative items-center text-sm text-cyan-800 border-t border-b m-auto h-10;

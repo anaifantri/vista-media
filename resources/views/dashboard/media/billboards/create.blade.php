@@ -17,7 +17,7 @@
                         <div class="mt-1">
                             <label class="text-sm text-teal-700">Area</label>
                             <select id="area_id" name="area_id"
-                                class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
+                                class="flex px-2 w-48 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
                                 type="text" value="{{ old('area_id') }}">
                                 <option value="Pilih Area">Pilih Area</option>
                                 @foreach ($areas as $area)
@@ -42,7 +42,7 @@
                             <input type="text" id="cityCode" name="cityCode" value="{{ old('cityCode') }}" hidden>
                             <input type="text" id="inputCity" name="inputCity" value="{{ old('inputCity') }}" hidden>
                             <select id="city" name="city"
-                                class="flex px-2 w-56 h-7 text-sm font-semibold border text-teal-900 rounded-lg p-1 outline-none @error('city') is-invalid @enderror"
+                                class="flex px-2 w-48 h-7 text-sm font-semibold border text-teal-900 rounded-lg p-1 outline-none @error('city') is-invalid @enderror"
                                 type="text">
                                 <option value="Pilih Area">Pilih Area</option>
                                 @foreach ($areas as $area)
@@ -64,7 +64,7 @@
                         <div class="mt-1">
                             <label class="text-sm text-teal-700">Lokasi</label>
                             <textarea
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-56 border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-teal-900 w-64 border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
                                 name="address" id="address" required placeholder="Lokasi Billboard">{{ old('address') }}</textarea>
                             @error('address')
                                 <div class="invalid-feedback">
@@ -77,7 +77,7 @@
                         <div class="mt-1">
                             <label class="text-sm text-teal-700">Latitude</label>
                             <input
-                                class="flex h-7 px-2 text-sm font-semibold text-slate-500 w-56 border rounded-lg p-1 outline-teal-300 @error('lat') is-invalid @enderror"
+                                class="flex h-7 px-2 text-sm font-semibold text-slate-500 w-64 border rounded-lg p-1 outline-teal-300 @error('lat') is-invalid @enderror"
                                 type="text" id="lat" name="lat" placeholder="Latitude"
                                 value="{{ old('lat') }}" required readonly title="Latitude select from map">
                             @error('lat')
@@ -91,7 +91,7 @@
                         <div class="mt-1">
                             <label class="text-sm text-teal-700">Longitude</label>
                             <input
-                                class="flex h-7 px-2 text-sm font-semibold text-slate-500 w-56 border rounded-lg p-1 outline-teal-300 @error('lng') is-invalid @enderror"
+                                class="flex h-7 px-2 text-sm font-semibold text-slate-500 w-64 border rounded-lg p-1 outline-teal-300 @error('lng') is-invalid @enderror"
                                 type="text" id="lng" name="lng" placeholder="Longitude"
                                 value="{{ old('lng') }}" required readonly title="Longitude select from map">
                             @error('lat')
@@ -103,30 +103,13 @@
                     </div>
                     <div class="mx-5 mt-1 w-96">
                         <div class="flex mt-1">
-                            <label class="text-sm text-teal-700 w-28">Jenis</label>
-                            <label class="text-sm text-teal-700 w-24 ml-2">Orientasi</label>
+                            <label class="text-sm text-teal-700 w-32">Penerangan</label>
                         </div>
                         <div class="flex mt-1">
-                            <select id="product_category_id" name="product_category_id"
-                                class="px-2 w-28 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('product_category_id') is-invalid @enderror"
-                                type="text" value="{{ old('product_category_id') }}">
-                                <option value="Pilih Jenis">Pilih Jenis</option>
-                                @foreach ($product_categories as $product_category)
-                                    @if (old('product_category_id') == $product_category->id)
-                                        <option value="{{ $product_category->id }}" selected>
-                                            {{ $product_category->name }}
-                                        </option>
-                                    @else
-                                        <option value="{{ $product_category->id }}">
-                                            {{ $product_category->name }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
                             <input type="text" id="inputLighting" name="inputLighting"
                                 value="{{ old('inputLighting') }}" hidden>
                             <select id="lighting" name="lighting"
-                                class="ml-2 px-2 w-32 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('lighting') is-invalid @enderror"
+                                class="px-2 w-64 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('lighting') is-invalid @enderror"
                                 type="text" value="{{ old('lighting') }}">
                             </select>
                             @error('product_category_id')
@@ -147,7 +130,7 @@
                             {{-- <input type="text" id="size_id" name="size_id" value="{{ old('size_id') }}" hidden>
                             <input type="text" id="inputSize" name="inputSize" value="{{ old('inputSize') }}" hidden> --}}
                             <select id="size_id" name="size_id"
-                                class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
+                                class="flex px-2 w-64 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
                                 type="text" value="{{ old('size_id') }}">
                                 <option value="Pilih Ukuran">Pilih Ukuran</option>
                                 @foreach ($sizes as $size)
@@ -211,29 +194,13 @@
                     <div class="flex mx-5 mt-1 w-96">
                         <div class="mt-1">
                             <label class="text-sm text-teal-700">Kondisi</label>
-                            <input type="text" id="inputKondisi" name="inputKondisi"
-                                value="{{ old('inputKondisi') }}" hidden>
-                            <select id="build_status" name="build_status"
-                                class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('build_status') is-invalid @enderror"
+                            <input type="text" id="build_status" name="build_status"
+                                value="{{ old('build_status') }}" hidden>
+                            <select id="buildSelect" name="buildSelect"
+                                class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('buildSelect') is-invalid @enderror"
                                 type="text">
                             </select>
-                            @error('build_status')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="flex mx-5 mt-1 w-96">
-                        <div class="mt-1">
-                            <label class="text-sm text-teal-700">Status</label>
-                            <input type="text" id="inputStatus" name="inputStatus" value="{{ old('inputStatus') }}"
-                                hidden>
-                            <select id="sale_status" name="sale_status"
-                                class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('sale_status') is-invalid @enderror"
-                                type="text">
-                            </select>
-                            @error('sale_status')
+                            @error('buildSelect')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

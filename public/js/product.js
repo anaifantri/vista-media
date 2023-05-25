@@ -8,9 +8,7 @@ const inputLighting = document.getElementById("inputLighting");
 const propertyStatus = document.getElementById("property_status");
 const inputPemilik = document.getElementById("inputPemilik");
 const buildStatus = document.getElementById("build_status");
-const inputKondisi = document.getElementById("inputKondisi");
-const saleStatus = document.getElementById("sale_status");
-const inputStatus = document.getElementById("inputStatus");
+const buildSelect = document.getElementById("buildSelect");
 const roadSegment = document.getElementById("road_segment");
 const inputJalan = document.getElementById("inputJalan");
 const maxDistance = document.getElementById("max_distance");
@@ -31,8 +29,7 @@ const house = document.getElementById("house");
 
 let lightingData = ['Frontlight', 'Backlight'];
 let property = ['Vista Media', 'Mitra'];
-let build = ['Terbangun', 'Rencana'];
-let sale = ['Available', 'Sold'];
+let build = ['Terbangun', 'Pembangunan', 'Rencana'];
 let road = ['2 Lajur', '4 Lajur', '6 Lajur', '8 Lajur'];
 let distance = ['> 50 meter', '> 100 meter', '> 150 meter', '> 200 meter', '> 250 meter', '> 300 meter', '> 500 meter'];
 let speed = ['0 - 10 km/jam', '0 - 20 km/jam', '10 - 20 km/jam', '10 - 40 km/jam', '20 - 40 km/jam', '20 - 60 km/jam'];
@@ -185,7 +182,7 @@ lighting.addEventListener('change', function () {
 const optionLighting = [];
 if (inputLighting.value == '') {
     optionLighting[0] = document.createElement('option');
-    optionLighting[0].appendChild(document.createTextNode(['Pilih Penerangan']));
+    optionLighting[0].appendChild(document.createTextNode(['Pilih Lampu']));
     lighting.appendChild(optionLighting[0]);
     for (i = 0; i < lightingData.length; i++) {
         optionLighting[i + 1] = document.createElement('option');
@@ -212,6 +209,23 @@ if (inputLighting.value == '') {
 propertyStatus.addEventListener('change', function () {
     inputPemilik.value = propertyStatus.value;
     // console.log(inputPemilik.value);
+    if (inputPemilik.value == 'Mitra') {
+        for (i = 0; i < build.length; i++) {
+            if (build[i] == 'Terbangun') {
+                optionBuild[i + 1].setAttribute('selected', 'selected');
+                buildSelect.setAttribute('disabled', true);
+                buildStatus.value = buildSelect.value;
+            }
+        }
+    } else {
+        buildSelect.removeAttribute('disabled');
+        for (i = 0; i < build.length; i++) {
+            if (build[i] == 'Terbangun') {
+                optionBuild[i + 1].removeAttribute('selected', 'selected');
+                buildStatus.value = '';
+            }
+        }
+    }
 })
 
 const optionProperty = [];
@@ -241,65 +255,40 @@ if (inputPemilik.value === '') {
 // Show Property Status --> end
 
 // Show Build Status --> start
-buildStatus.addEventListener('change', function () {
-    inputKondisi.value = buildStatus.value;
-    // console.log(inputKondisi.value);
+buildSelect.addEventListener('change', function () {
+    buildStatus.value = buildSelect.value;
+    // console.log(buildStatus.value);
 })
 
 const optionBuild = [];
-if (inputKondisi.value === '') {
+if (buildStatus.value == '') {
     optionBuild[0] = document.createElement('option');
     optionBuild[0].appendChild(document.createTextNode(['Pilih Kondisi']));
-    buildStatus.appendChild(optionBuild[0]);
+    buildSelect.appendChild(optionBuild[0]);
     for (i = 0; i < build.length; i++) {
         optionBuild[i + 1] = document.createElement('option');
         optionBuild[i + 1].appendChild(document.createTextNode(build[i]));
-        buildStatus.appendChild(optionBuild[i + 1]);
+        buildSelect.appendChild(optionBuild[i + 1]);
     }
 } else {
+    if (inputPemilik.value == 'Mitra') {
+        buildSelect.setAttribute('disabled', true);
+    } else {
+        buildSelect.removeAttribute('disabled');
+    }
     optionBuild[0] = document.createElement('option');
     optionBuild[0].appendChild(document.createTextNode(['Pilih Kondisi']));
     buildStatus.appendChild(optionBuild[0]);
     for (i = 0; i < build.length; i++) {
         optionBuild[i + 1] = document.createElement('option');
         optionBuild[i + 1].appendChild(document.createTextNode(build[i]));
-        if (inputKondisi.value == build[i]) {
+        if (buildStatus.value == build[i]) {
             optionBuild[i + 1].setAttribute('selected', 'selected');
         }
-        buildStatus.appendChild(optionBuild[i + 1]);
+        buildSelect.appendChild(optionBuild[i + 1]);
     }
 }
 // Show Build Status --> end
-
-// Show Sale Status --> start
-saleStatus.addEventListener('change', function () {
-    inputStatus.value = saleStatus.value;
-    // console.log(inputStatus.value);
-})
-const optionSale = [];
-if (inputStatus.value === '') {
-    optionSale[0] = document.createElement('option');
-    optionSale[0].appendChild(document.createTextNode(['Pilih Status']));
-    saleStatus.appendChild(optionSale[0]);
-    for (i = 0; i < sale.length; i++) {
-        optionSale[i + 1] = document.createElement('option');
-        optionSale[i + 1].appendChild(document.createTextNode(sale[i]));
-        saleStatus.appendChild(optionSale[i + 1]);
-    }
-} else {
-    optionSale[0] = document.createElement('option');
-    optionSale[0].appendChild(document.createTextNode(['Pilih Status']));
-    saleStatus.appendChild(optionSale[0]);
-    for (i = 0; i < sale.length; i++) {
-        optionSale[i + 1] = document.createElement('option');
-        optionSale[i + 1].appendChild(document.createTextNode(sale[i]));
-        if (inputStatus.value == sale[i]) {
-            optionSale[i + 1].setAttribute('selected', 'selected');
-        }
-        saleStatus.appendChild(optionSale[i + 1]);
-    }
-}
-// Show Sale Status --> end
 
 // Show Road Segment --> start
 roadSegment.addEventListener('change', function () {
