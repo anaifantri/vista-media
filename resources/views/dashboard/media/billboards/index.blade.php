@@ -84,15 +84,18 @@
                 <thead>
                     <tr class="index-tr bg-slate-50">
                         <th class="index-td text-sm w-5">No.</th>
-                        <th class="index-td text-sm w-28">Kode</th>
+                        <th class="index-td text-sm w-24">Kode</th>
                         <th class="index-td text-sm w-60">Lokasi</th>
-                        <th class="index-td text-sm w-24">Kota</th>
+                        <th class="index-td text-sm w-16">Kota</th>
                         <th class="index-td text-sm w-12">Jenis</th>
                         <th class="index-td text-sm w-12">BL/FL</th>
-                        <th class="index-td text-sm w-12">Side</th>
-                        <th class="index-td text-sm w-28">Size - V/H</th>
-                        <th class="index-td text-sm w-24">Kondisi</th>
-                        <th class="index-td text-sm w-20">Status</th>
+                        <th class="index-td text-sm w-24">Size - V/H</th>
+                        <th class="index-td text-sm w-20">Kondisi</th>
+                        <th class="index-td text-sm w-16">Status</th>
+                        <th class="index-td text-sm w-28">Klien</th>
+                        <th class="index-td text-sm w-24">Harga</th>
+                        <th class="index-td text-sm w-28">Awal Kontak</th>
+                        <th class="index-td text-sm w-28">Akhir Kontrak</th>
                         <th class="index-td text-sm w-36">Action</th>
                     </tr>
                 </thead>
@@ -101,9 +104,9 @@
                         @if ($product->category == 'Billboard')
                             <tr class="index-tr">
                                 <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
-                                <td class="index-td text-sm w-28">{{ $product->code }}</td>
+                                <td class="index-td text-sm w-24">{{ $product->code }}</td>
                                 <td class="flex justify-start items-center text-sm w-60">{{ $product->address }}</td>
-                                <td class="index-td text-sm w-24">{{ $product->city->city }}</td>
+                                <td class="index-td text-sm w-16">{{ $product->city->code }}</td>
                                 <td class="index-td text-sm w-12">
                                     @if ($product->category == 'Billboard')
                                         BB
@@ -116,16 +119,25 @@
                                         BL
                                     @endif
                                 </td>
-                                <td class="index-td text-sm w-12">{{ $product->size->side }}</td>
-                                <td class="index-td text-sm w-28">{{ $product->size->size }} -
-                                    @if ($product->size->orientation == 'Vertikal')
-                                        V
-                                    @elseif ($product->size->orientation == 'Horizontal')
-                                        H
-                                    @endif
+                                @if ($product->size != '')
+                                    <td class="index-td text-sm w-24">{{ $product->size->size }} -
+                                        @if ($product->size->orientation == 'Vertikal')
+                                            V
+                                        @elseif ($product->size->orientation == 'Horizontal')
+                                            H
+                                        @endif
+                                    </td>
+                                @else
+                                    <td class="index-td text-sm w-24"></td>
+                                @endif
+                                <td class="index-td text-sm w-20">{{ $product->build_status }}</td>
+                                <td class="index-td text-sm w-16">{{ $product->sale_status }}</td>
+                                <td class="index-td text-sm w-28">{{ $product->client }}</td>
+                                <td class="index-td text-sm w-24">{{ number_format($product->price) }}</td>
+                                <td class="index-td text-sm w-28">{{ date('d-M-Y', strtotime($product->start_contract)) }}
                                 </td>
-                                <td class="index-td text-sm w-24">{{ $product->build_status }}</td>
-                                <td class="index-td text-sm w-20">{{ $product->sale_status }}</td>
+                                <td class="index-td text-sm w-28">{{ date('d-M-Y', strtotime($product->end_contract)) }}
+                                </td>
                                 <td class="index-td text-sm w-36">
                                     <a href="/dashboard/media/products/{{ $product->id }}"
                                         class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">

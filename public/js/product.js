@@ -9,6 +9,11 @@ const propertyStatus = document.getElementById("property_status");
 const inputPemilik = document.getElementById("inputPemilik");
 const buildStatus = document.getElementById("build_status");
 const buildSelect = document.getElementById("buildSelect");
+const saleStatus = document.getElementById("sale_status");
+const saleSelect = document.getElementById("saleSelect");
+const periode = document.getElementById("periode");
+const divKlien = document.getElementById("divKlien");
+const harga = document.getElementById("harga");
 const roadSegment = document.getElementById("road_segment");
 const inputJalan = document.getElementById("inputJalan");
 const maxDistance = document.getElementById("max_distance");
@@ -29,6 +34,7 @@ const house = document.getElementById("house");
 
 let lightingData = ['Frontlight', 'Backlight'];
 let property = ['Vista Media', 'Mitra'];
+let sale = ['Available', 'Sold'];
 let build = ['Terbangun', 'Pembangunan', 'Rencana'];
 let road = ['2 Lajur', '4 Lajur', '6 Lajur', '8 Lajur'];
 let distance = ['> 50 meter', '> 100 meter', '> 150 meter', '> 200 meter', '> 250 meter', '> 300 meter', '> 500 meter'];
@@ -289,6 +295,56 @@ if (buildStatus.value == '') {
     }
 }
 // Show Build Status --> end
+
+// Show Sale Status --> start
+saleSelect.addEventListener('change', function () {
+    saleStatus.value = saleSelect.value;
+    if (saleSelect.value == 'Sold') {
+        periode.removeAttribute('hidden');
+        divKlien.removeAttribute('hidden');
+        harga.removeAttribute('hidden');
+    } else {
+        periode.setAttribute('hidden', 'hidden');
+        divKlien.setAttribute('hidden', 'hidden');
+        harga.setAttribute('hidden', 'hidden');
+    }
+    // console.log(buildStatus.value);
+})
+
+const optionSale = [];
+if (saleStatus.value == '') {
+    optionSale[0] = document.createElement('option');
+    optionSale[0].appendChild(document.createTextNode(['Pilih Status']));
+    saleSelect.appendChild(optionSale[0]);
+    for (i = 0; i < sale.length; i++) {
+        optionSale[i + 1] = document.createElement('option');
+        optionSale[i + 1].appendChild(document.createTextNode(sale[i]));
+        saleSelect.appendChild(optionSale[i + 1]);
+    }
+} else {
+    optionSale[0] = document.createElement('option');
+    optionSale[0].appendChild(document.createTextNode(['Pilih Status']));
+    saleStatus.appendChild(optionSale[0]);
+    for (i = 0; i < sale.length; i++) {
+        optionSale[i + 1] = document.createElement('option');
+        optionSale[i + 1].appendChild(document.createTextNode(sale[i]));
+        if (saleStatus.value == sale[i]) {
+            optionSale[i + 1].setAttribute('selected', 'selected');
+        }
+        saleSelect.appendChild(optionSale[i + 1]);
+    }
+}
+console.log(saleSelect.value)
+if (saleSelect.value == 'Sold') {
+    periode.removeAttribute('hidden');
+    divKlien.removeAttribute('hidden');
+    harga.removeAttribute('hidden');
+} else {
+    periode.setAttribute('hidden', 'hidden');
+    divKlien.setAttribute('hidden', 'hidden');
+    harga.setAttribute('hidden', 'hidden');
+}
+// Show Sale Status --> end
 
 // Show Road Segment --> start
 roadSegment.addEventListener('change', function () {

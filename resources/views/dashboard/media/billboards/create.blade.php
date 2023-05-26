@@ -15,6 +15,19 @@
                 <div class="w-96">
                     <div class="flex mx-5 mt-1 w-96">
                         <div class="mt-1">
+                            <label class="text-sm text-teal-700">Kode Lokasi</label>
+                            <input
+                                class="flex h-7 px-2 text-sm font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 @error('code') is-invalid @enderror"
+                                type="text" id="code" name="code" value="{{ old('code') }}" autofocus required>
+                        </div>
+                        @error('code')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="flex mx-5 mt-1 w-96">
+                        <div class="mt-1">
                             <label class="text-sm text-teal-700">Area</label>
                             <select id="area_id" name="area_id"
                                 class="flex px-2 w-48 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
@@ -65,7 +78,7 @@
                             <label class="text-sm text-teal-700">Lokasi</label>
                             <textarea
                                 class="flex px-2 text-sm font-semibold text-teal-900 w-64 border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                name="address" id="address" required placeholder="Lokasi Billboard">{{ old('address') }}</textarea>
+                                name="address" id="address" placeholder="Lokasi Billboard">{{ old('address') }}</textarea>
                             @error('address')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -127,8 +140,6 @@
                     <div class="flex mx-5 mt-1 w-96">
                         <div class="mt-1">
                             <label class="text-sm text-teal-700">Ukuran</label>
-                            {{-- <input type="text" id="size_id" name="size_id" value="{{ old('size_id') }}" hidden>
-                            <input type="text" id="inputSize" name="inputSize" value="{{ old('inputSize') }}" hidden> --}}
                             <select id="size_id" name="size_id"
                                 class="flex px-2 w-64 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
                                 type="text" value="{{ old('size_id') }}">
@@ -172,7 +183,7 @@
                 <!-- Create New Billboard end -->
             </div>
         </div>
-        <div class="flex mt-12 absolute mx-[300px] justify-start h-screen w-[300px]">
+        <div class="flex mt-12 absolute mx-[275px] justify-start h-screen w-[300px]">
             <div class="mt-0 w-full ml-0">
                 <div class="w-96">
                     <div class="flex mx-5 mt-1">
@@ -201,6 +212,78 @@
                                 type="text">
                             </select>
                             @error('buildSelect')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="flex mx-5 mt-1 w-96">
+                        <div class="mt-1">
+                            <label class="text-sm text-teal-700">Status</label>
+                            <input type="text" id="sale_status" name="sale_status" value="{{ old('sale_status') }}"
+                                hidden>
+                            <select id="saleSelect" name="saleSelect"
+                                class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('saleSelect') is-invalid @enderror"
+                                type="text">
+                            </select>
+                            @error('saleSelect')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="flex mx-5 mt-1 w-96">
+                        <div id="divKlien" name="divKlien" class="mt-1" hidden>
+                            <label id="lblClient" name="lblClient" class="text-sm text-teal-700">Nama
+                                Klien</label>
+                            <input
+                                class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('client') is-invalid @enderror"
+                                type="text" id="client" name="client" value="{{ old('client') }}"
+                                placeholder="Nama Klien">
+                            @error('client')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="flex mx-5 mt-1 w-96">
+                        <div id="harga" name="harga" class="mt-1" hidden>
+                            <label id="lblClient" name="lblClient" class="text-sm text-teal-700">Harga</label>
+                            <input
+                                class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                type="number" id="price" name="price" value="{{ old('price') }}"
+                                placeholder="Harga">
+                            @error('price')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="flex mx-5 mt-1">
+                        <div id="periode" name="periode" class="mt-1" hidden>
+                            <label id="lblPeriode" name="lblPeriode" class="text-sm text-teal-700">Periode
+                                Kontrak</label>
+                            <div class="flex">
+                                <input
+                                    class="px-2 w-32 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('start_contract') is-invalid @enderror"
+                                    type="date" id="start_contract" name="start_contract"
+                                    value="{{ old('start_contract') }}">
+                                <label id="lblTo" name="lblTo" class="p-1 text-sm text-teal-700">s.d.</label>
+                                <input
+                                    class="px-2 w-32 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('end_contract') is-invalid @enderror"
+                                    type="date" id="end_contract" name="end_contract"
+                                    value="{{ old('end_contract') }}">
+                            </div>
+                            @error('start_contract')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            @error('end_contract')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -300,7 +383,7 @@
                                 <input class="ml-2" type="checkbox" id="market" name="market"
                                     value="Pasar"><label class="ml-2 text-sm text-teal-700 flex w-24">Pasar</label>
                             </div>
-                            <div class="flex w-56">
+                            <div class="flex w-56 mb-10">
                                 <input type="checkbox" id="house" name="house" value="Perumahan"><label
                                     class="ml-2 text-sm text-teal-700 flex w-24">Perumahan</label>
                             </div>

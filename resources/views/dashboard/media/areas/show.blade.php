@@ -24,6 +24,7 @@
             </div>
             <div class="flex mx-5 mt-3">
                 <span class="w-32">Nama Area</span>
+                <input type="text" id="area" name="area" hidden value="{{ $area->id }}">
                 <label class="flex items-center w-[298px] h-8 rounded-lg bg-gray-50 px-2 text-teal-900"
                     for="area">{{ $area->area }}</label>
             </div>

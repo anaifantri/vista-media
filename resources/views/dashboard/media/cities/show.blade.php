@@ -18,6 +18,7 @@
             </div>
             <div class="flex mx-5 mt-3">
                 <span class="w-36">Nama Kota</span>
+                <input type="text" id="city" name="city" hidden value="{{ $city->id }}">
                 <label class="flex items-center w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="city">
                     {{ $city->city }}</label>
             </div>
