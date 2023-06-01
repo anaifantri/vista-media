@@ -19,7 +19,7 @@ class AreaController extends Controller
         $users = User::with('areas')->get();
         return response()-> view ('dashboard.media.areas.index', [
             'areas'=>Area::all(),
-            'title' => 'Area',
+            'title' => 'Daftar Area',
             compact('areas', 'users')
         ]);
     }

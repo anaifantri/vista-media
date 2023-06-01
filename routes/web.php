@@ -49,6 +49,7 @@ Route::resource('/dashboard/media/product-categories', ProductCategoryController
 Route::resource('/dashboard/media/leds', LedController::class)->middleware('auth');
 Route::resource('/dashboard/media/vendors', VendorController::class)->middleware('auth');
 Route::resource('/dashboard/media/vendor-categories', VendorCategoryController::class)->middleware('auth');
+Route::get('/dashboard/media/billboards/preview', [ProductController::class,'preview'])->middleware('auth');
 Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware('auth');
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware('auth');
 Route::get('/showCity', [CityController::class,'showCity'])->middleware('auth');
@@ -57,4 +58,10 @@ Route::get('/test', [BillboardController::class,'test'])->middleware('auth');
 
 Route::get('/dashboard/media', function () {
     return view('dashboard.media.index');   
-});
+})->middleware('auth');
+
+Route::get('/dashboard/notifications', function () {
+    return view('dashboard.users.notifications.index',[
+        'title' => 'Daftar Signage'
+    ]);   
+})->middleware('auth');

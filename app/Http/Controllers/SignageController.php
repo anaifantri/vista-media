@@ -18,16 +18,16 @@ class SignageController extends Controller
      */
     public function index(): Response
     {
-        $products = Product::with('area')->get();
-        $areas = Area::with('products')->get();
-        $cities = City::with('products')->get();
-        $product_categories = ProductCategory::with('products')->get();
-        $sizes = Size::with('products')->get();
+        // $products = Product::with('area')->get();
+        // $areas = Area::with('products')->get();
+        // $cities = City::with('products')->get();
+        // $product_categories = ProductCategory::with('products')->get();
+        // $sizes = Size::with('products')->get();
 
         return response()-> view ('dashboard.media.signages.index', [
-            'products'=>Product::all(),
-            'title' => 'Daftar Billboard',
-            compact('products', 'areas', 'cities', 'product_categories', 'sizes')
+            // 'products'=>Product::all(),
+            'title' => 'Daftar Signage'
+            // compact('products', 'areas', 'cities', 'product_categories', 'sizes')
         ]);
     }
 

@@ -146,7 +146,7 @@ class BillboardController extends Controller
             'code' => 'required|unique:products',
             'area_id' => 'required',
             'city_id' => 'required',
-            // 'size_id' => 'required',
+            'size_id' => 'required'
             // 'lighting' => 'required',
             // 'address' => 'required|max:255',
             // 'photo' => 'required|image|file|max:1024',
@@ -176,9 +176,8 @@ class BillboardController extends Controller
         $validateData['lat'] = $request->input('lat');
         $validateData['lng'] = $request->input('lng');
         $validateData['sector'] = $request->input('sector');
-        $validateData['size_id'] = $request->input('size_id');
         $validateData['property_status'] = $request->input('property_status');
-        $validateData['road_segmen'] = $request->input('road_segmen');
+        $validateData['road_segment'] = $request->input('road_segment');
         $validateData['client'] = $request->input('client');
         $validateData['price'] = $request->input('price');
         $validateData['start_contract'] = $request->input('start_contract');
@@ -247,7 +246,16 @@ class BillboardController extends Controller
      */
     public function show(Product $product): Response
     {
-        dd($product->id);
+        $products = Product::with('area');
+        $areas = Area::with('products')->get();
+        $cities = City::with('products')->get();
+        $sizes = Size::with('products')->get();
+
+        return response()->view('dashboard.media.billboards.show', [
+            'product' => $product,
+            'title' => 'Detail Billboard',
+            compact('product', 'areas', 'cities', 'sizes')
+        ]);
     }
 
     /**

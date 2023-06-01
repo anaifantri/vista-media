@@ -1,15 +1,16 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Create New Billboard start -->
-    <!-- Title Create New Billboard start -->
     <div class="flex justify-center mt-10">
+        <!-- Edit Billboard start -->
+        <!-- Title Edit Billboard start -->
         <div class="flex w-96 -ml-[660px] absolute border-b p-2">
-            <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN BILLBOARD</h1>
+            <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider"> EIDT DATA BILLBOARD</h1>
         </div>
-        <!-- Title Create New Billboard end -->
-        <!-- Form Create New Billboard start -->
-        <form action="/dashboard/media/billboards" method="post" enctype="multipart/form-data">
+        <!-- Title Edit Billboard end -->
+        <!-- Form Edit Billboard start -->
+        <form action="/dashboard/media/products/{{ $product->id }}" method="post" enctype="multipart/form-data">
+            @method('put')
             @csrf
             <div class="flex mt-12 absolute justify-start h-screen w-[300px] items-start">
                 <div class="mt-0 w-full ml-0">
@@ -19,24 +20,23 @@
                                 <label class="text-sm text-teal-700">Kode Lokasi</label>
                                 <input
                                     class="flex h-7 px-2 text-sm font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 @error('code') is-invalid @enderror"
-                                    type="text" id="code" name="code" value="{{ old('code') }}" autofocus
+                                    type="text" id="code" name="code" value="{{ $product->code }}" autofocus
                                     required>
+                                @error('code')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                            @error('code')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                         <div class="flex mx-5 mt-1 w-96">
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Area</label>
                                 <select id="area_id" name="area_id"
                                     class="flex px-2 w-48 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
-                                    type="text" value="{{ old('area_id') }}">
-                                    <option value="Pilih Area">Pilih Area</option>
+                                    type="text" value="{{ $product->area_id }}">
                                     @foreach ($areas as $area)
-                                        @if (old('area_id') == $area->id)
+                                        @if ($product->area_id == $area->id)
                                             <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
                                         @else
                                             <option value="{{ $area->id }}">{{ $area->area }}</option>
@@ -53,21 +53,14 @@
                         <div class="flex mx-5 mt-1 w-96">
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Kota</label>
-                                <input type="text" id="city_id" name="city_id" value="{{ old('city_id') }}" hidden>
-                                <input type="text" id="cityCode" name="cityCode" value="{{ old('cityCode') }}" hidden>
-                                <input type="text" id="inputCity" name="inputCity" value="{{ old('inputCity') }}"
+                                <input type="text" id="city_id" name="city_id" value="{{ $product->city_id }}" hidden>
+                                <input type="text" id="cityCode" name="cityCode" value="{{ $product->city->code }}"
+                                    hidden>
+                                <input type="text" id="inputCity" name="inputCity" value="{{ $product->city->city }}"
                                     hidden>
                                 <select id="city" name="city"
                                     class="flex px-2 w-48 h-7 text-sm font-semibold border text-teal-900 rounded-lg p-1 outline-none @error('city') is-invalid @enderror"
                                     type="text">
-                                    {{-- <option value="Pilih Area">Pilih Area</option>
-                                @foreach ($areas as $area)
-                                    @if (old('area_id') == $area->area)
-                                        <option value="{{ $area->area }}" selected>{{ $area->area }}</option>
-                                    @else
-                                        <option value="{{ $area->area }}">{{ $area->area }}</option>
-                                    @endif
-                                @endforeach --}}
                                 </select>
                                 @error('city')
                                     <div class="invalid-feedback">
@@ -81,7 +74,7 @@
                                 <label class="text-sm text-teal-700">Lokasi</label>
                                 <textarea
                                     class="flex px-2 text-sm font-semibold text-teal-900 w-64 border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                    name="address" id="address" placeholder="Lokasi Billboard">{{ old('address') }}</textarea>
+                                    name="address" id="address" placeholder="Lokasi Billboard">{{ $product->address }}</textarea>
                                 @error('address')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -95,7 +88,7 @@
                                 <input
                                     class="flex h-7 px-2 text-sm font-semibold text-slate-500 w-64 border rounded-lg p-1 outline-teal-300 @error('lat') is-invalid @enderror"
                                     type="text" id="lat" name="lat" placeholder="Latitude"
-                                    value="{{ old('lat') }}" required readonly title="Latitude select from map">
+                                    value="{{ $product->lat }}" required readonly title="Latitude select from map">
                                 @error('lat')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -109,7 +102,7 @@
                                 <input
                                     class="flex h-7 px-2 text-sm font-semibold text-slate-500 w-64 border rounded-lg p-1 outline-teal-300 @error('lng') is-invalid @enderror"
                                     type="text" id="lng" name="lng" placeholder="Longitude"
-                                    value="{{ old('lng') }}" required readonly title="Longitude select from map">
+                                    value="{{ $product->lng }}" required readonly title="Longitude select from map">
                                 @error('lat')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -123,16 +116,11 @@
                             </div>
                             <div class="flex mt-1">
                                 <input type="text" id="inputLighting" name="inputLighting"
-                                    value="{{ old('inputLighting') }}" hidden>
+                                    value="{{ $product->lighting }}" hidden>
                                 <select id="lighting" name="lighting"
                                     class="px-2 w-64 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('lighting') is-invalid @enderror"
-                                    type="text" value="{{ old('lighting') }}">
+                                    type="text" value="{{ $product->lighting }}">
                                 </select>
-                                @error('product_category_id')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                                 @error('lighting')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -145,10 +133,10 @@
                                 <label class="text-sm text-teal-700">Ukuran</label>
                                 <select id="size_id" name="size_id"
                                     class="flex px-2 w-64 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
-                                    type="text" value="{{ old('size_id') }}">
+                                    type="text" value="{{ $product->size_id }}">
                                     <option value="Pilih Ukuran">Pilih Ukuran</option>
                                     @foreach ($sizes as $size)
-                                        @if (old('size_id') == $size->id)
+                                        @if ($product->size_id == $size->id)
                                             <option value="{{ $size->id }}" selected>
                                                 {{ $size->size . ' - ' . $size->side . ' - ' . $size->orientation }}
                                             </option>
@@ -166,14 +154,14 @@
                         </div>
                     </div>
                     <div class="flex absolute mx-5 mt-5">
-                        <button id="btnSave" name="btnSave" class="flex justify-center items-center mx-2 btn-primary"
+                        <button id="btnUpdate" name="btnUpdate" class="flex justify-center items-center mx-2 btn-primary"
                             type="submit">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path
                                     d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                             </svg>
-                            <span class="mx-1">Save</span>
+                            <span class="mx-1">Update</span>
                         </button>
                         <a class="flex justify-center items-center mx-2 btn-danger" href="/dashboard/media/billboards">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -184,7 +172,6 @@
                             <span class="mx-1">Cancel</span>
                         </a>
                     </div>
-                    <!-- Create New Billboard end -->
                 </div>
             </div>
             <div class="flex mt-12 absolute mx-[275px] justify-start h-screen w-[300px]">
@@ -194,10 +181,10 @@
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Kepemilikan</label>
                                 <input type="text" id="inputPemilik" name="inputPemilik"
-                                    value="{{ old('inputPemilik') }}" hidden>
+                                    value="{{ $product->property_status }}" hidden>
                                 <select id="property_status" name="property_status"
                                     class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('property_status') is-invalid @enderror"
-                                    type="text" value="{{ old('property_status') }}">
+                                    type="text" value="{{ $product->property_status }}">
                                 </select>
                                 @error('property_status')
                                     <div class="invalid-feedback">
@@ -210,7 +197,7 @@
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Kondisi</label>
                                 <input type="text" id="build_status" name="build_status"
-                                    value="{{ old('build_status') }}" hidden>
+                                    value="{{ $product->build_status }}" hidden>
                                 <select id="buildSelect" name="buildSelect"
                                     class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('buildSelect') is-invalid @enderror"
                                     type="text">
@@ -226,7 +213,7 @@
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Status</label>
                                 <input type="text" id="sale_status" name="sale_status"
-                                    value="{{ old('sale_status') }}" hidden>
+                                    value="{{ $product->sale_status }}" hidden>
                                 <select id="saleSelect" name="saleSelect"
                                     class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('saleSelect') is-invalid @enderror"
                                     type="text">
@@ -244,7 +231,7 @@
                                     Klien</label>
                                 <input
                                     class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('client') is-invalid @enderror"
-                                    type="text" id="client" name="client" value="{{ old('client') }}"
+                                    type="text" id="client" name="client" value="{{ $product->client }}"
                                     placeholder="Nama Klien">
                                 @error('client')
                                     <div class="invalid-feedback">
@@ -258,7 +245,7 @@
                                 <label id="lblClient" name="lblClient" class="text-sm text-teal-700">Harga</label>
                                 <input
                                     class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
-                                    type="number" id="price" name="price" value="{{ old('price') }}"
+                                    type="number" id="price" name="price" value="{{ $product->price }}"
                                     placeholder="Harga">
                                 @error('price')
                                     <div class="invalid-feedback">
@@ -275,12 +262,12 @@
                                     <input
                                         class="px-2 w-32 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('start_contract') is-invalid @enderror"
                                         type="date" id="start_contract" name="start_contract"
-                                        value="{{ old('start_contract') }}">
+                                        value="{{ $product->start_contract }}">
                                     <label id="lblTo" name="lblTo" class="p-1 text-sm text-teal-700">s.d.</label>
                                     <input
                                         class="px-2 w-32 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('end_contract') is-invalid @enderror"
                                         type="date" id="end_contract" name="end_contract"
-                                        value="{{ old('end_contract') }}">
+                                        value="{{ $product->end_contract }}">
                                 </div>
                                 @error('start_contract')
                                     <div class="invalid-feedback">
@@ -297,11 +284,11 @@
                         <div class="flex mx-5 mt-1 w-96">
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Type Jalan</label>
-                                <input type="text" id="inputJalan" name="inputJalan" value="{{ old('inputJalan') }}"
-                                    hidden>
+                                <input type="text" id="inputJalan" name="inputJalan"
+                                    value="{{ $product->road_segment }}" hidden>
                                 <select id="road_segment" name="road_segment"
                                     class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('road_segment') is-invalid @enderror"
-                                    type="text">
+                                    type="text" value="{{ $product->road_segment }}">
                                 </select>
                                 @error('road_segment')
                                     <div class="invalid-feedback">
@@ -313,11 +300,11 @@
                         <div class="flex mx-5 mt-1 w-96">
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Jarak Pandang Maksimal</label>
-                                <input type="text" id="inputJarak" name="inputJarak" value="{{ old('inputJarak') }}"
-                                    hidden>
+                                <input type="text" id="inputJarak" name="inputJarak"
+                                    value="{{ $product->max_distance }}" hidden>
                                 <select id="max_distance" name="max_distance"
                                     class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('max_distance') is-invalid @enderror"
-                                    type="text">
+                                    type="text" value="{{ $product->max_distance }}">
                                 </select>
                                 @error('max_distance')
                                     <div class="invalid-feedback">
@@ -330,10 +317,10 @@
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Kecepatan Kendaraan Rata-Rata</label>
                                 <input type="text" id="inputKecepatan" name="inputKecepatan"
-                                    value="{{ old('inputKecepatan') }}" hidden>
+                                    value="{{ $product->speed_average }}" hidden>
                                 <select id="speed_average" name="speed_average"
                                     class="flex px-2 w-56 h-7 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('speed_average') is-invalid @enderror"
-                                    type="text">
+                                    type="text" value="{{ $product->speed_average }}">
                                 </select>
                                 @error('speed_average')
                                     <div class="invalid-feedback">
@@ -345,7 +332,7 @@
                         <div class="flex mx-5 mt-1 w-96">
                             <div class="mt-1">
                                 <input class="@error('sector') is-invalid @enderror" type="text" id="sector"
-                                    name="sector" value="{{ old('sector') }}" hidden>
+                                    name="sector" value="{{ $product->sector }}" hidden>
                                 <label class="text-sm text-teal-700 border-b w-56 flex p-1">Kawasan</label>
                                 @error('sector')
                                     <div class="invalid-feedback">
@@ -394,7 +381,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Create New Billboard end -->
+                    <!-- Edit Billboard end -->
                 </div>
             </div>
             <div class="flex ml-[580px]">
@@ -412,7 +399,13 @@
                         </div>
                     @enderror
                     <div class="photo-product border mt-1">
-                        <img class="img-preview photo-product" src="/img/product-image.png" alt="">
+                        <input type="hidden" id="oldPhoto" name="oldPhoto" value="{{ $product->photo }}">
+                        @if ($product->photo)
+                            <img class="img-preview photo-product" src="{{ asset('storage/' . $product->photo) }}">
+                        @else
+                            <img class="img-preview photo-product" src="/img/product-image.png" alt="">
+                        @endif
+
                     </div>
                     <!-- Photo Billboard end -->
                     <!-- Maps Billboard start -->
@@ -423,14 +416,16 @@
                     </div>
                     <!-- Maps Billboard end -->
                 </div>
+
+
             </div>
         </form>
     </div>
-    <!-- Form Create New Billboard end -->
+    <!-- Form Edit Billboard end -->
     <!-- Script Billboard start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
         defer></script>
 
-    <script src="/js/createproduct.js"></script>
+    <script src="/js/editproduct.js"></script>
     <!-- Script Billboard end -->
 @endsection

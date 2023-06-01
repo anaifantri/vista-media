@@ -15,17 +15,17 @@
     @include('dashboard.layouts.header');
     <!-- Header end-->
     <!-- Main start-->
-    <div class="w-full">
-        <div class="flex relative mt-6">
-            <!-- Sidebar start-->
-            @include('dashboard.layouts.sidebar')
-            <!-- Sidebar End-->
-            <!-- Main Section start -->
-            <div class="flex p-2 w-full z-0 relative border-l">
-                @yield('container')
-            </div>
-            <!-- Main Section end -->
-        </div>
+    <div class="w-full top-0">
+        {{-- <div class="flex relative"> --}}
+        <!-- Sidebar start-->
+        {{-- @include('dashboard.layouts.sidebar') --}}
+        <!-- Sidebar End-->
+        <!-- Main Section start -->
+        {{-- <div class="flex w-full relative justify-center items-start"> --}}
+        @yield('container')
+        {{-- </div> --}}
+        <!-- Main Section end -->
+        {{-- </div> --}}
     </div>
     <!-- Main end-->
     <!-- Footer start-->

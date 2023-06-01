@@ -42,6 +42,9 @@ class User extends Authenticatable
     public function cities(){
         return $this->hasMany(City::class, 'user_id', 'id');
     }
+    public function products(){
+        return $this->hasMany(City::class, 'user_id', 'id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
