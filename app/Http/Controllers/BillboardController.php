@@ -26,16 +26,16 @@ class BillboardController extends Controller
                 $dataCity = 'All';
             }
             if (request('area') != 'All') {
-                $products->where('area_id', 'like', '%' . request('area') . '%' );
+                $products->where('area_id', 'like', '%' . request('area') . '%');
             }
             if ($dataCity != 'All') {
-                $products->where('city_id', 'like', '%' . $dataCity . '%' );
+                $products->where('city_id', 'like', '%' . $dataCity . '%');
             }
             if (request('build') != 'All') {
-                $products->where('build_status', 'like', '%' . request('build') . '%' );
+                $products->where('build_status', 'like', '%' . request('build') . '%');
             }
             if (request('sale') != 'All') {
-                $products->where('sale_status', 'like', '%' . request('sale') . '%' );
+                $products->where('sale_status', 'like', '%' . request('sale') . '%');
             }
 
             $areas = Area::with('products')->get();
@@ -52,26 +52,6 @@ class BillboardController extends Controller
             ]);
     }
 
-    public function test()
-    {
-        dd(request('property'));
-        if ($request->area == 'All') {
-            $request->area = '';
-        }
-        if ($request->city == 'All') {
-            $request->city = '';
-        }
-        if ($request->property == 'All') {
-            $request->property = '';
-        }
-        if ($request->build == 'All') {
-            $request->build = '';
-        }
-
-        if ($request) {
-            dd($request->area, $request->city, $request->property,$request->build);   
-        }
-    }
 
     /**
      * Show the form for creating a new resource.

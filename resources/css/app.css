@@ -120,7 +120,7 @@
     @apply flex mt-20 p-2;
 }
 .index-tr {
-    @apply w-full flex relative items-center text-sm text-cyan-800 border-b m-auto h-10;
+    @apply w-full flex relative text-sm text-cyan-800 border-b m-auto;
 }
 .index-td {
     @apply flex justify-center items-center;

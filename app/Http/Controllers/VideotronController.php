@@ -7,6 +7,8 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\ProductCategory;
 use App\Models\Size;
+use App\Models\Led;
+use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,16 +20,38 @@ class VideotronController extends Controller
      */
     public function index(): Response
     {
-        // $products = Product::with('area')->get();
-        // $areas = Area::with('products')->get();
-        // $cities = City::with('products')->get();
-        // $product_categories = ProductCategory::with('products')->get();
-        // $sizes = Size::with('products')->get();
+        $products = Product::with('area');
+
+            $dataCity = request('requestCity');
+
+            if (request('area') != request('requestArea')) {
+                $dataCity = 'All';
+            }
+            if (request('area') != 'All') {
+                $products->where('area_id', 'like', '%' . request('area') . '%');
+            }
+            if ($dataCity != 'All') {
+                $products->where('city_id', 'like', '%' . $dataCity . '%');
+            }
+            if (request('build') != 'All') {
+                $products->where('build_status', 'like', '%' . request('build') . '%');
+            }
+            if (request('sale') != 'All') {
+                $products->where('sale_status', 'like', '%' . request('sale') . '%');
+            }
+
+        $areas = Area::with('products')->get();
+        $cities = City::with('products')->get();
+        $sizes = Size::with('products')->get();
+        $leds = Led::with('products')->get();
+        $vendors = Vendor::with('products')->get();
 
         return response()-> view ('dashboard.media.videotrons.index', [
-            // 'products'=>Product::all(),
-            'title' => 'Daftar Videotron'
-            // compact('products', 'areas', 'cities', 'product_categories', 'sizes')
+            'products'=>$products->get(),
+            'areas'=>Area::all(),
+            'cities'=>City::all(),
+            'title' => 'Daftar Videotron',
+            compact('areas', 'cities', 'sizes', 'vendors', 'leds')
         ]);
     }
 
@@ -36,7 +60,14 @@ class VideotronController extends Controller
      */
     public function create(): Response
     {
-        //
+        return response()-> view ('dashboard.media.videotrons.create', [
+            'areas'=>Area::all(),
+            'cities'=>City::all(),
+            'sizes'=>Size::all(),
+            'leds'=>LED::all(),
+            'vendors'=>Vendor::all(),
+            'title' => 'Menambahkan Videotron'
+        ]);
     }
 
     /**

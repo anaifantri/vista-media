@@ -26,19 +26,18 @@ class User extends Authenticatable
     public function leds(){
         return $this->hasMany(Led::class, 'user_id', 'id');
     }
-
     public function vendors(){
         return $this->hasMany(Vendor::class, 'user_id', 'id');
     }
-
+    public function vendor_contacts(){
+        return $this->hasMany(VendorContact::class, 'user_id', 'id');
+    }
     public function vendor_categories(){
         return $this->hasMany(VendorCategory::class, 'user_id', 'id');
     }
-
     public function areas(){
         return $this->hasMany(Area::class, 'user_id', 'id');
     }
-
     public function cities(){
         return $this->hasMany(City::class, 'user_id', 'id');
     }

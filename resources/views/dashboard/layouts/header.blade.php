@@ -3,7 +3,7 @@
         <!-- Logo & Tittle Start-->
         <div class="flex items-center relative justify-between">
             <div class="flex items-center px-4 max-w-[250px] w-full">
-                <a href="#" class="flex font-bold text-lg py-3">
+                <a href="/dashboard" class="flex font-bold text-lg py-3">
                     <div
                         class="flex mx-2 items-center w-[30px] h-[30px] rounded-full bg-white border border-slate-200 drop-shadow-xl shadow-inner">
                         <img class="w-[26px] h-[26px] flex m-auto" src="/img/logo-vista-media.png" alt="">
@@ -65,7 +65,8 @@
                     </ul>
                     <ul id="setting" name="setting" class="flex w-24 ml-4 h-6">
                         <div class="flex group">
-                            <a class="right-nav text-white" href="#">
+                            <a class="right-nav text-white {{ Request::is('dashboard/media/area*') ? 'active' : '' }} {{ Request::is('dashboard/media/cities*') ? 'active' : '' }} {{ Request::is('dashboard/media/sizes*') ? 'active' : '' }} {{ Request::is('dashboard/users/users*') ? 'active' : '' }}"
+                                href="#">
                                 <Span class="flex ml-2">Pengaturan</Span>
                                 <svg name="settingArrow" id="settingArrow"
                                     class="ml-1 fill-current transition duration-300 ease-in-out" role="img"
@@ -207,7 +208,7 @@
                                 </a>
                             </li>
                             <li class="group">
-                                <a class="mt-2 nav-a" href="/dashboard/notifications">
+                                <a class="mt-2 nav-a" href="/dashboard/users/notifications">
                                     <svg class="fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
                                         width="16" height="24" viewBox="0 0 24 24">
                                         <title>Notifikasi</title>

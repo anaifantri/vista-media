@@ -45,23 +45,24 @@ Route::resource('/dashboard/media/billboards', BillboardController::class)->midd
 Route::resource('/dashboard/media/videotrons', VideotronController::class)->middleware('auth');
 Route::resource('/dashboard/media/signages', SignageController::class)->middleware('auth');
 Route::resource('/dashboard/media/sizes', SizeController::class)->middleware('auth');
-Route::resource('/dashboard/media/product-categories', ProductCategoryController::class)->middleware('auth');
 Route::resource('/dashboard/media/leds', LedController::class)->middleware('auth');
 Route::resource('/dashboard/media/vendors', VendorController::class)->middleware('auth');
 Route::resource('/dashboard/media/vendor-categories', VendorCategoryController::class)->middleware('auth');
-Route::get('/dashboard/media/billboards/preview', [ProductController::class,'preview'])->middleware('auth');
 Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware('auth');
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware('auth');
 Route::get('/showCity', [CityController::class,'showCity'])->middleware('auth');
 Route::get('/showSize', [SizeController::class,'showSize'])->middleware('auth');
 Route::get('/test', [BillboardController::class,'test'])->middleware('auth');
 
-Route::get('/dashboard/media', function () {
-    return view('dashboard.media.index');   
-})->middleware('auth');
 
-Route::get('/dashboard/notifications', function () {
+Route::get('/', function () {
+    return view('index',[
+        'title' => 'Welcome'
+    ]);   
+});
+
+Route::get('/dashboard/users/notifications', function () {
     return view('dashboard.users.notifications.index',[
-        'title' => 'Daftar Signage'
+        'title' => 'Notifications'
     ]);   
 })->middleware('auth');

@@ -1,15 +1,15 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite",
+        "dev": "npx tailwindcss -i ./resources/css/app.css -o ./public/css/style.css --watch",
         "build": "vite build"
     },
     "devDependencies": {
-        "autoprefixer": "^10.4.13",
+        "autoprefixer": "^10.4.14",
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.7.2",
-        "postcss": "^8.4.21",
-        "tailwindcss": "^3.2.7",
+        "postcss": "^8.4.24",
+        "tailwindcss": "^3.3.2",
         "vite": "^4.0.0"
     }
 }
