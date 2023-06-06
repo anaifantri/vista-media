@@ -18,7 +18,7 @@ class BillboardController extends Controller
      */
     public function index(): Response
     {
-            $products = Product::with('area');
+            $products = Product::with(['area', 'city', 'size', 'user']);
 
             $dataCity = request('requestCity');
 
@@ -38,17 +38,17 @@ class BillboardController extends Controller
                 $products->where('sale_status', 'like', '%' . request('sale') . '%');
             }
 
-            $areas = Area::with('products')->get();
-            $cities = City::with('products')->get();
-            $sizes = Size::with('products')->get();
+            // $areas = Area::with('products')->get();
+            // $cities = City::with('products')->get();
+            // $sizes = Size::with('products')->get();
 
         // dd($request->area, $request->city, $request->property,$request->build);
             return response()-> view ('dashboard.media.billboards.index', [
                 'products'=>$products->get(),
                 'areas'=>Area::all(),
-                'cities'=>City::all(),
-                'title' => 'Daftar Billboard',
-                compact('areas', 'cities', 'sizes')
+                // 'cities'=>City::all(),
+                'title' => 'Daftar Billboard'
+                // compact('areas', 'cities', 'sizes')
             ]);
     }
 

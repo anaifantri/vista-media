@@ -15,12 +15,12 @@ class SizeController extends Controller
      */
     public function index(): Response
     {
-        $users = User::with('sizes')->get();
-        $sizes = Size::with('user')->get();
+        // $users = User::with('sizes')->get();
+        // $sizes = Size::with('user')->get();
         return response()-> view ('dashboard.media.sizes.index', [
-            'sizes'=>Size::all(),
-            'title' => 'Daftar Ukuran',
-            compact('sizes', 'users')
+            'sizes'=>Size::with(['user'])->get(),
+            'title' => 'Daftar Ukuran'
+            // compact('sizes', 'users')
         ]);
     }
 

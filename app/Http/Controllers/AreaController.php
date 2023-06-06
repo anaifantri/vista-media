@@ -15,12 +15,12 @@ class AreaController extends Controller
      */
     public function index(): Response
     {
-        $areas = Area::with('user')->with('cities')->get();
-        $users = User::with('areas')->get();
+        // $areas = Area::with('user')->with('cities')->get();
+        // $users = User::with('areas')->get();
         return response()-> view ('dashboard.media.areas.index', [
-            'areas'=>Area::all(),
-            'title' => 'Daftar Area',
-            compact('areas', 'users')
+            'areas'=>Area::with(['user'])->get(),
+            'title' => 'Daftar Area'
+            // compact('areas', 'users')
         ]);
     }
 

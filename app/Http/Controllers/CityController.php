@@ -16,14 +16,14 @@ class CityController extends Controller
      */
     public function index(): Response
     {
-        $cities = City::with('area')->with('user')->get();
-        $areas = Area::with('cities')->get();
-        $users = User::with('cities')->get();
+        // $cities = City::with('area')->with('user')->get();
+        // $areas = Area::with('cities')->get();
+        // $users = User::with('cities')->get();
         
         return response()-> view ('dashboard.media.cities.index',[
-            'cities'=>City::all(),
-            'title' => 'Daftar Kota',
-            compact('cities','areas', 'users')
+            'cities'=>City::with(['user', 'area'])->get(),
+            'title' => 'Daftar Kota'
+            // compact('cities','areas', 'users')
         ]);
     }
 
