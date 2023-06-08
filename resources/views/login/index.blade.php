@@ -70,7 +70,7 @@
                     <!-- Button login start-->
                     <div class="flex items-center justify-center">
                         <button
-                            class="m-auto text-white font-semibold sm:text-lg tracking-widest bg-cyan-500 sm:w-[230px] mt-5 sm:h-10 sm:mt-8 p-1 position-relative rounded-3xl drop-shadow-xl hover:bg-cyan-600 cursor-pointer"
+                            class="w-full m-auto text-white font-semibold sm:text-lg tracking-widest bg-cyan-500 sm:w-[230px] mt-5 sm:h-10 sm:mt-8 p-1 position-relative rounded-3xl drop-shadow-xl hover:bg-cyan-600 cursor-pointer"
                             type="submit">
                             Login
                         </button>

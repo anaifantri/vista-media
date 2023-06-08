@@ -416,7 +416,7 @@ speedAverage.addEventListener('change', function () {
 const optionSpeed = [];
 if (inputKecepatan.value === '') {
     optionSpeed[0] = document.createElement('option');
-    optionSpeed[0].appendChild(document.createTextNode(['Pilih Kecepatan Kendaraan']));
+    optionSpeed[0].appendChild(document.createTextNode(['Pilih Kec. Kendaraan']));
     speedAverage.appendChild(optionSpeed[0]);
     for (i = 0; i < speed.length; i++) {
         optionSpeed[i + 1] = document.createElement('option');

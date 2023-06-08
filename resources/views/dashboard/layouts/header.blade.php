@@ -2,7 +2,14 @@
     <div class="w-full bg-cyan-800">
         <!-- Logo & Tittle Start-->
         <div class="flex items-center relative justify-between">
-            <div class="flex items-center px-4 max-w-[250px] w-full">
+            <div class="flex ml-4">
+                <button class="md:hidden" id="hamburger" name="hamburger" type="button">
+                    <span class="origin-top-left hamburger-line transition duration-300 ease-in-out"></span>
+                    <span class="hamburger-line transition duration-300 ease-in-out"></span>
+                    <span class="origin-bottom-left hamburger-line transition duration-300 ease-in-out"></span>
+                </button>
+            </div>
+            <div class="flex items-center px-4 max-w-[200px] w-full">
                 <a href="/dashboard" class="flex font-bold text-lg py-3">
                     <div
                         class="flex mx-2 items-center w-[30px] h-[30px] rounded-full bg-white border border-slate-200 drop-shadow-xl shadow-inner">
@@ -15,12 +22,7 @@
             <!-- Logo & Tittle End-->
             <!-- Hamburger Menu Start-->
             <div class="flex justify-start items-center px-4 w-full">
-                {{-- <button id="hamburger" name="hamburger" type="button">
-                    <span class="origin-top-left hamburger-line transition duration-300 ease-in-out"></span>
-                    <span class="hamburger-line transition duration-300 ease-in-out"></span>
-                    <span class="origin-bottom-left hamburger-line transition duration-300 ease-in-out"></span>
-                </button> --}}
-                <nav class="flex w-full">
+                <nav class="lg:flex w-full hidden">
                     <ul class="flex justify-start group w-24 h-6">
                         <a class="right-nav text-white {{ Request::is('dashboard') ? 'active' : '' }}"
                             href="/dashboard">
@@ -203,8 +205,7 @@
                                         <path
                                             d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z" />
                                     </svg>
-                                    <span class="ml-1 sm:hidden"> P </span>
-                                    <span class="ml-1 hidden sm:flex"> My Profile</span>
+                                    <span class="ml-1"> My Profile</span>
                                 </a>
                             </li>
                             <li class="group">
@@ -215,8 +216,7 @@
                                         <path
                                             d="M12 .02c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.99 6.98l-6.99 5.666-6.991-5.666h13.981zm.01 10h-14v-8.505l7 5.673 7-5.672v8.504z" />
                                     </svg>
-                                    <span class="ml-1 sm:hidden"> N </span>
-                                    <span class="ml-1 hidden sm:flex"> Notifikasi</span>
+                                    <span class="ml-1"> Notifikasi</span>
                                 </a>
                             </li>
                         @endcanany
@@ -230,8 +230,7 @@
                                         <path
                                             d="M12 0C5.373 0 0 5.37 0 12s5.373 12 12 12c6.63 0 12-5.37 12-12S18.63 0 12 0zm-.84 4.67h1.68v8.36h-1.68V4.67zM12 18.155c-3.24-.002-5.865-2.63-5.864-5.868 0-2.64 1.767-4.956 4.314-5.655v1.71c-1.628.64-2.698 2.21-2.695 3.96 0 2.345 1.903 4.244 4.248 4.243 2.344-.002 4.244-1.903 4.243-4.248 0-1.745-1.07-3.312-2.694-3.95V6.63c2.55.7 4.314 3.018 4.314 5.66 0 3.24-2.626 5.864-5.865 5.864z" />
                                     </svg>
-                                    <span class="ml-1 sm:hidden"> L </span>
-                                    <span class="ml-1 hidden sm:flex"> Logout </span>
+                                    <span class="ml-1"> Logout </span>
                                 </button>
                             </form>
                         </li>

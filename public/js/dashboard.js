@@ -11,13 +11,13 @@ window.onscroll = function () {
 }
 
 // Hamburger menu
-// const hamburger = document.querySelector('#hamburger');
+const hamburger = document.querySelector('#hamburger');
 // const navMenu = document.querySelector('#nav-menu');
 
-// hamburger.addEventListener('click', function () {
-//     hamburger.classList.toggle('hamburger-active');
-//     navMenu.classList.toggle('nav-menu-show');
-// });
+hamburger.addEventListener('click', function () {
+    hamburger.classList.toggle('hamburger-active');
+    // navMenu.classList.toggle('nav-menu-show');
+});
 
 // Nav Right - Profile
 const profile = document.querySelector('#profile');

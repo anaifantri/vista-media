@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Size;
+use Kyslik\ColumnSortable\Sortable;
 
 class Product extends Model
 {
+    use Sortable;
+
     protected $guarded = ['id'];
 
     public function area(){
@@ -27,4 +30,10 @@ class Product extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public $sortable = ['code',
+                        'price',
+                        'start_contract',
+                        'end_contract'
+                        ];
 }

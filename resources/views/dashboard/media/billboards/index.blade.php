@@ -2,8 +2,8 @@
 
 @section('container')
     @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
-        <div class="index-container mt-8 z-0">
-            <div class="index-title">
+        <div class="mt-10 z-0">
+            <div class="flex p-1">
                 <h1 class="index-h1">Daftar Lokasi Billboard</h1>
                 @canany(['isAdmin', 'isMarketing'])
                     <div class="border-b">
@@ -19,75 +19,82 @@
                     </div>
                 @endcanany
             </div>
-            <div class="flex p-2 mt-8">
+            <div class="">
                 <form action="/dashboard/media/billboards/">
-                    <div class="w-40 flex absolute mt-4">
-                        <span class="w-32 flex absolute text-base text-teal-900">Area</span>
-                        <input type="text" id="requestArea" name="requestArea" value="{{ request('area') }}" hidden>
-                        <select class="w-40 border rounded-lg flex absolute text-base text-teal-900 outline-none" name="area"
-                            id="area" onchange="submit()" value="{{ request('area') }}">
-                            <option value="All">All</option>
-                            @foreach ($areas as $area)
-                                @if (request('area') == $area->id)
-                                    <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
-                                @else
-                                    <option value="{{ $area->id }}">{{ $area->area }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="w-40 flex absolute ml-44 mt-4">
-                        <span class="w-32 flex absolute text-base text-teal-900">Kota</span>
-                        <input type="text" id="city" name="city" value="{{ request('requestCity') }}" hidden>
-                        <select class="w-40 border rounded-lg flex absolute text-base text-teal-900 outline-none"
-                            name="requestCity" id="requestCity" onchange="submit()">
-                            <option value="All">All</option>
-                        </select>
-                    </div>
-                    <div class="w-40 flex absolute ml-[352px] mt-4">
-                        <span class="w-32 flex absolute text-base text-teal-900">Kondisi</span>
-                        <select class="w-40 border rounded-lg flex absolute text-base text-teal-900 outline-none" name="build"
-                            id="build" onchange="submit()">
-                            <?php $dataBuild = ['All', 'Terbangun', 'Pembangunan', 'Rencana']; ?>
-                            @for ($i = 0; $i < count($dataBuild); $i++)
-                                @if (request('build') == $dataBuild[$i])
-                                    <option value="{{ $dataBuild[$i] }}" selected> <?php echo $dataBuild[$i]; ?> </option>
-                                @else
-                                    <option value="{{ $dataBuild[$i] }}"> <?php echo $dataBuild[$i]; ?> </option>
-                                @endif
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="w-40 flex absolute ml-[528px] mt-4">
-                        <span class="w-32 flex absolute text-base text-teal-900">Status</span>
-                        <select class="w-40 border rounded-lg flex absolute text-base text-teal-900 outline-none" name="sale"
-                            id="sale" onchange="submit()">
-                            <?php $dataSale = ['All', 'Available', 'Sold']; ?>
-                            @for ($i = 0; $i < count($dataSale); $i++)
-                                @if (request('sale') == $dataSale[$i])
-                                    <option value="{{ $dataSale[$i] }}" selected> <?php echo $dataSale[$i]; ?> </option>
-                                @else
-                                    <option value="{{ $dataSale[$i] }}"> <?php echo $dataSale[$i]; ?> </option>
-                                @endif
-                            @endfor
-                        </select>
+                    <div class="flex mt-1 ml-2">
+                        <div class="w-28">
+                            <span class="text-base text-teal-900">Area</span>
+                            <input type="text" id="requestArea" name="requestArea" value="{{ request('area') }}" hidden>
+                            <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="area"
+                                id="area" onchange="submit()" value="{{ request('area') }}">
+                                <option value="All">All</option>
+                                @foreach ($areas as $area)
+                                    @if (request('area') == $area->id)
+                                        <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
+                                    @else
+                                        <option value="{{ $area->id }}">{{ $area->area }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="w-28 ml-2">
+                            <span class="text-base text-teal-900">Kota</span>
+                            <input type="text" id="city" name="city" value="{{ request('requestCity') }}" hidden>
+                            <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="requestCity"
+                                id="requestCity" onchange="submit()">
+                                <option value="All">All</option>
+                            </select>
+                        </div>
+                        <div class="w-28 ml-2">
+                            <span class="text-base text-teal-900">Kondisi</span>
+                            <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="build"
+                                id="build" onchange="submit()">
+                                <?php $dataBuild = ['All', 'Terbangun', 'Pembangunan', 'Rencana']; ?>
+                                @for ($i = 0; $i < count($dataBuild); $i++)
+                                    @if (request('build') == $dataBuild[$i])
+                                        <option value="{{ $dataBuild[$i] }}" selected> <?php echo $dataBuild[$i]; ?> </option>
+                                    @else
+                                        <option value="{{ $dataBuild[$i] }}"> <?php echo $dataBuild[$i]; ?> </option>
+                                    @endif
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="w-28 ml-2">
+                            <span class="text-base text-teal-900">Status</span>
+                            <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="sale"
+                                id="sale" onchange="submit()">
+                                <?php $dataSale = ['All', 'Available', 'Sold']; ?>
+                                @for ($i = 0; $i < count($dataSale); $i++)
+                                    @if (request('sale') == $dataSale[$i])
+                                        <option value="{{ $dataSale[$i] }}" selected> <?php echo $dataSale[$i]; ?> </option>
+                                    @else
+                                        <option value="{{ $dataSale[$i] }}"> <?php echo $dataSale[$i]; ?> </option>
+                                    @endif
+                                @endfor
+                            </select>
+                        </div>
                     </div>
                 </form>
                 @if (session()->has('success'))
-                    <div class="flex absolute mt-4 ml-[700px] alert-success">
-                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24">
+                    <div class="ml-2 flex alert-success">
+                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path
                                 d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
                         </svg>
                         <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
                     </div>
                 @endif
-                <table class="table-auto mt-14">
+            </div>
+            <div class="p-2 w-full overflow-x-scroll xl:overflow-x-visible">
+                <table class="table-auto w-full mt-2">
                     <thead>
                         <tr class="index-tr items-center h-10 bg-slate-50 border-t">
                             <th class="index-td text-sm w-5">No</th>
-                            <th class="index-td text-sm w-24">Kode</th>
+                            <th class="index-td text-sm w-24">@sortablelink('code', 'Kode')
+                                <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                </svg>
+                            </th>
                             <th class="index-td text-sm w-60">Lokasi</th>
                             <th class="index-td text-sm w-16">Kota</th>
                             <th class="index-td text-sm w-12">Jenis</th>
@@ -96,9 +103,21 @@
                             <th class="index-td text-sm w-20">Kondisi</th>
                             <th class="index-td text-sm w-16">Status</th>
                             <th class="index-td text-sm w-28">Klien</th>
-                            <th class="index-td text-sm w-24">Harga</th>
-                            <th class="index-td text-sm w-28">Awal Kontak</th>
-                            <th class="index-td text-sm w-28">Akhir Kontrak</th>
+                            <th class="index-td text-sm w-24">@sortablelink('price', 'Harga')
+                                <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                </svg>
+                            </th>
+                            <th class="index-td text-sm w-28">@sortablelink('start_contract', 'Awal Kontrak')
+                                <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                </svg>
+                            </th>
+                            <th class="index-td text-sm w-28">@sortablelink('end_contract', 'Akhir Kontrak')
+                                <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                </svg>
+                            </th>
                             <th class="index-td text-sm w-36">Action</th>
                         </tr>
                     </thead>
@@ -107,7 +126,8 @@
                             @if ($product->category == 'Billboard')
                                 <tr class="index-tr items-start h-max">
                                     <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
-                                    <td class="index-td text-sm w-24">{{ $product->code }} - {{ $product->city->code }}</td>
+                                    <td class="index-td text-sm w-24">{{ $product->code }} - {{ $product->city->code }}
+                                    </td>
                                     <td class="flex justify-start items-center text-sm w-60">{{ $product->address }}</td>
                                     <td class="index-td text-sm w-16">{{ $product->city->code }}</td>
                                     <td class="index-td text-sm w-12">
@@ -134,7 +154,8 @@
                                         <td class="index-td text-sm w-24"></td>
                                     @endif
                                     <td class="index-td text-sm w-20">{{ $product->build_status }}</td>
-                                    <td class="flex items-start justify-center text-sm w-16">{{ $product->sale_status }}</td>
+                                    <td class="flex items-start justify-center text-sm w-16">{{ $product->sale_status }}
+                                    </td>
                                     @if ($product->client)
                                         <td class="index-td text-sm w-28">{{ $product->client }}</td>
                                     @else

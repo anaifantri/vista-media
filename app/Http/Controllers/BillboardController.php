@@ -18,7 +18,7 @@ class BillboardController extends Controller
      */
     public function index(): Response
     {
-            $products = Product::with(['area', 'city', 'size', 'user']);
+            $products = Product::with(['area', 'city', 'size', 'user'])->sortable();
 
             $dataCity = request('requestCity');
 
