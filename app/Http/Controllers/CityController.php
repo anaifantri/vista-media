@@ -21,7 +21,7 @@ class CityController extends Controller
         // $users = User::with('cities')->get();
         
         return response()-> view ('dashboard.media.cities.index',[
-            'cities'=>City::with(['user', 'area'])->get(),
+            'cities'=>City::sortable()->with(['user', 'area'])->get(),
             'title' => 'Daftar Kota'
             // compact('cities','areas', 'users')
         ]);

@@ -2,10 +2,10 @@
 
 @section('container')
     <!-- Create New Billboard start -->
-    <!-- Title Create New Billboard start -->
     <div class="flex justify-center">
         <div class="mt-10">
-            <div class="flex border-b p-2">
+            <!-- Title Create New Billboard start -->
+            <div class="flex border-b">
                 <h1 class="text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN BILLBOARD</h1>
             </div>
             <!-- Title Create New Billboard end -->

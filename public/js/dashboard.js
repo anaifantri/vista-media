@@ -13,10 +13,23 @@ window.onscroll = function () {
 // Hamburger menu
 const hamburger = document.querySelector('#hamburger');
 // const navMenu = document.querySelector('#nav-menu');
+const headerMenu = document.querySelector('#headerMenu');
 
 hamburger.addEventListener('click', function () {
     hamburger.classList.toggle('hamburger-active');
-    // navMenu.classList.toggle('nav-menu-show');
+    headerMenu.classList.toggle('headerMenu-show');
+});
+
+// Hamburger - Setting
+const hamSetting = document.querySelector('#hamSetting');
+const hamSettingChild = document.querySelector('#hamSettingChild');
+const hamSettingArrow = document.querySelector('#hamSettingArrow');
+
+hamSetting.addEventListener('click', function () {
+    hamSetting.classList.toggle('group');
+    hamSettingArrow.classList.toggle('rotate-180');
+    // settingChild.classList.toggle('flex');
+    hamSettingChild.classList.toggle('hidden');
 });
 
 // Nav Right - Profile

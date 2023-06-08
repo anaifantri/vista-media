@@ -2,14 +2,14 @@
 
 @section('container')
     <!-- Create New City start -->
-    <div class="flex justify-center mt-10">
-        <div class="flex relative h-screen w-full">
+    <div class="mt-10 lg:flex justify-center">
+        <div class="w-full lg:w-[360px]">
             <!-- Title Create New City start -->
-            <div class="flex absolute mx-3 border-b p-2">
+            <div class="flex mx-3 border-b p-2">
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN KOTA</h1>
             </div>
             <!-- Title Create New City end -->
-            <div class="items-center mt-10 w-80 ml-0">
+            <div class="flex justify-center items-center lg:w-[360px] ml-0">
                 <!-- Form Create New City start -->
                 <form action="/dashboard/media/cities" method="post">
                     @csrf
@@ -23,16 +23,8 @@
                     <div class="flex mx-5 mt-3
                         items-center">
                         <span class="w-32">Nama Area</span>
-                        <select id="area_id" name="area_id" class="ml-3 p-1 rounded-md w-[298px] h-8 outline-none border"
+                        <select id="area_id" name="area_id" class="ml-3 p-1 rounded-md w-[190px] h-8 outline-none border"
                             type="text" autofocus value="{{ old('area_id') }}">
-                            {{-- <option value="Pilih Area">Pilih Area</option>
-                        @foreach ($areas as $area)
-                            @if (old('area_id') == $area->id)
-                                <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
-                            @else
-                                <option value="{{ $area->id }}">{{ $area->area }}</option>
-                            @endif
-                        @endforeach --}}
                         </select>
                     </div>
                     @error('area_id')
@@ -42,7 +34,7 @@
                     @enderror
                     <div class="flex mx-5 mt-3">
                         <span class="w-32">Nama Kota</span>
-                        <select id="city" name="city" class="ml-3 p-1 rounded-md border w-[298px] h-8 outline-none"
+                        <select id="city" name="city" class="ml-3 p-1 rounded-md border w-[190px] h-8 outline-none"
                             type="text">
                         </select>
                     </div>
@@ -98,11 +90,13 @@
                         </a>
                     </div>
                 </form>
-                <!-- Form Create New City end -->
             </div>
-            <!-- Create New City end -->
-            <!-- Maps City start -->
-            <div class="map" id="map">
+            <!-- Form Create New City end -->
+        </div>
+        <!-- Create New City end -->
+        <!-- Maps City start -->
+        <div class="flex justify-center w-full">
+            <div class="m-map-product lg:w-full lg:h-[500px] mb-10 lg:mr-4" id="map">
             </div>
             <!-- Maps City end -->
         </div>

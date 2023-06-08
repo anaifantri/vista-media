@@ -1,44 +1,56 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex justify-center mt-10">
-        <div class="index-container">
-            <div class="index-title">
-                <h1 class="index-h1"> List User</h1>
+    @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
+        <div class="mt-10 z-0">
+            <div class="flex justify-center w-full">
+                <div class="flex w-[915px] p-2">
+                    <h1 class="index-h1"> List User</h1>
+                    @canany(['isAdmin', 'isMarketing'])
+                        <div class="flex border-b">
+                            <a href="/dashboard/users/users/create" class="index-link btn-primary">
+                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <span class="mx-1">Tambah User</span>
+                            </a>
+                        </div>
+                    @endcanany
+                    @if (session()->has('success'))
+                        <div class="index-alert alert-success">
+                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                            </svg>
+                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                        </div>
+                    @endif
+                </div>
             </div>
-            @canany(['isAdmin', 'isMarketing'])
-                <div class="index-btnAdd">
-                    <a href="/dashboard/users/users/create" class="index-link btn-primary">
-                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                fill-rule="nonzero" />
-                        </svg>
-                        <span class="mx-1">Tambah User</span>
-                    </a>
-                </div>
-            @endcanany
-            @if (session()->has('success'))
-                <div class="index-alert alert-success">
-                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24">
-                        <path
-                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                    </svg>
-                    <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
-                </div>
-            @endif
-            <div class="index-table">
-                <table class="table-auto">
+            <div class="flex lg:justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible">
+                <table class="table-auto w-full lg:w-[800px] mt-2 mb-6">
                     <thead>
                         <tr class="index-tr">
                             <th class="index-td text-sm w-5">No.</th>
-                            <th class="index-td text-sm w-40">Nama</th>
-                            <th class="index-td text-sm w-24">User Name</th>
-                            <th class="index-td text-sm w-44">Email</th>
-                            <th class="index-td text-sm w-24">No. Hp.</th>
-                            <th class="index-td text-sm w-24">Level</th>
+                            <th class="index-td text-sm w-44">
+                                @sortablelink('name', 'Nama')
+                                <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                </svg>
+                            </th>
+                            <th class="index-td text-sm w-32">
+                                @sortablelink('username', 'Username')
+                                <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                </svg>
+                            </th>
+                            <th class="index-td text-sm w-48">Email</th>
+                            <th class="index-td text-sm w-32">No. Hp.</th>
+                            <th class="index-td text-sm w-32">Level</th>
                             <th class="index-td text-sm w-32">Action</th>
                         </tr>
                     </thead>
@@ -46,11 +58,11 @@
                         @foreach ($users as $user)
                             <tr class="index-tr">
                                 <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
-                                <td class="index-td text-sm w-40">{{ $user->name }}</td>
-                                <td class="index-td text-sm w-24">{{ $user->username }}</td>
-                                <td class="index-td text-sm w-44">{{ $user->email }}</td>
-                                <td class="index-td text-sm w-24">{{ $user->phone }}</td>
-                                <td class="index-td text-sm w-24">{{ $user->level }}</td>
+                                <td class="index-td text-sm w-44">{{ $user->name }}</td>
+                                <td class="index-td text-sm w-32">{{ $user->username }}</td>
+                                <td class="index-td text-sm w-48">{{ $user->email }}</td>
+                                <td class="index-td text-sm w-32">{{ $user->phone }}</td>
+                                <td class="index-td text-sm w-32">{{ $user->level }}</td>
                                 <td class="index-td text-sm w-32">
                                     <a href="/dashboard/users/users/{{ $user->id }}"
                                         class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
@@ -97,5 +109,5 @@
                 </table>
             </div>
         </div>
-    </div>
+    @endcanany
 @endsection

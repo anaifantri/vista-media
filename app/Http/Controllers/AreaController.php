@@ -18,7 +18,7 @@ class AreaController extends Controller
         // $areas = Area::with('user')->with('cities')->get();
         // $users = User::with('areas')->get();
         return response()-> view ('dashboard.media.areas.index', [
-            'areas'=>Area::with(['user'])->get(),
+            'areas'=>Area::sortable()->with(['user'])->get(),
             'title' => 'Daftar Area'
             // compact('areas', 'users')
         ]);

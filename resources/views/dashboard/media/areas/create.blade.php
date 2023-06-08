@@ -2,14 +2,14 @@
 
 @section('container')
     <!-- Create New Area start -->
-    <div class="flex justify-center mt-10">
-        <div class="flex relative h-screen w-full">
+    <div class="mt-10 lg:flex justify-center">
+        <div class="w-full lg:w-[360px]">
             <!-- Title Create New Area start -->
-            <div class="flex absolute mx-3 border-b p-2">
+            <div class="flex mx-3 border-b p-2">
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN AREA</h1>
             </div>
             <!-- Title Create New Area end -->
-            <div class="items-center mt-10 w-[360px] ml-0">
+            <div class="flex justify-center items-center lg:w-[360px] ml-0">
                 <!-- Form Create New Area start -->
                 <form action="/dashboard/media/area" method="post">
                     @csrf
@@ -21,7 +21,7 @@
                     <div class="flex mx-5 mt-3
                         items-center">
                         <span class="w-32">Nama Provinsi</span>
-                        <select id="provinsi" name="provinsi" class="ml-3 p-1 rounded-md w-[210px] h-8 outline-none border"
+                        <select id="provinsi" name="provinsi" class="ml-3 p-1 rounded-md w-[190px] h-8 outline-none border"
                             type="text" autofocus>
                         </select>
                     </div>
@@ -74,12 +74,14 @@
                 </form>
                 <!-- Form Create New Area end -->
             </div>
-            <!-- Create New Area end -->
-            <!-- Maps Area start -->
-            <div class="map" id="map">
-            </div>
-            <!-- Maps Area end -->
         </div>
+        <!-- Create New Area end -->
+        <!-- Maps Area start -->
+        <div class="flex justify-center w-full">
+            <div class="m-map-product lg:w-full lg:h-[500px] mb-10 lg:mr-4" id="map">
+            </div>
+        </div>
+        <!-- Maps Area end -->
     </div>
     <!-- Script Area start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
