@@ -451,7 +451,7 @@
                                             </span>
                                             <span
                                                 class="flex absolute w-[50px] lg:w-[100px] mt-[10px] ml-[2px] lg:mt-[76px] lg:ml-2">
-                                                {{ QrCode::size(100)->generate('http://vista-app.test/dashboard/media/products/' . $product->id) }}
+                                                {{ QrCode::size(100)->generate('http://vistamedia.co.id/dashboard/media/products/' . $product->id) }}
                                             </span>
                                             <span
                                                 class="flex w-[76px] lg:w-[120px] text-[0.4rem] lg:text-xs font-mono font-thin text-teal-900">
