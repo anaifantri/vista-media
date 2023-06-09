@@ -28,7 +28,7 @@
                         </select>
                     </div>
                     @error('area_id')
-                        <div class="text-red-600 flex ml-28">
+                        <div class="text-red-600 flex mx-5">
                             {{ $message }}
                         </div>
                     @enderror
@@ -39,7 +39,7 @@
                         </select>
                     </div>
                     @error('city')
-                        <div class="text-red-600 flex ml-28">
+                        <div class="text-red-600 flex mx-5">
                             {{ $message }}
                         </div>
                     @enderror

@@ -5,33 +5,35 @@
     @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
         <div class="mt-10 z-0">
             <div class="flex justify-center w-full">
-                <div class="flex w-[800px] p-2">
-                    <!-- Title City start -->
-                    <h1 class="index-h1">DAFTAR KOTA</h1>
-                    <!-- Title city end -->
-                    <!-- Button Create New City start -->
-                    @canany(['isAdmin', 'isMarketing'])
-                        <div class="flex border-b">
-                            <a href="/dashboard/media/cities/create" class="index-link btn-primary"><span></span>
-                                <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                        fill-rule="nonzero" />
-                                </svg>
-                                <span class="mx-1"> Tambah Kota </span>
-                            </a>
-                        </div>
-                    @endcanany
+                <div class="w-[800px] p-2">
+                    <div class="flex">
+                        <!-- Title City start -->
+                        <h1 class="index-h1">DAFTAR KOTA</h1>
+                        <!-- Title city end -->
+                        <!-- Button Create New City start -->
+                        @canany(['isAdmin', 'isMarketing'])
+                            <div class="flex border-b">
+                                <a href="/dashboard/media/cities/create" class="index-link btn-primary"><span></span>
+                                    <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                            fill-rule="nonzero" />
+                                    </svg>
+                                    <span class="mx-1"> Tambah Kota </span>
+                                </a>
+                            </div>
+                        @endcanany
+                    </div>
                     <!-- Button Create New City end -->
                     <!-- Alert Success Create New City start -->
                     @if (session()->has('success'))
-                        <div class="index-alert alert-success" role="alert">
+                        <div class="flex alert-success mt-1" role="alert">
                             <svg class="fill-current mx-1 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path
                                     d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
                             </svg>
-                            <span class="mx-1">{{ session('success') }}</span>
+                            <span class="mx-1">Success!</span>{{ session('success') }}
                         </div>
                     @endif
                 </div>
@@ -39,7 +41,7 @@
             <!-- Alert Success Create New City end -->
             <!-- View City start -->
             <div class="flex lg:justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible">
-                <table class="table-auto w-full lg:w-[780px] mt-2 mb-6">
+                <table class="table-auto w-full lg:w-[780px] mb-6">
                     <thead class="bg-slate-100">
                         <tr class="index-tr">
                             <th class="index-td w-8">No.</th>

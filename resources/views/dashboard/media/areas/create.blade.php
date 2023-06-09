@@ -31,7 +31,7 @@
                             type="text" placeholder="Nama Area" readonly required>
                     </div>
                     @error('area')
-                        <div id="areaAlert" name="areaAlert" class="text-red-600 flex ml-28">
+                        <div id="areaAlert" name="areaAlert" class="text-red-600 flex mx-5">
                             {{ $message }}
                         </div>
                     @enderror

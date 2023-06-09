@@ -4,23 +4,25 @@
     @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
         <div class="mt-10 z-0">
             <div class="flex justify-center w-full">
-                <div class="flex w-[915px] p-2">
-                    <h1 class="index-h1"> List User</h1>
-                    @canany(['isAdmin', 'isMarketing'])
-                        <div class="flex border-b">
-                            <a href="/dashboard/users/users/create" class="index-link btn-primary">
-                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                        fill-rule="nonzero" />
-                                </svg>
-                                <span class="mx-1">Tambah User</span>
-                            </a>
-                        </div>
-                    @endcanany
+                <div class="w-[915px] p-2">
+                    <div class="flex">
+                        <h1 class="index-h1"> List User</h1>
+                        @canany(['isAdmin', 'isMarketing'])
+                            <div class="flex border-b">
+                                <a href="/dashboard/users/users/create" class="index-link btn-primary">
+                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                            fill-rule="nonzero" />
+                                    </svg>
+                                    <span class="mx-1">Tambah User</span>
+                                </a>
+                            </div>
+                        @endcanany
+                    </div>
                     @if (session()->has('success'))
-                        <div class="index-alert alert-success">
+                        <div class="flex alert-success">
                             <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <path
@@ -32,9 +34,9 @@
                 </div>
             </div>
             <div class="flex lg:justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible">
-                <table class="table-auto w-full lg:w-[800px] mt-2 mb-6">
+                <table class="table-auto w-full lg:w-[800px] mb-6">
                     <thead>
-                        <tr class="index-tr">
+                        <tr class="index-tr border-t h-8 bg-teal-50">
                             <th class="index-td text-sm w-5">No.</th>
                             <th class="index-td text-sm w-44">
                                 @sortablelink('name', 'Nama')
