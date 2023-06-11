@@ -12,6 +12,7 @@ let myLatLng = {
 };
 
 let posisi = { lat: Number(latitude), lng: Number(longitude) };
+let idUrl = 0;
 
 const xhrProduct = new XMLHttpRequest();
 const methodProduct = "GET";
@@ -44,10 +45,10 @@ xhrProduct.onreadystatechange = () => {
                     if (obj.dataProduct[i].sale_status == "Sold") {
                         let price = obj.dataProduct[i].price;
                         var priceFormat = price.toLocaleString();
-                        addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \n Klien : " + obj.dataProduct[i].client + " \n Harga : Rp. " + priceFormat + ",- \n Awal Kontrak : " + start_contract.getDate() + "-" + startMMM + "-" + start_contract.getFullYear() + " \n Akhir Kontrak : " + end_contract.getDate() + "-" + endMMM + "-" + end_contract.getFullYear(), icon = "/img/marker-red.png");
+                        addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \n Klien : " + obj.dataProduct[i].client + " \n Harga : Rp. " + priceFormat + ",- \n Awal Kontrak : " + start_contract.getDate() + "-" + startMMM + "-" + start_contract.getFullYear() + " \n Akhir Kontrak : " + end_contract.getDate() + "-" + endMMM + "-" + end_contract.getFullYear(), icon = "/img/marker-red.png", id = obj.dataProduct[i].id);
                     } else if (obj.dataProduct[i].sale_status == "Available") {
                         icon = "/img/marker-green";
-                        addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \nStatus : " + obj.dataProduct[i].sale_status, icon = "/img/marker-green.png");
+                        addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \nStatus : " + obj.dataProduct[i].sale_status, icon = "/img/marker-green.png", id = obj.dataProduct[i].id);
                     }
                 }
             }
@@ -66,13 +67,13 @@ function initMap() {
 }
 
 // Adds a marker to the map and push to the array.
-function addMarker(position, title, icon, label) {
+function addMarker(position, title, icon, id) {
     const marker = new google.maps.Marker({
         position,
         map,
         title,
         icon,
-        label,
+        id,
         optimized: false,
     });
     const infoWindow = new google.maps.InfoWindow();
@@ -80,9 +81,9 @@ function addMarker(position, title, icon, label) {
 
     marker.addListener("click", () => {
         infoWindow.close();
-        infoWindow.setContent(marker.getTitle());
+        // infoWindow.setContent(marker.getTitle());
         infoWindow.open(marker.getMap(), marker);
-        window.open("http://vista-app.test/dashboard/users/users/" + marker.getTitle());
+        window.open("http://vistamedia.co.id/dashboard/media/products/" + marker.get("id"));
     });
 }
 
