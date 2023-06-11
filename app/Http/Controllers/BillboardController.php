@@ -20,23 +20,18 @@ class BillboardController extends Controller
     {
             $products = Product::with(['area', 'city', 'size', 'user'])->sortable();
 
-            $dataCity = request('requestCity');
-
-            if (request('area') != request('requestArea')) {
-                $dataCity = 'All';
-            }
-            if (request('area') != 'All') {
-                $products->where('area_id', 'like', '%' . request('area') . '%');
-            }
-            if ($dataCity != 'All') {
-                $products->where('city_id', 'like', '%' . $dataCity . '%');
-            }
-            if (request('build') != 'All') {
-                $products->where('build_status', 'like', '%' . request('build') . '%');
-            }
-            if (request('sale') != 'All') {
-                $products->where('sale_status', 'like', '%' . request('sale') . '%');
-            }
+            // if (request('area') != 'All') {
+            //     $products->where('area_id', 'like', '%' . request('area') . '%');
+            // }
+            // if ($dataCity != 'All') {
+            //     $products->where('city_id', 'like', '%' . $dataCity . '%');
+            // }
+            // if (request('build') != 'All') {
+            //     $products->where('build_status', 'like', '%' . request('build') . '%');
+            // }
+            // if (request('sale') != 'All') {
+            //     $products->where('sale_status', 'like', '%' . request('sale') . '%');
+            // }
 
             // $areas = Area::with('products')->get();
             // $cities = City::with('products')->get();
@@ -44,7 +39,7 @@ class BillboardController extends Controller
 
         // dd($request->area, $request->city, $request->property,$request->build);
             return response()-> view ('dashboard.media.billboards.index', [
-                'products'=>$products->get(),
+                'products'=>Product::filter()->area()->city()->build()->status()->get(),
                 'areas'=>Area::all(),
                 // 'cities'=>City::all(),
                 'title' => 'Daftar Billboard'

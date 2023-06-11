@@ -20,8 +20,8 @@
                         </div>
                     @endcanany
                 </div>
-                <div class="">
-                    <form action="/dashboard/media/billboards/">
+                <form action="/dashboard/media/billboards/">
+                    <div class="">
                         <div class="flex mt-1 ml-2">
                             <div class="w-28">
                                 <span class="text-base text-teal-900">Area</span>
@@ -75,19 +75,33 @@
                                 </select>
                             </div>
                         </div>
-                    </form>
-                    @if (session()->has('success'))
-                        <div class="ml-2 flex alert-success">
-                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                            </svg>
-                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                        <div class="flex mt-2">
+                            <div class="flex">
+                                <input id="search" name="search"
+                                    class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900"
+                                    type="text" placeholder="Search Kode/Lokasi" value="{{ request('search') }}">
+                                <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                                    type="submit">
+                                    <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            @if (session()->has('success'))
+                                <div class="ml-2 flex alert-success">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                                    </svg>
+                                    <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                                </div>
+                            @endif
                         </div>
-                    @endif
-                </div>
-                <div class="p-2 w-full overflow-x-scroll xl:overflow-x-visible">
-                    <table class="table-auto w-full mt-2">
+                    </div>
+                </form>
+                <div class="ml-2 w-full overflow-x-scroll xl:overflow-x-visible">
+                    <table class="table-auto w-full">
                         <thead>
                             <tr class="index-tr items-center h-10 bg-slate-50 border-t">
                                 <th class="index-td text-sm w-4 2xl:w-8">No</th>
@@ -110,12 +124,14 @@
                                     </svg>
                                 </th>
                                 <th class="index-td text-sm w-28 2xl:36">@sortablelink('start_contract', 'Awal Kontrak')
-                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
                                 </th>
                                 <th class="index-td text-sm w-28 2xl:36">@sortablelink('end_contract', 'Akhir Kontrak')
-                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
                                 </th>

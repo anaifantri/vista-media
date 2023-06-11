@@ -80,9 +80,9 @@ function addMarker(position, title, icon, id) {
     markers.push(marker);
 
     marker.addListener("click", () => {
-        infoWindow.close();
+        // infoWindow.close();
         // infoWindow.setContent(marker.getTitle());
-        infoWindow.open(marker.getMap(), marker);
+        // infoWindow.open(marker.getMap(), marker);
         window.open("http://vistamedia.co.id/dashboard/media/products/" + marker.get("id"));
     });
 }
