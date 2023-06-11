@@ -11,7 +11,7 @@
 }
 
 .right-nav {
-    @apply flex items-center font-medium text-sm mx-2 group-hover:text-emerald-200;
+    @apply flex items-center font-medium text-sm mx-1 group-hover:text-emerald-200;
 }
 
 .right-profile-show{
@@ -141,24 +141,35 @@
     @apply w-full h-[500px]; 
         
 }
-.map-product {
-    @apply w-[495px] h-[330px] rounded-xl; 
-        
+.lg-map-product {
+    @apply w-[600px] h-[400px] rounded-xl;     
 }
 
-.photo-product {
-    @apply w-[495px] h-[330px] rounded-xl; 
-        
+.lg-photo-product {
+    @apply w-[600px] h-[400px] rounded-xl;      
+}
+.md-map-product {
+    @apply w-[495px] h-[330px] rounded-xl;   
+}
+
+.md-photo-product {
+    @apply w-[495px] h-[330px] rounded-xl;       
+}
+
+.sm-map-product {
+    @apply w-[450px] h-[300px] rounded-xl; 
+}
+
+.sm-photo-product {
+    @apply w-[450px] h-[300px] rounded-xl; 
 }
 
 .m-map-product {
-    @apply w-[450px] h-[300px] rounded-xl; 
-        
+    @apply w-[340px] h-[225px] rounded-xl; 
 }
 
 .m-photo-product {
-    @apply w-[450px] h-[300px] rounded-xl; 
-        
+    @apply w-[340px] h-[225px] rounded-xl; 
 }
 
 /* maps end */

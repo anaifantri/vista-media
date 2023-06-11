@@ -2,51 +2,51 @@
 
 @section('container')
     <!-- Create New City start -->
-    <div class="mt-10 lg:flex justify-center">
-        <div class="w-full lg:w-[360px]">
+    <div class="mt-10 md:flex justify-center">
+        <div class="w-full md:w-[300px]">
             <!-- Title Create New City start -->
             <div class="flex mx-3 border-b p-2">
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN KOTA</h1>
             </div>
             <!-- Title Create New City end -->
-            <div class="flex justify-center items-center lg:w-[360px] ml-0">
+            <div class="flex justify-center items-center md:w-[300px] ml-0">
                 <!-- Form Create New City start -->
                 <form action="/dashboard/media/cities" method="post">
                     @csrf
-                    <div class="flex mx-5 mt-3">
-                        <span class="w-32">Kode Area</span>
-                        <input id="area_code" name="area_code" class="input-area" type="text" placeholder="Kode Area"
-                            readonly required value="{{ old('area_code') }}">
-                        <input id="area" name="area" class="input-area" type="text" hidden
+                    <div class="flex mx-2 mt-3">
+                        <span class="w-24">Kode Area</span>
+                        <input id="area_code" name="area_code" class="input-area w-[160px]" type="text"
+                            placeholder="Kode Area" readonly required value="{{ old('area_code') }}">
+                        <input id="area" name="area" class="input-area w-[160px]" type="text" hidden
                             value="{{ old('area') }}">
                     </div>
-                    <div class="flex mx-5 mt-3
+                    <div class="flex mx-2 mt-3
                         items-center">
-                        <span class="w-32">Nama Area</span>
-                        <select id="area_id" name="area_id" class="ml-3 p-1 rounded-md w-[190px] h-8 outline-none border"
+                        <span class="w-24">Nama Area</span>
+                        <select id="area_id" name="area_id" class="ml-3 p-1 rounded-md w-[160px] h-8 outline-none border"
                             type="text" autofocus value="{{ old('area_id') }}">
                         </select>
                     </div>
                     @error('area_id')
-                        <div class="text-red-600 flex mx-5">
+                        <div class="text-red-600 flex mx-2">
                             {{ $message }}
                         </div>
                     @enderror
-                    <div class="flex mx-5 mt-3">
-                        <span class="w-32">Nama Kota</span>
-                        <select id="city" name="city" class="ml-3 p-1 rounded-md border w-[190px] h-8 outline-none"
+                    <div class="flex mx-2 mt-3">
+                        <span class="w-24">Nama Kota</span>
+                        <select id="city" name="city" class="ml-3 p-1 rounded-md border w-[160px] h-8 outline-none"
                             type="text">
                         </select>
                     </div>
                     @error('city')
-                        <div class="text-red-600 flex mx-5">
+                        <div class="text-red-600 flex mx-2">
                             {{ $message }}
                         </div>
                     @enderror
-                    <div class="flex mx-5 mt-3">
-                        <span class="w-32">Kode Kota</span>
-                        <input id="code" name="code" class="input-area" type="text" placeholder="Kode Kota"
-                            readonly required>
+                    <div class="flex mx-2 mt-3">
+                        <span class="w-24">Kode Kota</span>
+                        <input id="code" name="code" class="input-area w-[160px]" type="text"
+                            placeholder="Kode Kota" readonly required>
                     </div>
                     @error('code')
                         <div class="text-red-600 flex ml-28">
@@ -54,24 +54,24 @@
                         </div>
                     @enderror
                     <input id="coordinate" name="coordinate" class="hidden" type="text" disabled>
-                    <div class="flex mx-5 mt-3">
-                        <span class="w-32">Latitude</span>
-                        <input id="lat" name="lat" class="input-area" type="text" placeholder="Latitude"
-                            readonly required>
+                    <div class="flex mx-2 mt-3">
+                        <span class="w-24">Latitude</span>
+                        <input id="lat" name="lat" class="input-area w-[160px]" type="text"
+                            placeholder="Latitude" readonly required>
                     </div>
                     <div class="flex
-                            mx-5 mt-3">
-                        <span class="w-32">Longitude</span>
-                        <input id="lng" name="lng" class="input-area" type="text" placeholder="Longitude"
-                            readonly required>
+                            mx-2 mt-3">
+                        <span class="w-24">Longitude</span>
+                        <input id="lng" name="lng" class="input-area w-[160px]" type="text"
+                            placeholder="Longitude" readonly required>
                     </div>
                     <div class="flex
-                            mx-5 mt-3">
-                        <span class="w-32">Zoom</span>
-                        <input id="zoom" name="zoom" class="input-area" type="text" placeholder="Zoom" readonly
-                            required>
+                            mx-2 mt-3">
+                        <span class="w-24">Zoom</span>
+                        <input id="zoom" name="zoom" class="input-area w-[160px]" type="text" placeholder="Zoom"
+                            readonly required>
                     </div>
-                    <div class="flex mx-5 mt-5">
+                    <div class="flex mx-2 mt-5">
                         <button class="flex justify-center items-center mx-2 btn-primary" type="submit">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
@@ -95,8 +95,9 @@
         </div>
         <!-- Create New City end -->
         <!-- Maps City start -->
-        <div class="flex justify-center w-full">
-            <div class="m-map-product lg:w-full lg:h-[500px] mb-10 lg:mr-4" id="map">
+        <div class="flex justify-center w-full md:w-[420px] lg:w-[495px] xl:w-[550px] 2xl:w-[640px]">
+            <div class="m-map-product md:w-[400px] md:h-[267px] lg:w-[495px] lg:h-[330px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px] mb-10"
+                id="map">
             </div>
             <!-- Maps City end -->
         </div>

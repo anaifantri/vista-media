@@ -2,8 +2,8 @@
 
 @section('container')
     <div class="flex justify-center mt-10">
-        <div class="lg:flex">
-            <div class="flex justify-center items-center w-full lg:w-72">
+        <div class="md:flex">
+            <div class="flex justify-center items-center w-full md:w-72">
                 <div class="d-flex items-center p-8">
                     @if ($user->avatar)
                         <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
@@ -15,7 +15,7 @@
                     <span class="flex justify-center text-teal-700 text-sm">{{ $user->email }}</span>
                 </div>
             </div>
-            <div class="flex w-96 items-center">
+            <div class="flex w-[350px] items-center">
                 <div class="p-3 py-5 w-full">
                     <div class="flex items-center mb-3">
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Detail User</h4>

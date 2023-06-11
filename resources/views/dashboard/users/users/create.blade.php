@@ -2,9 +2,9 @@
 
 @section('container')
     <div class="flex justify-center mt-10">
-        <form class="lg:flex" method="post" action="/dashboard/users/users" enctype="multipart/form-data">
+        <form class="md:flex" method="post" action="/dashboard/users/users" enctype="multipart/form-data">
             @csrf
-            <div class="flex justify-center items-center w-full lg:w-72">
+            <div class="flex justify-center items-center w-full md:w-72">
                 <div class="d-flex items-center p-8">
                     <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
                     <img class="m-auto img-preview flex rounded-full items-center w-48 h-48" src="/img/photo_profile.png">
@@ -18,7 +18,7 @@
                     @enderror
                 </div>
             </div>
-            <div class="flex w-96 items-center">
+            <div class="flex w-[350px] items-center">
                 <div class="p-3 py-5 w-full">
                     <div class="flex items-center mb-3">
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Create User</h4>

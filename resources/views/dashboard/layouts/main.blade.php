@@ -16,7 +16,7 @@
     @include('dashboard.layouts.header');
     <!-- Header end-->
     <!-- Main start-->
-    <div class="w-full top-0">
+    <div class="w-full h-full top-0">
         {{-- <div class="flex relative"> --}}
         <!-- Sidebar start-->
         {{-- @include('dashboard.layouts.sidebar') --}}
@@ -31,7 +31,7 @@
     <!-- Main end-->
     <!-- Footer start-->
     <div
-        class="w-full fixed fixed-bottom bg-cyan-800 items-center text-center bottom-0 z-20 p-1 drop-shadow-xl shadow-inner">
+        class="w-full fixed fixed-bottom bg-cyan-800 items-center text-center bottom-0 z-50 p-1 drop-shadow-xl shadow-inner">
         <h1 class="text-center text-white font-sans text-sm">&copy 2023 PT. Vista Media | www.vistamedia.co.id</h1>
     </div>
     <!-- Footer end-->

@@ -2,10 +2,10 @@
 
 @section('container')
     <div class="flex justify-center mt-10">
-        <form class="lg:flex" method="post" action="/dashboard/users/users/{{ $user->id }}" enctype="multipart/form-data">
+        <form class="md:flex" method="post" action="/dashboard/users/users/{{ $user->id }}" enctype="multipart/form-data">
             @method('put')
             @csrf
-            <div class="flex justify-center items-center w-full lg:w-72">
+            <div class="flex justify-center items-center w-full md:w-72">
                 <div class="d-flex items-center p-8">
                     <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
                     <input type="hidden" name="oldAvatar" value="{{ $user->avatar }}">
@@ -26,7 +26,7 @@
                     @enderror
                 </div>
             </div>
-            <div class="flex w-96 items-center">
+            <div class="flex w-[350px] items-center">
                 <div class="p-3 py-5 w-full">
                     <div class="flex items-center mb-3">
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Edit User</h4>
