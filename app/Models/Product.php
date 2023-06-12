@@ -47,7 +47,8 @@ class Product extends Model
     public function scopeFilter($query){
         if(request('search')){
             return $query->where('code', 'like', '%' . request('search') . '%')
-                  ->orWhere('address', 'like', '%' . request('search') . '%');
+                  ->orWhere('address', 'like', '%' . request('search') . '%')
+                  ->orWhere('client', 'like', '%' . request('search') . '%');
         }
     }
 

@@ -18,12 +18,12 @@ class Provinsi {
 }
 
 let provBali = new Provinsi("Bali", "Bali", -8.4436802, 115.1097609, 9.3, "7");
-let provJatim = new Provinsi("Jawa Timur", "Jawa Timur", -7.7058367, 112.5401473, 8, "6");
-let provKalsel = new Provinsi("Kalimantan Selatan", "Kalimantan Selatan", -2.5616198, 115.4523644, 8, "5");
-let provKaltim = new Provinsi("Kalimantan Timur", "Kalimantan Timur", 0.1532487, 116.6319206, 7, "4");
-let provKalbar = new Provinsi("Kalimantan Barat", "Kalimantan Barat", -0.5225901, 110.8796966, 7, "3");
-let provKaltara = new Provinsi("Kalimantan Utara", "Kalimantan Utara", 2.7364812, 115.9371955, 7.5, "2");
-let provKalteng = new Provinsi("Kalimantan Tengah", "KKalimantan Tengah", -1.4568138, 113.2206712, 7, "1");
+let provJatim = new Provinsi("Jawa Timur", "Jatim", -7.7058367, 112.5401473, 8, "6");
+let provKalsel = new Provinsi("Kalimantan Selatan", "Kalsel", -2.5616198, 115.4523644, 8, "5");
+let provKaltim = new Provinsi("Kalimantan Timur", "Kaltim", 0.1532487, 116.6319206, 7, "5");
+let provKalbar = new Provinsi("Kalimantan Barat", "Kalbar", -0.5225901, 110.8796966, 7, "5");
+let provKaltara = new Provinsi("Kalimantan Utara", "Kaltara", 2.7364812, 115.9371955, 7.5, "5");
+let provKalteng = new Provinsi("Kalimantan Tengah", "Kalteng", -1.4568138, 113.2206712, 7, "5");
 let provNtb = new Provinsi("Nusa Tenggara Barat", "Lombok", -8.6783228, 117.4268288, 8, "8");
 
 const objProvinsi = [provBali, provJatim, provKalsel, provKaltim, provKalbar, provKaltara, provKalteng, provNtb];
