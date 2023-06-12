@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index(): Response
     {
         return response()->view('dashboard.users.users.index', [
-            'users' => User::sortable()->get(),
+            'users' => User::sortable()->paginate(10),
             'title' => 'Daftar User'
         ]);
     }

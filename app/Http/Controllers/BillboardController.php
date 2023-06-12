@@ -39,7 +39,7 @@ class BillboardController extends Controller
 
         // dd($request->area, $request->city, $request->property,$request->build);
             return response()-> view ('dashboard.media.billboards.index', [
-                'products'=>Product::filter()->area()->city()->build()->status()->get(),
+                'products'=>Product::filter()->area()->city()->build()->status()->paginate(10),
                 'areas'=>Area::all(),
                 // 'cities'=>City::all(),
                 'title' => 'Daftar Billboard'

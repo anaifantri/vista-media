@@ -71,9 +71,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $number = 1 + ($areas->currentPage() - 1) * $areas->perPage();
+                        @endphp
                         @foreach ($areas as $area)
                             <tr class="index-tr">
-                                <td class="index-td w-8">{{ $loop->iteration }}</td>
+                                <td class="index-td w-8">{{ $number++ }}</td>
                                 <td class="index-td w-16">{{ $area->area_code }}</td>
                                 <td class="index-td w-36">{{ $area->provinsi }}</td>
                                 <td class="index-td w-36">{{ $area->area }}</td>
@@ -114,6 +117,9 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="flex justify-center text-teal-900">
+                {{ $areas->links() }}
             </div>
         </div>
         <!-- View Area end -->

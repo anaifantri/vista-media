@@ -57,9 +57,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $number = 1 + ($users->currentPage() - 1) * $users->perPage();
+                        @endphp
                         @foreach ($users as $user)
                             <tr class="index-tr">
-                                <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
+                                <td class="index-td text-sm w-5 text-center">{{ $number++ }}</td>
                                 <td class="index-td text-sm w-44">{{ $user->name }}</td>
                                 <td class="index-td text-sm w-32">{{ $user->username }}</td>
                                 <td class="index-td text-sm w-48">{{ $user->email }}</td>
@@ -109,6 +112,9 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="flex justify-center text-teal-900">
+                {{ $users->links() }}
             </div>
         </div>
     @endcanany

@@ -61,18 +61,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($cities as $cities)
+                        @php
+                            $number = 1 + ($cities->currentPage() - 1) * $cities->perPage();
+                        @endphp
+                        @foreach ($cities as $city)
                             <tr class="index-tr">
-                                <td class="index-td w-8">{{ $loop->iteration }}</td>
-                                <td class="index-td w-28">{{ $cities->area->area }}</td>
-                                <td class="index-td w-24">{{ $cities->city }}</td>
-                                <td class="index-td w-16">{{ $cities->code }}</td>
-                                <td class="index-td w-24">{{ $cities->lat }}</td>
-                                <td class="index-td w-24">{{ $cities->lng }}</td>
-                                <td class="index-td w-16">{{ $cities->zoom }}</td>
-                                <td class="index-td w-24">{{ $cities->user->name }}</td>
+                                <td class="index-td w-8">{{ $number++ }}</td>
+                                <td class="index-td w-28">{{ $city->area->area }}</td>
+                                <td class="index-td w-24">{{ $city->city }}</td>
+                                <td class="index-td w-16">{{ $city->code }}</td>
+                                <td class="index-td w-24">{{ $city->lat }}</td>
+                                <td class="index-td w-24">{{ $city->lng }}</td>
+                                <td class="index-td w-16">{{ $city->zoom }}</td>
+                                <td class="index-td w-24">{{ $city->user->name }}</td>
                                 <td class="index-td w-24">
-                                    <a href="/dashboard/media/cities/{{ $cities->id }}"
+                                    <a href="/dashboard/media/cities/{{ $city->id }}"
                                         class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
                                         <svg class="w-5 fill-current" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -84,12 +87,12 @@
                                         </svg>
                                     </a>
                                     @canany(['isAdmin', 'isMarketing'])
-                                        <form action="/dashboard/media/cities/{{ $cities->id }}" method="post"
+                                        <form action="/dashboard/media/cities/{{ $city->id }}" method="post"
                                             class="d-inline m-1">
                                             @method('delete')
                                             @csrf
                                             <button class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                onclick="return confirm('Apakah anda yakin ingin menghapus area {{ $cities->city }} ?')">
+                                                onclick="return confirm('Apakah anda yakin ingin menghapus area {{ $city->city }} ?')">
                                                 <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg" width="24"
                                                     height="24" viewBox="0 0 24 24">
                                                     <title>DELETE</title>
@@ -105,6 +108,10 @@
                     </tbody>
                 </table>
             </div>
+            <div class="flex justify-center text-teal-900">
+                {{ $cities->links() }}
+            </div>
+            {{-- {!! $cities->appends(Request::except('page'))->render() !!} --}}
             <!-- View City end -->
         </div>
     @endcanany

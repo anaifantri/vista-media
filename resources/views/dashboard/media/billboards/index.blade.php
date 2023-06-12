@@ -139,10 +139,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $number = 1 + ($products->currentPage() - 1) * $products->perPage();
+                            @endphp
                             @foreach ($products as $product)
                                 @if ($product->category == 'Billboard')
                                     <tr class="index-tr items-start h-max">
-                                        <td class="index-td text-sm w-4 2xl:w-8 text-center">{{ $loop->iteration }}</td>
+                                        <td class="index-td text-sm w-4 2xl:w-8 text-center">{{ $number++ }}</td>
                                         <td class="index-td text-sm w-[88px] 2xl:w-32">{{ $product->code }} -
                                             {{ $product->city->code }}
                                         </td>
@@ -247,6 +250,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="flex justify-center text-teal-900">
+                    {{ $products->links() }}
                 </div>
             </div>
         </div>
