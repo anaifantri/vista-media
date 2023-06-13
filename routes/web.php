@@ -35,25 +35,25 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
-Route::resource('/dashboard/users/users', UserController::class)->middleware('user_access');
-Route::resource('/dashboard/marketing/clients', ClientController::class)->middleware('user_access');
-Route::resource('/dashboard/marketing/contacts', ContactController::class)->middleware('user_access');
+Route::resource('/dashboard/users/users', UserController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/clients', ClientController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/contacts', ContactController::class)->middleware(['auth','user_access']);
 
-Route::resource('/dashboard/media/area', AreaController::class)->middleware('user_access');
-Route::resource('/dashboard/media/cities', CityController::class)->middleware('user_access');
-Route::resource('/dashboard/media/products', ProductController::class)->middleware('user_access');
-Route::resource('/dashboard/media/billboards', BillboardController::class)->middleware('user_access');
-Route::resource('/dashboard/media/videotrons', VideotronController::class)->middleware('user_access');
-Route::resource('/dashboard/media/signages', SignageController::class)->middleware('user_access');
-Route::resource('/dashboard/media/sizes', SizeController::class)->middleware('user_access');
-Route::resource('/dashboard/media/leds', LedController::class)->middleware('user_access');
-Route::resource('/dashboard/media/vendors', VendorController::class)->middleware('user_access');
-Route::resource('/dashboard/media/vendor-categories', VendorCategoryController::class)->middleware('user_access');
-Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware('user_access');
-Route::get('/showArea', [AreaController::class,'showArea'])->middleware('user_access');
-Route::get('/showCity', [CityController::class,'showCity'])->middleware('user_access');
-Route::get('/showSize', [SizeController::class,'showSize'])->middleware('user_access');
-Route::get('/test', [BillboardController::class,'test'])->middleware('user_access');
+Route::resource('/dashboard/media/area', AreaController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/cities', CityController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/products', ProductController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/billboards', BillboardController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/videotrons', VideotronController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/signages', SignageController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/sizes', SizeController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/leds', LedController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/vendors', VendorController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/vendor-categories', VendorCategoryController::class)->middleware(['auth','user_access']);
+Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware(['auth','user_access']);
+Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth','user_access']);
+Route::get('/showCity', [CityController::class,'showCity'])->middleware(['auth','user_access']);
+Route::get('/showSize', [SizeController::class,'showSize'])->middleware(['auth','user_access']);
+Route::get('/test', [BillboardController::class,'test'])->middleware(['auth','user_access']);
 Route::get('/preview/{id}', [PreviewController::class, 'preview']);
 
 Route::get('/', function () {
@@ -66,4 +66,4 @@ Route::get('/dashboard/users/notifications', function () {
     return view('dashboard.users.notifications.index',[
         'title' => 'Notifications'
     ]);   
-})->middleware('user_access');
+})->middleware(['auth','user_access']);

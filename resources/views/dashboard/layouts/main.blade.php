@@ -13,7 +13,9 @@
 
 <body>
     <!-- Header start-->
-    @include('dashboard.layouts.header');
+    @if (auth()->check())
+        @include('dashboard.layouts.header');
+    @endif
     <!-- Header end-->
     <!-- Main start-->
     <div class="w-full h-full top-0">
