@@ -610,7 +610,7 @@
 
             marker.addListener("click", () => {
                 // window.open("http://vista-app.test/dashboard/media/products/" + id.value);
-                window.location.replace("http://vista-app.test/dashboard/media/products/" + id.value);
+                window.location.replace("http://vistamedia.co.id/dashboard/media/products/" + id.value);
             });
         }
         // Google Maps --> end
