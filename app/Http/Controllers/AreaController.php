@@ -15,12 +15,9 @@ class AreaController extends Controller
      */
     public function index(): Response
     {
-        // $areas = Area::with('user')->with('cities')->get();
-        // $users = User::with('areas')->get();
         return response()-> view ('dashboard.media.areas.index', [
             'areas'=>Area::sortable()->with(['user'])->paginate(10),
             'title' => 'Daftar Area'
-            // compact('areas', 'users')
         ]);
     }
 
@@ -35,9 +32,13 @@ class AreaController extends Controller
      */
     public function create(): Response
     {
-        return response()-> view ('dashboard.media.areas.create', [
-            'title' => 'Menambahkan Area'
-        ]);
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            return response()-> view ('dashboard.media.areas.create', [
+                'title' => 'Menambahkan Area'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -45,32 +46,29 @@ class AreaController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validateData = $request->validate([
-            'area_code' => 'required',
-            'provinsi' => 'required|max:255',
-            'area' => 'required|unique:areas',
-            'lat' => 'required',
-            'lng' => 'required',
-            'zoom' => 'required'
-        ]);
-
-        $validateData['area_code'] = $request->input('area_code');
-        $validateData['area'] = $request->input('area');
-        $validateData['lat'] = $request->input('lat');
-        $validateData['lng'] = $request->input('lng');
-        $validateData['zoom'] = $request->input('zoom');
-        $validateData['user_id'] = auth()->user()->id;
-        Area::create($validateData);
-
-        // $area_code = $request->input('area_code');
-        // $provinsi = $request->input('provinsi');
-        $area = $request->input('area');
-        // $lat = $request->input('lat');
-        // $lng = $request->input('lng');
-        // $zoom = $request->input('zoom');
-        // $username = $request->input('username');
-        return redirect('/dashboard/media/area')->with('success','Area '. $area . ' berhasil ditambahkan');
-        // return request()->all();
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $validateData = $request->validate([
+                'area_code' => 'required',
+                'provinsi' => 'required|max:255',
+                'area' => 'required|unique:areas',
+                'lat' => 'required',
+                'lng' => 'required',
+                'zoom' => 'required'
+            ]);
+    
+            $validateData['area_code'] = $request->input('area_code');
+            $validateData['area'] = $request->input('area');
+            $validateData['lat'] = $request->input('lat');
+            $validateData['lng'] = $request->input('lng');
+            $validateData['zoom'] = $request->input('zoom');
+            $validateData['user_id'] = auth()->user()->id;
+            Area::create($validateData);
+    
+            $area = $request->input('area');
+            return redirect('/dashboard/media/area')->with('success','Area '. $area . ' berhasil ditambahkan');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -89,10 +87,7 @@ class AreaController extends Controller
      */
     public function edit(Area $area): Response
     {
-        // return response()-> view ('dashboard.media.area.edit', [
-        //     'area' => $area,
-        //     'title' => 'Edit Area ' . $area->area
-        // ]);
+        //
     }
 
     /**
@@ -108,9 +103,12 @@ class AreaController extends Controller
      */
     public function destroy(Area $area): RedirectResponse
     {
-        // dd($area->id);
-        Area::destroy($area->id);
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            Area::destroy($area->id);
 
-        return redirect('/dashboard/media/area')->with('success','Area '. $area->area .' berhasil dihapus');
+            return redirect('/dashboard/media/area')->with('success','Area '. $area->area .' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }

@@ -54,7 +54,7 @@
                             </svg>
                             <span class="mx-1">Back to Area</span>
                         </a>
-                        @canany(['isAdmin', 'isMarketing'])
+                        @canany(['isAdmin', 'isMedia'])
                             <form action="/dashboard/media/area/{{ $area->id }}" method="post" class="d-inline m-1">
                                 @method('delete')
                                 @csrf

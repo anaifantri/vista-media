@@ -16,10 +16,14 @@ class UserController extends Controller
      */
     public function index(): Response
     {
-        return response()->view('dashboard.users.users.index', [
-            'users' => User::sortable()->paginate(10),
-            'title' => 'Daftar User'
-        ]);
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Owner' ){
+            return response()->view('dashboard.users.users.index', [
+                'users' => User::sortable()->paginate(10),
+                'title' => 'Daftar User'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -27,6 +31,8 @@ class UserController extends Controller
      */
     public function create(): Response
     {
+        $this->authorize('isAdmin');
+
         return response()->view('dashboard.users.users.create', [
             'title' => 'Tambah User'
         ]);
@@ -37,6 +43,8 @@ class UserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->authorize('isAdmin');
+
         if ($request->level == 'Pilih Divisi'){
             return back()->withErrors(['level' => ['Silahkan pilih divisi']])->withInput();
         }
@@ -67,21 +75,38 @@ class UserController extends Controller
      */
     public function show(User $user): Response
     {
-        return response()->view('dashboard.users.users.show', [
-            'user' => $user,
-            'title' => 'Detail User'
-        ]);
-    }
-
+        if($user->id === auth()->user()->id){
+            return response()->view('dashboard.users.users.show', [
+                'user' => $user,
+                'title' => 'Detail User'
+            ]);
+        } else if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Owner' ){
+            return response()->view('dashboard.users.users.show', [
+                'user' => $user,
+                'title' => 'Detail User'
+            ]);
+        } else {
+            abort(401);
+        }
+        }
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(User $user): Response
     {
+        if($user->id === auth()->user()->id){
+            return response()->view('dashboard.users.users.edit', [
+                'user' => $user,
+                'title' => 'Edit User'
+            ]);
+        } else {
+        $this->authorize('isAdmin');
+        
         return response()->view('dashboard.users.users.edit', [
             'user' => $user,
             'title' => 'Edit User'
         ]);
+    }
     }
 
     /**
@@ -140,6 +165,8 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
+        $this->authorize('isAdmin');
+        
         if($user->avatar){
             Storage::delete($user->avatar);
         }

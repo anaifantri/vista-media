@@ -529,7 +529,7 @@
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                 <br><br><br><br><br>
-                                                {{ QrCode::size(100)->generate('http://vistamedia.co.id/dashboard/media/products/' . $product->id) }}
+                                                {{ QrCode::size(100)->generate('http://vistamedia.co.id/preview/' . $product->id) }}
                                             </span>
                                             <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
                                                 <div>:</div>

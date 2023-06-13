@@ -41,8 +41,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isOwner', function($user){
             return $user->level === 'Owner';
         });
-        Gate::define('isGuest', function($user){
-            return $user->level === 'Guest';
-        });
     }
 }

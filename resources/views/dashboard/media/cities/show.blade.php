@@ -75,7 +75,7 @@
                             </svg>
                             <span class="mx-1">Back to Kota</span>
                         </a>
-                        @canany(['isAdmin', 'isMarketing'])
+                        @canany(['isAdmin', 'isMedia'])
                             <form action="/dashboard/media/cities/{{ $city->id }}" method="post" class="d-inline m-1">
                                 @method('delete')
                                 @csrf

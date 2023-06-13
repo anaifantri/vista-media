@@ -76,10 +76,12 @@
                             <input id="oldLevel" name="oldLevel"
                                 class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300"
                                 value="{{ $user->level }}" type="hidden">
-                            <select
-                                class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('level') is-invalid @enderror"
-                                name="level" id="level">
-                            </select>
+                            @if ($user->level == 'Administrator')
+                                <select
+                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('level') is-invalid @enderror"
+                                    name="level" id="level">
+                                </select>
+                            @endif
                             @error('level')
                                 <div class="invalid-feedback">
                                     {{ $message }}
