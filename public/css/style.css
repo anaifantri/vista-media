@@ -1222,14 +1222,6 @@ video {
   width: max-content;
 }
 
-.w-\[360px\] {
-  width: 360px;
-}
-
-.w-\[340px\] {
-  width: 340px;
-}
-
 .max-w-7xl {
   max-width: 80rem;
 }

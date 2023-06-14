@@ -407,7 +407,7 @@
                     <?php
                     $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $product->lat . ',' . $product->lng . '&zoom=15&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $product->lat . ',' . $product->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                     $destFolder = 'img/map/';
-                    $fromFolder = 'http://vista-app.test/img/map/';
+                    $fromFolder = 'https://vistamedia.co.id/img/map/';
                     $mapImgName = 'google-map.PNG';
                     $imagePath = $destFolder . $mapImgName;
                     file_put_contents($imagePath, file_get_contents($src));
@@ -450,10 +450,10 @@
                     <div class="flex w-[700px] h-[385px] bg-white">
                         <div class="flex w-[476px] h-[385px] bg-white justify-center">
                             <div class="">
-                                <input id="lat" name="lat" type="text" value="{{ $product->lat }}" hidden>
+                                {{-- <input id="lat" name="lat" type="text" value="{{ $product->lat }}" hidden>
                                 <input id="lng" name="lng" type="text" value="{{ $product->lng }}" hidden>
                                 <input id="code" name="code" type="text" value="{{ $product->code }}"
-                                    hidden>
+                                    hidden> --}}
                                 <div
                                     class="flex w-[476px] h-7 bg-slate-50 items-center border justify-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
                                     Google Maps
@@ -529,7 +529,7 @@
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                 <br><br><br><br><br>
-                                                {{ QrCode::size(100)->generate('http://vistamedia.co.id/preview/' . $product->id) }}
+                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/preview/' . $product->id) }}
                                             </span>
                                             <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
                                                 <div>:</div>
@@ -610,7 +610,7 @@
 
             marker.addListener("click", () => {
                 // window.open("http://vista-app.test/dashboard/media/products/" + id.value);
-                window.location.replace("http://vistamedia.co.id/dashboard/media/products/" + id.value);
+                window.location.replace("https://vistamedia.co.id/dashboard/media/products/" + id.value);
             });
         }
         // Google Maps --> end
