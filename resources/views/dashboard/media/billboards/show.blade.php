@@ -11,103 +11,103 @@
             <!-- Title Show Billboard end -->
             <div class="lg:flex">
                 <div class="flex">
-                    <div class="flex justify-center">
+                    <div class="flex justify-center w-full">
                         <div class="mt-0 w-full ml-0">
                             <div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center mt-1">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kode
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kode
                                             Lokasi</label>
                                         <input id="code" name="code" type="text" value="{{ $product->code }}"
                                             hidden>
                                         <input id="id" name="id" type="text" value="{{ $product->id }}"
                                             hidden>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->code }} - {{ $product->city->code }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Area</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Area</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->area->area }}</label>
                                     </div>
                                 </div>
                                 <div class="lex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kota</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kota</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->city->city }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-start">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Lokasi</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Lokasi</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <textarea
-                                            class="flex h-max text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 w-52 lg:w-60 2xl:w-72 ml-2"
+                                            class="flex h-max text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 w-52 lg:w-60 2xl:w-72 ml-2"
                                             readonly>{{ $product->address }}</textarea>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Latitude</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Latitude</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <input id="lat" name="lat" type="text" value="{{ $product->lat }}"
                                             hidden>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->lat }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Longitude</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Longitude</label>
                                         <input id="lng" name="lng" type="text" value="{{ $product->lng }}"
                                             hidden>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->lng }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Penerangan</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Penerangan</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->lighting }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Ukuran</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Ukuran</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->size->size }} x {{ $product->size->side }} sisi -
                                             {{ $product->size->orientation }} </label>
                                     </div>
@@ -115,35 +115,35 @@
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kepemilikan</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kepemilikan</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->property_status }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full ">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kondisi</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kondisi</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->build_status }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full ">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Status</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Status</label>
                                         <input id="status" name="status" type="text"
                                             value="{{ $product->sale_status }}" hidden>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label id="sale_status" name="sale_status"
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->sale_status }}</label>
                                     </div>
                                 </div>
@@ -151,39 +151,39 @@
                                     <div class="flex mx-1 lg:mx-5 w-full ">
                                         <div id="divKlien" name="divKlien" class="items-center hidden">
                                             <label id="lblClient" name="lblClient"
-                                                class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Nama
+                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Nama
                                                 Klien</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                                 {{ $product->client }}</label>
                                         </div>
                                     </div>
                                     <div class="flex mx-1 lg:mx-5 w-full ">
                                         <div id="harga" name="harga" class="items-center hidden">
                                             <label id="lblClient" name="lblClient"
-                                                class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Harga</label>
+                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Harga</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                                 {{ number_format($product->price) }}</label>
                                         </div>
                                     </div>
                                     <div class="flex mx-1 lg:mx-5 w-full items-center">
                                         <div id="periode" name="periode" class="flex items-center" hidden>
                                             <label id="lblPeriode" name="lblPeriode"
-                                                class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Periode</label>
+                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Periode</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                                 {{ date('d-M-Y', strtotime($product->start_contract)) }}</label>
                                             <label id="lblTo" name="lblTo"
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl text-teal-700 ml-2">s.d.</label>
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg text-teal-700 ml-2">s.d.</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">{{ date('d-M-Y', strtotime($product->end_contract)) }}</label>
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">{{ date('d-M-Y', strtotime($product->end_contract)) }}</label>
                                         </div>
                                     </div>
                                     <div class="flex mx-1 lg:mx-5 w-full items-center">
@@ -194,12 +194,12 @@
                                             $jarak = $tgl2->diff($tgl1);
                                             ?>
                                             <label
-                                                class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Sisa
+                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Sisa
                                                 Kontrak</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                             <label
-                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                                 {{ $jarak->y }} tahun {{ $jarak->m }} bulan {{ $jarak->d }}
                                                 hari</label>
                                         </div>
@@ -208,44 +208,44 @@
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Type
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Type
                                             Jalan</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->road_segment }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Jarak
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Jarak
                                             Pandang</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->max_distance }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kecepatan</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kecepatan</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $product->speed_average }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 w-full">
                                     <div class="flex items-start">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kawasan</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kawasan</label>
                                         <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <?php
                                         $data = $product->sector;
                                         $sectors = explode('-', $data);
@@ -256,11 +256,11 @@
                                                     @if ($key % 2 == 0)
                                                         <div class="flex">
                                                             <label
-                                                                class="text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 w-28 lg:w-32 2xl:w-36">-
+                                                                class="text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 w-28 lg:w-32 2xl:w-36">-
                                                                 {{ $sector }}</label>
                                                         @else
                                                             <label
-                                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 w-28 lg:w-32 2xl:w-36">-
+                                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 w-28 lg:w-32 2xl:w-36">-
                                                                 {{ $sector }}</label>
                                                         </div>
                                                     @endif
@@ -273,24 +273,24 @@
                             <div class="flex mx-1 lg:mx-5 w-full">
                                 <div class="flex items-center">
                                     <label
-                                        class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
+                                        class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
                                         Tanggal</label>
                                     <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                     <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                         {{ date('d-M-Y', strtotime($product->created_at)) }}</label>
                                 </div>
                             </div>
                             <div class="flex mx-1 lg:mx-5 w-full">
                                 <div class="flex items-center">
                                     <label
-                                        class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Update
+                                        class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Update
                                         Terakhir</label>
                                     <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                     <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                         {{ date('d-M-Y', strtotime($product->updated_at)) }}</label>
                                 </div>
                             </div>
@@ -298,17 +298,17 @@
                                 <div class="flex items-center">
                                     @if ($product->created_at != $product->updated_at)
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Diupdate
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Diupdate
                                             Oleh</label>
                                     @else
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
                                             Oleh</label>
                                     @endif
                                     <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                     <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                         {{ $product->user->name }}</label>
                                 </div>
                             </div>
