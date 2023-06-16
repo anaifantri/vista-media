@@ -157,7 +157,11 @@ class UserController extends Controller
         User::where('id', $user->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/users/users')->with('success','User Has Been Updated');
+        if($user->level === 'Administrator'){
+            return redirect('/dashboard/users/users')->with('success','User Has Been Updated');
+        } else {
+            return redirect('/dashboard/users/users/' . $user->id)->with('success','User Has Been Updated');
+        }
     }
 
     /**
