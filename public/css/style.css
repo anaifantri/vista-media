@@ -812,12 +812,20 @@ video {
   margin-top: 0.5rem;
 }
 
+.mt-24 {
+  margin-top: 6rem;
+}
+
 .mt-3 {
   margin-top: 0.75rem;
 }
 
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mt-44 {
+  margin-top: 11rem;
 }
 
 .mt-5 {
@@ -1740,6 +1748,10 @@ video {
 
 .font-thin {
   font-weight: 100;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .leading-relaxed {
