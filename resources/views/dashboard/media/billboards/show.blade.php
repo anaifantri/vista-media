@@ -267,133 +267,136 @@
                                                         </div>
                                                     @endif
                                                 @endif
-                                            @endforeach
+                                                @if ($sector == end($sectors) && $key % 2 != 0)
                                         </div>
+                                        @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                            @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
-                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                                    <div class="flex items-center">
+                        </div>
+                        @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
+                            <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
+                                <div class="flex items-center">
+                                    <label
+                                        class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
+                                        Tanggal</label>
+                                    <label
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                    <label
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
+                                        {{ date('d-M-Y', strtotime($product->created_at)) }}</label>
+                                </div>
+                            </div>
+                            <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
+                                <div class="flex items-center">
+                                    <label
+                                        class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Update
+                                        Terakhir</label>
+                                    <label
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                    <label
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
+                                        {{ date('d-M-Y', strtotime($product->updated_at)) }}</label>
+                                </div>
+                            </div>
+                            <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
+                                <div class="flex items-center">
+                                    @if ($product->created_at != $product->updated_at)
+                                        <label
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Diupdate
+                                            Oleh</label>
+                                    @else
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
-                                            Tanggal</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ date('d-M-Y', strtotime($product->created_at)) }}</label>
-                                    </div>
+                                            Oleh</label>
+                                    @endif
+                                    <label
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                    <label
+                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
+                                        {{ $product->user->name }}</label>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                                    <div class="flex items-center">
-                                        <label
-                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Update
-                                            Terakhir</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ date('d-M-Y', strtotime($product->updated_at)) }}</label>
-                                    </div>
-                                </div>
-                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                                    <div class="flex items-center">
-                                        @if ($product->created_at != $product->updated_at)
-                                            <label
-                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Diupdate
-                                                Oleh</label>
-                                        @else
-                                            <label
-                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
-                                                Oleh</label>
-                                        @endif
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $product->user->name }}</label>
-                                    </div>
-                                </div>
+                            </div>
+                        @endcanany
+                        <div class="flex mx-1 lg:mx-5 mt-2 mb-2">
+                            @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
+                                <a class="flex justify-center items-center mx-2 btn-primary"
+                                    href="/dashboard/media/billboards">
+                                    <svg class="fill-current w-4 lg:w-5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                                    </svg>
+                                    <span class="mx-1 text-sm lg:text-md lg:mx-2">Back</span>
+                                </a>
                             @endcanany
-                            <div class="flex mx-1 lg:mx-5 mt-2 mb-2">
-                                @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
-                                    <a class="flex justify-center items-center mx-2 btn-primary"
-                                        href="/dashboard/media/billboards">
-                                        <svg class="fill-current w-4 lg:w-5" xmlns="http://www.w3.org/2000/svg"
-                                            width="24" height="24" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                                        </svg>
-                                        <span class="mx-1 text-sm lg:text-md lg:mx-2">Back</span>
-                                    </a>
-                                @endcanany
-                                @canany(['isAdmin', 'isMarketing', 'isMedia'])
-                                    <a href="/dashboard/media/products/{{ $product->id }}/edit"
-                                        class="flex justify-center items-center mx-1 btn-warning">
+                            @canany(['isAdmin', 'isMarketing', 'isMedia'])
+                                <a href="/dashboard/media/products/{{ $product->id }}/edit"
+                                    class="flex justify-center items-center mx-1 btn-warning">
+                                    <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                            fill-rule="nonzero" />
+                                    </svg>
+                                    <span class="mx-1 text-sm lg:text-md lg:mx-2">Edit</span>
+                                </a>
+                                <form action="/dashboard/media/products/{{ $product->id }}" method="post"
+                                    class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="flex items-center justify-center btn-danger mx-1"
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus billboard dengan kode {{ $product->code }} ?')">
                                         <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
-                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                                d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
                                                 fill-rule="nonzero" />
                                         </svg>
-                                        <span class="mx-1 text-sm lg:text-md lg:mx-2">Edit</span>
-                                    </a>
-                                    <form action="/dashboard/media/products/{{ $product->id }}" method="post"
-                                        class="d-inline">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="flex items-center justify-center btn-danger mx-1"
-                                            onclick="return confirm('Apakah anda yakin ingin menghapus billboard dengan kode {{ $product->code }} ?')">
-                                            <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                                    fill-rule="nonzero" />
-                                            </svg>
-                                            <span class="mx-1 text-sm lg:text-md lg:mx-2"> Delete </span>
-                                        </button>
-                                    </form>
-                                @endcanany
-                                <button id="btn-preview" name="btn-preview"
-                                    class="flex justify-center items-center mx-1 btn-success">
-                                    <svg class="fill-current w-4 lg:w-5" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            d="M24 11v12h-24v-12h4v-10h10.328c1.538 0 5.672 4.852 5.672 6.031v3.969h4zm-6-3.396c0-1.338-2.281-1.494-3.25-1.229.453-.813.305-3.375-1.082-3.375h-7.668v13h12v-8.396zm-2 5.396h-8v-1h8v1zm0-3h-8v1h8v-1zm0-2h-8v1h8v-1z" />
-                                    </svg>
-                                    <span class="mx-1 text-sm lg:text-md lg:mx-2">Preview</span>
-                                </button>
-                            </div>
-                            <!-- Show Billboard end -->
+                                        <span class="mx-1 text-sm lg:text-md lg:mx-2"> Delete </span>
+                                    </button>
+                                </form>
+                            @endcanany
+                            <button id="btn-preview" name="btn-preview"
+                                class="flex justify-center items-center mx-1 btn-success">
+                                <svg class="fill-current w-4 lg:w-5" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M24 11v12h-24v-12h4v-10h10.328c1.538 0 5.672 4.852 5.672 6.031v3.969h4zm-6-3.396c0-1.338-2.281-1.494-3.25-1.229.453-.813.305-3.375-1.082-3.375h-7.668v13h12v-8.396zm-2 5.396h-8v-1h8v1zm0-3h-8v1h8v-1zm0-2h-8v1h8v-1z" />
+                                </svg>
+                                <span class="mx-1 text-sm lg:text-md lg:mx-2">Preview</span>
+                            </button>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <!-- Photo Billboard start -->
-                    <div>
-                        <div>
-                            <span class="mt-2 border-b flex justify-center text-base text-cyan-800 font-semibold">Photo
-                                Lokasi</span>
-                            <img class="img-preview m-photo-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl"
-                                src="{{ asset('storage/' . $product->photo) }}" alt="">
-                        </div>
-                        <!-- Photo Billboard end -->
-                    </div>
-                    <div>
-                        <!-- Maps Billboard start -->
-                        <span class="mt-2 border-b flex justify-center text-base text-cyan-800 font-semibold">Peta
-                            Lokasi</span>
-                        <div class="m-map-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl mt-2 mb-10"
-                            id="map">
-                        </div>
-                        <!-- Maps Billboard end -->
+                        <!-- Show Billboard end -->
                     </div>
                 </div>
             </div>
+            <div>
+                <!-- Photo Billboard start -->
+                <div>
+                    <div>
+                        <span class="mt-2 border-b flex justify-center text-base text-cyan-800 font-semibold">Photo
+                            Lokasi</span>
+                        <img class="img-preview m-photo-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl"
+                            src="{{ asset('storage/' . $product->photo) }}" alt="">
+                    </div>
+                    <!-- Photo Billboard end -->
+                </div>
+                <div>
+                    <!-- Maps Billboard start -->
+                    <span class="mt-2 border-b flex justify-center text-base text-cyan-800 font-semibold">Peta
+                        Lokasi</span>
+                    <div class="m-map-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl mt-2 mb-10"
+                        id="map">
+                    </div>
+                    <!-- Maps Billboard end -->
+                </div>
+            </div>
         </div>
+    </div>
     </div>
     <!-- Show Billboard end -->
     <!-- Preview Billboard start -->
