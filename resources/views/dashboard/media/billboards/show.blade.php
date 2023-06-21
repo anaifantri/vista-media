@@ -14,7 +14,7 @@
                     <div class="flex justify-center w-full">
                         <div class="mt-0 w-full ml-0">
                             <div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center mt-1">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kode
@@ -30,7 +30,7 @@
                                             {{ $product->code }} - {{ $product->city->code }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Area</label>
@@ -41,7 +41,7 @@
                                             {{ $product->area->area }}</label>
                                     </div>
                                 </div>
-                                <div class="lex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kota</label>
@@ -52,7 +52,7 @@
                                             {{ $product->city->city }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-start">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Lokasi</label>
@@ -63,7 +63,7 @@
                                             readonly>{{ $product->address }}</textarea>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Latitude</label>
@@ -76,7 +76,7 @@
                                             {{ $product->lat }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Longitude</label>
@@ -89,7 +89,7 @@
                                             {{ $product->lng }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Penerangan</label>
@@ -100,7 +100,7 @@
                                             {{ $product->lighting }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Ukuran</label>
@@ -113,7 +113,7 @@
                                     </div>
                                 </div>
                                 @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
-                                    <div class="flex mx-1 lg:mx-5 w-full">
+                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                         <div class="flex items-center">
                                             <label
                                                 class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kepemilikan</label>
@@ -124,7 +124,7 @@
                                                 {{ $product->property_status }}</label>
                                         </div>
                                     </div>
-                                    <div class="flex mx-1 lg:mx-5 w-full ">
+                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b ">
                                         <div class="flex items-center">
                                             <label
                                                 class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kondisi</label>
@@ -136,7 +136,7 @@
                                         </div>
                                     </div>
                                 @endcanany
-                                <div class="flex mx-1 lg:mx-5 w-full ">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b ">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Status</label>
@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
                                 @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
-                                    <div class="flex mx-1 lg:mx-5 w-full ">
+                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b ">
                                         <div id="divKlien" name="divKlien" class="items-center hidden">
                                             <label id="lblClient" name="lblClient"
                                                 class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Nama
@@ -162,7 +162,7 @@
                                                 {{ $product->client }}</label>
                                         </div>
                                     </div>
-                                    <div class="flex mx-1 lg:mx-5 w-full ">
+                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b ">
                                         <div id="harga" name="harga" class="items-center hidden">
                                             <label id="lblClient" name="lblClient"
                                                 class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Harga</label>
@@ -173,7 +173,7 @@
                                                 {{ number_format($product->price) }}</label>
                                         </div>
                                     </div>
-                                    <div class="flex mx-1 lg:mx-5 w-full items-center">
+                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b items-center">
                                         <div id="periode" name="periode" class="flex items-center" hidden>
                                             <label id="lblPeriode" name="lblPeriode"
                                                 class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Periode</label>
@@ -188,7 +188,7 @@
                                                 class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">{{ date('d-M-Y', strtotime($product->end_contract)) }}</label>
                                         </div>
                                     </div>
-                                    <div class="flex mx-1 lg:mx-5 w-full items-center">
+                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b items-center">
                                         <div id="contractRemaining" name="contractRemaining" class="items-center hidden">
                                             <?php
                                             $tgl1 = new DateTime();
@@ -207,7 +207,7 @@
                                         </div>
                                     </div>
                                 @endcanany
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Type
@@ -219,7 +219,7 @@
                                             {{ $product->road_segment }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Jarak
@@ -231,7 +231,7 @@
                                             {{ $product->max_distance }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kecepatan</label>
@@ -242,7 +242,7 @@
                                             {{ $product->speed_average }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-start">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kawasan</label>
@@ -273,7 +273,7 @@
                                 </div>
                             </div>
                             @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
@@ -285,7 +285,7 @@
                                             {{ date('d-M-Y', strtotime($product->created_at)) }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Update
@@ -297,7 +297,7 @@
                                             {{ date('d-M-Y', strtotime($product->updated_at)) }}</label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         @if ($product->created_at != $product->updated_at)
                                             <label
