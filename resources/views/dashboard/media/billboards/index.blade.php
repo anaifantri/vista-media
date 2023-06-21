@@ -114,7 +114,7 @@
                                 <th class="index-td text-sm w-10 2xl:w-12">Jenis</th>
                                 <th class="index-td text-sm w-10 2xl:w-12">BL/FL</th>
                                 <th class="index-td text-sm w-[88px] 2xl:w-24">Size - V/H</th>
-                                <th class="index-td text-sm w-[72px] 2xl:w-20">Kondisi</th>
+                                <th class="index-td text-sm w-[104px] 2xl:w-28">Kondisi</th>
                                 <th class="index-td text-sm  w-[72px] 2xl:w-16">Status</th>
                                 <th class="index-td text-sm w-[104px] 2xl:w-28">Klien</th>
                                 <th class="index-td text-sm w-28 2xl:w-32">@sortablelink('price', 'Harga')
@@ -176,7 +176,7 @@
                                         @else
                                             <td class="index-td text-sm w-[88px] 2xl:w-24"></td>
                                         @endif
-                                        <td class="index-td text-sm w-[72px] 2xl:w-20">{{ $product->build_status }}</td>
+                                        <td class="index-td text-sm w-[104px] 2xl:w-28">{{ $product->build_status }}</td>
                                         <td class="flex items-start justify-center text-sm w-16">
                                             {{ $product->sale_status }}
                                         </td>
