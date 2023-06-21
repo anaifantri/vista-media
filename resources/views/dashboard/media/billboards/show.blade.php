@@ -436,8 +436,8 @@
                         <span class="flex justify-start items-center w-24 h-[36px] text-lg font-bold ml-1"> -
                             {{ $product->city->code }}</span>
                         <img class="h-10" src="/img/code-line.png" alt="">
-                        <span
-                            class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $product->address }}</span>
+                        <span class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $product->address }}
+                            | {{ strtoupper($product->city->city) }}</span>
                     </div>
                 </div>
                 <div class="flex w-full h-[465px] justify-center mt-[1px]">
@@ -450,10 +450,6 @@
                     <div class="flex w-[700px] h-[385px] bg-white">
                         <div class="flex w-[476px] h-[385px] bg-white justify-center">
                             <div class="">
-                                {{-- <input id="lat" name="lat" type="text" value="{{ $product->lat }}" hidden>
-                                <input id="lng" name="lng" type="text" value="{{ $product->lng }}" hidden>
-                                <input id="code" name="code" type="text" value="{{ $product->code }}"
-                                    hidden> --}}
                                 <div
                                     class="flex w-[476px] h-7 bg-slate-50 items-center border justify-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
                                     Google Maps

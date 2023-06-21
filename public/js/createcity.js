@@ -106,12 +106,13 @@ let sampit = new City("SPT", "Kalteng", "Sampit", -2.5379729, 112.947809, 14.75)
 let palangkaraya = new City("PKY", "Kalteng", "Palangkaraya", -2.2109807, 113.9138929, 13.25);
 let pontianak = new City("PNK", "Kalbar", "Pontianak", -0.0668599, 109.3483369, 12.25);
 let balikpapan = new City("BLP", "Kaltim", "Balikpapan", -1.2488277, 116.8662009, 13.25);
+let kapuas = new City("KPS", "Kalteng", "Kapuas", -2.9871032, 114.4066379, 13);
 //Area NTB
 let praya = new City("PRY", "Lombok", "Praya", -8.6905626, 116.2802245, 12.75);
 let mataram = new City("MTR", "Lombok", "Mataram", -8.5906503, 116.1034722, 13.5);
 let selong = new City("SLG", "Lombok", "Selong", -8.6626391, 116.5339923, 13.75);
 
-const objCity = [kotaDenpasar, kabBadung, kabTabanan, kabJembrana, kabKarangasem, kabBuleleng, kabKlungkung, kabGianyar, kabBangli, kotaSurabaya, kabSidoarjo, kabBanyuwangi, kotaMalang, kotaMojokerto, kabJember, kabPamekasan, banjarmasin, banjarbaru, martapura, barito, kandangan, balangan, barabai, tapin, batulicin, tanjung, tarakan, samarinda, sampit, palangkaraya, pontianak, balikpapan, praya, mataram, selong];
+const objCity = [kotaDenpasar, kabBadung, kabTabanan, kabJembrana, kabKarangasem, kabBuleleng, kabKlungkung, kabGianyar, kabBangli, kotaSurabaya, kabSidoarjo, kabBanyuwangi, kotaMalang, kotaMojokerto, kabJember, kabPamekasan, banjarmasin, banjarbaru, martapura, barito, kandangan, balangan, barabai, tapin, batulicin, tanjung, tarakan, samarinda, sampit, palangkaraya, pontianak, balikpapan, praya, mataram, selong, kapuas];
 
 const optionCity = [];
 

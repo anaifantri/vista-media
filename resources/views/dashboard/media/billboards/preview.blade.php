@@ -436,8 +436,8 @@
                         <span class="flex justify-start items-center w-24 h-[36px] text-lg font-bold ml-1"> -
                             {{ $product->city->code }}</span>
                         <img class="h-10" src="/img/code-line.png" alt="">
-                        <span
-                            class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $product->address }}</span>
+                        <span class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $product->address }}
+                            | {{ strtoupper($product->city->city) }}</span>
                     </div>
                 </div>
                 <div class="flex w-full h-[465px] justify-center mt-[1px]">
