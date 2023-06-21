@@ -18,7 +18,7 @@ class BillboardController extends Controller
      */
     public function index(): Response
     {
-            $products = Product::with(['area', 'city', 'size', 'user'])->sortable();
+            // $products = Product::with(['area', 'city', 'size', 'user'])->sortable();
 
             return response()-> view ('dashboard.media.billboards.index', [
                 'products'=>Product::filter()->area()->city()->build()->status()->sortable()->paginate(10)->withQueryString(),
