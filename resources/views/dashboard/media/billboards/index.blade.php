@@ -254,7 +254,7 @@
                 </div>
                 <div class="flex justify-center text-teal-900">
                     {{-- {{ $products->links() }} --}}
-                    {!! $products->appends(Request::except('page'))->render() !!}
+                    {!! $products->appends(Request::query())->render() !!}
                 </div>
             </div>
         </form>
