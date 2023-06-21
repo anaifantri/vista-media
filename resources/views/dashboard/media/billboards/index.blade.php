@@ -253,7 +253,8 @@
                     </table>
                 </div>
                 <div class="flex justify-center text-teal-900">
-                    {{ $products->links() }}
+                    {{-- {{ $products->links() }} --}}
+                    {!! $products->appends(Request::except('page'))->render() !!}
                 </div>
             </div>
         </form>
