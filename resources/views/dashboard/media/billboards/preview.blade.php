@@ -112,28 +112,30 @@
                                             {{ $product->size->orientation }} </label>
                                     </div>
                                 </div>
-                                <div class="flex mx-1 lg:mx-5 w-full">
-                                    <div class="flex items-center">
-                                        <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kepemilikan</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
-                                            {{ $product->property_status }}</label>
+                                @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
+                                    <div class="flex mx-1 lg:mx-5 w-full">
+                                        <div class="flex items-center">
+                                            <label
+                                                class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kepemilikan</label>
+                                            <label
+                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            <label
+                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                                {{ $product->property_status }}</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="flex mx-1 lg:mx-5 w-full ">
-                                    <div class="flex items-center">
-                                        <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kondisi</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
-                                            {{ $product->build_status }}</label>
+                                    <div class="flex mx-1 lg:mx-5 w-full ">
+                                        <div class="flex items-center">
+                                            <label
+                                                class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kondisi</label>
+                                            <label
+                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                            <label
+                                                class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                                {{ $product->build_status }}</label>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcanany
                                 <div class="flex mx-1 lg:mx-5 w-full ">
                                     <div class="flex items-center">
                                         <label
@@ -270,48 +272,50 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex mx-1 lg:mx-5 w-full">
-                                <div class="flex items-center">
-                                    <label
-                                        class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
-                                        Tanggal</label>
-                                    <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                    <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
-                                        {{ date('d-M-Y', strtotime($product->created_at)) }}</label>
-                                </div>
-                            </div>
-                            <div class="flex mx-1 lg:mx-5 w-full">
-                                <div class="flex items-center">
-                                    <label
-                                        class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Update
-                                        Terakhir</label>
-                                    <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                    <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
-                                        {{ date('d-M-Y', strtotime($product->updated_at)) }}</label>
-                                </div>
-                            </div>
-                            <div class="flex mx-1 lg:mx-5 w-full">
-                                <div class="flex items-center">
-                                    @if ($product->created_at != $product->updated_at)
-                                        <label
-                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Diupdate
-                                            Oleh</label>
-                                    @else
+                            @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
+                                <div class="flex mx-1 lg:mx-5 w-full">
+                                    <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
-                                            Oleh</label>
-                                    @endif
-                                    <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                    <label
-                                        class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
-                                        {{ $product->user->name }}</label>
+                                            Tanggal</label>
+                                        <label
+                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                        <label
+                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            {{ date('d-M-Y', strtotime($product->created_at)) }}</label>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="flex mx-1 lg:mx-5 w-full">
+                                    <div class="flex items-center">
+                                        <label
+                                            class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Update
+                                            Terakhir</label>
+                                        <label
+                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                        <label
+                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            {{ date('d-M-Y', strtotime($product->updated_at)) }}</label>
+                                    </div>
+                                </div>
+                                <div class="flex mx-1 lg:mx-5 w-full">
+                                    <div class="flex items-center">
+                                        @if ($product->created_at != $product->updated_at)
+                                            <label
+                                                class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Diupdate
+                                                Oleh</label>
+                                        @else
+                                            <label
+                                                class="flex text-xs md:text-sm lg:text-lg 2xl:text-xl text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Dibuat
+                                                Oleh</label>
+                                        @endif
+                                        <label
+                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                        <label
+                                            class="flex text-sm md:text-sm lg:text-lg 2xl:text-xl font-semibold text-slate-500 ml-2">
+                                            {{ $product->user->name }}</label>
+                                    </div>
+                                </div>
+                            @endcanany
                             <div class="flex mx-1 lg:mx-5 mt-2 mb-2">
                                 @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
                                     <a class="flex justify-center items-center mx-2 btn-primary"
