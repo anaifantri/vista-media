@@ -150,8 +150,9 @@
                                     </div>
                                 </div>
                                 @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
-                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b ">
-                                        <div id="divKlien" name="divKlien" class="items-center hidden">
+                                    <div id="divKlien" name="divKlien"
+                                        class="mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b hidden">
+                                        <div class="flex items-center">
                                             <label id="lblClient" name="lblClient"
                                                 class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Nama
                                                 Klien</label>
@@ -162,8 +163,9 @@
                                                 {{ $product->client }}</label>
                                         </div>
                                     </div>
-                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b ">
-                                        <div id="harga" name="harga" class="items-center hidden">
+                                    <div id="harga" name="harga"
+                                        class="mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b hidden">
+                                        <div class="flex items-center">
                                             <label id="lblClient" name="lblClient"
                                                 class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Harga</label>
                                             <label
@@ -173,8 +175,9 @@
                                                 {{ number_format($product->price) }}</label>
                                         </div>
                                     </div>
-                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b items-center">
-                                        <div id="periode" name="periode" class="flex items-center" hidden>
+                                    <div id="periode" name="periode"
+                                        class="hidden mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b items-center">
+                                        <div class="flex items-center">
                                             <label id="lblPeriode" name="lblPeriode"
                                                 class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Periode</label>
                                             <label
@@ -188,8 +191,9 @@
                                                 class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">{{ date('d-M-Y', strtotime($product->end_contract)) }}</label>
                                         </div>
                                     </div>
-                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b items-center">
-                                        <div id="contractRemaining" name="contractRemaining" class="items-center hidden">
+                                    <div id="contractRemaining" name="contractRemaining"
+                                        class="hidden mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b items-center">
+                                        <div class="flex items-center">
                                             <?php
                                             $tgl1 = new DateTime();
                                             $tgl2 = new DateTime($product->end_contract);

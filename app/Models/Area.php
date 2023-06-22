@@ -13,6 +13,12 @@ class Area extends Model
 
     protected $guarded = ['id'];
 
+    public function scopeFilter($query, $filter){
+        $query->when($filters ?? false, fn($query, $search) => 
+                $query->where('area', 'like', '%' . $search . '%'))
+                      ->orWhere('provinsi', 'like', '%' . request('search') . '%');
+    }
+
     public function products(){
         return $this->hasMany(Product::class, 'area_id', 'id');
     }

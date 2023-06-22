@@ -48,7 +48,7 @@ xhrProduct.onreadystatechange = () => {
                         addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \n Klien : " + obj.dataProduct[i].client + " \n Harga : Rp. " + priceFormat + ",- \n Awal Kontrak : " + start_contract.getDate() + "-" + startMMM + "-" + start_contract.getFullYear() + " \n Akhir Kontrak : " + end_contract.getDate() + "-" + endMMM + "-" + end_contract.getFullYear(), icon = "/img/marker-red.png", id = obj.dataProduct[i].id);
                     } else if ((obj.dataProduct[i].build_status == "Rencana" || obj.dataProduct[i].build_status == "Pembangunan") && obj.dataProduct[i].sale_status == "Available") {
                         addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \nKondisi : " + obj.dataProduct[i].build_status + " \nStatus : " + obj.dataProduct[i].sale_status, icon = "/img/marker-yellow.png", id = obj.dataProduct[i].id);
-                    } else if (obj.dataProduct[i].sale_status == "Available") {
+                    } else if (obj.dataProduct[i].sale_status == "Available" && obj.dataProduct[i].build_status == "Terbangun") {
                         addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \nStatus : " + obj.dataProduct[i].sale_status, icon = "/img/marker-green.png", id = obj.dataProduct[i].id);
                     }
                 }

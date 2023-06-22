@@ -17,7 +17,7 @@ class CityController extends Controller
     public function index(): Response
     {        
         return response()-> view ('dashboard.media.cities.index',[
-            'cities'=>City::sortable()->with(['user', 'area'])->paginate(10),
+            'cities'=>City::sortable()->with(['user', 'area'])->filter(request(['search']))->paginate(10)->withQueryString(),
             'title' => 'Daftar Kota'
         ]);
     }

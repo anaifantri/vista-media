@@ -16,7 +16,7 @@ class AreaController extends Controller
     public function index(): Response
     {
         return response()-> view ('dashboard.media.areas.index', [
-            'areas'=>Area::sortable()->with(['user'])->paginate(10),
+            'areas'=>Area::filter(request('search'))->sortable()->with(['user'])->paginate(10)->withQueryString(),
             'title' => 'Daftar Area'
         ]);
     }

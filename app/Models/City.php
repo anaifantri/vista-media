@@ -13,6 +13,16 @@ class City extends Model
     
     protected $guarded = ['id'];
 
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('city', 'like', '%' . $search . '%')
+                        ->orWhere('code', 'like', '%' . $search . '%')
+                        ->orWhereHas('area', function($query) use ($search){
+                            $query->where('area', 'like', '%' . $search . '%');
+                        });
+        });
+    }
+
     public function products(){
         return $this->hasMany(Product::class, 'city_id', 'id');
     }

@@ -26,15 +26,29 @@
                 </div>
                 <!-- Button Create New City end -->
                 <!-- Alert Success Create New City start -->
-                @if (session()->has('success'))
-                    <div class="flex alert-success mt-1" role="alert">
-                        <svg class="fill-current mx-1 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path
-                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                        </svg>
-                        <span class="mx-1">Success!</span>{{ session('success') }}
+                <form class="flex mt-2" action="/dashboard/media/cities/">
+                    <div class="flex">
+                        <input id="search" name="search"
+                            class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
+                            placeholder="Search Kota/Kode" value="{{ request('search') }}">
+                        <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                            type="submit">
+                            <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+                            </svg>
+                        </button>
                     </div>
-                @endif
+                    @if (session()->has('success'))
+                        <div class="ml-2 flex alert-success">
+                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                            </svg>
+                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                        </div>
+                    @endif
+                </form>
             </div>
         </div>
         <!-- Alert Success Create New City end -->
