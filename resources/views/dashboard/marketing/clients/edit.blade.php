@@ -1,14 +1,14 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex relative items-center">
-        <div class="flex">
-            <form class="flex" method="post" action="/dashboard/marketing/clients/{{ $client->id }}"
+    <div class="flex justify-center mt-10">
+        <div class="md:flex">
+            <form class="md:flex" method="post" action="/dashboard/marketing/clients/{{ $client->id }}"
                 enctype="multipart/form-data">
                 @method('put')
                 @csrf
-                <div class="flex justify-center items-center w-72">
-                    <div class="d-flex items-center p-8">
+                <div class="flex justify-center items-center w-60 md:w-72">
+                    <div class="d-flex justify-center items-center p-8">
                         <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
                         <input type="hidden" name="oldLogo" value="{{ $client->logo }}">
                         @if ($client->logo)
@@ -19,7 +19,7 @@
                                 src="/img/photo_profile.png">
                         @endif
                         <input
-                            class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('logo') is-invalid @enderror"
+                            class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 md:w-72 mt-5 @error('logo') is-invalid @enderror"
                             type="file" id="logo" name="logo" onchange="previewImage()">
                         @error('logo')
                             <div class="invalid-feedback">
@@ -28,7 +28,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="flex w-96 items-center">
+                <div class="flex w-72 md:w-96 items-center">
                     <div class="p-3 py-3 w-full">
                         <div class="flex items-center mb-2">
                             <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Edit Klien</h4>

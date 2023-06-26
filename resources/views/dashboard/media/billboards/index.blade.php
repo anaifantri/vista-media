@@ -4,7 +4,7 @@
     <div class="xl:flex xl:justify-center">
         <form action="/dashboard/media/billboards/">
             <div class="mt-10 z-0">
-                <div class="flex p-1">
+                <div class="flex p-1 w-full">
                     <h1 class="index-h1">Daftar Lokasi Billboard</h1>
                     @canany(['isAdmin', 'isMedia', 'isMarketing'])
                         <div class="border-b">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="">
                     <div class="flex mt-1 ml-2">
-                        <div class="w-28">
+                        <div class="w-full md:w-36">
                             <span class="text-base text-teal-900">Area</span>
                             <input type="text" id="requestArea" name="requestArea" value="{{ request('area') }}" hidden>
                             <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="area"
@@ -37,7 +37,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="w-28 ml-2">
+                        <div class="w-full md:w-36 ml-2">
                             <span class="text-base text-teal-900">Kota</span>
                             <input type="text" id="city" name="city" value="{{ request('requestCity') }}" hidden>
                             <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="requestCity"
@@ -45,7 +45,7 @@
                                 <option value="All">All</option>
                             </select>
                         </div>
-                        <div class="w-28 ml-2">
+                        <div class="w-full md:w-36 ml-2">
                             <span class="text-base text-teal-900">Kondisi</span>
                             <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="build"
                                 id="build" onchange="submit()">
@@ -59,7 +59,7 @@
                                 @endfor
                             </select>
                         </div>
-                        <div class="w-28 ml-2">
+                        <div class="w-full md:w-36 ml-2">
                             <span class="text-base text-teal-900">Status</span>
                             <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="sale"
                                 id="sale" onchange="submit()">
@@ -74,11 +74,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="flex mt-2">
+                    <div class="md:flex mt-2">
                         <div class="flex">
                             <input id="search" name="search"
                                 class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900"
-                                type="text" placeholder="Search Kode/Lokasi/Klien" value="{{ request('search') }}">
+                                type="text" placeholder="Search" value="{{ request('search') }}">
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                 type="submit">
                                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -98,23 +98,23 @@
                         @endif
                     </div>
                 </div>
-                <div class="ml-2 w-full overflow-x-scroll xl:overflow-x-visible">
+                <div class="ml-2 overflow-x-scroll xl:overflow-x-visible">
                     <table class="table-auto w-full">
                         <thead>
                             <tr class="index-tr items-center h-10 bg-teal-100 border-t">
                                 <th class="index-td text-sm w-8 2xl:w-8">No</th>
-                                <th class="index-td text-sm w-[88px] 2xl:w-32">@sortablelink('code', 'Kode')
+                                <th class="index-td text-sm w-[84px] 2xl:w-32">@sortablelink('code', 'Kode')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
                                 </th>
                                 <th class="index-td text-sm w-56 2xl:w-80">Lokasi</th>
-                                <th class="index-td text-sm w-14 2xl:w-16">Kota</th>
+                                <th class="index-td text-sm w-12 2xl:w-16">Kota</th>
                                 <th class="index-td text-sm w-10 2xl:w-12">Jenis</th>
                                 <th class="index-td text-sm w-10 2xl:w-12">BL/FL</th>
-                                <th class="index-td text-sm w-[88px] 2xl:w-24">Size - V/H</th>
-                                <th class="index-td text-sm w-[104px] 2xl:w-28">Kondisi</th>
+                                <th class="index-td text-sm w-[84px] 2xl:w-24">Size - V/H</th>
+                                <th class="index-td text-sm w-[100px] 2xl:w-28">Kondisi</th>
                                 <th class="index-td text-sm  w-[72px] 2xl:w-16">Status</th>
                                 <th class="index-td text-sm w-[104px] 2xl:w-28">Klien</th>
                                 <th class="index-td text-sm w-28 2xl:w-32">@sortablelink('price', 'Harga')

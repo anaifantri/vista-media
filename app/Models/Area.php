@@ -14,9 +14,9 @@ class Area extends Model
     protected $guarded = ['id'];
 
     public function scopeFilter($query, $filter){
-        $query->when($filters ?? false, fn($query, $search) => 
-                $query->where('area', 'like', '%' . $search . '%'))
-                      ->orWhere('provinsi', 'like', '%' . request('search') . '%');
+        $query->when($filter ?? false, fn($query, $search) => 
+                $query->where('area', 'like', '%' . $search . '%')
+                    ->orWhere('provinsi', 'like', '%' . $search . '%'));
     }
 
     public function products(){

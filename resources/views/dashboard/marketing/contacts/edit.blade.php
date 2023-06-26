@@ -40,7 +40,7 @@
                         <input id="client_name" name="client_name"
                             class="flex px-2 text-sm font-semibold text-teal-900 w-full
                             border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
-                            type="text" value="{{ $contact->client_name }}" autofocus required readonly>
+                            type="text" value="{{ $contact->client->name }}" autofocus required readonly>
                         <input id="client_id" name="client_id"
                             class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300"
                             value="{{ $contact->client_id }}" type="hidden">

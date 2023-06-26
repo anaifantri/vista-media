@@ -23,7 +23,7 @@
 }
 
 .hamburger-line {
-    @apply w-[30px] h-[2px] my-2 block bg-white;
+    @apply w-[24px] h-[2px] my-[6px] block bg-teal-900;
 }
 
 .hamburger-active > span:nth-child(1) {
@@ -51,7 +51,10 @@
     @apply text-gray-400;
 }
 .nav-svg{
-    @apply flex fill-current mr-2 w-4  ;
+    @apply flex fill-current w-6 hover:text-emerald-600 hover:scale-125;
+}
+.child-nav-svg{
+    @apply flex fill-current w-4 mr-1 hover:text-emerald-600;
 }
 .svg-arrow {
     @apply flex fill-current w-2;

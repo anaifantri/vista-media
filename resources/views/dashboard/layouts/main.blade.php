@@ -14,19 +14,24 @@
 <body>
     <!-- Header start-->
     @if (auth()->check())
-        @include('dashboard.layouts.header');
+        @include('dashboard.layouts.header')
     @endif
     <!-- Header end-->
+    <!-- Sidebar start-->
+    <div class="flex relative z-10">
+        @include('dashboard.layouts.sidebar')
+    </div>
+    <!-- Sidebar End-->
     <!-- Main start-->
-    <div class="w-full h-full top-0">
+    <div class="w-full h-full top-0 relative z-0">
         {{-- <div class="flex relative"> --}}
         <!-- Sidebar start-->
         {{-- @include('dashboard.layouts.sidebar') --}}
         <!-- Sidebar End-->
         <!-- Main Section start -->
-        {{-- <div class="flex w-full relative justify-center items-start"> --}}
-        @yield('container')
-        {{-- </div> --}}
+        <div class="relative ml-14">
+            @yield('container')
+        </div>
         <!-- Main Section end -->
         {{-- </div> --}}
     </div>

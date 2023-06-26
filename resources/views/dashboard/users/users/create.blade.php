@@ -60,7 +60,7 @@
                         <div class="mt-2"><label class="text-sm text-teal-700">No. Handphone</label>
                             <input
                                 class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
-                                type="text" id="phone" name="phone" placeholder="No. Handphone"
+                                type="number" id="phone" name="phone" placeholder="No. Handphone"
                                 value="{{ old('phone') }}" required>
                             @error('phone')
                                 <div class="invalid-feedback">

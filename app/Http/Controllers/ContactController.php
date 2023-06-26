@@ -33,16 +33,15 @@ class ContactController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validateData = $request->validate([
-            'name' => 'required|max:255|unique:clients',
-            'phone' => 'unique:clients',
-            'email' => 'unique:clients',
-            'position' => 'required',
+            'name' => 'required|max:255',
+            'email' => 'required|email:dns|unique:contacts',
+            'phone' => 'required|min:10|max:15|unique:contacts',
             'photo' => 'image|file|max:1024'
         ]);
 
-        $validateData['username'] = auth()->user()->username;
-        $validateData['client_name'] = $request->client_name;
+        $validateData['user_id'] = auth()->user()->id;
         $validateData['client_id'] = $request->client_id;
+        $validateData['position'] = $request->position;
 
         if($request->file('photo')){
             $validateData['photo'] = $request->file('photo')->store('contact-images');
@@ -83,11 +82,11 @@ class ContactController extends Controller
         ];
 
         if($request->email != $contact->email){
-            $rules['email'] = 'unique:clients';
+            $rules['email'] = 'required|email:dns|unique:contacts';
         } 
 
         if($request->phone != $contact->phone){
-            $rules['phone'] = 'unique:users';
+            $rules['phone'] = 'required|min:10|max:15|unique:contacts';
         }
 
         $validateData = $request->validate($rules);
@@ -121,6 +120,6 @@ class ContactController extends Controller
 
         Contact::destroy($contact->id);
 
-        return redirect('/dashboard/marketing/clients/'. $contact->client_name)->with('success','Contact ' . $contact->name . ' berhasil dihapus');
+        return redirect('/dashboard/marketing/clients/'. $contact->client_id)->with('success','Contact ' . $contact->name . ' berhasil dihapus');
     }
 }

@@ -37,7 +37,7 @@ class BillboardController extends Controller
             return response()-> view ('dashboard.media.billboards.create', [
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'sizes'=>Size::all(),
+                'sizes'=>Size::orderBy("size", "asc")->get(),
                 'title' => 'Menambahkan Billboard'
             ]);
         } else {

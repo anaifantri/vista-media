@@ -1,39 +1,71 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="index-container">
-        <div class="flex absolute p-2 w-full">
-            <h1 class="index-h1"> Daftar Klien</h1>
-        </div>
-        <div class="index-btnAdd">
-            <a href="/dashboard/marketing/clients/create" class="index-link btn-primary">
-                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                        fill-rule="nonzero" />
-                </svg>
-                <span class="mx-1">Tambah Klien</span>
-            </a>
-        </div>
-        @if (session()->has('success'))
-            <div class="index-alert alert-success">
-                <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <path
-                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                </svg>
-                <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+    <div class="mt-10 z-0">
+        <div class="flex justify-center w-full">
+            <div class="w-[915px] p-2">
+                <div class="flex">
+                    <h1 class="index-h1"> Daftar Klien</h1>
+                    <div class="flex border-b">
+                        <a href="/dashboard/marketing/clients/create" class="index-link btn-primary">
+                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="mx-1">Tambah Klien</span>
+                        </a>
+                    </div>
+                </div>
+                <form class="flex mt-2" action="/dashboard/marketing/clients/">
+                    <div class="flex">
+                        <input id="search" name="search"
+                            class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
+                            placeholder="Search Area" value="{{ request('search') }}">
+                        <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                            type="submit">
+                            <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+                            </svg>
+                        </button>
+                    </div>
+                    @if (session()->has('success'))
+                        <div class="ml-2 flex alert-success">
+                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                            </svg>
+                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                        </div>
+                    @endif
+                </form>
             </div>
-        @endif
-        <div class="index-table">
-            <table class="table-auto">
+        </div>
+        <div class="flex lg:justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible z-0">
+            <table class="table-auto w-full lg:w-[800px] mb-6">
                 <thead>
-                    <tr class="index-tr">
-                        <th class="index-td text-sm w-5">No.</th>
-                        <th class="index-td text-sm w-36">Nama Klien</th>
-                        <th class="index-td text-sm w-48">Nama Perusahaan</th>
-                        <th class="index-td text-sm w-24">Katagori</th>
+                    <tr class="index-tr items-center h-10 bg-teal-100 border-t">
+                        <th class="index-td text-sm w-8">No.</th>
+                        <th class="index-td text-sm w-36">
+                            @sortablelink('name', 'Nama Klien')
+                            <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                            </svg>
+                        </th>
+                        <th class="index-td text-sm w-48">
+                            @sortablelink('company', 'Nama Perusahaan')
+                            <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                            </svg>
+                        </th>
+                        <th class="index-td text-sm w-24">
+                            @sortablelink('category', 'Katagori')
+                            <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                            </svg>
+                        </th>
                         <th class="index-td text-sm w-44">Email</th>
                         <th class="index-td text-sm w-32">No. Telepon</th>
                         <th class="index-td text-sm w-32">Action</th>
@@ -42,7 +74,7 @@
                 <tbody>
                     @foreach ($clients as $client)
                         <tr class="index-tr">
-                            <td class="index-td text-sm w-5 text-center">{{ $loop->iteration }}</td>
+                            <td class="index-td text-sm w-8 text-center">{{ $loop->iteration }}</td>
                             <td class="index-td text-sm w-36">{{ $client->name }}</td>
                             <td class="index-td text-sm w-48">{{ $client->company }}</td>
                             <td class="index-td text-sm w-24">{{ $client->category }}</td>
@@ -95,6 +127,9 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="flex justify-center text-teal-900">
+            {{ $clients->links() }}
         </div>
     </div>
 @endsection

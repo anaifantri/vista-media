@@ -1,16 +1,17 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex relative mt-1">
-        <div class="flex">
+    <div class="lg:flex justify-center mt-10">
+        <div class="lg:flex justify-center">
             <!-- Logo Client Start -->
-            <div class="flex justify-center items-center w-72">
-                <div class="d-flex items-center p-8">
+            <div class="flex justify-center items-center w-full md:w-64">
+                <div class="d-flex w-full justify-center items-center p-8">
                     @if ($client->logo)
-                        <img class="m-auto img-preview flex items-center w-48 h-48"
+                        <img class="m-auto img-preview flex items-center rounded-full w-36 h-36 md:w-48 md:h-48"
                             src="{{ asset('storage/' . $client->logo) }}">
                     @else
-                        <img class="m-auto img-preview flex items-center w-48 h-48" src="/img/photo_profile.png">
+                        <img class="m-auto img-preview flex rounded-full items-center w-36 h-36 md:w-48 md:h-48"
+                            src="/img/photo_profile.png">
                     @endif
                     <span class="flex justify-center font-semibold text-teal-900 border-b mt-3">{{ $client->name }}</span>
                     <span class="flex justify-center text-teal-700 text-sm">{{ $client->company }}</span>
@@ -18,8 +19,8 @@
             </div>
             <!-- Logo Client End -->
             <!-- Detail Client Start -->
-            <div class="flex w-96">
-                <div class="p-2 w-full">
+            <div class="flex justify-center w-72">
+                <div class="p-2 w-full justify-center">
                     <div class="flex items-center mb-3">
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Detail Klien</h4>
                     </div>
@@ -67,7 +68,7 @@
                                         d="m12.017 1.995c5.517 0 9.997 4.48 9.997 9.998s-4.48 9.998-9.997 9.998c-5.518 0-9.998-4.48-9.998-9.998s4.48-9.998 9.998-9.998zm0 1.5c-4.69 0-8.498 3.808-8.498 8.498s3.808 8.498 8.498 8.498 8.497-3.808 8.497-8.498-3.807-8.498-8.497-8.498zm-1.528 4.715s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
                                         fill-rule="nonzero" />
                                 </svg>
-                                <span class="mx-1"> Back to Klien </span>
+                                <span class="mx-1"> Back </span>
                             </a>
                             <a href="/dashboard/marketing/clients/{{ $client->id }}/edit"
                                 class="flex items-center justify-center btn-warning mx-1">
@@ -102,35 +103,66 @@
             </div>
             <!-- Detail Client End -->
             <!-- Kontak Person Start -->
-            <div class="flex p-2 relative w-96 border-l">
-                <div class="flex mb-3 mx-3">
-                    <!-- Title Kontak Person Start -->
-                    <div class="w-48">
+            <div class="justify-center relative w-[360px] md:w-[420px] border-l md:h-[580px] md:overflow-y-auto">
+                <div class="flex bg-white w-full">
+                    <div class="w-[360px] md:w-[420px] p-2">
+                        <!-- Title Kontak Person Start -->
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900 w-48">Kontak Person</h4>
-                    </div>
-                    <!-- Title Kontak Person End -->
-                    <!-- Button Add Kontak Person Start -->
-                    <div class="flex absolute w-48 mt-10">
-                        <button class="flex items-center btn-primary mx-1" type="button" id="btnAdd" name="btnAdd">
-                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                    fill-rule="nonzero" />
-                            </svg>
-                            <span class="mx-1">Add Contact</span>
-                        </button>
+                        <!-- Title Kontak Person End -->
+                        <!-- Button Add Kontak Person Start -->
+                        <div class="">
+                            <button class="flex items-center btn-primary" type="button" id="btnAdd" name="btnAdd">
+                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <span class="mx-1">Add Contact</span>
+                            </button>
+                            @error('email')
+                                <div class="mt-2 flex alert-danger">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                                    </svg>
+                                    <span class="font-semibold mx-1">Failed!!</span> {{ $message }}
+                                </div>
+                            @enderror
+                            @error('phone')
+                                <div class="mt-2 flex alert-danger">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                                    </svg>
+                                    <span class="font-semibold mx-1">Failed!!</span> {{ $message }}
+                                </div>
+                            @enderror
+                            @if (session()->has('success'))
+                                <div class="mt-2 flex alert-success">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                                    </svg>
+                                    <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
                 <!-- Button Add Kontak Person End -->
-                <div class="absolute items-center mt-[70px] p-2 w-96">
+                <div class="items-center p-2 relative w-full">
                     <!-- Show Kontak Person Start -->
                     @foreach ($contacts as $contact)
-                        <div class="flex w-96 border-t">
+                        <div class="md:flex border-t">
                             <h6 class="flex absolute text-sm mx-3 mt-3 font-semibold text-teal-900">
                                 {{ $loop->iteration }}
                             </h6>
-                            <div class="flex justify-center w-44">
+                            <div class="flex justify-center w-32 md:w-44">
                                 <div class="flex p-2">
                                     @if ($contact->photo)
                                         <img class="m-auto rounded-full img-preview flex items-center w-28 h-28"
@@ -141,7 +173,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="mt-2 w-52">
+                            <div class="mt-2 w-40 md:w-52">
                                 <div class="border-b mt-1"><label class="text-sm text-teal-700">Nama</label>
                                     <h6 class="text-sm font-semibold text-teal-900">{{ $contact->name }}</h6>
                                 </div>
@@ -193,18 +225,18 @@
         </div>
     </div>
     <!-- Add Kontak Person Start -->
-    <div class="left-0 top-0 h-screen hidden w-full fixed justify-center items-center bg-black bg-opacity-50"
+    <div class="left-0 top-0 h-full w-full hidden fixed justify-center items-center bg-black bg-opacity-50"
         id="addContact" name="addContact">
-        <div class="w-[600px] h-[400px] bg-white rounded-xl border flex">
-            <div class="flex absolute w-[600px] p-1">
+        <div class="w-[280px] md:w-[600px] h-max bg-white rounded-xl border mt-16">
+            <div class="w-[280px] md:w-[600px] p-1">
                 <h4 class="p-2 text-lg text-center font-semibold tracking-wider text-teal-900 border-b w-full rounded-lg">
                     Tambah
                     Kontak Person
                 </h4>
             </div>
-            <form class="flex" method="post" action="/dashboard/marketing/contacts" enctype="multipart/form-data">
+            <form class="lg:flex" method="post" action="/dashboard/marketing/contacts" enctype="multipart/form-data">
                 @csrf
-                <div class="flex justify-center w-[290px] bg-white p-1 mt-12">
+                <div class="lg:flex justify-center w-[250px] md:w-[290px] bg-white p-1 mt-2 lg:mt-12">
                     <div class="d-flex items-center p-3">
                         <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
                         <img class="m-auto photo-preview rounded-full flex items-center w-20 h-20"
@@ -219,7 +251,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="mt-12 w-[290px] bg-white p-1">
+                <div class="mt-2 lg:mt-12 w-[250px] md:w-[290px] bg-white p-1">
                     <div class="mt-1"><label class="text-sm text-teal-700">Nama Klien</label>
                         <input id="client_name" name="client_name"
                             class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
@@ -242,8 +274,8 @@
                     <div class="mt-1"><label class="text-sm text-teal-700">Email</label>
                         <input
                             class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
-                            type="text" id="email" name="email" placeholder="Email"
-                            value="{{ old('email') }}">
+                            type="email" id="email" name="email" placeholder="Email"
+                            value="{{ old('email') }}" required>
                         @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -253,8 +285,8 @@
                     <div class="border-b mt-1"><label class="text-sm text-teal-700">No. Handphone</label>
                         <input
                             class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
-                            type="text" id="phone" name="phone" placeholder="No. Hp"
-                            value="{{ old('phone') }}">
+                            type="number" id="phone" name="phone" placeholder="No. Handphone"
+                            value="{{ old('phone') }}" required>
                         @error('phone')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -326,11 +358,12 @@
         btnAdd.addEventListener('click', function() {
             addContact.classList.remove('hidden');
             addContact.classList.add('flex');
+            window.scrollTo(0, 0);
         });
 
         btnCancel.addEventListener('click', function() {
-            addContact.classList.add('hidden');
             addContact.classList.remove('flex');
+            addContact.classList.add('hidden');
         });
     </script>
     <!-- Script Add Contact end-->

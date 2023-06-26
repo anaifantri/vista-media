@@ -127,9 +127,5 @@ class CityController extends Controller
         } else {
             abort(403);
         }
-
-        City::destroy($city->id);
-
-        return redirect('/dashboard/media/cities')->with('success','Kota '. $city->city .' berhasil dihapus');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,7 +18,7 @@ class ClientController extends Controller
     public function index(): Response
     {
         return response()->view('dashboard.marketing.clients.index', [
-            'clients' => Client::all(),
+            'clients' => Client::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
             'title' => 'Daftar Klien'
         ]);
     }
@@ -40,12 +41,12 @@ class ClientController extends Controller
         if ($request->category == 'Pilih Katagori'){
             return back()->withErrors(['category' => ['Silahkan pilih katagori']])->withInput();
         }
-       
+    
         $validateData = $request->validate([
             'name' => 'required|max:255|unique:clients',
             'company' => 'required|min:6|unique:clients',
-            'phone' => 'unique:clients',
-            'email' => 'unique:clients',
+            'phone' => 'min:10|unique:clients',
+            'email' => 'email:dns|unique:clients',
             'address' => 'required',
             'category' => 'required',
             'logo' => 'image|file|max:1024'
@@ -54,7 +55,7 @@ class ClientController extends Controller
         if($request->file('logo')){
             $validateData['logo'] = $request->file('logo')->store('client-images');
         }
-        $validateData['username'] = auth()->user()->username;
+        $validateData['user_id'] = auth()->user()->id;
         
         Client::create($validateData);
         
@@ -96,7 +97,7 @@ class ClientController extends Controller
         ];
 
         if($request->email != $client->email){
-            $rules['email'] = 'unique:clients';
+            $rules['email'] = 'email:dns|unique:clients';
         }
 
         if($request->company != $client->company){
@@ -104,7 +105,7 @@ class ClientController extends Controller
         } 
 
         if($request->phone != $client->phone){
-            $rules['phone'] = 'unique:users';
+            $rules['phone'] = 'min:10|unique:users';
         }
 
         if($request->category != $client->category){

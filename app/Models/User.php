@@ -46,6 +46,12 @@ class User extends Authenticatable
     public function products(){
         return $this->hasMany(City::class, 'user_id', 'id');
     }
+    public function clients(){
+        return $this->hasMany(Client::class, 'user_id', 'id');
+    }
+    public function contacts(){
+        return $this->hasMany(Contact::class, 'user_id', 'id');
+    }
 
     public $sortable = ['name', 'username'];
     /**

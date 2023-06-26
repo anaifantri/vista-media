@@ -1,16 +1,17 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex relative mt-5 items-center">
-        <div class="flex">
-            <form class="flex" method="post" action="/dashboard/marketing/clients" enctype="multipart/form-data">
+    <div class="flex relative mt-5 items-center justify-center">
+        <div class="md:flex">
+            <form class="md:flex" method="post" action="/dashboard/marketing/clients" enctype="multipart/form-data">
                 @csrf
-                <div class="flex justify-center items-center w-72">
-                    <div class="d-flex items-center p-8">
+                <div class="flex justify-center items-center w-60 md:w-72">
+                    <div class="d-flex justify-center items-center p-8">
                         <label class="flex justify-center text-sm text-teal-700 mb-2">Logo Perusahaan</label>
-                        <img class="m-auto img-preview flex items-center w-48 h-48" src="/img/photo_profile.png">
+                        <img class="m-auto img-preview flex items-center w-36 h-36 md:w-48 md:h-48"
+                            src="/img/photo_profile.png">
                         <input
-                            class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('photo') is-invalid @enderror"
+                            class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 md:w-72 mt-5 @error('photo') is-invalid @enderror"
                             type="file" id="logo" name="logo" onchange="previewImage()">
                         @error('logo')
                             <div class="invalid-feedback">
@@ -19,7 +20,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="flex w-96 items-center">
+                <div class="flex w-72 md:w-96 items-center">
                     <div class="p-3 py-5 w-full">
                         <div class="flex items-center mb-3">
                             <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Create Client</h4>
@@ -71,7 +72,7 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">Email</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
-                                    type="text" id="email" name="email" placeholder="Email Perusahaan"
+                                    type="email" id="email" name="email" placeholder="Email Perusahaan"
                                     value="{{ old('email') }}">
                                 @error('email')
                                     <div class="invalid-feedback">
@@ -82,7 +83,7 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">No. Telepon</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
-                                    type="text" id="phone" name="phone" placeholder="No. Telepon Perusahaan"
+                                    type="number" id="phone" name="phone" placeholder="No. Telepon Perusahaan"
                                     value="{{ old('phone') }}">
                                 @error('phone')
                                     <div class="invalid-feedback">

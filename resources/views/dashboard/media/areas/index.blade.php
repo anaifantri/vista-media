@@ -30,7 +30,7 @@
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
-                            placeholder="Search Area" value="{{ request('search') }}">
+                            placeholder="Search" value="{{ request('search') }}">
                         <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                             type="submit">
                             <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -53,10 +53,10 @@
         </div>
         <!-- Alert Success Create New Area end -->
         <!-- View Area start -->
-        <div class="flex lg:justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible">
+        <div class="flex lg:justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible z-0">
             <table class="table-auto w-full lg:w-[800px] mb-6">
                 <thead class="bg-slate-100">
-                    <tr class="index-tr">
+                    <tr class="index-tr items-center h-10 bg-teal-100 border-t">
                         <th class="index-td w-8">No.</th>
                         <th class="index-td w-16">
                             @sortablelink('area_code', 'Kode')
