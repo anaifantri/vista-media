@@ -414,8 +414,8 @@
                     <?php
                     $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $product->lat . ',' . $product->lng . '&zoom=15&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $product->lat . ',' . $product->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                     $destFolder = 'img/map/';
-                    $fromFolder = 'http://vistamedia.co.id/img/map/';
-                    $mapImgName = 'google-map.PNG';
+                    $fromFolder = '/img/map/';
+                    $mapImgName = 'google-map' . $product->code . '.PNG';
                     $imagePath = $destFolder . $mapImgName;
                     file_put_contents($imagePath, file_get_contents($src));
                     ?>
@@ -580,7 +580,6 @@
             </div>
             <div class="h-10"></div>
         </div>
-    </div>
     </div>
     <!-- Preview Billboard end -->
     <!-- Script Billboard start -->

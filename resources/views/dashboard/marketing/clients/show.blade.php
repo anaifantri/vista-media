@@ -48,7 +48,7 @@
                             <h6 class="text-base font-semibold text-teal-900">{{ $client->phone }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Dibuat Oleh</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->username }}</h6>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $client->user->name }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Tanggal Terdaftar</label>
                             <h6 class="text-base font-semibold text-teal-900">{{ $client->created_at->format('l, d-M-Y') }}
