@@ -6,15 +6,15 @@
             <!-- Logo Client Start -->
             <div class="flex justify-center items-center w-full md:w-64">
                 <div class="d-flex w-full justify-center items-center p-8">
-                    @if ($client->logo)
+                    @if ($vendor->logo)
                         <img class="m-auto img-preview flex items-center rounded-full w-36 h-36 md:w-48 md:h-48"
-                            src="{{ asset('storage/' . $client->logo) }}">
+                            src="{{ asset('storage/' . $vendor->logo) }}">
                     @else
                         <img class="m-auto img-preview flex rounded-full items-center w-36 h-36 md:w-48 md:h-48"
                             src="/img/photo_profile.png">
                     @endif
-                    <span class="flex justify-center font-semibold text-teal-900 border-b mt-3">{{ $client->name }}</span>
-                    <span class="flex justify-center text-teal-700 text-sm">{{ $client->company }}</span>
+                    <span class="flex justify-center font-semibold text-teal-900 border-b mt-3">{{ $vendor->name }}</span>
+                    <span class="flex justify-center text-teal-700 text-sm">{{ $vendor->company }}</span>
                 </div>
             </div>
             <!-- Logo Client End -->
@@ -22,45 +22,44 @@
             <div class="flex justify-center w-72">
                 <div class="p-2 w-full justify-center">
                     <div class="flex items-center mb-3">
-                        <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Detail Klien</h4>
+                        <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Detail Vendor</h4>
                     </div>
                     <div class="mt-5 w-full">
-                        <div class="border-b mt-2"><label class="text-sm text-teal-700">Nama Klien</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->name }}</h6>
+                        <div class="border-b mt-2"><label class="text-sm text-teal-700">Nama Vendor</label>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $vendor->name }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Nama Perusahaan</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->company }}</h6>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $vendor->company }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Alamat</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->address }}</h6>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $vendor->address }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Katagori</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->client_category->name }}</h6>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $vendor->vendor_category->name }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Email</label>
-                            @if ($client->email)
-                                <h6 class="text-base font-semibold text-teal-900">{{ $client->email }}</h6>
+                            @if ($vendor->email)
+                                <h6 class="text-base font-semibold text-teal-900">{{ $vendor->email }}</h6>
                             @else
                                 <h6 class="text-base font-semibold text-teal-900">-</h6>
                             @endif
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">No. Telepon</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->phone }}</h6>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $vendor->phone }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Dibuat Oleh</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->user->name }}</h6>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $vendor->user->name }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Tanggal Terdaftar</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->created_at->format('l, d-M-Y') }}
+                            <h6 class="text-base font-semibold text-teal-900">{{ $vendor->created_at->format('l, d-M-Y') }}
                             </h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Tanggal Perubahan Terakhir</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->updated_at->format('l, d-M-Y') }}
+                            <h6 class="text-base font-semibold text-teal-900">{{ $vendor->updated_at->format('l, d-M-Y') }}
                             </h6>
                         </div>
                         <div class="flex mt-2">
-                            <a href="/dashboard/marketing/clients"
-                                class="flex items-center justify-center btn-primary mx-1">
+                            <a href="/dashboard/media/vendors" class="flex items-center justify-center btn-primary mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +69,7 @@
                                 </svg>
                                 <span class="mx-1"> Back </span>
                             </a>
-                            <a href="/dashboard/marketing/clients/{{ $client->id }}/edit"
+                            <a href="/dashboard/media/vendors/{{ $vendor->id }}/edit"
                                 class="flex items-center justify-center btn-warning mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -81,12 +80,11 @@
                                 </svg>
                                 <span class="mx-1"> Edit </span>
                             </a>
-                            <form action="/dashboard/marketing/clients/{{ $client->id }}" method="post"
-                                class="d-inline">
+                            <form action="/dashboard/media/vendors/{{ $vendor->id }}" method="post" class="d-inline">
                                 @method('delete')
                                 @csrf
                                 <button class="flex items-center justify-center btn-danger mx-1"
-                                    onclick="return confirm('Apakah anda yakin ingin menghapus User {{ $client->username }} ?')">
+                                    onclick="return confirm('Apakah anda yakin ingin menghapus User {{ $vendor->username }} ?')">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -157,7 +155,7 @@
                 <!-- Button Add Kontak Person End -->
                 <div class="items-center p-2 relative w-full">
                     <!-- Show Kontak Person Start -->
-                    @foreach ($contacts as $contact)
+                    @foreach ($vendor_contacts as $contact)
                         <div class="md:flex border-t">
                             <h6 class="flex absolute text-sm mx-3 mt-3 font-semibold text-teal-900">
                                 {{ $loop->iteration }}
@@ -187,7 +185,7 @@
                                     <h6 class="text-sm font-semibold text-teal-900">{{ $contact->position }}</h6>
                                 </div>
                                 <div class="flex mt-2">
-                                    <a href="/dashboard/marketing/contacts/{{ $contact->id, $client->id }}/edit"
+                                    <a href="/dashboard/media/contacts/{{ $contact->id, $vendor->id }}/edit"
                                         class="flex items-center justify-center btn-warning mx-1" name="btnEdit"
                                         id="btnEdit">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
@@ -199,7 +197,7 @@
                                         </svg>
                                         <span class="mx-1"> Edit </span>
                                     </a>
-                                    <form action="/dashboard/marketing/contacts/{{ $contact->id }}" method="post"
+                                    <form action="/dashboard/media/contacts/{{ $contact->id }}" method="post"
                                         class="d-inline">
                                         @method('delete')
                                         @csrf
@@ -234,7 +232,7 @@
                     Kontak Person
                 </h4>
             </div>
-            <form class="lg:flex" method="post" action="/dashboard/marketing/contacts" enctype="multipart/form-data">
+            <form class="lg:flex" method="post" action="/dashboard/media/contacts" enctype="multipart/form-data">
                 @csrf
                 <div class="lg:flex justify-center w-[250px] md:w-[290px] bg-white p-1 mt-2 lg:mt-12">
                     <div class="d-flex items-center p-3">
@@ -252,15 +250,15 @@
                     </div>
                 </div>
                 <div class="mt-2 lg:mt-12 w-[250px] md:w-[290px] bg-white p-1">
-                    <div class="mt-1"><label class="text-sm text-teal-700">Nama Klien</label>
-                        <input id="client_name" name="client_name"
+                    <div class="mt-1"><label class="text-sm text-teal-700">Nama Vendor</label>
+                        <input id="vendor_name" name="vendor_name"
                             class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
-                            type="text" value="{{ $client->name }}" autofocus required readonly>
+                            type="text" value="{{ $vendor->name }}" autofocus required readonly>
                     </div>
                     <div class="mt-1"><label class="text-sm text-teal-700">Nama</label>
-                        <input id="client_id" name="client_id"
+                        <input id="vendor_id" name="vendor_id"
                             class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300"
-                            value="{{ $client->id }}" type="hidden">
+                            value="{{ $vendor->id }}" type="hidden">
                         <input
                             class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                             type="text" id="name" name="name" placeholder="Nama"

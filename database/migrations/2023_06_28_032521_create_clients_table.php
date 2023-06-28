@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('client_category_id')->constrained();
             $table->string('name')->unique();
             $table->string('company')->unique();
-            $table->string('category');
             $table->text('address');
             $table->string('email')->nullable()->unique();
             $table->string('phone')->nullable()->unique();

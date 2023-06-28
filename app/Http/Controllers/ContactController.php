@@ -99,8 +99,7 @@ class ContactController extends Controller
             $validateData['photo'] = $request->file('photo')->store('contact-images');
         }
 
-        $validateData['username'] = auth()->user()->username;
-        $validateData['client_name'] = $request->client_name;
+        $validateData['user_id'] = auth()->user()->id;
         $validateData['client_id'] = $request->client_id;
 
         Contact::where('id', $contact->id)

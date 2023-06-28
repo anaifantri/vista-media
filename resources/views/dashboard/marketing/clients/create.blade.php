@@ -60,10 +60,23 @@
                             </div>
                             <div class="mt-2"><label class="text-sm text-teal-700">Katagori</label>
                                 <select
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('category') is-invalid @enderror"
-                                    name="category" id="category" value="{{ old('category') }}" required>
+                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('client_category_id') is-invalid @enderror"
+                                    name="client_category_id" id="client_category_id"
+                                    value="{{ old('client_category_id') }}" required>
+                                    <option value="Pilih Katagori">Pilih Katagori</option>
+                                    @foreach ($client_categories as $client_category)
+                                        @if (old('client_category_id') == $client_category->id)
+                                            <option value="{{ $client_category->id }}" selected>
+                                                {{ $client_category->name }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $client_category->id }}">
+                                                {{ $client_category->name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
                                 </select>
-                                @error('category')
+                                @error('client_category_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -138,25 +151,4 @@
         }
     </script>
     <!-- Script Preview Image end-->
-    <!-- Script Set Category start-->
-    <script>
-        const category = document.getElementById('category');
-        const option = [];
-        const arraycategory = ['Rokok', 'Operator Cellular', 'Hotel', 'Restoran', 'Club Malam', 'minuman', 'Bank',
-            'Startup', 'Lainnya'
-        ];
-
-        option[0] = document.createElement('option');
-        option[0].appendChild(document.createTextNode(['Pilih Katagori']));
-        option[0].setAttribute('value', 'Pilih Katagori');
-        category.appendChild(option[0]);
-
-        for (i = 0; i < arraycategory.length; i++) {
-            option[i + 1] = document.createElement('option');
-            option[i + 1].appendChild(document.createTextNode(arraycategory[i]));
-            option[i + 1].setAttribute('value', arraycategory[i]);
-            category.appendChild(option[i + 1]);
-        }
-    </script>
-    <!-- Script Set Category end-->
 @endsection

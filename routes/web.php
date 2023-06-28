@@ -16,6 +16,7 @@ use App\Http\Controllers\SignageController;
 use App\Http\Controllers\BillboardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VideotronController;
+use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\VendorCategoryController;
 use App\Http\Controllers\ProductCategoryController;
 
@@ -48,6 +49,7 @@ Route::resource('/dashboard/media/signages', SignageController::class)->middlewa
 Route::resource('/dashboard/media/sizes', SizeController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/leds', LedController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/vendors', VendorController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/contacts', VendorContactController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/vendor-categories', VendorCategoryController::class)->middleware(['auth','user_access']);
 Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware(['auth','user_access']);
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth','user_access']);

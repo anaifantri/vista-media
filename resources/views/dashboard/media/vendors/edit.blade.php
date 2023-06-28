@@ -3,17 +3,17 @@
 @section('container')
     <div class="flex justify-center mt-10">
         <div class="md:flex">
-            <form class="md:flex" method="post" action="/dashboard/marketing/clients/{{ $client->id }}"
+            <form class="md:flex" method="post" action="/dashboard/media/vendors/{{ $vendor->id }}"
                 enctype="multipart/form-data">
                 @method('put')
                 @csrf
                 <div class="flex justify-center items-center w-60 md:w-72">
                     <div class="d-flex justify-center items-center p-8">
                         <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
-                        <input type="hidden" name="oldLogo" value="{{ $client->logo }}">
-                        @if ($client->logo)
+                        <input type="hidden" name="oldLogo" value="{{ $vendor->logo }}">
+                        @if ($vendor->logo)
                             <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
-                                src="{{ asset('storage/' . $client->logo) }}">
+                                src="{{ asset('storage/' . $vendor->logo) }}">
                         @else
                             <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
                                 src="/img/photo_profile.png">
@@ -31,13 +31,13 @@
                 <div class="flex w-72 md:w-96 items-center">
                     <div class="p-3 py-3 w-full">
                         <div class="flex items-center mb-2">
-                            <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Edit Klien</h4>
+                            <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Edit Vendor</h4>
                         </div>
                         <div class="mt-5 w-full">
-                            <div class="mt-2"><label class="text-sm text-teal-700">Nama Klien</label>
+                            <div class="mt-2"><label class="text-sm text-teal-700">Nama Vendor</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
-                                    type="text" id="name" name="name" value="{{ $client->name }}" autofocus>
+                                    type="text" id="name" name="name" value="{{ $vendor->name }}" autofocus>
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -47,7 +47,7 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">Nama Perusahaan</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('company') is-invalid @enderror"
-                                    type="text" id="company" name="company" value="{{ $client->company }}">
+                                    type="text" id="company" name="company" value="{{ $vendor->company }}">
                                 @error('company')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -57,7 +57,7 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">Alamat Perusahaan</label>
                                 <textarea
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                    name="address" id="address" required placeholder="Alamat Perusahaan">{{ $client->address }}</textarea>
+                                    name="address" id="address" required placeholder="Alamat Perusahaan">{{ $vendor->address }}</textarea>
                                 @error('address')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -65,28 +65,24 @@
                                 @enderror
                             </div>
                             <div class="mt-2"><label class="text-sm text-teal-700">Katagori</label>
-                                @php
-                                    $number = 0;
-                                    $categories = ['Pilih Katagori', 'Rokok', 'Operator', 'Cellular', 'Hotel', 'Restoran', 'Club', 'Minuman', 'Bank', 'Startup', 'Lainnya'];
-                                @endphp
                                 <select
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('client_category_id') is-invalid @enderror"
-                                    name="client_category_id" id="client_category_id"
-                                    value="{{ $client->client_category_id }}">
+                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('vendor_category_id') is-invalid @enderror"
+                                    name="vendor_category_id" id="vendor_category_id"
+                                    value="{{ $vendor->vendor_category_id }}">
                                     <option value="Pilih Katagori">Pilih Katagori</option>
-                                    @foreach ($client_categories as $client_category)
-                                        @if ($client->client_category_id == $client_category->id)
-                                            <option value="{{ $client_category->id }}" selected>
-                                                {{ $client_category->name }}
+                                    @foreach ($vendor_categories as $category)
+                                        @if ($category->id == $vendor->vendor_category_id)
+                                            <option value="{{ $category->id }}" selected>
+                                                {{ $category->name }}
                                             </option>
                                         @else
-                                            <option value="{{ $client_category->id }}">
-                                                {{ $client_category->name }}
+                                            <option value="{{ $category->id }}">
+                                                {{ $category->name }}
                                             </option>
                                         @endif
                                     @endforeach
                                 </select>
-                                @error('client_category_id')
+                                @error('vendor_category_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -95,7 +91,7 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">Email</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
-                                    type="text" id="email" name="email" value="{{ $client->email }}">
+                                    type="text" id="email" name="email" value="{{ $vendor->email }}">
                                 @error('email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -105,7 +101,7 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">No. Telepon</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
-                                    type="text" id="phone" name="phone" value="{{ $client->phone }}">
+                                    type="text" id="phone" name="phone" value="{{ $vendor->phone }}">
                                 @error('phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -121,8 +117,7 @@
                                     </svg>
                                     <span class="mx-1"> Update </span>
                                 </button>
-                                <a href="/dashboard/marketing/clients"
-                                    class="flex items-center justify-center btn-danger mx-1">
+                                <a href="/dashboard/media/vendors" class="flex items-center justify-center btn-danger mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">

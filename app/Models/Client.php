@@ -15,8 +15,10 @@ class Client extends Model
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('company', 'like', '%' . $search . '%')
-                    ->orWhere('category', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%'));
+                    ->orWhere('address', 'like', '%' . $search . '%')
+                    ->orWhereHas('client_category', function($query) use ($search){
+                        $query->where('name', 'like', '%' . $search . '%');
+                    }));
     }
 
     public function contact(){
@@ -25,6 +27,10 @@ class Client extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function client_category(){
+        return $this->belongsTo(ClientCategory::class);
     }
 
     public $sortable = ['name','company', 'category'];

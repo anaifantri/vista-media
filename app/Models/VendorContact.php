@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorContact extends Model
 {
+    protected $guarded = ['id'];
+    
     public function user(){
         return $this->belongsTo(User::class);
     }

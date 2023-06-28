@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\VendorCategory;
-use App\Models\User;
+use App\Models\ClientCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class VendorCategoryController extends Controller
+class ClientCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,7 +36,7 @@ class VendorCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(VendorCategory $vendorCategory): Response
+    public function show(ClientCategory $clientCategory): Response
     {
         //
     }
@@ -45,7 +44,7 @@ class VendorCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(VendorCategory $vendorCategory): Response
+    public function edit(ClientCategory $clientCategory): Response
     {
         //
     }
@@ -53,7 +52,7 @@ class VendorCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, VendorCategory $vendorCategory): RedirectResponse
+    public function update(Request $request, ClientCategory $clientCategory): RedirectResponse
     {
         //
     }
@@ -61,7 +60,7 @@ class VendorCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(VendorCategory $vendorCategory): RedirectResponse
+    public function destroy(ClientCategory $clientCategory): RedirectResponse
     {
         //
     }

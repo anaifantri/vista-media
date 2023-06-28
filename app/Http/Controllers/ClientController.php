@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\User;
+use App\Models\ClientCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -29,7 +30,8 @@ class ClientController extends Controller
     public function create(): Response
     {
         return response()->view('dashboard.marketing.clients.create', [
-            'title' => 'Tambah Klien'
+            'title' => 'Tambah Klien',
+            'client_categories'=>ClientCategory::all()
         ]);
     }
 
@@ -38,8 +40,8 @@ class ClientController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->category == 'Pilih Katagori'){
-            return back()->withErrors(['category' => ['Silahkan pilih katagori']])->withInput();
+        if ($request->client_category_id == 'Pilih Katagori'){
+            return back()->withErrors(['client_category_id' => ['Silahkan pilih katagori']])->withInput();
         }
     
         $validateData = $request->validate([
@@ -48,7 +50,7 @@ class ClientController extends Controller
             'phone' => 'min:10|unique:clients',
             'email' => 'email:dns|unique:clients',
             'address' => 'required',
-            'category' => 'required',
+            'client_category_id' => 'required',
             'logo' => 'image|file|max:1024'
         ]);
 
@@ -81,6 +83,7 @@ class ClientController extends Controller
     {
         return response()->view('dashboard.marketing.clients.edit', [
             'client' => $client,
+            'client_categories'=>ClientCategory::all(),
             'title' => 'Edit Klien'
         ]);
     }
@@ -90,6 +93,10 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client): RedirectResponse
     {
+        if ($request->client_category_id == 'Pilih Katagori'){
+            return back()->withErrors(['client_category_id' => ['Silahkan pilih katagori']])->withInput();
+        }
+        
         $rules = [
             'name' => 'required|max:255',
             'address' => 'required',
@@ -105,11 +112,11 @@ class ClientController extends Controller
         } 
 
         if($request->phone != $client->phone){
-            $rules['phone'] = 'min:10|unique:users';
+            $rules['phone'] = 'min:10|unique:clients';
         }
 
-        if($request->category != $client->category){
-            $rules['category'] = 'required';
+        if($request->client_category_id != $client->category){
+            $rules['client_category_id'] = 'required';
         }
 
         $validateData = $request->validate($rules);
@@ -125,7 +132,7 @@ class ClientController extends Controller
         Client::where('id', $client->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/marketing/clients')->with('success','Klien '. $request->name . ' berhasil di update');
+        return redirect('/dashboard/marketing/clients/' . $client->id)->with('success','Klien '. $request->name . ' berhasil di update');
     }
 
     /**
