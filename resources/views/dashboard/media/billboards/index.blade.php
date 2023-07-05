@@ -2,7 +2,7 @@
 
 @section('container')
     <div class="xl:flex xl:justify-center">
-        <div class="mt-10 z-0">
+        <div class="mt-10 z-0 mb-8">
             <div class="flex p-1 w-full">
                 <h1 class="index-h1">Daftar Lokasi Billboard</h1>
                 @canany(['isAdmin', 'isMedia', 'isMarketing'])
@@ -367,7 +367,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="flex justify-center text-teal-900 mb-8">
+            <div class="flex justify-center text-teal-900">
                 {{-- {{ $products->links() }} --}}
                 {!! $products->appends(Request::query())->render() !!}
             </div>
