@@ -272,6 +272,8 @@
                                                 FL
                                             @elseif ($product->lighting == 'Backlight')
                                                 BL
+                                            @elseif ($product->lighting == 'Non Light')
+                                                -
                                             @endif
                                         </td>
                                         @if ($product->size != '')
@@ -365,7 +367,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="flex justify-center text-teal-900">
+            <div class="flex justify-center text-teal-900 mb-8">
                 {{-- {{ $products->links() }} --}}
                 {!! $products->appends(Request::query())->render() !!}
             </div>
