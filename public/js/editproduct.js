@@ -34,7 +34,7 @@ const garden = document.getElementById("garden");
 const market = document.getElementById("market");
 const house = document.getElementById("house");
 
-let lightingData = ['Frontlight', 'Backlight'];
+let lightingData = ['Frontlight', 'Backlight', 'Non Light'];
 let property = ['Vista Media', 'Mitra'];
 let sale = ['Available', 'Sold'];
 let build = ['Terbangun', 'Pembangunan', 'Rencana'];

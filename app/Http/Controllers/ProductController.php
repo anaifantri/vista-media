@@ -144,6 +144,7 @@ class ProductController extends Controller
             $validateData['lng'] = $request->input('lng');
             $validateData['sector'] = $request->input('sector');
             $validateData['property_status'] = $request->input('property_status');
+            $validateData['build_status'] = $request->input('build_status');
             $validateData['road_segment'] = $request->input('road_segment');
             $validateData['sale_status'] = $request->input('sale_status');
             $validateData['max_distance'] = $request->input('max_distance');
