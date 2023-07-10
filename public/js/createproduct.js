@@ -3,23 +3,10 @@ const city = document.getElementById("city");
 const cityCode = document.getElementById("cityCode");
 const cityId = document.getElementById("city_id");
 const inputCity = document.getElementById("inputCity");
-const lighting = document.getElementById("lighting");
-const inputLighting = document.getElementById("inputLighting");
-const propertyStatus = document.getElementById("property_status");
-const inputPemilik = document.getElementById("inputPemilik");
-const buildStatus = document.getElementById("build_status");
-const buildSelect = document.getElementById("buildSelect");
 const saleStatus = document.getElementById("sale_status");
-const saleSelect = document.getElementById("saleSelect");
 const periode = document.getElementById("periode");
 const divKlien = document.getElementById("divKlien");
 const harga = document.getElementById("harga");
-const roadSegment = document.getElementById("road_segment");
-const inputJalan = document.getElementById("inputJalan");
-const maxDistance = document.getElementById("max_distance");
-const inputJarak = document.getElementById("inputJarak");
-const speedAverage = document.getElementById("speed_average");
-const inputKecepatan = document.getElementById("inputKecepatan");
 const sector = document.getElementById("sector");
 const airport = document.getElementById("airport");
 const tol = document.getElementById("tol");
@@ -31,14 +18,6 @@ const mall = document.getElementById("mall");
 const garden = document.getElementById("garden");
 const market = document.getElementById("market");
 const house = document.getElementById("house");
-
-let lightingData = ['Frontlight', 'Backlight', 'Non Light'];
-let property = ['Vista Media', 'Mitra'];
-let sale = ['Available', 'Sold'];
-let build = ['Terbangun', 'Pembangunan', 'Rencana'];
-let road = ['2 Lajur', '4 Lajur', '6 Lajur', '8 Lajur'];
-let distance = ['> 50 meter', '> 100 meter', '> 150 meter', '> 200 meter', '> 250 meter', '> 300 meter', '> 500 meter'];
-let speed = ['0 - 10 km/jam', '0 - 20 km/jam', '10 - 20 km/jam', '10 - 40 km/jam', '20 - 40 km/jam', '20 - 60 km/jam'];
 
 let objCity = {};
 
@@ -179,127 +158,10 @@ areaId.addEventListener('change', function () {
 })
 // Show City --> end
 
-// Show Lighting --> start
-lighting.addEventListener('change', function () {
-    inputLighting.value = lighting.value;
-    // console.log(inputPemilik.value);
-})
-
-const optionLighting = [];
-if (inputLighting.value == '') {
-    optionLighting[0] = document.createElement('option');
-    optionLighting[0].appendChild(document.createTextNode(['Pilih Lampu']));
-    lighting.appendChild(optionLighting[0]);
-    for (i = 0; i < lightingData.length; i++) {
-        optionLighting[i + 1] = document.createElement('option');
-        optionLighting[i + 1].appendChild(document.createTextNode(lightingData[i]));
-        lighting.appendChild(optionLighting[i + 1]);
-    }
-} else {
-    optionLighting[0] = document.createElement('option');
-    optionLighting[0].appendChild(document.createTextNode(['Pilih Kepemilikan']));
-    lighting.appendChild(optionLighting[0]);
-    for (i = 0; i < lightingData.length; i++) {
-        optionLighting[i + 1] = document.createElement('option');
-        optionLighting[i + 1].appendChild(document.createTextNode(lightingData[i]));
-        if (inputLighting.value == lightingData[i]) {
-            optionLighting[i + 1].setAttribute('selected', 'selected');
-        }
-        lighting.appendChild(optionLighting[i + 1]);
-    }
-}
-
-// Show Lighting --> end
-
-// Show Property Status --> start
-propertyStatus.addEventListener('change', function () {
-    inputPemilik.value = propertyStatus.value;
-    // console.log(inputPemilik.value);
-    if (inputPemilik.value == 'Mitra') {
-        for (i = 0; i < build.length; i++) {
-            if (build[i] == 'Terbangun') {
-                optionBuild[i + 1].setAttribute('selected', 'selected');
-                buildSelect.setAttribute('disabled', true);
-                buildStatus.value = buildSelect.value;
-            }
-        }
-    } else {
-        buildSelect.removeAttribute('disabled');
-        for (i = 0; i < build.length; i++) {
-            if (build[i] == 'Terbangun') {
-                optionBuild[i + 1].removeAttribute('selected', 'selected');
-                buildStatus.value = '';
-            }
-        }
-    }
-})
-
-const optionProperty = [];
-if (inputPemilik.value === '') {
-    optionProperty[0] = document.createElement('option');
-    optionProperty[0].appendChild(document.createTextNode(['Pilih Kepemilikan']));
-    propertyStatus.appendChild(optionProperty[0]);
-    for (i = 0; i < property.length; i++) {
-        optionProperty[i + 1] = document.createElement('option');
-        optionProperty[i + 1].appendChild(document.createTextNode(property[i]));
-        propertyStatus.appendChild(optionProperty[i + 1]);
-    }
-} else {
-    optionProperty[0] = document.createElement('option');
-    optionProperty[0].appendChild(document.createTextNode(['Pilih Kepemilikan']));
-    propertyStatus.appendChild(optionProperty[0]);
-    for (i = 0; i < property.length; i++) {
-        optionProperty[i + 1] = document.createElement('option');
-        optionProperty[i + 1].appendChild(document.createTextNode(property[i]));
-        if (inputPemilik.value == property[i]) {
-            optionProperty[i + 1].setAttribute('selected', 'selected');
-        }
-        propertyStatus.appendChild(optionProperty[i + 1]);
-    }
-}
-
-// Show Property Status --> end
-
-// Show Build Status --> start
-buildSelect.addEventListener('change', function () {
-    buildStatus.value = buildSelect.value;
-    // console.log(buildStatus.value);
-})
-
-const optionBuild = [];
-if (buildStatus.value == '') {
-    optionBuild[0] = document.createElement('option');
-    optionBuild[0].appendChild(document.createTextNode(['Pilih Kondisi']));
-    buildSelect.appendChild(optionBuild[0]);
-    for (i = 0; i < build.length; i++) {
-        optionBuild[i + 1] = document.createElement('option');
-        optionBuild[i + 1].appendChild(document.createTextNode(build[i]));
-        buildSelect.appendChild(optionBuild[i + 1]);
-    }
-} else {
-    if (inputPemilik.value == 'Mitra') {
-        buildSelect.setAttribute('disabled', true);
-    } else {
-        buildSelect.removeAttribute('disabled');
-    }
-    optionBuild[0] = document.createElement('option');
-    optionBuild[0].appendChild(document.createTextNode(['Pilih Kondisi']));
-    buildStatus.appendChild(optionBuild[0]);
-    for (i = 0; i < build.length; i++) {
-        optionBuild[i + 1] = document.createElement('option');
-        optionBuild[i + 1].appendChild(document.createTextNode(build[i]));
-        if (buildStatus.value == build[i]) {
-            optionBuild[i + 1].setAttribute('selected', 'selected');
-        }
-        buildSelect.appendChild(optionBuild[i + 1]);
-    }
-}
-// Show Build Status --> end
 
 // Show Sale Status --> start
-saleSelect.addEventListener('change', function () {
-    saleStatus.value = saleSelect.value;
-    if (saleSelect.value == 'Sold') {
+saleStatus.addEventListener('change', function () {
+    if (saleStatus.value == 'Sold') {
         periode.removeAttribute('hidden');
         divKlien.removeAttribute('hidden');
         harga.removeAttribute('hidden');
@@ -310,32 +172,7 @@ saleSelect.addEventListener('change', function () {
     }
     // console.log(buildStatus.value);
 })
-
-const optionSale = [];
-if (saleStatus.value == '') {
-    optionSale[0] = document.createElement('option');
-    optionSale[0].appendChild(document.createTextNode(['Pilih Status']));
-    saleSelect.appendChild(optionSale[0]);
-    for (i = 0; i < sale.length; i++) {
-        optionSale[i + 1] = document.createElement('option');
-        optionSale[i + 1].appendChild(document.createTextNode(sale[i]));
-        saleSelect.appendChild(optionSale[i + 1]);
-    }
-} else {
-    optionSale[0] = document.createElement('option');
-    optionSale[0].appendChild(document.createTextNode(['Pilih Status']));
-    saleStatus.appendChild(optionSale[0]);
-    for (i = 0; i < sale.length; i++) {
-        optionSale[i + 1] = document.createElement('option');
-        optionSale[i + 1].appendChild(document.createTextNode(sale[i]));
-        if (saleStatus.value == sale[i]) {
-            optionSale[i + 1].setAttribute('selected', 'selected');
-        }
-        saleSelect.appendChild(optionSale[i + 1]);
-    }
-}
-console.log(saleSelect.value)
-if (saleSelect.value == 'Sold') {
+if (saleStatus.value == 'Sold') {
     periode.removeAttribute('hidden');
     divKlien.removeAttribute('hidden');
     harga.removeAttribute('hidden');
@@ -345,98 +182,6 @@ if (saleSelect.value == 'Sold') {
     harga.setAttribute('hidden', 'hidden');
 }
 // Show Sale Status --> end
-
-// Show Road Segment --> start
-roadSegment.addEventListener('change', function () {
-    inputJalan.value = roadSegment.value;
-    // console.log(inputJalan.value);
-})
-const optionRoad = [];
-if (inputJalan.value === '') {
-    optionRoad[0] = document.createElement('option');
-    optionRoad[0].appendChild(document.createTextNode(['Pilih Type Jalan']));
-    roadSegment.appendChild(optionRoad[0]);
-    for (i = 0; i < road.length; i++) {
-        optionRoad[i + 1] = document.createElement('option');
-        optionRoad[i + 1].appendChild(document.createTextNode(road[i]));
-        roadSegment.appendChild(optionRoad[i + 1]);
-    }
-} else {
-    optionRoad[0] = document.createElement('option');
-    optionRoad[0].appendChild(document.createTextNode(['Pilih Type Jalan']));
-    roadSegment.appendChild(optionRoad[0]);
-    for (i = 0; i < road.length; i++) {
-        optionRoad[i + 1] = document.createElement('option');
-        optionRoad[i + 1].appendChild(document.createTextNode(road[i]));
-        if (inputJalan.value == road[i]) {
-            optionRoad[i + 1].setAttribute('selected', 'selected');
-        }
-        roadSegment.appendChild(optionRoad[i + 1]);
-    }
-}
-
-// Show Road Segment --> end
-
-// Show Max Distance --> start
-maxDistance.addEventListener('change', function () {
-    inputJarak.value = maxDistance.value;
-    // console.log(inputJarak.value);
-})
-const optionDistance = [];
-if (inputJarak.value === '') {
-    optionDistance[0] = document.createElement('option');
-    optionDistance[0].appendChild(document.createTextNode(['Pilih Jarak Pandang']));
-    maxDistance.appendChild(optionDistance[0]);
-    for (i = 0; i < distance.length; i++) {
-        optionDistance[i + 1] = document.createElement('option');
-        optionDistance[i + 1].appendChild(document.createTextNode(distance[i]));
-        maxDistance.appendChild(optionDistance[i + 1]);
-    }
-} else {
-    optionDistance[0] = document.createElement('option');
-    optionDistance[0].appendChild(document.createTextNode(['Pilih Jarak Pandang']));
-    maxDistance.appendChild(optionDistance[0]);
-    for (i = 0; i < distance.length; i++) {
-        optionDistance[i + 1] = document.createElement('option');
-        optionDistance[i + 1].appendChild(document.createTextNode(distance[i]));
-        if (inputJarak.value == distance[i]) {
-            optionDistance[i + 1].setAttribute('selected', 'selected');
-        }
-        maxDistance.appendChild(optionDistance[i + 1]);
-    }
-}
-
-// Show Max Distance --> end
-
-// Show Speed Average --> start
-speedAverage.addEventListener('change', function () {
-    inputKecepatan.value = speedAverage.value;
-    // console.log(inputKecepatan.value);
-})
-const optionSpeed = [];
-if (inputKecepatan.value === '') {
-    optionSpeed[0] = document.createElement('option');
-    optionSpeed[0].appendChild(document.createTextNode(['Pilih Kec. Kendaraan']));
-    speedAverage.appendChild(optionSpeed[0]);
-    for (i = 0; i < speed.length; i++) {
-        optionSpeed[i + 1] = document.createElement('option');
-        optionSpeed[i + 1].appendChild(document.createTextNode(speed[i]));
-        speedAverage.appendChild(optionSpeed[i + 1]);
-    }
-} else {
-    optionSpeed[0] = document.createElement('option');
-    optionSpeed[0].appendChild(document.createTextNode(['Pilih Kecepatan Kendaraan']));
-    speedAverage.appendChild(optionSpeed[0]);
-    for (i = 0; i < speed.length; i++) {
-        optionSpeed[i + 1] = document.createElement('option');
-        optionSpeed[i + 1].appendChild(document.createTextNode(speed[i]));
-        if (inputKecepatan.value == speed[i]) {
-            optionSpeed[i + 1].setAttribute('selected', 'selected');
-        }
-        speedAverage.appendChild(optionSpeed[i + 1]);
-    }
-}
-// Show Speed Average --> end
 
 // Show Sector --> start
 let split = [];

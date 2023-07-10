@@ -100,11 +100,28 @@ class ProductController extends Controller
     public function update(Request $request, Product $product): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
+            if ($request->sector == ''){
+                return back()->withErrors(['sector' => ['Silahkan pilih minimal 1 kawasan']])->withInput();
+            }
+            
             if ($request->sale_status == 'Sold') {
                 $rules = [
                     'area_id' => 'required',
                     'city_id' => 'required',
+                    'address' => 'required|max:255',
+                    'lighting' => 'required',
+                    'category' => 'required',
                     'size_id' => 'required',
+                    'lat' => 'required',
+                    'lng' => 'required',
+                    'property_status' => 'required',
+                    'build_status' => 'required',
+                    'sale_status' => 'required',
+                    'road_segment' => 'required',
+                    'max_distance' => 'required',
+                    'speed_average' => 'required',
+                    'sector' => 'required|max:255',
+                    'photo' => 'image|file|max:1024',
                     'client' => 'required',
                     'price' => 'required',
                     'start_contract' => 'required',
@@ -114,7 +131,20 @@ class ProductController extends Controller
                 $rules = [
                     'area_id' => 'required',
                     'city_id' => 'required',
-                    'size_id' => 'required'
+                    'address' => 'required|max:255',
+                    'lighting' => 'required',
+                    'category' => 'required',
+                    'size_id' => 'required',
+                    'lat' => 'required',
+                    'lng' => 'required',
+                    'property_status' => 'required',
+                    'build_status' => 'required',
+                    'sale_status' => 'required',
+                    'road_segment' => 'required',
+                    'max_distance' => 'required',
+                    'speed_average' => 'required',
+                    'sector' => 'required|max:255',
+                    'photo' => 'image|file|max:1024'
                 ];
             }
     
@@ -138,21 +168,13 @@ class ProductController extends Controller
                 $validateData['end_contract'] = $request->input('end_contract');
             }
     
-            $validateData['lighting'] = $request->input('lighting');
-            $validateData['address'] = $request->input('address');
-            $validateData['lat'] = $request->input('lat');
-            $validateData['lng'] = $request->input('lng');
-            $validateData['sector'] = $request->input('sector');
-            $validateData['property_status'] = $request->input('property_status');
-            $validateData['build_status'] = $request->input('build_status');
-            $validateData['road_segment'] = $request->input('road_segment');
-            $validateData['sale_status'] = $request->input('sale_status');
-            $validateData['max_distance'] = $request->input('max_distance');
-            $validateData['speed_average'] = $request->input('speed_average');
+            $validateData['client'] = $request->input('client');
+            $validateData['price'] = $request->input('price');
+            $validateData['start_contract'] = $request->input('start_contract');
+            $validateData['end_contract'] = $request->input('end_contract');
             $validateData['led_id'] = $request->input('led_id');
             $validateData['vendor_id'] = $request->input('vendor_id');
             $validateData['qty'] = 1;
-            $validateData['category'] = 'Billboard';
             $validateData['user_id'] = auth()->user()->id;
     
             if($request->file('photo')){
@@ -165,7 +187,7 @@ class ProductController extends Controller
             Product::where('id', $product->id)
                     ->update($validateData);
     
-            return redirect('/dashboard/media/billboards')->with('success','Lokasi Billboard Has Been Updated');
+            return redirect('/dashboard/media/billboards')->with('success','Lokasi Has Been Updated');
         } else {
             abort(403);
         }
@@ -183,9 +205,7 @@ class ProductController extends Controller
     
             Product::destroy($product->id);
     
-            if ($product->category === 'Billboard'){
-                return redirect('/dashboard/media/billboards')->with('success','Billboard dengan kode ' . $product->code . ' berhasil dihapus');
-            }
+            return redirect('/dashboard/media/billboards')->with('success',$product->category .' dengan kode ' . $product->code . ' berhasil dihapus');
         } else {
             abort(403);
         }

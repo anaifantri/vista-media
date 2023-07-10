@@ -117,15 +117,63 @@
                                     </div>
                                 </div>
                                 <div class="mt-1">
+                                    @php
+                                        $numberCategory = 0;
+                                        $categories = ['Billboard', 'Baliho', 'Midiboard'];
+                                    @endphp
                                     <div class="flex mt-1">
-                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700 w-32">Penerangan</label>
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Katagori</label>
                                     </div>
+                                    <div class="mt-1">
+                                        <select id="category" name="category"
+                                            class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
+                                        font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                        @error('category') is-invalid @enderror"
+                                            type="text" value="{{ $product->category }}">
+                                            @for ($numberCategory = 0; $numberCategory < count($categories); $numberCategory++)
+                                                @if ($product->category == $categories[$numberCategory])
+                                                    <option value="{{ $categories[$numberCategory] }}" selected>
+                                                        {{ $categories[$numberCategory] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $categories[$numberCategory] }}">
+                                                        {{ $categories[$numberCategory] }}
+                                                    </option>
+                                                @endif
+                                            @endfor
+                                        </select>
+                                        @error('category')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-1">
+                                    @php
+                                        $numberLighting = 0;
+                                        $lightings = ['Frontlight', 'Backlight', 'Nonlight'];
+                                    @endphp
                                     <div class="flex mt-1">
-                                        <input type="text" id="inputLighting" name="inputLighting"
-                                            value="{{ $product->lighting }}" hidden>
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Penerangan</label>
+                                    </div>
+                                    <div class="mt-1">
                                         <select id="lighting" name="lighting"
-                                            class="px-2 w-36 xl:w-48 2xl:w-56 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('lighting') is-invalid @enderror"
+                                            class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
+                                            font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                            @error('lighting') is-invalid @enderror"
                                             type="text" value="{{ $product->lighting }}">
+                                            @for ($numberLighting = 0; $numberLighting < count($lightings); $numberLighting++)
+                                                @if ($product->lighting == $lightings[$numberLighting])
+                                                    <option value="{{ $lightings[$numberLighting] }}" selected>
+                                                        {{ $lightings[$numberLighting] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $lightings[$numberLighting] }}">
+                                                        {{ $lightings[$numberLighting] }}
+                                                    </option>
+                                                @endif
+                                            @endfor
                                         </select>
                                         @error('lighting')
                                             <div class="invalid-feedback">
@@ -140,7 +188,6 @@
                                         <select id="size_id" name="size_id"
                                             class="flex px-2 w-36 xl:w-48 2xl:w-56 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
                                             type="text" value="{{ $product->size_id }}">
-                                            <option value="Pilih Ukuran">Pilih Ukuran</option>
                                             @foreach ($sizes as $size)
                                                 @if ($product->size_id == $size->id)
                                                     <option value="{{ $size->id }}" selected>
@@ -186,13 +233,26 @@
                         </div>
                         <div class="mx-1 w-[172px] xl:w-[208px] xl:mx-4 2xl:w-[240px]">
                             <div class="flex mt-1">
+                                @php
+                                    $numberProperty = 0;
+                                    $properties = ['Vista Media', 'Mitra'];
+                                @endphp
                                 <div class="mt-1">
-                                    <label class="xl:text-md 2xl:text-lg text-teal-700">Kepemilikan</label>
-                                    <input type="text" id="inputPemilik" name="inputPemilik"
-                                        value="{{ $product->property_status }}" hidden>
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kepemilikan</label>
                                     <select id="property_status" name="property_status"
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('property_status') is-invalid @enderror"
+                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('property_status') is-invalid @enderror"
                                         type="text" value="{{ $product->property_status }}">
+                                        @for ($numberProperty = 0; $numberProperty < count($properties); $numberProperty++)
+                                            @if ($product->property_status == $properties[$numberProperty])
+                                                <option value="{{ $properties[$numberProperty] }}" selected>
+                                                    {{ $properties[$numberProperty] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $properties[$numberProperty] }}">
+                                                    {{ $properties[$numberProperty] }}
+                                                </option>
+                                            @endif
+                                        @endfor
                                     </select>
                                     @error('property_status')
                                         <div class="invalid-feedback">
@@ -202,15 +262,28 @@
                                 </div>
                             </div>
                             <div class="flex mt-1">
+                                @php
+                                    $numberBuild = 0;
+                                    $builds = ['Terbangun', 'Pembangunan', 'Rencana'];
+                                @endphp
                                 <div class="mt-1">
-                                    <label class="xl:text-md 2xl:text-lg text-teal-700">Kondisi</label>
-                                    <input type="text" id="build_status" name="build_status"
-                                        value="{{ $product->build_status }}" hidden>
-                                    <select id="buildSelect" name="buildSelect"
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('buildSelect') is-invalid @enderror"
-                                        type="text">
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kondisi</label>
+                                    <select id="build_status" name="build_status"
+                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('build_status') is-invalid @enderror"
+                                        type="text" value="{{ $product->build_status }}">
+                                        @for ($numberBuild = 0; $numberBuild < count($builds); $numberBuild++)
+                                            @if ($product->build_status == $builds[$numberBuild])
+                                                <option value="{{ $builds[$numberBuild] }}" selected>
+                                                    {{ $builds[$numberBuild] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $builds[$numberBuild] }}">
+                                                    {{ $builds[$numberBuild] }}
+                                                </option>
+                                            @endif
+                                        @endfor
                                     </select>
-                                    @error('buildSelect')
+                                    @error('build_status')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -218,15 +291,28 @@
                                 </div>
                             </div>
                             <div class="flex mt-1">
+                                @php
+                                    $numberSale = 0;
+                                    $sales = ['Available', 'Sold'];
+                                @endphp
                                 <div class="mt-1">
-                                    <label class="xl:text-md 2xl:text-lg text-teal-700">Status</label>
-                                    <input type="text" id="sale_status" name="sale_status"
-                                        value="{{ $product->sale_status }}" hidden>
-                                    <select id="saleSelect" name="saleSelect"
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('saleSelect') is-invalid @enderror"
-                                        type="text">
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Status</label>
+                                    <select id="sale_status" name="sale_status"
+                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('sale_status') is-invalid @enderror"
+                                        type="text" value="{{ $product->sale_status }}">
+                                        @for ($numberSale = 0; $numberSale < count($sales); $numberSale++)
+                                            @if ($product->sale_status == $sales[$numberSale])
+                                                <option value="{{ $sales[$numberSale] }}" selected>
+                                                    {{ $sales[$numberSale] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $sales[$numberSale] }}">
+                                                    {{ $sales[$numberSale] }}
+                                                </option>
+                                            @endif
+                                        @endfor
                                     </select>
-                                    @error('saleSelect')
+                                    @error('sale_status')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -296,13 +382,26 @@
                                 </div>
                             </div>
                             <div class="flex mt-1">
+                                @php
+                                    $numberRoad = 0;
+                                    $roads = ['2 Lajur', '3 Lajur', '4 Lajur', '6 Lajur', '8 Lajur'];
+                                @endphp
                                 <div class="mt-1">
-                                    <label class="xl:text-md 2xl:text-lg text-teal-700">Type Jalan</label>
-                                    <input type="text" id="inputJalan" name="inputJalan"
-                                        value="{{ $product->road_segment }}" hidden>
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Type Jalan</label>
                                     <select id="road_segment" name="road_segment"
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('road_segment') is-invalid @enderror"
+                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('road_segment') is-invalid @enderror"
                                         type="text" value="{{ $product->road_segment }}">
+                                        @for ($numberRoad = 0; $numberRoad < count($roads); $numberRoad++)
+                                            @if ($product->road_segment == $roads[$numberRoad])
+                                                <option value="{{ $roads[$numberRoad] }}" selected>
+                                                    {{ $roads[$numberRoad] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $roads[$numberRoad] }}">
+                                                    {{ $roads[$numberRoad] }}
+                                                </option>
+                                            @endif
+                                        @endfor
                                     </select>
                                     @error('road_segment')
                                         <div class="invalid-feedback">
@@ -312,13 +411,26 @@
                                 </div>
                             </div>
                             <div class="flex mt-1">
+                                @php
+                                    $numberDistance = 0;
+                                    $distances = ['> 50 meter', '> 100 meter', '> 150 meter', '> 200 meter', '> 250 meter', '> 300 meter', '> 500 meter'];
+                                @endphp
                                 <div class="mt-1">
-                                    <label class="xl:text-md 2xl:text-lg text-teal-700">Jarak Pandang Maksimal</label>
-                                    <input type="text" id="inputJarak" name="inputJarak"
-                                        value="{{ $product->max_distance }}" hidden>
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Jarak Pandang</label>
                                     <select id="max_distance" name="max_distance"
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('max_distance') is-invalid @enderror"
+                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('max_distance') is-invalid @enderror"
                                         type="text" value="{{ $product->max_distance }}">
+                                        @for ($numberDistance = 0; $numberDistance < count($distances); $numberDistance++)
+                                            @if ($product->max_distance == $distances[$numberDistance])
+                                                <option value="{{ $distances[$numberDistance] }}" selected>
+                                                    {{ $distances[$numberDistance] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $distances[$numberDistance] }}">
+                                                    {{ $distances[$numberDistance] }}
+                                                </option>
+                                            @endif
+                                        @endfor
                                     </select>
                                     @error('max_distance')
                                         <div class="invalid-feedback">
@@ -328,13 +440,26 @@
                                 </div>
                             </div>
                             <div class="flex mt-1">
+                                @php
+                                    $numberSpeed = 0;
+                                    $speeds = ['0 - 10 km/jam', '0 - 20 km/jam', '10 - 20 km/jam', '10 - 40 km/jam', '20 - 40 km/jam', '20 - 60 km/jam', '40 - 60 km/jam', '40 - 80 km/jam'];
+                                @endphp
                                 <div class="mt-1">
-                                    <label class="xl:text-md 2xl:text-lg text-teal-700">Kecepatan Rata-Rata</label>
-                                    <input type="text" id="inputKecepatan" name="inputKecepatan"
-                                        value="{{ $product->speed_average }}" hidden>
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kecepatan Kendaraan</label>
                                     <select id="speed_average" name="speed_average"
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('speed_average') is-invalid @enderror"
+                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('speed_average') is-invalid @enderror"
                                         type="text" value="{{ $product->speed_average }}">
+                                        @for ($numberSpeed = 0; $numberSpeed < count($speeds); $numberSpeed++)
+                                            @if ($product->speed_average == $speeds[$numberSpeed])
+                                                <option value="{{ $speeds[$numberSpeed] }}" selected>
+                                                    {{ $speeds[$numberSpeed] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $speeds[$numberSpeed] }}">
+                                                    {{ $speeds[$numberSpeed] }}
+                                                </option>
+                                            @endif
+                                        @endfor
                                     </select>
                                     @error('speed_average')
                                         <div class="invalid-feedback">
