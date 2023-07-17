@@ -44,7 +44,10 @@ class User extends Authenticatable
         return $this->hasMany(City::class, 'user_id', 'id');
     }
     public function products(){
-        return $this->hasMany(City::class, 'user_id', 'id');
+        return $this->hasMany(Product::class, 'user_id', 'id');
+    }
+    public function videotrons(){
+        return $this->hasMany(Videotron::class, 'user_id', 'id');
     }
     public function clients(){
         return $this->hasMany(Client::class, 'user_id', 'id');

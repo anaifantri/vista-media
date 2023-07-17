@@ -505,12 +505,12 @@ city.addEventListener('change', function () {
 
                 for (i = 0; i < objCity.dataCity.length; i++) {
                     if (objCity.dataCity[i]['city'] === city.value) {
-                        latitude = objCity.dataCity[i]['lat'];
+                        latitude = Number(objCity.dataCity[i]['lat']);
                         cityId.value = objCity.dataCity[i]['id'];
                         cityCode.value = objCity.dataCity[i]['code'];
                         console.log(cityId.value);
-                        longitude = objCity.dataCity[i]['lng'];
-                        zoomMaps = objCity.dataCity[i]['zoom'];
+                        longitude = Number(objCity.dataCity[i]['lng']);
+                        zoomMaps = Number(objCity.dataCity[i]['zoom']);
                         myLatLng = {
                             lat: latitude,
                             lng: longitude

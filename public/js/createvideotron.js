@@ -1,14 +1,9 @@
 const areaId = document.getElementById("area_id");
-const city = document.getElementById("city");
-const cityCode = document.getElementById("cityCode");
 const cityId = document.getElementById("city_id");
-const inputCity = document.getElementById("inputCity");
-const lat = document.getElementById("lat");
-const lng = document.getElementById("lng");
-const saleStatus = document.getElementById("sale_status");
-const periode = document.getElementById("periode");
-const divKlien = document.getElementById("divKlien");
-const harga = document.getElementById("harga");
+const city = document.getElementById("city");
+const vista = document.getElementById("vista");
+const mitra = document.getElementById("mitra");
+const vendorId = document.getElementById("vendor_id");
 const sector = document.getElementById("sector");
 const airport = document.getElementById("airport");
 const tol = document.getElementById("tol");
@@ -25,9 +20,9 @@ let objCity = {};
 
 let map;
 let markers = [];
-let latitude = Number(lat.value);
-let longitude = Number(lng.value);
-let zoomMaps = 15;
+let latitude = -1.7505372;
+let longitude = 118.0962239;
+let zoomMaps = 4.35;
 
 let myLatLng = {
     lat: latitude,
@@ -36,76 +31,106 @@ let myLatLng = {
 
 // Show City --> start
 const optionCity = [];
+if (areaId.value != 'pilih') {
+    if (cityId.value != 'pilih') {
+        while (city.hasChildNodes()) {
+            city.removeChild(city.firstChild);
+        }
+        optionCity[0] = document.createElement('option');
+        optionCity[0].appendChild(document.createTextNode(['-- pilih --']));
+        optionCity[0].setAttribute('value', 'pilih');
+        city.appendChild(optionCity[0]);
 
-if (inputCity.value != '') {
-    while (city.hasChildNodes()) {
-        city.removeChild(city.firstChild);
-    }
+        const xhrCity = new XMLHttpRequest();
+        const methodCity = "GET";
+        const urlCity = "/showCity";
 
-    const xhrCity = new XMLHttpRequest();
-    const methodCity = "GET";
-    const urlCity = "/showCity";
+        xhrCity.open(methodCity, urlCity, true);
+        xhrCity.send();
 
-    xhrCity.open(methodCity, urlCity, true);
-    xhrCity.send();
+        xhrCity.onreadystatechange = () => {
+            // In local files, status is 0 upon success in Mozilla Firefox
+            if (xhrCity.readyState === XMLHttpRequest.DONE) {
+                const status = xhrCity.status;
+                if (status === 0 || (status >= 200 && status < 400)) {
+                    objCity = JSON.parse(xhrCity.responseText);
 
-    xhrCity.onreadystatechange = () => {
-        // In local files, status is 0 upon success in Mozilla Firefox
-        if (xhrCity.readyState === XMLHttpRequest.DONE) {
-            const status = xhrCity.status;
-            if (status === 0 || (status >= 200 && status < 400)) {
-                objCity = JSON.parse(xhrCity.responseText);
-
-                for (i = 0; i < objCity.dataCity.length; i++) {
-                    if (objCity.dataCity[i]['area_id'] == areaId.value) {
-                        optionCity[i + 1] = document.createElement('option');
-                        optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
-                        if (inputCity.value == objCity.dataCity[i]['city']) {
-                            optionCity[i + 1].setAttribute('selected', 'selected');
+                    for (i = 0; i < objCity.dataCity.length; i++) {
+                        if (objCity.dataCity[i]['area_id'] == areaId.value) {
+                            optionCity[i + 1] = document.createElement('option');
+                            optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
+                            if (cityId.value == objCity.dataCity[i]['id']) {
+                                optionCity[i + 1].setAttribute('selected', 'selected');
+                                latitude = Number(objCity.dataCity[i]['lat']);
+                                longitude = Number(objCity.dataCity[i]['lng']);
+                                zoomMaps = Number(objCity.dataCity[i]['zoom']);
+                                myLatLng = {
+                                    lat: latitude,
+                                    lng: longitude
+                                };
+                                initMap();
+                            }
+                            optionCity[i + 1].setAttribute('value', objCity.dataCity[i]['id']);
+                            city.appendChild(optionCity[i + 1]);
                         }
-                        city.appendChild(optionCity[i + 1]);
                     }
+                } else {
+                    // Oh no! There has been an error with the request!
                 }
-            } else {
-                // Oh no! There has been an error with the request!
+            }
+        }
+    } else {
+        while (city.hasChildNodes()) {
+            city.removeChild(city.firstChild);
+        }
+        optionCity[0] = document.createElement('option');
+        optionCity[0].appendChild(document.createTextNode(['-- pilih --']));
+        optionCity[0].setAttribute('value', 'pilih');
+        city.appendChild(optionCity[0]);
+
+        const xhrCity = new XMLHttpRequest();
+        const methodCity = "GET";
+        const urlCity = "/showCity";
+
+        xhrCity.open(methodCity, urlCity, true);
+        xhrCity.send();
+
+        xhrCity.onreadystatechange = () => {
+            // In local files, status is 0 upon success in Mozilla Firefox
+            if (xhrCity.readyState === XMLHttpRequest.DONE) {
+                const status = xhrCity.status;
+                if (status === 0 || (status >= 200 && status < 400)) {
+                    objCity = JSON.parse(xhrCity.responseText);
+                    for (i = 0; i < objCity.dataCity.length; i++) {
+                        if (objCity.dataCity[i]['area_id'] == areaId.value) {
+                            optionCity[i + 1] = document.createElement('option');
+                            optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
+                            optionCity[i + 1].setAttribute('value', objCity.dataCity[i]['id']);
+                            city.appendChild(optionCity[i + 1]);
+                        }
+                    }
+                } else {
+                    // Oh no! There has been an error with the request!
+                }
             }
         }
     }
-} else if (areaId.value != '') {
-    while (city.hasChildNodes()) {
-        city.removeChild(city.firstChild);
-    }
-    const xhrCity = new XMLHttpRequest();
-    const methodCity = "GET";
-    const urlCity = "/showCity";
-
-    xhrCity.open(methodCity, urlCity, true);
-    xhrCity.send();
-
-    xhrCity.onreadystatechange = () => {
-        // In local files, status is 0 upon success in Mozilla Firefox
-        if (xhrCity.readyState === XMLHttpRequest.DONE) {
-            const status = xhrCity.status;
-            if (status === 0 || (status >= 200 && status < 400)) {
-                objCity = JSON.parse(xhrCity.responseText);
-                for (i = 0; i < objCity.dataCity.length; i++) {
-                    if (objCity.dataCity[i]['area_id'] == areaId.value) {
-                        optionCity[i + 1] = document.createElement('option');
-                        optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
-                        city.appendChild(optionCity[i + 1]);
-                    }
-                }
-            } else {
-                // Oh no! There has been an error with the request!
-            }
-        }
-    }
+} else {
+    optionCity[0] = document.createElement('option');
+    optionCity[0].appendChild(document.createTextNode(['-- pilih --']));
+    optionCity[0].setAttribute('value', 'pilih');
+    city.appendChild(optionCity[0]);
 }
 
 areaId.addEventListener('change', function () {
+    cityId.value = 'pilih';
     while (city.hasChildNodes()) {
         city.removeChild(city.firstChild);
     }
+    optionCity[0] = document.createElement('option');
+    optionCity[0].appendChild(document.createTextNode(['-- pilih --']));
+    optionCity[0].setAttribute('value', 'pilih');
+    city.appendChild(optionCity[0]);
 
     const xhrCity = new XMLHttpRequest();
     const methodCity = "GET";
@@ -125,7 +150,7 @@ areaId.addEventListener('change', function () {
                     if (objCity.dataCity[i]['area_id'] == areaId.value) {
                         optionCity[i + 1] = document.createElement('option');
                         optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
-                        // option[i + 1].setAttribute('value', i + 1);
+                        optionCity[i + 1].setAttribute('value', objCity.dataCity[i]['id']);
                         city.appendChild(optionCity[i + 1]);
                     }
                 }
@@ -138,35 +163,18 @@ areaId.addEventListener('change', function () {
 })
 // Show City --> end
 
-// Show Sale Status --> start
-saleStatus.addEventListener('change', function () {
-    if (saleStatus.value == 'Sold') {
-        periode.removeAttribute('hidden');
-        divKlien.removeAttribute('hidden');
-        harga.removeAttribute('hidden');
-    } else {
-        periode.setAttribute('hidden', 'hidden');
-        divKlien.setAttribute('hidden', 'hidden');
-        harga.setAttribute('hidden', 'hidden');
-    }
-    // console.log(buildStatus.value);
+// Ownership event --> start
+mitra.addEventListener('click', function () {
+    vendorId.removeAttribute('hidden');
 })
-
-if (saleStatus.value == 'Sold') {
-    periode.removeAttribute('hidden');
-    divKlien.removeAttribute('hidden');
-    harga.removeAttribute('hidden');
-} else {
-    periode.setAttribute('hidden', 'hidden');
-    divKlien.setAttribute('hidden', 'hidden');
-    harga.setAttribute('hidden', 'hidden');
-}
-// Show Sale Status --> end
+vista.addEventListener('click', function () {
+    vendorId.setAttribute('hidden', 'hidden');
+})
+// Ownership event --> end
 
 // Show Sector --> start
 let split = [];
 let word = '';
-console.log(sector.value);
 
 if (sector.value != '') {
     word = sector.value;
@@ -467,7 +475,7 @@ house.addEventListener('click', function () {
 
 // Google Maps --> start
 city.addEventListener('change', function () {
-    inputCity.value = city.value;
+    cityId.value = city.value;
     const xhrCity = new XMLHttpRequest();
     const methodCity = "GET";
     const urlCity = "/showCity";
@@ -484,11 +492,8 @@ city.addEventListener('change', function () {
                 objCity = JSON.parse(xhrCity.responseText);
 
                 for (i = 0; i < objCity.dataCity.length; i++) {
-                    if (objCity.dataCity[i]['city'] === city.value) {
+                    if (objCity.dataCity[i]['id'] == city.value) {
                         latitude = Number(objCity.dataCity[i]['lat']);
-                        cityId.value = objCity.dataCity[i]['id'];
-                        cityCode.value = objCity.dataCity[i]['code'];
-                        console.log(cityId.value);
                         longitude = Number(objCity.dataCity[i]['lng']);
                         zoomMaps = Number(objCity.dataCity[i]['zoom']);
                         myLatLng = {
@@ -511,8 +516,6 @@ function initMap() {
         center: myLatLng,
     });
 
-    addMarker(myLatLng);
-
     map.addListener("click", (event) => {
         deleteMarkers();
         addMarker(event.latLng);
@@ -528,8 +531,6 @@ function addMarker(position) {
     const marker = new google.maps.Marker({
         position,
         map,
-        title: code.value,
-        icon: "/img/marker-red.png",
     });
 
     markers.push(marker);

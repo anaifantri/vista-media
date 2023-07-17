@@ -1,14 +1,12 @@
 const areaId = document.getElementById("area_id");
-const city = document.getElementById("city");
-const cityCode = document.getElementById("cityCode");
 const cityId = document.getElementById("city_id");
-const inputCity = document.getElementById("inputCity");
+const city = document.getElementById("city");
 const lat = document.getElementById("lat");
 const lng = document.getElementById("lng");
-const saleStatus = document.getElementById("sale_status");
-const periode = document.getElementById("periode");
-const divKlien = document.getElementById("divKlien");
-const harga = document.getElementById("harga");
+const kondisi = document.getElementById("kondisi");
+const terbangun = document.getElementById("terbangun");
+const pembangunan = document.getElementById("pembangunan");
+const rencana = document.getElementById("rencana");
 const sector = document.getElementById("sector");
 const airport = document.getElementById("airport");
 const tol = document.getElementById("tol");
@@ -34,10 +32,18 @@ let myLatLng = {
     lng: longitude
 };
 
+if (kondisi.value == 'Terbangun') {
+    terbangun.checked = true;
+} else if (kondisi.value == 'Pembangunan') {
+    pembangunan.checked = true;
+} else if (kondisi.value == 'Rencana') {
+    rencana.checked = true;
+}
+
 // Show City --> start
 const optionCity = [];
 
-if (inputCity.value != '') {
+if (cityId.value != '') {
     while (city.hasChildNodes()) {
         city.removeChild(city.firstChild);
     }
@@ -60,7 +66,7 @@ if (inputCity.value != '') {
                     if (objCity.dataCity[i]['area_id'] == areaId.value) {
                         optionCity[i + 1] = document.createElement('option');
                         optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
-                        if (inputCity.value == objCity.dataCity[i]['city']) {
+                        if (city.value == objCity.dataCity[i]['city']) {
                             optionCity[i + 1].setAttribute('selected', 'selected');
                         }
                         city.appendChild(optionCity[i + 1]);
@@ -125,7 +131,7 @@ areaId.addEventListener('change', function () {
                     if (objCity.dataCity[i]['area_id'] == areaId.value) {
                         optionCity[i + 1] = document.createElement('option');
                         optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
-                        // option[i + 1].setAttribute('value', i + 1);
+                        optionCity[i + 1].setAttribute('value', objCity.dataCity[i]['id']);
                         city.appendChild(optionCity[i + 1]);
                     }
                 }
@@ -137,31 +143,6 @@ areaId.addEventListener('change', function () {
 
 })
 // Show City --> end
-
-// Show Sale Status --> start
-saleStatus.addEventListener('change', function () {
-    if (saleStatus.value == 'Sold') {
-        periode.removeAttribute('hidden');
-        divKlien.removeAttribute('hidden');
-        harga.removeAttribute('hidden');
-    } else {
-        periode.setAttribute('hidden', 'hidden');
-        divKlien.setAttribute('hidden', 'hidden');
-        harga.setAttribute('hidden', 'hidden');
-    }
-    // console.log(buildStatus.value);
-})
-
-if (saleStatus.value == 'Sold') {
-    periode.removeAttribute('hidden');
-    divKlien.removeAttribute('hidden');
-    harga.removeAttribute('hidden');
-} else {
-    periode.setAttribute('hidden', 'hidden');
-    divKlien.setAttribute('hidden', 'hidden');
-    harga.setAttribute('hidden', 'hidden');
-}
-// Show Sale Status --> end
 
 // Show Sector --> start
 let split = [];
@@ -467,7 +448,7 @@ house.addEventListener('click', function () {
 
 // Google Maps --> start
 city.addEventListener('change', function () {
-    inputCity.value = city.value;
+    cityId.value = city.value;
     const xhrCity = new XMLHttpRequest();
     const methodCity = "GET";
     const urlCity = "/showCity";
@@ -484,11 +465,8 @@ city.addEventListener('change', function () {
                 objCity = JSON.parse(xhrCity.responseText);
 
                 for (i = 0; i < objCity.dataCity.length; i++) {
-                    if (objCity.dataCity[i]['city'] === city.value) {
+                    if (objCity.dataCity[i]['id'] == city.value) {
                         latitude = Number(objCity.dataCity[i]['lat']);
-                        cityId.value = objCity.dataCity[i]['id'];
-                        cityCode.value = objCity.dataCity[i]['code'];
-                        console.log(cityId.value);
                         longitude = Number(objCity.dataCity[i]['lng']);
                         zoomMaps = Number(objCity.dataCity[i]['zoom']);
                         myLatLng = {

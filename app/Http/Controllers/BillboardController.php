@@ -21,7 +21,7 @@ class BillboardController extends Controller
             // $products = Product::with(['area', 'city', 'size', 'user'])->sortable();
 
             return response()-> view ('dashboard.media.billboards.index', [
-                'products'=>Product::filter()->area()->city()->build()->status()->sortable()->paginate(10)->withQueryString(),
+                'products'=>Product::filter(request('search'))->area()->city()->build()->status()->sortable()->paginate(10)->withQueryString(),
                 'areas'=>Area::all(),
                 'title' => 'Daftar Billboard'
             ]);

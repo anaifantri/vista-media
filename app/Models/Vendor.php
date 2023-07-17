@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Videotron;
+use App\Models\Led;
+use App\Models\Product;
+use App\Models\VendorContact;
 use Kyslik\ColumnSortable\Sortable;
 
 class Vendor extends Model
@@ -35,6 +39,9 @@ class Vendor extends Model
 
     public function products(){
         return $this->hasMany(Product::class, 'vendor_id', 'id');
+    }
+    public function videotrons(){
+        return $this->hasMany(Videotron::class, 'vendor_id', 'id');
     }
 
     public function vendor_contacts(){

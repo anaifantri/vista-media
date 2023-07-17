@@ -1,17 +1,19 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Create New Videotron start -->
+    <!-- Edit Videotron start -->
     <div class="flex justify-center">
         <div class="mt-10">
-            <!-- Title Create New Videotron start -->
+            <!-- Title Edit Videotron start -->
             <div class="flex border-b">
-                <h1 class="text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN VIDEOTRON</h1>
+                <h1 class="text-xl text-cyan-800 font-bold tracking-wider"> EDIT DATA VIDEOTRON</h1>
             </div>
-            <!-- Title Create New Videotron end -->
-            <!-- Form Create New Videotron start -->
+            <!-- Title Edit Videotron end -->
+            <!-- Form Edit Videotron start -->
             <div class="flex">
-                <form class="md:flex" action="/dashboard/media/videotrons" method="post" enctype="multipart/form-data">
+                <form class="md:flex" action="/dashboard/media/videotrons/{{ $videotron->id }}" method="post"
+                    enctype="multipart/form-data">
+                    @method('put')
                     @csrf
                     <div class="flex justify-center">
                         <div class="flex mx-1">
@@ -21,7 +23,7 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kode Lokasi</label>
                                         <input
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 @error('code') is-invalid @enderror"
-                                            type="text" id="code" name="code" value="{{ old('code') }}"
+                                            type="text" id="code" name="code" value="{{ $videotron->code }}"
                                             autofocus placeholder="Kode" required>
                                     </div>
                                     @error('code')
@@ -35,10 +37,9 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Area</label>
                                         <select id="area_id" name="area_id"
                                             class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
-                                            type="text" value="{{ old('area_id') }}">
-                                            <option value="pilih">-- pilih --</option>
+                                            type="text" value="{{ $videotron->area_id }}">
                                             @foreach ($areas as $area)
-                                                @if (old('area_id') == $area->id)
+                                                @if ($videotron->area_id == $area->id)
                                                     <option value="{{ $area->id }}" selected>{{ $area->area }}
                                                     </option>
                                                 @else
@@ -57,7 +58,7 @@
                                     <div class="mt-1">
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kota</label>
                                         <input id="city_id" name="city_id" type="text" hidden
-                                            value="{{ old('city_id') }}">
+                                            value="{{ $videotron->city_id }}">
                                         <select id="city" name="city"
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 w-36 xl:w-48 2xl:w-56  border rounded-lg p-1 outline-teal-300 @error('city_id') is-invalid @enderror"
                                             type="text">
@@ -74,7 +75,7 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Lokasi</label>
                                         <textarea
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 w-36 xl:w-48 2xl:w-56  border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                            name="address" id="address" placeholder="Lokasi Videotron">{{ old('address') }}</textarea>
+                                            name="address" id="address" placeholder="Lokasi Videotron">{{ $videotron->address }}</textarea>
                                         @error('address')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -88,7 +89,8 @@
                                         <input
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-36 xl:w-48 2xl:w-56  border rounded-lg p-1 outline-teal-300 @error('lat') is-invalid @enderror"
                                             type="text" id="lat" name="lat" placeholder="Latitude"
-                                            value="{{ old('lat') }}" required readonly title="Latitude select from map">
+                                            value="{{ $videotron->lat }}" required readonly
+                                            title="Latitude select from map">
                                         @error('lat')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -102,7 +104,7 @@
                                         <input
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-36 xl:w-48 2xl:w-56  border rounded-lg p-1 outline-teal-300 @error('lng') is-invalid @enderror"
                                             type="text" id="lng" name="lng" placeholder="Longitude"
-                                            value="{{ old('lng') }}" required readonly
+                                            value="{{ $videotron->lng }}" required readonly
                                             title="Longitude select from map">
                                         @error('lat')
                                             <div class="invalid-feedback">
@@ -120,10 +122,9 @@
                                             class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
                                             font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                             @error('led_id') is-invalid @enderror"
-                                            type="text" value="{{ old('led_id') }}">
-                                            <option value="pilih">-- pilih --</option>
+                                            type="text" value="{{ $videotron->led_id }}">
                                             @foreach ($leds as $led)
-                                                @if (old('led_id') == $led->id)
+                                                @if ($videotron->led_id == $led->id)
                                                     <option value="{{ $led->id }}" selected>{{ $led->name }}
                                                     </option>
                                                 @else
@@ -145,7 +146,7 @@
                                     <div class="mt-1">
                                         <input
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 @error('slots') is-invalid @enderror"
-                                            type="text" id="slots" name="slots" value="{{ old('slots') }}"
+                                            type="text" id="slots" name="slots" value="{{ $videotron->slots }}"
                                             placeholder="Slot" required>
                                         @error('slots')
                                             <div class="invalid-feedback">
@@ -159,10 +160,9 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Ukuran</label>
                                         <select id="size_id" name="size_id"
                                             class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
-                                            type="text" value="{{ old('size_id') }}">
-                                            <option value="pilih">-- pilih --</option>
+                                            type="text" value="{{ $videotron->size_id }}">
                                             @foreach ($sizes as $size)
-                                                @if (old('size_id') == $size->id)
+                                                @if ($videotron->size_id == $size->id)
                                                     <option value="{{ $size->id }}" selected>
                                                         {{ $size->size . ' - ' . $size->orientation }}
                                                     </option>
@@ -189,7 +189,7 @@
                                             <path
                                                 d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                                         </svg>
-                                        <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Save</span>
+                                        <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Update</span>
                                     </button>
                                     <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
                                         href="/dashboard/media/videotrons">
@@ -202,7 +202,7 @@
                                         <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Cancel</span>
                                     </a>
                                 </div>
-                                <!-- Create New Videotron end -->
+                                <!-- Edit Videotron end -->
                             </div>
                         </div>
                         <div class="mx-1 w-[172px] xl:w-[208px] xl:mx-4 2xl:w-[240px]">
@@ -210,15 +210,27 @@
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kepemilikan</label>
                                     <div class="flex">
-                                        <input class="flex" type="radio" id="vista" name="ownership"
-                                            value="Vista Media" checked="true"><label
-                                            class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
-                                            for="html">Vista
-                                            Media</label>
-                                        <input class="flex ml-4" type="radio" id="mitra" name="ownership"
-                                            value="Mitra"><label
-                                            class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
-                                            for="html">Mitra</label>
+                                        @if ($videotron->ownership == 'Vista Media')
+                                            <input class="flex" type="radio" id="vista" name="ownership"
+                                                value="Vista Media" checked="true"><label
+                                                class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
+                                                for="html">Vista
+                                                Media</label>
+                                            <input class="flex ml-4" type="radio" id="mitra" name="ownership"
+                                                value="Mitra"><label
+                                                class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
+                                                for="html">Mitra</label>
+                                        @else
+                                            <input class="flex" type="radio" id="vista" name="ownership"
+                                                value="Vista Media"><label
+                                                class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
+                                                for="html">Vista
+                                                Media</label>
+                                            <input class="flex ml-4" type="radio" id="mitra" name="ownership"
+                                                value="Mitra"><label
+                                                class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
+                                                for="html" checked="true">Mitra</label>
+                                        @endif
                                     </div>
                                     @error('ownership')
                                         <div class="invalid-feedback">
@@ -229,10 +241,10 @@
                                         class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
                                             font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                             @error('vendor_id') is-invalid @enderror"
-                                        type="text" value="{{ old('vendor_id') }}" hidden>
+                                        type="text" value="{{ $videotron->vendor_id }}" hidden>
                                         <option value="pilih">-- pilih --</option>
                                         @foreach ($vendors as $vendor)
-                                            @if (old('vendor_id') == '$vendor->id')
+                                            @if ($videotron->vendor_id == '$vendor->id')
                                                 <option value="{{ $vendor->id }}" selected>{{ $vendor->name }}</option>
                                             @else
                                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
@@ -249,9 +261,11 @@
                             <div class="flex mt-1">
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kondisi</label>
+                                    <input id="kondisi" name="kondisi" type="text" hidden
+                                        value="{{ $videotron->condition }}">
                                     <div class="flex">
                                         <input class="flex" type="radio" id="terbangun" name="condition"
-                                            value="Terbangun" checked="true"><label
+                                            value="Terbangun"><label
                                             class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
                                             for="html">Terbangun</label>
                                     </div>
@@ -283,10 +297,9 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Type Jalan</label>
                                     <select id="road_segment" name="road_segment"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('road_segment') is-invalid @enderror"
-                                        type="text" value="{{ old('road_segment') }}">
-                                        <option value="pilih">-- pilih --</option>
+                                        type="text" value="{{ $videotron->road_segment }}">
                                         @for ($numberRoad = 0; $numberRoad < count($roads); $numberRoad++)
-                                            @if (old('road_segment') == $roads[$numberRoad])
+                                            @if ($videotron->road_segment == $roads[$numberRoad])
                                                 <option value="{{ $roads[$numberRoad] }}" selected>
                                                     {{ $roads[$numberRoad] }}
                                                 </option>
@@ -313,10 +326,9 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Jarak Pandang</label>
                                     <select id="max_distance" name="max_distance"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('max_distance') is-invalid @enderror"
-                                        type="text" value="{{ old('max_distance') }}">
-                                        <option value="pilih">-- pilih --</option>
+                                        type="text" value="{{ $videotron->max_distance }}">
                                         @for ($numberDistance = 0; $numberDistance < count($distances); $numberDistance++)
-                                            @if (old('max_distance') == $distances[$numberDistance])
+                                            @if ($videotron->max_distance == $distances[$numberDistance])
                                                 <option value="{{ $distances[$numberDistance] }}" selected>
                                                     {{ $distances[$numberDistance] }}
                                                 </option>
@@ -343,10 +355,10 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kecepatan Kendaraan</label>
                                     <select id="speed_average" name="speed_average"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('speed_average') is-invalid @enderror"
-                                        type="text" value="{{ old('speed_average') }}">
+                                        type="text" value="{{ $videotron->speed_average }}">
                                         <option value="pilih">-- pilih --</option>
                                         @for ($numberSpeed = 0; $numberSpeed < count($speeds); $numberSpeed++)
-                                            @if (old('speed_average') == $speeds[$numberSpeed])
+                                            @if ($videotron->speed_average == $speeds[$numberSpeed])
                                                 <option value="{{ $speeds[$numberSpeed] }}" selected>
                                                     {{ $speeds[$numberSpeed] }}
                                                 </option>
@@ -367,7 +379,7 @@
                             <div class="flex mt-1">
                                 <div class="mt-1">
                                     <input class="@error('sector') is-invalid @enderror" type="text" id="sector"
-                                        name="sector" value="{{ old('sector') }}" hidden>
+                                        name="sector" value="{{ $videotron->sector }}" hidden>
                                     <label
                                         class="text-sm xl:text-md 2xl:text-lg text-teal-700 border-b w-40 xl:w-52 2xl:w-60 flex p-1">Kawasan</label>
                                     @error('sector')
@@ -427,7 +439,7 @@
                                     <input
                                         class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('exclusive_price') is-invalid @enderror"
                                         type="number" id="exclusive_price" name="exclusive_price"
-                                        value="{{ old('exclusive_price') }}" placeholder="Harga Eksklusif" required>
+                                        value="{{ $videotron->exclusive_price }}" placeholder="Harga Eksklusif" required>
                                     @error('exclusive_price')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -443,7 +455,7 @@
                                     <input
                                         class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('sharing_price') is-invalid @enderror"
                                         type="number" id="sharing_price" name="sharing_price"
-                                        value="{{ old('sharing_price') }}" placeholder="Harga Sharing" required>
+                                        value="{{ $videotron->sharing_price }}" placeholder="Harga Sharing" required>
                                     @error('sharing_price')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -451,7 +463,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!-- Create New Videotron end -->
+                            <!-- Edit Videotron end -->
                         </div>
                     </div>
                     <div>
@@ -471,8 +483,14 @@
                             @enderror
                             <div
                                 class="flex m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px] border mt-1">
-                                <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px]"
-                                    src="/img/product-image.png" alt="">
+                                <input type="hidden" id="oldPhoto" name="oldPhoto" value="{{ $videotron->photo }}">
+                                @if ($videotron->photo)
+                                    <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px"
+                                        src="{{ asset('storage/' . $videotron->photo) }}">
+                                @else
+                                    <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px"
+                                        src="/img/product-image.png" alt="">
+                                @endif
                             </div>
                         </div>
                         <!-- Photo Videotron end -->
@@ -490,11 +508,11 @@
             </div>
         </div>
     </div>
-    <!-- Form Create New Videotron end -->
+    <!-- Form Edit Videotron end -->
     <!-- Script Videotron start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
         defer></script>
 
-    <script src="/js/createvideotron.js"></script>
+    <script src="/js/editvideotron.js"></script>
     <!-- Script Videotron end -->
 @endsection

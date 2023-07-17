@@ -155,6 +155,12 @@
                                     <td class="index-td text-sm w-10 2xl:w-12">
                                         @if ($product->category == 'Billboard')
                                             BB
+                                        @elseif ($product->category == 'Bando')
+                                            BD
+                                        @elseif ($product->category == 'Baliho')
+                                            BLH
+                                        @elseif ($product->category == 'Midiboard')
+                                            MB
                                         @endif
                                     </td>
                                     <td class="index-td text-sm w-10 2xl:w-12">
@@ -238,7 +244,7 @@
                                                 @csrf
                                                 <button
                                                     class="index-link text-white w-7 2xl:w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
-                                                    onclick="return confirm('Apakah anda yakin ingin menghapus billboard dengan kode {{ $product->code }} ?')">
+                                                    onclick="return confirm('Apakah anda yakin ingin menghapus {{ $product->category }} dengan kode {{ $product->code }} ?')">
                                                     <svg class="fill-current w-[18px] 2xl:w-5" clip-rule="evenodd"
                                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -264,6 +270,8 @@
                                     <td class="index-td text-sm w-10 2xl:w-12">
                                         @if ($product->category == 'Billboard')
                                             BB
+                                        @elseif ($product->category == 'Bando')
+                                            BD
                                         @elseif ($product->category == 'Baliho')
                                             BLH
                                         @elseif ($product->category == 'Midiboard')

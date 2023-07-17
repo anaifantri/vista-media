@@ -34,7 +34,9 @@ class LedController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('dashboard.media.leds.create', [
-                'vendors'=>Vendor::orderBy("name", "asc")->get(),
+                'vendors'=>Vendor::WhereHas('vendor_category', function($query){
+                    $query->where('name','LED');
+                })->orderBy("name", "asc")->get(),
                 'title' => 'Menambahkan Produk LED'
             ]);
         } else {

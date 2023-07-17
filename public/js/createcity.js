@@ -82,13 +82,13 @@ let kabKlungkung = new City("KLK", "Bali", "Klungkung", -8.5179342, 115.3956393,
 let kabGianyar = new City("GYR", "Bali", "Gianyar", -8.494917, 115.2721698, 11.2);
 let kabBangli = new City("BGL", "Bali", "Bangli", -8.3340052, 115.3630761, 11.2);
 //Area Jawa Timur
-let kotaSurabaya = new City("SBY", "Jawa Timur", "Surabaya", -7.2757134, 112.7233596, 12);
-let kabSidoarjo = new City("SDJ", "Jawa Timur", "Sidoarjo", -7.4601224, 112.6729812, 11.75);
-let kabBanyuwangi = new City("BWI", "Jawa Timur", "Banyuwangi", -8.2125822, 114.2358363, 10.25);
-let kotaMalang = new City("MLG", "Jawa Timur", "Malang", -7.9761185, 112.619891, 12.5);
-let kotaMojokerto = new City("MJK", "Jawa Timur", "Mojokerto", -7.4720428, 112.4407848, 13.75);
-let kabJember = new City("JBR", "Jawa Timur", "Jember", -8.1851244, 113.7044038, 12);
-let kabPamekasan = new City("PMK", "Jawa Timur", "Pamekasan", -7.1782008, 113.481792, 12.5);
+let kotaSurabaya = new City("SBY", "Jatim", "Surabaya", -7.2757134, 112.7233596, 12);
+let kabSidoarjo = new City("SDJ", "Jatim", "Sidoarjo", -7.4601224, 112.6729812, 11.75);
+let kabBanyuwangi = new City("BWI", "Jatim", "Banyuwangi", -8.2125822, 114.2358363, 10.25);
+let kotaMalang = new City("MLG", "Jatim", "Malang", -7.9761185, 112.619891, 12.5);
+let kotaMojokerto = new City("MJK", "Jatim", "Mojokerto", -7.4720428, 112.4407848, 13.75);
+let kabJember = new City("JBR", "Jatim", "Jember", -8.1851244, 113.7044038, 12);
+let kabPamekasan = new City("PMK", "Jatim", "Pamekasan", -7.1782008, 113.481792, 12.5);
 //Area Kalsel
 let banjarmasin = new City("BJM", "Kalsel", "Banjarmasin", -3.317649, 114.5854566, 13);
 let banjarbaru = new City("BJB", "Kalsel", "Banjarbaru", -3.4608001, 114.7974584, 12.75);

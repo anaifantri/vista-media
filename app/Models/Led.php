@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Videotron;
+use App\Models\Vendor;
+use App\Models\Product;
 use Kyslik\ColumnSortable\Sortable;
 
 class Led extends Model
@@ -29,6 +32,9 @@ class Led extends Model
 
     public function products(){
         return $this->hasMany(Product::class, 'led_id', 'id');
+    }
+    public function videotrons(){
+        return $this->hasMany(Videotron::class, 'vendor_id', 'id');
     }
 
     public $sortable = ['name', 'pixel_pitch'];

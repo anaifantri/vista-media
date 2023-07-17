@@ -57,6 +57,7 @@ Route::get('/showCity', [CityController::class,'showCity'])->middleware(['auth',
 Route::get('/showSize', [SizeController::class,'showSize'])->middleware(['auth','user_access']);
 Route::get('/test', [BillboardController::class,'test'])->middleware(['auth','user_access']);
 Route::get('/preview/{id}', [PreviewController::class, 'preview']);
+Route::get('/videotron/{id}', [PreviewController::class, 'videotronPreview']);
 
 Route::get('/', function () {
     return view('index',[

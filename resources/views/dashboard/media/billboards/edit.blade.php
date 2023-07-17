@@ -119,7 +119,7 @@
                                 <div class="mt-1">
                                     @php
                                         $numberCategory = 0;
-                                        $categories = ['Billboard', 'Baliho', 'Midiboard'];
+                                        $categories = ['Billboard', 'Bando', 'Baliho', 'Midiboard'];
                                     @endphp
                                     <div class="flex mt-1">
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Katagori</label>
