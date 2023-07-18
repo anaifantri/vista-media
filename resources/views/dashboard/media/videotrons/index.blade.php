@@ -116,9 +116,8 @@
                             <th class="index-td text-sm w-12 2xl:w-16">Kota</th>
                             <th class="index-td text-sm w-24 2xl:w-28">Jenis LED</th>
                             <th class="index-td text-sm w-[88px] 2xl:w-24">Size - V/H</th>
-                            <th class="index-td text-sm w-10 2xl:w-12">Slot</th>
+                            <th class="index-td text-sm w-12 2xl:w-16">Slot</th>
                             <th class="index-td text-sm w-[100px] 2xl:w-28">Kondisi</th>
-                            <th class="index-td text-sm  w-[72px] 2xl:w-16">Status</th>
                             <th class="index-td text-sm w-44">@sortablelink('exclusive_price', 'Harga Eksklusif')
                                 <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
@@ -156,10 +155,9 @@
                                             H
                                         @endif
                                     </td>
-                                    <td class="index-td text-sm w-10 2xl:w-12">{{ $videotron->slots }}</td>
+                                    <td class="index-td text-sm w-12 2xl:w-16">{{ $videotron->slots }}</td>
                                     <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $videotron->condition }}
                                     </td>
-                                    <td class="flex items-start justify-center text-sm w-[72px] 2xl:w-16"></td>
                                     <td class="flex items-center justify-center text-sm w-44">Rp.
                                         {{ number_format($videotron->exclusive_price) }},-</td>
                                     <td class="flex items-center justify-center text-sm w-44">Rp.
@@ -224,10 +222,9 @@
                                             H
                                         @endif
                                     </td>
-                                    <td class="index-td text-sm w-10 2xl:w-12">{{ $videotron->slots }}</td>
+                                    <td class="index-td text-sm w-12 2xl:w-16">{{ $videotron->slots }}</td>
                                     <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $videotron->condition }}
                                     </td>
-                                    <td class="flex items-start justify-center text-sm w-[72px] 2xl:w-16"></td>
                                     <td class="flex items-center justify-center text-sm w-44">Rp.
                                         {{ number_format($videotron->exclusive_price) }},-</td>
                                     <td class="flex items-center justify-center text-sm w-44">Rp.

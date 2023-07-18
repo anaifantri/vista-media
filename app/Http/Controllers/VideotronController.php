@@ -11,6 +11,7 @@ use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class VideotronController extends Controller
 {
@@ -281,6 +282,16 @@ class VideotronController extends Controller
      */
     public function destroy(Videotron $videotron): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
+            if($videotron->photo){
+                Storage::delete($videotron->photo);
+            }
+    
+            Videotron::destroy($videotron->id);
+    
+            return redirect('/dashboard/media/videotrons')->with('success','Videotron dengan kode ' . $videotron->code . ' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }
