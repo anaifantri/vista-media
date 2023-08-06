@@ -176,3 +176,10 @@
 }
 
 /* maps end */
+.label{
+    @apply text-sm text-teal-700;
+}
+
+.input{
+    @apply flex text-sm font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 ;
+}
