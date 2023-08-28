@@ -25,6 +25,9 @@ class Size extends Model
     public function videotrons(){
         return $this->hasMany(Videotron::class, 'size_id', 'id');
     }
+    public function signages(){
+        return $this->hasMany(Signage::class, 'size_id', 'id');
+    }
 
     public function user(){
         return $this->belongsTo(User::class);

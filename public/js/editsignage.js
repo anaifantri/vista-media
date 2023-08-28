@@ -27,17 +27,20 @@ const mall = document.getElementById("mall");
 const garden = document.getElementById("garden");
 const market = document.getElementById("market");
 const house = document.getElementById("house");
-let markerQty = 0;
 let signageLocations = [];
 let objLocations = {};
 
 let objCity = {};
 
+
 let map;
 let markers = [];
-let latitude = -1.7505372;
-let longitude = 118.0962239;
-let zoomMaps = 4.35;
+let zoomMaps = 18;
+dataObject = JSON.parse(locations.value)
+objLocations = dataObject.signageLocations;
+
+let latitude = Number(objLocations[0].lat);
+let longitude = Number(objLocations[0].lng);
 
 let myLatLng = {
     lat: latitude,
@@ -46,106 +49,76 @@ let myLatLng = {
 
 // Show City --> start
 const optionCity = [];
-if (areaId.value != 'pilih') {
-    if (cityId.value != 'pilih') {
-        while (city.hasChildNodes()) {
-            city.removeChild(city.firstChild);
-        }
-        optionCity[0] = document.createElement('option');
-        optionCity[0].appendChild(document.createTextNode(['-- pilih --']));
-        optionCity[0].setAttribute('value', 'pilih');
-        city.appendChild(optionCity[0]);
 
-        const xhrCity = new XMLHttpRequest();
-        const methodCity = "GET";
-        const urlCity = "/showCity";
-
-        xhrCity.open(methodCity, urlCity, true);
-        xhrCity.send();
-
-        xhrCity.onreadystatechange = () => {
-            // In local files, status is 0 upon success in Mozilla Firefox
-            if (xhrCity.readyState === XMLHttpRequest.DONE) {
-                const status = xhrCity.status;
-                if (status === 0 || (status >= 200 && status < 400)) {
-                    objCity = JSON.parse(xhrCity.responseText);
-
-                    for (i = 0; i < objCity.dataCity.length; i++) {
-                        if (objCity.dataCity[i]['area_id'] == areaId.value) {
-                            optionCity[i + 1] = document.createElement('option');
-                            optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
-                            if (cityId.value == objCity.dataCity[i]['id']) {
-                                optionCity[i + 1].setAttribute('selected', 'selected');
-                                latitude = Number(objCity.dataCity[i]['lat']);
-                                longitude = Number(objCity.dataCity[i]['lng']);
-                                zoomMaps = Number(objCity.dataCity[i]['zoom']);
-                                myLatLng = {
-                                    lat: latitude,
-                                    lng: longitude
-                                };
-                                initMap();
-                            }
-                            optionCity[i + 1].setAttribute('value', objCity.dataCity[i]['id']);
-                            city.appendChild(optionCity[i + 1]);
-                        }
-                    }
-                } else {
-                    // Oh no! There has been an error with the request!
-                }
-            }
-        }
-    } else {
-        while (city.hasChildNodes()) {
-            city.removeChild(city.firstChild);
-        }
-        optionCity[0] = document.createElement('option');
-        optionCity[0].appendChild(document.createTextNode(['-- pilih --']));
-        optionCity[0].setAttribute('value', 'pilih');
-        city.appendChild(optionCity[0]);
-
-        const xhrCity = new XMLHttpRequest();
-        const methodCity = "GET";
-        const urlCity = "/showCity";
-
-        xhrCity.open(methodCity, urlCity, true);
-        xhrCity.send();
-
-        xhrCity.onreadystatechange = () => {
-            // In local files, status is 0 upon success in Mozilla Firefox
-            if (xhrCity.readyState === XMLHttpRequest.DONE) {
-                const status = xhrCity.status;
-                if (status === 0 || (status >= 200 && status < 400)) {
-                    objCity = JSON.parse(xhrCity.responseText);
-                    for (i = 0; i < objCity.dataCity.length; i++) {
-                        if (objCity.dataCity[i]['area_id'] == areaId.value) {
-                            optionCity[i + 1] = document.createElement('option');
-                            optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
-                            optionCity[i + 1].setAttribute('value', objCity.dataCity[i]['id']);
-                            city.appendChild(optionCity[i + 1]);
-                        }
-                    }
-                } else {
-                    // Oh no! There has been an error with the request!
-                }
-            }
-        }
-    }
-} else {
-    optionCity[0] = document.createElement('option');
-    optionCity[0].appendChild(document.createTextNode(['-- pilih --']));
-    optionCity[0].setAttribute('value', 'pilih');
-    city.appendChild(optionCity[0]);
-}
-
-areaId.addEventListener('change', function () {
-    cityId.value = 'pilih';
+if (cityId.value != '') {
     while (city.hasChildNodes()) {
         city.removeChild(city.firstChild);
     }
-    optionCity[0] = document.createElement('option');
-    optionCity[0].appendChild(document.createTextNode(['-- pilih --']));
-    optionCity[0].setAttribute('value', 'pilih');
-    city.appendChild(optionCity[0]);
+
+    const xhrCity = new XMLHttpRequest();
+    const methodCity = "GET";
+    const urlCity = "/showCity";
+
+    xhrCity.open(methodCity, urlCity, true);
+    xhrCity.send();
+
+    xhrCity.onreadystatechange = () => {
+        // In local files, status is 0 upon success in Mozilla Firefox
+        if (xhrCity.readyState === XMLHttpRequest.DONE) {
+            const status = xhrCity.status;
+            if (status === 0 || (status >= 200 && status < 400)) {
+                objCity = JSON.parse(xhrCity.responseText);
+
+                for (i = 0; i < objCity.dataCity.length; i++) {
+                    if (objCity.dataCity[i]['area_id'] == areaId.value) {
+                        optionCity[i + 1] = document.createElement('option');
+                        optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
+                        if (city.value == objCity.dataCity[i]['city']) {
+                            optionCity[i + 1].setAttribute('selected', 'selected');
+                        }
+                        city.appendChild(optionCity[i + 1]);
+                    }
+                }
+            } else {
+                // Oh no! There has been an error with the request!
+            }
+        }
+    }
+} else if (areaId.value != '') {
+    while (city.hasChildNodes()) {
+        city.removeChild(city.firstChild);
+    }
+    const xhrCity = new XMLHttpRequest();
+    const methodCity = "GET";
+    const urlCity = "/showCity";
+
+    xhrCity.open(methodCity, urlCity, true);
+    xhrCity.send();
+
+    xhrCity.onreadystatechange = () => {
+        // In local files, status is 0 upon success in Mozilla Firefox
+        if (xhrCity.readyState === XMLHttpRequest.DONE) {
+            const status = xhrCity.status;
+            if (status === 0 || (status >= 200 && status < 400)) {
+                objCity = JSON.parse(xhrCity.responseText);
+                for (i = 0; i < objCity.dataCity.length; i++) {
+                    if (objCity.dataCity[i]['area_id'] == areaId.value) {
+                        optionCity[i + 1] = document.createElement('option');
+                        optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
+                        city.appendChild(optionCity[i + 1]);
+                    }
+                }
+            } else {
+                // Oh no! There has been an error with the request!
+            }
+        }
+    }
+}
+
+areaId.addEventListener('change', function () {
+    while (city.hasChildNodes()) {
+        city.removeChild(city.firstChild);
+    }
 
     const xhrCity = new XMLHttpRequest();
     const methodCity = "GET";
@@ -179,8 +152,6 @@ areaId.addEventListener('change', function () {
 // Show City --> end
 
 // Signage Qty event --> start
-console.log(qty.value);
-
 if (qty.value != '') {
     if (qty.value != 0) {
         lokasi.removeAttribute('hidden');
@@ -190,7 +161,7 @@ if (qty.value != '') {
         label.classList.add("xl:text-md");
         label.classList.add("2xl:text-lg");
         lokasi.appendChild(label);
-        for (i = 0; i < Number(qty.value); i++) {
+        for (i = 0; i < objLocations.length; i++) {
             var label = document.createElement('label');
             label.innerHTML = i + 1 + ". ";
             label.classList.add("label");
@@ -206,6 +177,7 @@ if (qty.value != '') {
             input.classList.add("2xl:text-lg");
             input.setAttribute('name', 'input' + i);
             input.setAttribute('id', 'input' + i);
+            input.setAttribute('value', objLocations[i].lat.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + ', ' + objLocations[i].lng.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }))
             lokasi.appendChild(input);
         }
     } else {
@@ -216,10 +188,11 @@ if (qty.value != '') {
 }
 
 qty.addEventListener('keyup', function () {
-    markerQty = 0;
+    markers.length = 0;
     locations.value = "";
     signageLocations = [];
     deleteMarkers();
+    initMap();
     while (lokasi.hasChildNodes()) {
         lokasi.removeChild(lokasi.firstChild);
     }
@@ -635,20 +608,32 @@ function initMap() {
         center: myLatLng,
     });
 
+    // Show Marker
+    if (qty.value == objLocations.length) {
+        for (i = 0; i < objLocations.length; i++) {
+            latitude = Number(objLocations[i].lat);
+            longitude = Number(objLocations[i].lng);
+            myLatLng = {
+                lat: latitude,
+                lng: longitude
+            };
+            addMarker(myLatLng);
+        }
+    }
+
     map.addListener("click", (event) => {
         // deleteMarkers();
         if (qty.value != "") {
             if (qty.value != 0) {
-                if (markerQty < qty.value) {
+                if (markers.length < qty.value) {
                     addMarker(event.latLng);
                     let num1 = event.latLng.lat();
                     let num2 = event.latLng.lng();
-                    document.getElementById('input' + markerQty).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
-                    signageLocations[markerQty] = { number: markerQty + 1, lat: event.latLng.lat(), lng: event.latLng.lng() }
+                    document.getElementById('input' + (markers.length - 1)).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+                    signageLocations[markers.length - 1] = { number: markers.length, lat: event.latLng.lat(), lng: event.latLng.lng() }
                     objLocations = { signageLocations };
                     locations.value = JSON.stringify(objLocations);
                     console.log(locations.value);
-                    markerQty++;
                 } else {
                     console.log("Marker sudah " + qty.value + " lokasi");
                     alert("Marker sudah " + qty.value + " lokasi");
@@ -661,11 +646,6 @@ function initMap() {
             console.log("Silahkan input jumlah lokasi terlebih dahulu");
             alert("Silahkan input jumlah lokasi terlebih dahulu");
         }
-        console.log(markerQty);
-        // var koordinate = event.latLng;
-        // console.log(koordinate);
-        // document.getElementById('lat').value = event.latLng.lat();
-        // document.getElementById('lng').value = event.latLng.lng();
     });
 }
 
@@ -673,10 +653,115 @@ function initMap() {
 function addMarker(position) {
     const marker = new google.maps.Marker({
         position,
+        draggable: true,
         map,
     });
 
     markers.push(marker);
+    if (markers.length != 0) {
+        if (markers.length == 1) {
+            markers[0].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 0).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+        }
+        if (markers.length == 2) {
+            markers[0].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 0).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[1].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 1).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+        }
+        if (markers.length == 3) {
+            markers[0].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 0).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[1].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 1).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[2].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 2).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+        }
+        if (markers.length == 4) {
+            markers[0].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 0).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[1].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 1).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[2].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 2).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[3].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 3).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+        }
+        if (markers.length == 5) {
+            markers[0].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 0).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[1].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 1).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[2].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 2).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[3].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 3).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+            markers[3].addListener("dragend", (event) => {
+                let num1 = event.latLng.lat();
+                let num2 = event.latLng.lng();
+                console.log(event);
+                document.getElementById('input' + 4).value = num1.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 }) + "," + num2.toLocaleString(undefined, { maximumFractionDigits: 7, minimumFractionDigits: 7 });
+            });
+        }
+    }
+    // marker.addListener('drag', handleEvent);
+    // marker.addListener('dragend', handleEvent);
 }
 
 // Sets the map on all markers in the array.

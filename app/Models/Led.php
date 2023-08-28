@@ -36,6 +36,9 @@ class Led extends Model
     public function videotrons(){
         return $this->hasMany(Videotron::class, 'vendor_id', 'id');
     }
+    public function signages(){
+        return $this->hasMany(Signage::class, 'vendor_id', 'id');
+    }
 
     public $sortable = ['name', 'pixel_pitch'];
 }

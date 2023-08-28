@@ -30,6 +30,9 @@ class City extends Model
     public function videotrons(){
         return $this->hasMany(Videotron::class, 'city_id', 'id');
     }
+    public function signages(){
+        return $this->hasMany(Signage::class, 'city_id', 'id');
+    }
 
     public function area(){
         return $this->belongsTo(Area::class);

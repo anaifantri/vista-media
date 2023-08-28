@@ -43,6 +43,9 @@ class Vendor extends Model
     public function videotrons(){
         return $this->hasMany(Videotron::class, 'vendor_id', 'id');
     }
+    public function signages(){
+        return $this->hasMany(Signage::class, 'vendor_id', 'id');
+    }
 
     public function vendor_contacts(){
         return $this->hasMany(VendorContact::class, 'vendor_id', 'id');

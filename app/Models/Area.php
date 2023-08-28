@@ -26,6 +26,9 @@ class Area extends Model
     public function videotrons(){
         return $this->hasMany(Videotron::class, 'area_id', 'id');
     }
+    public function signages(){
+        return $this->hasMany(Signage::class, 'area_id', 'id');
+    }
 
     public function cities(){
         return $this->hasMany(City::class, 'area_id', 'id');

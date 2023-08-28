@@ -1,17 +1,19 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Create New Signage start -->
+    <!-- Edit Signage start -->
     <div class="flex justify-center">
         <div class="mt-10">
-            <!-- Title Create New Signage start -->
+            <!-- Title Edit Signage start -->
             <div class="flex border-b">
-                <h1 class="text-xl text-cyan-800 font-bold tracking-wider"> MENAMBAHKAN SIGNAGE</h1>
+                <h1 class="text-xl text-cyan-800 font-bold tracking-wider"> EDIT DATA SIGNAGE</h1>
             </div>
-            <!-- Title Create New Signage end -->
-            <!-- Form Create New Signage start -->
+            <!-- Title Edit Signage end -->
+            <!-- Form Edit Signage start -->
             <div class="flex">
-                <form class="md:flex" action="/dashboard/media/signages" method="post" enctype="multipart/form-data">
+                <form class="md:flex" action="/dashboard/media/signages/{{ $signage->id }}" method="post"
+                    enctype="multipart/form-data">
+                    @method('put')
                     @csrf
                     <div class="flex justify-center">
                         <div class="flex mx-1">
@@ -21,7 +23,7 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kode Lokasi</label>
                                         <input
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 @error('code') is-invalid @enderror"
-                                            type="text" id="code" name="code" value="{{ old('code') }}"
+                                            type="text" id="code" name="code" value="{{ $signage->code }}"
                                             autofocus placeholder="Kode" required>
                                     </div>
                                     @error('code')
@@ -35,10 +37,10 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Area</label>
                                         <select id="area_id" name="area_id"
                                             class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
-                                            type="text" value="{{ old('area_id') }}">
+                                            type="text" value="{{ $signage->area_id }}">
                                             <option value="pilih">-- pilih --</option>
                                             @foreach ($areas as $area)
-                                                @if (old('area_id') == $area->id)
+                                                @if ($signage->area_id == $area->id)
                                                     <option value="{{ $area->id }}" selected>{{ $area->area }}
                                                     </option>
                                                 @else
@@ -57,7 +59,7 @@
                                     <div class="mt-1">
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kota</label>
                                         <input id="city_id" name="city_id" type="text" hidden
-                                            value="{{ old('city_id') }}">
+                                            value="{{ $signage->city_id }}">
                                         <select id="city" name="city"
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 w-36 xl:w-48 2xl:w-56  border rounded-lg p-1 outline-teal-300 @error('city_id') is-invalid @enderror"
                                             type="text">
@@ -74,7 +76,7 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Lokasi</label>
                                         <textarea
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 w-36 xl:w-48 2xl:w-56  border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                            name="address" id="address" placeholder="Lokasi signage">{{ old('address') }}</textarea>
+                                            name="address" id="address" placeholder="Lokasi signage">{{ $signage->address }}</textarea>
                                         @error('address')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -89,7 +91,7 @@
                                     <div class="mt-1">
                                         <input
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 @error('qty') is-invalid @enderror"
-                                            type="number" id="qty" name="qty" value="{{ old('qty') }}"
+                                            type="number" id="qty" name="qty" value="{{ $signage->qty }}"
                                             placeholder="Jumlah Signage" min="1" max="5" required>
                                         @error('qty')
                                             <div class="invalid-feedback">
@@ -100,7 +102,7 @@
                                 </div>
                                 <div class="mt-1">
                                     <input class="@error('locations') is-invalid @enderror" type="text" id="locations"
-                                        name="locations" placeholder="Latitude" value="{{ old('locations') }}" hidden>
+                                        name="locations" placeholder="Latitude" value="{{ $signage->locations }}" hidden>
                                     <div id="lokasi" name="lokasi" class="mt-1" hidden>
                                     </div>
                                     @error('locations')
@@ -119,10 +121,10 @@
                                             class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
                                             font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                             @error('signage_category_id') is-invalid @enderror"
-                                            type="text" value="{{ old('signage_category_id') }}">
+                                            type="text" value="{{ $signage->signage_category_id }}">
                                             <option value="pilih">-- pilih --</option>
                                             @foreach ($signage_categories as $signage_category)
-                                                @if (old('signage_category_id') == $signage_category->id)
+                                                @if ($signage->signage_category_id == $signage_category->id)
                                                     <option value="{{ $signage_category->id }}" selected>
                                                         {{ $signage_category->name }}
                                                     </option>
@@ -148,10 +150,10 @@
                                             class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
                                             font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                             @error('led_id') is-invalid @enderror"
-                                            type="text" value="{{ old('led_id') }}">
+                                            type="text" value="{{ $signage->led_id }}">
                                             <option value="pilih">-- pilih --</option>
                                             @foreach ($leds as $led)
-                                                @if (old('led_id') == $led->id)
+                                                @if ($signage->led_id == $led->id)
                                                     <option value="{{ $led->id }}" selected>{{ $led->name }}
                                                     </option>
                                                 @else
@@ -173,8 +175,8 @@
                                     <div class="mt-1">
                                         <input
                                             class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 @error('slot_qty') is-invalid @enderror"
-                                            type="text" id="slot_qty" name="slot_qty" value="{{ old('slot_qty') }}"
-                                            placeholder="Jumlah Slot">
+                                            type="text" id="slot_qty" name="slot_qty"
+                                            value="{{ $signage->slot_qty }}" placeholder="Jumlah Slot">
                                         @error('slot_qty')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -187,10 +189,10 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Ukuran</label>
                                         <select id="size_id" name="size_id"
                                             class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
-                                            type="text" value="{{ old('size_id') }}">
+                                            type="text" value="{{ $signage->size_id }}">
                                             <option value="pilih">-- pilih --</option>
                                             @foreach ($sizes as $size)
-                                                @if (old('size_id') == $size->id)
+                                                @if ($signage->size_id == $size->id)
                                                     <option value="{{ $size->id }}" selected>
                                                         {{ $size->size . ' - ' . $size->orientation }}
                                                     </option>
@@ -217,7 +219,7 @@
                                             <path
                                                 d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                                         </svg>
-                                        <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Save</span>
+                                        <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Update</span>
                                     </button>
                                     <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
                                         href="/dashboard/media/signages">
@@ -230,7 +232,7 @@
                                         <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Cancel</span>
                                     </a>
                                 </div>
-                                <!-- Create New Signage end -->
+                                <!-- Edit Signage end -->
                             </div>
                         </div>
                         <div class="mx-1 w-[172px] xl:w-[208px] xl:mx-4 2xl:w-[240px]">
@@ -257,10 +259,10 @@
                                         class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
                                             font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                             @error('vendor_id') is-invalid @enderror"
-                                        type="text" value="{{ old('vendor_id') }}" hidden>
+                                        type="text" value="{{ $signage->vendor_id }}" hidden>
                                         <option value="pilih">-- pilih vendor--</option>
                                         @foreach ($vendors as $vendor)
-                                            @if (old('vendor_id') == '$vendor->id')
+                                            @if ($signage->vendor_id == '$vendor->id')
                                                 <option value="{{ $vendor->id }}" selected>{{ $vendor->name }}</option>
                                             @else
                                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
@@ -311,10 +313,10 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Type Jalan</label>
                                     <select id="road_segment" name="road_segment"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('road_segment') is-invalid @enderror"
-                                        type="text" value="{{ old('road_segment') }}">
+                                        type="text" value="{{ $signage->road_segment }}">
                                         <option value="pilih">-- pilih --</option>
                                         @for ($numberRoad = 0; $numberRoad < count($roads); $numberRoad++)
-                                            @if (old('road_segment') == $roads[$numberRoad])
+                                            @if ($signage->road_segment == $roads[$numberRoad])
                                                 <option value="{{ $roads[$numberRoad] }}" selected>
                                                     {{ $roads[$numberRoad] }}
                                                 </option>
@@ -341,10 +343,10 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Jarak Pandang</label>
                                     <select id="max_distance" name="max_distance"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('max_distance') is-invalid @enderror"
-                                        type="text" value="{{ old('max_distance') }}">
+                                        type="text" value="{{ $signage->max_distance }}">
                                         <option value="pilih">-- pilih --</option>
                                         @for ($numberDistance = 0; $numberDistance < count($distances); $numberDistance++)
-                                            @if (old('max_distance') == $distances[$numberDistance])
+                                            @if ($signage->max_distance == $distances[$numberDistance])
                                                 <option value="{{ $distances[$numberDistance] }}" selected>
                                                     {{ $distances[$numberDistance] }}
                                                 </option>
@@ -371,10 +373,10 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kecepatan Kendaraan</label>
                                     <select id="speed_average" name="speed_average"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('speed_average') is-invalid @enderror"
-                                        type="text" value="{{ old('speed_average') }}">
+                                        type="text" value="{{ $signage->speed_average }}">
                                         <option value="pilih">-- pilih --</option>
                                         @for ($numberSpeed = 0; $numberSpeed < count($speeds); $numberSpeed++)
-                                            @if (old('speed_average') == $speeds[$numberSpeed])
+                                            @if ($signage->speed_average == $speeds[$numberSpeed])
                                                 <option value="{{ $speeds[$numberSpeed] }}" selected>
                                                     {{ $speeds[$numberSpeed] }}
                                                 </option>
@@ -395,7 +397,7 @@
                             <div class="flex mt-1">
                                 <div class="mt-1">
                                     <input class="@error('sector') is-invalid @enderror" type="text" id="sector"
-                                        name="sector" value="{{ old('sector') }}" hidden>
+                                        name="sector" value="{{ $signage->sector }}" hidden>
                                     <label
                                         class="text-sm xl:text-md 2xl:text-lg text-teal-700 border-b w-40 xl:w-52 2xl:w-60 flex p-1">Kawasan</label>
                                     @error('sector')
@@ -454,7 +456,7 @@
                                 <div class="mt-1">
                                     <input
                                         class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-24 border rounded-lg p-1 outline-teal-300 @error('start_at') is-invalid @enderror"
-                                        type="time" id="start_at" name="start_at" value="{{ old('start_at') }}"
+                                        type="time" id="start_at" name="start_at" value="{{ $signage->start_at }}"
                                         placeholder="Waktu On">
                                     @error('start_at')
                                         <div class="invalid-feedback">
@@ -470,7 +472,7 @@
                                 <div class="mt-1">
                                     <input
                                         class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-24 border rounded-lg p-1 outline-teal-300 @error('end_at') is-invalid @enderror"
-                                        type="time" id="end_at" name="end_at" value="{{ old('end_at') }}"
+                                        type="time" id="end_at" name="end_at" value="{{ $signage->end_at }}"
                                         placeholder="Waktu Off">
                                     @error('end_at')
                                         <div class="invalid-feedback">
@@ -487,7 +489,7 @@
                                     <input
                                         class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('exclusive_price') is-invalid @enderror"
                                         type="number" id="exclusive_price" name="exclusive_price"
-                                        value="{{ old('exclusive_price') }}" placeholder="Harga Eksklusif">
+                                        value="{{ $signage->exclusive_price }}" placeholder="Harga Eksklusif">
                                     @error('exclusive_price')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -503,7 +505,7 @@
                                     <input
                                         class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('sharing_price') is-invalid @enderror"
                                         type="number" id="sharing_price" name="sharing_price"
-                                        value="{{ old('sharing_price') }}" placeholder="Harga Sharing">
+                                        value="{{ $signage->sharing_price }}" placeholder="Harga Sharing">
                                     @error('sharing_price')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -518,7 +520,7 @@
                                 <div class="mt-1">
                                     <input
                                         class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('price') is-invalid @enderror"
-                                        type="number" id="price" name="price" value="{{ old('price') }}"
+                                        type="number" id="price" name="price" value="{{ $signage->price }}"
                                         placeholder="Harga">
                                     @error('price')
                                         <div class="invalid-feedback">
@@ -527,7 +529,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!-- Create New Signage end -->
+                            <!-- Edit Signage end -->
                         </div>
                     </div>
                     <div>
@@ -547,8 +549,14 @@
                             @enderror
                             <div
                                 class="flex m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px] border mt-1">
-                                <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px]"
-                                    src="/img/product-image.png" alt="">
+                                <input type="hidden" id="oldPhoto" name="oldPhoto" value="{{ $signage->photo }}">
+                                @if ($signage->photo)
+                                    <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px"
+                                        src="{{ asset('storage/' . $signage->photo) }}">
+                                @else
+                                    <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px"
+                                        src="/img/product-image.png" alt="">
+                                @endif
                             </div>
                         </div>
                         <!-- Photo signage end -->
@@ -566,11 +574,11 @@
             </div>
         </div>
     </div>
-    <!-- Form Create New Signage end -->
+    <!-- Form Edit Signage end -->
     <!-- Script signage start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
         defer></script>
 
-    <script src="/js/createsignage.js"></script>
+    <script src="/js/editsignage.js"></script>
     <!-- Script signage end -->
 @endsection
