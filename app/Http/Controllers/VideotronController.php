@@ -86,7 +86,7 @@ class VideotronController extends Controller
                 return back()->withErrors(['sector' => ['Silahkan pilih minimal 1 kawasan']])->withInput();
             }
             $validateData = $request->validate([
-                'code' => 'required|unique:pvideotrons',
+                'code' => 'required|unique:videotrons',
                 'area_id' => 'required',
                 'city_id' => 'required',
                 'size_id' => 'required',
