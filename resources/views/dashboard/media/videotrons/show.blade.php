@@ -50,6 +50,8 @@
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $videotron->city->city }}</label>
+                                        <input id="city" name="city" type="text"
+                                            value="{{ $videotron->city->city }}" hidden>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -61,6 +63,8 @@
                                         <textarea
                                             class="flex h-max text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 w-52 lg:w-60 2xl:w-72 ml-2"
                                             readonly>{{ $videotron->address }}</textarea>
+                                        <input id="address" name="address" type="text"
+                                            value="{{ $videotron->address }}" hidden>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -331,7 +335,7 @@
     <!-- Show Videotron end -->
     <!-- Preview Videotron start -->
     <div id="modal" name="modal"
-        class="absolute justify-center top-0 w-full h-[1500px] bg-black bg-opacity-90 z-50 hidden">
+        class="absolute justify-center top-0 w-full h-max bg-black bg-opacity-90 z-50 hidden">
         <div class="overflow-x-scroll">
             <div class="w-[800px] h-8 mt-2 ml-2">
                 <div class="flex relative items-center">
@@ -557,7 +561,8 @@
                 const base64image = canvas.toDataURL("image/jpg");
                 var anchor = document.createElement('a');
                 anchor.setAttribute("href", base64image);
-                anchor.setAttribute("download", code.value + ".jpg");
+                anchor.setAttribute("download", code.value + " - " + city.value + " - " + address.value +
+                    ".jpg");
                 anchor.click();
                 anchor.remove();
             })
@@ -567,10 +572,13 @@
             var element = document.getElementById('preview');
             var opt = {
                 margin: 0,
-                filename: code.value + '.pdf',
+                filename: code.value + ' - ' + city.value + ' - ' + address.value + '.pdf',
                 image: {
                     type: 'jpeg',
                     quality: 1
+                },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy']
                 },
                 html2canvas: {
                     scale: 1
@@ -578,10 +586,12 @@
                 jsPDF: {
                     unit: 'in',
                     format: 'a4',
-                    orientation: 'portrait'
+                    orientation: 'portrait',
+                    putTotalPages: true
                 }
             };
-            html2pdf(element, opt);
+            // html2pdf(element, opt);
+            html2pdf().set(opt).from(element).save();
         };
 
         const modal = document.getElementById("modal");

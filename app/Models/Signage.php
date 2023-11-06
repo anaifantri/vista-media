@@ -9,6 +9,7 @@ use App\Models\Size;
 use App\Models\Led;
 use App\Models\Vendor;
 use App\Models\SignageCategory;
+use App\Models\Quotation;
 use Kyslik\ColumnSortable\Sortable;
 
 class Signage extends Model
@@ -77,6 +78,10 @@ class Signage extends Model
 
     public function signage_category(){
         return $this->belongsTo(SignageCategory::class);
+    }
+
+    public function quotations(){
+        return $this->hasMany(Quotation::class, 'signage_id', 'id');
     }
 
     public $sortable = ['code',

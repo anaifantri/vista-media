@@ -27,6 +27,12 @@ class LedController extends Controller
         ]);
     }
 
+    public function showLed(){
+        $dataLed = Led::All();
+
+        return response()->json(['dataLed'=> $dataLed]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

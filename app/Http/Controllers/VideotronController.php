@@ -27,6 +27,11 @@ class VideotronController extends Controller
         ]);
     }
 
+    public function showVideotron(){
+        $dataVideotron = Videotron::All();
+
+        return response()->json(['dataVideotron'=> $dataVideotron]);
+    }
     /**
      * Show the form for creating a new resource.
      */

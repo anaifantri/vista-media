@@ -659,6 +659,11 @@ video {
   margin-right: auto;
 }
 
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .-ml-\[266px\] {
   margin-left: -266px;
 }
@@ -729,6 +734,14 @@ video {
 
 .ml-5 {
   margin-left: 1.25rem;
+}
+
+.ml-6 {
+  margin-left: 1.5rem;
+}
+
+.ml-7 {
+  margin-left: 1.75rem;
 }
 
 .ml-\[40px\] {
@@ -855,6 +868,10 @@ video {
   height: 5rem;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
 .h-28 {
   height: 7rem;
 }
@@ -887,8 +904,28 @@ video {
   height: 2rem;
 }
 
+.h-80 {
+  height: 20rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
+.h-\[1000px\] {
+  height: 1000px;
+}
+
 .h-\[1100px\] {
   height: 1100px;
+}
+
+.h-\[1125px\] {
+  height: 1125px;
+}
+
+.h-\[1345px\] {
+  height: 1345px;
 }
 
 .h-\[1500px\] {
@@ -939,8 +976,20 @@ video {
   height: 465px;
 }
 
+.h-\[500px\] {
+  height: 500px;
+}
+
+.h-\[530px\] {
+  height: 530px;
+}
+
 .h-\[72px\] {
   height: 72px;
+}
+
+.h-\[900px\] {
+  height: 900px;
 }
 
 .h-\[92px\] {
@@ -958,6 +1007,11 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.max-h-max {
+  max-height: -moz-max-content;
+  max-height: max-content;
 }
 
 .min-h-screen {
@@ -1040,6 +1094,10 @@ video {
   width: 15rem;
 }
 
+.w-64 {
+  width: 16rem;
+}
+
 .w-7 {
   width: 1.75rem;
 }
@@ -1056,8 +1114,16 @@ video {
   width: 20rem;
 }
 
+.w-9 {
+  width: 2.25rem;
+}
+
 .w-\[100px\] {
   width: 100px;
+}
+
+.w-\[1100px\] {
+  width: 1100px;
 }
 
 .w-\[110px\] {
@@ -1132,6 +1198,10 @@ video {
   width: 476px;
 }
 
+.w-\[520px\] {
+  width: 520px;
+}
+
 .w-\[52px\] {
   width: 52px;
 }
@@ -1144,6 +1214,18 @@ video {
   width: 600px;
 }
 
+.w-\[620px\] {
+  width: 620px;
+}
+
+.w-\[621px\] {
+  width: 621px;
+}
+
+.w-\[650px\] {
+  width: 650px;
+}
+
 .w-\[670px\] {
   width: 670px;
 }
@@ -1152,8 +1234,20 @@ video {
   width: 700px;
 }
 
+.w-\[721px\] {
+  width: 721px;
+}
+
+.w-\[725px\] {
+  width: 725px;
+}
+
 .w-\[72px\] {
   width: 72px;
+}
+
+.w-\[750px\] {
+  width: 750px;
 }
 
 .w-\[780px\] {
@@ -1180,6 +1274,10 @@ video {
   width: 915px;
 }
 
+.w-\[950px\] {
+  width: 950px;
+}
+
 .w-auto {
   width: auto;
 }
@@ -1191,6 +1289,14 @@ video {
 .w-max {
   width: -moz-max-content;
   width: max-content;
+}
+
+.w-\[200px\] {
+  width: 200px;
+}
+
+.w-\[400px\] {
+  width: 400px;
 }
 
 .max-w-7xl {
@@ -1261,6 +1367,10 @@ video {
 
 .items-start {
   align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
 }
 
 .items-center {
@@ -1625,6 +1735,11 @@ video {
   padding-right: 1.5rem;
 }
 
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -1694,6 +1809,10 @@ video {
   font-size: 0.65rem;
 }
 
+.text-\[0\.7rem\] {
+  font-size: 0.7rem;
+}
+
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1753,6 +1872,11 @@ video {
 
 .tracking-widest {
   letter-spacing: 0.1em;
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .text-cyan-800 {
@@ -2145,6 +2269,20 @@ video {
   background-color: rgb(185 28 28 / var(--tw-bg-opacity));
 }
 
+.btn-disabled {
+  height: 2rem;
+  width: -moz-max-content;
+  width: max-content;
+  border-radius: 0.5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(100 116 139 / var(--tw-bg-opacity));
+  padding: 0.5rem;
+  --tw-text-opacity: 1;
+  color: rgb(203 213 225 / var(--tw-text-opacity));
+  --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 /* alert */
 
 .alert-primary {
@@ -2408,6 +2546,379 @@ video {
   --tw-text-opacity: 1;
   color: rgb(100 116 139 / var(--tw-text-opacity));
   outline-color: #5eead4;
+}
+
+.td-table {
+  border-width: 1px;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+}
+
+.td-table-preview {
+  border-width: 1px;
+  text-align: center;
+  font-size: 0.7rem;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+}
+
+.btn-del {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  display: flex;
+  height: 1rem;
+  width: 1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+  --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.btn-del:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+}
+
+.input-price {
+  width: 108px;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.input-price-preview {
+  width: 108px;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.main-title {
+  margin-top: 0.25rem;
+  display: flex;
+  height: 44px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  display: flex;
+  height: 44px;
+  width: 700px;
+  align-items: center;
+  justify-content: flex-start;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  border-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+}
+
+.code-number {
+  display: flex;
+  height: 36px;
+  width: 4rem;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity));
+}
+
+.code-city {
+  margin-left: 0.25rem;
+  display: flex;
+  height: 36px;
+  width: 4rem;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+.address-preview {
+  display: flex;
+  height: 36px;
+  width: 575px;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+}
+
+.main-image {
+  margin-top: 1px;
+  display: flex;
+  height: 465px;
+  width: 100%;
+  justify-content: center;
+}
+
+.image-frame {
+  display: flex;
+  height: 465px;
+  width: 700px;
+  align-items: center;
+  justify-content: center;
+  border-bottom-right-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+  border-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+}
+
+.image-preview {
+  margin: auto;
+  height: 435px;
+  width: 670px;
+}
+
+.body-bottom {
+  margin-top: 0.25rem;
+  display: flex;
+  height: 360px;
+  width: 100%;
+  justify-content: center;
+}
+
+.main-bottom {
+  display: flex;
+  height: 360px;
+  width: 700px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.main-map {
+  height: 360px;
+  width: 476px;
+  justify-content: center;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.map-title {
+  display: flex;
+  height: 1.75rem;
+  width: 476px;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(19 78 74 / var(--tw-text-opacity));
+}
+
+.map-preview {
+  position: relative;
+  margin-top: 1px;
+  display: flex;
+  height: 330px;
+  width: 476px;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.image-map {
+  height: 330px;
+  width: 476px;
+  border-bottom-right-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+  border-width: 1px;
+}
+
+.main-description {
+  margin-left: 0.25rem;
+  height: 360px;
+  width: 220px;
+  justify-content: center;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.description-title {
+  display: flex;
+  height: 1.75rem;
+  width: 220px;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  padding: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(19 78 74 / var(--tw-text-opacity));
+}
+
+.description {
+  margin-top: 1px;
+  height: 92px;
+  width: 220px;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+}
+
+.description-element {
+  margin-top: 0.25rem;
+  display: flex;
+}
+
+.description-name {
+  margin-left: 0.5rem;
+  width: 80px;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  --tw-text-opacity: 1;
+  color: rgb(19 78 74 / var(--tw-text-opacity));
+}
+
+.description-value {
+  width: 140px;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  --tw-text-opacity: 1;
+  color: rgb(19 78 74 / var(--tw-text-opacity));
+}
+
+.area-title {
+  margin-top: 1px;
+  display: flex;
+  height: 1.75rem;
+  width: 220px;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  padding: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(19 78 74 / var(--tw-text-opacity));
+}
+
+.area-information {
+  margin-top: 1px;
+  height: 210px;
+  width: 220px;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+}
+
+.area-element {
+  display: flex;
+}
+
+.area-name {
+  margin-left: 0.5rem;
+  width: 100px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(19 78 74 / var(--tw-text-opacity));
+}
+
+.area-value {
+  display: flex;
+  width: 120px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(19 78 74 / var(--tw-text-opacity));
+}
+
+.footer {
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.footer-line {
+  margin-top: 0.5rem;
+  display: flex;
+  height: -moz-max-content;
+  height: max-content;
+  width: 100%;
+  justify-content: center;
+}
+
+.footer-company {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.company {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+.footer-text {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.footer-element {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .selection\:bg-red-500 *::-moz-selection {

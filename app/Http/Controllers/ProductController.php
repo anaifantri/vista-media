@@ -33,8 +33,8 @@ class ProductController extends Controller
     }
 
     public function showProduct(){
-        $dataProduct = Product::All();
-
+        // $dataProduct = Product::All();
+        $dataProduct = Product::orderBy("code", "asc")->get();
         return response()->json(['dataProduct'=> $dataProduct]);
     }
     /**

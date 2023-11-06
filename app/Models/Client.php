@@ -33,5 +33,9 @@ class Client extends Model
         return $this->belongsTo(ClientCategory::class);
     }
 
+    public function quotations(){
+        return $this->hasMany(Quotation::class, 'client_id', 'id');
+    }
+
     public $sortable = ['name','company', 'category'];
 }

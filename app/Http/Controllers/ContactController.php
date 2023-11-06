@@ -121,4 +121,15 @@ class ContactController extends Controller
 
         return redirect('/dashboard/marketing/clients/'. $contact->client_id)->with('success','Contact ' . $contact->name . ' berhasil dihapus');
     }
+
+    /**
+     * Convert contact data to json.
+     */
+    public function showContact(){
+        $dataContact = Contact::All();
+
+        return response()->json(['dataContact'=> $dataContact]);
+    }
 }
+
+

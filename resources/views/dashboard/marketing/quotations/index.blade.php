@@ -3,22 +3,22 @@
 @section('container')
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
-            <div class="w-[915px] p-2">
+            <div class="w-[1100px] p-2">
                 <div class="flex">
-                    <h1 class="index-h1"> Daftar Klien</h1>
+                    <h1 class="index-h1"> Daftar Surat Penawaran</h1>
                     <div class="flex border-b">
-                        <a href="/dashboard/marketing/clients/create" class="index-link btn-primary">
+                        <a href="/dashboard/marketing/quotations/create" class="index-link btn-primary">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                     fill-rule="nonzero" />
                             </svg>
-                            <span class="mx-1">Tambah Klien</span>
+                            <span class="mx-1">Buat Penawaran</span>
                         </a>
                     </div>
                 </div>
-                <form class="flex mt-2" action="/dashboard/marketing/clients/">
+                <form class="flex mt-2" action="/dashboard/marketing/quotations/">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
@@ -48,45 +48,36 @@
                 <thead>
                     <tr class="index-tr items-center h-10 bg-teal-100 border-t">
                         <th class="index-td text-sm w-8">No.</th>
-                        <th class="index-td text-sm w-36">
-                            @sortablelink('name', 'Nama Klien')
+                        <th class="index-td text-sm w-32">
+                            @sortablelink('number', 'Nomor Surat')
                             <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                             </svg>
                         </th>
-                        <th class="index-td text-sm w-48">
-                            @sortablelink('company', 'Nama Perusahaan')
-                            <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                            </svg>
-                        </th>
-                        <th class="index-td text-sm w-24">
-                            @sortablelink('category', 'Katagori')
-                            <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                            </svg>
-                        </th>
-                        <th class="index-td text-sm w-44">Email</th>
-                        <th class="index-td text-sm w-32">No. Telepon</th>
+                        <th class="index-td text-sm w-16">Tanggal</th>
+                        <th class="index-td text-sm w-16">Katagori</th>
+                        <th class="index-td text-sm w-32">Klien</th>
+                        <th class="index-td text-sm w-32">Kontak Person</th>
+                        <th class="index-td text-sm w-56">Deskripsi</th>
+                        <th class="index-td text-sm w-20">Status</th>
+                        <th class="index-td text-sm w-28">Dibuat Oleh</th>
                         <th class="index-td text-sm w-32">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($clients as $client)
+                    @foreach ($quotations as $quotation)
                         <tr class="index-tr">
                             <td class="index-td text-sm w-8 text-center">{{ $loop->iteration }}</td>
-                            <td class="index-td text-sm w-36">{{ $client->name }}</td>
-                            <td class="index-td text-sm w-48">{{ $client->company }}</td>
-                            <td class="index-td text-sm w-24">{{ $client->category }}</td>
-                            @if ($client->email)
-                                <td class="index-td text-sm w-44">{{ $client->email }}</td>
-                            @else
-                                <td class="index-td text-sm w-44">-</td>
-                            @endif
-                            <td class="index-td text-sm w-32">{{ $client->phone }}</td>
-
+                            <td class="index-td text-sm w-32">{{ $quotation->number }}</td>
+                            <td class="index-td text-sm w-16">{{ $quotation->created_at }}</td>
+                            <td class="index-td text-sm w-16">{{ $quotation->quotation_category->name }}</td>
+                            <td class="index-td text-sm w-32">{{ $quotation->client->name }}</td>
+                            <td class="index-td text-sm w-32">{{ $quotation->contact->name }}</td>
+                            <td class="index-td text-sm w-56">-</td>
+                            <td class="index-td text-sm w-20">{{ $quotation->status }}</td>
+                            <td class="index-td text-sm w-28">{{ $quotation->user->name }}</td>
                             <td class="index-td text-sm w-32">
-                                <a href="/dashboard/marketing/clients/{{ $client->id }}"
+                                <a href="/dashboard/marketing/quotations/{{ $quotation->id }}"
                                     class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -96,7 +87,7 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <a href="/dashboard/marketing/clients/{{ $client->id }}/edit"
+                                <a href="/dashboard/marketing/quotations/{{ $quotation->id }}/edit"
                                     class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -106,13 +97,13 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <form action="/dashboard/marketing/clients/{{ $client->id }}" method="post"
+                                <form action="/dashboard/marketing/quotations/{{ $quotation->id }}" method="post"
                                     class="flex m-auto">
                                     @method('delete')
                                     @csrf
                                     <button
                                         class="index-link text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md mr-1"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus Client {{ $client->name }} ?')">
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus quotation {{ $quotation->number }} ?')">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -129,7 +120,7 @@
             </table>
         </div>
         <div class="flex justify-center text-teal-900">
-            {{ $clients->links() }}
+            {{ $quotations->links() }}
         </div>
     </div>
 @endsection

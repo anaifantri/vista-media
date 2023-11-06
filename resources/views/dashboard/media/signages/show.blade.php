@@ -50,6 +50,8 @@
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
                                             {{ $signage->city->city }}</label>
+                                        <input id="city" name="city" type="text"
+                                            value="{{ $signage->city->city }}" hidden>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -61,6 +63,8 @@
                                         <textarea
                                             class="flex h-max text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 w-52 lg:w-60 2xl:w-72 ml-2"
                                             readonly>{{ $signage->address }}</textarea>
+                                        <input id="address" name="address" type="text" value="{{ $signage->address }}"
+                                            hidden>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -663,7 +667,8 @@
                 const base64image = canvas.toDataURL("image/jpg");
                 var anchor = document.createElement('a');
                 anchor.setAttribute("href", base64image);
-                anchor.setAttribute("download", code.value + ".jpg");
+                anchor.setAttribute("download", code.value + " - " + city.value + " - " + address.value +
+                    ".jpg");
                 anchor.click();
                 anchor.remove();
             })
@@ -673,7 +678,7 @@
             var element = document.getElementById('preview');
             var opt = {
                 margin: 0,
-                filename: code.value + '.pdf',
+                filename: code.value + ' - ' + city.value + ' - ' + address.value + '.pdf',
                 image: {
                     type: 'jpeg',
                     quality: 1

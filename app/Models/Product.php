@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Size;
+use App\Models\Quotation;
 use Kyslik\ColumnSortable\Sortable;
 
 class Product extends Model
@@ -75,6 +76,10 @@ class Product extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function quotations(){
+        return $this->hasMany(Quotation::class, 'product_id', 'id');
     }
 
     public $sortable = ['code',
