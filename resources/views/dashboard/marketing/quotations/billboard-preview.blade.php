@@ -2,17 +2,18 @@
 <div id="modalPreview" class="absolute justify-center top-0 w-full h-max bg-black bg-opacity-90 z-50 hidden">
     <div>
         <div class="flex mt-10">
-            <div class="flex w-40">
+            <div class="flex w-48">
                 <button id="btnSavePrint" class="flex justify-center items-center mx-1 btn-success" title="Save & Print"
                     type="button">
-                    <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24">
                         <path
-                            d="M24 11v12h-24v-12h4v-10h10.328c1.538 0 5.672 4.852 5.672 6.031v3.969h4zm-6-3.396c0-1.338-2.281-1.494-3.25-1.229.453-.813.305-3.375-1.082-3.375h-7.668v13h12v-8.396zm-2 5.396h-8v-1h8v1zm0-3h-8v1h8v-1zm0-2h-8v1h8v-1z" />
+                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                     </svg>
-                    <span class="ml-2 text-white">Save & Print</span>
+                    <span class="ml-2 text-white">Save</span>
                 </button>
             </div>
-            <div class="flex w-[620px] justify-end">
+            <div class="flex w-[588px] justify-end">
                 <button id="btnClosePreview" class="flex" title="Close" type="button">
                     <svg class="fill-white w-6 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
@@ -117,7 +118,8 @@
                                                 class="text-[0.7rem] text-teal-700 border w-max">6
                                                 Bulan
                                             </th>
-                                            <th id="previewBBthAYear" class="text-[0.7rem] text-teal-700 border w-max">1
+                                            <th id="previewBBthAYear"
+                                                class="text-[0.7rem] text-teal-700 border w-max">1
                                                 Tahun
                                             </th>
                                             <th id="previewBBthManual"
@@ -146,26 +148,26 @@
                             <div id="previewBBNote01" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        value="Biaya di atas belum termasuk PPN." readonly>
+                                    <input id="inputPreviewBBNote01"
+                                        class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
+                                        readonly>
                                 </div>
                             </div>
                             <div id="previewBBNote02" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        value="Harga tersebut termasuk :" readonly>
+                                    <input id="inputPreviewBBNote02"
+                                        class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
+                                        readonly>
                                 </div>
                             </div>
                             <div id="previewBBNote03" hidden>
-                                <input class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text"
-                                    value="•	 Free pemasangan visual 1 x selama kontrak di luar Biaya Cetak dan Design."
-                                    readonly>
+                                <input id="inputPreviewBBNote03"
+                                    class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text" readonly>
                             </div>
                             <div id="previewBBNote04" hidden>
-                                <input class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text"
-                                    value="•	 Sewa Lokasi, konsumsi listrik selama kontrak, maintenance selama kontrak."
-                                    readonly>
+                                <input id="inputPreviewBBNote04"
+                                    class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text" readonly>
                             </div>
                             <div id="previewBBNote05" hidden>
                                 <div class="flex">
@@ -176,43 +178,37 @@
                             </div>
                             <div>
                                 <div id="previewBBNote06" hidden>
-                                    <input class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        value="• 100% Pelunasan sebelum materi iklan tayang untuk masa kontrak kurang dari 1 tahun"
+                                    <input id="inputPreviewBBNote06"
+                                        class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text"
                                         readonly>
                                 </div>
                                 <div id="previewBBNote07" hidden>
-                                    <input class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        value="• 50% DP, 50% Pelunasan setelah BAPP untuk masa kontrak 1 tahun"
+                                    <input id="inputPreviewBBNote07"
+                                        class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text"
                                         readonly>
                                 </div>
                             </div>
                             <div id="previewBBTArea">
                                 <div id="previewBBNote08" class="flex items-start">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <label class="ml-1 w-[621px] h-max text-[0.7rem] text-black flex">Pajak reklame dan
-                                        perijinan (SKPD, SSPD dan Ijin Reklame) belum dapat kami berikan segera dan
-                                        tidak menjadi salah satu syarat penagihan mengingat saat ini Kebijakan Penataan
-                                        Reklame di Kab. Badung dan kota Denpasar masih belum ada keputusan, namun kami
-                                        akan menjamin media reklame billboard tidak akan diturunkan dan kami akan segera
-                                        memproses perijinan begitu sudah ada keputusan tentang Penataan Reklame di Kab.
-                                        Badung dan kota Denpasar.</label>
+                                    <label id="lablePreviewBBNote08"
+                                        class="ml-1 w-[621px] h-max text-[0.7rem] text-black flex"></label>
                                 </div>
                             </div>
                             <div id="previewBBNote09" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        value="Harga & lokasi tidak mengikat, sewaktu-waktu dapat berubah sebelum ada persetujuan tertulis"
+                                    <input id="inputPreviewBBNote09"
+                                        class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
                                         readonly>
                                 </div>
                             </div>
                             <div id="previewBBNote10" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input class="ml-2 text-[0.7rem] text-black outline-none w-full font-semibold"
-                                        type="text"
-                                        value="OOH Premium milik kami tersebar di Area Lombok, Bali, Jawa Timur dan Kalimantan"
-                                        readonly>
+                                    <input id="inputPreviewBBNote10"
+                                        class="ml-2 text-[0.7rem] text-black outline-none w-full font-semibold"
+                                        type="text" readonly>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +233,7 @@
                     <div class="flex justify-center">
                         <div class="w-[250px]">
                             <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista Media</label>
-                            <label class="ml-1 my-2 text-xs text-black flex">Ditandatangani secara elektronik oleh
+                            <label class="ml-1 my-2 text-xs text-slate-300 flex">Ditandatangani secara elektronik oleh
                                 :</label>
                             <label id="salesUser"
                                 class="ml-1 text-sm text-black flex font-semibold">{{ auth()->user()->name }}</label>

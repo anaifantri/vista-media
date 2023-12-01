@@ -64,7 +64,7 @@ Route::get('/test', [BillboardController::class,'test'])->middleware(['auth','us
 Route::get('/preview/{id}', [PreviewController::class, 'preview']);
 Route::get('/videotron/{id}', [PreviewController::class, 'videotronPreview']);
 Route::get('/showQuotation', [QuotationController::class,'showQuotation'])->middleware(['auth','user_access']);
-Route::get('/streampdf', [QuotationController::class,'streamPdf'])->middleware(['auth','user_access']);
+// Route::get('/streampdf', [QuotationController::class,'streamPdf'])->middleware(['auth','user_access']);
 
 Route::get('/', function () {
     return view('index',[

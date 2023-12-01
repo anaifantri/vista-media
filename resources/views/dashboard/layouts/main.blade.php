@@ -9,7 +9,7 @@
     {{-- @vite('resources/css/app.css') --}}
     <title>VISTA MEDIA | {{ $title }}</title>
     <link rel="stylesheet" href="../../../../../css/style.css">
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
 </head>
 
 <body>

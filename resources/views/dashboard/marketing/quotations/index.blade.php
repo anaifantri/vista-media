@@ -48,18 +48,19 @@
                 <thead>
                     <tr class="index-tr items-center h-10 bg-teal-100 border-t">
                         <th class="index-td text-sm w-8">No.</th>
-                        <th class="index-td text-sm w-32">
+                        <th class="index-td text-sm w-40">
                             @sortablelink('number', 'Nomor Surat')
                             <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                             </svg>
                         </th>
-                        <th class="index-td text-sm w-16">Tanggal</th>
                         <th class="index-td text-sm w-16">Katagori</th>
                         <th class="index-td text-sm w-32">Klien</th>
                         <th class="index-td text-sm w-32">Kontak Person</th>
                         <th class="index-td text-sm w-56">Deskripsi</th>
                         <th class="index-td text-sm w-20">Status</th>
+                        <th class="index-td text-sm w-24">Tgl. Dibuat</th>
+                        <th class="index-td text-sm w-24">Tgl. Kirim</th>
                         <th class="index-td text-sm w-28">Dibuat Oleh</th>
                         <th class="index-td text-sm w-32">Action</th>
                     </tr>
@@ -68,13 +69,21 @@
                     @foreach ($quotations as $quotation)
                         <tr class="index-tr">
                             <td class="index-td text-sm w-8 text-center">{{ $loop->iteration }}</td>
-                            <td class="index-td text-sm w-32">{{ $quotation->number }}</td>
-                            <td class="index-td text-sm w-16">{{ $quotation->created_at }}</td>
+                            <td class="index-td text-sm w-40">{{ $quotation->number }}</td>
                             <td class="index-td text-sm w-16">{{ $quotation->quotation_category->name }}</td>
                             <td class="index-td text-sm w-32">{{ $quotation->client->name }}</td>
                             <td class="index-td text-sm w-32">{{ $quotation->contact->name }}</td>
-                            <td class="index-td text-sm w-56">-</td>
+                            <td class="index-td text-sm w-56">
+                                @foreach (json_decode($quotation->products) as $product)
+                                    Lokasi :
+                                    @foreach ($product as $location)
+                                        {{ $location->code }},
+                                    @endforeach
+                                @endforeach
+                            </td>
                             <td class="index-td text-sm w-20">{{ $quotation->status }}</td>
+                            <td class="index-td text-sm w-24">{{ date('d-M-Y', strtotime($quotation->created_at)) }}</td>
+                            <td class="index-td text-sm w-24">{{ date('d-M-Y', strtotime($quotation->send_at)) }}</td>
                             <td class="index-td text-sm w-28">{{ $quotation->user->name }}</td>
                             <td class="index-td text-sm w-32">
                                 <a href="/dashboard/marketing/quotations/{{ $quotation->id }}"

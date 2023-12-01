@@ -1,4 +1,5 @@
-// Declaration Quotation Create --> start
+// Declaration Quotation Create --> startcontactId
+const formCreate = document.getElementById("formCreate");
 const areaId = document.getElementById("area_id");
 const btnPreview = document.getElementById("btnPreview");
 const cityId = document.getElementById("city_id");
@@ -6,20 +7,28 @@ const clientId = document.getElementById("client_id");
 const contactId = document.getElementById("contact_id");
 const quotationCategory = document.getElementById("quotationCategory");
 const quotationCategoryId = document.getElementById("quotation_category_id");
+const number = document.getElementById("number");
+const attachment = document.getElementById("attachment");
+const subject = document.getElementById("subject");
+const bodyTop = document.getElementById("body_top");
+const products = document.getElementById("products");
+const note = document.getElementById("note");
+const bodyEnd = document.getElementById("body_end");
+const priceType = document.getElementById("price_type");
 // Declaration Quotation Create --> end
 
 // Declaration Quotation Billboard --> start
 const billboardQuotPreview = document.getElementById("billboardQuotPreview");
 const quotationNumber = document.getElementById("quotationNumber");
-const attachment = document.getElementById("attachment");
-const quotationSubject = document.getElementById("quotationSubject");
+const attachmentBillboard = document.getElementById("attachmentBillboard");
+const subjectBillboard = document.getElementById("subjectBillboard");
 const clientCompany = document.getElementById("clientCompany");
 const clientContact = document.getElementById("clientContact");
 const contactEmail = document.getElementById("contactEmail");
 const contactPhone = document.getElementById("contactPhone");
-const letterBody = document.getElementById("letterBody");
+const bodyTopBillboard = document.getElementById("bodyTopBillboard");
 const btnAdd = document.getElementById("btnAdd");
-const priceType = document.getElementById("priceType");
+const priceTypebillboard = document.getElementById("priceTypeBillboard");
 const aMonth = document.getElementById("aMonth");
 const quarterYear = document.getElementById("quarterYear");
 const halfYear = document.getElementById("halfYear");
@@ -38,24 +47,34 @@ const billboardNote = document.getElementById("billboardNote");
 const billboardTArea = document.getElementById("billboardTArea");
 const billboardNote01 = document.getElementById("billboardNote01");
 const cbBillboardNote01 = document.getElementById("cbBillboardNote01");
+const inputBBNote01 = document.getElementById("inputBBNote01");
 const billboardNote02 = document.getElementById("billboardNote02");
 const cbBillboardNote02 = document.getElementById("cbBillboardNote02");
+const inputBBNote02 = document.getElementById("inputBBNote02");
 const billboardNote03 = document.getElementById("billboardNote03");
 const cbBillboardNote03 = document.getElementById("cbBillboardNote03");
+const inputBBNote03 = document.getElementById("inputBBNote03");
 const billboardNote04 = document.getElementById("billboardNote04");
 const cbBillboardNote04 = document.getElementById("cbBillboardNote04");
+const inputBBNote04 = document.getElementById("inputBBNote04");
 const billboardNote05 = document.getElementById("billboardNote05");
 const cbBillboardNote05 = document.getElementById("cbBillboardNote05");
+const inputBBNote05 = document.getElementById("inputBBNote05");
 const billboardNote06 = document.getElementById("billboardNote06");
+const inputBBNote06 = document.getElementById("inputBBNote06");
 const cbBillboardNote06 = document.getElementById("cbBillboardNote06");
+const inputBBNote07 = document.getElementById("inputBBNote07");
 const billboardNote07 = document.getElementById("billboardNote07");
 const cbBillboardNote07 = document.getElementById("cbBillboardNote07");
 const billboardNote08 = document.getElementById("billboardNote08");
 const cbBillboardNote08 = document.getElementById("cbBillboardNote08");
+const inputBBNote08 = document.getElementById("inputBBNote08");
 const billboardNote09 = document.getElementById("billboardNote09");
 const cbBillboardNote09 = document.getElementById("cbBillboardNote09");
+const inputBBNote09 = document.getElementById("inputBBNote09");
 const billboardNote10 = document.getElementById("billboardNote10");
 const cbBillboardNote10 = document.getElementById("cbBillboardNote10");
+const inputBBNote10 = document.getElementById("inputBBNote10");
 // Declaration Quotation Billboard --> end
 
 // Declaration Quotation Videotron --> start
@@ -109,15 +128,24 @@ const previewBBManualPrice = document.getElementById("previewBBManualPrice");
 const tableWidth = document.getElementById("tableWidth");
 const previewBBNote = document.getElementById("previewBBNote");
 const previewBBNote01 = document.getElementById("previewBBNote01");
+const inputPreviewBBNote01 = document.getElementById("inputPreviewBBNote01");
 const previewBBNote02 = document.getElementById("previewBBNote02");
+const inputPreviewBBNote02 = document.getElementById("inputPreviewBBNote02");
 const previewBBNote03 = document.getElementById("previewBBNote03");
+const inputPreviewBBNote03 = document.getElementById("inputPreviewBBNote03");
 const previewBBNote04 = document.getElementById("previewBBNote04");
+const inputPreviewBBNote04 = document.getElementById("inputPreviewBBNote04");
 const previewBBNote05 = document.getElementById("previewBBNote05");
 const previewBBNote06 = document.getElementById("previewBBNote06");
+const inputPreviewBBNote06 = document.getElementById("inputPreviewBBNote06");
 const previewBBNote07 = document.getElementById("previewBBNote07");
+const inputPreviewBBNote07 = document.getElementById("inputPreviewBBNote07");
 const previewBBNote08 = document.getElementById("previewBBNote08");
+const lablePreviewBBNote08 = document.getElementById("lablePreviewBBNote08");
 const previewBBNote09 = document.getElementById("previewBBNote09");
+const inputPreviewBBNote09 = document.getElementById("inputPreviewBBNote09");
 const previewBBNote10 = document.getElementById("previewBBNote10");
+const inputPreviewBBNote10 = document.getElementById("inputPreviewBBNote10");
 const locationsImage = document.getElementById("locationsImage");
 // Declaration Quotation Billboard Preview --> end
 
@@ -129,7 +157,10 @@ let objBillboard = {};
 let objVideotron = {};
 let objSize = {};
 let objLed = {};
+let objProducts = {};
 let locations = [];
+let objNote = {};
+let notes = [];
 let objQuotationCity = {};
 let objQuotation = {};
 
@@ -157,8 +188,6 @@ let iCity = 0;
 let priceColumn = 0;
 
 let area = '';
-
-let number = "";
 
 const optionCity = [];
 
@@ -271,7 +300,7 @@ function addQuotationNumber() {
         month = "XII";
     }
 
-    number = "000" + (dataQuotation.length + 1) + "/Pen/VM/" + month + "-" + year;
+    number.value = "000" + (dataQuotation.length + 1) + "/Pen/VM/" + month + "-" + year;
 }
 // Add Quotation Number --> end
 
@@ -290,6 +319,9 @@ function getCategory(sel) {
     btnAddVideotron.classList.remove('btn-primary');
     quotationCategory.value = sel.options[sel.selectedIndex].text;
     if (quotationCategory.value == "Cetak") {
+        btnPreview.classList.add('btn-primary');
+        btnPreview.classList.remove('btn-disabled');
+        btnPreview.removeAttribute('disabled');
         // attachment.innerHTML = "-";
         // quotationSubject.innerHTML = "Penawaran Biaya Cetak dan Pemasangan";
         // letterBody.innerHTML = '';
@@ -302,15 +334,17 @@ function getCategory(sel) {
         // videotronQuotation.setAttribute('hidden', 'hidden');
         // billboardNote.setAttribute('hidden', 'hidden');
         // videotronNote.setAttribute('hidden', 'hidden');
-        priceType.removeAttribute('hidden');
+        priceTypebillboard.removeAttribute('hidden');
         videotronQuotPreview.setAttribute('hidden', 'hidden');
         billboardQuotPreview.setAttribute('hidden', 'hidden');
     } else if (quotationCategory.value == "Billboard") {
-        quotationNumber.innerHTML = number;
-        attachment.innerHTML = "Foto dan Denah Lokasi";
-        quotationSubject.innerHTML = "Penawaran Harga Penggunaan Media Reklame Billboard";
-        letterBody.innerHTML = '';
-        letterBody.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ............. dengan spesifikasi sebagai berikut :';
+        btnPreview.classList.add('btn-primary');
+        btnPreview.classList.remove('btn-disabled');
+        btnPreview.removeAttribute('disabled');
+        quotationNumber.innerHTML = number.value;
+        subjectBillboard.innerHTML = "Penawaran Harga Penggunaan Media Reklame Billboard";
+        bodyTopBillboard.innerHTML = '';
+        bodyTopBillboard.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ............. dengan spesifikasi sebagai berikut :';
         areaId.removeAttribute('disabled');
         cityId.removeAttribute('disabled');
         clientId.removeAttribute('disabled');
@@ -319,11 +353,15 @@ function getCategory(sel) {
         // videotronQuotation.setAttribute('hidden', 'hidden');
         // billboardNote.removeAttribute('hidden');
         // videotronNote.setAttribute('hidden', 'hidden');
-        priceType.removeAttribute('hidden');
+        priceTypebillboard.removeAttribute('hidden');
         billboardQuotPreview.removeAttribute('hidden');
         videotronQuotPreview.setAttribute('hidden', 'hidden');
+        attachmentBillboard.innerHTML = "Foto dan Denah Lokasi";
     } else if (quotationCategory.value == "Videotron") {
-        quotationNumberVideotron.innerHTML = number;
+        btnPreview.classList.add('btn-primary');
+        btnPreview.classList.remove('btn-disabled');
+        btnPreview.removeAttribute('disabled');
+        quotationNumberVideotron.innerHTML = number.value;
         attachmentVideotron.innerHTML = "Foto dan Denah Lokasi";
         quotationSubjectVideotron.innerHTML = "Penawaran Harga Penggunaan Media Reklame Videotron";
         letterBodyVideotron.innerHTML = '';
@@ -336,10 +374,13 @@ function getCategory(sel) {
         // videotronQuotation.removeAttribute('hidden');
         // billboardNote.setAttribute('hidden', 'hidden');
         // videotronNote.removeAttribute('hidden');
-        priceType.setAttribute('hidden', 'hidden');
+        priceTypebillboard.setAttribute('hidden', 'hidden');
         videotronQuotPreview.removeAttribute('hidden');
         billboardQuotPreview.setAttribute('hidden', 'hidden');
     } else if (quotationCategory.value == "Signage") {
+        btnPreview.classList.add('btn-primary');
+        btnPreview.classList.remove('btn-disabled');
+        btnPreview.removeAttribute('disabled');
         // attachment.innerHTML = "Foto dan Denah Lokasi";
         // quotationSubject.innerHTML = "Penawaran Harga Penggunaan Media Reklame Signage";
         // letterBody.innerHTML = '';
@@ -352,7 +393,7 @@ function getCategory(sel) {
         // videotronQuotation.setAttribute('hidden', 'hidden');
         // billboardNote.setAttribute('hidden', 'hidden');
         // videotronNote.setAttribute('hidden', 'hidden');
-        priceType.removeAttribute('hidden');
+        priceTypebillboard.removeAttribute('hidden');
         videotronQuotPreview.setAttribute('hidden', 'hidden');
         billboardQuotPreview.setAttribute('hidden', 'hidden');
     } else {
@@ -360,6 +401,9 @@ function getCategory(sel) {
         // quotationSubject.innerHTML = "-";
         // letterBody.innerHTML = '';
         // letterBody.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ........................ area ............. dengan spesifikasi sebagai berikut :';
+        btnPreview.classList.add('btn-disabled');
+        btnPreview.classList.remove('btn-primary');
+        btnPreview.setAttribute('disabled', 'disabled');
         areaId.setAttribute('disabled', 'disabled');
         cityId.setAttribute('disabled', 'disabled');
         clientId.setAttribute('disabled', 'disabled');
@@ -368,7 +412,7 @@ function getCategory(sel) {
         // videotronQuotation.setAttribute('hidden', 'hidden');
         // billboardNote.setAttribute('hidden', 'hidden');
         // videotronNote.setAttribute('hidden', 'hidden');
-        priceType.removeAttribute('hidden');
+        priceType.setAttribute('hidden', 'hidden');
         videotronQuotPreview.setAttribute('hidden', 'hidden');
         billboardQuotPreview.setAttribute('hidden', 'hidden');
     }
@@ -434,10 +478,10 @@ function getArea(sel) {
     }
     area = sel.options[sel.selectedIndex].text;
     if (quotationCategory.value != '' && sel.options[sel.selectedIndex].text != 'Pilih Area') {
-        quotationSubject.innerHTML = '';
-        quotationSubject.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + sel.options[sel.selectedIndex].text;
-        letterBody.innerHTML = '';
-        letterBody.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ' + area + ' dengan spesifikasi sebagai berikut :';
+        subjectBillboard.innerHTML = '';
+        subjectBillboard.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + sel.options[sel.selectedIndex].text;
+        bodyTopBillboard.innerHTML = '';
+        bodyTopBillboard.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ' + area + ' dengan spesifikasi sebagai berikut :';
         quotationSubjectVideotron.innerHTML = '';
         quotationSubjectVideotron.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + sel.options[sel.selectedIndex].text;
         letterBodyVideotron.innerHTML = '';
@@ -449,10 +493,10 @@ function getArea(sel) {
         btnAddVideotron.classList.remove('btn-disabled');
         btnAddVideotron.classList.add('btn-primary');
     } else {
-        quotationSubject.innerHTML = '';
-        quotationSubject.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value;
-        letterBody.innerHTML = '';
-        letterBody.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ............. dengan spesifikasi sebagai berikut :';
+        subjectBillboard.innerHTML = '';
+        subjectBillboard.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value;
+        bodyTopBillboard.innerHTML = '';
+        bodyTopBillboard.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ............. dengan spesifikasi sebagai berikut :';
         quotationSubjectVideotron.innerHTML = '';
         quotationSubjectVideotron.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value;
         letterBodyVideotron.innerHTML = '';
@@ -535,19 +579,19 @@ function getCity(sel) {
         videotronsTBody.removeChild(videotronsTBody.firstChild);
     }
     if (quotationCategory.value != '' && sel.options[sel.selectedIndex].text != 'Pilih Kota' && area != 'Pilih Area') {
-        quotationSubject.innerHTML = '';
-        quotationSubject.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + area + ' Kota ' + sel.options[sel.selectedIndex].text;
-        letterBody.innerHTML = '';
-        letterBody.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ' + area + ' kota ' + sel.options[sel.selectedIndex].text + ' dengan spesifikasi sebagai berikut :';
+        subjectBillboard.innerHTML = '';
+        subjectBillboard.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + area + ' Kota ' + sel.options[sel.selectedIndex].text;
+        bodyTopBillboard.innerHTML = '';
+        bodyTopBillboard.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ' + area + ' kota ' + sel.options[sel.selectedIndex].text + ' dengan spesifikasi sebagai berikut :';
         quotationSubjectVideotron.innerHTML = '';
         quotationSubjectVideotron.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + area + ' Kota ' + sel.options[sel.selectedIndex].text;
         letterBodyVideotron.innerHTML = '';
         letterBodyVideotron.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ' + area + ' kota ' + sel.options[sel.selectedIndex].text + ' dengan spesifikasi sebagai berikut :';
     } else {
-        quotationSubject.innerHTML = '';
-        quotationSubject.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + area;
-        letterBody.innerHTML = '';
-        letterBody.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ' + area + ' dengan spesifikasi sebagai berikut :';
+        subjectBillboard.innerHTML = '';
+        subjectBillboard.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + area;
+        bodyTopBillboard.innerHTML = '';
+        bodyTopBillboard.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + quotationCategory.value + ' area ' + area + ' dengan spesifikasi sebagai berikut :';
         quotationSubjectVideotron.innerHTML = '';
         quotationSubjectVideotron.innerHTML = 'Penawaran Harga Penggunaan Media Reklame ' + quotationCategory.value + '<br> Area ' + area;
         letterBodyVideotron.innerHTML = '';
@@ -606,6 +650,7 @@ function getClient(sel) {
                             i][
                             'name'
                         ]));
+                        optionContact[i + 1].value = objContact.dataContact[i]['id'];
                         // option[i + 1].setAttribute('value', i + 1);
                         contactId.appendChild(optionContact[i + 1]);
                     }
@@ -789,6 +834,8 @@ btnPreview.addEventListener('click', function () {
         alert('Anda belum memilih klien')
     } else if (contactId.value == 'Pilih Kontak') {
         alert('Anda belum memilih kontak')
+    } else if (locations.length == 0) {
+        alert('Anda belum memilih lokasi billboard')
     } else {
         if (locations.length != 0) {
             while (locationsImage.hasChildNodes()) {
@@ -807,13 +854,20 @@ btnPreview.addEventListener('click', function () {
         modalPreview.classList.add('flex');
         window.scrollTo(0, 0);
         quotationNumberBBPreview.innerHTML = quotationNumber.textContent;
-        attachmentBBPreview.innerHTML = attachment.textContent;
-        subjectBBPreview.innerHTML = quotationSubject.textContent;
+        attachmentBBPreview.innerHTML = attachmentBillboard.textContent;
+        attachment.value = "";
+        attachment.value = attachmentBBPreview.textContent;
+        subjectBBPreview.innerHTML = subjectBillboard.textContent;
+        subject.value = "";
+        subject.value = subjectBBPreview.textContent;
         clientBBPreview.innerHTML = clientCompany.textContent;
         contactBBPreview.innerHTML = clientContact.textContent;
         contactEmailBBPreview.innerHTML = contactEmail.textContent;
         contactPhoneBBPreview.innerHTML = contactPhone.textContent;
-        letterBodyBBPreview.innerHTML = letterBody.textContent;
+        letterBodyBBPreview.innerHTML = bodyTopBillboard.textContent;
+        bodyTop.value = "";
+        bodyTop.value = letterBodyBBPreview.textContent;
+        // console.log(bodyTop.value);
 
         while (previewBBTBody.hasChildNodes()) {
             previewBBTBody.removeChild(previewBBTBody.firstChild);
@@ -888,56 +942,191 @@ btnPreview.addEventListener('click', function () {
                 cell[10].setAttribute('hidden', 'hidden');
             }
         }
-        if (cbBillboardNote01.checked == true) {
-            previewBBNote01.removeAttribute('hidden');
-        } else {
-            previewBBNote01.setAttribute('hidden', 'hidden');
+        objProducts = { locations };
+        products.value = "";
+        products.value = JSON.stringify(objProducts);
+
+        for (i = 0; i < 10; i++) {
+            if (i + 1 == 1) {
+                if (cbBillboardNote01.checked == true) {
+                    previewBBNote01.removeAttribute('hidden');
+                    inputPreviewBBNote01.value = inputBBNote01.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputPreviewBBNote01.value
+                    }
+                } else {
+                    previewBBNote01.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            } else if (i + 1 == 2) {
+                if (cbBillboardNote02.checked == true) {
+                    previewBBNote02.removeAttribute('hidden');
+                    inputPreviewBBNote02.value = inputBBNote02.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputPreviewBBNote02.value
+                    }
+                } else {
+                    previewBBNote02.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            } else if (i + 1 == 3) {
+                if (cbBillboardNote03.checked == true) {
+                    previewBBNote03.removeAttribute('hidden');
+                    inputPreviewBBNote03.value = inputBBNote03.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputPreviewBBNote03.value
+                    }
+                } else {
+                    previewBBNote03.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            } else if (i + 1 == 4) {
+                if (cbBillboardNote04.checked == true) {
+                    previewBBNote04.removeAttribute('hidden');
+                    inputPreviewBBNote04.value = inputBBNote04.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputPreviewBBNote04.value
+                    }
+                } else {
+                    previewBBNote04.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            } else if (i + 1 == 5) {
+                if (cbBillboardNote05.checked == true) {
+                    previewBBNote05.removeAttribute('hidden');
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: "Sistem Pembayaran :"
+                    }
+                } else {
+                    previewBBNote05.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: "Sistem Pembayaran :"
+                    }
+                }
+            } else if (i + 1 == 6) {
+                if (cbBillboardNote06.checked == true) {
+                    previewBBNote06.removeAttribute('hidden');
+                    inputPreviewBBNote06.value = inputBBNote06.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputPreviewBBNote06.value
+                    }
+                } else {
+                    previewBBNote06.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            } else if (i + 1 == 7) {
+                if (cbBillboardNote07.checked == true) {
+                    previewBBNote07.removeAttribute('hidden');
+                    inputPreviewBBNote07.value = inputBBNote07.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputPreviewBBNote07.value
+                    }
+                } else {
+                    previewBBNote07.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            } else if (i + 1 == 8) {
+                if (cbBillboardNote08.checked == true) {
+                    previewBBNote08.removeAttribute('hidden');
+                    lablePreviewBBNote08.innerHTML = inputBBNote08.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: lablePreviewBBNote08.textContent
+                    }
+                } else {
+                    previewBBNote08.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            } else if (i + 1 == 9) {
+                if (cbBillboardNote09.checked == true) {
+                    previewBBNote09.removeAttribute('hidden');
+                    inputPreviewBBNote09.value = inputBBNote09.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputPreviewBBNote09.value
+                    }
+                } else {
+                    previewBBNote09.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            } else if (i + 1 == 10) {
+                if (cbBillboardNote10.checked == true) {
+                    previewBBNote10.removeAttribute('hidden');
+                    inputPreviewBBNote10.value = inputBBNote10.value;
+                    notes[i] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputPreviewBBNote10.value
+                    }
+                } else {
+                    previewBBNote10.setAttribute('hidden', 'hidden');
+                    notes[i] = {
+                        cbNote: false,
+                        labelNote: "",
+                        textNote: ""
+                    }
+                }
+            }
         }
-        if (cbBillboardNote02.checked == true) {
-            previewBBNote02.removeAttribute('hidden');
-        } else {
-            previewBBNote02.setAttribute('hidden', 'hidden');
-        }
-        if (cbBillboardNote03.checked == true) {
-            previewBBNote03.removeAttribute('hidden');
-        } else {
-            previewBBNote03.setAttribute('hidden', 'hidden');
-        }
-        if (cbBillboardNote04.checked == true) {
-            previewBBNote04.removeAttribute('hidden');
-        } else {
-            previewBBNote04.setAttribute('hidden', 'hidden');
-        }
-        if (cbBillboardNote05.checked == true) {
-            previewBBNote05.removeAttribute('hidden');
-        } else {
-            previewBBNote05.setAttribute('hidden', 'hidden');
-        }
-        if (cbBillboardNote06.checked == true) {
-            previewBBNote06.removeAttribute('hidden');
-        } else {
-            previewBBNote06.setAttribute('hidden', 'hidden');
-        }
-        if (cbBillboardNote07.checked == true) {
-            previewBBNote07.removeAttribute('hidden');
-        } else {
-            previewBBNote07.setAttribute('hidden', 'hidden');
-        }
-        if (cbBillboardNote08.checked == true) {
-            previewBBNote08.removeAttribute('hidden');
-        } else {
-            previewBBNote08.setAttribute('hidden', 'hidden');
-        }
-        if (cbBillboardNote09.checked == true) {
-            previewBBNote09.removeAttribute('hidden');
-        } else {
-            previewBBNote09.setAttribute('hidden', 'hidden');
-        }
-        if (cbBillboardNote10.checked == true) {
-            previewBBNote10.removeAttribute('hidden');
-        } else {
-            previewBBNote10.setAttribute('hidden', 'hidden');
-        }
+        objNote = { notes };
+        note.value = "";
+        note.value = JSON.stringify(objNote);
+    }
+    bodyEnd.value = "Demikian surat penawaran ini kami sampaikan, atas perhatian dan kerjasamanya kami ucapkan terima kasih";
+    if (manualInput.checked == true) {
+        priceType.value = "Harga Manual";
+    } else {
+        priceType.value = "Harga Otomatis";
     }
 
 })
@@ -2238,6 +2427,7 @@ function checkboxClick() {
 }
 
 document.getElementById("btnSavePrint").onclick = function () {
+    formCreate.submit();
     var element = document.getElementById('pdfPreview');
     var opt = {
         margin: 0,

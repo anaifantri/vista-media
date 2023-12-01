@@ -13,13 +13,21 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('client_id')->constrained();
             $table->foreignId('contact_id')->constrained();
+            $table->foreignId('company_id')->constrained();
             $table->foreignId('quotation_category_id')->constrained();
+            $table->string('number')->unique();
+            $table->string('attachment');
+            $table->string('subject');
+            $table->string('body_top');
             $table->json('products');
+            $table->json('note');
+            $table->string('body_end');
+            $table->string('price_type');
             $table->string('status');
+            $table->date('send_at')->nullable();
             $table->timestamps();
         });
     }

@@ -22,12 +22,12 @@
                 <div class="flex">
                     <label class="ml-1 text-sm text-black flex w-20">Lampiran</label>
                     <label class="ml-1 text-sm text-black flex">:</label>
-                    <label id="attachment" class="ml-1 text-sm text-black flex"></label>
+                    <label id="attachmentBillboard" class="ml-1 text-sm text-black flex"></label>
                 </div>
                 <div class="flex">
                     <label class="ml-1 text-sm text-black flex w-20">Perihal</label>
                     <label class="ml-1 text-sm text-black flex">:</label>
-                    <label id="quotationSubject" class="ml-1 text-sm text-black flex"></label>
+                    <label id="subjectBillboard" class="ml-1 text-sm text-black flex"></label>
                 </div>
                 <div class="flex mt-4">
                     <div>
@@ -52,7 +52,7 @@
                     <label class="ml-1 text-sm text-black flex">Dengan hormat,</label>
                 </div>
                 <div class="flex mt-2">
-                    <textarea id="letterBody" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ................. area ............... dengan spesifikasi sebagai berikut :</textarea>
+                    <textarea id="bodyTopBillboard" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ................. area ............... dengan spesifikasi sebagai berikut :</textarea>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
                         </button>
                     </div>
                 </div>
-                <div id="priceType">
+                <div id="priceTypeBillboard">
                     <div class="flex w-[600px] mt-1">
                         <input class="ml-2" type="checkbox" id="aMonth" name="aMonth" value="1" checked>
                         <label class="ml-1 text-sm text-teal-700 flex w-20">1
@@ -142,40 +142,40 @@
                 <div id="billboardNote01" class="flex">
                     <input id="cbBillboardNote01" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
-                    <input class="ml-2 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote01" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Biaya di atas belum termasuk PPN.">
                 </div>
                 <div id="billboardNote02" class="flex">
                     <input id="cbBillboardNote02" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
-                    <input class="ml-2 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote02" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Harga tersebut termasuk :">
                 </div>
                 <div id="billboardNote03" class="flex">
                     <input id="cbBillboardNote03" class="ml-1" type="checkbox" checked>
-                    <input class="ml-4 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote03" class="ml-4 text-sm text-black outline-none w-full" type="text"
                         value="•	 Free pemasangan visual 1 x selama kontrak di luar Biaya Cetak dan Design.">
                 </div>
                 <div id="billboardNote04" class="flex">
                     <input id="cbBillboardNote04" class="ml-1" type="checkbox" checked>
-                    <input class="ml-4 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote04" class="ml-4 text-sm text-black outline-none w-full" type="text"
                         value="•	 Sewa Lokasi, konsumsi listrik selama kontrak, maintenance selama kontrak.">
                 </div>
                 <div id="billboardNote05" class="flex">
                     <input id="cbBillboardNote05" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
-                    <input class="ml-2 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote05" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Sistem Pembayaran :">
                 </div>
                 <div>
                     <div id="billboardNote06" class="flex">
                         <input id="cbBillboardNote06" class="ml-1" type="checkbox" checked>
-                        <input class="ml-4 text-sm text-black outline-none w-full" type="text"
+                        <input id="inputBBNote06" class="ml-4 text-sm text-black outline-none w-full" type="text"
                             value="• 100% Pelunasan sebelum materi iklan tayang untuk masa kontrak kurang dari 1 tahun">
                     </div>
                     <div id="billboardNote07" class="flex">
                         <input id="cbBillboardNote07" class="ml-1" type="checkbox" checked>
-                        <input class="ml-4 text-sm text-black outline-none w-full" type="text"
+                        <input id="inputBBNote07" class="ml-4 text-sm text-black outline-none w-full" type="text"
                             value="• 50% DP, 50% Pelunasan setelah BAPP untuk masa kontrak 1 tahun">
                     </div>
                 </div>
@@ -183,20 +183,21 @@
                     <div id="billboardNote08" class="flex items-start">
                         <input id="cbBillboardNote08" class="ml-1 mt-1" type="checkbox" checked>
                         <label class="ml-1 text-sm text-black flex">-</label>
-                        <textarea class="ml-1 w-[721px] outline-none text-sm" rows="5">Pajak reklame dan perijinan (SKPD, SSPD dan Ijin Reklame) belum dapat kami berikan segera dan tidak menjadi salah satu syarat penagihan mengingat saat ini Kebijakan Penataan Reklame di Kab. Badung dan kota Denpasar masih belum ada keputusan, namun kami akan menjamin media reklame billboard tidak akan diturunkan dan kami akan segera memproses perijinan begitu sudah ada keputusan tentang Penataan Reklame di Kab. Badung dan kota Denpasar.
+                        <textarea id="inputBBNote08" class="ml-1 w-[721px] outline-none text-sm" rows="5">Pajak reklame dan perijinan (SKPD, SSPD dan Ijin Reklame) belum dapat kami berikan segera dan tidak menjadi salah satu syarat penagihan mengingat saat ini Kebijakan Penataan Reklame di Kab. Badung dan kota Denpasar masih belum ada keputusan, namun kami akan menjamin media reklame billboard tidak akan diturunkan dan kami akan segera memproses perijinan begitu sudah ada keputusan tentang Penataan Reklame di Kab. Badung dan kota Denpasar.
                                         </textarea>
                     </div>
                 </div>
                 <div id="billboardNote09" class="flex">
                     <input id="cbBillboardNote09" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
-                    <input class="ml-2 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote09" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Harga & lokasi tidak mengikat, sewaktu-waktu dapat berubah sebelum ada persetujuan tertulis">
                 </div>
                 <div id="billboardNote10" class="flex">
                     <input id="cbBillboardNote10" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
-                    <input class="ml-2 text-sm text-black outline-none w-full font-semibold" type="text"
+                    <input id="inputBBNote10" class="ml-2 text-sm text-black outline-none w-full font-semibold"
+                        type="text"
                         value="OOH Premium milik kami tersebar di Area Lombok, Bali, Jawa Timur dan Kalimantan">
                 </div>
             </div>

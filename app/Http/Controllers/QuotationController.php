@@ -10,10 +10,11 @@ use App\Models\Product;
 use App\Models\Signage;
 use App\Models\Quotation;
 use App\Models\Videotron;
+use App\Models\Company;
+use App\Models\QuotationCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\QuotationCategory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -37,12 +38,12 @@ class QuotationController extends Controller
         return response()->json(['dataQuotation'=> $dataQuotation]);
     }
 
-    public function streamPdf(){
-        // $pdf = App::make('dompdf.wrapper');
-        // $pdf->loadHTML('<h1>Test</h1>');
-        $pdf = Pdf::loadView('dashboard.marketing.quotations.testpdf');
-        return $pdf->stream();
-    }
+    // public function streamPdf(){
+    //     // $pdf = App::make('dompdf.wrapper');
+    //     // $pdf->loadHTML('<h1>Test</h1>');
+    //     $pdf = Pdf::loadView('dashboard.marketing.quotations.testpdf');
+    //     return $pdf->stream();
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -68,7 +69,33 @@ class QuotationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
+            
+            $validateData = $request->validate([
+                'client_id' => 'required',
+                'contact_id' => 'required',
+                'quotation_category_id' => 'required',
+                'number' => 'required|unique:quotations',
+                'attachment' => 'required',
+                'subject' => 'required',
+                'body_top' => 'required',
+                'products' => 'required',
+                'note' => 'required',
+                'body_end' => 'required',
+                'price_type' => 'required'
+            ]);
+
+            $validateData['user_id'] = auth()->user()->id;
+            $validateData['company_id'] = "1";
+            $validateData['status'] = "Created";
+            $validateData['send_at'] = date('Y-m-d');
+    
+            Quotation::create($validateData);
+            
+            return redirect('/dashboard/marketing/quotations')->with('success','Quotation dengan nomor '. $request->id . ' berhasil ditambahkan');
+        } else {
+            abort(403);
+        }
     }
 
     /**

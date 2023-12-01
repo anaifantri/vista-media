@@ -2,17 +2,26 @@
 
 @section('container')
     <!-- Create New Quotatin start -->
-    <div class="flex justify-center">
-        <div class="mt-10">
-            <!-- Title Create New Quotatin start -->
-            <div class="flex border-b">
-                <h1 class="text-xl text-cyan-800 font-bold tracking-wider">MEMBUAT PENAWAWARAN</h1>
-            </div>
-            <!-- Title Create New Quotatin end -->
-            <!-- Form Create New Quotatin start -->
-            <div class="flex">
-                <form class="md:flex" action="/dashboard/marketing/quotations" method="post" enctype="multipart/form-data">
-                    @csrf
+    <form id="formCreate" name="formCreate" class="flex justify-center" action="/dashboard/marketing/quotations" method="post"
+        enctype="multipart/form-data">
+        @csrf
+        <div class="flex justify-center">
+            <div class="mt-10">
+                <!-- Title Create New Quotatin start -->
+                <div class="flex border-b">
+                    <h1 class="text-xl text-cyan-800 font-bold tracking-wider">MEMBUAT PENAWAWARAN</h1>
+                </div>
+                <!-- Title Create New Quotatin end -->
+                <!-- Form Create New Quotatin start -->
+                <div class="flex">
+                    <input id="number" name="number" type="text" value="{{ old('number') }}" hidden readonly>
+                    <input id="attachment" name="attachment" type="text" value="{{ old('attachment') }}" hidden readonly>
+                    <input id="subject" name="subject" type="text" value="{{ old('subject') }}" hidden readonly>
+                    <input id="body_top" name="body_top" type="text" value="{{ old('body_top') }}" hidden readonly>
+                    <input id="products" name="products" type="text" value="{{ old('products') }}" hidden readonly>
+                    <input id="note" name="note" type="text" value="{{ old('note') }}" hidden readonly>
+                    <input id="body_end" name="body_end" type="text" value="{{ old('body_end') }}" hidden readonly>
+                    <input id="price_type" name="price_type" type="text" value="{{ old('price_type') }}" hidden readonly>
                     <div class="flex justify-center">
                         <div class="flex mx-1">
                             <div class="">
@@ -49,8 +58,8 @@
                                 <div class="flex mt-1">
                                     <div class="mt-1">
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Area</label>
-                                        <input id="area" name="area" type="text" hidden
-                                            value="{{ old('area') }}">
+                                        {{-- <input id="area" name="area" type="text" hidden
+                                            value="{{ old('area') }}"> --}}
                                         <select id="area_id" name="area_id"
                                             class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
                                             type="text" value="{{ old('area_id') }}" onchange="getArea(this)" disabled>
@@ -139,8 +148,8 @@
                                 </div>
                                 <div class="flex justify-start mt-5">
                                     <button id="btnPreview" name="btnPreview"
-                                        class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-primary"
-                                        type="button">
+                                        class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-disabled"
+                                        type="button" disabled>
                                         <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" width="24"
                                             height="24" viewBox="0 0 24 24">
                                             <path
@@ -167,15 +176,15 @@
 
                     @include('dashboard.marketing.quotations.videotron')
 
-                </form>
-                <!-- Form Create New Quotatin end -->
+                    <!-- Form Create New Quotatin end -->
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Form Create New Quotatin end -->
-    @include('dashboard.marketing.quotations.add-locations')
+        <!-- Form Create New Quotatin end -->
+        @include('dashboard.marketing.quotations.add-locations')
 
-    @include('dashboard.marketing.quotations.billboard-preview')
+        @include('dashboard.marketing.quotations.billboard-preview')
+    </form>
 
     <!-- Script start -->
     <script src="/js/createquotation.js"></script>
