@@ -3,10 +3,11 @@ const city = document.getElementById("city");
 const cityCode = document.getElementById("cityCode");
 const cityId = document.getElementById("city_id");
 const inputCity = document.getElementById("inputCity");
-const saleStatus = document.getElementById("sale_status");
-const periode = document.getElementById("periode");
-const divKlien = document.getElementById("divKlien");
-const harga = document.getElementById("harga");
+// const periode = document.getElementById("periode");
+// const divKlien = document.getElementById("divKlien");
+// const price = document.getElementById("price");
+const billboardCategoryId = document.getElementById("billboard_category_id");
+const billboardCategory = document.getElementById("billboardCategory");
 const sector = document.getElementById("sector");
 const airport = document.getElementById("airport");
 const tol = document.getElementById("tol");
@@ -31,6 +32,10 @@ let myLatLng = {
     lat: latitude,
     lng: longitude
 };
+
+billboardCategoryId.addEventListener('change', function () {
+    billboardCategory.value = billboardCategoryId.options[billboardCategoryId.value].text;
+})
 
 // Show City --> start
 const optionCity = [];
@@ -160,27 +165,27 @@ areaId.addEventListener('change', function () {
 
 
 // Show Sale Status --> start
-saleStatus.addEventListener('change', function () {
-    if (saleStatus.value == 'Sold') {
-        periode.removeAttribute('hidden');
-        divKlien.removeAttribute('hidden');
-        harga.removeAttribute('hidden');
-    } else {
-        periode.setAttribute('hidden', 'hidden');
-        divKlien.setAttribute('hidden', 'hidden');
-        harga.setAttribute('hidden', 'hidden');
-    }
-    // console.log(buildStatus.value);
-})
-if (saleStatus.value == 'Sold') {
-    periode.removeAttribute('hidden');
-    divKlien.removeAttribute('hidden');
-    harga.removeAttribute('hidden');
-} else {
-    periode.setAttribute('hidden', 'hidden');
-    divKlien.setAttribute('hidden', 'hidden');
-    harga.setAttribute('hidden', 'hidden');
-}
+// saleStatus.addEventListener('change', function () {
+//     if (saleStatus.value == 'Sold') {
+//         periode.removeAttribute('hidden');
+//         divKlien.removeAttribute('hidden');
+//         harga.removeAttribute('hidden');
+//     } else {
+//         periode.setAttribute('hidden', 'hidden');
+//         divKlien.setAttribute('hidden', 'hidden');
+//         harga.setAttribute('hidden', 'hidden');
+//     }
+//     // console.log(buildStatus.value);
+// })
+// if (saleStatus.value == 'Sold') {
+//     periode.removeAttribute('hidden');
+//     divKlien.removeAttribute('hidden');
+//     harga.removeAttribute('hidden');
+// } else {
+//     periode.setAttribute('hidden', 'hidden');
+//     divKlien.setAttribute('hidden', 'hidden');
+//     harga.setAttribute('hidden', 'hidden');
+// }
 // Show Sale Status --> end
 
 // Show Sector --> start

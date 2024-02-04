@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
+use App\Models\Billboard;
 use App\Models\Videotron;
 use Kyslik\ColumnSortable\Sortable;
 
@@ -20,8 +21,11 @@ class Area extends Model
                     ->orWhere('provinsi', 'like', '%' . $search . '%'));
     }
 
-    public function products(){
-        return $this->hasMany(Product::class, 'area_id', 'id');
+    // public function products(){
+    //     return $this->hasMany(Product::class, 'area_id', 'id');
+    // }
+    public function billboards(){
+        return $this->hasMany(Billboard::class, 'area_id', 'id');
     }
     public function videotrons(){
         return $this->hasMany(Videotron::class, 'area_id', 'id');

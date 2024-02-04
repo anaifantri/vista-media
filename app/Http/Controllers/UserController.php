@@ -45,15 +45,23 @@ class UserController extends Controller
     {
         $this->authorize('isAdmin');
 
+        if ($request->gender == 'Pilih Jenis Kelamin'){
+            return back()->withErrors(['gender' => ['Silahkan pilih jenis kelamin']])->withInput();
+        }
         if ($request->level == 'Pilih Divisi'){
             return back()->withErrors(['level' => ['Silahkan pilih divisi']])->withInput();
+        }
+        if ($request->position == 'Pilih Jabatan'){
+            return back()->withErrors(['position' => ['Silahkan pilih jabatan']])->withInput();
         }
         $validateData = $request->validate([
             'name' => 'required|max:255',
             'username' => 'required|min:6|unique:users',
             'email' => 'required|email:dns|unique:users',
             'phone' => 'required|unique:users',
+            'gender' => 'required',
             'level' => 'required',
+            'position' => 'required',
             'password' => 'required|min:8',
             'avatar' => 'image|file|max:1024'
         ]);
@@ -131,8 +139,16 @@ class UserController extends Controller
             $rules['phone'] = 'required|unique:users';
         }
 
+        if($request->position != $user->position){
+            $rules['position'] = 'required';
+        }
+
         if($request->level != $user->level){
             $rules['level'] = 'required';
+        }
+
+        if($request->gender != $user->gender){
+            $rules['gender'] = 'required';
         }
 
         if($request->password){
@@ -157,7 +173,7 @@ class UserController extends Controller
         User::where('id', $user->id)
                 ->update($validateData);
 
-        if($user->level === 'Administrator'){
+        if(auth()->user()->level === 'Administrator'){
             return redirect('/dashboard/users/users')->with('success','User Has Been Updated');
         } else {
             return redirect('/dashboard/users/users/' . $user->id)->with('success','User Has Been Updated');

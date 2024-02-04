@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('email')->unique();
             $table->string('phone')->unique();
-            $table->string('logo')->nullable();
+            $table->string('logo');
             $table->string('mobile_phone')->unique();
             $table->timestamps();
         });

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->string('name')->unique();
+            $table->string('gender');
             $table->string('position')->nullable();
             $table->string('email')->unique();
             $table->string('phone')->unique();

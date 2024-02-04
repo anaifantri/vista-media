@@ -77,6 +77,32 @@
                             </div>
                         @enderror
                     </div>
+                    <div class="mt-1"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                        @php
+                            $numberGender = 0;
+                            $genders = ['Laki-Laki', 'Perempuan'];
+                        @endphp
+                        <select
+                            class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                            name="gender" id="gender" value="{{ $contact->gender }}" required>
+                            @for ($numberGender = 0; $numberGender < count($genders); $numberGender++)
+                                @if ($contact->gender == $genders[$numberGender])
+                                    <option value="{{ $genders[$numberGender] }}" selected>
+                                        {{ $genders[$numberGender] }}
+                                    </option>
+                                @else
+                                    <option value="{{ $genders[$numberGender] }}">
+                                        {{ $genders[$numberGender] }}
+                                    </option>
+                                @endif
+                            @endfor
+                        </select>
+                        @error('gender')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div class="mt-1"><label class="text-sm text-teal-700">Jabatan</label>
                         <input
                             class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"

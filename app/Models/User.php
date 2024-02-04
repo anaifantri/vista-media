@@ -43,8 +43,11 @@ class User extends Authenticatable
     public function cities(){
         return $this->hasMany(City::class, 'user_id', 'id');
     }
-    public function products(){
-        return $this->hasMany(Product::class, 'user_id', 'id');
+    // public function products(){
+    //     return $this->hasMany(Product::class, 'user_id', 'id');
+    // }
+    public function billboards(){
+        return $this->hasMany(Billboard::class, 'user_id', 'id');
     }
     public function videotrons(){
         return $this->hasMany(Videotron::class, 'user_id', 'id');
@@ -55,6 +58,16 @@ class User extends Authenticatable
     public function contacts(){
         return $this->hasMany(Contact::class, 'user_id', 'id');
     }
+    public function companies(){
+        return $this->hasMany(Company::class, 'user_id', 'id');
+    }
+    public function billboard_quotations(){
+        return $this->hasMany(BillboardQuotation::class, 'user_id', 'id');
+    }
+    public function billboard_photos(){
+        return $this->hasMany(BillboardPhoto::class, 'user_id', 'id');
+    }
+
 
     public $sortable = ['name', 'username'];
     /**

@@ -201,7 +201,7 @@
 }
 
 .input-price{
-    @apply w-[108px] outline-none border rounded-md text-xs text-teal-700 text-center;
+    @apply w-[72px] outline-none border rounded-md text-xs text-teal-700 text-center;
 }
 
 .input-price-preview{

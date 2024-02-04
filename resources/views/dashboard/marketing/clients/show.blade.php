@@ -123,8 +123,7 @@
                             </button>
                             @error('email')
                                 <div class="mt-2 flex alert-danger">
-                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
                                     </svg>
@@ -182,6 +181,9 @@
                                 </div>
                                 <div class="border-b mt-1"><label class="text-sm text-teal-700">No. Handphone</label>
                                     <h6 class="text-sm font-semibold text-teal-900">{{ $contact->phone }}</h6>
+                                </div>
+                                <div class="border-b mt-1"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                                    <h6 class="text-sm font-semibold text-teal-900">{{ $contact->gender }}</h6>
                                 </div>
                                 <div class="border-b mt-1"><label class="text-sm text-teal-700">Jabatan</label>
                                     <h6 class="text-sm font-semibold text-teal-900">{{ $contact->position }}</h6>
@@ -288,6 +290,33 @@
                             type="number" id="phone" name="phone" placeholder="No. Handphone"
                             value="{{ old('phone') }}" required>
                         @error('phone')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="mt-1"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                        @php
+                            $numberGender = 0;
+                            $genders = ['Laki-Laki', 'Perempuan'];
+                        @endphp
+                        <select
+                            class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                            name="gender" id="gender" value="{{ old('gender') }}" required>
+                            <option value="Pilih Jenis Kelamin">Pilih Jenis Kelamin</option>
+                            @for ($numberGender = 0; $numberGender < count($genders); $numberGender++)
+                                @if (old('gender') == $genders[$numberGender])
+                                    <option value="{{ $genders[$numberGender] }}" selected>
+                                        {{ $genders[$numberGender] }}
+                                    </option>
+                                @else
+                                    <option value="{{ $genders[$numberGender] }}">
+                                        {{ $genders[$numberGender] }}
+                                    </option>
+                                @endif
+                            @endfor
+                        </select>
+                        @error('gender')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>

@@ -5,10 +5,10 @@ const cityId = document.getElementById("city_id");
 const inputCity = document.getElementById("inputCity");
 const lat = document.getElementById("lat");
 const lng = document.getElementById("lng");
-const saleStatus = document.getElementById("sale_status");
-const periode = document.getElementById("periode");
-const divKlien = document.getElementById("divKlien");
-const harga = document.getElementById("harga");
+// const saleStatus = document.getElementById("sale_status");
+// const periode = document.getElementById("periode");
+// const divKlien = document.getElementById("divKlien");
+const price = document.getElementById("price");
 const sector = document.getElementById("sector");
 const airport = document.getElementById("airport");
 const tol = document.getElementById("tol");
@@ -139,28 +139,28 @@ areaId.addEventListener('change', function () {
 // Show City --> end
 
 // Show Sale Status --> start
-saleStatus.addEventListener('change', function () {
-    if (saleStatus.value == 'Sold') {
-        periode.removeAttribute('hidden');
-        divKlien.removeAttribute('hidden');
-        harga.removeAttribute('hidden');
-    } else {
-        periode.setAttribute('hidden', 'hidden');
-        divKlien.setAttribute('hidden', 'hidden');
-        harga.setAttribute('hidden', 'hidden');
-    }
-    // console.log(buildStatus.value);
-})
+// saleStatus.addEventListener('change', function () {
+//     if (saleStatus.value == 'Sold') {
+//         periode.removeAttribute('hidden');
+//         divKlien.removeAttribute('hidden');
+//         harga.removeAttribute('hidden');
+//     } else {
+//         periode.setAttribute('hidden', 'hidden');
+//         divKlien.setAttribute('hidden', 'hidden');
+//         harga.setAttribute('hidden', 'hidden');
+//     }
+//     // console.log(buildStatus.value);
+// })
 
-if (saleStatus.value == 'Sold') {
-    periode.removeAttribute('hidden');
-    divKlien.removeAttribute('hidden');
-    harga.removeAttribute('hidden');
-} else {
-    periode.setAttribute('hidden', 'hidden');
-    divKlien.setAttribute('hidden', 'hidden');
-    harga.setAttribute('hidden', 'hidden');
-}
+// if (saleStatus.value == 'Sold') {
+//     periode.removeAttribute('hidden');
+//     divKlien.removeAttribute('hidden');
+//     harga.removeAttribute('hidden');
+// } else {
+//     periode.setAttribute('hidden', 'hidden');
+//     divKlien.setAttribute('hidden', 'hidden');
+//     harga.setAttribute('hidden', 'hidden');
+// }
 // Show Sale Status --> end
 
 // Show Sector --> start

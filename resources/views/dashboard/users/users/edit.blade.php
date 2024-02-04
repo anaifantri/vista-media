@@ -72,21 +72,88 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="mt-2"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                            @php
+                                $numberGender = 0;
+                                $genders = ['Laki-Laki', 'Perempuan'];
+                            @endphp
+                            <select
+                                class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                                name="gender" id="gender" value="{{ $user->gender }}" required>
+                                @for ($numberGender = 0; $numberGender < count($genders); $numberGender++)
+                                    @if ($user->gender == $genders[$numberGender])
+                                        <option value="{{ $genders[$numberGender] }}" selected>
+                                            {{ $genders[$numberGender] }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $genders[$numberGender] }}">
+                                            {{ $genders[$numberGender] }}
+                                        </option>
+                                    @endif
+                                @endfor
+                            </select>
+                            @error('gender')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                         <div class="mt-2"><label class="text-sm text-teal-700">Divisi</label>
                             <input id="oldLevel" name="oldLevel"
                                 class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300"
                                 value="{{ $user->level }}" type="hidden">
-                            @if ($user->level == 'Administrator')
+                            @if (auth()->user()->level == 'Administrator')
+                                @php
+                                    $numberDivision = 0;
+                                    $divisions = ['Administrator', 'Media', 'Marketing', 'Accounting', 'Workshop', 'Owner', 'Guest'];
+                                @endphp
                                 <select
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('level') is-invalid @enderror"
-                                    name="level" id="level">
+                                    name="level" id="level" value="{{ $user->level }}" required>
+                                    @for ($numberDivision = 0; $numberDivision < count($divisions); $numberDivision++)
+                                        @if ($user->level == $divisions[$numberDivision])
+                                            <option value="{{ $divisions[$numberDivision] }}" selected>
+                                                {{ $divisions[$numberDivision] }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $divisions[$numberDivision] }}">
+                                                {{ $divisions[$numberDivision] }}
+                                            </option>
+                                        @endif
+                                    @endfor
                                 </select>
                             @else
-                                <input id="leve" name="level"
+                                <input id="level" name="level"
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300"
-                                    value="{{ $user->level }}" type="hidden">
+                                    value="{{ $user->level }}" readonly>
                             @endif
                             @error('level')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mt-2"><label class="text-sm text-teal-700">Jabatan</label>
+                            @php
+                                $numberPosition = 0;
+                                $positions = ['Direktur', 'Sales & Marketing', 'Bagian Keuangan', 'IT'];
+                            @endphp
+                            <select
+                                class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                name="position" id="position" value="{{ $user->position }}" required>
+                                @for ($numberPosition = 0; $numberPosition < count($positions); $numberPosition++)
+                                    @if ($user->position == $positions[$numberPosition])
+                                        <option value="{{ $positions[$numberPosition] }}" selected>
+                                            {{ $positions[$numberPosition] }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $positions[$numberPosition] }}">
+                                            {{ $positions[$numberPosition] }}
+                                        </option>
+                                    @endif
+                                @endfor
+                            </select>
+                            @error('position')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -177,20 +244,20 @@
     <!-- Script Change Password end-->
     <!-- Script Set Divisi start-->
     <script>
-        const oldLevel = document.getElementById('oldLevel');
-        const level = document.getElementById('level');
-        const option = [];
-        const arrayLevel = ['Administrator', 'Media', 'Marketing', 'Accounting', 'Workshop', 'Owner', 'Guest'];
+        // const oldLevel = document.getElementById('oldLevel');
+        // const level = document.getElementById('level');
+        // const option = [];
+        // const arrayLevel = ['Administrator', 'Media', 'Marketing', 'Accounting', 'Workshop', 'Owner', 'Guest'];
 
-        for (i = 0; i < arrayLevel.length; i++) {
-            option[i + 1] = document.createElement('option');
-            option[i + 1].appendChild(document.createTextNode(arrayLevel[i]));
-            option[i + 1].setAttribute('value', arrayLevel[i]);
-            if (oldLevel.value == arrayLevel[i]) {
-                option[i + 1].setAttribute('selected', 'selected');
-            }
-            level.appendChild(option[i + 1]);
-        }
+        // for (i = 0; i < arrayLevel.length; i++) {
+        //     option[i + 1] = document.createElement('option');
+        //     option[i + 1].appendChild(document.createTextNode(arrayLevel[i]));
+        //     option[i + 1].setAttribute('value', arrayLevel[i]);
+        //     if (oldLevel.value == arrayLevel[i]) {
+        //         option[i + 1].setAttribute('selected', 'selected');
+        //     }
+        //     level.appendChild(option[i + 1]);
+        // }
     </script>
     <!-- Script Set Divisi end-->
 @endsection

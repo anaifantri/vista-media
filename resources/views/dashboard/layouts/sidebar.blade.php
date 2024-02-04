@@ -236,7 +236,7 @@
                             </li>
                             <!-- Child Penawaran Start -->
                             <ul class="hidden" id="penawaranChild" name="penawaranChild">
-                                <li class="group">
+                                {{-- <li class="group">
                                     <a class="nav-a ml-[62px] border-t-[1px]" href="#">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -247,9 +247,9 @@
                                         </svg>
                                         <span class="flex w-40"> Format Penawaran </span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="group">
-                                    <a class="nav-a ml-[62px]" href="/dashboard/marketing/quotations">
+                                    <a class="nav-a ml-[62px]" href="/dashboard/marketing/billboard-quotations">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -341,7 +341,7 @@
                             </li>
                             <!-- Penggantian Materi Child Start -->
                             <ul class="hidden" id="materiChild" name="materiChild">
-                                <li class="group">
+                                {{-- <li class="group">
                                     <a class="nav-a ml-[62px] border-t-[1px]" href="#">
                                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24" fill-rule="evenodd" clip-rule="evenodd">
@@ -350,7 +350,7 @@
                                         </svg>
                                         <span class="flex w-40"> Vendor Cetak </span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="group">
                                     <a class="nav-a ml-[62px]" href="#">
                                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"

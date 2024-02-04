@@ -45,7 +45,7 @@
                                 <option value="All">All</option>
                             </select>
                         </div>
-                        <div class="w-full md:w-36 ml-2">
+                        {{-- <div class="w-full md:w-36 ml-2">
                             <span class="text-base text-teal-900">Kondisi</span>
                             <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="build"
                                 id="build" onchange="submit()">
@@ -58,8 +58,8 @@
                                     @endif
                                 @endfor
                             </select>
-                        </div>
-                        <div class="w-full md:w-36 ml-2">
+                        </div> --}}
+                        {{-- <div class="w-full md:w-36 ml-2">
                             <span class="text-base text-teal-900">Status</span>
                             <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="sale"
                                 id="sale" onchange="submit()">
@@ -72,7 +72,7 @@
                                     @endif
                                 @endfor
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="md:flex mt-2">
                         <div class="flex">
@@ -115,109 +115,115 @@
                             <th class="index-td text-sm w-10 2xl:w-12">BL/FL</th>
                             <th class="index-td text-sm w-[88px] 2xl:w-24">Size - V/H</th>
                             <th class="index-td text-sm w-[100px] 2xl:w-28">Kondisi</th>
-                            <th class="index-td text-sm  w-[72px] 2xl:w-16">Status</th>
-                            <th class="index-td text-sm w-[100px] 2xl:w-28">Klien</th>
                             <th class="index-td text-sm w-28 2xl:w-32">@sortablelink('price', 'Harga')
                                 <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                 </svg>
                             </th>
-                            <th class="index-td text-sm w-28 2xl:36">@sortablelink('start_contract', 'Awal Kontrak')
+                            {{-- <th class="index-td text-sm w-28 2xl:36">@sortablelink('start_contract', 'Awal Kontrak')
                                 <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                 </svg>
-                            </th>
-                            <th class="index-td text-sm w-28 2xl:36">@sortablelink('end_contract', 'Akhir Kontrak')
+                            </th> --}}
+                            {{-- <th class="index-td text-sm w-28 2xl:36">@sortablelink('end_contract', 'Akhir Kontrak')
                                 <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                 </svg>
-                            </th>
+                            </th> --}}
                             <th class="index-td text-sm w-[110px] 2xl:w-36">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
-                            $number = 1 + ($products->currentPage() - 1) * $products->perPage();
+                            $number = 1 + ($billboards->currentPage() - 1) * $billboards->perPage();
                         @endphp
-                        @foreach ($products as $product)
+                        @foreach ($billboards as $billboard)
                             @if ($number % 2 != 0)
                                 <tr class="index-tr items-start h-max">
                                     <td class="index-td text-sm w-8 2xl:w-8">{{ $number++ }}</td>
-                                    <td class="index-td text-sm w-[84px] 2xl:w-32">{{ $product->code }} -
-                                        {{ $product->city->code }}
+                                    <td class="index-td text-sm w-[84px] 2xl:w-32">{{ $billboard->code }} -
+                                        {{ $billboard->city->code }}
                                     </td>
                                     <td class="flex justify-start items-center text-sm w-56 2xl:w-80">
-                                        {{ $product->address }}
+                                        {{ $billboard->address }}
                                     </td>
-                                    <td class="index-td text-sm w-12 2xl:w-16">{{ $product->city->code }}</td>
+                                    <td class="index-td text-sm w-12 2xl:w-16">{{ $billboard->city->code }}</td>
                                     <td class="index-td text-sm w-10 2xl:w-12">
-                                        @if ($product->category == 'Billboard')
+                                        @if ($billboard->billboard_category->name == 'Billboard')
                                             BB
-                                        @elseif ($product->category == 'Bando')
+                                        @elseif ($billboard->billboard_category->name == 'Bando')
                                             BD
-                                        @elseif ($product->category == 'Baliho')
+                                        @elseif ($billboard->billboard_category->name == 'Baliho')
                                             BLH
-                                        @elseif ($product->category == 'Midiboard')
+                                        @elseif ($billboard->billboard_category->name == 'Midiboard')
                                             MB
                                         @endif
                                     </td>
                                     <td class="index-td text-sm w-10 2xl:w-12">
-                                        @if ($product->lighting == 'Frontlight')
+                                        @if ($billboard->lighting == 'Frontlight')
                                             FL
-                                        @elseif ($product->lighting == 'Backlight')
+                                        @elseif ($billboard->lighting == 'Backlight')
                                             BL
-                                        @elseif ($product->lighting == 'Non Light')
+                                        @elseif ($billboard->lighting == 'Non Light')
                                             -
                                         @endif
                                     </td>
-                                    @if ($product->size != '')
-                                        <td class="index-td text-sm w-[88px] 2xl:w-24">{{ $product->size->size }}
+                                    @if ($billboard->size != '')
+                                        <td class="index-td text-sm w-[88px] 2xl:w-24">{{ $billboard->size->size }}
                                             -
-                                            @if ($product->size->orientation == 'Vertikal')
+                                            @if ($billboard->size->orientation == 'Vertikal')
                                                 V
-                                            @elseif ($product->size->orientation == 'Horizontal')
+                                            @elseif ($billboard->size->orientation == 'Horizontal')
                                                 H
                                             @endif
                                         </td>
                                     @else
                                         <td class="index-td text-sm w-[84px] 2xl:w-24"></td>
                                     @endif
-                                    <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $product->build_status }}
+                                    <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $billboard->condition }}
+                                    </td>
+                                    @if ($billboard->price)
+                                        <td class="flex items-center justify-center text-sm w-28 2xl:w-32">
+                                            {{ number_format($billboard->price) }}</td>
+                                    @else
+                                        <td class="index-td text-sm w-28 2xl:w-32">-</td>
+                                    @endif
+                                    {{-- <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $billboard->build_status }}
                                     </td>
                                     <td class="flex items-start justify-center text-sm w-[72px] 2xl:w-16">
-                                        {{ $product->sale_status }}
+                                        {{ $billboard->sale_status }}
                                     </td>
-                                    @if ($product->client)
-                                        <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $product->client }}
+                                    @if ($billboard->client)
+                                        <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $billboard->client }}
                                         </td>
                                     @else
                                         <td class="index-td text-sm w-[100px] 2xl:w-28">-</td>
                                     @endif
 
-                                    @if ($product->price)
+                                    @if ($billboard->price)
                                         <td class="flex items-center justify-center text-sm w-28 2xl:w-32">
-                                            {{ number_format($product->price) }}</td>
+                                            {{ number_format($billboard->price) }}</td>
                                     @else
                                         <td class="index-td text-sm w-28 2xl:w-32">-</td>
                                     @endif
-                                    @if ($product->start_contract)
+                                    @if ($billboard->start_contract)
                                         <td class="index-td text-sm w-28 2xl:36">
-                                            {{ date('d-M-Y', strtotime($product->start_contract)) }}
+                                            {{ date('d-M-Y', strtotime($billboard->start_contract)) }}
                                         </td>
                                     @else
                                         <td class="index-td text-sm w-28 2xl:36">-</td>
                                     @endif
-                                    @if ($product->end_contract)
+                                    @if ($billboard->end_contract)
                                         <td class="index-td text-sm w-28 2xl:36">
-                                            {{ date('d-M-Y', strtotime($product->end_contract)) }}
+                                            {{ date('d-M-Y', strtotime($billboard->end_contract)) }}
                                         </td>
                                     @else
                                         <td class="index-td text-sm w-28 2xl:36">-</td>
-                                    @endif
+                                    @endif --}}
                                     <td class="index-td text-sm w-[110px] 2xl:w-36">
-                                        <a href="/dashboard/media/products/{{ $product->id }}"
+                                        <a href="/dashboard/media/billboards/{{ $billboard->id }}"
                                             class="index-link text-white w-7 2xl:w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                             <svg class="fill-current w-[18px] 2xl:w-5" clip-rule="evenodd"
                                                 fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -228,7 +234,7 @@
                                             </svg>
                                         </a>
                                         @canany(['isAdmin', 'isMedia', 'isMarketing'])
-                                            <a href="/dashboard/media/products/{{ $product->id }}/edit"
+                                            <a href="/dashboard/media/billboards/{{ $billboard->id }}/edit"
                                                 class="index-link text-white w-7 2xl:w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
                                                 <svg class="fill-current w-[18px] 2xl:w-5" clip-rule="evenodd"
                                                     fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -238,13 +244,13 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            <form action="/dashboard/media/products/{{ $product->id }}" method="post"
+                                            <form action="/dashboard/media/billboards/{{ $billboard->id }}" method="post"
                                                 class="flex m-1">
                                                 @method('delete')
                                                 @csrf
                                                 <button
                                                     class="index-link text-white w-7 2xl:w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
-                                                    onclick="return confirm('Apakah anda yakin ingin menghapus {{ $product->category }} dengan kode {{ $product->code }} ?')">
+                                                    onclick="return confirm('Apakah anda yakin ingin menghapus {{ $billboard->billboard_category->name }} dengan kode {{ $billboard->code }} ?')">
                                                     <svg class="fill-current w-[18px] 2xl:w-5" clip-rule="evenodd"
                                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -260,79 +266,87 @@
                             @else
                                 <tr class="index-tr items-start h-max bg-teal-50">
                                     <td class="index-td text-sm w-8 2xl:w-8 text-center">{{ $number++ }}</td>
-                                    <td class="index-td text-sm w-[84px] 2xl:w-32">{{ $product->code }} -
-                                        {{ $product->city->code }}
+                                    <td class="index-td text-sm w-[84px] 2xl:w-32">{{ $billboard->code }} -
+                                        {{ $billboard->city->code }}
                                     </td>
                                     <td class="flex justify-start items-center text-sm w-56 2xl:w-80">
-                                        {{ $product->address }}
+                                        {{ $billboard->address }}
                                     </td>
-                                    <td class="index-td text-sm w-12 2xl:w-16">{{ $product->city->code }}</td>
+                                    <td class="index-td text-sm w-12 2xl:w-16">{{ $billboard->city->code }}</td>
                                     <td class="index-td text-sm w-10 2xl:w-12">
-                                        @if ($product->category == 'Billboard')
+                                        @if ($billboard->billboard_category->name == 'Billboard')
                                             BB
-                                        @elseif ($product->category == 'Bando')
+                                        @elseif ($billboard->billboard_category->name == 'Bando')
                                             BD
-                                        @elseif ($product->category == 'Baliho')
+                                        @elseif ($billboard->billboard_category->name == 'Baliho')
                                             BLH
-                                        @elseif ($product->category == 'Midiboard')
+                                        @elseif ($billboard->billboard_category->name == 'Midiboard')
                                             MB
                                         @endif
                                     </td>
                                     <td class="index-td text-sm w-10 2xl:w-12">
-                                        @if ($product->lighting == 'Frontlight')
+                                        @if ($billboard->lighting == 'Frontlight')
                                             FL
-                                        @elseif ($product->lighting == 'Backlight')
+                                        @elseif ($billboard->lighting == 'Backlight')
                                             BL
-                                        @elseif ($product->lighting == 'Non Light')
+                                        @elseif ($billboard->lighting == 'Non Light')
                                             -
                                         @endif
                                     </td>
-                                    @if ($product->size != '')
-                                        <td class="index-td text-sm w-[88px] 2xl:w-24">{{ $product->size->size }}
+                                    @if ($billboard->size != '')
+                                        <td class="index-td text-sm w-[88px] 2xl:w-24">{{ $billboard->size->size }}
                                             -
-                                            @if ($product->size->orientation == 'Vertikal')
+                                            @if ($billboard->size->orientation == 'Vertikal')
                                                 V
-                                            @elseif ($product->size->orientation == 'Horizontal')
+                                            @elseif ($billboard->size->orientation == 'Horizontal')
                                                 H
                                             @endif
                                         </td>
                                     @else
                                         <td class="index-td text-sm w-[84px] 2xl:w-24"></td>
                                     @endif
-                                    <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $product->build_status }}
+                                    <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $billboard->condition }}
+                                    </td>
+                                    @if ($billboard->price)
+                                        <td class="flex items-center justify-center text-sm w-28 2xl:w-32">
+                                            {{ number_format($billboard->price) }}</td>
+                                    @else
+                                        <td class="index-td text-sm w-28 2xl:w-32">-</td>
+                                    @endif
+                                    {{-- <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $billboard->build_status }}
                                     </td>
                                     <td class="flex items-start justify-center text-sm w-[72px] 2xl:w-16">
-                                        {{ $product->sale_status }}
+                                        {{ $billboard->sale_status }}
                                     </td>
-                                    @if ($product->client)
-                                        <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $product->client }}
+                                    @if ($billboard->client)
+                                        <td class="index-td text-sm w-[100px] 2xl:w-28">{{ $billboard->client }}
                                         </td>
                                     @else
                                         <td class="index-td text-sm w-[100px] 2xl:w-28">-</td>
                                     @endif
 
-                                    @if ($product->price)
+                                    @if ($billboard->price)
                                         <td class="flex items-center justify-center text-sm w-28 2xl:w-32">
-                                            {{ number_format($product->price) }}</td>
+                                            {{ number_format($billboard->price) }}</td>
                                     @else
                                         <td class="index-td text-sm w-28 2xl:w-32">-</td>
                                     @endif
-                                    @if ($product->start_contract)
+                                    @if ($billboard->start_contract)
                                         <td class="index-td text-sm w-28 2xl:36">
-                                            {{ date('d-M-Y', strtotime($product->start_contract)) }}
+                                            {{ date('d-M-Y', strtotime($billboard->start_contract)) }}
                                         </td>
                                     @else
                                         <td class="index-td text-sm w-28 2xl:36">-</td>
                                     @endif
-                                    @if ($product->end_contract)
+                                    @if ($billboard->end_contract)
                                         <td class="index-td text-sm w-28 2xl:36">
-                                            {{ date('d-M-Y', strtotime($product->end_contract)) }}
+                                            {{ date('d-M-Y', strtotime($billboard->end_contract)) }}
                                         </td>
                                     @else
                                         <td class="index-td text-sm w-28 2xl:36">-</td>
-                                    @endif
+                                    @endif --}}
                                     <td class="index-td text-sm w-[110px] 2xl:w-36">
-                                        <a href="/dashboard/media/products/{{ $product->id }}"
+                                        <a href="/dashboard/media/billboards/{{ $billboard->id }}"
                                             class="index-link text-white w-7 2xl:w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                             <svg class="fill-current w-[18px] 2xl:w-5" clip-rule="evenodd"
                                                 fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -343,7 +357,7 @@
                                             </svg>
                                         </a>
                                         @canany(['isAdmin', 'isMedia', 'isMarketing'])
-                                            <a href="/dashboard/media/products/{{ $product->id }}/edit"
+                                            <a href="/dashboard/media/billboards/{{ $billboard->id }}/edit"
                                                 class="index-link text-white w-7 2xl:w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
                                                 <svg class="fill-current w-[18px] 2xl:w-5" clip-rule="evenodd"
                                                     fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -353,13 +367,13 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            <form action="/dashboard/media/products/{{ $product->id }}" method="post"
+                                            <form action="/dashboard/media/billboards/{{ $billboard->id }}" method="post"
                                                 class="flex m-1">
                                                 @method('delete')
                                                 @csrf
                                                 <button
                                                     class="index-link text-white w-7 2xl:w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
-                                                    onclick="return confirm('Apakah anda yakin ingin menghapus {{ $product->category }} dengan kode {{ $product->code }} ?')">
+                                                    onclick="return confirm('Apakah anda yakin ingin menghapus {{ $billboard->billboard_category->name }} dengan kode {{ $billboard->code }} ?')">
                                                     <svg class="fill-current w-[18px] 2xl:w-5" clip-rule="evenodd"
                                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -378,8 +392,8 @@
                 </table>
             </div>
             <div class="flex justify-center text-teal-900">
-                {{-- {{ $products->links() }} --}}
-                {!! $products->appends(Request::query())->render() !!}
+                {{-- {{ $billboards->links() }} --}}
+                {!! $billboards->appends(Request::query())->render() !!}
             </div>
         </div>
     </div>

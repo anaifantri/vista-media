@@ -68,12 +68,82 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="mt-2"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                            @php
+                                $numberGender = 0;
+                                $genders = ['Laki-Laki', 'Perempuan'];
+                            @endphp
+                            <select
+                                class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                                name="gender" id="gender" value="{{ old('gender') }}" required>
+                                <option value="Pilih Jenis Kelamin">Pilih Jenis Kelamin</option>
+                                @for ($numberGender = 0; $numberGender < count($genders); $numberGender++)
+                                    @if (old('gender') == $genders[$numberGender])
+                                        <option value="{{ $genders[$numberGender] }}" selected>
+                                            {{ $genders[$numberGender] }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $genders[$numberGender] }}">
+                                            {{ $genders[$numberGender] }}
+                                        </option>
+                                    @endif
+                                @endfor
+                            </select>
+                            @error('gender')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                         <div class="mt-2"><label class="text-sm text-teal-700">Divisi</label>
+                            @php
+                                $numberDivision = 0;
+                                $divisions = ['Administrator', 'Media', 'Marketing', 'Accounting', 'Workshop', 'Owner', 'Guest'];
+                            @endphp
                             <select
                                 class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('level') is-invalid @enderror"
                                 name="level" id="level" value="{{ old('level') }}" required>
+                                <option value="Pilih Divisi">Pilih Divisi</option>
+                                @for ($numberDivision = 0; $numberDivision < count($divisions); $numberDivision++)
+                                    @if (old('level') == $divisions[$numberDivision])
+                                        <option value="{{ $divisions[$numberDivision] }}" selected>
+                                            {{ $divisions[$numberDivision] }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $divisions[$numberDivision] }}">
+                                            {{ $divisions[$numberDivision] }}
+                                        </option>
+                                    @endif
+                                @endfor
                             </select>
                             @error('level')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mt-2"><label class="text-sm text-teal-700">Jabatan</label>
+                            @php
+                                $numberPosition = 0;
+                                $positions = ['Direktur', 'Sales & Marketing', 'Bagian Keuangan', 'IT'];
+                            @endphp
+                            <select
+                                class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                name="position" id="position" value="{{ old('position') }}" required>
+                                <option value="Pilih Jabatan">Pilih Jabatan</option>
+                                @for ($numberPosition = 0; $numberPosition < count($positions); $numberPosition++)
+                                    @if (old('position') == $positions[$numberPosition])
+                                        <option value="{{ $positions[$numberPosition] }}" selected>
+                                            {{ $positions[$numberPosition] }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $positions[$numberPosition] }}">
+                                            {{ $positions[$numberPosition] }}
+                                        </option>
+                                    @endif
+                                @endfor
+                            </select>
+                            @error('position')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -136,21 +206,21 @@
     <!-- Script Preview Image end-->
     <!-- Script Set Divisi start-->
     <script>
-        const level = document.getElementById('level');
-        const option = [];
-        const arrayLevel = ['Administrator', 'Media', 'Marketing', 'Accounting', 'Workshop', 'Owner', 'Guest'];
+        // const level = document.getElementById('level');
+        // const option = [];
+        // const arrayLevel = ['Administrator', 'Media', 'Marketing', 'Accounting', 'Workshop', 'Owner', 'Guest'];
 
-        option[0] = document.createElement('option');
-        option[0].appendChild(document.createTextNode(['Pilih Divisi']));
-        option[0].setAttribute('value', 'Pilih Divisi');
-        level.appendChild(option[0]);
+        // option[0] = document.createElement('option');
+        // option[0].appendChild(document.createTextNode(['Pilih Divisi']));
+        // option[0].setAttribute('value', 'Pilih Divisi');
+        // level.appendChild(option[0]);
 
-        for (i = 0; i < arrayLevel.length; i++) {
-            option[i + 1] = document.createElement('option');
-            option[i + 1].appendChild(document.createTextNode(arrayLevel[i]));
-            option[i + 1].setAttribute('value', arrayLevel[i]);
-            level.appendChild(option[i + 1]);
-        }
+        // for (i = 0; i < arrayLevel.length; i++) {
+        //     option[i + 1] = document.createElement('option');
+        //     option[i + 1].appendChild(document.createTextNode(arrayLevel[i]));
+        //     option[i + 1].setAttribute('value', arrayLevel[i]);
+        //     level.appendChild(option[i + 1]);
+        // }
     </script>
     <!-- Script Set Divisi end-->
 @endsection

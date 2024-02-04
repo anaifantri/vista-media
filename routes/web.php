@@ -14,8 +14,12 @@ use App\Http\Controllers\PreviewController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SignageController;
 use App\Http\Controllers\BillboardController;
+use App\Http\Controllers\BillboardPhotoController;
+use App\Http\Controllers\BillboardCategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\BillboardQuotationController;
+use App\Http\Controllers\BillboardQuoteRevisionController;
 use App\Http\Controllers\VideotronController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\VendorCategoryController;
@@ -41,6 +45,10 @@ Route::resource('/dashboard/users/users', UserController::class)->middleware(['a
 Route::resource('/dashboard/marketing/clients', ClientController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/contacts', ContactController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/quotations', QuotationController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/billboard-quotations', BillboardQuotationController::class)->middleware(['auth','user_access']);
+Route::get('/dashboard/marketing/billboard-quotations/preview/{id}', [BillboardQuotationController::class, 'preview']);
+Route::resource('/dashboard/marketing/quotation-revisions', BillboardQuoteRevisionController::class)->middleware(['auth','user_access']);
+Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [BillboardQuoteRevisionController::class, 'revision'])->middleware(['auth','user_access']);
 
 Route::resource('/dashboard/media/area', AreaController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/cities', CityController::class)->middleware(['auth','user_access']);
@@ -54,6 +62,7 @@ Route::resource('/dashboard/media/vendors', VendorController::class)->middleware
 Route::resource('/dashboard/media/contacts', VendorContactController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/vendor-categories', VendorCategoryController::class)->middleware(['auth','user_access']);
 Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware(['auth','user_access']);
+Route::get('/showBillboard', [BillboardController::class,'showBillboard'])->middleware(['auth','user_access']);
 Route::get('/showVideotron', [VideotronController::class,'showVideotron'])->middleware(['auth','user_access']);
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth','user_access']);
 Route::get('/showCity', [CityController::class,'showCity'])->middleware(['auth','user_access']);
@@ -64,7 +73,10 @@ Route::get('/test', [BillboardController::class,'test'])->middleware(['auth','us
 Route::get('/preview/{id}', [PreviewController::class, 'preview']);
 Route::get('/videotron/{id}', [PreviewController::class, 'videotronPreview']);
 Route::get('/showQuotation', [QuotationController::class,'showQuotation'])->middleware(['auth','user_access']);
-// Route::get('/streampdf', [QuotationController::class,'streamPdf'])->middleware(['auth','user_access']);
+Route::get('/showBillboardQuotation', [BillboardQuotationController::class,'showBillboardQuotation'])->middleware(['auth','user_access']);
+Route::get('/showBillboardPhoto', [BillboardPhotoController::class,'showBillboardPhoto'])->middleware(['auth','user_access']);
+Route::get('/showBillboardCategory', [BillboardCategoryController::class,'showBillboardCategory'])->middleware(['auth','user_access']);
+Route::get('/showBillboardQuoteRevision', [BillboardQuoteRevisionController::class,'showBillboardQuoteRevision'])->middleware(['auth','user_access']);
 
 Route::get('/', function () {
     return view('index',[

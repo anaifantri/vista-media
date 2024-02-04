@@ -16,15 +16,17 @@ class PreviewController extends Controller
 {
     public function preview(string $id): View
     {
-        $products = Product::with('area');
-        $areas = Area::with('products')->get();
-        $cities = City::with('products')->get();
-        $sizes = Size::with('products')->get();
+        $billboards = Billboard::with('area');
+        $areas = Area::with('billboards')->get();
+        $cities = City::with('billboards')->get();
+        $sizes = Size::with('billboards')->get();
+        $billboard_categories = BillboardCategory::with('billboards')->get();
 
         return view('dashboard.media.billboards.preview', [
-            'product' =>Product::findOrFail($id),
+            'billboard' =>Billboard::findOrFail($id),
             'title' => 'Detail Billboard',
-            compact('products', 'areas', 'cities', 'sizes')
+            'billboard_photos'=>BillboardPhoto::all(),
+            compact('billboard', 'areas', 'cities', 'sizes', 'billboard_categories')
         ]);
     }
 

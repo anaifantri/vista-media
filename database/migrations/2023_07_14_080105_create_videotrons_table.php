@@ -18,21 +18,20 @@ return new class extends Migration
             $table->foreignId('city_id')->constrained();
             $table->foreignId('size_id')->constrained();
             $table->foreignId('led_id')->constrained();
-            $table->foreignId('vendor_id')->nullable()->constrained();
             $table->foreignId('user_id')->constrained();
             $table->string('address');
-            $table->string('photo');
             $table->string('lat');
             $table->string('lng');
             $table->integer('slots');
-            $table->string('ownership');
+            $table->integer('duration');
+            $table->time('start_at', $precision = 0)->nullable();
+            $table->time('end_at', $precision = 0)->nullable();
             $table->string('condition');
             $table->string('road_segment');
             $table->string('max_distance');
             $table->string('speed_average');
             $table->string('sector');
-            $table->decimal('exclusive_price',12,0)->unsigned()->default(0);
-            $table->decimal('sharing_price',12,0)->unsigned()->default(0);
+            $table->decimal('price',12,0)->unsigned()->default(0);
             $table->timestamps();
         });
     }

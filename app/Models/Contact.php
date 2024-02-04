@@ -20,4 +20,8 @@ class Contact extends Model
     public function quotations(){
         return $this->hasMany(Quotation::class, 'contact_id', 'id');
     }
+
+    public function billboard_quotations(){
+        return $this->hasMany(BillboardQuotation::class, 'contact_id', 'id');
+    }
 }

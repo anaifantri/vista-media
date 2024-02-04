@@ -43,8 +43,14 @@
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">No. Handphone</label>
                             <h6 class="text-base font-semibold text-teal-900">{{ $user->phone }}</h6>
                         </div>
+                        <div class="border-b mt-2"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $user->gender }}</h6>
+                        </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Divisi</label>
                             <h6 class="text-base font-semibold text-teal-900">{{ $user->level }}</h6>
+                        </div>
+                        <div class="border-b mt-2"><label class="text-sm text-teal-700">Jabatan</label>
+                            <h6 class="text-base font-semibold text-teal-900">{{ $user->position }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Tanggal Terdaftar</label>
                             <h6 class="text-base font-semibold text-teal-900">
@@ -58,7 +64,7 @@
                             </h6>
                         </div>
                         <div class="flex mt-2">
-                            @if ($user->level === 'Administrator')
+                            @if (auth()->user()->level === 'Administrator')
                                 <a href="/dashboard/users/users" class="flex items-center justify-center btn-primary mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"

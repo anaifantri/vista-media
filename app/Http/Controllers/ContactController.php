@@ -32,10 +32,15 @@ class ContactController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if ($request->gender == 'Pilih Jenis Kelamin'){
+            return back()->withErrors(['gender' => ['Silahkan pilih jenis kelamin']])->withInput();
+        }
+
         $validateData = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email:dns|unique:contacts',
             'phone' => 'required|min:10|max:15|unique:contacts',
+            'gender' => 'required|max:255',
             'photo' => 'image|file|max:1024'
         ]);
 
@@ -78,6 +83,7 @@ class ContactController extends Controller
     {
         $rules = [
             'name' => 'required|max:255',
+            'gender' => 'required|max:255',
             'photo' => 'image|file|max:1024'
         ];
 

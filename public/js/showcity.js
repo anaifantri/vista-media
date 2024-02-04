@@ -14,43 +14,44 @@ let myLatLng = {
 let posisi = { lat: Number(latitude), lng: Number(longitude) };
 let idUrl = 0;
 
-const xhrProduct = new XMLHttpRequest();
-const methodProduct = "GET";
-const urlProduct = "/showProduct";
+const xhrBillboard = new XMLHttpRequest();
+const methodBillboard = "GET";
+const urlBillboard = "/showBillboard";
 
-xhrProduct.open(methodProduct, urlProduct, true);
-xhrProduct.send();
+xhrBillboard.open(methodBillboard, urlBillboard, true);
+xhrBillboard.send();
 
-xhrProduct.onreadystatechange = () => {
+xhrBillboard.onreadystatechange = () => {
     // In local files, status is 0 upon success in Mozilla Firefox
-    if (xhrProduct.readyState === XMLHttpRequest.DONE) {
-        const status = xhrProduct.status;
+    if (xhrBillboard.readyState === XMLHttpRequest.DONE) {
+        const status = xhrBillboard.status;
         if (status === 0 || (status >= 200 && status < 400)) {
             // The request has been completed successfully
 
-            var obj = JSON.parse(xhrProduct.responseText);
-            const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            var start_contract = new Date('2023/5/25');
-            let startMMM = month[start_contract.getMonth()];
-            var end_contract = new Date('2023/5/25');
-            let endMMM = month[end_contract.getMonth()];
+            var obj = JSON.parse(xhrBillboard.responseText);
+            // const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            // var start_contract = new Date('2023/5/25');
+            // let startMMM = month[start_contract.getMonth()];
+            // var end_contract = new Date('2023/5/25');
+            // let endMMM = month[end_contract.getMonth()];
 
-            for (i = 0; i < obj.dataProduct.length; i++) {
-                if (obj.dataProduct[i].city_id == city.value) {
-                    posisi = { lat: Number(obj.dataProduct[i].lat), lng: Number(obj.dataProduct[i].lng) };
-                    start_contract = new Date(obj.dataProduct[i].start_contract);
-                    startMMM = month[start_contract.getMonth()];
-                    end_contract = new Date(obj.dataProduct[i].end_contract);
-                    endMMM = month[end_contract.getMonth()];
-                    if (obj.dataProduct[i].sale_status == "Sold") {
-                        let price = obj.dataProduct[i].price;
-                        var priceFormat = price.toLocaleString();
-                        addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \n Klien : " + obj.dataProduct[i].client + " \n Harga : Rp. " + priceFormat + ",- \n Awal Kontrak : " + start_contract.getDate() + "-" + startMMM + "-" + start_contract.getFullYear() + " \n Akhir Kontrak : " + end_contract.getDate() + "-" + endMMM + "-" + end_contract.getFullYear(), icon = "/img/marker-red.png", id = obj.dataProduct[i].id);
-                    } else if ((obj.dataProduct[i].build_status == "Rencana" || obj.dataProduct[i].build_status == "Pembangunan") && obj.dataProduct[i].sale_status == "Available") {
-                        addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \nKondisi : " + obj.dataProduct[i].build_status + " \nStatus : " + obj.dataProduct[i].sale_status, icon = "/img/marker-yellow.png", id = obj.dataProduct[i].id);
-                    } else if (obj.dataProduct[i].sale_status == "Available" && obj.dataProduct[i].build_status == "Terbangun") {
-                        addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \nStatus : " + obj.dataProduct[i].sale_status, icon = "/img/marker-green.png", id = obj.dataProduct[i].id);
-                    }
+            for (i = 0; i < obj.dataBillboard.length; i++) {
+                if (obj.dataBillboard[i].city_id == city.value) {
+                    posisi = { lat: Number(obj.dataBillboard[i].lat), lng: Number(obj.dataBillboard[i].lng) };
+                    // start_contract = new Date(obj.dataProduct[i].start_contract);
+                    // startMMM = month[start_contract.getMonth()];
+                    // end_contract = new Date(obj.dataProduct[i].end_contract);
+                    // endMMM = month[end_contract.getMonth()];
+                    addMarker(posisi, title = "Kode : " + obj.dataBillboard[i].code, icon = "/img/marker-green.png", id = obj.dataBillboard[i].id);
+                    // if (obj.dataProduct[i].sale_status == "Sold") {
+                    //     let price = obj.dataProduct[i].price;
+                    //     var priceFormat = price.toLocaleString();
+                    //     addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \n Klien : " + obj.dataProduct[i].client + " \n Harga : Rp. " + priceFormat + ",- \n Awal Kontrak : " + start_contract.getDate() + "-" + startMMM + "-" + start_contract.getFullYear() + " \n Akhir Kontrak : " + end_contract.getDate() + "-" + endMMM + "-" + end_contract.getFullYear(), icon = "/img/marker-red.png", id = obj.dataProduct[i].id);
+                    // } else if ((obj.dataProduct[i].build_status == "Rencana" || obj.dataProduct[i].build_status == "Pembangunan") && obj.dataProduct[i].sale_status == "Available") {
+                    //     addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \nKondisi : " + obj.dataProduct[i].build_status + " \nStatus : " + obj.dataProduct[i].sale_status, icon = "/img/marker-yellow.png", id = obj.dataProduct[i].id);
+                    // } else if (obj.dataProduct[i].sale_status == "Available" && obj.dataProduct[i].build_status == "Terbangun") {
+                    //     addMarker(posisi, title = "Kode : " + obj.dataProduct[i].code + " \nStatus : " + obj.dataProduct[i].sale_status, icon = "/img/marker-green.png", id = obj.dataProduct[i].id);
+                    // }
                 }
             }
 

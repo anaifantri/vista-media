@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->unique();
             $table->string('avatar')->nullable();
+            $table->string('position');
+            $table->string('gender');
             $table->string('level');
             $table->rememberToken();
             $table->timestamps();

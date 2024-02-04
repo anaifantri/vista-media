@@ -11,7 +11,7 @@
             <!-- Title Edit Billboard end -->
             <!-- Form Edit Billboard start -->
             <div class="flex">
-                <form class="md:flex" action="/dashboard/media/products/{{ $product->id }}" method="post"
+                <form class="md:flex" action="/dashboard/media/billboards/{{ $billboard->id }}" method="post"
                     enctype="multipart/form-data">
                     @method('put')
                     @csrf
@@ -23,7 +23,7 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kode Lokasi</label>
                                         <input
                                             class="flex px-2 text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300 @error('code') is-invalid @enderror"
-                                            type="text" id="code" name="code" value="{{ $product->code }}"
+                                            type="text" id="code" name="code" value="{{ $billboard->code }}"
                                             autofocus placeholder="Kode" required>
                                         @error('code')
                                             <div class="invalid-feedback">
@@ -37,9 +37,9 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Area</label>
                                         <select id="area_id" name="area_id"
                                             class="flex px-2 w-36 xl:w-48 2xl:w-56 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
-                                            type="text" value="{{ $product->area_id }}">
+                                            type="text" value="{{ $billboard->area_id }}">
                                             @foreach ($areas as $area)
-                                                @if ($product->area_id == $area->id)
+                                                @if ($billboard->area_id == $area->id)
                                                     <option value="{{ $area->id }}" selected>{{ $area->area }}
                                                     </option>
                                                 @else
@@ -57,12 +57,12 @@
                                 <div class="flex mt-1">
                                     <div class="mt-1">
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kota</label>
-                                        <input type="text" id="city_id" name="city_id" value="{{ $product->city_id }}"
-                                            hidden>
+                                        <input type="text" id="city_id" name="city_id"
+                                            value="{{ $billboard->city_id }}" hidden>
                                         <input type="text" id="cityCode" name="cityCode"
-                                            value="{{ $product->city->code }}" hidden>
+                                            value="{{ $billboard->city->code }}" hidden>
                                         <input type="text" id="inputCity" name="inputCity"
-                                            value="{{ $product->city->city }}" hidden>
+                                            value="{{ $billboard->city->city }}" hidden>
                                         <select id="city" name="city"
                                             class="flex px-2 w-36 xl:w-48 2xl:w-56 text-sm xl:text-md 2xl:text-lg font-semibold border text-teal-900 rounded-lg p-1 outline-none @error('city') is-invalid @enderror"
                                             type="text">
@@ -79,7 +79,7 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Lokasi</label>
                                         <textarea
                                             class="flex px-2 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 w-36 xl:w-48 2xl:w-56 border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                            name="address" id="address" placeholder="Lokasi Billboard">{{ $product->address }}</textarea>
+                                            name="address" id="address" placeholder="Lokasi Billboard">{{ $billboard->address }}</textarea>
                                         @error('address')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -93,7 +93,8 @@
                                         <input
                                             class="flex px-2 text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-36 xl:w-48 2xl:w-56 border rounded-lg p-1 outline-teal-300 @error('lat') is-invalid @enderror"
                                             type="text" id="lat" name="lat" placeholder="Latitude"
-                                            value="{{ $product->lat }}" required readonly title="Latitude select from map">
+                                            value="{{ $billboard->lat }}" required readonly
+                                            title="Latitude select from map">
                                         @error('lat')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -107,7 +108,7 @@
                                         <input
                                             class="flex px-2 text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-36 xl:w-48 2xl:w-56 border rounded-lg p-1 outline-teal-300 @error('lng') is-invalid @enderror"
                                             type="text" id="lng" name="lng" placeholder="Longitude"
-                                            value="{{ $product->lng }}" required readonly
+                                            value="{{ $billboard->lng }}" required readonly
                                             title="Longitude select from map">
                                         @error('lat')
                                             <div class="invalid-feedback">
@@ -117,32 +118,31 @@
                                     </div>
                                 </div>
                                 <div class="mt-1">
-                                    @php
+                                    {{-- @php
                                         $numberCategory = 0;
                                         $categories = ['Billboard', 'Bando', 'Baliho', 'Midiboard'];
-                                    @endphp
+                                    @endphp --}}
                                     <div class="flex mt-1">
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Katagori</label>
                                     </div>
                                     <div class="mt-1">
-                                        <select id="category" name="category"
+                                        <select id="billboard_category_id" name="billboard_category_id"
                                             class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
                                         font-semibold text-teal-900 border rounded-lg p-1 outline-none
-                                        @error('category') is-invalid @enderror"
-                                            type="text" value="{{ $product->category }}">
-                                            @for ($numberCategory = 0; $numberCategory < count($categories); $numberCategory++)
-                                                @if ($product->category == $categories[$numberCategory])
-                                                    <option value="{{ $categories[$numberCategory] }}" selected>
-                                                        {{ $categories[$numberCategory] }}
-                                                    </option>
-                                                @else
-                                                    <option value="{{ $categories[$numberCategory] }}">
-                                                        {{ $categories[$numberCategory] }}
+                                        @error('billboard_category_id') is-invalid @enderror"
+                                            type="text" value="{{ $billboard->billboard_category_id }}">
+                                            @foreach ($billboard_categories as $category)
+                                                @if ($billboard->billboard_category_id == $category->id)
+                                                    <option value="{{ $category->id }}" selected>
+                                                        {{ $category->name }}
                                                     </option>
                                                 @endif
-                                            @endfor
+                                                <option value="{{ $category->id }}">
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
-                                        @error('category')
+                                        @error('billboard_category_id')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -162,9 +162,9 @@
                                             class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
                                             font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                             @error('lighting') is-invalid @enderror"
-                                            type="text" value="{{ $product->lighting }}">
+                                            type="text" value="{{ $billboard->lighting }}">
                                             @for ($numberLighting = 0; $numberLighting < count($lightings); $numberLighting++)
-                                                @if ($product->lighting == $lightings[$numberLighting])
+                                                @if ($billboard->lighting == $lightings[$numberLighting])
                                                     <option value="{{ $lightings[$numberLighting] }}" selected>
                                                         {{ $lightings[$numberLighting] }}
                                                     </option>
@@ -187,9 +187,9 @@
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Ukuran</label>
                                         <select id="size_id" name="size_id"
                                             class="flex px-2 w-36 xl:w-48 2xl:w-56 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
-                                            type="text" value="{{ $product->size_id }}">
+                                            type="text" value="{{ $billboard->size_id }}">
                                             @foreach ($sizes as $size)
-                                                @if ($product->size_id == $size->id)
+                                                @if ($billboard->size_id == $size->id)
                                                     <option value="{{ $size->id }}" selected>
                                                         {{ $size->size . ' - ' . $size->side . ' - ' . $size->orientation }}
                                                     </option>
@@ -234,45 +234,16 @@
                         <div class="mx-1 w-[172px] xl:w-[208px] xl:mx-4 2xl:w-[240px]">
                             <div class="flex mt-1">
                                 @php
-                                    $numberProperty = 0;
-                                    $properties = ['Vista Media', 'Mitra'];
-                                @endphp
-                                <div class="mt-1">
-                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kepemilikan</label>
-                                    <select id="property_status" name="property_status"
-                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('property_status') is-invalid @enderror"
-                                        type="text" value="{{ $product->property_status }}">
-                                        @for ($numberProperty = 0; $numberProperty < count($properties); $numberProperty++)
-                                            @if ($product->property_status == $properties[$numberProperty])
-                                                <option value="{{ $properties[$numberProperty] }}" selected>
-                                                    {{ $properties[$numberProperty] }}
-                                                </option>
-                                            @else
-                                                <option value="{{ $properties[$numberProperty] }}">
-                                                    {{ $properties[$numberProperty] }}
-                                                </option>
-                                            @endif
-                                        @endfor
-                                    </select>
-                                    @error('property_status')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="flex mt-1">
-                                @php
                                     $numberBuild = 0;
-                                    $builds = ['Terbangun', 'Pembangunan', 'Rencana'];
+                                    $builds = ['Terbangun', 'Rencana'];
                                 @endphp
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kondisi</label>
-                                    <select id="build_status" name="build_status"
-                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('build_status') is-invalid @enderror"
-                                        type="text" value="{{ $product->build_status }}">
+                                    <select id="condition" name="condition"
+                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('condition') is-invalid @enderror"
+                                        type="text" value="{{ $billboard->condition }}">
                                         @for ($numberBuild = 0; $numberBuild < count($builds); $numberBuild++)
-                                            @if ($product->build_status == $builds[$numberBuild])
+                                            @if ($billboard->condition == $builds[$numberBuild])
                                                 <option value="{{ $builds[$numberBuild] }}" selected>
                                                     {{ $builds[$numberBuild] }}
                                                 </option>
@@ -283,98 +254,7 @@
                                             @endif
                                         @endfor
                                     </select>
-                                    @error('build_status')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="flex mt-1">
-                                @php
-                                    $numberSale = 0;
-                                    $sales = ['Available', 'Sold'];
-                                @endphp
-                                <div class="mt-1">
-                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Status</label>
-                                    <select id="sale_status" name="sale_status"
-                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('sale_status') is-invalid @enderror"
-                                        type="text" value="{{ $product->sale_status }}">
-                                        @for ($numberSale = 0; $numberSale < count($sales); $numberSale++)
-                                            @if ($product->sale_status == $sales[$numberSale])
-                                                <option value="{{ $sales[$numberSale] }}" selected>
-                                                    {{ $sales[$numberSale] }}
-                                                </option>
-                                            @else
-                                                <option value="{{ $sales[$numberSale] }}">
-                                                    {{ $sales[$numberSale] }}
-                                                </option>
-                                            @endif
-                                        @endfor
-                                    </select>
-                                    @error('sale_status')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="flex mt-1">
-                                <div id="divKlien" name="divKlien" class="mt-1" hidden>
-                                    <label id="lblClient" name="lblClient"
-                                        class="xl:text-md 2xl:text-lg text-teal-700">Nama
-                                        Klien</label>
-                                    <input
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('client') is-invalid @enderror"
-                                        type="text" id="client" name="client" value="{{ $product->client }}"
-                                        placeholder="Nama Klien">
-                                    @error('client')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="flex mt-1">
-                                <div id="harga" name="harga" class="mt-1" hidden>
-                                    <label id="lblClient" name="lblClient"
-                                        class="xl:text-md 2xl:text-lg text-teal-700">Harga</label>
-                                    <input
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
-                                        type="number" id="price" name="price" value="{{ $product->price }}"
-                                        placeholder="Harga">
-                                    @error('price')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="flex mt-1">
-                                <div id="periode" name="periode" class="mt-1" hidden>
-                                    <label id="lblPeriode" name="lblPeriode"
-                                        class="xl:text-md 2xl:text-lg text-teal-700">Periode
-                                        Kontrak</label>
-                                    <div class="flex">
-                                        <label class="p-1 w-14 xl:text-md 2xl:text-lg text-teal-700">- Awal</label>
-                                        <input
-                                            class="px-2 w-32 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('start_contract') is-invalid @enderror"
-                                            type="date" id="start_contract" name="start_contract"
-                                            value="{{ $product->start_contract }}">
-                                    </div>
-                                    <div class="flex">
-                                        <label class="p-1 w-14 xl:text-md 2xl:text-lg text-teal-700">- Akhir</label>
-                                        <input
-                                            class="px-2 w-32 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('end_contract') is-invalid @enderror"
-                                            type="date" id="end_contract" name="end_contract"
-                                            value="{{ $product->end_contract }}">
-                                    </div>
-                                    @error('start_contract')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                    @error('end_contract')
+                                    @error('condition')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -390,9 +270,9 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Type Jalan</label>
                                     <select id="road_segment" name="road_segment"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('road_segment') is-invalid @enderror"
-                                        type="text" value="{{ $product->road_segment }}">
+                                        type="text" value="{{ $billboard->road_segment }}">
                                         @for ($numberRoad = 0; $numberRoad < count($roads); $numberRoad++)
-                                            @if ($product->road_segment == $roads[$numberRoad])
+                                            @if ($billboard->road_segment == $roads[$numberRoad])
                                                 <option value="{{ $roads[$numberRoad] }}" selected>
                                                     {{ $roads[$numberRoad] }}
                                                 </option>
@@ -419,9 +299,9 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Jarak Pandang</label>
                                     <select id="max_distance" name="max_distance"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('max_distance') is-invalid @enderror"
-                                        type="text" value="{{ $product->max_distance }}">
+                                        type="text" value="{{ $billboard->max_distance }}">
                                         @for ($numberDistance = 0; $numberDistance < count($distances); $numberDistance++)
-                                            @if ($product->max_distance == $distances[$numberDistance])
+                                            @if ($billboard->max_distance == $distances[$numberDistance])
                                                 <option value="{{ $distances[$numberDistance] }}" selected>
                                                     {{ $distances[$numberDistance] }}
                                                 </option>
@@ -448,9 +328,9 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kecepatan Kendaraan</label>
                                     <select id="speed_average" name="speed_average"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('speed_average') is-invalid @enderror"
-                                        type="text" value="{{ $product->speed_average }}">
+                                        type="text" value="{{ $billboard->speed_average }}">
                                         @for ($numberSpeed = 0; $numberSpeed < count($speeds); $numberSpeed++)
-                                            @if ($product->speed_average == $speeds[$numberSpeed])
+                                            @if ($billboard->speed_average == $speeds[$numberSpeed])
                                                 <option value="{{ $speeds[$numberSpeed] }}" selected>
                                                     {{ $speeds[$numberSpeed] }}
                                                 </option>
@@ -471,7 +351,7 @@
                             <div class="flex mt-1">
                                 <div class="mt-1">
                                     <input class="@error('sector') is-invalid @enderror" type="text" id="sector"
-                                        name="sector" value="{{ $product->sector }}" hidden>
+                                        name="sector" value="{{ $billboard->sector }}" hidden>
                                     <label
                                         class="xl:text-md 2xl:text-lg text-teal-700 border-b w-40 xl:w-52 2xl:w-60 flex p-1">Kawasan</label>
                                     @error('sector')
@@ -523,6 +403,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="flex mt-1">
+                                <div id="price" name="price" class="mt-1">
+                                    <label id="lblClient" name="lblClient"
+                                        class="xl:text-md 2xl:text-lg text-teal-700">Harga</label>
+                                    <input
+                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                        type="number" id="price" name="price" value="{{ $billboard->price }}"
+                                        placeholder="Harga">
+                                    @error('price')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Edit Billboard end -->
@@ -541,38 +436,43 @@
                                     {{ $message }}
                                 </div>
                             @enderror
-                            <div
-                                class="flex m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px] border mt-1">
-                                <input type="hidden" id="oldPhoto" name="oldPhoto" value="{{ $product->photo }}">
-                                @if ($product->photo)
-                                    <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px"
-                                        src="{{ asset('storage/' . $product->photo) }}">
-                                @else
-                                    <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px"
-                                        src="/img/product-image.png" alt="">
+                            @foreach ($billboard_photos as $photo)
+                                @if ($photo->billboard_code == $billboard->code && $photo->company_id == '1')
+                                    <div
+                                        class="flex m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px] border mt-1">
+                                        <input type="hidden" id="oldPhoto" name="oldPhoto"
+                                            value="{{ $photo->photo }}">
+                                        @if ($photo->photo)
+                                            <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px"
+                                                src="{{ asset('storage/' . $photo->photo) }}">
+                                        @else
+                                            <img class="img-preview m-photo-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px"
+                                                src="/img/product-image.png" alt="">
+                                        @endif
                                 @endif
-                            </div>
-                            <!-- Photo Billboard end -->
-                            <!-- Maps Billboard start -->
-                            <div>
-                                <span class="flex justify-center border-b mt-2 text-base font-semibold">Peta Lokasi</span>
-
-                                <div class="m-map-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px] mt-1 mb-6"
-                                    id="map">
-                                </div>
-                            </div>
-                            <!-- Maps Billboard end -->
                         </div>
+                        @endforeach
+                        <!-- Photo Billboard end -->
+                        <!-- Maps Billboard start -->
+                        <div>
+                            <span class="flex justify-center border-b mt-2 text-base font-semibold">Peta Lokasi</span>
+
+                            <div class="m-map-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px] mt-1 mb-6"
+                                id="map">
+                            </div>
+                        </div>
+                        <!-- Maps Billboard end -->
                     </div>
-                </form>
             </div>
+            </form>
         </div>
+    </div>
     </div>
     <!-- Form Edit Billboard end -->
     <!-- Script Billboard start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
         defer></script>
 
-    <script src="/js/editproduct.js"></script>
+    <script src="/js/editbillboard.js"></script>
     <!-- Script Billboard end -->
 @endsection
