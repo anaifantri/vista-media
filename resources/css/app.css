@@ -193,7 +193,7 @@
 }
 
 .td-table-preview{
-    @apply text-[0.7rem] text-teal-700 text-center border;
+    @apply text-[0.65rem] text-teal-700 text-center border;
 }
 
 .btn-del{

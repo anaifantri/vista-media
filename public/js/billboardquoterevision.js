@@ -5,11 +5,7 @@ const revisionNumber = document.getElementById("revisionNumber");
 const revisionNumberPreview = document.getElementById("revisionNumberPreview");
 const btnPreview = document.getElementById("btnPreview");
 const billboards = document.getElementById("billboards");
-const attachment = document.getElementById("attachment");
-const subject = document.getElementById("subject");
-const bodyTop = document.getElementById("body_top");
 const note = document.getElementById("note");
-const bodyEnd = document.getElementById("body_end");
 const bodyEndBillboard = document.getElementById("bodyEndBillboard");
 const pricePeriode = document.getElementById("price_periode");
 const priceType = document.getElementById("priceType");
@@ -64,6 +60,7 @@ const previewBBthAYear = document.getElementById("previewBBthAYear");
 const previewBBthManual = document.getElementById("previewBBthManual");
 const previewBBManualPrice = document.getElementById("previewBBManualPrice");
 const tableWidth = document.getElementById("tableWidth");
+const previewTableWidth = document.getElementById("previewTableWidth");
 const previewBBNote = document.getElementById("previewBBNote");
 const previewBBNote01 = document.getElementById("previewBBNote01");
 const inputPreviewBBNote01 = document.getElementById("inputPreviewBBNote01");
@@ -87,37 +84,90 @@ const inputPreviewBBNote10 = document.getElementById("inputPreviewBBNote10");
 const locationsImage = document.getElementById("locationsImage");
 // Declaration Quotation Billboard Preview --> end
 
-let objBillboardQuoteRevision = {};
+let objBillboardQuotRevision = {};
+let objBillboards = {};
 let objLocations = JSON.parse(billboards.value);
+let objBillboardQuotation = {};
 
-let dataBillboardQuoteRevision = [];
+let dataBillboardQuotRevision = [];
 let locations = objLocations.locations;
+let dataBillboardQuotation = [];
 
 let newRow = [];
 let cell = [];
 let notes = [];
-let colSpan = 1;
+
+let mainId = 0;
+
+const date = new Date();
+const year = date.getFullYear();
+let month = "";
+var getMainNumber = mainNumber.textContent;
+var resultsMainNumber = getMainNumber.slice(0, 4);
+let resultsNumber = 0;
+let revisionQty = 0;
+
+setTableWidth();
+function setTableWidth() {
+    var setColumn = 0;
+    if (aMonth.checked == true) {
+        setColumn = setColumn + 1;
+    }
+    if (quarterYear.checked == true) {
+        setColumn = setColumn + 1;
+    }
+    if (halfYear.checked == true) {
+        setColumn = setColumn + 1;
+    }
+    if (aYear.checked == true) {
+        setColumn = setColumn + 1;
+    }
+
+    if (setColumn == 1 || setColumn == 2) {
+        tableWidth.classList.add('w-[650px]');
+        tableWidth.classList.remove('w-[725px]');
+        previewTableWidth.classList.add('w-[650px]');
+        previewTableWidth.classList.remove('w-[725px]');
+    } else {
+        tableWidth.classList.add('w-[725px]');
+        tableWidth.classList.remove('w-[650px]');
+        previewTableWidth.classList.add('w-[725px]');
+        previewTableWidth.classList.remove('w-[650px]');
+    }
+}
+
+setColSpan();
+function setColSpan() {
+    var colSpan = 0;
+    if (aMonth.checked == true) {
+        colSpan = colSpan + 1;
+    }
+    if (quarterYear.checked == true) {
+        colSpan = colSpan + 1;
+    }
+    if (halfYear.checked == true) {
+        colSpan = colSpan + 1;
+    }
+    if (aYear.checked == true) {
+        colSpan = colSpan + 1;
+    }
+
+    thPrice.removeAttribute('colspan');
+    thPrice.setAttribute('colspan', colSpan);
+    previewTHPrice.removeAttribute('colspan');
+    previewTHPrice.setAttribute('colspan', colSpan);
+}
+
 
 function showPriceMonth() {
     for (i = 0; i < locations.length; i++) {
         if (aMonth.checked == true) {
             billboardTBody.rows[i].cells[6].removeAttribute('hidden');
+            locations[i].price.periodeMonth.cbPeriode = true;
         } else {
             billboardTBody.rows[i].cells[6].setAttribute('hidden', 'hidden');
+            locations[i].price.periodeMonth.cbPeriode = false;
         }
-    }
-    if (aMonth.checked == true) {
-        colSpan = colSpan + 1;
-        thPrice.removeAttribute('colspan');
-        thPrice.setAttribute('colspan', colSpan);
-        previewTHPrice.removeAttribute('colspan');
-        previewTHPrice.setAttribute('colspan', colSpan);
-    } else {
-        colSpan = colSpan - 1;
-        thPrice.removeAttribute('colspan');
-        thPrice.setAttribute('colspan', colSpan);
-        previewTHPrice.removeAttribute('colspan');
-        previewTHPrice.setAttribute('colspan', colSpan);
     }
 }
 
@@ -125,22 +175,11 @@ function showPriceQuarter() {
     for (i = 0; i < locations.length; i++) {
         if (quarterYear.checked == true) {
             billboardTBody.rows[i].cells[7].removeAttribute('hidden');
+            locations[i].price.periodeQuarter.cbPeriode = true;
         } else {
             billboardTBody.rows[i].cells[7].setAttribute('hidden', 'hidden');
+            locations[i].price.periodeQuarter.cbPeriode = false;
         }
-    }
-    if (quarterYear.checked == true) {
-        colSpan = colSpan + 1;
-        thPrice.removeAttribute('colspan');
-        thPrice.setAttribute('colspan', colSpan);
-        previewTHPrice.removeAttribute('colspan');
-        previewTHPrice.setAttribute('colspan', colSpan);
-    } else {
-        colSpan = colSpan - 1;
-        thPrice.removeAttribute('colspan');
-        thPrice.setAttribute('colspan', colSpan);
-        previewTHPrice.removeAttribute('colspan');
-        previewTHPrice.setAttribute('colspan', colSpan);
     }
 }
 
@@ -148,23 +187,11 @@ function showPriceHalf() {
     for (i = 0; i < locations.length; i++) {
         if (halfYear.checked == true) {
             billboardTBody.rows[i].cells[8].removeAttribute('hidden');
+            locations[i].price.periodeHalf.cbPeriode = true;
         } else {
             billboardTBody.rows[i].cells[8].setAttribute('hidden', 'hidden');
+            locations[i].price.periodeHalf.cbPeriode = false;
         }
-    }
-
-    if (halfYear.checked == true) {
-        colSpan = colSpan + 1;
-        thPrice.removeAttribute('colspan');
-        thPrice.setAttribute('colspan', colSpan);
-        previewTHPrice.removeAttribute('colspan');
-        previewTHPrice.setAttribute('colspan', colSpan);
-    } else {
-        colSpan = colSpan - 1;
-        thPrice.removeAttribute('colspan');
-        thPrice.setAttribute('colspan', colSpan);
-        previewTHPrice.removeAttribute('colspan');
-        previewTHPrice.setAttribute('colspan', colSpan);
     }
 }
 
@@ -172,42 +199,61 @@ function showPriceYear() {
     for (i = 0; i < locations.length; i++) {
         if (aYear.checked == true) {
             billboardTBody.rows[i].cells[9].removeAttribute('hidden');
+            locations[i].price.periodeYear.cbPeriode = true;
         } else {
             billboardTBody.rows[i].cells[9].setAttribute('hidden', 'hidden');
+            locations[i].price.periodeYear.cbPeriode = false;
         }
-    }
-    if (aYear.checked == true) {
-        colSpan = colSpan + 1;
-        thPrice.removeAttribute('colspan');
-        thPrice.setAttribute('colspan', colSpan);
-        previewTHPrice.removeAttribute('colspan');
-        previewTHPrice.setAttribute('colspan', colSpan);
-    } else {
-        colSpan = colSpan - 1;
-        thPrice.removeAttribute('colspan');
-        thPrice.setAttribute('colspan', colSpan);
-        previewTHPrice.removeAttribute('colspan');
-        previewTHPrice.setAttribute('colspan', colSpan);
     }
 }
 
-// Get Quote Revision Data --> start
-getQuotateRevisionData();
-function getQuotateRevisionData() {
-    const xhrBillboardQuoteRevision = new XMLHttpRequest();
-    const methodBillboardQuoteRevision = "GET";
-    const urlBillboardQuoteRevision = "/showBillboardQuoteRevision";
+// Get Quotation Data --> start
+setTimeout(getQuotationData, 100);
+function getQuotationData() {
+    const xhrBillboardQuotation = new XMLHttpRequest();
+    const methodBillboardQuotation = "GET";
+    const urlBillboardQuotation = "/showBillboardQuotation";
 
-    xhrBillboardQuoteRevision.open(methodBillboardQuoteRevision, urlBillboardQuoteRevision, true);
-    xhrBillboardQuoteRevision.send();
+    xhrBillboardQuotation.open(methodBillboardQuotation, urlBillboardQuotation, true);
+    xhrBillboardQuotation.send();
 
-    xhrBillboardQuoteRevision.onreadystatechange = () => {
+    xhrBillboardQuotation.onreadystatechange = () => {
         // In local files, status is 0 upon success in Mozilla Firefox
-        if (xhrBillboardQuoteRevision.readyState === XMLHttpRequest.DONE) {
-            const status = xhrBillboardQuoteRevision.status;
+        if (xhrBillboardQuotation.readyState === XMLHttpRequest.DONE) {
+            const status = xhrBillboardQuotation.status;
             if (status === 0 || (status >= 200 && status < 400)) {
-                objBillboardQuoteRevision = JSON.parse(xhrBillboardQuoteRevision.responseText);
-                dataBillboardQuoteRevision = objBillboardQuoteRevision.dataBillboardQuoteRevision;
+                objBillboardQuotation = JSON.parse(xhrBillboardQuotation.responseText);
+                dataBillboardQuotation = objBillboardQuotation.dataBillboardQuotation;
+                for (i = 0; i < dataBillboardQuotation.length; i++) {
+                    if (dataBillboardQuotation[i].number == mainNumber.textContent) {
+                        mainId = dataBillboardQuotation[i].id;
+                    }
+                }
+            } else {
+                // Oh no! There has been an error with the request!
+            }
+        }
+    }
+}
+// Get Quotation Data --> end
+
+// Get Quote Revision Data --> start
+setTimeout(getQuotateRevisionData, 100);
+function getQuotateRevisionData() {
+    const xhrBillboardQuotRevision = new XMLHttpRequest();
+    const methodBillboardQuotRevision = "GET";
+    const urlBillboardQuotRevision = "/showBillboardQuotRevision";
+
+    xhrBillboardQuotRevision.open(methodBillboardQuotRevision, urlBillboardQuotRevision, true);
+    xhrBillboardQuotRevision.send();
+
+    xhrBillboardQuotRevision.onreadystatechange = () => {
+        // In local files, status is 0 upon success in Mozilla Firefox
+        if (xhrBillboardQuotRevision.readyState === XMLHttpRequest.DONE) {
+            const status = xhrBillboardQuotRevision.status;
+            if (status === 0 || (status >= 200 && status < 400)) {
+                objBillboardQuotRevision = JSON.parse(xhrBillboardQuotRevision.responseText);
+                dataBillboardQuotRevision = objBillboardQuotRevision.dataBillboardQuotRevision;
             } else {
                 // Oh no! There has been an error with the request!
             }
@@ -217,15 +263,8 @@ function getQuotateRevisionData() {
 // Get Quote Revision Data --> end
 
 // Add Quote Revision Number --> start
-addQuotationNumber();
+setTimeout(addQuotationNumber, 1000);
 function addQuotationNumber() {
-    const date = new Date();
-    const year = date.getFullYear();
-    let month = "";
-    var getMainNumber = mainNumber.textContent;
-    var resultsMainNumber = getMainNumber.slice(0, 4);
-    // const day = date.getDay();
-
     if (date.getMonth() + 1 == 1) {
         month = "I";
     } else if (date.getMonth() + 1 == 2) {
@@ -251,14 +290,15 @@ function addQuotationNumber() {
     } else if (date.getMonth() + 1 == 12) {
         month = "XII";
     }
-
-
-    if (dataBillboardQuoteRevision.length == 0) {
-        var resultsNumber = 1;
+    if (dataBillboardQuotRevision.length == 0) {
+        resultsNumber = 1;
     } else {
-        for (i = 0; i < dataBillboardQuoteRevision.length; i++) {
-            var getNumber = dataBillboardQuoteRevision[dataBillboardQuoteRevision.length - 1].number;
-            var resultsNumber = Number(getNumber.slice(0, 4)) + 1;
+        for (i = 0; i < dataBillboardQuotRevision.length; i++) {
+            if (dataBillboardQuotRevision[i].billboard_quotation_id == mainId) {
+                revisionQty = revisionQty + 1;
+                resultsNumber = revisionQty + 1;
+                console.log(resultsNumber);
+            }
         }
     }
     if (resultsNumber < 10) {
@@ -272,7 +312,6 @@ function addQuotationNumber() {
     }
     revisionNumber.innerHTML = number.value;
     revisionNumberPreview.innerHTML = number.value;
-    console.log(number.value);
 }
 // Add Quote Revision Number --> end
 
@@ -296,18 +335,12 @@ btnPreview.addEventListener('click', function () {
     window.scrollTo(0, 0);
     quotationNumberBBPreview.innerHTML = number.value;
     attachmentBBPreview.innerHTML = attachmentBillboard.textContent;
-    attachment.value = "";
-    attachment.value = attachmentBBPreview.textContent;
     subjectBBPreview.innerHTML = subjectBillboard.textContent;
-    subject.value = "";
-    subject.value = subjectBBPreview.textContent;
     clientBBPreview.innerHTML = clientCompany.textContent;
     contactBBPreview.innerHTML = clientContact.textContent;
     contactEmailBBPreview.innerHTML = contactEmail.textContent;
     contactPhoneBBPreview.innerHTML = contactPhone.textContent;
     letterBodyBBPreview.innerHTML = bodyTopBillboard.textContent;
-    bodyTop.value = "";
-    bodyTop.value = letterBodyBBPreview.textContent;
 
     while (previewBBTBody.hasChildNodes()) {
         previewBBTBody.removeChild(previewBBTBody.firstChild);
@@ -345,14 +378,7 @@ btnPreview.addEventListener('click', function () {
         previewBBthAYear.innerHTML = twelveMonth.value;
     }
 
-
-
-    // previewBBthAMonth.innerHTML = oneMonth.value;
-    // previewBBthQuarterYear.innerHTML = threeMonth.value;
-    // previewBBthHalfYear.innerHTML = sixMonth.value;
-    // previewBBthAYear.innerHTML = twelveMonth.value;
-
-    for (i = 0; i < billboardTable.tBodies[0].rows.length; i++) {
+    for (i = 0; i < locations.length; i++) {
         newRow[i] = previewBBTBody.insertRow(i);
         cell[0] = newRow[i].insertCell(0);
         cell[0].innerHTML = i + 1;
@@ -362,7 +388,7 @@ btnPreview.addEventListener('click', function () {
         cell[1].classList.add('td-table-preview');
         cell[2] = newRow[i].insertCell(2);
         cell[2].innerHTML = billboardTBody.rows[i].cells[2].textContent;
-        cell[2].classList.add('text-[0.7rem]');
+        cell[2].classList.add('text-[0.65rem]');
         cell[2].classList.add('text-teal-700');
         cell[2].classList.add('border');
         cell[3] = newRow[i].insertCell(3);
@@ -378,45 +404,58 @@ btnPreview.addEventListener('click', function () {
         cell[6].classList.add('td-table-preview');
         if (aMonth.checked == true) {
             cell[6].removeAttribute('hidden');
-            cell[6].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(document.getElementById("priceMonth" + (i + 1)).value)) + ',-';
+            cell[6].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[6].children[0].value)) + ',-';
+            locations[i].price.periodeMonth.priceMonth = billboardTBody.rows[i].cells[6].children[0].value;
+            locations[i].price.periodeMonth.periode = thAMonth.textContent;
         } else {
             cell[6].setAttribute('hidden', 'hidden');
-            cell[6].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(document.getElementById("priceMonth" + (i + 1)).value)) + ',-';
+            cell[6].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[6].children[0].value)) + ',-';
+            locations[i].price.periodeMonth.priceMonth = billboardTBody.rows[i].cells[6].children[0].value;
+            locations[i].price.periodeMonth.periode = thAMonth.textContent;
         }
         cell[7] = newRow[i].insertCell(7);
         cell[7].classList.add('td-table-preview');
         if (quarterYear.checked == true) {
             cell[7].removeAttribute('hidden');
-            cell[7].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(document.getElementById("priceQuarter" + (i + 1)).value)) + ',-';
+            cell[7].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[7].children[0].value)) + ',-';
+            locations[i].price.periodeQuarter.priceQuarter = billboardTBody.rows[i].cells[7].children[0].value;
+            locations[i].price.periodeQuarter.periode = thQuarterYear.textContent;
         } else {
             cell[7].setAttribute('hidden', 'hidden');
-            cell[7].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(document.getElementById("priceQuarter" + (i + 1)).value)) + ',-';
+            cell[7].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[7].children[0].value)) + ',-';
+            locations[i].price.periodeQuarter.priceQuarter = billboardTBody.rows[i].cells[7].children[0].value;
+            locations[i].price.periodeQuarter.periode = thQuarterYear.textContent;
         }
         cell[8] = newRow[i].insertCell(8);
         cell[8].classList.add('td-table-preview');
         if (halfYear.checked == true) {
             cell[8].removeAttribute('hidden');
-            cell[8].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(document.getElementById("priceHalf" + (i + 1)).value)) + ',-';
+            cell[8].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[8].children[0].value)) + ',-';
+            locations[i].price.periodeHalf.priceHalf = billboardTBody.rows[i].cells[8].children[0].value;
+            locations[i].price.periodeHalf.periode = thQuarterYear.textContent;
         } else {
             cell[8].setAttribute('hidden', 'hidden');
-            cell[8].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(document.getElementById("priceHalf" + (i + 1)).value)) + ',-';
+            cell[8].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[8].children[0].value)) + ',-';
+            locations[i].price.periodeHalf.priceHalf = billboardTBody.rows[i].cells[8].children[0].value;
+            locations[i].price.periodeHalf.periode = thQuarterYear.textContent;
         }
         cell[9] = newRow[i].insertCell(9);
         cell[9].classList.add('td-table-preview');
         if (aYear.checked == true) {
             cell[9].removeAttribute('hidden');
-            // cell[9].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(priceYear.value)) + ',-';
-            cell[9].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(document.getElementById("priceYear" + (i + 1)).value)) + ',-';
+            cell[9].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[9].children[0].value)) + ',-';
+            locations[i].price.periodeYear.priceYear = billboardTBody.rows[i].cells[9].children[0].value;
+            locations[i].price.periodeYear.periode = thAYear.textContent;
         } else {
             cell[9].setAttribute('hidden', 'hidden');
-            // cell[9].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(priceYear.value)) + ',-';
-            cell[9].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(document.getElementById("priceYear" + (i + 1)).value)) + ',-';
+            cell[9].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[9].children[0].value)) + ',-';
+            locations[i].price.periodeYear.priceYear = billboardTBody.rows[i].cells[9].children[0].value;
+            locations[i].price.periodeYear.periode = thAYear.textContent;
         }
     }
-    // objBillboards = { locations };
-    // console.log(objBillboards);
-    // billboards.value = "";
-    // billboards.value = JSON.stringify(objBillboards);
+    objBillboards = { locations };
+    billboards.value = "";
+    billboards.value = JSON.stringify(objBillboards);
 
     for (i = 0; i < 10; i++) {
         if (i + 1 == 1) {
@@ -589,11 +628,10 @@ btnPreview.addEventListener('click', function () {
                 }
             }
         }
-        objNote = { notes };
-        note.value = "";
-        note.value = JSON.stringify(objNote);
     }
-    bodyEnd.value = "Demikian surat penawaran ini kami sampaikan, atas perhatian dan kerjasamanya kami ucapkan terima kasih";
+    objNote = { notes };
+    note.value = "";
+    note.value = JSON.stringify(objNote);
 })
 
 // Preview --> end
@@ -774,7 +812,6 @@ function createImageLocations(locations, i) {
     typeName.innerHTML = "Jenis";
     typeValue.classList.add("description-value");
     typeValue.innerHTML = ': ' + locations[i].category;
-    console.log(locations[i].category);
     descriptionSize.classList.add("description-element");
     sizeName.classList.add("description-name");
     sizeName.innerHTML = "Ukuran";
@@ -932,10 +969,43 @@ manual.addEventListener('click', function () {
     }
 })
 
+// Fill Price Periode --> start
+
+//oneMonth event -- start
+oneMonth.addEventListener('change', function () {
+    thAMonth.innerHTML = "";
+    thAMonth.innerHTML = oneMonth.value;
+})
+//oneMonth event -- start
+
+//threeMonth event -- start
+threeMonth.addEventListener('change', function () {
+    thQuarterYear.innerHTML = "";
+    thQuarterYear.innerHTML = threeMonth.value;
+})
+//threeMonth event -- start
+
+//sixMonth event -- start
+sixMonth.addEventListener('change', function () {
+    thHalfYear.innerHTML = "";
+    thHalfYear.innerHTML = sixMonth.value;
+})
+//sixMonth event -- start
+
+//twelveMonth event -- start
+twelveMonth.addEventListener('change', function () {
+    thAYear.innerHTML = "";
+    thAYear.innerHTML = twelveMonth.value;
+})
+//twelveMonth event -- start
+
+
 // aMonth event --> start
 aMonth.addEventListener('click', function () {
     showPriceMonth();
-    priceColumn = 0;
+    showPriceQuarter();
+    showPriceHalf();
+    showPriceYear();
     if (aMonth.checked == true) {
         if (manual.checked == true) {
             oneMonth.removeAttribute('readonly');
@@ -948,32 +1018,17 @@ aMonth.addEventListener('click', function () {
         thAMonth.innerHTML = "1 Bulan";
         thAMonth.setAttribute('hidden', 'hidden');
     }
-    if (aMonth.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (quarterYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (halfYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (aYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (priceColumn == 1 || priceColumn == 2) {
-        tableWidth.classList.add('w-[650px]');
-        tableWidth.classList.remove('w-[725px]');
-    } else {
-        tableWidth.classList.add('w-[725px]');
-        tableWidth.classList.remove('w-[650px]');
-    }
+    setColSpan();
+    setTableWidth();
 })
 // aMonth event --> end
 
 // quarter year event --> start
 quarterYear.addEventListener('click', function () {
+    showPriceMonth();
     showPriceQuarter();
-    priceColumn = 0;
+    showPriceHalf();
+    showPriceYear();
     if (quarterYear.checked == true) {
         if (manual.checked == true) {
             threeMonth.removeAttribute('readonly');
@@ -986,32 +1041,18 @@ quarterYear.addEventListener('click', function () {
         thQuarterYear.innerHTML = "3 Bulan";
         thQuarterYear.setAttribute('hidden', 'hidden');
     }
-    if (aMonth.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (quarterYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (halfYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (aYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (priceColumn == 1 || priceColumn == 2) {
-        tableWidth.classList.add('w-[650px]');
-        tableWidth.classList.remove('w-[725px]');
-    } else {
-        tableWidth.classList.add('w-[725px]');
-        tableWidth.classList.remove('w-[650px]');
-    }
+    setColSpan();
+    setTableWidth();
+
 })
 // quarter year event --> end
 
 // half year event --> start
 halfYear.addEventListener('click', function () {
+    showPriceMonth();
+    showPriceQuarter();
     showPriceHalf();
-    priceColumn = 0;
+    showPriceYear();
     if (halfYear.checked == true) {
         if (manual.checked == true) {
             sixMonth.removeAttribute('readonly');
@@ -1024,32 +1065,18 @@ halfYear.addEventListener('click', function () {
         thHalfYear.innerHTML = "6 Bulan";
         thHalfYear.setAttribute('hidden', 'hidden');
     }
-    if (aMonth.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (quarterYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (halfYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (aYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (priceColumn == 1 || priceColumn == 2) {
-        tableWidth.classList.add('w-[650px]');
-        tableWidth.classList.remove('w-[725px]');
-    } else {
-        tableWidth.classList.add('w-[725px]');
-        tableWidth.classList.remove('w-[650px]');
-    }
+    setColSpan();
+    setTableWidth();
+
 })
 // half year event --> end
 
 // a year event --> start
 aYear.addEventListener('click', function () {
+    showPriceMonth();
+    showPriceQuarter();
+    showPriceHalf();
     showPriceYear();
-    priceColumn = 0;
     if (aYear.checked == true) {
         if (manual.checked == true) {
             twelveMonth.removeAttribute('readonly');
@@ -1062,25 +1089,8 @@ aYear.addEventListener('click', function () {
         thAYear.innerHTML = "1 Tahun";
         thAYear.setAttribute('hidden', 'hidden');
     }
-    if (aMonth.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (quarterYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (halfYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (aYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (priceColumn == 1 || priceColumn == 2) {
-        tableWidth.classList.add('w-[650px]');
-        tableWidth.classList.remove('w-[725px]');
-    } else {
-        tableWidth.classList.add('w-[725px]');
-        tableWidth.classList.remove('w-[650px]');
-    }
+    setColSpan();
+    setTableWidth();
 })
 // a year event --> end
 
@@ -1090,14 +1100,13 @@ btnClosePreview.addEventListener('click', function () {
 });
 
 function deleteRow(r) {
-    var i = r.parentNode.parentNode.rowIndex;
-    billboardTable.deleteRow(i);
-    console.log(billboardTable.tBodies[0].rows.length);
-    // console.log(isi);
-    // console.log(locations);
-    // for (iBillboard = 0; iBillboard < locations.length; iBillboard++) {
-    //     if (locations[iBillboard].code == isi.value) {
-    //         locations.splice(iBillboard, 1)
-    //     }
-    // }
+    var n = r.parentNode.parentNode.rowIndex;
+    var cellCode = billboardTable.rows[n].cells[1].innerText.substring(0, 4);
+    for (i = 0; i < locations.length; i++) {
+        if (locations[i].code == cellCode) {
+            locations.splice(i, 1);
+            console.log(locations);
+        }
+    }
+    billboardTable.deleteRow(n);
 }

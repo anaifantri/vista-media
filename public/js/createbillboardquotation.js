@@ -776,38 +776,59 @@ function getCity(sel) {
         bodyTopBillboard.innerHTML = 'Bersama ini kami menyampaikan surat penawaran penggunaan media reklame ' + billboardCategory.value + ' area ' + area + ' dengan spesifikasi sebagai berikut :';
     }
 
-    if (billboardCategory.value == "Billboard") {
-        if (sel.options[sel.selectedIndex].text == 'Denpasar' || sel.options[sel.selectedIndex].text == 'Badung') {
-            cbBillboardNote08.setAttribute('checked', 'checked');
-        } else {
-            cbBillboardNote08.removeAttribute('checked');
-        }
+    if (sel.options[sel.selectedIndex].text == 'Denpasar' || sel.options[sel.selectedIndex].text == 'Badung') {
+        cbBillboardNote08.setAttribute('checked', 'checked');
     } else {
         cbBillboardNote08.removeAttribute('checked');
     }
+
     dataLocation = [];
     let n = 0;
     for (i = 0; i < dataBillboard.length; i++) {
-        if (dataBillboard[i].area_id == areaId.value && dataBillboard[i].city_id == cityId.value && dataBillboard[i].billboard_category_id == billboardCategoryId.value) {
-            dataLocation[n] = {
-                id: dataBillboard[i].id,
-                area: dataBillboard[i].area_id,
-                city: dataBillboard[i].city_id,
-                code: dataBillboard[i].code,
-                address: dataBillboard[i].address,
-                category: dataBillboard[i].billboard_category_id,
-                lighting: dataBillboard[i].lighting,
-                photo: dataBillboard[i].photo,
-                lat: dataBillboard[i].lat,
-                lng: dataBillboard[i].lng,
-                road: dataBillboard[i].road_segment,
-                distance: dataBillboard[i].max_distance,
-                speed: dataBillboard[i].speed_average,
-                sector: dataBillboard[i].sector,
-                size: dataBillboard[i].size_id,
-                price: dataBillboard[i].price
-            };
-            n++;
+        if (cityId.value == 'Pilih Kota') {
+            if (dataBillboard[i].area_id == areaId.value && dataBillboard[i].billboard_category_id == billboardCategoryId.value) {
+                dataLocation[n] = {
+                    id: dataBillboard[i].id,
+                    area: dataBillboard[i].area_id,
+                    city: dataBillboard[i].city_id,
+                    code: dataBillboard[i].code,
+                    address: dataBillboard[i].address,
+                    category: dataBillboard[i].billboard_category_id,
+                    lighting: dataBillboard[i].lighting,
+                    photo: dataBillboard[i].photo,
+                    lat: dataBillboard[i].lat,
+                    lng: dataBillboard[i].lng,
+                    road: dataBillboard[i].road_segment,
+                    distance: dataBillboard[i].max_distance,
+                    speed: dataBillboard[i].speed_average,
+                    sector: dataBillboard[i].sector,
+                    size: dataBillboard[i].size_id,
+                    price: dataBillboard[i].price
+                };
+                n++;
+            }
+        } else {
+            if (dataBillboard[i].area_id == areaId.value && dataBillboard[i].city_id == cityId.value && dataBillboard[i].billboard_category_id == billboardCategoryId.value) {
+                dataLocation[n] = {
+                    id: dataBillboard[i].id,
+                    area: dataBillboard[i].area_id,
+                    city: dataBillboard[i].city_id,
+                    code: dataBillboard[i].code,
+                    address: dataBillboard[i].address,
+                    category: dataBillboard[i].billboard_category_id,
+                    lighting: dataBillboard[i].lighting,
+                    photo: dataBillboard[i].photo,
+                    lat: dataBillboard[i].lat,
+                    lng: dataBillboard[i].lng,
+                    road: dataBillboard[i].road_segment,
+                    distance: dataBillboard[i].max_distance,
+                    speed: dataBillboard[i].speed_average,
+                    sector: dataBillboard[i].sector,
+                    size: dataBillboard[i].size_id,
+                    price: dataBillboard[i].price
+                };
+                n++;
+            }
         }
     }
 }
@@ -1039,7 +1060,13 @@ btnPreview.addEventListener('click', function () {
             cell[3].innerHTML = "BB";
             cell[3].classList.add('td-table-preview');
             cell[4] = newRow[iBillboard].insertCell(4);
-            cell[4].innerHTML = locations[iBillboard].lighting;
+            if (locations[iBillboard].lighting == 'Frontlight') {
+                cell[4].innerHTML = 'FL';
+            } else if (locations[iBillboard].lighting == 'Backlight') {
+                cell[4].innerHTML = 'BL';
+            } else if (locations[iBillboard].lighting == 'Nonlight') {
+                cell[4].innerHTML = 'NL';
+            }
             cell[4].classList.add('td-table-preview');
             cell[5] = newRow[iBillboard].insertCell(5);
             cell[5].innerHTML = locations[iBillboard].size;
@@ -1320,7 +1347,19 @@ btnAdd.addEventListener('click', function () {
                 cell[2].classList.add('text-teal-700');
                 cell[2].classList.add('border');
                 cell[3] = newRow[row].insertCell(3);
-                cell[3].innerHTML = "BB";
+                for (i = 0; i < dataBillboardCategory.length; i++) {
+                    if (dataLocation[iBillboard].category == dataBillboardCategory[i].id) {
+                        if (dataBillboardCategory[i].name == 'Billboard') {
+                            cell[3].innerHTML = "BB";
+                        } else if (dataBillboardCategory[i].name == 'Bando') {
+                            cell[3].innerHTML = "BD";
+                        } else if (dataBillboardCategory[i].name == 'Baliho') {
+                            cell[3].innerHTML = "BLH";
+                        } else if (dataBillboardCategory[i].name == 'Midiboard') {
+                            cell[3].innerHTML = "MB";
+                        }
+                    }
+                }
                 cell[3].classList.add('td-table');
                 cell[4] = newRow[row].insertCell(4);
                 if (dataLocation[iBillboard].lighting == 'Frontlight') {
@@ -1374,7 +1413,19 @@ btnAdd.addEventListener('click', function () {
                 cell[2].classList.add('text-teal-700');
                 cell[2].classList.add('border');
                 cell[3] = newRow[row].insertCell(3);
-                cell[3].innerHTML = "BB";
+                for (i = 0; i < dataBillboardCategory.length; i++) {
+                    if (dataLocation[iBillboard].category == dataBillboardCategory[i].id) {
+                        if (dataBillboardCategory[i].name == 'Billboard') {
+                            cell[3].innerHTML = "BB";
+                        } else if (dataBillboardCategory[i].name == 'Bando') {
+                            cell[3].innerHTML = "BD";
+                        } else if (dataBillboardCategory[i].name == 'Baliho') {
+                            cell[3].innerHTML = "BLH";
+                        } else if (dataBillboardCategory[i].name == 'Midiboard') {
+                            cell[3].innerHTML = "MB";
+                        }
+                    }
+                }
                 cell[3].classList.add('td-table');
                 cell[4] = newRow[row].insertCell(4);
                 if (dataLocation[iBillboard].lighting == 'Frontlight') {
@@ -1433,7 +1484,19 @@ btnAdd.addEventListener('click', function () {
                 cell[2].classList.add('text-teal-700');
                 cell[2].classList.add('border');
                 cell[3] = newRow[row].insertCell(3);
-                cell[3].innerHTML = "BB";
+                for (i = 0; i < dataBillboardCategory.length; i++) {
+                    if (dataLocation[iBillboard].category == dataBillboardCategory[i].id) {
+                        if (dataBillboardCategory[i].name == 'Billboard') {
+                            cell[3].innerHTML = "BB";
+                        } else if (dataBillboardCategory[i].name == 'Bando') {
+                            cell[3].innerHTML = "BD";
+                        } else if (dataBillboardCategory[i].name == 'Baliho') {
+                            cell[3].innerHTML = "BLH";
+                        } else if (dataBillboardCategory[i].name == 'Midiboard') {
+                            cell[3].innerHTML = "MB";
+                        }
+                    }
+                }
                 cell[3].classList.add('td-table');
                 cell[4] = newRow[row].insertCell(4);
                 if (dataLocation[iBillboard].lighting == 'Frontlight') {
@@ -1492,7 +1555,19 @@ btnAdd.addEventListener('click', function () {
                 cell[2].classList.add('text-teal-700');
                 cell[2].classList.add('border');
                 cell[3] = newRow[row].insertCell(3);
-                cell[3].innerHTML = "BB";
+                for (i = 0; i < dataBillboardCategory.length; i++) {
+                    if (dataLocation[iBillboard].category == dataBillboardCategory[i].id) {
+                        if (dataBillboardCategory[i].name == 'Billboard') {
+                            cell[3].innerHTML = "BB";
+                        } else if (dataBillboardCategory[i].name == 'Bando') {
+                            cell[3].innerHTML = "BD";
+                        } else if (dataBillboardCategory[i].name == 'Baliho') {
+                            cell[3].innerHTML = "BLH";
+                        } else if (dataBillboardCategory[i].name == 'Midiboard') {
+                            cell[3].innerHTML = "MB";
+                        }
+                    }
+                }
                 cell[3].classList.add('td-table');
                 cell[4] = newRow[row].insertCell(4);
                 if (dataLocation[iBillboard].lighting == 'Frontlight') {
@@ -1593,7 +1668,7 @@ getSelected.addEventListener('click', function () {
                 lat: dataLocation[iBillboard].lat,
                 lng: dataLocation[iBillboard].lng,
                 road: dataLocation[iBillboard].road,
-                distance: dataLocation[iBillboard].max_distance,
+                distance: dataLocation[iBillboard].distance,
                 speed: dataLocation[iBillboard].speed,
                 sector: dataLocation[iBillboard].sector,
                 size: getSize,
@@ -1652,7 +1727,13 @@ getSelected.addEventListener('click', function () {
         cell[3].innerHTML = "BB";
         cell[3].classList.add('td-table');
         cell[4] = newRow[iBillboard].insertCell(4);
-        cell[4].innerHTML = locations[iBillboard].lighting;
+        if (locations[iBillboard].lighting == 'Frontlight') {
+            cell[4].innerHTML = 'FL';
+        } else if (locations[iBillboard].lighting == 'Backlight') {
+            cell[4].innerHTML = 'BL';
+        } else if (locations[iBillboard].lighting == 'Nonlight') {
+            cell[4].innerHTML = 'NL';
+        }
         cell[4].classList.add('td-table');
         cell[5] = newRow[iBillboard].insertCell(5);
         cell[5].innerHTML = locations[iBillboard].size;

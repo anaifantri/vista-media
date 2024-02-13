@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('billboard_quote_revisions', function (Blueprint $table) {
+        Schema::create('billboard_quot_revisions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('billboard_quotation_id')->constrained();
@@ -23,8 +23,6 @@ return new class extends Migration
             $table->json('note');
             $table->string('body_end');
             $table->string('price_type');
-            $table->string('price_periode');
-            $table->string('status');
             $table->date('send_at')->nullable();
             $table->timestamps();
         });
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('billboard_quote_revisions');
+        Schema::dropIfExists('billboard_quot_revisions');
     }
 };

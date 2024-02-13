@@ -3,11 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\BillboardQuotation;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\View\View;
-
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Client;
@@ -15,7 +10,15 @@ use App\Models\Contact;
 use App\Models\Billboard;
 use App\Models\Company;
 use App\Models\BillboardCategory;
+use App\Models\BillboardQuotRevision;
+use App\Models\BillboardQuotStatus;
 use App\Models\BillboardPhoto;
+
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
+
 use Illuminate\Support\Facades\Storage;
 
 class BillboardQuotationController extends Controller
@@ -25,9 +28,13 @@ class BillboardQuotationController extends Controller
      */
     public function index(): Response
     {
+        $billboard_quot_statuses = BillboardQuotation::with('billboard_quot_statuses');
+        // dd($billboard_quot_statuses);
+        
         return response()->view('dashboard.marketing.billboard-quotations.index', [
             'billboard_quotations' => BillboardQuotation::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
-            'title' => 'Daftar Penawaran Billboard'
+            'title' => 'Daftar Penawaran Billboard',
+            compact('billboard_quot_statuses')
         ]);
     }
 
@@ -40,6 +47,8 @@ class BillboardQuotationController extends Controller
     public function preview(string $id): View
     {
         $billboard_quotations = BillboardQuotation::with('billboard');
+        $billboard_quot_revisions = BillboardQuotation::with('billboard_quot_revisions');
+        $billboard_quot_statuses = BillboardQuotation::with('billboard_quot_statuses');
         $clients = Client::with('billboard_quotations')->get();
         $contacts = Contact::with('billboard_quotations')->get();
 
@@ -49,7 +58,7 @@ class BillboardQuotationController extends Controller
             'billboard_photos'=>BillboardPhoto::all(),
             'billboard_categories'=>BillboardCategory::all(),
             'companies'=>Company::all(),
-            compact('billboard_quotations', 'clients', 'contacts')
+            compact('billboard_quotations', 'billboard_quot_revisions', 'billboard_quot_statuses', 'clients', 'contacts')
         ]);
     }
 
@@ -96,7 +105,6 @@ class BillboardQuotationController extends Controller
             $validateData['user_id'] = auth()->user()->id;
             $validateData['company_id'] = "1";
             $validateData['price_periode'] = "Test";
-            $validateData['status'] = "Created";
 
             
     
@@ -109,6 +117,12 @@ class BillboardQuotationController extends Controller
                     $quotId = $quotation->id;
                 }
             }
+
+            $validateData['billboard_quotation_id'] = $quotId;
+            $validateData['status'] = "Tersimpan";
+            $validateData['description'] = "Data telah tersimpan";
+            
+            BillboardQuotStatus::create($validateData);
             
             return redirect('/dashboard/marketing/billboard-quotations/preview/'.$quotId)->with('success','Surat penawaran dengan nomor '. $request->number . ' berhasil ditambahkan');
         } else {
@@ -121,16 +135,22 @@ class BillboardQuotationController extends Controller
      */
     public function show(BillboardQuotation $billboardQuotation): Response
     {
+        // dd($billboardQuotation->id);
+
         $billboard_quotations = BillboardQuotation::with('billboard');
+        $billboard_quot_revisions = BillboardQuotation::with('billboard_quot_revisions');
+        $billboard_quot_statuses = BillboardQuotation::with('billboard_quot_statuses');
         $clients = Client::with('billboard_quotations')->get();
         $contacts = Contact::with('billboard_quotations')->get();
 
+        // dd($billboardQuotation->id);
+
         return response()->view('dashboard.marketing.billboard-quotations.show', [
             'billboard_quotation' => $billboardQuotation,
-            'title' => 'Detail Billboard',
+            'title' => 'Detail Penawaran Billboard',
             'billboard_photos'=>BillboardPhoto::all(),
             'companies'=>Company::all(),
-            compact('billboard_quotations', 'clients', 'contacts')
+            compact('billboard_quotations', 'billboard_quot_revisions', 'billboard_quot_statuses', 'clients', 'contacts')
         ]);
     }
 

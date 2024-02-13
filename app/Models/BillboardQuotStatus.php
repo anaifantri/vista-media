@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\BillboardQuotation;
+use App\Models\BillboardQuotRevision;
 
-class BillboardQuoteRevision extends Model
+class BillboardQuotStatus extends Model
 {
     protected $guarded = ['id'];
 
@@ -16,5 +17,9 @@ class BillboardQuoteRevision extends Model
 
     public function billboard_quotation(){
         return $this->belongsTo(BillboardQuotation::class);
+    }
+
+    public function billboard_quot_revision(){
+        return $this->belongsTo(BillboardQuotRevision::class);
     }
 }

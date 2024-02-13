@@ -25,8 +25,6 @@ return new class extends Migration
             $table->json('note');
             $table->string('body_end');
             $table->string('price_type');
-            $table->string('price_periode');
-            $table->string('status');
             $table->date('send_at')->nullable();
             $table->timestamps();
         });

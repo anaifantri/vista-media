@@ -1,10 +1,10 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Show Quotatin start -->
+    <!-- Show Quote Revision start -->
     <div class="flex justify-center">
         <div class="mt-10">
-            <!-- Title Show Quotatin start -->
+            <!-- Title Show Quote Revision start -->
             <div class="flex border-b">
                 <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary mb-2" title="Create PDF"
                     type="button">
@@ -34,7 +34,7 @@
                     </div>
                 @endif
             </div>
-            <!-- Title Show Quotatin end -->
+            <!-- Title Show Quote Revision end -->
             <div>
                 <div id="pdfPreview" class="w-[780px] max-h-max">
                     <!-- Header start -->
@@ -56,9 +56,9 @@
                                         <label class="ml-1 text-sm text-black flex w-20">Nomor</label>
                                         <label class="ml-1 text-sm text-black flex">:</label>
                                         <label id="quotationNumberBBPreview"
-                                            class="ml-1 text-sm text-black flex">{{ $billboard_quotation->number }}</label>
+                                            class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->number }}</label>
                                         <?php
-                                        $number = Str::substr($billboard_quotation->number, 0, 4);
+                                        $number = Str::substr($billboard_quot_revision->number, 0, 4);
                                         $getCode = '';
                                         ?>
                                         @foreach ($billboard_categories as $category)
@@ -68,7 +68,7 @@
                                                 ?>
                                             @endif
                                         @endforeach
-                                        @foreach (json_decode($billboard_quotation->billboards) as $billboard)
+                                        @foreach (json_decode($billboard_quot_revision->billboards) as $billboard)
                                             @foreach ($billboard as $location)
                                                 <?php
                                                 if ($getCode == '') {
@@ -87,13 +87,13 @@
                                         <label class="ml-1 text-sm text-black flex w-20">Lampiran</label>
                                         <label class="ml-1 text-sm text-black flex">:</label>
                                         <label id="attachmentBBPreview"
-                                            class="ml-1 text-sm text-black flex">{{ $billboard_quotation->attachment }}</label>
+                                            class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->attachment }}</label>
                                     </div>
                                     <div class="flex">
                                         <label class="ml-1 text-sm text-black flex w-20">Perihal</label>
                                         <label class="ml-1 text-sm text-black flex">:</label>
                                         <label id="subjectBBPreview"
-                                            class="ml-1 text-sm text-black flex">{{ $billboard_quotation->subject }}</label>
+                                            class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->subject }}</label>
                                     </div>
                                     <div class="flex mt-4">
                                         <div>
@@ -124,7 +124,7 @@
                                     </div>
                                     <div class="flex mt-2">
                                         <label id="letterBodyBBPreview"
-                                            class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quotation->body_top }}</label>
+                                            class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quot_revision->body_top }}</label>
                                     </div>
                                 </div>
                             </div>
@@ -140,41 +140,41 @@
                                                     <th class="text-[0.7rem] text-teal-700 border w-16" rowspan="2">
                                                         Kode
                                                     </th>
-                                                    <th class="text-[0.7rem] text-teal-700 border w-48" rowspan="2">
+                                                    <th class="text-[0.7rem] text-teal-700 border" rowspan="2">
                                                         Lokasi
                                                     </th>
-                                                    <th class="text-[0.7rem] text-teal-700 border w-28" colspan="3">
+                                                    <th class="text-[0.7rem] text-teal-700 border w-[116px]" colspan="3">
                                                         Deskripsi
                                                     </th>
-                                                    <th class="text-[0.7rem] text-teal-700 border w-20" colspan="5">
+                                                    <th class="text-[0.7rem] text-teal-700 border" colspan="5">
                                                         Harga
                                                     </th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="text-[0.7rem] text-teal-700 border w-6">Jenis</th>
-                                                    <th class="text-[0.7rem] text-teal-700 border w-6">BL/FL</th>
-                                                    <th class="text-[0.7rem] text-teal-700 border w-16">Size - V/H
+                                                    <th class="text-[0.7rem] text-teal-700 border w-max">Jenis</th>
+                                                    <th class="text-[0.7rem] text-teal-700 border w-max">BL/FL</th>
+                                                    <th class="text-[0.7rem] text-teal-700 border w-20">Size - V/H
                                                     </th>
                                                     <?php
-                                                    $objLocations = json_decode($billboard_quotation->billboards);
+                                                    $objLocations = json_decode($billboard_quot_revision->billboards);
                                                     ?>
                                                     @if ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true)
-                                                        <th class="text-[0.7rem] text-teal-700 border w-20">
+                                                        <th class="text-[0.7rem] text-teal-700 border w-max">
                                                             {{ $objLocations->locations[0]->price->periodeMonth->periode }}
                                                         </th>
                                                     @endif
                                                     @if ($objLocations->locations[0]->price->periodeQuarter->cbPeriode == true)
-                                                        <th class="text-[0.7rem] text-teal-700 border w-20">
+                                                        <th class="text-[0.7rem] text-teal-700 border w-max">
                                                             {{ $objLocations->locations[0]->price->periodeQuarter->periode }}
                                                         </th>
                                                     @endif
                                                     @if ($objLocations->locations[0]->price->periodeHalf->cbPeriode == true)
-                                                        <th class="text-[0.7rem] text-teal-700 border w-20">
+                                                        <th class="text-[0.7rem] text-teal-700 border w-max">
                                                             {{ $objLocations->locations[0]->price->periodeHalf->periode }}
                                                         </th>
                                                     @endif
                                                     @if ($objLocations->locations[0]->price->periodeYear->cbPeriode == true)
-                                                        <th class="text-[0.7rem] text-teal-700 border w-20">
+                                                        <th class="text-[0.7rem] text-teal-700 border w-max">
                                                             {{ $objLocations->locations[0]->price->periodeYear->periode }}
                                                         </th>
                                                     @endif
@@ -182,7 +182,7 @@
                                             </thead>
                                             <tbody id="previewBBTBody">
                                                 <?php
-                                                $objLocations = json_decode($billboard_quotation->billboards);
+                                                $objLocations = json_decode($billboard_quot_revision->billboards);
                                                 $dataLocations = $objLocations->locations;
                                                 ?>
                                                 @foreach ($dataLocations as $location)
@@ -259,7 +259,7 @@
                                         <label class="ml-1 text-[0.7rem] text-black flex">:</label>
                                     </div>
                                     <?php
-                                    $objNotes = json_decode($billboard_quotation->note);
+                                    $objNotes = json_decode($billboard_quot_revision->note);
                                     ?>
                                     @foreach ($objNotes->notes as $note)
                                         @if ($note->cbNote == 'true')
@@ -281,7 +281,7 @@
                             <div class="flex justify-center">
                                 <div class="flex mt-2 w-[650px]">
                                     <label
-                                        class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quotation->body_end }}</label>
+                                        class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quot_revision->body_end }}</label>
                                 </div>
                             </div>
                             <div class="flex justify-center">
@@ -290,7 +290,7 @@
                                 ?>
                                 <div class="w-[650px] mt-2">
                                     <label class="ml-1 text-sm text-black flex">Denpasar,
-                                        {{ date('d F Y', strtotime($billboard_quotation->created_at)) }}</label>
+                                        {{ date('d F Y', strtotime($billboard_quot_revision->created_at)) }}</label>
                                 </div>
                             </div>
                             <div class="flex justify-center">
@@ -301,13 +301,13 @@
                                         oleh
                                         :</label>
                                     <label id="salesUser"
-                                        class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_quotation->user->name }}</label>
+                                        class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_quot_revision->user->name }}</label>
                                     <label id="salesPotition"
-                                        class="ml-1 text-sm text-black flex">{{ $billboard_quotation->user->level }}</label>
+                                        class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->user->level }}</label>
                                 </div>
                                 <div class="w-[400px]">
                                     <div>
-                                        {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/dashboard/marketing/billboard-quotations/' . $billboard_quotation->id) }}
+                                        {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/dashboard/marketing/billboard-quotations/' . $billboard_quot_revision->id) }}
                                     </div>
                                 </div>
                             </div>
@@ -340,7 +340,7 @@
                     </div>
                     <!-- Footer end -->
                     <?php
-                    $objLocations = json_decode($billboard_quotation->billboards);
+                    $objLocations = json_decode($billboard_quot_revision->billboards);
                     ?>
                     @foreach ($objLocations->locations as $location)
                         <div id="preview" name="preview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
@@ -515,7 +515,7 @@
         </div>
     </div>
     </div>
-    <!-- Show Quotatin end -->
+    <!-- Show Quote Revision end -->
 
     <!-- Script start -->
     <script src="/js/html2canvas.min.js"></script>

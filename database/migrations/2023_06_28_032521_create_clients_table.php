@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('client_category_id')->constrained();
             $table->string('name')->unique();
             $table->string('company')->unique();
+            $table->string('npwp_number')->nullable()->unique();
+            $table->string('npwp_image')->nullable();
             $table->text('address');
             $table->string('email')->nullable()->unique();
             $table->string('phone')->nullable()->unique();

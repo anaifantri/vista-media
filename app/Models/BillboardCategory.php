@@ -14,9 +14,9 @@ class BillboardCategory extends Model
         return $this->hasMany(Billboard::class, 'billboard_category_id', 'id');
     }
 
-    public function billboard_categories(){
-        return $this->hasMany(BillboardCategory::class, 'billboard_category_id', 'id');
-    }
+    // public function billboard_categories(){
+    //     return $this->hasMany(BillboardCategory::class, 'billboard_category_id', 'id');
+    // }
 
     public function user(){
         return $this->belongsTo(User::class);

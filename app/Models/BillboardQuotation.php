@@ -9,7 +9,7 @@ use App\Models\Billboard;
 use App\Models\Company;
 use App\Models\Client;
 use App\Models\Contact;
-use App\Models\BillboardQuoteRevision;
+use App\Models\BillboardQuotRevision;
 use Kyslik\ColumnSortable\Sortable;
 
 class BillboardQuotation extends Model
@@ -56,8 +56,12 @@ class BillboardQuotation extends Model
         return $this->belongsTo(Billboard::class);
     }
 
-    public function billboard_quote_revision(){
-        return $this->hasMany(BillboardQuoteRevision::class, 'billboard_quotation_id', 'id');
+    public function billboard_quot_revisions(){
+        return $this->hasMany(BillboardQuotRevision::class, 'billboard_quotation_id', 'id');
+    }
+
+    public function billboard_quot_statuses(){
+        return $this->hasMany(BillboardQuotStatus::class, 'billboard_quotation_id', 'id');
     }
 
     public $sortable = ['number'];

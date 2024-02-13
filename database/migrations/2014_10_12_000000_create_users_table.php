@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('position');
             $table->string('gender');
             $table->string('level');
+            $table->boolean('online_status');
+            $table->boolean('active_status');
             $table->rememberToken();
             $table->timestamps();
         });

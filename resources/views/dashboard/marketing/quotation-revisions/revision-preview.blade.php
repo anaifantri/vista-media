@@ -3,7 +3,7 @@
     <div>
         <div class="flex mt-10">
             <div class="flex w-48">
-                <button id="btnSavePrint" class="flex justify-center items-center mx-1 btn-success" title="Save & Print"
+                <button id="btnSave" class="flex justify-center items-center mx-1 btn-success" title="Save"
                     type="submit">
                     <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" viewBox="0 0 24 24">
@@ -87,16 +87,16 @@
                     <!-- Billboard Location Table Preview start -->
                     <div id="" class="ml-2">
                         <div class="flex justify-center">
-                            <div id="tableWidth" class="w-[700px]">
+                            <div id="previewTableWidth" class="w-[650px]">
                                 <table id="" class="table-fix mt-2 w-full">
                                     <thead>
                                         <tr>
-                                            <th class="text-[0.7rem] text-teal-700 border w-max" rowspan="2">No</th>
-                                            <th class="text-[0.7rem] text-teal-700 border w-max" rowspan="2">Kode
+                                            <th class="text-[0.7rem] text-teal-700 border w-6" rowspan="2">No</th>
+                                            <th class="text-[0.7rem] text-teal-700 border w-16" rowspan="2">Kode
                                             </th>
                                             <th class="text-[0.7rem] text-teal-700 border" rowspan="2">Lokasi
                                             </th>
-                                            <th class="text-[0.7rem] text-teal-700 border w-max" colspan="3">
+                                            <th class="text-[0.7rem] text-teal-700 border w-[116px]" colspan="3">
                                                 Deskripsi
                                             </th>
                                             <th id="previewTHPrice" class="text-[0.7rem] text-teal-700 border w-max">
@@ -104,9 +104,9 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th class="text-[0.7rem] text-teal-700 border w-max">Jenis</th>
-                                            <th class="text-[0.7rem] text-teal-700 border w-max">BL/FL</th>
-                                            <th class="text-[0.7rem] text-teal-700 border w-max">Size - V/H</th>
+                                            <th class="text-[0.7rem] text-teal-700 border w-6">Jenis</th>
+                                            <th class="text-[0.7rem] text-teal-700 border w-6">BL/FL</th>
+                                            <th class="text-[0.7rem] text-teal-700 border w-[68px]">Size - V/H</th>
                                             <th id="previewBBthAMonth" class="text-[0.7rem] text-teal-700 border w-max">
                                             </th>
                                             <th id="previewBBthQuarterYear"

@@ -64,6 +64,12 @@ class User extends Authenticatable
     public function billboard_quotations(){
         return $this->hasMany(BillboardQuotation::class, 'user_id', 'id');
     }
+    public function billboard_quot_revisions(){
+        return $this->hasMany(BillboardQuotRevision::class, 'user_id', 'id');
+    }
+    public function billboard_quot_statuses(){
+        return $this->hasMany(BillboardQuotStatus::class, 'user_id', 'id');
+    }
     public function billboard_photos(){
         return $this->hasMany(BillboardPhoto::class, 'user_id', 'id');
     }

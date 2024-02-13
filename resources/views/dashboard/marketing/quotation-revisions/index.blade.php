@@ -5,7 +5,7 @@
         <div class="flex justify-center w-full">
             <div class="w-[1100px] p-2">
                 <div class="flex">
-                    <h1 class="index-h1"> Daftar Surat Penawaran</h1>
+                    <h1 class="index-h1"> Daftar Revisi Surat Penawaran</h1>
                     <div class="flex border-b">
                         <a href="/dashboard/marketing/billboard-quotations/create" class="index-link btn-primary">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
@@ -14,7 +14,7 @@
                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                     fill-rule="nonzero" />
                             </svg>
-                            <span class="mx-1">Buat Penawaran</span>
+                            <span class="mx-1">Revisi Penawaran</span>
                         </a>
                     </div>
                 </div>
@@ -54,8 +54,6 @@
                                 <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                             </svg>
                         </th>
-                        <th class="index-td text-sm w-32">Klien</th>
-                        <th class="index-td text-sm w-32">Kontak Person</th>
                         <th class="index-td text-sm w-56">Lokasi</th>
                         <th class="index-td text-sm w-20">Status</th>
                         <th class="index-td text-sm w-24">Tgl. Dibuat</th>
@@ -65,52 +63,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($billboard_quotations as $billboard_quotation)
+                    @foreach ($billboard_quote_revisions as $billboard_quote_revision)
                         <tr class="index-tr">
                             <td class="index-td text-sm w-8 text-center">{{ $loop->iteration }}</td>
-                            <td class="index-td text-sm w-40">{{ $billboard_quotation->number }}</td>
-                            <td class="index-td text-sm w-32">{{ $billboard_quotation->client->name }}</td>
-                            <td class="index-td text-sm w-32">{{ $billboard_quotation->contact->name }}</td>
+                            <td class="index-td text-sm w-40">{{ $billboard_quote_revision->number }}</td>
                             <td class="index-td text-sm w-56">
-                                <?php
-                                $n = 0;
-                                ?>
-                                @foreach (json_decode($billboard_quotation->billboards) as $billboard)
+                                @foreach (json_decode($billboard_quote_revision->billboards) as $billboard)
                                     @foreach ($billboard as $location)
-                                        @if ($n != count($billboard) - 1)
-                                            {{ $location->code }},
-                                        @else
-                                            {{ $location->code }}
-                                        @endif
-                                        <?php
-                                        $n++;
-                                        ?>
+                                        {{ $location->code }},
                                     @endforeach
                                 @endforeach
                             </td>
-                            <td class="index-td text-sm w-20">
-                                @if ($billboard_quotation->billboard_quot_statuses)
-                                    @foreach ($billboard_quotation->billboard_quot_statuses as $status)
-                                        @if ($billboard_quotation->id == $status->billboard_quotation_id)
-                                            <?php
-                                            $getStatus = $status->status;
-                                            ?>
-                                            {{ $getStatus }}
-                                        @endif
-                                    @endforeach
-                                @endif
-                            </td>
+                            <td class="index-td text-sm w-20">{{ $billboard_quote_revision->status }}</td>
                             <td class="index-td text-sm w-24">
-                                {{ date('d-M-Y', strtotime($billboard_quotation->created_at)) }}</td>
-                            @if ($billboard_quotation->send_at)
+                                {{ date('d-M-Y', strtotime($billboard_quote_revision->created_at)) }}</td>
+                            @if ($billboard_quote_revision->send_at)
                                 <td class="index-td text-sm w-24">
-                                    {{ date('d-M-Y', strtotime($billboard_quotation->send_at)) }}</td>
+                                    {{ date('d-M-Y', strtotime($billboard_quote_revision->send_at)) }}</td>
                             @else
                                 <td class="index-td text-sm w-24">-</td>
                             @endif
-                            <td class="index-td text-sm w-28">{{ $billboard_quotation->user->name }}</td>
+                            <td class="index-td text-sm w-28">{{ $billboard_quote_revision->user->name }}</td>
                             <td class="index-td text-sm w-32">
-                                <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}"
+                                <a href="/dashboard/marketing/quotation-revisions/{{ $billboard_quote_revision->id }}"
                                     class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -120,7 +95,7 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}/edit"
+                                <a href="/dashboard/marketing/quotation-revisions/{{ $billboard_quote_revision->id }}/edit"
                                     class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -130,13 +105,13 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <form action="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}"
+                                <form action="/dashboard/marketing/quotation-revisions/{{ $billboard_quote_revision->id }}"
                                     method="post" class="flex m-auto">
                                     @method('delete')
                                     @csrf
                                     <button
                                         class="index-link text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md mr-1"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus quotation {{ $billboard_quotation->number }} ?')">
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus quotation {{ $billboard_quote_revision->number }} ?')">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -153,7 +128,7 @@
             </table>
         </div>
         <div class="flex justify-center text-teal-900">
-            {{ $billboard_quotations->links() }}
+            {{ $billboard_quote_revisions->links() }}
         </div>
     </div>
 @endsection

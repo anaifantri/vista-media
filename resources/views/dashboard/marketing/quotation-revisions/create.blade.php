@@ -10,20 +10,28 @@
             </div>
             <!-- Title Show Quotatin end -->
             <form id="formCreate" name="formCreate" class="flex justify-center"
-                action="/dashboard/marketing/quotation-revisions" method="post" enctype="multipart/form-data">
+                action="/dashboard/marketing/billboard-quot-revisions" method="post" enctype="multipart/form-data">
                 @csrf
+                <input class="@error('billboard_quotation_id') is-invalid @enderror" id="billboard_quotation_id"
+                    name="billboard_quotation_id" type="text" value="{{ $billboard_quotation->id }}" hidden>
+                <input class="@error('number') is-invalid @enderror" id="number" name="number" type="text"
+                    value="{{ old('number') }}" hidden>
+                @if (old('billboards'))
+                    <input id="billboards" name="billboards" type="text" value="{{ old('billboards') }}" hidden>
+                @else
+                    <input id="billboards" name="billboards" type="text" value="{{ $billboard_quotation->billboards }}"
+                        hidden>
+                @endif
                 <input class="@error('attachment') is-invalid @enderror" id="attachment" name="attachment" type="text"
-                    value="{{ old('attachment') }}" hidden>
+                    value="{{ $billboard_quotation->attachment }}" hidden>
                 <input class="@error('subject') is-invalid @enderror" id="subject" name="subject" type="text"
-                    value="{{ old('subject') }}" hidden>
+                    value="{{ $billboard_quotation->subject }}" hidden>
                 <input class="@error('body_top') is-invalid @enderror" id="body_top" name="body_top" type="text"
-                    value="{{ old('body_top') }}" hidden>
+                    value="{{ $billboard_quotation->body_top }}" hidden>
                 <input class="@error('note') is-invalid @enderror" id="note" name="note" type="text"
                     value="{{ old('note') }}" hidden>
                 <input class="@error('body_end') is-invalid @enderror" id="body_end" name="body_end" type="text"
-                    value="{{ old('body_end') }}" hidden>
-                <input class="@error('price_periode') is-invalid @enderror" id="price_periode" name="price_periode"
-                    type="text" value="{{ old('price_periode') }}" hidden>
+                    value="{{ $billboard_quotation->body_end }}" hidden>
                 <input class="@error('priceType') is-invalid @enderror" id="priceType" name="priceType" type="text"
                     value="{{ old('priceType') }}" hidden>
                 <div class="flex">
@@ -42,7 +50,6 @@
                                     <div class="mt-1">
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Nomor Penawaran
                                             Revisi</label>
-                                        <input id="number" name="number" type="text" hidden>
                                         <label id="revisionNumber" name="revisionNumber"
                                             class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1"></label>
                                     </div>
@@ -160,7 +167,7 @@
                                                     Harga
                                                     : </label>
                                                 <div class="flex justify-start">
-                                                    @if ($billboard_quotation->price_type == 'Harga Otomatis')
+                                                    @if ($billboard_quotation->price_type == 'Harga Otomatis' || old('price_type') == 'Harga Otomatis')
                                                         <input class="flex ml-2" type="radio" id="auto"
                                                             name="price_type" value="Harga Otomatis" checked><label
                                                             class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
@@ -169,7 +176,7 @@
                                                             name="price_type" value="Harga Manual"><label
                                                             class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
                                                             for="html" hidden>Manual</label>
-                                                    @elseif ($billboard_quotation->price_type == 'Harga Manual')
+                                                    @elseif ($billboard_quotation->price_type == 'Harga Manual' || old('price_type') == 'Harga Manual')
                                                         <input class="flex ml-2" type="radio" id="manual"
                                                             name="price_type" value="Harga Manual" checked><label
                                                             class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
@@ -180,25 +187,21 @@
                                                             class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
                                                             for="html" hidden>Otomatis</label>
                                                     @endif
-                                                    {{-- @if ($billboard_quotation->price_type == 'Harga Manual')
-                                                        <input class="flex ml-4" type="radio" id="manual"
-                                                            name="price_type" value="Harga Manual" checked><label
-                                                            class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
-                                                            for="html">Manual</label>
-                                                    @else
-                                                        <input class="flex ml-4" type="radio" id="manual"
-                                                            name="price_type" value="Harga Manual"><label
-                                                            class="ml-1 text-sm xl:text-md 2xl:text-lg text-teal-700 font-semibold"
-                                                            for="html">Manual</label>
-                                                    @endif --}}
                                                 </div>
                                             </div>
                                             <div id="priceTypeBillboard">
                                                 <div class="flex items-center w-[600px] mt-1">
-                                                    @if ($billboard_quotation->price_type == 'Harga Otomatis')
-                                                        @if ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true)
+                                                    @if ($billboard_quotation->price_type == 'Harga Otomatis' || old('price_type') == 'Harga Otomatis')
+                                                        @if (old('price_type'))
                                                             <input class="ml-2" type="checkbox" id="aMonth"
-                                                                name="aMonth" value="1" checked>
+                                                                name="aMonth" value="{{ old('aMonth') }}" checked>
+                                                            <input
+                                                                class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
+                                                                id="oneMonth" type="text"
+                                                                value="{{ old('oneMonth') }}" readonly>
+                                                        @elseif ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true)
+                                                            <input class="ml-2" type="checkbox" id="aMonth"
+                                                                name="aMonth" checked>
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="oneMonth" type="text"
@@ -206,16 +209,24 @@
                                                                 readonly>
                                                         @else
                                                             <input class="ml-2" type="checkbox" id="aMonth"
-                                                                name="aMonth" value="1">
+                                                                name="aMonth">
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="oneMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeMonth->periode }}"
                                                                 readonly>
                                                         @endif
-                                                        @if ($objLocations->locations[0]->price->periodeQuarter->cbPeriode == true)
+                                                        @if (old('price_type'))
                                                             <input class="ml-2" type="checkbox" id="quarterYear"
-                                                                name="quarterYear" value="1" checked>
+                                                                name="quarterYear" value="{{ old('quarterYear') }}"
+                                                                checked>
+                                                            <input
+                                                                class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
+                                                                id="threeMonth" type="text"
+                                                                value="{{ old(threeMonth) }}" readonly>
+                                                        @elseif ($objLocations->locations[0]->price->periodeQuarter->cbPeriode == true)
+                                                            <input class="ml-2" type="checkbox" id="quarterYear"
+                                                                name="quarterYear" checked>
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="threeMonth" type="text"
@@ -230,9 +241,16 @@
                                                                 value="{{ $objLocations->locations[0]->price->periodeQuarter->periode }}"
                                                                 readonly>
                                                         @endif
-                                                        @if ($objLocations->locations[0]->price->periodeHalf->cbPeriode == true)
+                                                        @if (old('price_type'))
                                                             <input class="ml-2" type="checkbox" id="halfYear"
-                                                                name="halfYear" value="1" checked>
+                                                                name="halfYear" value="{{ old('halfYear') }}" checked>
+                                                            <input
+                                                                class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
+                                                                id="sixMonth" type="text"
+                                                                value="{{ old('sixMonth') }}" readonly>
+                                                        @elseif ($objLocations->locations[0]->price->periodeHalf->cbPeriode == true)
+                                                            <input class="ml-2" type="checkbox" id="halfYear"
+                                                                name="halfYear" checked>
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="sixMonth" type="text"
@@ -240,16 +258,23 @@
                                                                 readonly>
                                                         @else
                                                             <input class="ml-2" type="checkbox" id="halfYear"
-                                                                name="halfYear" value="1">
+                                                                name="halfYear">
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="sixMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeHalf->periode }}"
                                                                 readonly>
                                                         @endif
-                                                        @if ($objLocations->locations[0]->price->periodeYear->cbPeriode == true)
+                                                        @if (old('price_type'))
                                                             <input class="ml-2" type="checkbox" id="aYear"
-                                                                name="aYear" value="1" checked>
+                                                                name="aYear" value="{{ old('aYear') }}" checked>
+                                                            <input
+                                                                class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
+                                                                id="twelveMonth" type="text"
+                                                                value="{{ old('twelveMonth') }}" readonly>
+                                                        @elseif ($objLocations->locations[0]->price->periodeYear->cbPeriode == true)
+                                                            <input class="ml-2" type="checkbox" id="aYear"
+                                                                name="aYear" checked>
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="twelveMonth" type="text"
@@ -257,69 +282,98 @@
                                                                 readonly>
                                                         @else
                                                             <input class="ml-2" type="checkbox" id="aYear"
-                                                                name="aYear" value="1">
+                                                                name="aYear">
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="twelveMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeYear->periode }}"
                                                                 readonly>
                                                         @endif
-                                                    @elseif ($billboard_quotation->price_type == 'Harga Manual')
-                                                        @if ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true)
+                                                    @elseif ($billboard_quotation->price_type == 'Harga Manual' || old('price_type') == 'Harga Manual')
+                                                        @if (old('price_type'))
                                                             <input class="ml-2" type="checkbox" id="aMonth"
-                                                                name="aMonth" value="1" checked>
+                                                                name="aMonth" value="{{ old('aMonth') }}" checked>
+                                                            <input
+                                                                class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
+                                                                id="oneMonth" type="text"
+                                                                value="{{ old('oneMonth') }}">
+                                                        @elseif ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true)
+                                                            <input class="ml-2" type="checkbox" id="aMonth"
+                                                                name="aMonth" checked>
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="oneMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeMonth->periode }}">
                                                         @else
                                                             <input class="ml-2" type="checkbox" id="aMonth"
-                                                                name="aMonth" value="1">
+                                                                name="aMonth">
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="oneMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeMonth->periode }}">
                                                         @endif
-                                                        @if ($objLocations->locations[0]->price->periodeQuarter->cbPeriode == true)
+                                                        @if (old('price_type'))
                                                             <input class="ml-2" type="checkbox" id="quarterYear"
-                                                                name="quarterYear" value="1" checked>
+                                                                name="quarterYear" value="{{ old('quarterYear') }}"
+                                                                checked>
+                                                            <input
+                                                                class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
+                                                                id="threeMonth" type="text"
+                                                                value="{{ old('threeMonth') }}">
+                                                        @elseif ($objLocations->locations[0]->price->periodeQuarter->cbPeriode == true)
+                                                            <input class="ml-2" type="checkbox" id="quarterYear"
+                                                                name="quarterYear" checked>
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="threeMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeQuarter->periode }}">
                                                         @else
                                                             <input class="ml-2" type="checkbox" id="quarterYear"
-                                                                name="quarterYear" value="1">
+                                                                name="quarterYear">
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="threeMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeQuarter->periode }}">
                                                         @endif
-                                                        @if ($objLocations->locations[0]->price->periodeHalf->cbPeriode == true)
+                                                        @if (old('price_type'))
                                                             <input class="ml-2" type="checkbox" id="halfYear"
-                                                                name="halfYear" value="1" checked>
+                                                                name="halfYear" value="{{ old('halfYear') }}" checked>
+                                                            <input
+                                                                class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
+                                                                id="sixMonth" type="text"
+                                                                value="{{ old('sixMonth') }}">
+                                                        @elseif ($objLocations->locations[0]->price->periodeHalf->cbPeriode == true)
+                                                            <input class="ml-2" type="checkbox" id="halfYear"
+                                                                name="halfYear" checked>
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="sixMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeHalf->periode }}">
                                                         @else
                                                             <input class="ml-2" type="checkbox" id="halfYear"
-                                                                name="halfYear" value="1">
+                                                                name="halfYear">
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="sixMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeHalf->periode }}">
                                                         @endif
-                                                        @if ($objLocations->locations[0]->price->periodeYear->cbPeriode == true)
+                                                        @if (old('price_type'))
                                                             <input class="ml-2" type="checkbox" id="aYear"
-                                                                name="aYear" value="1" checked>
+                                                                name="aYear" value="{{ old('aYear') }}" checked>
+                                                            <input
+                                                                class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
+                                                                id="twelveMonth" type="text"
+                                                                value="{{ old('twelveMonth') }}">
+                                                        @elseif ($objLocations->locations[0]->price->periodeYear->cbPeriode == true)
+                                                            <input class="ml-2" type="checkbox" id="aYear"
+                                                                name="aYear" checked>
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="twelveMonth" type="text"
                                                                 value="{{ $objLocations->locations[0]->price->periodeYear->periode }}">
                                                         @else
                                                             <input class="ml-2" type="checkbox" id="aYear"
-                                                                name="aYear" value="1">
+                                                                name="aYear">
                                                             <input
                                                                 class="ml-1 text-sm text-teal-700 flex w-20 rounded-md p-1 outline-teal-100"
                                                                 id="twelveMonth" type="text"
@@ -331,58 +385,37 @@
                                         </div>
                                     </div>
                                     <!-- Billboard Location Table Preview start -->
-                                    <input id="billboards" name="billboards" type="text"
-                                        value="{{ $billboard_quotation->billboards }}" hidden>
                                     <div id="" class="ml-2">
                                         <div class="flex justify-center">
-                                            <div id="tableWidth" class="w-[750px]">
+                                            <div id="tableWidth" class="w-[650px]">
                                                 <table id="billboardTable" class="table-fix mt-2 w-full">
                                                     <thead>
                                                         <tr>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-max"
+                                                            <th class="text-[0.7rem] text-teal-700 border w-6"
                                                                 rowspan="2">No
                                                             </th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-16"
+                                                            <th class="text-[0.7rem] text-teal-700 border w-[72px]"
                                                                 rowspan="2">
                                                                 Kode
                                                             </th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-52"
-                                                                rowspan="2">
+                                                            <th class="text-[0.7rem] text-teal-700 border" rowspan="2">
                                                                 Lokasi
                                                             </th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-max"
+                                                            <th class="text-[0.7rem] text-teal-700 border w-[120px]"
                                                                 colspan="3">
                                                                 Deskripsi
                                                             </th>
-                                                            <?php
-                                                            $colSpan = 0;
-                                                            if ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true) {
-                                                                $colSpan = $colSpan + 1;
-                                                            }
-                                                            if ($objLocations->locations[0]->price->periodeQuarter->cbPeriode == true) {
-                                                                $colSpan = $colSpan + 1;
-                                                            }
-                                                            if ($objLocations->locations[0]->price->periodeHalf->cbPeriode == true) {
-                                                                $colSpan = $colSpan + 1;
-                                                            }
-                                                            if ($objLocations->locations[0]->price->periodeYear->cbPeriode == true) {
-                                                                $colSpan = $colSpan + 1;
-                                                            }
-                                                            ?>
-                                                            {{-- <th id="thPrice" class="text-[0.7rem] text-teal-700 border">
-                                                                Harga
-                                                            </th> --}}
-                                                            <th id="thPrice" class="text-[0.7rem] text-teal-700 border"
-                                                                colspan="{{ $colSpan }}">
+                                                            <th id="thPrice" class="text-[0.7rem] text-teal-700 border">
                                                                 Harga
                                                             </th>
                                                             {{-- <th class="text-[0.7rem] text-teal-700 border" rowspan="2">
                                                         </th> --}}
                                                         </tr>
                                                         <tr>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-max">Jenis</th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-max">BL/FL</th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-20">Size - V/H
+                                                            <th class="text-[0.7rem] text-teal-700 border w-6">Jenis</th>
+                                                            <th class="text-[0.7rem] text-teal-700 border w-6">BL/FL</th>
+                                                            <th class="text-[0.7rem] text-teal-700 border w-[76px]">Size -
+                                                                V/H
                                                             </th>
                                                             @if ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true)
                                                                 <th id="thAMonth"
@@ -441,7 +474,7 @@
                                                                     {{ $loop->iteration }}
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                    {{ $location->code }}
+                                                                    {{ $location->code }} - {{ $location->city }}
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-teal-700 border">
                                                                     {{ $location->address }}
@@ -472,10 +505,10 @@
                                                                         V
                                                                     @endif
                                                                 </td>
-                                                                @if ($location->price->periodeMonth->cbPeriode == true)
+                                                                @if ($location->price->periodeMonth->cbPeriode == true || old('aMonth') == true)
                                                                     <td
                                                                         class="text-[0.7rem] text-center text-teal-700 border">
-                                                                        <input id="priceMonth{{ $loop->iteration }}"
+                                                                        <input
                                                                             class="outline-none border border-teal-50 rounded-md w-[72px]"
                                                                             type="number"
                                                                             value="{{ $location->price->periodeMonth->priceMonth }}">
@@ -483,16 +516,16 @@
                                                                 @else
                                                                     <td class="text-[0.7rem] text-center text-teal-700 border"
                                                                         hidden>
-                                                                        <input id="priceMonth{{ $loop->iteration }}"
+                                                                        <input
                                                                             class="outline-none border border-teal-50 rounded-md w-[72px]"
                                                                             type="number"
                                                                             value="{{ $location->price->periodeMonth->priceMonth }}">
                                                                     </td>
                                                                 @endif
-                                                                @if ($location->price->periodeQuarter->cbPeriode == true)
+                                                                @if ($location->price->periodeQuarter->cbPeriode == true || old('quarterYear') == true)
                                                                     <td
                                                                         class="text-[0.7rem] text-center text-teal-700 border">
-                                                                        <input id="priceQuarter{{ $loop->iteration }}"
+                                                                        <input
                                                                             class="outline-none border border-teal-50 rounded-md w-[72px]"
                                                                             type="number"
                                                                             value="{{ $location->price->periodeQuarter->priceQuarter }}">
@@ -500,16 +533,16 @@
                                                                 @else
                                                                     <td class="text-[0.7rem] text-center text-teal-700 border"
                                                                         hidden>
-                                                                        <input id="priceQuarter{{ $loop->iteration }}"
+                                                                        <input
                                                                             class="outline-none border border-teal-50 rounded-md w-[72px]"
                                                                             type="number"
                                                                             value="{{ $location->price->periodeQuarter->priceQuarter }}">
                                                                     </td>
                                                                 @endif
-                                                                @if ($location->price->periodeHalf->cbPeriode == true)
+                                                                @if ($location->price->periodeHalf->cbPeriode == true || old('halfYear') == true)
                                                                     <td
                                                                         class="text-[0.7rem] text-center text-teal-700 border">
-                                                                        <input id="priceHalf{{ $loop->iteration }}"
+                                                                        <input
                                                                             class="outline-none border border-teal-50 rounded-md w-[72px]"
                                                                             type="number"
                                                                             value="{{ $location->price->periodeHalf->priceHalf }}">
@@ -517,16 +550,16 @@
                                                                 @else
                                                                     <td class="text-[0.7rem] text-center text-teal-700 border"
                                                                         hidden>
-                                                                        <input id="priceHalf{{ $loop->iteration }}"
+                                                                        <input
                                                                             class="outline-none border border-teal-50 rounded-md w-[72px]"
                                                                             type="number"
                                                                             value="{{ $location->price->periodeHalf->priceHalf }}">
                                                                     </td>
                                                                 @endif
-                                                                @if ($location->price->periodeYear->cbPeriode == true)
+                                                                @if ($location->price->periodeYear->cbPeriode == true || old('aYear') == true)
                                                                     <td
                                                                         class="text-[0.7rem] text-center text-teal-700 border">
-                                                                        <input id="priceYear{{ $loop->iteration }}"
+                                                                        <input
                                                                             class="outline-none border border-teal-50 rounded-md w-[72px]"
                                                                             type="number"
                                                                             value="{{ $location->price->periodeYear->priceYear }}">
@@ -534,7 +567,7 @@
                                                                 @else
                                                                     <td class="text-[0.7rem] text-center text-teal-700 border"
                                                                         hidden>
-                                                                        <input id="priceYear{{ $loop->iteration }}"
+                                                                        <input
                                                                             class="outline-none border border-teal-50 rounded-md w-[72px]"
                                                                             type="number"
                                                                             value="{{ $location->price->periodeYear->priceYear }}">
@@ -721,184 +754,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Footer end -->
-                            {{-- <?php
-                            $objLocations = json_decode($billboard_quotation->billboards);
-                            ?>
-                            @foreach ($objLocations->locations as $location)
-                                <div id="preview" name="preview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
-                                    <div class="flex w-full justify-center items-center">
-                                        <img class="mt-3" src="/img/logo-vm.png" alt="">
-                                    </div>
-                                    <div class="flex w-full justify-center items-center mt-2">
-                                        <img src="/img/line-top.png" alt="">
-                                    </div>
-                                    <div class="flex w-full h-[44px] justify-center items-center mt-1">
-                                        <div
-                                            class="flex w-[700px] h-[44px] justify-start items-center bg-slate-50 border rounded-t-xl">
-                                            <span
-                                                class="flex justify-end items-center w-20 h-[36px] text-lg text-red-700 font-bold">{{ $location->code }}</span>
-                                            <span
-                                                class="flex justify-start items-center w-24 h-[36px] text-lg font-bold ml-1">
-                                                -
-                                                {{ $location->city }}
-                                            </span>
-                                            <img class="h-10" src="/img/code-line.png" alt="">
-                                            <span
-                                                class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $location->address }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex w-full h-[465px] justify-center mt-[1px]">
-                                        <div
-                                            class="flex w-[700px] h-[465px] justify-center items-center bg-slate-50 border rounded-b-xl">
-                                            <img class="m-auto w-[670px] h-[435px]"
-                                                src="{{ asset('storage/' . $location->photo) }}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="flex w-full h-[385px] justify-center mt-1">
-                                        <div class="flex w-[700px] h-[385px] bg-white">
-                                            <div class="flex w-[476px] h-[385px] bg-white justify-center">
-                                                <div class="">
-                                                    <div
-                                                        class="flex w-[476px] h-7 bg-slate-50 items-center border justify-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
-                                                        Google Maps
-                                                        Koordinat :
-                                                        {{ number_format($location->lat, 7) . ', ' . number_format($location->lng, 7) }}
-                                                    </div>
-                                                    <div class="flex relative w-[476px] h-[355px] mt-[1px] rounded-b-lg">
-                                                        <div class="flex absolute w-[100px] mt-[250px] ml-1">
-                                                            {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $location->lat . ',' . $location->lng . '/@' . $location->lat . ',' . $location->lng . ',15z') }}
-                                                        </div>
-                                                        <?php
-                                                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $location->lat . ',' . $location->lng . '&zoom=15&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $location->lat . ',' . $location->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
-                                                        ?>
-                                                        <img class="w-[476px] h-[355px] border rounded-b-xl"
-                                                            id="myImage" name="myImage" src="{{ $src }}"
-                                                            alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex w-[220px] h-[385px] bg-white justify-center ml-1">
-                                                <div class="">
-                                                    <div
-                                                        class="flex p-1 items-center justify-center w-[220px] h-7 bg-slate-50 border rounded-t-lg text-sm font-bold font-mono text-teal-900">
-                                                        Deskripsi Billboard
-                                                    </div>
-                                                    <div
-                                                        class="w-[220px] h-[92px] bg-slate-50 mt-[1px] rounded-b-lg border">
-                                                        <div class="flex mt-1">
-                                                            <span
-                                                                class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Jenis</span>
-                                                            <span
-                                                                class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                                                {{ $location->category }}
-                                                            </span>
-                                                        </div>
-                                                        <div class="flex mt-1">
-                                                            <span
-                                                                class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Ukuran</span>
-                                                            <span
-                                                                class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                                                {{ $location->size }}
-                                                                sisi</span>
-                                                        </div>
-                                                        <div class="flex mt-1">
-                                                            <span
-                                                                class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Orientasi</span>
-                                                            <span
-                                                                class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                                                {{ $location->orientation }}
-                                                            </span>
-                                                        </div>
-                                                        <div class="flex mt-1">
-                                                            <span
-                                                                class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Penerangan</span>
-                                                            <span
-                                                                class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                                                {{ $location->lighting }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-[220px] h-7 p-1 bg-slate-50 mt-[1px] border justify-center items-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
-                                                        Informasi Area
-                                                    </div>
-                                                    <div
-                                                        class="flex w-[220px] h-[234px] border bg-slate-50 mt-[1px] rounded-b-lg">
-                                                        <div>
-                                                            <div class="flex">
-                                                                <span
-                                                                    class="w-[100px] text-xs font-mono text-teal-900 ml-2">Type
-                                                                    Jalan</span>
-                                                                <span class="w-[120px] text-xs font-mono text-teal-900">:
-                                                                    {{ $location->road }}
-                                                                </span>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <span
-                                                                    class="w-[100px] text-xs font-mono text-teal-900 ml-2">Jarak
-                                                                    Pandang</span>
-                                                                <span class="w-[120px] text-xs font-mono text-teal-900">:
-                                                                </span>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <span
-                                                                    class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kecepatan
-                                                                    Kend.</span>
-                                                                <span
-                                                                    class="w-[120px] text-xs font-mono font-thin text-teal-900">:
-                                                                    {{ $location->speed }}
-                                                                </span>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <span
-                                                                    class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
-                                                                    <br><br><br><br><br>
-                                                                    {{ QrCode::size(100)->generate('https://vistamedia.co.id/preview/' . $location->id) }}
-                                                                </span>
-                                                                <span
-                                                                    class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
-                                                                    <div>:</div>
-
-                                                                    <?php
-                                                                    $data = $location->sector;
-                                                                    $sectors = explode('-', $data);
-                                                                    ?>
-                                                                    <div>
-                                                                        @foreach ($sectors as $key => $sector)
-                                                                            @if ($sector != end($sectors))
-                                                                                <div>
-                                                                                    - {{ $sector }}
-                                                                                </div>
-                                                                            @endif
-                                                                        @endforeach
-                                                                    </div>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex
-                                w-full h-max justify-center mt-1">
-                                        <img src="/img/line-bottom.png" alt="">
-                                    </div>
-                                    <div class="flex items-center w-full justify-center">
-                                        <span class="text-sm font-semibold">PT. Vista Media</span>
-                                    </div>
-                                    <div class="flex items-center w-full justify-center">
-                                        <span class="text-xs">Jl. Pulau Kawe No. 40 - Denpasar | Bali - Indonesia</span>
-                                    </div>
-                                    <div class="flex items-center w-full justify-center">
-                                        <span class="text-xs">Ph. +62 361 230000 | Fax. +62 361 237800 </span>
-                                    </div>
-                                    <div class="flex items-center w-full justify-center">
-                                        <span class="text-xs">e-mail : info@vistamedia.co.id | www.vistamedia.co.id</span>
-                                    </div>
-                                </div>
-                            @endforeach --}}
                             <!-- Footer end -->
                         </div>
                     </div>

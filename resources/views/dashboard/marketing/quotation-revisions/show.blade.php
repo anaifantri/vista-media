@@ -6,7 +6,7 @@
         <div class="mt-10">
             <!-- Title Show Quotatin start -->
             <div class="flex border-b">
-                <h1 class="text-xl text-cyan-800 font-bold tracking-wider">DETAIL PENAWAWARAN</h1>
+                <h1 class="text-xl text-cyan-800 font-bold tracking-wider">DETAIL REVISI PENAWAWARAN</h1>
             </div>
             <!-- Title Show Quotatin end -->
             <div class="flex">
@@ -15,30 +15,39 @@
                         <div class="">
                             <div class="flex mt-1">
                                 <div class="mt-1">
-                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Nomor</label>
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Nomor Penawaran
+                                        Utama</label>
                                     <label
-                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quotation->number }}</label>
+                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quot_revision->billboard_quotation->number }}</label>
+                                </div>
+                            </div>
+                            <div class="flex mt-1">
+                                <div class="mt-1">
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Nomor Penawaran
+                                        Revisi</label>
+                                    <label
+                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quot_revision->number }}</label>
                                 </div>
                             </div>
                             <div class="flex mt-1">
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Nama Klien</label>
                                     <label
-                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quotation->client->name }}</label>
+                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quot_revision->billboard_quotation->client->name }}</label>
                                 </div>
                             </div>
                             <div class="flex mt-1">
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Nama Perusahaan</label>
                                     <label
-                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quotation->client->company }}</label>
+                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quot_revision->billboard_quotation->client->company }}</label>
                                 </div>
                             </div>
                             <div class="flex mt-1">
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kontak Person</label>
                                     <label
-                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quotation->contact->name }}</label>
+                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1">{{ $billboard_quot_revision->billboard_quotation->contact->name }}</label>
                                 </div>
                             </div>
                             <div class="mt-1">
@@ -46,7 +55,7 @@
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Progres Penawaran</label>
                                 </div>
                                 <div class="mt-1 w-80 h-max border rounded-md py-1 px-2">
-                                    @foreach ($billboard_quotation->billboard_quot_statuses as $quotStatus)
+                                    @foreach ($billboard_quot_revision->billboard_quot_statuses as $quotStatus)
                                         <div class="flex">
                                             <label
                                                 class="flex text-sm font-semibold text-teal-900 border-b">{{ $quotStatus->status }}</label>
@@ -67,36 +76,30 @@
                                                 {{ $quotStatus->description }}</label>
                                         </div>
                                     @endforeach
-                                    @if (count($billboard_quotation->billboard_quot_revisions) != 0)
-                                        <div class="mt-1">
-                                            <label class="text-sm font-semibold text-teal-900 border-b">Daftar
-                                                Revisi</label>
-                                            @foreach ($billboard_quotation->billboard_quot_revisions as $billboard_quot_revision)
-                                                <a class="flex"
-                                                    href="/dashboard/marketing/billboard-quot-revisions/{{ $billboard_quot_revision->id }}">
-                                                    <span
-                                                        class="text-teal-900 hover:text-emerald-500 text-sm font-semibold">{{ $loop->iteration }}.
-                                                        {{ $billboard_quot_revision->number }}</span>
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    @else
-                                        <div class="mt-1" hidden>
-                                            <label class="text-sm font-semibold text-teal-900 border-b">Daftar
-                                                Revisi</label>
-                                            <label class="flex text-sm xl:text-md 2xl:text-lg text-teal-700">-</label>
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
-                            @if (count($billboard_quotation->billboard_quot_revisions) != 0)
-                                <div class="mt-1" hidden>
+                            <?php
+                            $quotRevisions = [];
+                            $revisionNumber = 0;
+                            ?>
+                            @foreach ($billboard_quot_revisions as $revision)
+                                @if ($revision->billboard_quotation_id == $billboard_quot_revision->billboard_quotation_id)
+                                    <?php
+                                    $quotRevisions[$revisionNumber] = $revision->number;
+                                    ?>
+                                    <?php
+                                    $revisionNumber = $revisionNumber + 1;
+                                    ?>
+                                @endif
+                            @endforeach
+                            @if ($billboard_quot_revision->number == $quotRevisions[count($quotRevisions) - 1])
+                                <div class="mt-1">
                                     <input type="checkbox" id="updateProgress" name="updateProgress" value="Boat">
                                     <label class="text-sm font-semibold text-teal-900" for="updateProgress"> Update
                                         Progress</label>
                                 </div>
                             @else
-                                <div class="mt-1">
+                                <div class="mt-1" hidden>
                                     <input type="checkbox" id="updateProgress" name="updateProgress" value="Boat">
                                     <label class="text-sm font-semibold text-teal-900" for="updateProgress"> Update
                                         Progress</label>
@@ -113,93 +116,9 @@
                                     <span class="ml-2 text-white">Save Progress</span>
                                 </button>
                             </div>
-                            {{-- <div class="flex mt-1">
-                                @php
-                                    $numberStatus = 0;
-                                    $nStatus = 0;
-                                    $status = ['Tersimpan', 'Terkirim', 'Negosiasi', 'Kesepakatan', 'Ditutup'];
-                                @endphp
-                                <div class="mt-1">
-                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Status</label>
-                                    <select id="status" name="status"
-                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
-                                    font-semibold text-teal-900 border rounded-lg p-1 outline-none
-                                    @error('status') is-invalid @enderror"
-                                        type="text" value="{{ old('status') }}">
-                                        @if (old('status'))
-                                            @for ($numberStatus = 0; $numberStatus < count($status); $numberStatus++)
-                                                @if (old('status'))
-                                                    @if (old('status') == $status[$numberStatus])
-                                                        <option value="{{ $status[$numberStatus] }}" selected>
-                                                            {{ $status[$numberStatus] }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $status[$numberStatus] }}">
-                                                            {{ $status[$numberStatus] }}
-                                                        </option>
-                                                    @endif
-                                                @endif
-                                            @endfor
-                                        @elseif ($billboard_quotation->billboard_quot_statuses)
-                                            @foreach ($billboard_quotation->billboard_quot_statuses as $quotStatus)
-                                                @if ($nStatus != count($billboard_quotation->billboard_quot_statuses) - 1)
-                                                    <option value="{{ $status[$nStatus] }}">
-                                                        {{ $status[$nStatus] }}
-                                                    </option>
-                                                @else
-                                                    <option value="{{ $status[$nStatus] }}" selected>
-                                                        {{ $status[$nStatus] }}</option>
-                                                @endif
-                                                <?php
-                                                $nStatus = $nStatus + 1;
-                                                ?>
-                                            @endforeach
-                                            @for ($numberStatus = $nStatus; $numberStatus < count($status); $numberStatus++)
-                                                <option value="{{ $status[$numberStatus] }}">
-                                                    {{ $status[$numberStatus] }}
-                                                </option>
-                                            @endfor
-                                        @else
-                                            <option value="{{ $status[$numberStatus] }}">
-                                                {{ $status[$numberStatus] }}
-                                            </option>
-                                        @endif
-                                    </select>
-                                    @error('status')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div> --}}
-
-                            {{-- <div class="flex mt-1">
-                                <div class="mt-1">
-                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Daftar Revisi</label>
-                                    <?php
-                                    $n = 0;
-                                    ?>
-                                    @foreach ($billboard_quotation->billboard_quot_revisions as $billboard_quote_revision)
-                                        @if ($billboard_quote_revision->billboard_quotation_id == $billboard_quotation->id)
-                                            <?php
-                                            $n = $n + 1;
-                                            ?>
-                                            <a class="flex"
-                                                href="/dashboard/marketing/billboard-quot-revisions/{{ $billboard_quote_revision->id }}">
-                                                <span
-                                                    class="text-teal-700 hover:text-emerald-500 text-xs xl:text-sm 2xl:text-md">{{ $n }}.
-                                                    {{ $billboard_quote_revision->number }}</span>
-                                            </a>
-                                        @endif
-                                    @endforeach
-                                    @if ($n == 0)
-                                        <label class="flex text-sm xl:text-md 2xl:text-lg text-teal-700">-</label>
-                                    @endif
-                                </div>
-                            </div> --}}
                             <div class="flex justify-start mt-5">
                                 <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-success"
-                                    href="/dashboard/marketing/billboard-quotations">
+                                    href="/dashboard/marketing/billboard-quotations/{{ $billboard_quot_revision->billboard_quotation->id }}">
                                     <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1" clip-rule="evenodd"
                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -218,20 +137,9 @@
                                     </svg>
                                     <span class="ml-2 text-white">Create PDF</span>
                                 </button>
-                                <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-warning"
-                                    href="/dashboard/marketing/quotation-revisions/revision/{{ $billboard_quotation->id }}">
-                                    <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Revisi</span>
-                                </a>
-                                {{-- @if (count($billboard_quotation->billboard_quot_revisions) != 0)
-                                    <a class="hidden justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-warning"
-                                        href="/dashboard/marketing/quotation-revisions/revision/{{ $billboard_quotation->id }}">
+                                {{-- @if ($billboard_quot_revision->number == $quotRevisions[count($quotRevisions) - 1])
+                                    <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-warning"
+                                        href="/dashboard/marketing/quotation-revisions/revision/{{ $billboard_quot_revision->id }}">
                                         <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -242,8 +150,8 @@
                                         <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Revisi</span>
                                     </a>
                                 @else
-                                    <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-warning"
-                                        href="/dashboard/marketing/quotation-revisions/revision/{{ $billboard_quotation->id }}">
+                                    <a class="hidden justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-warning"
+                                        href="/dashboard/marketing/quotation-revisions/revision/{{ $billboard_quot_revision->id }}">
                                         <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -279,28 +187,28 @@
                                             <label class="ml-1 text-sm text-black flex w-20">Nomor</label>
                                             <label class="ml-1 text-sm text-black flex">:</label>
                                             <label id="quotationNumberBBPreview"
-                                                class="ml-1 text-sm text-black flex">{{ $billboard_quotation->number }}</label>
+                                                class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->number }}</label>
                                         </div>
                                         <div class="flex">
                                             <label class="ml-1 text-sm text-black flex w-20">Lampiran</label>
                                             <label class="ml-1 text-sm text-black flex">:</label>
                                             <label id="attachmentBBPreview"
-                                                class="ml-1 text-sm text-black flex">{{ $billboard_quotation->attachment }}</label>
+                                                class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->attachment }}</label>
                                         </div>
                                         <div class="flex">
                                             <label class="ml-1 text-sm text-black flex w-20">Perihal</label>
                                             <label class="ml-1 text-sm text-black flex">:</label>
                                             <label id="subjectBBPreview"
-                                                class="ml-1 text-sm text-black flex">{{ $billboard_quotation->subject }}</label>
+                                                class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->subject }}</label>
                                         </div>
                                         <div class="flex mt-4">
                                             <div>
                                                 <label class="ml-1 text-sm text-black flex w-20">Kepada Yth</label>
                                                 <label id="clientBBPreview"
-                                                    class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_quotation->client->company }}</label>
+                                                    class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_quot_revision->billboard_quotation->client->company }}</label>
                                                 <label id="contactBBPreview"
                                                     class="ml-1 text-sm text-black flex font-semibold">UP.
-                                                    {{ $billboard_quotation->contact->name }}</label>
+                                                    {{ $billboard_quot_revision->billboard_quotation->contact->name }}</label>
                                                 <label class="ml-1 text-sm text-black flex">Di -</label>
                                                 <label class="ml-6 text-sm text-black flex">Tempat</label>
                                             </div>
@@ -309,20 +217,20 @@
                                             <label class="ml-1 text-sm text-black flex w-20">Email</label>
                                             <label class="ml-1 text-sm text-black flex">:</label>
                                             <label id="contactEmailBBPreview"
-                                                class="ml-1 text-sm text-black flex">{{ $billboard_quotation->contact->email }}</label>
+                                                class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->billboard_quotation->contact->email }}</label>
                                         </div>
                                         <div class="flex">
                                             <label class="ml-1 text-sm text-black flex w-20">No. Telp.</label>
                                             <label class="ml-1 text-sm text-black flex">:</label>
                                             <label id="contactPhoneBBPreview"
-                                                class="ml-1 text-sm text-black flex">{{ $billboard_quotation->contact->phone }}</label>
+                                                class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->billboard_quotation->contact->phone }}</label>
                                         </div>
                                         <div class="flex mt-4">
                                             <label class="ml-1 text-sm text-black flex">Dengan hormat,</label>
                                         </div>
                                         <div class="flex mt-2">
                                             <label id="letterBodyBBPreview"
-                                                class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quotation->body_top }}</label>
+                                                class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quot_revision->body_top }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -359,7 +267,7 @@
                                                         <th class="text-[0.7rem] text-teal-700 border w-16">Size - V/H
                                                         </th>
                                                         <?php
-                                                        $objLocations = json_decode($billboard_quotation->billboards);
+                                                        $objLocations = json_decode($billboard_quot_revision->billboards);
                                                         ?>
                                                         @if ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true)
                                                             <th class="text-[0.7rem] text-teal-700 border w-20">
@@ -385,7 +293,7 @@
                                                 </thead>
                                                 <tbody id="previewBBTBody">
                                                     <?php
-                                                    $objLocations = json_decode($billboard_quotation->billboards);
+                                                    $objLocations = json_decode($billboard_quot_revision->billboards);
                                                     ?>
                                                     @foreach ($objLocations->locations as $location)
                                                         <tr>
@@ -465,7 +373,7 @@
                                             <label class="ml-1 text-[0.7rem] text-black flex">:</label>
                                         </div>
                                         <?php
-                                        $objNotes = json_decode($billboard_quotation->note);
+                                        $objNotes = json_decode($billboard_quot_revision->note);
                                         ?>
                                         @foreach ($objNotes->notes as $note)
                                             @if ($note->cbNote == 'true')
@@ -496,7 +404,7 @@
                                 <div class="flex justify-center">
                                     <div class="flex mt-2 w-[650px]">
                                         <label
-                                            class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quotation->body_end }}</label>
+                                            class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quot_revision->body_end }}</label>
                                     </div>
                                 </div>
                                 <div class="flex justify-center">
@@ -505,7 +413,7 @@
                                     ?>
                                     <div class="w-[650px] mt-2">
                                         <label class="ml-1 text-sm text-black flex">Denpasar,
-                                            {{ date('d F Y', strtotime($billboard_quotation->created_at)) }}</label>
+                                            {{ date('d F Y', strtotime($billboard_quot_revision->created_at)) }}</label>
                                     </div>
                                 </div>
                                 <div class="flex justify-center">
@@ -516,13 +424,13 @@
                                             oleh
                                             :</label>
                                         <label id="salesUser"
-                                            class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_quotation->user->name }}</label>
+                                            class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_quot_revision->user->name }}</label>
                                         <label id="salesPotition"
-                                            class="ml-1 text-sm text-black flex">{{ $billboard_quotation->user->level }}</label>
+                                            class="ml-1 text-sm text-black flex">{{ $billboard_quot_revision->user->position }}</label>
                                     </div>
                                     <div class="w-[400px]">
                                         <div>
-                                            {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/dashboard/marketing/billboard-quotations/' . $billboard_quotation->id) }}
+                                            {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/dashboard/marketing/billboard-quotations/' . $billboard_quot_revision->id) }}
                                         </div>
                                     </div>
                                 </div>
@@ -551,7 +459,7 @@
                         </div>
                         <!-- Footer end -->
                         <?php
-                        $objLocations = json_decode($billboard_quotation->billboards);
+                        $objLocations = json_decode($billboard_quot_revision->billboards);
                         ?>
                         @foreach ($objLocations->locations as $location)
                             <div id="preview" name="preview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
