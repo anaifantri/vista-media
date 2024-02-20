@@ -832,10 +832,6 @@ video {
   margin-top: 250px;
 }
 
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
 .block {
   display: block;
 }
@@ -1036,6 +1032,10 @@ video {
 
 .w-16 {
   width: 4rem;
+}
+
+.w-2 {
+  width: 0.5rem;
 }
 
 .w-20 {
@@ -3523,6 +3523,10 @@ video {
 
   .lg\:w-60 {
     width: 15rem;
+  }
+
+  .lg\:w-\[1100px\] {
+    width: 1100px;
   }
 
   .lg\:w-\[1400px\] {

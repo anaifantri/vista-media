@@ -765,7 +765,7 @@
     <!-- Show Quotatin end -->
 
     <!-- Script start -->
-    <script src="/js/billboardquoterevision.js"></script>
+    <script src="/js/billboardquotrevision.js"></script>
     <script src="/js/html2canvas.min.js"></script>
     <script src="/js/html2pdf.bundle.min.js"></script>
     <script src="/js/qrcode.min.js"></script>

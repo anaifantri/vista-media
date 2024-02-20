@@ -30,7 +30,40 @@ class BillboardQuotStatusController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
+        $validateData = $request->validate([
+            'status' => 'required',
+            'description' => 'required',
+            'status_image' => 'image|file|max:1024',
+        ]);
+
+        // dd($request->billboard_quotation_id);
+
+        if($request->billboard_quot_revision_id == ""){
+            $validateData['billboard_quot_revision_id'] = null;
+        } else {
+            $validateData['billboard_quot_revision_id'] = $request->billboard_quot_revision_id;
+        }
+        
+        if($request->billboard_quotation_id == ""){
+            $validateData['billboard_quotation_id'] = null;
+        } else {
+            $validateData['billboard_quotation_id'] = $request->billboard_quotation_id;
+        }
+        
+        $validateData['user_id'] = auth()->user()->id;
+
+        // dd($validateData['billboard_quotation_id']);
+            
+        BillboardQuotStatus::create($validateData);
+        if($request->billboard_quot_revision_id != ""){
+        return redirect('/dashboard/marketing/billboard-quot-revisions/'.$validateData['billboard_quot_revision_id'])->with('success','Progress revisi surat penawaran telah di update');
+        } elseif($request->billboard_quotation_id != ""){
+            return redirect('/dashboard/marketing/billboard-quotations/'.$validateData['billboard_quotation_id'])->with('success','Progress surat penawaran telah di update');
+        }
+        } else {
+            abort(403);
+        }
     }
 
     /**

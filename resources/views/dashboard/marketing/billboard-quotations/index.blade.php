@@ -43,8 +43,8 @@
                 </form>
             </div>
         </div>
-        <div class="flex lg:justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible z-0">
-            <table class="table-auto w-full lg:w-[800px] mb-6">
+        <div class="flex justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible z-0">
+            <table class="table-auto w-full lg:w-[1100px] mb-6">
                 <thead>
                     <tr class="index-tr items-center h-10 bg-teal-100 border-t">
                         <th class="index-td text-sm w-8">No.</th>
@@ -56,12 +56,11 @@
                         </th>
                         <th class="index-td text-sm w-32">Klien</th>
                         <th class="index-td text-sm w-32">Kontak Person</th>
-                        <th class="index-td text-sm w-56">Lokasi</th>
-                        <th class="index-td text-sm w-20">Status</th>
+                        <th class="index-td text-sm w-60">Lokasi</th>
+                        <th class="index-td text-sm w-36">Status</th>
                         <th class="index-td text-sm w-24">Tgl. Dibuat</th>
-                        <th class="index-td text-sm w-24">Tgl. Kirim</th>
                         <th class="index-td text-sm w-28">Dibuat Oleh</th>
-                        <th class="index-td text-sm w-32">Action</th>
+                        <th class="index-td text-sm w-12">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,7 +70,7 @@
                             <td class="index-td text-sm w-40">{{ $billboard_quotation->number }}</td>
                             <td class="index-td text-sm w-32">{{ $billboard_quotation->client->name }}</td>
                             <td class="index-td text-sm w-32">{{ $billboard_quotation->contact->name }}</td>
-                            <td class="index-td text-sm w-56">
+                            <td class="index-td w-60 text-sm">
                                 <?php
                                 $n = 0;
                                 ?>
@@ -88,28 +87,37 @@
                                     @endforeach
                                 @endforeach
                             </td>
-                            <td class="index-td text-sm w-20">
-                                @if ($billboard_quotation->billboard_quot_statuses)
+                            <td class="index-td text-sm w-36">
+                                <?php
+                                $getStatus = '';
+                                ?>
+                                @if (count($billboard_quotation->billboard_quot_revisions) != 0)
+                                    @foreach ($billboard_quot_status as $status)
+                                        @if (
+                                            $status->billboard_quot_revision_id ==
+                                                $billboard_quotation->billboard_quot_revisions[count($billboard_quotation->billboard_quot_revisions) - 1]->id)
+                                            <?php
+                                            $getStatus = '';
+                                            $getStatus = 'Revision : ' . $status->status;
+                                            ?>
+                                        @endif
+                                    @endforeach
+                                @elseif ($billboard_quotation->billboard_quot_statuses)
                                     @foreach ($billboard_quotation->billboard_quot_statuses as $status)
                                         @if ($billboard_quotation->id == $status->billboard_quotation_id)
                                             <?php
-                                            $getStatus = $status->status;
+                                            $getStatus = '';
+                                            $getStatus = 'Main : ' . $status->status;
                                             ?>
-                                            {{ $getStatus }}
                                         @endif
                                     @endforeach
                                 @endif
+                                {{ $getStatus }}
                             </td>
                             <td class="index-td text-sm w-24">
                                 {{ date('d-M-Y', strtotime($billboard_quotation->created_at)) }}</td>
-                            @if ($billboard_quotation->send_at)
-                                <td class="index-td text-sm w-24">
-                                    {{ date('d-M-Y', strtotime($billboard_quotation->send_at)) }}</td>
-                            @else
-                                <td class="index-td text-sm w-24">-</td>
-                            @endif
                             <td class="index-td text-sm w-28">{{ $billboard_quotation->user->name }}</td>
-                            <td class="index-td text-sm w-32">
+                            <td class="index-td text-sm w-12">
                                 <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}"
                                     class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
@@ -120,7 +128,7 @@
                                             fill-rule="nonzero" />
                                     </svg>
                                 </a>
-                                <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}/edit"
+                                {{-- <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}/edit"
                                     class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -145,7 +153,7 @@
                                                 fill-rule="nonzero" />
                                         </svg>
                                     </button>
-                                </form>
+                                </form> --}}
                             </td>
                         </tr>
                     @endforeach

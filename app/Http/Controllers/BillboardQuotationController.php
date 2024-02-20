@@ -29,12 +29,14 @@ class BillboardQuotationController extends Controller
     public function index(): Response
     {
         $billboard_quot_statuses = BillboardQuotation::with('billboard_quot_statuses');
+        $billboard_quot_revisions = BillboardQuotation::with('billboard_quot_revisions');
         // dd($billboard_quot_statuses);
         
         return response()->view('dashboard.marketing.billboard-quotations.index', [
             'billboard_quotations' => BillboardQuotation::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
             'title' => 'Daftar Penawaran Billboard',
-            compact('billboard_quot_statuses')
+            'billboard_quot_status' => BillboardQuotStatus::all(),
+            compact('billboard_quot_statuses', 'billboard_quot_revisions')
         ]);
     }
 
@@ -119,8 +121,8 @@ class BillboardQuotationController extends Controller
             }
 
             $validateData['billboard_quotation_id'] = $quotId;
-            $validateData['status'] = "Tersimpan";
-            $validateData['description'] = "Data telah tersimpan";
+            $validateData['status'] = "Created";
+            $validateData['description'] = "Surat penawaran telah dibuat dan tersimpan";
             
             BillboardQuotStatus::create($validateData);
             
@@ -149,6 +151,7 @@ class BillboardQuotationController extends Controller
             'billboard_quotation' => $billboardQuotation,
             'title' => 'Detail Penawaran Billboard',
             'billboard_photos'=>BillboardPhoto::all(),
+            'billboard_quot_status' => BillboardQuotStatus::All(),
             'companies'=>Company::all(),
             compact('billboard_quotations', 'billboard_quot_revisions', 'billboard_quot_statuses', 'clients', 'contacts')
         ]);

@@ -122,8 +122,8 @@ class BillboardQuotRevisionController extends Controller
 
             $validateData['billboard_quot_revision_id'] = $quotId;
             $validateData['billboard_quotation_id'] = null;
-            $validateData['status'] = "Tersimpan";
-            $validateData['description'] = "Data telah tersimpan";
+            $validateData['status'] = "Created";
+            $validateData['description'] = "Revisi surat penawaran telah dibuat dan tersimpan";
 
             BillboardQuotStatus::create($validateData);
             

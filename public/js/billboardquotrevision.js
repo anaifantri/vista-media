@@ -102,8 +102,9 @@ let mainId = 0;
 const date = new Date();
 const year = date.getFullYear();
 let month = "";
-var getMainNumber = mainNumber.textContent;
-var resultsMainNumber = getMainNumber.slice(0, 4);
+// var getMainNumber = mainNumber.textContent;
+var frontMainNumber = mainNumber.textContent.slice(0, 4);
+var rearMainNumber = mainNumber.textContent.substring(4);
 let resultsNumber = 0;
 let revisionQty = 0;
 
@@ -297,18 +298,20 @@ function addQuotationNumber() {
             if (dataBillboardQuotRevision[i].billboard_quotation_id == mainId) {
                 revisionQty = revisionQty + 1;
                 resultsNumber = revisionQty + 1;
-                console.log(resultsNumber);
             }
+        }
+        if (revisionQty == 0) {
+            resultsNumber = 1;
         }
     }
     if (resultsNumber < 10) {
-        number.value = resultsMainNumber + "_rev" + (resultsNumber) + "/APP/VM/" + month + "-" + year;
+        number.value = frontMainNumber + "_rev" + (resultsNumber) + rearMainNumber;
     } else if (resultsNumber < 100) {
-        number.value = resultsMainNumber + "_rev" + (resultsNumber) + "/APP/VM/" + month + "-" + year;
+        number.value = frontMainNumber + "_rev" + (resultsNumber) + rearMainNumber;
     } else if (resultsNumber < 1000) {
-        number.value = resultsMainNumber + "_rev" + (resultsNumber) + "/APP/VM/" + month + "-" + year;
+        number.value = frontMainNumber + "_rev" + (resultsNumber) + rearMainNumber;
     } else if (resultsNumber >= 1000) {
-        number.value = resultsMainNumber + "_rev" + (resultsNumber) + "/APP/VM/" + month + "-" + year;
+        number.value = frontMainNumber + "_rev" + (resultsNumber) + rearMainNumber;
     }
     revisionNumber.innerHTML = number.value;
     revisionNumberPreview.innerHTML = number.value;
@@ -1101,11 +1104,15 @@ btnClosePreview.addEventListener('click', function () {
 
 function deleteRow(r) {
     var n = r.parentNode.parentNode.rowIndex;
-    var cellCode = billboardTable.rows[n].cells[1].innerText.substring(0, 4);
+    var cellCode = "";
+    if (billboardTable.rows[n].cells[1].innerText.substring(4, 5) != "/") {
+        cellCode = billboardTable.rows[n].cells[1].innerText.substring(0, 5);
+    } else {
+        cellCode = billboardTable.rows[n].cells[1].innerText.substring(0, 4);
+    }
     for (i = 0; i < locations.length; i++) {
         if (locations[i].code == cellCode) {
             locations.splice(i, 1);
-            console.log(locations);
         }
     }
     billboardTable.deleteRow(n);

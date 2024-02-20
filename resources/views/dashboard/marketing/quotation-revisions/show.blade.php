@@ -58,64 +58,177 @@
                                     @foreach ($billboard_quot_revision->billboard_quot_statuses as $quotStatus)
                                         <div class="flex">
                                             <label
-                                                class="flex text-sm font-semibold text-teal-900 border-b">{{ $quotStatus->status }}</label>
+                                                class="flex w-28 border-b text-sm font-semibold text-teal-900">{{ $quotStatus->status }}</label>
                                         </div>
                                         <div class="flex">
                                             <label class="flex w-28 text-sm font-semibold text-teal-900">Tanggal</label>
-                                            <label class="flex w-36 text-sm font-semibold text-teal-900">:
+                                            <label class="flex text-sm font-semibold text-teal-900">: </label>
+                                            <label class="flex w-36 ml-2 text-sm font-semibold text-teal-900">
                                                 {{ date('d F Y', strtotime($quotStatus->created_at)) }}</label>
                                         </div>
                                         <div class="flex">
                                             <label class="flex w-28 text-sm font-semibold text-teal-900">Oleh</label>
-                                            <label class="flex w-36 text-sm font-semibold text-teal-900">:
+                                            <label class="flex text-sm font-semibold text-teal-900">: </label>
+                                            <label class="flex w-36 ml-2 text-sm font-semibold text-teal-900">
                                                 {{ $quotStatus->user->name }}</label>
                                         </div>
-                                        <div class="flex mb-3">
+                                        <div class="flex mb-3 border-b">
                                             <label class="flex w-28 text-sm font-semibold text-teal-900">Keterangan</label>
-                                            <label class="flex w-36 text-sm font-semibold text-teal-900">:
+                                            <label class="flex text-sm font-semibold text-teal-900">: </label>
+                                            <label class="flex w-36 ml-2 text-sm font-semibold text-teal-900">
                                                 {{ $quotStatus->description }}</label>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
-                            <?php
-                            $quotRevisions = [];
-                            $revisionNumber = 0;
-                            ?>
-                            @foreach ($billboard_quot_revisions as $revision)
-                                @if ($revision->billboard_quotation_id == $billboard_quot_revision->billboard_quotation_id)
-                                    <?php
-                                    $quotRevisions[$revisionNumber] = $revision->number;
-                                    ?>
-                                    <?php
-                                    $revisionNumber = $revisionNumber + 1;
-                                    ?>
-                                @endif
-                            @endforeach
-                            @if ($billboard_quot_revision->number == $quotRevisions[count($quotRevisions) - 1])
-                                <div class="mt-1">
-                                    <input type="checkbox" id="updateProgress" name="updateProgress" value="Boat">
-                                    <label class="text-sm font-semibold text-teal-900" for="updateProgress"> Update
-                                        Progress</label>
-                                </div>
-                            @else
-                                <div class="mt-1" hidden>
-                                    <input type="checkbox" id="updateProgress" name="updateProgress" value="Boat">
-                                    <label class="text-sm font-semibold text-teal-900" for="updateProgress"> Update
-                                        Progress</label>
+                            @if (session()->has('success'))
+                                <div class="flex alert-success">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                                    </svg>
+                                    <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
                                 </div>
                             @endif
-                            <div class="mt-1" hidden>
-                                <button id="" class="flex justify-center items-center mx-1 btn-primary mb-2"
-                                    title="Update Progress" type="button">
-                                    <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
-                                        width="24" height="24" viewBox="0 0 24 24">
-                                        <path
-                                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
-                                    </svg>
-                                    <span class="ml-2 text-white">Save Progress</span>
-                                </button>
-                            </div>
+                            <form class="" action="/dashboard/marketing/billboard-quot-statuses" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <input class="@error('billboard_quot_revision_id') is-invalid @enderror"
+                                    id="billboard_quot_revision_id" name="billboard_quot_revision_id" type="text"
+                                    value="{{ $billboard_quot_revision->id }}" hidden>
+                                <input class="@error('billboard_quotation_id') is-invalid @enderror"
+                                    id="billboard_quotation_id" name="billboard_quotation_id" type="text" value=""
+                                    hidden>
+                                <?php
+                                $quotRevisions = [];
+                                $revisionNumber = 0;
+                                $numberStatus = 0;
+                                $lastStatus = $billboard_quot_revision->billboard_quot_statuses[count($billboard_quot_revision->billboard_quot_statuses) - 1]->status;
+                                $followUp = false;
+                                $status = ['Created', 'Sent', 'Follow Up', 'Deal', 'Closed'];
+                                ?>
+                                @foreach ($billboard_quot_revisions as $revision)
+                                    @if ($revision->billboard_quotation_id == $billboard_quot_revision->billboard_quotation_id)
+                                        <?php
+                                        $quotRevisions[$revisionNumber] = $revision->number;
+                                        ?>
+                                        <?php
+                                        $revisionNumber = $revisionNumber + 1;
+                                        ?>
+                                    @endif
+                                @endforeach
+                                @if ($billboard_quot_revision->number == $quotRevisions[count($quotRevisions) - 1])
+                                    @if ($lastStatus == 'Deal' || $lastStatus == 'Closed')
+                                        <div class="mt-1" hidden>
+                                            <input type="checkbox" id="cbUpdateProgress" name="cbUpdateProgress">
+                                            <label class="text-sm font-semibold text-teal-900" for="cbUpdateProgress">
+                                                Update
+                                                Progress</label>
+                                        </div>
+                                    @else
+                                        <div class="mt-1">
+                                            <input type="checkbox" id="cbUpdateProgress" name="cbUpdateProgress">
+                                            <label class="text-sm font-semibold text-teal-900" for="cbUpdateProgress">
+                                                Update
+                                                Progress</label>
+                                        </div>
+                                    @endif
+                                @else
+                                    <div class="mt-1" hidden>
+                                        <input type="checkbox" id="cbUpdateProgress" name="cbUpdateProgress">
+                                        <label class="text-sm font-semibold text-teal-900" for="cbUpdateProgress"> Update
+                                            Progress</label>
+                                    </div>
+                                @endif
+                                <div class="mt-1" id="divStatus" hidden>
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Status</label>
+                                    <select id="status" name="status"
+                                        class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
+                                font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                @error('status') is-invalid @enderror"
+                                        type="text" value="{{ old('status') }}">
+                                        @foreach ($billboard_quot_revision->billboard_quot_statuses as $quotStatus)
+                                            @if ($quotStatus->status == 'Follow Up')
+                                                <?php
+                                                $followUp = true;
+                                                ?>
+                                            @else
+                                                <?php
+                                                $followUp = false;
+                                                ?>
+                                            @endif
+                                            @if ($followUp != true)
+                                                @if ($quotStatus->status != $status[$loop->iteration - 1])
+                                                    <option value="{{ $status[$loop->iteration - 1] }}">
+                                                        {{ $status[$loop->iteration - 1] }}
+                                                    </option>
+                                                @endif
+                                                <?php
+                                                $numberStatus = $numberStatus + 1;
+                                                // $lastStatus = $status[$loop->iteration - 1];
+                                                ?>
+                                            @endif
+                                        @endforeach
+                                        @if ($lastStatus == 'Created')
+                                            <option value="{{ $status[1] }}">
+                                                {{ $status[1] }}
+                                            </option>
+                                            <option value="{{ $status[4] }}">
+                                                {{ $status[4] }}
+                                            </option>
+                                        @elseif ($lastStatus == 'Sent' || $lastStatus == 'Follow Up')
+                                            @for ($i = $numberStatus; $i < count($status); $i++)
+                                                <option value="{{ $status[$numberStatus] }}">
+                                                    {{ $status[$numberStatus] }}
+                                                </option>
+                                                <?php
+                                                $numberStatus = $numberStatus + 1;
+                                                ?>
+                                            @endfor
+                                        @elseif ($lastStatus == 'Follow Up')
+                                            @for ($i = $numberStatus; $i < count($status); $i++)
+                                                <option value="{{ $status[$numberStatus] }}">
+                                                    {{ $status[$numberStatus] }}
+                                                </option>
+                                                <?php
+                                                $numberStatus = $numberStatus + 1;
+                                                ?>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                    @error('status')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-1" id="divDescription" hidden>
+                                    <label class="text-sm text-teal-700">Keterangan</label>
+                                    <textarea
+                                        class="flex w-80 text-sm text-left font-semibold text-teal-900 border rounded-lg p-2 outline-none
+                                @error('description') is-invalid @enderror"
+                                        id="description" name="description" rows="4" cols=""></textarea>
+                                    @error('description')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-1">
+                                    <button id="btnSaveProgress"
+                                        class="hidden justify-center items-center mx-1 btn-primary mb-2"
+                                        title="Update Progress" type="submit">
+                                        <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                        </svg>
+                                        <span class="ml-2 text-white">Save Progress</span>
+                                    </button>
+                                </div>
+                            </form>
                             <div class="flex justify-start mt-5">
                                 <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-success"
                                     href="/dashboard/marketing/billboard-quotations/{{ $billboard_quot_revision->billboard_quotation->id }}">
@@ -137,31 +250,6 @@
                                     </svg>
                                     <span class="ml-2 text-white">Create PDF</span>
                                 </button>
-                                {{-- @if ($billboard_quot_revision->number == $quotRevisions[count($quotRevisions) - 1])
-                                    <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-warning"
-                                        href="/dashboard/marketing/quotation-revisions/revision/{{ $billboard_quot_revision->id }}">
-                                        <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                                fill-rule="nonzero" />
-                                        </svg>
-                                        <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Revisi</span>
-                                    </a>
-                                @else
-                                    <a class="hidden justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-warning"
-                                        href="/dashboard/marketing/quotation-revisions/revision/{{ $billboard_quot_revision->id }}">
-                                        <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                                fill-rule="nonzero" />
-                                        </svg>
-                                        <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Revisi</span>
-                                    </a>
-                                @endif --}}
                             </div>
                         </div>
                     </div>
@@ -643,40 +731,9 @@
     <!-- Show Quotatin end -->
 
     <!-- Script start -->
-    <script src="/js/showbillboardquotation.js"></script>
+    <script src="/js/showbillboardquotrevision.js"></script>
     <script src="/js/html2canvas.min.js"></script>
     <script src="/js/html2pdf.bundle.min.js"></script>
     <script src="/js/qrcode.min.js"></script>
     <!-- Script end -->
-
-    <script>
-        document.getElementById("btnCreatePdf").onclick = function() {
-            var element = document.getElementById('pdfPreview');
-            var opt = {
-                margin: 0,
-                filename: 'test.pdf',
-                image: {
-                    type: 'jpeg',
-                    quality: 1
-                },
-                pagebreak: {
-                    mode: ['avoid-all', 'css', 'legacy']
-                },
-                html2canvas: {
-                    dpi: 192,
-                    scale: 4,
-                    letterRendering: true,
-                    useCORS: true
-                },
-                jsPDF: {
-                    unit: 'in',
-                    format: 'a4',
-                    orientation: 'portrait',
-                    putTotalPages: true
-                }
-            };
-            // html2pdf(element, opt);
-            html2pdf().set(opt).from(element).save();
-        };
-    </script>
 @endsection

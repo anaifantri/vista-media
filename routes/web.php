@@ -20,6 +20,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\BillboardQuotationController;
 use App\Http\Controllers\BillboardQuotRevisionController;
+use App\Http\Controllers\BillboardQuotStatusController;
 use App\Http\Controllers\VideotronController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\VendorCategoryController;
@@ -50,6 +51,7 @@ Route::get('/dashboard/marketing/billboard-quotations/preview/{id}', [BillboardQ
 Route::resource('/dashboard/marketing/billboard-quot-revisions', BillboardQuotRevisionController::class)->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [BillboardQuotRevisionController::class, 'revision'])->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQuotRevisionController::class, 'preview']);
+Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
 
 Route::resource('/dashboard/media/area', AreaController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/cities', CityController::class)->middleware(['auth','user_access']);
