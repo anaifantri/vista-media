@@ -73,7 +73,9 @@ class User extends Authenticatable
     public function billboard_photos(){
         return $this->hasMany(BillboardPhoto::class, 'user_id', 'id');
     }
-
+    public function sales(){
+        return $this->hasMany(Sale::class, 'user_id', 'id');
+    }
 
     public $sortable = ['name', 'username'];
     /**

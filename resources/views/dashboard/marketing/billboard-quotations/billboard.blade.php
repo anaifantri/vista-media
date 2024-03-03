@@ -151,11 +151,6 @@
                             </th>
                             <th id="thAYear" class="text-xs text-teal-700 border w-[88px]">1 Tahun
                             </th>
-                            {{-- <th id="thManual" class="text-xs text-teal-700 border w-[88px] justify-center" hidden>
-                                <input id="manualPrice" class="input-price" type="text"
-                                    placeholder="Input Periode">
-                            </th> --}}
-                            {{-- <th class="text-xs text-teal-700 border"></th> --}}
                         </tr>
                     </thead>
                     <tbody id="billboardsTBody">
@@ -181,7 +176,7 @@
                     <input id="cbBillboardNote01" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
                     <input id="inputBBNote01" class="ml-2 text-sm text-black outline-none w-full" type="text"
-                        value="Biaya di atas belum termasuk PPN.">
+                        value="Harga di atas belum termasuk PPN.">
                 </div>
                 <div id="billboardNote02" class="flex">
                     <input id="cbBillboardNote02" class="ml-1" type="checkbox" checked>
@@ -191,13 +186,24 @@
                 </div>
                 <div id="billboardNote03" class="flex">
                     <input id="cbBillboardNote03" class="ml-1" type="checkbox" checked>
-                    <input id="inputBBNote03" class="ml-4 text-sm text-black outline-none w-full" type="text"
-                        value="•	 Free pemasangan visual 1 x selama kontrak di luar Biaya Cetak dan Design.">
+                    <label class="ml-4 text-sm text-black flex">• Free pemasangan visual</label>
+                    <input id="inputBBNote03" class="ml-1 text-sm text-black outline-none w-8 text-center"
+                        placeholder="0" type="number" value="">
+                    <label class="ml-1 text-sm text-black flex">x selama kontrak</label>
+                    <label class="ml-1 text-sm text-black hidden">di luar Biaya Cetak dan
+                        Design.</label>
+                </div>
+                <div id="billboardNote03" class="flex">
+                    <input id="cbBillboardNote03" class="ml-1" type="checkbox" checked>
+                    <label class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
+                    <input id="inputBBNote03" class="ml-1 text-sm text-black outline-none w-8 text-center"
+                        placeholder="0" type="number" value="">
+                    <label class="ml-1 text-sm text-black flex">x selama kontrak, di luar Design.</label>
                 </div>
                 <div id="billboardNote04" class="flex">
                     <input id="cbBillboardNote04" class="ml-1" type="checkbox" checked>
-                    <input id="inputBBNote04" class="ml-4 text-sm text-black outline-none w-full" type="text"
-                        value="•	 Sewa Lokasi, konsumsi listrik selama kontrak, maintenance selama kontrak.">
+                    <label class="ml-4 text-sm text-black flex">• Sewa Lokasi, konsumsi listrik selama kontrak,
+                        maintenance selama kontrak.</label>
                 </div>
                 <div id="billboardNote05" class="flex">
                     <input id="cbBillboardNote05" class="ml-1" type="checkbox" checked>
@@ -205,16 +211,42 @@
                     <input id="inputBBNote05" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Sistem Pembayaran :">
                 </div>
-                <div>
+                <div id="paymentTerms">
                     <div id="billboardNote06" class="flex">
                         <input id="cbBillboardNote06" class="ml-1" type="checkbox" checked>
-                        <input id="inputBBNote06" class="ml-4 text-sm text-black outline-none w-full" type="text"
-                            value="• 100% Pelunasan sebelum materi iklan tayang untuk masa kontrak kurang dari 1 tahun">
+                        <input id="inputBBNote06" class="ml-4 text-sm text-black outline-none w-10 text-center"
+                            placeholder="0" type="number" value="50">
+                        <label class="ml-1 text-sm text-black flex">%</label>
+                        <input id="inputBBNote06" class="ml-1 text-sm text-black outline-none w-full"
+                            placeholder="input keterangan" type="text" value="DP sebelum materi iklan tayang">
                     </div>
-                    <div id="billboardNote07" class="flex">
-                        <input id="cbBillboardNote07" class="ml-1" type="checkbox" checked>
-                        <input id="inputBBNote07" class="ml-4 text-sm text-black outline-none w-full" type="text"
-                            value="• 50% DP, 50% Pelunasan setelah BAPP untuk masa kontrak 1 tahun">
+                    <div id="billboardNote06" class="flex">
+                        <input id="cbBillboardNote06" class="ml-1" type="checkbox" checked>
+                        <input id="inputBBNote06" class="ml-4 text-sm text-black outline-none w-10 text-center"
+                            placeholder="0" type="number" value="50">
+                        <label class="ml-1 text-sm text-black flex">%</label>
+                        <input id="inputBBNote06" class="ml-1 text-sm text-black outline-none w-full"
+                            placeholder="input keterangan" type="text" value="pelunasan setelah BAPP">
+                    </div>
+                    <div class="flex">
+                        <button id="btnAddPayment" type="button"
+                            class="flex w-max h-5 bg-teal-500 text-sm rounded-md hover:bg-teal-900 cursor-pointer ml-8 justify-center items-center text-white p-1">
+                            <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                    fill-rule="nonzero" />
+                            </svg>add payment terms</button>
+                        <button id="btnDelPayment" type="button"
+                            class="flex w-max h-5 bg-red-600 text-sm rounded-md hover:bg-red-900 cursor-pointer ml-2 justify-center items-center text-white p-1">
+                            <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm4.253 9.25h-8.5c-.414 0-.75.336-.75.75s.336.75.75.75h8.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75z"
+                                    fill-rule="nonzero" />
+                            </svg>remove last payment terms</button>
                     </div>
                 </div>
                 <div id="billboardTArea">
@@ -237,6 +269,27 @@
                     <input id="inputBBNote10" class="ml-2 text-sm text-black outline-none w-full font-semibold"
                         type="text"
                         value="OOH Premium milik kami tersebar di Area Lombok, Bali, Jawa Timur dan Kalimantan">
+                </div>
+                <div class="flex">
+                    <button id="btnAddNotes" type="button"
+                        class="flex w-max h-5 bg-teal-500 text-sm rounded-md hover:bg-teal-900 cursor-pointer ml-8 justify-center items-center text-white p-1">
+                        <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
+                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                fill-rule="nonzero" />
+                        </svg>add
+                        notes</button>
+                    <button id="btnDelNotes" type="button"
+                        class="flex w-max h-5 bg-red-600 text-sm rounded-md hover:bg-red-900 cursor-pointer ml-2 justify-center items-center text-white p-1">
+                        <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
+                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm4.253 9.25h-8.5c-.414 0-.75.336-.75.75s.336.75.75.75h8.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75z"
+                                fill-rule="nonzero" />
+                        </svg>remove last notes</button>
                 </div>
             </div>
             @error('note')

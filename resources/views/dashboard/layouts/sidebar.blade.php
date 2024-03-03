@@ -296,7 +296,7 @@
                             <!-- Penjualan Child Start -->
                             <ul class="hidden" id="penjualanChild" name="penjualanChild">
                                 <li class="group">
-                                    <a class="nav-a ml-[62px] border-t-[1px]" href="#">
+                                    <a class="nav-a ml-[62px] border-t-[1px]" href="/dashboard/marketing/sales">
                                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24" fill-rule="evenodd" clip-rule="evenodd">
                                             <path

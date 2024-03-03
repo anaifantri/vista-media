@@ -192,6 +192,10 @@
     @apply text-xs text-teal-700 text-center border;
 }
 
+.td-table-sale{
+    @apply text-xs text-teal-700 text-right font-semibold border px-2;
+}
+
 .td-table-preview{
     @apply text-[0.65rem] text-teal-700 text-center border;
 }
@@ -331,3 +335,116 @@
 .footer-element{
     @apply flex items-center w-full justify-center;
 }
+
+.sale-label-title{
+        @apply flex text-lg font-bold border-b text-teal-700 mt-4;
+}
+
+.body-detail{
+    @apply flex justify-center mt-4;
+}
+
+.body-bottom-sale{
+    @apply flex justify-center;
+}
+
+.sale-detail{
+    @apply w-[385px] border rounded-lg mt-2 p-2;
+}
+
+.div-sale{
+    @apply flex mt-1;
+}
+
+.label-sale-01{
+    @apply text-sm text-teal-700 w-28
+}
+
+.label-sale-02{
+    @apply text-sm text-teal-700 ml-2;
+}
+
+.btn-sale{
+    @apply w-max h-5 ml-2 cursor-pointer bg-teal-500 rounded-lg text-white hover:bg-teal-600 drop-shadow-lg;
+}
+
+.th-table{
+    @apply text-xs text-teal-700 border text-center font-bold;
+}
+
+.sale-note{
+    @apply flex justify-center mt-4;
+}
+
+.div-sale-notes{
+    @apply border rounded-lg mt-2 p-2;
+}
+
+.sale-note-title{
+    @apply text-sm font-semibold underline text-teal-700;
+}
+
+.label-sale-notes{
+    @apply flex text-sm text-teal-700;
+}
+
+.line-label{
+    @apply flex text-sm text-teal-700 w-[416px] border-b h-5 border-dotted;
+}
+
+.sign-area{
+    @apply flex justify-center mt-4;
+}
+
+.div-sign{
+    @apply flex justify-center w-[792px] h-52;
+}
+
+.th-title-sign{
+    @apply text-teal-700 border h-6 underline;
+}
+
+.th-sign{
+    @apply text-xs text-teal-700 border w-[198px] h-5;
+}
+
+.td-sign{
+    @apply text-center align-bottom text-sm font-bold text-teal-700 border w-[195px] p-2 underline;
+}
+
+.table-sign{
+    @apply mt-2 w-full;
+}
+
+.img-location-sale{
+    @apply flex w-[375px] h-[250px] rounded-lg;
+}
+
+.qr-code-sale{
+    @apply flex justify-center items-center w-[385px] mt-2 p-2;
+}
+
+.qrcode-img-sale{
+    @apply flex w-[150px] h-[150px] rounded-lg;
+}
+
+.document-approval{
+    @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale;
+}
+
+.document-approval-active{
+    @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale-0;
+}
+
+.payment-value{
+    @apply ml-4 text-sm text-black outline-none w-10 text-center;
+}
+
+.percent-label{
+    @apply ml-1 text-sm text-black flex;
+}
+
+.payment-note{
+    @apply ml-1 text-sm text-black outline-none w-full
+}
+

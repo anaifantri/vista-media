@@ -24,6 +24,12 @@ class ClientController extends Controller
         ]);
     }
 
+    public function showClient(){
+        $dataClient = Client::All();
+
+        return response()->json(['dataClient'=> $dataClient]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

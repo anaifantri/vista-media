@@ -19,6 +19,7 @@ use App\Http\Controllers\BillboardCategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\BillboardQuotationController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\BillboardQuotRevisionController;
 use App\Http\Controllers\BillboardQuotStatusController;
 use App\Http\Controllers\VideotronController;
@@ -52,6 +53,7 @@ Route::resource('/dashboard/marketing/billboard-quot-revisions', BillboardQuotRe
 Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [BillboardQuotRevisionController::class, 'revision'])->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQuotRevisionController::class, 'preview']);
 Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
 
 Route::resource('/dashboard/media/area', AreaController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/cities', CityController::class)->middleware(['auth','user_access']);
@@ -71,6 +73,7 @@ Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth',
 Route::get('/showCity', [CityController::class,'showCity'])->middleware(['auth','user_access']);
 Route::get('/showLed', [LedController::class,'showLed'])->middleware(['auth','user_access']);
 Route::get('/showContact', [ContactController::class,'showContact'])->middleware(['auth','user_access']);
+Route::get('/showClient', [ClientController::class,'showClient'])->middleware(['auth','user_access']);
 Route::get('/showSize', [SizeController::class,'showSize'])->middleware(['auth','user_access']);
 Route::get('/test', [BillboardController::class,'test'])->middleware(['auth','user_access']);
 Route::get('/preview/{id}', [PreviewController::class, 'preview']);

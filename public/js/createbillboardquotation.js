@@ -84,6 +84,11 @@ const inputBBNote09 = document.getElementById("inputBBNote09");
 const billboardNote10 = document.getElementById("billboardNote10");
 const cbBillboardNote10 = document.getElementById("cbBillboardNote10");
 const inputBBNote10 = document.getElementById("inputBBNote10");
+const btnAddPayment = document.getElementById("btnAddPayment");
+const btnDelPayment = document.getElementById("btnDelPayment");
+const btnAddNotes = document.getElementById("btnAddNotes");
+const btnDelNotes = document.getElementById("btnDelNotes");
+const paymentTerms = document.getElementById("paymentTerms");
 // Declaration Quotation Billboard --> end
 
 // Declaration Quotation Add Locations --> start
@@ -2521,3 +2526,81 @@ function createImageLocations(locations, i) {
     bgElement.appendChild(footer);
     // Footer element --> end
 }
+
+// Add Payment Terms Button Event --> start
+btnAddPayment.addEventListener('click', function () {
+    const divPayment = document.createElement("div");
+    const cbPayment = document.createElement("input");
+    const paymentValue = document.createElement("input");
+    const percentLabel = document.createElement("label");
+    const paymentNote = document.createElement("input");
+
+    cbPayment.setAttribute('type', 'checkbox');
+    cbPayment.classList.add("ml-1");
+    cbPayment.setAttribute('checked', 'checked');
+
+    paymentValue.setAttribute('type', 'number');
+    paymentValue.classList.add("payment-value");
+    paymentValue.setAttribute('placeholder', '0');
+
+    percentLabel.classList.add("percent-label");
+    percentLabel.innerHTML = "%";
+
+    paymentNote.setAttribute('type', 'text');
+    paymentNote.setAttribute('placeholder', 'input keterangan');
+    paymentNote.classList.add("payment-note");
+
+    divPayment.classList.add("flex");
+    divPayment.appendChild(cbPayment);
+    divPayment.appendChild(paymentValue);
+    divPayment.appendChild(percentLabel);
+    divPayment.appendChild(paymentNote);
+
+    paymentTerms.insertBefore(divPayment, paymentTerms.lastElementChild);
+
+})
+// Add Payment Terms Button Event --> end
+
+// Delete Payment Terms Button Event --> start
+btnDelPayment.addEventListener('click', function () {
+    if (paymentTerms.children.length > 2) {
+        paymentTerms.removeChild(paymentTerms.children[paymentTerms.children.length - 2]);
+    }
+})
+// Delete Payment Terms Button Event --> end
+
+// Add Notes Button Event --> start
+btnAddNotes.addEventListener('click', function () {
+    const divNotes = document.createElement("div");
+    const cbNotes = document.createElement("input");
+    const notesLabel = document.createElement("label");
+    const notesValue = document.createElement("input");
+
+    cbNotes.setAttribute('type', 'checkbox');
+    cbNotes.classList.add("ml-1");
+    cbNotes.setAttribute('checked', 'checked');
+
+    notesLabel.classList.add("percent-label");
+    notesLabel.innerHTML = "-";
+
+    notesValue.classList.add("payment-note");
+    notesValue.setAttribute('placeholder', 'input keterangan')
+
+    divNotes.classList.add("flex");
+
+    divNotes.appendChild(cbNotes);
+    divNotes.appendChild(notesLabel);
+    divNotes.appendChild(notesValue);
+
+    billboardNote.insertBefore(divNotes, billboardNote.lastElementChild);
+
+})
+// Add Notes Button Event --> end
+
+// Delete Notes Button Event --> start
+btnDelNotes.addEventListener('click', function () {
+    if (billboardNote.children.length > 12) {
+        billboardNote.removeChild(billboardNote.children[billboardNote.children.length - 2]);
+    }
+})
+// Delete Notes Button Event --> end

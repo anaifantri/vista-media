@@ -41,5 +41,9 @@ class Client extends Model
         return $this->hasMany(BillboardQuotation::class, 'client_id', 'id');
     }
 
+    public function sales(){
+        return $this->hasMany(Sale::class, 'client_id', 'id');
+    }
+
     public $sortable = ['name','company', 'category'];
 }
