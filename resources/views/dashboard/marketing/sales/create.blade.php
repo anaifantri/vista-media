@@ -12,56 +12,69 @@
                     <h1 class="text-xl text-cyan-800 font-bold tracking-wider">INPUT DATA PENJUALAN</h1>
                 </div>
                 <div class="flex border rounded-lg mt-2 p-2">
-                    <select
-                        class="flex w-44 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('sale_category_id') is-invalid @enderror"
-                        name="sale_category_id" id="sale_category_id">
-                        <option value="Pilih Katagori">Pilih Katagori</option>
-                        @foreach ($sale_categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                    <select
-                        class="hidden ml-4 w-56 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('quotationDeal') is-invalid @enderror"
-                        name="quotationDeal" id="quotationDeal">
-                        <option value="Pilih Penawaran">Pilih Penawaran</option>
-                        @foreach ($billboard_quotations as $quotation)
-                            <?php
-                            $deal = false;
-                            ?>
-                            @foreach ($billboard_quot_statuses as $status)
-                                @if ($status->billboard_quotation_id == $quotation->id)
-                                    @if ($status->status == 'Deal')
-                                        <option value="{{ $quotation->number }}">{{ $quotation->number }}
-                                        </option>
-                                        <?php
-                                        $deal = true;
-                                        ?>
-                                    @endif
-                                @endif
+                    <div class="flex">
+                        <select
+                            class="flex w-44 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('sale_category_id') is-invalid @enderror"
+                            name="sale_category_id" id="sale_category_id">
+                            <option value="Pilih Katagori">Pilih Katagori</option>
+                            @foreach ($sale_categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
-                            @if ($deal != true)
-                                @foreach ($billboard_quot_revisions as $revision)
-                                    <?php
-                                    $deal = false;
-                                    ?>
-                                    @if ($revision->billboard_quotation_id == $quotation->id)
-                                        @foreach ($billboard_quot_statuses as $status)
-                                            @if ($status->billboard_quot_revision_id == $revision->id)
-                                                @if ($status->status == 'Deal')
-                                                    <option value="{{ $revision->number }}">
-                                                        {{ $revision->number }}
-                                                    </option>
-                                                    <?php
-                                                    $deal = true;
-                                                    ?>
-                                                @endif
-                                            @endif
-                                        @endforeach
+                        </select>
+                        <select
+                            class="hidden ml-4 w-56 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('quotationDeal') is-invalid @enderror"
+                            name="quotationDeal" id="quotationDeal">
+                            <option value="Pilih Penawaran">Pilih Penawaran</option>
+                            @foreach ($billboard_quotations as $quotation)
+                                <?php
+                                $deal = false;
+                                ?>
+                                @foreach ($billboard_quot_statuses as $status)
+                                    @if ($status->billboard_quotation_id == $quotation->id)
+                                        @if ($status->status == 'Deal')
+                                            <option value="{{ $quotation->number }}">{{ $quotation->number }}
+                                            </option>
+                                            <?php
+                                            $deal = true;
+                                            ?>
+                                        @endif
                                     @endif
                                 @endforeach
-                            @endif
-                        @endforeach
-                    </select>
+                                @if ($deal != true)
+                                    @foreach ($billboard_quot_revisions as $revision)
+                                        <?php
+                                        $deal = false;
+                                        ?>
+                                        @if ($revision->billboard_quotation_id == $quotation->id)
+                                            @foreach ($billboard_quot_statuses as $status)
+                                                @if ($status->billboard_quot_revision_id == $revision->id)
+                                                    @if ($status->status == 'Deal')
+                                                        <option value="{{ $revision->number }}">
+                                                            {{ $revision->number }}
+                                                        </option>
+                                                        <?php
+                                                        $deal = true;
+                                                        ?>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div id="divSave" class="hidden w-[780px] justify-end">
+                        <button id="btnSave" class="flex justify-center items-center mx-1 btn-success" title="Save"
+                            type="submit">
+                            <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                            </svg>
+                            <span class="ml-2 text-white">Save</span>
+                        </button>
+                    </div>
                 </div>
                 <!-- Title Create Sales Data end -->
                 <div id="salePreviews" class="hidden mt-4">

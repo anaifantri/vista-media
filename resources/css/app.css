@@ -385,7 +385,7 @@
 }
 
 .label-sale-notes{
-    @apply flex text-sm text-teal-700;
+    @apply ml-2 flex text-sm text-teal-700;
 }
 
 .line-label{
@@ -397,7 +397,7 @@
 }
 
 .div-sign{
-    @apply flex justify-center w-[792px] h-52;
+    @apply flex justify-center w-[792px] h-36;
 }
 
 .th-title-sign{
@@ -437,7 +437,7 @@
 }
 
 .payment-value{
-    @apply ml-4 text-sm text-black outline-none w-10 text-center;
+    @apply ml-1 text-sm text-black outline-none w-10 text-center;
 }
 
 .percent-label{
@@ -445,6 +445,33 @@
 }
 
 .payment-note{
-    @apply ml-1 text-sm text-black outline-none w-full
+    @apply ml-1 text-sm text-black outline-none w-full;
 }
 
+.label-preview-bb-note{
+    @apply ml-2 text-[0.7rem] text-black w-full;
+}
+
+.div-preview-bb-note{
+    @apply flex;
+}
+
+.label-payment{
+    @apply ml-4 text-[0.7rem] text-black w-full;
+}
+
+.label-radio{
+    @apply text-xs text-teal-700 ml-1;
+}
+
+.input-dpp{
+    @apply outline-none text-teal-700 text-xs rounded-sm w-24 text-right;
+}
+
+.title-periode{
+    @apply text-teal-700 text-sm border-b-2 border-teal-700;
+}
+
+.date-periode{
+    @apply outline-none text-teal-700 text-sm rounded-sm w-32 ml-2;
+}

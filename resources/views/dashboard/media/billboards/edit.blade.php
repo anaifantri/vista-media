@@ -11,7 +11,7 @@
             <!-- Title Edit Billboard end -->
             <!-- Form Edit Billboard start -->
             <div class="flex">
-                <form class="md:flex" action="/dashboard/media/billboards/{{ $billboard->id }}" method="post"
+                <form class="flex" action="/dashboard/media/billboards/{{ $billboard->id }}" method="post"
                     enctype="multipart/form-data">
                     @method('put')
                     @csrf
@@ -293,7 +293,15 @@
                             <div class="flex mt-1">
                                 @php
                                     $numberDistance = 0;
-                                    $distances = ['> 50 meter', '> 100 meter', '> 150 meter', '> 200 meter', '> 250 meter', '> 300 meter', '> 500 meter'];
+                                    $distances = [
+                                        '> 50 meter',
+                                        '> 100 meter',
+                                        '> 150 meter',
+                                        '> 200 meter',
+                                        '> 250 meter',
+                                        '> 300 meter',
+                                        '> 500 meter',
+                                    ];
                                 @endphp
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Jarak Pandang</label>
@@ -322,7 +330,16 @@
                             <div class="flex mt-1">
                                 @php
                                     $numberSpeed = 0;
-                                    $speeds = ['0 - 10 km/jam', '0 - 20 km/jam', '10 - 20 km/jam', '10 - 40 km/jam', '20 - 40 km/jam', '20 - 60 km/jam', '40 - 60 km/jam', '40 - 80 km/jam'];
+                                    $speeds = [
+                                        '0 - 10 km/jam',
+                                        '0 - 20 km/jam',
+                                        '10 - 20 km/jam',
+                                        '10 - 40 km/jam',
+                                        '20 - 40 km/jam',
+                                        '20 - 60 km/jam',
+                                        '40 - 60 km/jam',
+                                        '40 - 80 km/jam',
+                                    ];
                                 @endphp
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kecepatan Kendaraan</label>
@@ -450,12 +467,12 @@
                                                 src="/img/product-image.png" alt="">
                                         @endif
                                 @endif
+                            @endforeach
                         </div>
-                        @endforeach
                         <!-- Photo Billboard end -->
                         <!-- Maps Billboard start -->
                         <div>
-                            <span class="flex justify-center border-b mt-2 text-base font-semibold">Peta Lokasi</span>
+                            <span class="border-b mt-2 text-base font-semibold">Peta Lokasi</span>
 
                             <div class="m-map-product md:w-[360px] md:h-[240px] xl:w-[550px] xl:h-[367px] 2xl:w-[640px] 2xl:h-[427px] mt-1 mb-6"
                                 id="map">
@@ -463,10 +480,9 @@
                         </div>
                         <!-- Maps Billboard end -->
                     </div>
+                </form>
             </div>
-            </form>
         </div>
-    </div>
     </div>
     <!-- Form Edit Billboard end -->
     <!-- Script Billboard start -->

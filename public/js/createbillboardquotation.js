@@ -54,41 +54,53 @@ const thManual = document.getElementById("thManual");
 const billboardsTBody = document.getElementById("billboardsTBody");
 const billboardNote = document.getElementById("billboardNote");
 const billboardTArea = document.getElementById("billboardTArea");
-const billboardNote01 = document.getElementById("billboardNote01");
-const cbBillboardNote01 = document.getElementById("cbBillboardNote01");
-const inputBBNote01 = document.getElementById("inputBBNote01");
-const billboardNote02 = document.getElementById("billboardNote02");
-const cbBillboardNote02 = document.getElementById("cbBillboardNote02");
-const inputBBNote02 = document.getElementById("inputBBNote02");
-const billboardNote03 = document.getElementById("billboardNote03");
-const cbBillboardNote03 = document.getElementById("cbBillboardNote03");
-const inputBBNote03 = document.getElementById("inputBBNote03");
-const billboardNote04 = document.getElementById("billboardNote04");
-const cbBillboardNote04 = document.getElementById("cbBillboardNote04");
-const inputBBNote04 = document.getElementById("inputBBNote04");
-const billboardNote05 = document.getElementById("billboardNote05");
-const cbBillboardNote05 = document.getElementById("cbBillboardNote05");
-const inputBBNote05 = document.getElementById("inputBBNote05");
-const billboardNote06 = document.getElementById("billboardNote06");
-const inputBBNote06 = document.getElementById("inputBBNote06");
-const cbBillboardNote06 = document.getElementById("cbBillboardNote06");
-const inputBBNote07 = document.getElementById("inputBBNote07");
-const billboardNote07 = document.getElementById("billboardNote07");
-const cbBillboardNote07 = document.getElementById("cbBillboardNote07");
-const billboardNote08 = document.getElementById("billboardNote08");
-const cbBillboardNote08 = document.getElementById("cbBillboardNote08");
-const inputBBNote08 = document.getElementById("inputBBNote08");
-const billboardNote09 = document.getElementById("billboardNote09");
-const cbBillboardNote09 = document.getElementById("cbBillboardNote09");
-const inputBBNote09 = document.getElementById("inputBBNote09");
-const billboardNote10 = document.getElementById("billboardNote10");
-const cbBillboardNote10 = document.getElementById("cbBillboardNote10");
-const inputBBNote10 = document.getElementById("inputBBNote10");
+const billboardNote1 = document.getElementById("billboardNote-1");
+const cbBillboardNote1 = document.getElementById("cbBillboardNote-1");
+const inputBBNote1 = document.getElementById("inputBBNote-1");
+const billboardNote2 = document.getElementById("billboardNote-2");
+const cbBillboardNote2 = document.getElementById("cbBillboardNote-2");
+const inputBBNote2 = document.getElementById("inputBBNote-2");
+const billboardNote3 = document.getElementById("billboardNote-3");
+const cbBillboardNote3 = document.getElementById("cbBillboardNote-3");
+const inputBBNote3 = document.getElementById("inputBBNote-3");
+const labelBBNote3 = document.getElementById("labelBBNote-3");
+const billboardNote4 = document.getElementById("billboardNote-4");
+const cbBillboardNote4 = document.getElementById("cbBillboardNote-4");
+const inputBBNote4 = document.getElementById("inputBBNote-4");
+const labelBBNote4 = document.getElementById("labelBBNote-4");
+const billboardNote5 = document.getElementById("billboardNote-5");
+const cbBillboardNote5 = document.getElementById("cbBillboardNote-5");
+const inputBBNote5 = document.getElementById("inputBBNote-5");
+const billboardNote6 = document.getElementById("billboardNote-6");
+const inputBBNote6 = document.getElementById("inputBBNote-6");
+const cbBillboardNote6 = document.getElementById("cbBillboardNote-6");
+const billboardNote7 = document.getElementById("billboardNote-7");
+const cbBillboardNote8 = document.getElementById("cbBillboardNote-8");
+const inputBBNote8 = document.getElementById("inputBBNote-8");
+const billboardNote9 = document.getElementById("billboardNote-9");
+const cbBillboardNote9 = document.getElementById("cbBillboardNote-9");
+const inputBBNote9 = document.getElementById("inputBBNote-9");
+const billboardNote10 = document.getElementById("billboardNote-10");
+const cbBillboardNote10 = document.getElementById("cbBillboardNote-10");
+const inputBBNote10 = document.getElementById("inputBBNote-10");
 const btnAddPayment = document.getElementById("btnAddPayment");
 const btnDelPayment = document.getElementById("btnDelPayment");
 const btnAddNotes = document.getElementById("btnAddNotes");
 const btnDelNotes = document.getElementById("btnDelNotes");
-const paymentTerms = document.getElementById("paymentTerms");
+const paymentTerms1 = document.getElementById("paymentTerms-1");
+const paymentTerms2 = document.getElementById("paymentTerms-2");
+const billboardTableWidth = document.getElementById("billboardTableWidth");
+let indexNotes = 0;
+let indexPayment = 0;
+let divNotes = [];
+let divPayment = [];
+let labelPayment = [];
+let paymentValue = [];
+let paymentNote = [];
+let cbNotes = [];
+let inputNotes = [];
+var totalPayment = 0;
+var nolPercent = 0;
 // Declaration Quotation Billboard --> end
 
 // Declaration Quotation Add Locations --> start
@@ -123,26 +135,30 @@ const previewBBthManual = document.getElementById("previewBBthManual");
 const previewBBManualPrice = document.getElementById("previewBBManualPrice");
 const tableWidth = document.getElementById("tableWidth");
 const previewBBNote = document.getElementById("previewBBNote");
-const previewBBNote01 = document.getElementById("previewBBNote01");
-const inputPreviewBBNote01 = document.getElementById("inputPreviewBBNote01");
-const previewBBNote02 = document.getElementById("previewBBNote02");
-const inputPreviewBBNote02 = document.getElementById("inputPreviewBBNote02");
-const previewBBNote03 = document.getElementById("previewBBNote03");
-const inputPreviewBBNote03 = document.getElementById("inputPreviewBBNote03");
-const previewBBNote04 = document.getElementById("previewBBNote04");
-const inputPreviewBBNote04 = document.getElementById("inputPreviewBBNote04");
-const previewBBNote05 = document.getElementById("previewBBNote05");
-const previewBBNote06 = document.getElementById("previewBBNote06");
-const inputPreviewBBNote06 = document.getElementById("inputPreviewBBNote06");
-const previewBBNote07 = document.getElementById("previewBBNote07");
-const inputPreviewBBNote07 = document.getElementById("inputPreviewBBNote07");
-const previewBBNote08 = document.getElementById("previewBBNote08");
 const previewBBTArea = document.getElementById("previewBBTArea");
-const lablePreviewBBNote08 = document.getElementById("lablePreviewBBNote08");
-const previewBBNote09 = document.getElementById("previewBBNote09");
-const inputPreviewBBNote09 = document.getElementById("inputPreviewBBNote09");
-const previewBBNote10 = document.getElementById("previewBBNote10");
-const inputPreviewBBNote10 = document.getElementById("inputPreviewBBNote10");
+let divPreviewBBNotes = [];
+let labelPreviewBBNotes = [];
+const previewBBNote1 = document.getElementById("previewBBNote-1");
+const labelPreviewBBNote1 = document.getElementById("labelPreviewBBNote-1");
+const previewBBNote2 = document.getElementById("previewBBNote-2");
+const labelPreviewBBNote2 = document.getElementById("labelPreviewBBNote-2");
+const previewBBNote3 = document.getElementById("previewBBNote-3");
+const labelPreviewBBNote3 = document.getElementById("labelPreviewBBNote-3");
+const previewBBNote4 = document.getElementById("previewBBNote-4");
+const labelPreviewBBNote4 = document.getElementById("labelPreviewBBNote-4");
+const previewBBNote5 = document.getElementById("previewBBNote-5");
+const labelPreviewBBNote5 = document.getElementById("labelPreviewBBNote-5");
+const previewBBNote6 = document.getElementById("previewBBNote-6");
+const labelPreviewBBNote6 = document.getElementById("labelPreviewBBNote-6");
+const previewBBNote7 = document.getElementById("previewBBNote-7");
+const labelPreviewBBNote7A = document.getElementById("labelPreviewBBNote-7A");
+const labelPreviewBBNote7B = document.getElementById("labelPreviewBBNote-7B");
+const previewBBNote8 = document.getElementById("previewBBNote-8");
+const labelPreviewBBNote8 = document.getElementById("labelPreviewBBNote-8");
+const previewBBNote9 = document.getElementById("previewBBNote-9");
+const labelPreviewBBNote9 = document.getElementById("labelPreviewBBNote-9");
+const previewBBNote10 = document.getElementById("previewBBNote-10");
+const labelPreviewBBNote10 = document.getElementById("labelPreviewBBNote-10");
 const locationsImage = document.getElementById("locationsImage");
 // Declaration Quotation Billboard Preview --> end
 
@@ -159,6 +175,7 @@ let objBillboards = {};
 let locations = [];
 let objNote = {};
 let notes = [];
+let payment = [];
 let objQuotationCity = {};
 let objQuotation = {};
 
@@ -729,9 +746,9 @@ function getArea(sel) {
         btnAdd.classList.remove('btn-primary');
     }
     if (sel.options[sel.selectedIndex].text == 'Bali') {
-        cbBillboardNote08.setAttribute('checked', 'checked');
+        cbBillboardNote8.setAttribute('checked', 'checked');
     } else {
-        cbBillboardNote08.removeAttribute('checked');
+        cbBillboardNote8.removeAttribute('checked');
     }
     dataLocation = [];
     let n = 0;
@@ -765,7 +782,6 @@ function getArea(sel) {
 
 function getCity(sel) {
     inputCity.value = cityId.value;
-    console.log(inputCity.value);
     while (billboardsTBody.hasChildNodes()) {
         billboardsTBody.removeChild(billboardsTBody.firstChild);
     }
@@ -782,9 +798,9 @@ function getCity(sel) {
     }
 
     if (sel.options[sel.selectedIndex].text == 'Denpasar' || sel.options[sel.selectedIndex].text == 'Badung') {
-        cbBillboardNote08.setAttribute('checked', 'checked');
+        cbBillboardNote8.setAttribute('checked', 'checked');
     } else {
-        cbBillboardNote08.removeAttribute('checked');
+        cbBillboardNote8.removeAttribute('checked');
     }
 
     dataLocation = [];
@@ -997,16 +1013,26 @@ function getDataBillboardCategory() {
 
 // Preview --> start
 btnPreview.addEventListener('click', function () {
+    checkPaymentTerms();
+
     if (billboardCategoryId.value == 'Pilih Katagori') {
-        alert('Anda belum memilih katagori')
+        alert('Anda belum memilih katagori');
     } else if (areaId.value == 'Pilih Area') {
-        alert('Anda belum memilih area')
+        alert('Anda belum memilih area');
     } else if (clientId.value == 'Pilih Klien') {
-        alert('Anda belum memilih klien')
+        alert('Anda belum memilih klien');
     } else if (contactId.value == 'Pilih Kontak') {
-        alert('Anda belum memilih kontak')
+        alert('Anda belum memilih kontak');
     } else if (locations.length == 0) {
-        alert('Anda belum memilih lokasi ' + billboardCategory.value)
+        alert('Anda belum memilih lokasi ' + billboardCategory.value);
+    } else if (cbBillboardNote3.checked == true && inputBBNote3.value == 0) {
+        alert("Free pemasangan belum diinput!! \n Silahkan uncheck atau input free pemasangan");
+    } else if (cbBillboardNote4.checked == true && inputBBNote4.value == 0) {
+        alert("Free cetak belum diinput!! \n Silahkan uncheck atau input free cetak atau");
+    } else if (nolPercent != 0) {
+        alert("Ada termin pembayaran 0% !!! \n Silahkan perbaiki termin pembayaran");
+    } else if (totalPayment != 100) {
+        alert("Total Termin Pembayaran Tidak = 100% !!! \n Silahkan perbaiki termin pembayaran");
     } else {
         if (locations.length != 0) {
             while (locationsImage.hasChildNodes()) {
@@ -1054,7 +1080,7 @@ btnPreview.addEventListener('click', function () {
             cell[0].innerHTML = iBillboard + 1;
             cell[0].classList.add('td-table-preview');
             cell[1] = newRow[iBillboard].insertCell(1);
-            cell[1].innerHTML = locations[iBillboard].code;
+            cell[1].innerHTML = locations[iBillboard].code + ' - ' + locations[iBillboard].city;
             cell[1].classList.add('td-table-preview');
             cell[2] = newRow[iBillboard].insertCell(2);
             cell[2].innerHTML = locations[iBillboard].address;
@@ -1074,14 +1100,18 @@ btnPreview.addEventListener('click', function () {
             }
             cell[4].classList.add('td-table-preview');
             cell[5] = newRow[iBillboard].insertCell(5);
-            cell[5].innerHTML = locations[iBillboard].size;
+            if (locations[iBillboard].orientation == 'Vertikal') {
+                cell[5].innerHTML = locations[iBillboard].size + ' - V';
+            } else if (locations[iBillboard].orientation == 'Horizontal') {
+                cell[5].innerHTML = locations[iBillboard].size + ' - H';
+            }
             cell[5].classList.add('td-table-preview');
             cell[6] = newRow[iBillboard].insertCell(6);
             if (manual.checked == true) {
                 locations[iBillboard].price.periodeMonth.priceMonth = Number(inputPriceMonth[iBillboard].value);
-                cell[6].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeMonth.priceMonth)) + ',-';
+                cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeMonth.priceMonth));
             } else {
-                cell[6].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeMonth.priceMonth)) + ',-';
+                cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeMonth.priceMonth));
             }
             cell[6].classList.add('td-table-preview');
             if (aMonth.checked == true) {
@@ -1092,9 +1122,9 @@ btnPreview.addEventListener('click', function () {
             cell[7] = newRow[iBillboard].insertCell(7);
             if (manual.checked == true) {
                 locations[iBillboard].price.periodeQuarter.priceQuarter = Number(inputPriceQuarter[iBillboard].value);
-                cell[7].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeQuarter.priceQuarter)) + ',-';
+                cell[7].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeQuarter.priceQuarter));
             } else {
-                cell[7].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeQuarter.priceQuarter)) + ',-';
+                cell[7].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeQuarter.priceQuarter));
             }
             cell[7].classList.add('td-table-preview');
             if (quarterYear.checked == true) {
@@ -1105,9 +1135,9 @@ btnPreview.addEventListener('click', function () {
             cell[8] = newRow[iBillboard].insertCell(8);
             if (manual.checked == true) {
                 locations[iBillboard].price.periodeHalf.priceHalf = Number(inputPriceHalf[iBillboard].value);
-                cell[8].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeHalf.priceHalf)) + ',-';
+                cell[8].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeHalf.priceHalf));
             } else {
-                cell[8].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeHalf.priceHalf)) + ',-';
+                cell[8].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeHalf.priceHalf));
             }
             cell[8].classList.add('td-table-preview');
             if (halfYear.checked == true) {
@@ -1118,9 +1148,9 @@ btnPreview.addEventListener('click', function () {
             cell[9] = newRow[iBillboard].insertCell(9);
             if (manual.checked == true) {
                 locations[iBillboard].price.periodeYear.priceYear = inputPriceYear[iBillboard].value;
-                cell[9].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeYear.priceYear)) + ',-';
+                cell[9].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeYear.priceYear));
             } else {
-                cell[9].innerHTML = 'Rp. ' + Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeYear.priceYear)) + ',-';
+                cell[9].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeYear.priceYear));
             }
             cell[9].classList.add('td-table-preview');
             if (aYear.checked == true) {
@@ -1130,178 +1160,220 @@ btnPreview.addEventListener('click', function () {
             }
         }
         objBillboards = { locations };
-        console.log(objBillboards);
         billboards.value = "";
         billboards.value = JSON.stringify(objBillboards);
+        notes = [];
+        while (previewBBNote.children.length > 11) {
+            previewBBNote.removeChild(previewBBNote.children[previewBBNote.children.length - 3]);
+        }
+        while (previewBBNote7.hasChildNodes()) {
+            previewBBNote7.removeChild(previewBBNote7.firstChild);
+        }
 
-        for (i = 0; i < 10; i++) {
-            if (i + 1 == 1) {
-                inputPreviewBBNote01.value = inputBBNote01.value;
-                if (cbBillboardNote01.checked == true) {
-                    previewBBNote01.removeAttribute('hidden');
-                    notes[i] = {
+        for (i = 0; i < billboardNote.children.length; i++) {
+            if (i + 1 == 2) {
+                labelPreviewBBNote1.innerText = inputBBNote1.value;
+                if (cbBillboardNote1.checked == true) {
+                    previewBBNote1.removeAttribute('hidden');
+                    notes[0] = {
                         cbNote: true,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote01.value
+                        textNote: labelPreviewBBNote1.innerText
                     }
                 } else {
-                    previewBBNote01.setAttribute('hidden', 'hidden');
-                    notes[i] = {
+                    previewBBNote1.setAttribute('hidden', 'hidden');
+                    notes[0] = {
                         cbNote: false,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote01.value
-                    }
-                }
-            } else if (i + 1 == 2) {
-                inputPreviewBBNote02.value = inputBBNote02.value;
-                if (cbBillboardNote02.checked == true) {
-                    previewBBNote02.removeAttribute('hidden');
-                    notes[i] = {
-                        cbNote: true,
-                        labelNote: "-",
-                        textNote: inputPreviewBBNote02.value
-                    }
-                } else {
-                    previewBBNote02.setAttribute('hidden', 'hidden');
-                    notes[i] = {
-                        cbNote: false,
-                        labelNote: "-",
-                        textNote: inputPreviewBBNote02.value
+                        textNote: labelPreviewBBNote1.innerText
                     }
                 }
             } else if (i + 1 == 3) {
-                inputPreviewBBNote03.value = inputBBNote03.value;
-                if (cbBillboardNote03.checked == true) {
-                    previewBBNote03.removeAttribute('hidden');
-                    notes[i] = {
+                labelPreviewBBNote2.innerText = inputBBNote2.value;
+                if (cbBillboardNote2.checked == true) {
+                    previewBBNote2.removeAttribute('hidden');
+                    notes[1] = {
                         cbNote: true,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote03.value
+                        textNote: labelPreviewBBNote2.innerText
                     }
                 } else {
-                    previewBBNote03.setAttribute('hidden', 'hidden');
-                    notes[i] = {
+                    previewBBNote2.setAttribute('hidden', 'hidden');
+                    notes[1] = {
                         cbNote: false,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote03.value
+                        textNote: labelPreviewBBNote2.innerText
                     }
                 }
             } else if (i + 1 == 4) {
-                inputPreviewBBNote04.value = inputBBNote04.value;
-                if (cbBillboardNote04.checked == true) {
-                    previewBBNote04.removeAttribute('hidden');
-                    notes[i] = {
+                labelPreviewBBNote3.innerText = '• Free pemasangan visual ' + inputBBNote3.value + ' ' + labelBBNote3.innerText;
+                if (cbBillboardNote3.checked == true) {
+                    if (inputBBNote4.value == 0) {
+                        labelPreviewBBNote3.innerText = '• Free pemasangan visual ' + inputBBNote3.value + ' ' + 'x selama kontrak diluar biaya cetak dan design.';
+                    }
+                    previewBBNote3.removeAttribute('hidden');
+                    notes[2] = {
                         cbNote: true,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote04.value
+                        textNote: labelPreviewBBNote3.innerText,
+                        freeInstal: inputBBNote3.value
                     }
                 } else {
-                    previewBBNote04.setAttribute('hidden', 'hidden');
-                    notes[i] = {
+                    previewBBNote3.setAttribute('hidden', 'hidden');
+                    notes[2] = {
                         cbNote: false,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote04.value
+                        textNote: labelPreviewBBNote3.innerText,
+                        freeInstal: inputBBNote3.value
                     }
                 }
             } else if (i + 1 == 5) {
-                if (cbBillboardNote05.checked == true) {
-                    previewBBNote05.removeAttribute('hidden');
-                    notes[i] = {
+                labelPreviewBBNote4.innerText = '• Free cetak materi visual ' + inputBBNote4.value + ' ' + labelBBNote4.innerText;
+                if (cbBillboardNote4.checked == true) {
+                    previewBBNote4.removeAttribute('hidden');
+                    notes[3] = {
                         cbNote: true,
                         labelNote: "-",
-                        textNote: "Sistem Pembayaran :"
+                        textNote: labelPreviewBBNote4.innerText,
+                        freePrint: inputBBNote4.value
                     }
                 } else {
-                    previewBBNote05.setAttribute('hidden', 'hidden');
-                    notes[i] = {
+                    previewBBNote4.setAttribute('hidden', 'hidden');
+                    notes[3] = {
                         cbNote: false,
-                        labelNote: "",
-                        textNote: "Sistem Pembayaran :"
+                        labelNote: "-",
+                        textNote: labelPreviewBBNote4.innerText,
+                        freePrint: inputBBNote4.value
                     }
                 }
             } else if (i + 1 == 6) {
-                inputPreviewBBNote06.value = inputBBNote06.value;
-                if (cbBillboardNote06.checked == true) {
-                    previewBBNote06.removeAttribute('hidden');
-                    notes[i] = {
+                labelPreviewBBNote5.innerText = inputBBNote5.value;
+                if (cbBillboardNote5.checked == true) {
+                    previewBBNote5.removeAttribute('hidden');
+                    notes[4] = {
                         cbNote: true,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote06.value
+                        textNote: labelPreviewBBNote5.innerText
                     }
                 } else {
-                    previewBBNote06.setAttribute('hidden', 'hidden');
-                    notes[i] = {
+                    previewBBNote5.setAttribute('hidden', 'hidden');
+                    notes[4] = {
                         cbNote: false,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote06.value
+                        textNote: labelPreviewBBNote5.innerText
                     }
                 }
             } else if (i + 1 == 7) {
-                inputPreviewBBNote07.value = inputBBNote07.value;
-                if (cbBillboardNote07.checked == true) {
-                    previewBBNote07.removeAttribute('hidden');
-                    notes[i] = {
+                labelPreviewBBNote6.innerText = inputBBNote6.value;
+                if (cbBillboardNote6.checked == true) {
+                    previewBBNote6.removeAttribute('hidden');
+                    notes[5] = {
                         cbNote: true,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote07.value
+                        textNote: labelPreviewBBNote6.innerText
                     }
                 } else {
-                    previewBBNote07.setAttribute('hidden', 'hidden');
-                    notes[i] = {
+                    previewBBNote6.setAttribute('hidden', 'hidden');
+                    notes[5] = {
                         cbNote: false,
-                        labelNote: "-",
-                        textNote: inputPreviewBBNote07.value
+                        labelNote: "",
+                        textNote: labelPreviewBBNote6.innerText
                     }
                 }
             } else if (i + 1 == 8) {
-                lablePreviewBBNote08.innerHTML = inputBBNote08.value;
-                if (cbBillboardNote08.checked == true) {
+                for (n = 0; n < indexPayment; n++) {
+                    const divLabel = document.createElement("div");
+                    const labelPayment = document.createElement("label");
+
+                    labelPayment.classList.add("label-payment");
+                    labelPayment.innerText = '• ' + paymentValue[n].value + ' % ' + paymentNote[n].value;
+
+                    divLabel.appendChild(labelPayment);
+                    previewBBNote7.appendChild(divLabel);
+                    payment[n] = {
+                        termNumber: n + 1,
+                        termValue: paymentValue[n].value,
+                        termNote: paymentNote[n].value
+                    };
+                }
+                if (cbBillboardNote6.checked == true) {
+                    previewBBNote7.removeAttribute('hidden');
+                    notes[6] = payment;
+                } else {
+                    previewBBNote7.setAttribute('hidden', 'hidden');
+                    notes[6] = payment;
+                }
+            } else if (i + 1 == 9) {
+                labelPreviewBBNote8.innerText = inputBBNote8.value;
+                if (cbBillboardNote8.checked == true) {
                     previewBBTArea.removeAttribute('hidden');
-                    notes[i] = {
+                    notes[7] = {
                         cbNote: true,
                         labelNote: "-",
-                        textNote: lablePreviewBBNote08.textContent
+                        textNote: labelPreviewBBNote8.innerText
                     }
                 } else {
                     previewBBTArea.setAttribute('hidden', 'hidden');
-                    notes[i] = {
+                    notes[7] = {
                         cbNote: false,
                         labelNote: "-",
-                        textNote: lablePreviewBBNote08.textContent
-                    }
-                }
-            } else if (i + 1 == 9) {
-                inputPreviewBBNote09.value = inputBBNote09.value;
-                if (cbBillboardNote09.checked == true) {
-                    previewBBNote09.removeAttribute('hidden');
-                    notes[i] = {
-                        cbNote: true,
-                        labelNote: "-",
-                        textNote: inputPreviewBBNote09.value
-                    }
-                } else {
-                    previewBBNote09.setAttribute('hidden', 'hidden');
-                    notes[i] = {
-                        cbNote: false,
-                        labelNote: "-",
-                        textNote: inputPreviewBBNote09.value
+                        textNote: labelPreviewBBNote8.innerText
                     }
                 }
             } else if (i + 1 == 10) {
-                inputPreviewBBNote10.value = inputBBNote10.value;
-                if (cbBillboardNote10.checked == true) {
-                    previewBBNote10.removeAttribute('hidden');
-                    notes[i] = {
+                console.log(inputBBNote9.value);
+                console.log(i);
+                labelPreviewBBNote9.innerText = inputBBNote9.value;
+                if (cbBillboardNote9.checked == true) {
+                    previewBBNote9.removeAttribute('hidden');
+                    notes[8] = {
                         cbNote: true,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote10.value
+                        textNote: labelPreviewBBNote9.innerText
+                    }
+                } else {
+                    previewBBNote9.setAttribute('hidden', 'hidden');
+                    notes[8] = {
+                        cbNote: false,
+                        labelNote: "-",
+                        textNote: labelPreviewBBNote9.innerText
+                    }
+                }
+            } else if (i + 1 == 11) {
+                labelPreviewBBNote10.innerText = inputBBNote10.value;
+                if (cbBillboardNote10.checked == true) {
+                    previewBBNote10.removeAttribute('hidden');
+                    notes[9] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: labelPreviewBBNote10.innerText
                     }
                 } else {
                     previewBBNote10.setAttribute('hidden', 'hidden');
-                    notes[i] = {
+                    notes[9] = {
                         cbNote: false,
                         labelNote: "-",
-                        textNote: inputPreviewBBNote10.value
+                        textNote: labelPreviewBBNote10.innerText
+                    }
+                }
+            } else if (i + 1 > 11 && i < billboardNote.children.length - 1) {
+                divPreviewBBNotes[i - 11] = document.createElement("div");
+                labelPreviewBBNotes[i - 11] = document.createElement("label");
+                labelPreviewBBNotes[i - 11].classList.add("label-preview-bb-note");
+                labelPreviewBBNotes[i - 11].innerText = '-  ' + inputNotes[i - 11].value;
+                divPreviewBBNotes[i - 11].appendChild(labelPreviewBBNotes[i - 11]);
+                previewBBNote.insertBefore(divPreviewBBNotes[i - 11], previewBBNote.children[previewBBNote.children.length - 2]);
+                if (cbNotes[i - 11].checked == true) {
+                    notes[i - 1] = {
+                        cbNote: true,
+                        labelNote: "-",
+                        textNote: inputNotes[i - 11].value
+                    }
+                } else {
+                    notes[i - 1] = {
+                        cbNote: false,
+                        labelNote: "-",
+                        textNote: inputNotes[i - 11].value
                     }
                 }
             }
@@ -1468,7 +1540,6 @@ btnAdd.addEventListener('click', function () {
             }
         }
     } else {
-        console.log(dataLocation.length);
         for (iBillboard = 0; iBillboard < dataLocation.length; iBillboard++) {
             if (cityId.value == 'Pilih Kota') {
                 newRow[row] = locationTBody.insertRow(row);
@@ -1721,7 +1792,7 @@ getSelected.addEventListener('click', function () {
         cell[0].innerHTML = iBillboard + 1;
         cell[0].classList.add('td-table');
         cell[1] = newRow[iBillboard].insertCell(1);
-        cell[1].innerHTML = locations[iBillboard].code;
+        cell[1].innerHTML = locations[iBillboard].code + ' - ' + locations[iBillboard].city;
         cell[1].classList.add('td-table');
         cell[2] = newRow[iBillboard].insertCell(2);
         cell[2].innerHTML = locations[iBillboard].address;
@@ -1741,7 +1812,12 @@ getSelected.addEventListener('click', function () {
         }
         cell[4].classList.add('td-table');
         cell[5] = newRow[iBillboard].insertCell(5);
-        cell[5].innerHTML = locations[iBillboard].size;
+        if (locations[iBillboard].orientation == 'Vertikal') {
+            cell[5].innerHTML = locations[iBillboard].size + ' - V';
+        } else if (locations[iBillboard].orientation == 'Horizontal') {
+            cell[5].innerHTML = locations[iBillboard].size + ' - H';
+        }
+        // cell[5].innerHTML = locations[iBillboard].size + ' - ' + locations[iBillboard].orientation;
         cell[5].classList.add('td-table');
         cell[6] = newRow[iBillboard].insertCell(6);
         if (manual.checked == true) {
@@ -1813,8 +1889,6 @@ function deleteRow(r) {
     var i = r.parentNode.parentNode.rowIndex;
     var isi = r;
     billboardTable.deleteRow(i);
-    console.log(isi);
-    console.log(locations);
     for (iBillboard = 0; iBillboard < locations.length; iBillboard++) {
         if (locations[iBillboard].code == isi.value) {
             locations.splice(iBillboard, 1)
@@ -1971,7 +2045,6 @@ twelveMonth.addEventListener('change', function () {
 
 // aMonth event --> start
 aMonth.addEventListener('click', function () {
-    priceColumn = 0;
     if (aMonth.checked == true) {
         if (manual.checked == true) {
             oneMonth.removeAttribute('readonly');
@@ -1998,31 +2071,12 @@ aMonth.addEventListener('click', function () {
             }
         }
     }
-    if (aMonth.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (quarterYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (halfYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (aYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (priceColumn == 1 || priceColumn == 2) {
-        tableWidth.classList.add('w-[650px]');
-        tableWidth.classList.remove('w-[700px]');
-    } else {
-        tableWidth.classList.add('w-[700px]');
-        tableWidth.classList.remove('w-[650px]');
-    }
+    setTableWidth();
 })
 // aMonth event --> end
 
 // quarter year event --> start
 quarterYear.addEventListener('click', function () {
-    priceColumn = 0;
     if (quarterYear.checked == true) {
         if (manual.checked == true) {
             threeMonth.removeAttribute('readonly');
@@ -2049,31 +2103,12 @@ quarterYear.addEventListener('click', function () {
             }
         }
     }
-    if (aMonth.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (quarterYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (halfYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (aYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (priceColumn == 1 || priceColumn == 2) {
-        tableWidth.classList.add('w-[650px]');
-        tableWidth.classList.remove('w-[700px]');
-    } else {
-        tableWidth.classList.add('w-[700px]');
-        tableWidth.classList.remove('w-[650px]');
-    }
+    setTableWidth();
 })
 // quarter year event --> end
 
 // half year event --> start
 halfYear.addEventListener('click', function () {
-    priceColumn = 0;
     if (halfYear.checked == true) {
         if (manual.checked == true) {
             sixMonth.removeAttribute('readonly');
@@ -2100,31 +2135,12 @@ halfYear.addEventListener('click', function () {
             }
         }
     }
-    if (aMonth.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (quarterYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (halfYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (aYear.checked == true) {
-        priceColumn = priceColumn + 1;
-    }
-    if (priceColumn == 1 || priceColumn == 2) {
-        tableWidth.classList.add('w-[650px]');
-        tableWidth.classList.remove('w-[700px]');
-    } else {
-        tableWidth.classList.add('w-[700px]');
-        tableWidth.classList.remove('w-[650px]');
-    }
+    setTableWidth();
 })
 // half year event --> end
 
 // a year event --> start
 aYear.addEventListener('click', function () {
-    priceColumn = 0;
     if (aYear.checked == true) {
         if (manual.checked == true) {
             twelveMonth.removeAttribute('readonly');
@@ -2151,6 +2167,16 @@ aYear.addEventListener('click', function () {
             }
         }
     }
+    setTableWidth();
+})
+// a year event --> end
+
+// Price Periode --> end
+
+// Function Set Table Width --> start
+setTableWidth();
+function setTableWidth() {
+    priceColumn = 0;
     if (aMonth.checked == true) {
         priceColumn = priceColumn + 1;
     }
@@ -2163,17 +2189,20 @@ aYear.addEventListener('click', function () {
     if (aYear.checked == true) {
         priceColumn = priceColumn + 1;
     }
-    if (priceColumn == 1 || priceColumn == 2) {
+
+    if (priceColumn < 3) {
         tableWidth.classList.add('w-[650px]');
         tableWidth.classList.remove('w-[700px]');
+        billboardTableWidth.classList.remove('w-[775px]');
+        billboardTableWidth.classList.add('w-[725px]');
     } else {
         tableWidth.classList.add('w-[700px]');
         tableWidth.classList.remove('w-[650px]');
+        billboardTableWidth.classList.add('w-[775px]');
+        billboardTableWidth.classList.remove('w-[725px]');
     }
-})
-// a year event --> end
-
-// Price Periode --> end
+}
+// Function Set Table Width --> end
 
 function checkboxClick() {
     let cbChecked = 0;
@@ -2400,7 +2429,6 @@ function createImageLocations(locations, i) {
     typeName.innerHTML = "Jenis";
     typeValue.classList.add("description-value");
     typeValue.innerHTML = ': ' + locations[i].category;
-    console.log(locations[i].category);
     descriptionSize.classList.add("description-element");
     sizeName.classList.add("description-name");
     sizeName.innerHTML = "Ukuran";
@@ -2527,80 +2555,169 @@ function createImageLocations(locations, i) {
     // Footer element --> end
 }
 
+addPaymentTerms();
+function addPaymentTerms() {
+    for (i = 0; i < 2; i++) {
+        divPayment[indexPayment] = document.createElement("div");
+        labelPayment[indexPayment] = document.createElement("label");
+        paymentValue[indexPayment] = document.createElement("input");
+        const percentLabel = document.createElement("label");
+        paymentNote[indexPayment] = document.createElement("input");
+
+        labelPayment[indexPayment].innerHTML = "• ";
+        labelPayment[indexPayment].classList.add("ml-8");
+
+        paymentValue[indexPayment].setAttribute('type', 'number');
+        paymentValue[indexPayment].classList.add("payment-value");
+        paymentValue[indexPayment].setAttribute('placeholder', '0');
+
+        percentLabel.classList.add("percent-label");
+        percentLabel.innerHTML = "%";
+
+        paymentNote[indexPayment].setAttribute('type', 'text');
+        paymentNote[indexPayment].setAttribute('placeholder', 'input keterangan');
+        paymentNote[indexPayment].classList.add("payment-note");
+
+        if (i == 0) {
+            paymentValue[indexPayment].value = 50;
+            paymentNote[indexPayment].value = "DP sebelum materi iklan tayang";
+        } else if (i == 1) {
+            paymentValue[indexPayment].value = 50;
+            paymentNote[indexPayment].value = "pelunasan setelah BAPP";
+        }
+
+        divPayment[indexPayment].classList.add("flex");
+        divPayment[indexPayment].appendChild(labelPayment[indexPayment]);
+        divPayment[indexPayment].appendChild(paymentValue[indexPayment]);
+        divPayment[indexPayment].appendChild(percentLabel);
+        divPayment[indexPayment].appendChild(paymentNote[indexPayment]);
+
+        billboardNote7.insertBefore(divPayment[indexPayment], billboardNote7.lastElementChild);
+        indexPayment = indexPayment + 1;
+    }
+}
+
 // Add Payment Terms Button Event --> start
 btnAddPayment.addEventListener('click', function () {
-    const divPayment = document.createElement("div");
-    const cbPayment = document.createElement("input");
-    const paymentValue = document.createElement("input");
-    const percentLabel = document.createElement("label");
-    const paymentNote = document.createElement("input");
+    if (indexPayment < 5) {
+        divPayment[indexPayment] = document.createElement("div");
+        labelPayment[indexPayment] = document.createElement("label");
+        paymentValue[indexPayment] = document.createElement("input");
+        const percentLabel = document.createElement("label");
+        paymentNote[indexPayment] = document.createElement("input");
 
-    cbPayment.setAttribute('type', 'checkbox');
-    cbPayment.classList.add("ml-1");
-    cbPayment.setAttribute('checked', 'checked');
+        labelPayment[indexPayment].innerHTML = "• ";
+        labelPayment[indexPayment].classList.add("ml-8");
 
-    paymentValue.setAttribute('type', 'number');
-    paymentValue.classList.add("payment-value");
-    paymentValue.setAttribute('placeholder', '0');
+        paymentValue[indexPayment].setAttribute('type', 'number');
+        paymentValue[indexPayment].classList.add("payment-value");
+        paymentValue[indexPayment].setAttribute('placeholder', '0');
 
-    percentLabel.classList.add("percent-label");
-    percentLabel.innerHTML = "%";
+        percentLabel.classList.add("percent-label");
+        percentLabel.innerHTML = "%";
 
-    paymentNote.setAttribute('type', 'text');
-    paymentNote.setAttribute('placeholder', 'input keterangan');
-    paymentNote.classList.add("payment-note");
+        paymentNote[indexPayment].setAttribute('type', 'text');
+        paymentNote[indexPayment].setAttribute('placeholder', 'input keterangan');
+        paymentNote[indexPayment].classList.add("payment-note");
 
-    divPayment.classList.add("flex");
-    divPayment.appendChild(cbPayment);
-    divPayment.appendChild(paymentValue);
-    divPayment.appendChild(percentLabel);
-    divPayment.appendChild(paymentNote);
+        divPayment[indexPayment].classList.add("flex");
+        divPayment[indexPayment].appendChild(labelPayment[indexPayment]);
+        divPayment[indexPayment].appendChild(paymentValue[indexPayment]);
+        divPayment[indexPayment].appendChild(percentLabel);
+        divPayment[indexPayment].appendChild(paymentNote[indexPayment]);
 
-    paymentTerms.insertBefore(divPayment, paymentTerms.lastElementChild);
-
+        billboardNote7.insertBefore(divPayment[indexPayment], billboardNote7.lastElementChild);
+        indexPayment = indexPayment + 1;
+    } else {
+        alert("Maksimal 5 termin pembayaran");
+    }
 })
 // Add Payment Terms Button Event --> end
 
 // Delete Payment Terms Button Event --> start
 btnDelPayment.addEventListener('click', function () {
-    if (paymentTerms.children.length > 2) {
-        paymentTerms.removeChild(paymentTerms.children[paymentTerms.children.length - 2]);
+    if (billboardNote7.children.length > 2 && billboardNote7.children.length != 1) {
+        billboardNote7.removeChild(billboardNote7.children[billboardNote7.children.length - 2]);
+        indexPayment = indexPayment - 1;
+    } else {
+        alert("MMinimal 1 termin pembayaran");
     }
 })
 // Delete Payment Terms Button Event --> end
 
 // Add Notes Button Event --> start
 btnAddNotes.addEventListener('click', function () {
-    const divNotes = document.createElement("div");
-    const cbNotes = document.createElement("input");
-    const notesLabel = document.createElement("label");
-    const notesValue = document.createElement("input");
+    if (indexNotes < 3) {
+        divNotes[indexNotes] = document.createElement("div");
+        cbNotes[indexNotes] = document.createElement("input");
+        const notesLabel = document.createElement("label");
+        inputNotes[indexNotes] = document.createElement("input");
 
-    cbNotes.setAttribute('type', 'checkbox');
-    cbNotes.classList.add("ml-1");
-    cbNotes.setAttribute('checked', 'checked');
+        cbNotes[indexNotes].setAttribute('type', 'checkbox');
+        cbNotes[indexNotes].classList.add("ml-1");
+        cbNotes[indexNotes].setAttribute('checked', 'checked');
 
-    notesLabel.classList.add("percent-label");
-    notesLabel.innerHTML = "-";
+        notesLabel.classList.add("percent-label");
+        notesLabel.innerHTML = "-";
 
-    notesValue.classList.add("payment-note");
-    notesValue.setAttribute('placeholder', 'input keterangan')
+        inputNotes[indexNotes].classList.add("payment-note");
+        inputNotes[indexNotes].setAttribute('placeholder', 'input keterangan')
 
-    divNotes.classList.add("flex");
+        divNotes[indexNotes].classList.add("flex");
 
-    divNotes.appendChild(cbNotes);
-    divNotes.appendChild(notesLabel);
-    divNotes.appendChild(notesValue);
+        divNotes[indexNotes].appendChild(cbNotes[indexNotes]);
+        divNotes[indexNotes].appendChild(notesLabel);
+        divNotes[indexNotes].appendChild(inputNotes[indexNotes]);
 
-    billboardNote.insertBefore(divNotes, billboardNote.lastElementChild);
+        billboardNote.insertBefore(divNotes[indexNotes], billboardNote.children[billboardNote.children.length - 3]);
 
+        indexNotes = indexNotes + 1;
+    } else {
+        alert("Maksimal tambahan 3 catatan");
+    }
 })
 // Add Notes Button Event --> end
 
 // Delete Notes Button Event --> start
 btnDelNotes.addEventListener('click', function () {
     if (billboardNote.children.length > 12) {
-        billboardNote.removeChild(billboardNote.children[billboardNote.children.length - 2]);
+        billboardNote.removeChild(billboardNote.children[billboardNote.children.length - 4]);
+        indexNotes = indexNotes - 1;
     }
+    // if (previewBBNote.children.length > 11) {
+    //     previewBBNote.removeChild(previewBBNote.children[previewBBNote.children.length - 3]);
+    // }
 })
 // Delete Notes Button Event --> end
+
+// Checkbox free print Event --> start
+cbBillboardNote4.addEventListener('click', function () {
+    if (cbBillboardNote4.checked == true) {
+        labelBBNote3.innerHTML = "";
+        labelBBNote3.innerHTML = "x selama kontrak.";
+        inputBBNote4.removeAttribute('readonly');
+    } else {
+        labelBBNote3.innerHTML = "";
+        labelBBNote3.innerHTML = "x selama kontrak diluar biaya cetak dan design.";
+        inputBBNote4.setAttribute('readonly', 'readonly');
+        inputBBNote4.value = 0;
+    }
+})
+// Checkbox free print Event --> end
+
+// Cek payment terms --> start
+function checkPaymentTerms() {
+    nolPercent = 0;
+    totalPayment = 0;
+    for (i = 0; i < indexPayment; i++) {
+        if (paymentValue[i].value == 0) {
+            nolPercent = nolPercent + 1;
+        }
+    }
+    if (nolPercent == 0) {
+        for (i = 0; i < indexPayment; i++) {
+            totalPayment = totalPayment + Number(paymentValue[i].value);
+        }
+    }
+}
+// Cek payment terms --> end

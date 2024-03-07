@@ -94,9 +94,9 @@
                         </div>
                     </div>
                     <div>
-                        <div id="pdfPreview" class="w-[780px] max-h-max">
+                        <div id="pdfPreview" class="h-[1345px] mb-10">
                             <!-- Header start -->
-                            <div class="w-[780px] h-[1100px] mt-2 bg-white">
+                            <div class="w-[950px] h-[1345px] mt-2 bg-white border">
                                 <div class="h-24 mt-4">
                                     <div class="flex w-full justify-center items-center">
                                         <img class="mt-3" src="/img/logo-vm.png" alt="">
@@ -107,9 +107,9 @@
                                 </div>
                                 <!-- Header end -->
                                 <!-- Body start -->
-                                <div class="h-[900px]">
+                                <div class="h-[1125px]">
                                     <div class="flex justify-center">
-                                        <div class="w-[650px] mt-4">
+                                        <div class="w-[725px] mt-4">
                                             <div class="flex">
                                                 <label class="ml-1 text-sm text-black flex w-20">Nomor</label>
                                                 <label class="ml-1 text-sm text-black flex">:</label>
@@ -157,7 +157,7 @@
                                             </div>
                                             <div class="flex mt-2">
                                                 <label id="bodyTopBillboard"
-                                                    class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quotation->body_top }}</label>
+                                                    class="ml-1 w-[725px] h-max text-sm text-black flex">{{ $billboard_quotation->body_top }}</label>
                                             </div>
                                             <?php
                                             $objLocations = json_decode($billboard_quotation->billboards);
@@ -387,34 +387,33 @@
                                     <!-- Billboard Location Table Preview start -->
                                     <div id="" class="ml-2">
                                         <div class="flex justify-center">
-                                            <div id="tableWidth" class="w-[650px]">
+                                            <div id="tableWidth" class="w-[725px]">
                                                 <table id="billboardTable" class="table-fix mt-2 w-full">
                                                     <thead>
                                                         <tr>
                                                             <th class="text-[0.7rem] text-teal-700 border w-6"
                                                                 rowspan="2">No
                                                             </th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-[72px]"
+                                                            <th class="text-[0.7rem] text-teal-700 border w-20"
                                                                 rowspan="2">
                                                                 Kode
                                                             </th>
                                                             <th class="text-[0.7rem] text-teal-700 border" rowspan="2">
                                                                 Lokasi
                                                             </th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-[120px]"
-                                                                colspan="3">
+                                                            <th class="text-[0.7rem] text-teal-700 border" colspan="3">
                                                                 Deskripsi
                                                             </th>
                                                             <th id="thPrice" class="text-[0.7rem] text-teal-700 border">
-                                                                Harga
+                                                                Harga (Rp.)
                                                             </th>
                                                             {{-- <th class="text-[0.7rem] text-teal-700 border" rowspan="2">
                                                         </th> --}}
                                                         </tr>
                                                         <tr>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-6">Jenis</th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-6">BL/FL</th>
-                                                            <th class="text-[0.7rem] text-teal-700 border w-[76px]">Size -
+                                                            <th class="text-[0.7rem] text-teal-700 border w-9">Jenis</th>
+                                                            <th class="text-[0.7rem] text-teal-700 border w-9">BL/FL</th>
+                                                            <th class="text-[0.7rem] text-teal-700 border w-[88px]">Size -
                                                                 V/H
                                                             </th>
                                                             @if ($objLocations->locations[0]->price->periodeMonth->cbPeriode == true)
@@ -436,7 +435,7 @@
                                                                 </th>
                                                             @else
                                                                 <th id="thQuarterYear"
-                                                                    class="text-[0.7rem] text-teal-700 border  w-[72px]"
+                                                                    class="text-[0.7rem] text-teal-700 border  w-[88px]"
                                                                     hidden>
                                                                     {{ $objLocations->locations[0]->price->periodeQuarter->periode }}
                                                                 </th>
@@ -460,7 +459,7 @@
                                                                 </th>
                                                             @else
                                                                 <th id="thAYear"
-                                                                    class="text-[0.7rem] text-teal-700 border w-[72px]"
+                                                                    class="text-[0.7rem] text-teal-700 border w-[88px]"
                                                                     hidden>
                                                                     {{ $objLocations->locations[0]->price->periodeYear->periode }}
                                                                 </th>
@@ -600,26 +599,31 @@
                                     <!-- Billboard Location Table Preview end -->
 
                                     <!-- billboard note start -->
+                                    <?php
+                                    $objNotes = json_decode($billboard_quotation->note);
+                                    $payment = $objNotes->notes[6];
+                                    $objPayment = json_encode($payment);
+                                    ?>
+                                    <input id="termPayment" type="text" value="{{ $objPayment }}" hidden>
+                                    <input id="notesAdd" type="text" value="{{ $billboard_quotation->note }}"
+                                        hidden>
                                     <div class="flex justify-center">
-                                        <div id="previewBBNote" class="w-[650px] mt-2">
+                                        <div id="billboardNote" class="w-[725px] mt-2">
                                             <div class="flex">
-                                                <label class="ml-1 text-[0.7rem] text-black flex w-20">Catatan</label>
-                                                <label class="ml-1 text-[0.7rem] text-black flex">:</label>
+                                                <label class="ml-1 text-sm text-black flex w-20">Catatan</label>
+                                                <label class="ml-1 text-sm text-black flex">:</label>
                                             </div>
-                                            <?php
-                                            $objNotes = json_decode($billboard_quotation->note);
-                                            ?>
                                             @foreach ($objNotes->notes as $note)
                                                 @if ($loop->iteration == 8)
                                                     @if ($note->cbNote == 'true')
                                                         <div>
                                                             <div class="flex items-start">
                                                                 <input class="ml-1 mt-1"
-                                                                    id="cbBillboardNote0{{ $loop->iteration }}"
+                                                                    id="cbBillboardNote-{{ $loop->iteration }}"
                                                                     class="ml-1" type="checkbox" checked>
                                                                 <label
-                                                                    class="ml-1 text-[0.65rem] text-black flex">{{ $note->labelNote }}</label>
-                                                                <textarea id="inputBBNote0{{ $loop->iteration }}" class="ml-1 w-[721px] outline-none text-[0.65rem]" rows="5">{{ $note->textNote }}
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <textarea id="inputBBNote-{{ $loop->iteration }}" class="ml-1 w-[721px] outline-none text-sm" rows="4">{{ $note->textNote }}
                                                                     </textarea>
                                                             </div>
                                                         </div>
@@ -627,12 +631,213 @@
                                                         <div>
                                                             <div class="flex items-start">
                                                                 <input class="ml-1 mt-1"
-                                                                    id="cbBillboardNote0{{ $loop->iteration }}"
+                                                                    id="cbBillboardNote-{{ $loop->iteration }}"
                                                                     class="ml-1" type="checkbox">
                                                                 <label
-                                                                    class="ml-1 text-[0.65rem] text-black flex">{{ $note->labelNote }}</label>
-                                                                <textarea id="inputBBNote0{{ $loop->iteration }}" class="ml-1 w-[721px] outline-none text-[0.65rem]" rows="5">{{ $note->textNote }}
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <textarea id="inputBBNote-{{ $loop->iteration }}" class="ml-1 w-[721px] outline-none text-sm" rows="5">{{ $note->textNote }}
                                                                     </textarea>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @elseif ($loop->iteration == 7)
+                                                    <div id="billboardNote-7">
+                                                        <div class="flex">
+                                                            <button id="btnAddPayment" type="button"
+                                                                class="flex w-max h-5 bg-teal-500 text-sm rounded-md hover:bg-teal-900 cursor-pointer ml-8 justify-center items-center text-white p-1">
+                                                                <svg class="fill-current w-4" clip-rule="evenodd"
+                                                                    fill-rule="evenodd" stroke-linejoin="round"
+                                                                    stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                                        fill-rule="nonzero" />
+                                                                </svg>add payment terms</button>
+                                                            <button id="btnDelPayment" type="button"
+                                                                class="flex w-max h-5 bg-red-600 text-sm rounded-md hover:bg-red-900 cursor-pointer ml-2 justify-center items-center text-white p-1">
+                                                                <svg class="fill-current w-4" clip-rule="evenodd"
+                                                                    fill-rule="evenodd" stroke-linejoin="round"
+                                                                    stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm4.253 9.25h-8.5c-.414 0-.75.336-.75.75s.336.75.75.75h8.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75z"
+                                                                        fill-rule="nonzero" />
+                                                                </svg>remove last payment terms</button>
+                                                        </div>
+                                                    </div>
+                                                @elseif ($loop->iteration == 3)
+                                                    @if ($note->cbNote == 'true')
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox" checked>
+                                                                <label class="ml-4 text-sm text-black">• Free
+                                                                    pemasangan visual</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    type="number" placeholder="0"
+                                                                    class="ml-1 text-sm text-center text-black outline-none w-8"
+                                                                    type="text" value="{{ $note->freeInstal }}">
+                                                                <label id="labelBBNote-3"
+                                                                    class="ml-1 text-sm text-black">x selama
+                                                                    kontrak</label>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox">
+                                                                <label class="ml-4 text-sm text-black">• Free
+                                                                    pemasangan visual</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    type="number" placeholder="0"
+                                                                    class="ml-1 text-sm text-center text-black outline-none w-8"
+                                                                    type="text" value="{{ $note->freeInstal }}">
+                                                                <label id="labelBBNote-3"
+                                                                    class="ml-1 text-sm text-black">x selama
+                                                                    kontrak</label>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @elseif($loop->iteration == 4)
+                                                    @if ($note->cbNote == 'true')
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox" checked>
+                                                                <label class="ml-4 text-sm text-black">• Free cetak
+                                                                    materi visual</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    type="number" placeholder="0"
+                                                                    class="ml-1 text-sm text-center text-black outline-none w-8"
+                                                                    type="text" value="{{ $note->freePrint }}">
+                                                                <label id="labelBBNote-4"
+                                                                    class="ml-1 text-sm text-black">x selama
+                                                                    kontrak, di luar Design.</label>
+
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox">
+                                                                <label class="ml-4 text-sm text-black">• Free cetak
+                                                                    materi visual</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    type="number" placeholder="0"
+                                                                    class="ml-1 text-sm text-center text-black outline-none w-8"
+                                                                    type="text" value="{{ $note->freePrint }}">
+                                                                <label id="labelBBNote-4"
+                                                                    class="ml-1 text-sm text-black">x selama
+                                                                    kontrak, di luar
+                                                                    Design.</label>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @elseif ($loop->iteration == 5)
+                                                    @if ($note->cbNote == 'true')
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox" checked>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    class="ml-4 text-sm text-black outline-none w-full"
+                                                                    type="text" value="{{ $note->textNote }}">
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox">
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    class="ml-4 text-sm text-black outline-none w-full"
+                                                                    type="text" value="{{ $note->textNote }}">
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @elseif ($loop->iteration < 9)
+                                                    @if ($note->cbNote == 'true')
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox" checked>
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    class="ml-2 text-sm text-black outline-none w-full"
+                                                                    type="text" value="{{ $note->textNote }}">
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox">
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    class="ml-2 text-sm text-black outline-none w-full"
+                                                                    type="text" value="{{ $note->textNote }}">
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                            {{-- @foreach ($objNotes->notes as $note)
+                                                @if ($loop->iteration > 10)
+                                                    @if ($note->cbNote == 'true')
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox" checked>
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <input id="inputBBNote{{ $loop->iteration }}"
+                                                                    class="ml-2 text-sm text-black outline-none w-full"
+                                                                    type="text" value="{{ $note->textNote }}">
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox">
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <input id="inputBBNote{{ $loop->iteration }}"
+                                                                    class="ml-2 text-sm text-black outline-none w-full"
+                                                                    type="text" value="{{ $note->textNote }}">
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endif
+                                            @endforeach --}}
+                                            @foreach ($objNotes->notes as $note)
+                                                @if ($loop->iteration == 9)
+                                                    @if ($note->cbNote == 'true')
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox" checked>
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    class="ml-2 text-sm text-black outline-none w-full"
+                                                                    type="text" value="{{ $note->textNote }}">
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div>
+                                                            <div class="flex">
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
+                                                                    class="ml-1" type="checkbox">
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    class="ml-2 text-sm text-black outline-none w-full"
+                                                                    type="text" value="{{ $note->textNote }}">
                                                             </div>
                                                         </div>
                                                     @endif
@@ -643,60 +848,54 @@
                                                                 <input id="cbBillboardNote{{ $loop->iteration }}"
                                                                     class="ml-1" type="checkbox" checked>
                                                                 <label
-                                                                    class="ml-1 text-[0.65rem] text-black flex">{{ $note->labelNote }}</label>
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
                                                                 <input id="inputBBNote{{ $loop->iteration }}"
-                                                                    class="ml-2 text-[0.65rem] text-black outline-none w-full"
+                                                                    class="ml-2 text-sm text-black outline-none w-full"
                                                                     type="text" value="{{ $note->textNote }}">
                                                             </div>
                                                         </div>
                                                     @else
                                                         <div>
                                                             <div class="flex">
-                                                                <input id="cbBillboardNote{{ $loop->iteration }}"
+                                                                <input id="cbBillboardNote-{{ $loop->iteration }}"
                                                                     class="ml-1" type="checkbox">
                                                                 <label
-                                                                    class="ml-1 text-[0.65rem] text-black flex">{{ $note->labelNote }}</label>
-                                                                <input id="inputBBNote{{ $loop->iteration }}"
-                                                                    class="ml-2 text-[0.65rem] text-black outline-none w-full"
-                                                                    type="text" value="{{ $note->textNote }}">
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                @else
-                                                    @if ($note->cbNote == 'true')
-                                                        <div>
-                                                            <div class="flex">
-                                                                <input id="cbBillboardNote0{{ $loop->iteration }}"
-                                                                    class="ml-1" type="checkbox" checked>
-                                                                <label
-                                                                    class="ml-1 text-[0.65rem] text-black flex">{{ $note->labelNote }}</label>
-                                                                <input id="inputBBNote0{{ $loop->iteration }}"
-                                                                    class="ml-2 text-[0.65rem] text-black outline-none w-full"
-                                                                    type="text" value="{{ $note->textNote }}">
-                                                            </div>
-                                                        </div>
-                                                    @else
-                                                        <div>
-                                                            <div class="flex">
-                                                                <input id="cbBillboardNote0{{ $loop->iteration }}"
-                                                                    class="ml-1" type="checkbox">
-                                                                <label
-                                                                    class="ml-1 text-[0.65rem] text-black flex">{{ $note->labelNote }}</label>
-                                                                <input id="inputBBNote0{{ $loop->iteration }}"
-                                                                    class="ml-2 text-[0.65rem] text-black outline-none w-full"
+                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
+                                                                <input id="inputBBNote-{{ $loop->iteration }}"
+                                                                    class="ml-2 text-sm text-black outline-none w-full"
                                                                     type="text" value="{{ $note->textNote }}">
                                                             </div>
                                                         </div>
                                                     @endif
                                                 @endif
                                             @endforeach
-
+                                            <div class="flex">
+                                                <button id="btnAddNotes" type="button"
+                                                    class="flex w-max h-5 bg-teal-500 text-sm rounded-md hover:bg-teal-900 cursor-pointer ml-8 justify-center items-center text-white p-1">
+                                                    <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
+                                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                            fill-rule="nonzero" />
+                                                    </svg>add
+                                                    notes</button>
+                                                <button id="btnDelNotes" type="button"
+                                                    class="flex w-max h-5 bg-red-600 text-sm rounded-md hover:bg-red-900 cursor-pointer ml-2 justify-center items-center text-white p-1">
+                                                    <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
+                                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm4.253 9.25h-8.5c-.414 0-.75.336-.75.75s.336.75.75.75h8.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75z"
+                                                            fill-rule="nonzero" />
+                                                    </svg>remove last notes</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- billboard note end -->
 
                                     <div class="flex justify-center">
-                                        <div class="flex mt-2 w-[650px]">
+                                        <div class="flex mt-2 w-[725px]">
                                             <label
                                                 class="ml-1 w-[650px] h-max text-sm text-black flex">{{ $billboard_quotation->body_end }}</label>
                                         </div>
@@ -705,13 +904,13 @@
                                         <?php
                                         $quotationDate = date('d F Y');
                                         ?>
-                                        <div class="w-[650px] mt-2">
+                                        <div class="w-[725px] mt-2">
                                             <label class="ml-1 text-sm text-black flex">Denpasar,
                                                 {{ date('d F Y', strtotime($billboard_quotation->created_at)) }}</label>
                                         </div>
                                     </div>
                                     <div class="flex justify-center">
-                                        <div class="w-[250px]">
+                                        <div class="w-[275px]">
                                             <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista
                                                 Media</label>
                                             <label class="ml-1 my-2 text-xs text-slate-300 flex">Ditandatangani secara
@@ -723,7 +922,7 @@
                                             <label id="salesPotition"
                                                 class="ml-1 text-sm text-black flex">{{ $billboard_quotation->user->level }}</label>
                                         </div>
-                                        <div class="w-[400px]">
+                                        <div class="w-[450px]">
                                             <div>
                                                 {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/dashboard/marketing/billboard-quotations/' . $billboard_quotation->id) }}
                                             </div>

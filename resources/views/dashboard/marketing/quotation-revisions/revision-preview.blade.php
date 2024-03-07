@@ -5,8 +5,8 @@
             <div class="flex w-48">
                 <button id="btnSave" class="flex justify-center items-center mx-1 btn-success" title="Save"
                     type="submit">
-                    <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24">
+                    <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24">
                         <path
                             d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                     </svg>
@@ -25,7 +25,7 @@
         </div>
         <div id="pdfPreview" class="w-[780px] max-h-max">
             <!-- Header start -->
-            <div class="w-[780px] h-[1100px] mt-2 bg-white">
+            <div class="w-[780px] h-[1100px] mt-2 bg-white border">
                 <div class="h-24 mt-4">
                     <div class="flex w-full justify-center items-center">
                         <img class="mt-3" src="/img/logo-vm.png" alt="">
@@ -36,7 +36,7 @@
                 </div>
                 <!-- Header end -->
                 <!-- Body start -->
-                <div class="h-[900px]">
+                <div class="h-[880px]">
                     <div class="flex justify-center">
                         <div class="w-[650px] mt-4">
                             <div class="flex">
@@ -100,7 +100,7 @@
                                                 Deskripsi
                                             </th>
                                             <th id="previewTHPrice" class="text-[0.7rem] text-teal-700 border w-max">
-                                                Harga
+                                                Harga (Rp.)
                                             </th>
                                         </tr>
                                         <tr>
@@ -141,70 +141,62 @@
                                 <label class="ml-1 text-[0.7rem] text-black flex w-20">Catatan</label>
                                 <label class="ml-1 text-[0.7rem] text-black flex">:</label>
                             </div>
-                            <div id="previewBBNote01" hidden>
+                            <div id="previewBBNote-1" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input id="inputPreviewBBNote01"
-                                        class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        readonly>
+                                    <label id="labelPreviewBBNote-1" class="ml-2 text-[0.7rem] text-black w-full">
+                                    </label>
                                 </div>
                             </div>
-                            <div id="previewBBNote02" hidden>
+                            <div id="previewBBNote-2" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input id="inputPreviewBBNote02"
-                                        class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        readonly>
+                                    <label id="labelPreviewBBNote-2" class="ml-2 text-[0.7rem] text-black w-full">
+                                    </label>
                                 </div>
                             </div>
-                            <div id="previewBBNote03" hidden>
-                                <input id="inputPreviewBBNote03"
-                                    class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text" readonly>
+                            <div id="previewBBNote-3" hidden>
+                                <label id="labelPreviewBBNote-3" class="ml-4 text-[0.7rem] text-black w-full"
+                                    type="text" readonly> </label>
                             </div>
-                            <div id="previewBBNote04" hidden>
-                                <input id="inputPreviewBBNote04"
-                                    class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text" readonly>
+                            <div id="previewBBNote-4" hidden>
+                                <label id="labelPreviewBBNote-4" class="ml-4 text-[0.7rem] text-black w-full"
+                                    type="text" readonly> </label>
                             </div>
-                            <div id="previewBBNote05" hidden>
+                            <div id="previewBBNote-5" hidden>
+                                <div class="flex">
+                                    <label id="labelPreviewBBNote-5" class="ml-4 text-[0.7rem] text-black w-full">
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="previewBBNote-6" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        value="Sistem Pembayaran :" readonly>
+                                    <label id="labelPreviewBBNote-6" class="ml-2 text-[0.7rem] text-black w-full">
+                                    </label>
                                 </div>
                             </div>
-                            <div>
-                                <div id="previewBBNote06" hidden>
-                                    <input id="inputPreviewBBNote06"
-                                        class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        readonly>
-                                </div>
-                                <div id="previewBBNote07" hidden>
-                                    <input id="inputPreviewBBNote07"
-                                        class="ml-4 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        readonly>
-                                </div>
+                            <div id="previewBBNote-7" hidden>
                             </div>
-                            <div id="previewBBTArea">
-                                <div id="previewBBNote08" class="flex items-start">
+                            <div id="previewBBTArea" hidden>
+                                <div id="previewBBNote-8" class="flex items-start">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <label id="lablePreviewBBNote08"
+                                    <label id="labelPreviewBBNote-8"
                                         class="ml-1 w-[621px] h-max text-[0.7rem] text-black flex"></label>
                                 </div>
                             </div>
-                            <div id="previewBBNote09" hidden>
+                            <div id="previewBBNote-9" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input id="inputPreviewBBNote09"
-                                        class="ml-2 text-[0.7rem] text-black outline-none w-full" type="text"
-                                        readonly>
+                                    <label id="labelPreviewBBNote-9"
+                                        class="ml-2 text-[0.7rem] text-black outline-none w-full"></label>
                                 </div>
                             </div>
                             <div id="previewBBNote10" hidden>
                                 <div class="flex">
                                     <label class="ml-1 text-[0.7rem] text-black flex">-</label>
-                                    <input id="inputPreviewBBNote10"
-                                        class="ml-2 text-[0.7rem] text-black outline-none w-full font-semibold"
-                                        type="text" readonly>
+                                    <label id="labelPreviewBBNote10"
+                                        class="ml-2 text-[0.7rem] text-black outline-none w-full"></label>
                                 </div>
                             </div>
                         </div>

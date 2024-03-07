@@ -129,38 +129,40 @@
         <!-- billboard table start -->
         <div id="billboardQuotation" class="ml-2">
             <div class="flex justify-center">
-                <table id="billboardTable" class="table-auto mt-2">
-                    <thead>
-                        <tr>
-                            <th class="text-xs text-teal-700 border w-6" rowspan="2">No</th>
-                            <th class="text-xs text-teal-700 border w-20" rowspan="2">Kode</th>
-                            <th class="text-xs text-teal-700 border w-56" rowspan="2">Lokasi</th>
-                            <th class="text-xs text-teal-700 border" colspan="3">Deskripsi</th>
-                            <th class="text-xs text-teal-700 border" colspan="5">Harga</th>
-                        </tr>
-                        <tr>
-                            <th class="text-xs text-teal-700 border w-9">Jenis</th>
-                            <th class="text-xs text-teal-700 border w-9">BL/FL</th>
-                            <th class="text-xs text-teal-700 border w-[88px]">Size - V/H</th>
-                            <th id="thAMonth" class="text-xs text-teal-700 border w-[72px]">1 Bulan
-                            </th>
-                            <th id="thQuarterYear" class="text-xs text-teal-700 border w-[72px]">3
-                                Bulan
-                            </th>
-                            <th id="thHalfYear" class="text-xs text-teal-700 border w-[72px]">6 Bulan
-                            </th>
-                            <th id="thAYear" class="text-xs text-teal-700 border w-[88px]">1 Tahun
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="billboardsTBody">
-                    </tbody>
-                </table>
-                @error('billboards')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
+                <div id="billboardTableWidth" class="w-[775px]">
+                    <table id="billboardTable" class="table-fix mt-2 w-full">
+                        <thead>
+                            <tr>
+                                <th class="text-xs text-teal-700 border w-6" rowspan="2">No</th>
+                                <th class="text-xs text-teal-700 border w-20" rowspan="2">Kode</th>
+                                <th class="text-xs text-teal-700 border" rowspan="2">Lokasi</th>
+                                <th class="text-xs text-teal-700 border" colspan="3">Deskripsi</th>
+                                <th class="text-xs text-teal-700 border" colspan="5">Harga (Rp.)</th>
+                            </tr>
+                            <tr>
+                                <th class="text-xs text-teal-700 border w-9">Jenis</th>
+                                <th class="text-xs text-teal-700 border w-9">BL/FL</th>
+                                <th class="text-xs text-teal-700 border w-[88px]">Size - V/H</th>
+                                <th id="thAMonth" class="text-xs text-teal-700 border w-[72px]">1 Bulan
+                                </th>
+                                <th id="thQuarterYear" class="text-xs text-teal-700 border w-[72px]">3
+                                    Bulan
+                                </th>
+                                <th id="thHalfYear" class="text-xs text-teal-700 border w-[72px]">6 Bulan
+                                </th>
+                                <th id="thAYear" class="text-xs text-teal-700 border w-[88px]">1 Tahun
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="billboardsTBody">
+                        </tbody>
+                    </table>
+                    @error('billboards')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
             </div>
         </div>
         <!-- billboard table end -->
@@ -172,62 +174,45 @@
                     <label class="ml-1 text-sm text-black flex w-20">Catatan</label>
                     <label class="ml-1 text-sm text-black flex">:</label>
                 </div>
-                <div id="billboardNote01" class="flex">
-                    <input id="cbBillboardNote01" class="ml-1" type="checkbox" checked>
+                <div id="billboardNote-1" class="flex">
+                    <input id="cbBillboardNote-1" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
-                    <input id="inputBBNote01" class="ml-2 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote-1" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Harga di atas belum termasuk PPN.">
                 </div>
-                <div id="billboardNote02" class="flex">
-                    <input id="cbBillboardNote02" class="ml-1" type="checkbox" checked>
+                <div id="billboardNote-2" class="flex">
+                    <input id="cbBillboardNote-2" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
-                    <input id="inputBBNote02" class="ml-2 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote-2" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Harga tersebut termasuk :">
                 </div>
-                <div id="billboardNote03" class="flex">
-                    <input id="cbBillboardNote03" class="ml-1" type="checkbox" checked>
+                <div id="billboardNote-3" class="flex">
+                    <input id="cbBillboardNote-3" class="ml-1" type="checkbox" checked>
                     <label class="ml-4 text-sm text-black flex">• Free pemasangan visual</label>
-                    <input id="inputBBNote03" class="ml-1 text-sm text-black outline-none w-8 text-center"
+                    <input id="inputBBNote-3" class="ml-1 text-sm text-black outline-none w-8 text-center"
                         placeholder="0" type="number" value="">
-                    <label class="ml-1 text-sm text-black flex">x selama kontrak</label>
-                    <label class="ml-1 text-sm text-black hidden">di luar Biaya Cetak dan
+                    <label id="labelBBNote-3" class="ml-1 text-sm text-black flex">x selama kontrak</label>
+                </div>
+                <div id="billboardNote-4" class="flex">
+                    <input id="cbBillboardNote-4" class="ml-1" type="checkbox" checked>
+                    <label class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
+                    <input id="inputBBNote-4" class="ml-1 text-sm text-black outline-none w-8 text-center"
+                        placeholder="0" type="number" value="">
+                    <label id="labelBBNote-4" class="ml-1 text-sm text-black flex">x selama kontrak, di luar
                         Design.</label>
                 </div>
-                <div id="billboardNote03" class="flex">
-                    <input id="cbBillboardNote03" class="ml-1" type="checkbox" checked>
-                    <label class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
-                    <input id="inputBBNote03" class="ml-1 text-sm text-black outline-none w-8 text-center"
-                        placeholder="0" type="number" value="">
-                    <label class="ml-1 text-sm text-black flex">x selama kontrak, di luar Design.</label>
+                <div id="billboardNote-5" class="flex">
+                    <input id="cbBillboardNote-5" class="ml-1" type="checkbox" checked>
+                    <input id="inputBBNote-5" class="ml-4 text-sm text-black outline-none w-full"
+                        value="• Sewa Lokasi, konsumsi listrik selama kontrak, maintenance selama kontrak."></input>
                 </div>
-                <div id="billboardNote04" class="flex">
-                    <input id="cbBillboardNote04" class="ml-1" type="checkbox" checked>
-                    <label class="ml-4 text-sm text-black flex">• Sewa Lokasi, konsumsi listrik selama kontrak,
-                        maintenance selama kontrak.</label>
-                </div>
-                <div id="billboardNote05" class="flex">
-                    <input id="cbBillboardNote05" class="ml-1" type="checkbox" checked>
+                <div id="billboardNote-6" class="flex">
+                    <input id="cbBillboardNote-6" class="ml-1" type="checkbox" checked>
                     <label class="ml-1 text-sm text-black flex">-</label>
-                    <input id="inputBBNote05" class="ml-2 text-sm text-black outline-none w-full" type="text"
+                    <input id="inputBBNote-6" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Sistem Pembayaran :">
                 </div>
-                <div id="paymentTerms">
-                    <div id="billboardNote06" class="flex">
-                        <input id="cbBillboardNote06" class="ml-1" type="checkbox" checked>
-                        <input id="inputBBNote06" class="ml-4 text-sm text-black outline-none w-10 text-center"
-                            placeholder="0" type="number" value="50">
-                        <label class="ml-1 text-sm text-black flex">%</label>
-                        <input id="inputBBNote06" class="ml-1 text-sm text-black outline-none w-full"
-                            placeholder="input keterangan" type="text" value="DP sebelum materi iklan tayang">
-                    </div>
-                    <div id="billboardNote06" class="flex">
-                        <input id="cbBillboardNote06" class="ml-1" type="checkbox" checked>
-                        <input id="inputBBNote06" class="ml-4 text-sm text-black outline-none w-10 text-center"
-                            placeholder="0" type="number" value="50">
-                        <label class="ml-1 text-sm text-black flex">%</label>
-                        <input id="inputBBNote06" class="ml-1 text-sm text-black outline-none w-full"
-                            placeholder="input keterangan" type="text" value="pelunasan setelah BAPP">
-                    </div>
+                <div id="billboardNote-7">
                     <div class="flex">
                         <button id="btnAddPayment" type="button"
                             class="flex w-max h-5 bg-teal-500 text-sm rounded-md hover:bg-teal-900 cursor-pointer ml-8 justify-center items-center text-white p-1">
@@ -250,23 +235,22 @@
                     </div>
                 </div>
                 <div id="billboardTArea">
-                    <div id="billboardNote08" class="flex items-start">
-                        <input id="cbBillboardNote08" class="ml-1 mt-1" type="checkbox" checked>
-                        <label class="ml-1 text-sm text-black flex">-</label>
-                        <textarea id="inputBBNote08" class="ml-1 w-[721px] outline-none text-sm" rows="5">Pajak reklame dan perijinan (SKPD, SSPD dan Ijin Reklame) belum dapat kami berikan segera dan tidak menjadi salah satu syarat penagihan mengingat saat ini Kebijakan Penataan Reklame di Kab. Badung dan kota Denpasar masih belum ada keputusan, namun kami akan menjamin media reklame billboard tidak akan diturunkan dan kami akan segera memproses perijinan begitu sudah ada keputusan tentang Penataan Reklame di Kab. Badung dan kota Denpasar.
-                                        </textarea>
+                    <div id="billboardNote-8" class="flex items-start">
+                        <input id="cbBillboardNote-8" class="ml-1 mt-1" type="checkbox" checked>
+                        <label id="labelBBNote-8" class="ml-1 text-sm text-black flex">-</label>
+                        <textarea id="inputBBNote-8" class="ml-1 w-[721px] outline-none text-sm" rows="5">Pajak reklame dan perijinan (SKPD, SSPD dan Ijin Reklame) belum dapat kami berikan segera dan tidak menjadi salah satu syarat penagihan mengingat saat ini Kebijakan Penataan Reklame di Kab. Badung dan kota Denpasar masih belum ada keputusan, namun kami akan menjamin media reklame billboard tidak akan diturunkan dan kami akan segera memproses perijinan begitu sudah ada keputusan tentang Penataan Reklame di Kab. Badung dan kota Denpasar.</textarea>
                     </div>
                 </div>
-                <div id="billboardNote09" class="flex">
-                    <input id="cbBillboardNote09" class="ml-1" type="checkbox" checked>
-                    <label class="ml-1 text-sm text-black flex">-</label>
-                    <input id="inputBBNote09" class="ml-2 text-sm text-black outline-none w-full" type="text"
+                <div id="billboardNote-9" class="flex">
+                    <input id="cbBillboardNote-9" class="ml-1" type="checkbox" checked>
+                    <label id="labelBBNote-9" class="ml-1 text-sm text-black flex">-</label>
+                    <input id="inputBBNote-9" class="ml-2 text-sm text-black outline-none w-full" type="text"
                         value="Harga & lokasi tidak mengikat, sewaktu-waktu dapat berubah sebelum ada persetujuan tertulis">
                 </div>
-                <div id="billboardNote10" class="flex">
-                    <input id="cbBillboardNote10" class="ml-1" type="checkbox" checked>
-                    <label class="ml-1 text-sm text-black flex">-</label>
-                    <input id="inputBBNote10" class="ml-2 text-sm text-black outline-none w-full font-semibold"
+                <div id="billboardNote-10" class="flex">
+                    <input id="cbBillboardNote-10" class="ml-1" type="checkbox" checked>
+                    <label id="labelBBNote-10" class="ml-1 text-sm text-black flex">-</label>
+                    <input id="inputBBNote-10" class="ml-2 text-sm text-black outline-none w-full font-semibold"
                         type="text"
                         value="OOH Premium milik kami tersebar di Area Lombok, Bali, Jawa Timur dan Kalimantan">
                 </div>

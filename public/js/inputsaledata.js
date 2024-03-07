@@ -1,3 +1,4 @@
+const divSave = document.getElementById("divSave");
 const number = document.getElementById("number");
 const saleCategoryId = document.getElementById("sale_category_id");
 const quotationDeal = document.getElementById("quotationDeal");
@@ -37,17 +38,45 @@ const prevAgreementButton = document.getElementById("prevAgreementButton");
 const nextAgreementButton = document.getElementById("nextAgreementButton");
 const agreementImg = document.getElementById("agreementImg");
 
+var saleTable = [];
+var radioYes = [];
+var radioNo = [];
+var dpp = [];
+var inputDPP = [];
+var startPeriode = [];
+var endPeriode = [];
+
 let objQuotation = {};
 let objQuotRevision = {};
 let objStatus = {};
 let objContact = {};
 let objClient = {};
+let objSales = {
+    number: "",
+    company_id: "",
+    client_id: "",
+    billboard_id: "",
+    billboard_quotation_id: "",
+    price: "",
+    dpp: "",
+    category: "",
+    duration: "",
+    start_at: "",
+    end_at: "",
+    terms_of_payment: [],
+    free_instal: "",
+    free_print: "",
+};
 
 let quotationData = [];
 let quotRevisionData = [];
 let quotStatus = [];
 let locationsData = {};
+let notesData = {};
+let paymentsData = {};
 let locations = [];
+let notes = [];
+let payments = [];
 let dataContact = [];
 let dataClient = [];
 let newRow = [];
@@ -207,7 +236,9 @@ saleCategoryId.addEventListener('change', function () {
 
 // Select Quotation Deal Event --> start
 quotationDeal.addEventListener('change', function () {
-    const optionDeal = [];
+    divSave.classList.remove('hidden');
+    divSave.classList.add('flex');
+    console.log(divSave);
     while (multipleSale.hasChildNodes()) {
         multipleSale.removeChild(multipleSale.firstChild);
     }
@@ -240,6 +271,9 @@ quotationDeal.addEventListener('change', function () {
         for (i = 0; i < quotationData.length; i++) {
             if (quotationData[i].number == quotationDeal.value) {
                 locationsData = JSON.parse(quotationData[i].billboards);
+                notesData = JSON.parse(quotationData[i].note);
+                notes = notesData.notes;
+                payments = notes[6];
                 locations = locationsData.locations;
             }
         }
@@ -247,6 +281,9 @@ quotationDeal.addEventListener('change', function () {
         for (i = 0; i < quotRevisionData.length; i++) {
             if (quotRevisionData[i].number == quotationDeal.value) {
                 locationsData = JSON.parse(quotRevisionData[i].billboards);
+                notesData = JSON.parse(quotRevisionData[i].note);
+                notes = notesData.notes;
+                payments = notes[6];
                 locations = locationsData.locations;
             }
         }
@@ -257,6 +294,47 @@ quotationDeal.addEventListener('change', function () {
     }
 })
 // Select Quotation Deal Event --> end
+
+function setDPP(sel) {
+    if (sel.value == "yes") {
+        saleTable[Number(sel.name)].tBodies[0].rows[1].cells[1].innerHTML = "";
+        if (locations[Number(sel.name)].price.periodeYear.cbPeriode == true) {
+            dpp[Number(sel.name)] = Number(locations[Number(sel.name)].price.periodeYear.priceYear);
+        }
+        if (locations[Number(sel.name)].price.periodeHalf.cbPeriode == true) {
+            dpp[Number(sel.name)] = Number(locations[Number(sel.name)].price.periodeHalf.priceHalf);
+        }
+        if (locations[Number(sel.name)].price.periodeQuarter.cbPeriode == true) {
+            dpp[Number(sel.name)] = Number(locations[Number(sel.name)].price.periodeQuarter.priceQuarter);
+        }
+        if (locations[Number(sel.name)].price.periodeMonth.cbPeriode == true) {
+            dpp[Number(sel.name)] = Number(locations[Number(sel.name)].price.periodeMonth.priceMonth);
+        }
+        saleTable[Number(sel.name)].tBodies[0].rows[1].cells[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[Number(sel.name)]);
+        saleTable[Number(sel.name)].tBodies[0].rows[2].cells[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[Number(sel.name)] * (11 / 100));
+        saleTable[Number(sel.name)].tBodies[0].rows[3].cells[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[Number(sel.name)] * (2 / 100));
+        saleTable[Number(sel.name)].tBodies[0].rows[4].cells[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[Number(sel.name)] + (dpp[Number(sel.name)] * (11 / 100)) - (dpp[Number(sel.name)] * (2 / 100)));
+    } else {
+        saleTable[Number(sel.name)].tBodies[0].rows[1].cells[1].innerHTML = "";
+        inputDPP[Number(sel.name)] = document.createElement("input");
+        inputDPP[Number(sel.name)].classList.add("input-dpp");
+        inputDPP[Number(sel.name)].setAttribute('placeholder', 'Input DPP');
+        inputDPP[Number(sel.name)].setAttribute('name', Number(sel.name));
+        inputDPP[Number(sel.name)].setAttribute('type', 'number');
+        inputDPP[Number(sel.name)].setAttribute('min', '0');
+        inputDPP[Number(sel.name)].setAttribute('onchange', 'dppKeypress(this)');
+        saleTable[Number(sel.name)].tBodies[0].rows[1].cells[1].appendChild(inputDPP[Number(sel.name)]);
+    }
+}
+
+function dppKeypress(sel) {
+    saleTable[Number(sel.name)].tBodies[0].rows[2].cells[1].innerHTML = "";
+    dpp[Number(sel.name)] = 0;
+    dpp[Number(sel.name)] = Number(inputDPP[Number(sel.name)].value);
+    saleTable[Number(sel.name)].tBodies[0].rows[2].cells[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[Number(sel.name)] * (11 / 100));
+    saleTable[Number(sel.name)].tBodies[0].rows[3].cells[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[Number(sel.name)] * (2 / 100));
+    saleTable[Number(sel.name)].tBodies[0].rows[4].cells[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[Number(sel.name)] + (dpp[Number(sel.name)] * (11 / 100)) - (dpp[Number(sel.name)] * (2 / 100)));
+}
 
 // Create Multiple Sales --> start
 function createMultipleSale(locations, i) {
@@ -290,15 +368,16 @@ function createMultipleSale(locations, i) {
 
     var saleData = document.createElement("div");
     var divTable = document.createElement("div");
-    var saleTable = document.createElement("table");
     var saleTHead = document.createElement("thead");
     var saleTBody = document.createElement("tbody");
 
     var saleNote = document.createElement("div");
     var divSaleNotes = document.createElement("div");
-    var divTerms = document.createElement("div");
+    var divTerms = [];
+    var termsNote = document.createElement("div");
     var labelTermTitle = document.createElement("label");
     var labelTerms = [];
+    var labelTermsNumber = [];
     var divServices = document.createElement("div");
     var labelServiceTitle = document.createElement("label");
     var labelServices = [];
@@ -413,7 +492,7 @@ function createMultipleSale(locations, i) {
 
     bodyDetail.classList.add("body-detail");
     saleDetail.classList.add("sale-detail");
-    for (j = 0; j < 5; j++) {
+    for (j = 0; j < 8; j++) {
         divSale[j] = document.createElement("div");
         divSale[j].classList.add("div-sale");
         labelSale[j] = document.createElement("label");
@@ -497,6 +576,27 @@ function createMultipleSale(locations, i) {
             btnAgreement[i].setAttribute('onclick', 'btnAgreementEvent()');
             btnAgreement[i].appendChild(spanButton[j]);
             divSale[j].appendChild(btnAgreement[i]);
+        } else if (j == 5) {
+            var titlePeriode = document.createElement("label");
+            titlePeriode.classList.add("title-periode");
+            titlePeriode.innerHTML = "PERIODE KONTRAK";
+            divSale[j].appendChild(titlePeriode);
+        } else if (j == 6) {
+            labelSale[j].innerHTML = "Awal Kotrak";
+            divSale[j].appendChild(labelSale[j]);
+            divSale[j].appendChild(labelSaleColon[j]);
+            startPeriode[i] = document.createElement("input");
+            startPeriode[i].setAttribute('type', 'date');
+            startPeriode[i].classList.add("date-periode");
+            divSale[j].appendChild(startPeriode[i]);
+        } else if (j == 7) {
+            labelSale[j].innerHTML = "Akhir Kotrak";
+            divSale[j].appendChild(labelSale[j]);
+            divSale[j].appendChild(labelSaleColon[j]);
+            endPeriode[i] = document.createElement("input");
+            endPeriode[i].setAttribute('type', 'date');
+            endPeriode[i].classList.add("date-periode");
+            divSale[j].appendChild(endPeriode[i]);
         }
 
         saleDetail.appendChild(divSale[j]);
@@ -566,9 +666,12 @@ function createMultipleSale(locations, i) {
     // Sale detail element --> end
 
     // Sale location element --> start
-    saleTable.classList.add("table-auto");
-    saleTable.classList.add("mt-2");
-    saleTable.classList.add("w-[790px]");
+    saleTable[i] = document.createElement("table");
+    saleTable[i].setAttribute('name', 'sale-table-' + i);
+    saleTable[i].classList.add("table-auto");
+    saleTable[i].classList.add("mt-2");
+    saleTable[i].classList.add("w-[790px]");
+
     newRow[0] = saleTHead.insertRow(0);
     cell[0] = newRow[0].insertCell(0);
     cell[0].innerHTML = "No.";
@@ -652,30 +755,53 @@ function createMultipleSale(locations, i) {
 
     if (locations[i].price.periodeYear.cbPeriode == true) {
         cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[i].price.periodeYear.priceYear));
-        var dpp = Number(locations[i].price.periodeYear.priceYear);
+        dpp[i] = Number(locations[i].price.periodeYear.priceYear);
     }
     if (locations[i].price.periodeHalf.cbPeriode == true) {
         cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[i].price.periodeHalf.priceHalf));
-        var dpp = Number(locations[i].price.periodeHalf.priceHalf);
+        dpp[i] = Number(locations[i].price.periodeHalf.priceHalf);
     }
     if (locations[i].price.periodeQuarter.cbPeriode == true) {
         cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[i].price.periodeQuarter.priceQuarter));
-        var dpp = Number(locations[i].price.periodeQuarter.priceQuarter);
+        dpp[i] = Number(locations[i].price.periodeQuarter.priceQuarter);
     }
     if (locations[i].price.periodeMonth.cbPeriode == true) {
         cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[i].price.periodeMonth.priceMonth));
-        var dpp = Number(locations[i].price.periodeMonth.priceMonth);
+        dpp[i] = Number(locations[i].price.periodeMonth.priceMonth);
     }
 
     cell[6].classList.add('td-table-sale');
 
     newRow[1] = saleTBody.insertRow(1);
     cell[0] = newRow[1].insertCell(0);
-    cell[0].innerHTML = "DPP";
+    cell[0].innerHTML = "Apakah DPP  sama dengan harga ? ";
     cell[0].classList.add('td-table-sale');
     cell[0].setAttribute('colspan', '6');
+    var labelYes = document.createElement("label");
+    labelYes.innerHTML = "Yes";
+    labelYes.classList.add("label-radio");
+    var labelNo = document.createElement("label");
+    labelNo.innerHTML = "No";
+    labelNo.classList.add("label-radio");
+    radioYes[i] = document.createElement("input");
+    radioYes[i].classList.add("label-radio");
+    radioYes[i].setAttribute('type', 'radio');
+    radioYes[i].setAttribute('value', 'yes');
+    radioYes[i].setAttribute('checked', 'checked');
+    radioYes[i].setAttribute('name', i);
+    radioYes[i].setAttribute('onclick', 'setDPP(this)');
+    radioNo[i] = document.createElement("input");
+    radioNo[i].classList.add("label-radio");
+    radioNo[i].setAttribute('type', 'radio');
+    radioNo[i].setAttribute('value', 'no');
+    radioNo[i].setAttribute('name', i);
+    radioNo[i].setAttribute('onclick', 'setDPP(this)');
+    cell[0].appendChild(radioYes[i]);
+    cell[0].appendChild(labelYes);
+    cell[0].appendChild(radioNo[i]);
+    cell[0].appendChild(labelNo);
     cell[1] = newRow[1].insertCell(1);
-    cell[1].innerHTML = Intl.NumberFormat('en-US').format(dpp);
+    cell[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[i]);
     cell[1].classList.add('td-table-sale');
 
     newRow[2] = saleTBody.insertRow(2);
@@ -684,7 +810,7 @@ function createMultipleSale(locations, i) {
     cell[0].classList.add('td-table-sale');
     cell[0].setAttribute('colspan', '6');
     cell[1] = newRow[2].insertCell(1);
-    cell[1].innerHTML = Intl.NumberFormat('en-US').format(dpp * (11 / 100));
+    cell[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[i] * (11 / 100));
     cell[1].classList.add('td-table-sale');
 
     newRow[3] = saleTBody.insertRow(3);
@@ -693,7 +819,7 @@ function createMultipleSale(locations, i) {
     cell[0].classList.add('td-table-sale');
     cell[0].setAttribute('colspan', '6');
     cell[1] = newRow[3].insertCell(1);
-    cell[1].innerHTML = Intl.NumberFormat('en-US').format(dpp * (2 / 100));
+    cell[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[i] * (2 / 100));
     cell[1].classList.add('td-table-sale');
 
     newRow[4] = saleTBody.insertRow(4);
@@ -702,12 +828,12 @@ function createMultipleSale(locations, i) {
     cell[0].classList.add('td-table-sale');
     cell[0].setAttribute('colspan', '6');
     cell[1] = newRow[4].insertCell(1);
-    cell[1].innerHTML = Intl.NumberFormat('en-US').format(dpp + (dpp * (11 / 100)) - (dpp * (2 / 100)));
+    cell[1].innerHTML = Intl.NumberFormat('en-US').format(dpp[i] + (dpp[i] * (11 / 100)) - (dpp[i] * (2 / 100)));
     cell[1].classList.add('td-table-sale');
 
-    saleTable.appendChild(saleTHead);
-    saleTable.appendChild(saleTBody);
-    divTable.appendChild(saleTable);
+    saleTable[i].appendChild(saleTHead);
+    saleTable[i].appendChild(saleTBody);
+    divTable.appendChild(saleTable[i]);
     divTable.classList.add("flex");
     divTable.classList.add("justify-center");
     saleData.classList.add("mt-4");
@@ -718,39 +844,53 @@ function createMultipleSale(locations, i) {
     // Notes element --> start
     labelTermTitle.classList.add("sale-note-title");
     labelTermTitle.innerHTML = "Termin Pembayaran";
-    divTerms.appendChild(labelTermTitle);
-    for (a = 0; a < 2; a++) {
-        if (a == 0) {
-            labelTerms[a] = document.createElement("label");
-            labelTerms[a].classList.add("label-sale-notes");
-            labelTerms[a].innerHTML = "1. 50 % DP sebelum materi iklan tayang";
-            divTerms.appendChild(labelTerms[a]);
-        } else if (a == 1) {
-            labelTerms[a] = document.createElement("label");
-            labelTerms[a].classList.add("label-sale-notes");
-            labelTerms[a].innerHTML = "2. 50 % pelunasan setelah BAPP";
-            divTerms.appendChild(labelTerms[a]);
-        }
+    termsNote.appendChild(labelTermTitle);
+    for (a = 0; a < payments.length; a++) {
+        divTerms[a] = document.createElement("div");
+        divTerms[a].classList.add("flex");
+        labelTermsNumber[a] = document.createElement("label");
+        labelTermsNumber[a].classList.add("label-sale-notes");
+        labelTermsNumber[a].innerHTML = payments[a].termNumber + ".";
 
+        labelTerms[a] = document.createElement("label");
+        labelTerms[a].classList.add("label-sale-notes");
+        labelTerms[a].innerHTML = payments[a].termValue + "% " + payments[a].termNote;
+        divTerms[a].appendChild(labelTermsNumber[a]);
+        divTerms[a].appendChild(labelTerms[a]);
+        termsNote.appendChild(divTerms[a]);
     }
-    divSaleNotes.appendChild(divTerms);
+    divSaleNotes.appendChild(termsNote);
 
     labelServiceTitle.classList.add("sale-note-title");
     labelServiceTitle.innerHTML = "Services";
     divServices.appendChild(labelServiceTitle);
     for (a = 0; a < 2; a++) {
         if (a == 0) {
-            labelServices[a] = document.createElement("label");
-            labelServices[a].classList.add("label-sale-notes");
-            labelServices[a].innerHTML = "1. Free biaya cetak 12x";
-            divServices.appendChild(labelServices[a]);
-        } else if (a == 1) {
-            labelServices[a] = document.createElement("label");
-            labelServices[a].classList.add("label-sale-notes");
-            labelServices[a].innerHTML = "2. Free biaya pemasangan 12x";
-            divServices.appendChild(labelServices[a]);
-        }
+            if (notes[2].freeInstal != "") {
+                labelServices[a] = document.createElement("label");
+                labelServices[a].classList.add("label-sale-notes");
+                labelServices[a].innerHTML = "• Free pemasangan " + notes[2].freeInstal + "x";
+                divServices.appendChild(labelServices[a]);
+            } else {
+                labelServices[a] = document.createElement("label");
+                labelServices[a].classList.add("label-sale-notes");
+                labelServices[a].innerHTML = "• Tidak ada free pemasangan";
+                divServices.appendChild(labelServices[a]);
+            }
 
+        } else if (a == 1) {
+            if (notes[3].freePrint != "") {
+                labelServices[a] = document.createElement("label");
+                labelServices[a].classList.add("label-sale-notes");
+                labelServices[a].innerHTML = "• Free cetak " + notes[3].freePrint + "x";
+                divServices.appendChild(labelServices[a]);
+            } else {
+                labelServices[a] = document.createElement("label");
+                labelServices[a].classList.add("label-sale-notes");
+                labelServices[a].innerHTML = "• Tidak ada free cetak";
+                divServices.appendChild(labelServices[a]);
+            }
+        }
     }
     divServices.classList.add("mt-4");
     divSaleNotes.appendChild(divServices);
@@ -897,14 +1037,14 @@ function createMultipleSale(locations, i) {
 
     // Fill element --> start
     if (quotationDeal.value.includes('rev') == false) {
-        for (i = 0; i < quotationData.length; i++) {
-            if (quotationData[i].number == quotationDeal.value) {
+        for (a = 0; a < quotationData.length; a++) {
+            if (quotationData[a].number == quotationDeal.value) {
                 labelQuotationValue[0].innerHTML = "";
-                labelQuotationValue[0].innerHTML = quotationData[i].number;
+                labelQuotationValue[0].innerHTML = quotationData[a].number;
                 labelQuotationValue[1].innerHTML = "";
-                labelQuotationValue[1].innerHTML = getFormatDate(new Date(quotationData[i].created_at), options, '-');
+                labelQuotationValue[1].innerHTML = getFormatDate(new Date(quotationData[a].created_at), options, '-');
                 for (n = 0; n < dataClient.length; n++) {
-                    if (dataClient[n].id == quotationData[i].client_id) {
+                    if (dataClient[n].id == quotationData[a].client_id) {
                         labelQuotationValue[2].innerHTML = "";
                         labelQuotationValue[2].innerHTML = dataClient[n].name;
                         labelQuotationValue[3].innerHTML = "";
@@ -926,14 +1066,15 @@ function createMultipleSale(locations, i) {
             }
         }
     } else {
-        for (i = 0; i < quotRevisionData.length; i++) {
-            if (quotRevisionData[i].number == quotationDeal.value) {
+        console.log(quotRevisionData);
+        for (a = 0; a < quotRevisionData.length; a++) {
+            if (quotRevisionData[a].number == quotationDeal.value) {
                 labelQuotationValue[0].innerHTML = "";
-                labelQuotationValue[0].innerHTML = quotRevisionData[i].number;
+                labelQuotationValue[0].innerHTML = quotRevisionData[a].number;
                 labelQuotationValue[1].innerHTML = "";
-                labelQuotationValue[1].innerHTML = getFormatDate(new Date(quotationData[i].created_at), options, '-');
+                labelQuotationValue[1].innerHTML = getFormatDate(new Date(quotRevisionData[a].created_at), options, '-');
                 for (n = 0; n < dataClient.length; n++) {
-                    if (dataClient[n].id == quotationData[i].client_id) {
+                    if (dataClient[n].id == quotationData[a].client_id) {
                         labelQuotationValue[2].innerHTML = "";
                         labelQuotationValue[2].innerHTML = dataClient[n].name;
                         labelQuotationValue[3].innerHTML = "";

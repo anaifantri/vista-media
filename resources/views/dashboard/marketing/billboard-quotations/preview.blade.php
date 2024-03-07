@@ -260,20 +260,71 @@
                                     </div>
                                     <?php
                                     $objNotes = json_decode($billboard_quotation->note);
+                                    $payment = $objNotes->notes[6];
                                     ?>
                                     @foreach ($objNotes->notes as $note)
-                                        @if ($note->cbNote == 'true')
-                                            <div>
-                                                <div class="flex">
-                                                    <label
-                                                        class="ml-1 text-[0.7rem] text-black flex">{{ $note->labelNote }}</label>
-                                                    <label
-                                                        class="ml-2 text-[0.7rem] text-black w-full">{{ $note->textNote }}</label>
+                                        @if ($loop->iteration != 7)
+                                            @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
+                                                @if ($note->cbNote == 'true')
+                                                    <div>
+                                                        <div class="flex">
+                                                            <label
+                                                                class="ml-4 text-[0.7rem] text-black w-full">{{ $note->textNote }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @elseif ($loop->iteration < 9)
+                                                @if ($note->cbNote == 'true')
+                                                    <div>
+                                                        <div class="flex">
+                                                            <label
+                                                                class="ml-1 text-[0.7rem] text-black flex">{{ $note->labelNote }}</label>
+                                                            <label
+                                                                class="ml-2 text-[0.7rem] text-black w-full">{{ $note->textNote }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        @else
+                                            @foreach ($payment as $term)
+                                                <div>
+                                                    <div class="flex">
+                                                        <label class="ml-4 text-[0.7rem] text-black flex">•
+                                                            {{ $payment[$loop->iteration - 1]->termValue }} %
+                                                            {{ $payment[$loop->iteration - 1]->termNote }}</label>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endforeach
                                         @endif
                                     @endforeach
-
+                                    @foreach ($objNotes->notes as $note)
+                                        @if ($loop->iteration > 10)
+                                            @if ($note->cbNote == 'true')
+                                                <div>
+                                                    <div class="flex">
+                                                        <label
+                                                            class="ml-1 text-[0.7rem] text-black flex">{{ $note->labelNote }}</label>
+                                                        <label
+                                                            class="ml-2 text-[0.7rem] text-black w-full">{{ $note->textNote }}</label>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                    @foreach ($objNotes->notes as $note)
+                                        @if ($loop->iteration > 8 && $loop->iteration < 11)
+                                            @if ($note->cbNote == 'true')
+                                                <div>
+                                                    <div class="flex">
+                                                        <label
+                                                            class="ml-1 text-[0.7rem] text-black flex">{{ $note->labelNote }}</label>
+                                                        <label
+                                                            class="ml-2 text-[0.7rem] text-black w-full">{{ $note->textNote }}</label>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
                             <!-- billboard note end -->
