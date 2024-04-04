@@ -10,6 +10,7 @@ use App\Models\Billboard;
 use App\Models\Company;
 use App\Models\Client;
 use App\Models\BillboardQuotation;
+use App\Models\BillboardQuotRevision;
 
 class Sale extends Model
 {
@@ -46,6 +47,10 @@ class Sale extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function contact(){
+        return $this->belongsTo(Contact::class);
+    }
+
     public function billboard(){
         return $this->belongsTo(Billboard::class);
     }
@@ -60,6 +65,10 @@ class Sale extends Model
 
     public function billboard_quotation(){
         return $this->belongsTo(BillboardQuotation::class);
+    }
+
+    public function billboard_quot_revision(){
+        return $this->belongsTo(BillboardQuotRevision::class);
     }
 
     public function client_approvals(){

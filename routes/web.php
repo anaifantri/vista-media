@@ -26,6 +26,9 @@ use App\Http\Controllers\VideotronController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\VendorCategoryController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ClientApprovalController;
+use App\Http\Controllers\ClientOrderController;
+use App\Http\Controllers\ClientAgreementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +57,9 @@ Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [Billbo
 Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQuotRevisionController::class, 'preview']);
 Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/client-approvals', ClientApprovalController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/client-orders', ClientOrderController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/client-agreements', ClientAgreementController::class)->middleware(['auth','user_access']);
 
 Route::resource('/dashboard/media/area', AreaController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/cities', CityController::class)->middleware(['auth','user_access']);
@@ -83,6 +89,11 @@ Route::get('/showBillboardQuotation', [BillboardQuotationController::class,'show
 Route::get('/showBillboardPhoto', [BillboardPhotoController::class,'showBillboardPhoto'])->middleware(['auth','user_access']);
 Route::get('/showBillboardCategory', [BillboardCategoryController::class,'showBillboardCategory'])->middleware(['auth','user_access']);
 Route::get('/showBillboardQuotRevision', [BillboardQuotRevisionController::class,'showBillboardQuotRevision'])->middleware(['auth','user_access']);
+Route::get('/showClientApproval', [ClientApprovalController::class,'showClientApproval'])->middleware(['auth','user_access']);
+Route::get('/showClientOrder', [ClientOrderController::class,'showClientOrder'])->middleware(['auth','user_access']);
+Route::get('/showClientAgreement', [ClientAgreementController::class,'showClientAgreement'])->middleware(['auth','user_access']);
+Route::get('/showSale', [SaleController::class,'showSale'])->middleware(['auth','user_access']);
+Route::get('/sales/preview/', [SaleController::class,'preview'])->middleware(['auth','user_access']);
 
 Route::get('/', function () {
     return view('index',[

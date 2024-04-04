@@ -17,6 +17,11 @@ class ClientOrderController extends Controller
         //
     }
 
+    public function showClientOrder(){
+        $dataClientOrder = ClientOrder::all();
+        return response()->json(['dataClientOrder'=> $dataClientOrder]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -30,7 +35,23 @@ class ClientOrderController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if($request->file('document_po')){
+            $images = $request->file('document_po');
+            foreach($images as $image){
+                $documentPO = [];
+                $documentPO = [
+                    'billboard_quotation_id' => $request->po_billboard_quotation_id,
+                    'billboard_quot_revision_id' => $request->po_billboard_quot_revision_id,
+                    'name' => $request->order_name,
+                    'number' => $request->order_number,
+                    'order_date' => $request->order_date,
+                    'order_image' => $image->store('order-images')
+                ];
+                ClientOrder::create($documentPO);
+            }
+            return back()->with('order_success','Dokumen PO/SPK berhasil ditambahkan');
+        }
+        // dd($documentPO);
     }
 
     /**

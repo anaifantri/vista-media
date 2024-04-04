@@ -676,7 +676,8 @@
                                                                 <input id="inputBBNote-{{ $loop->iteration }}"
                                                                     type="number" placeholder="0"
                                                                     class="ml-1 text-sm text-center text-black outline-none w-8"
-                                                                    type="text" value="{{ $note->freeInstal }}">
+                                                                    type="text" value="{{ $note->freeInstal }}"
+                                                                    min="0">
                                                                 <label id="labelBBNote-3"
                                                                     class="ml-1 text-sm text-black">x selama
                                                                     kontrak</label>
@@ -692,7 +693,8 @@
                                                                 <input id="inputBBNote-{{ $loop->iteration }}"
                                                                     type="number" placeholder="0"
                                                                     class="ml-1 text-sm text-center text-black outline-none w-8"
-                                                                    type="text" value="{{ $note->freeInstal }}">
+                                                                    type="text" value="{{ $note->freeInstal }}"
+                                                                    min="0">
                                                                 <label id="labelBBNote-3"
                                                                     class="ml-1 text-sm text-black">x selama
                                                                     kontrak</label>
@@ -710,7 +712,8 @@
                                                                 <input id="inputBBNote-{{ $loop->iteration }}"
                                                                     type="number" placeholder="0"
                                                                     class="ml-1 text-sm text-center text-black outline-none w-8"
-                                                                    type="text" value="{{ $note->freePrint }}">
+                                                                    type="text" value="{{ $note->freePrint }}"
+                                                                    min="0">
                                                                 <label id="labelBBNote-4"
                                                                     class="ml-1 text-sm text-black">x selama
                                                                     kontrak, di luar Design.</label>
@@ -727,7 +730,8 @@
                                                                 <input id="inputBBNote-{{ $loop->iteration }}"
                                                                     type="number" placeholder="0"
                                                                     class="ml-1 text-sm text-center text-black outline-none w-8"
-                                                                    type="text" value="{{ $note->freePrint }}">
+                                                                    type="text" value="{{ $note->freePrint }}"
+                                                                    min="0">
                                                                 <label id="labelBBNote-4"
                                                                     class="ml-1 text-sm text-black">x selama
                                                                     kontrak, di luar
@@ -785,35 +789,6 @@
                                                     @endif
                                                 @endif
                                             @endforeach
-                                            {{-- @foreach ($objNotes->notes as $note)
-                                                @if ($loop->iteration > 10)
-                                                    @if ($note->cbNote == 'true')
-                                                        <div>
-                                                            <div class="flex">
-                                                                <input id="cbBillboardNote{{ $loop->iteration }}"
-                                                                    class="ml-1" type="checkbox" checked>
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
-                                                                <input id="inputBBNote{{ $loop->iteration }}"
-                                                                    class="ml-2 text-sm text-black outline-none w-full"
-                                                                    type="text" value="{{ $note->textNote }}">
-                                                            </div>
-                                                        </div>
-                                                    @else
-                                                        <div>
-                                                            <div class="flex">
-                                                                <input id="cbBillboardNote{{ $loop->iteration }}"
-                                                                    class="ml-1" type="checkbox">
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note->labelNote }}</label>
-                                                                <input id="inputBBNote{{ $loop->iteration }}"
-                                                                    class="ml-2 text-sm text-black outline-none w-full"
-                                                                    type="text" value="{{ $note->textNote }}">
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            @endforeach --}}
                                             @foreach ($objNotes->notes as $note)
                                                 @if ($loop->iteration == 9)
                                                     @if ($note->cbNote == 'true')

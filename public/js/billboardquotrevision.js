@@ -146,9 +146,9 @@ let mainId = 0;
 const date = new Date();
 const year = date.getFullYear();
 let month = "";
-// var getMainNumber = mainNumber.textContent;
-var frontMainNumber = mainNumber.textContent.slice(0, 4);
-var rearMainNumber = mainNumber.textContent.substring(4);
+// var getMainNumber = mainNumber.innerText;
+var frontMainNumber = mainNumber.innerText.slice(0, 4);
+var rearMainNumber = mainNumber.innerText.substring(4);
 let resultsNumber = 0;
 let revisionQty = 0;
 
@@ -272,7 +272,7 @@ function getQuotationData() {
                 objBillboardQuotation = JSON.parse(xhrBillboardQuotation.responseText);
                 dataBillboardQuotation = objBillboardQuotation.dataBillboardQuotation;
                 for (i = 0; i < dataBillboardQuotation.length; i++) {
-                    if (dataBillboardQuotation[i].number == mainNumber.textContent) {
+                    if (dataBillboardQuotation[i].number == mainNumber.innerText) {
                         mainId = dataBillboardQuotation[i].id;
                     }
                 }
@@ -393,13 +393,13 @@ btnPreview.addEventListener('click', function () {
         modalPreview.classList.add('flex');
         window.scrollTo(0, 0);
         quotationNumberBBPreview.innerHTML = number.value;
-        attachmentBBPreview.innerHTML = attachmentBillboard.textContent;
-        subjectBBPreview.innerHTML = subjectBillboard.textContent;
-        clientBBPreview.innerHTML = clientCompany.textContent;
-        contactBBPreview.innerHTML = clientContact.textContent;
-        contactEmailBBPreview.innerHTML = contactEmail.textContent;
-        contactPhoneBBPreview.innerHTML = contactPhone.textContent;
-        letterBodyBBPreview.innerHTML = bodyTopBillboard.textContent;
+        attachmentBBPreview.innerHTML = attachmentBillboard.innerText;
+        subjectBBPreview.innerHTML = subjectBillboard.innerText;
+        clientBBPreview.innerHTML = clientCompany.innerText;
+        contactBBPreview.innerHTML = clientContact.innerText;
+        contactEmailBBPreview.innerHTML = contactEmail.innerText;
+        contactPhoneBBPreview.innerHTML = contactPhone.innerText;
+        letterBodyBBPreview.innerHTML = bodyTopBillboard.innerText;
 
         while (previewBBTBody.hasChildNodes()) {
             previewBBTBody.removeChild(previewBBTBody.firstChild);
@@ -443,21 +443,21 @@ btnPreview.addEventListener('click', function () {
             cell[0].innerHTML = i + 1;
             cell[0].classList.add('td-table-preview');
             cell[1] = newRow[i].insertCell(1);
-            cell[1].innerHTML = billboardTBody.rows[i].cells[1].textContent;
+            cell[1].innerHTML = billboardTBody.rows[i].cells[1].innerText;
             cell[1].classList.add('td-table-preview');
             cell[2] = newRow[i].insertCell(2);
-            cell[2].innerHTML = billboardTBody.rows[i].cells[2].textContent;
+            cell[2].innerHTML = billboardTBody.rows[i].cells[2].innerText;
             cell[2].classList.add('text-[0.65rem]');
             cell[2].classList.add('text-teal-700');
             cell[2].classList.add('border');
             cell[3] = newRow[i].insertCell(3);
-            cell[3].innerHTML = billboardTBody.rows[i].cells[3].textContent;
+            cell[3].innerHTML = billboardTBody.rows[i].cells[3].innerText;
             cell[3].classList.add('td-table-preview');
             cell[4] = newRow[i].insertCell(4);
-            cell[4].innerHTML = billboardTBody.rows[i].cells[4].textContent;
+            cell[4].innerHTML = billboardTBody.rows[i].cells[4].innerText;
             cell[4].classList.add('td-table-preview');
             cell[5] = newRow[i].insertCell(5);
-            cell[5].innerHTML = billboardTBody.rows[i].cells[5].textContent;
+            cell[5].innerHTML = billboardTBody.rows[i].cells[5].innerText;
             cell[5].classList.add('td-table-preview');
             cell[6] = newRow[i].insertCell(6);
             cell[6].classList.add('td-table-preview');
@@ -465,12 +465,12 @@ btnPreview.addEventListener('click', function () {
                 cell[6].removeAttribute('hidden');
                 cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[6].children[0].value));
                 locations[i].price.periodeMonth.priceMonth = billboardTBody.rows[i].cells[6].children[0].value;
-                locations[i].price.periodeMonth.periode = thAMonth.textContent;
+                locations[i].price.periodeMonth.periode = oneMonth.value;
             } else {
                 cell[6].setAttribute('hidden', 'hidden');
                 cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[6].children[0].value));
                 locations[i].price.periodeMonth.priceMonth = billboardTBody.rows[i].cells[6].children[0].value;
-                locations[i].price.periodeMonth.periode = thAMonth.textContent;
+                locations[i].price.periodeMonth.periode = oneMonth.value;
             }
             cell[7] = newRow[i].insertCell(7);
             cell[7].classList.add('td-table-preview');
@@ -478,12 +478,12 @@ btnPreview.addEventListener('click', function () {
                 cell[7].removeAttribute('hidden');
                 cell[7].innerHTML = Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[7].children[0].value));
                 locations[i].price.periodeQuarter.priceQuarter = billboardTBody.rows[i].cells[7].children[0].value;
-                locations[i].price.periodeQuarter.periode = thQuarterYear.textContent;
+                locations[i].price.periodeQuarter.periode = threeMonth.value;
             } else {
                 cell[7].setAttribute('hidden', 'hidden');
                 cell[7].innerHTML = Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[7].children[0].value));
                 locations[i].price.periodeQuarter.priceQuarter = billboardTBody.rows[i].cells[7].children[0].value;
-                locations[i].price.periodeQuarter.periode = thQuarterYear.textContent;
+                locations[i].price.periodeQuarter.periode = threeMonth.value;
             }
             cell[8] = newRow[i].insertCell(8);
             cell[8].classList.add('td-table-preview');
@@ -491,12 +491,12 @@ btnPreview.addEventListener('click', function () {
                 cell[8].removeAttribute('hidden');
                 cell[8].innerHTML = Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[8].children[0].value));
                 locations[i].price.periodeHalf.priceHalf = billboardTBody.rows[i].cells[8].children[0].value;
-                locations[i].price.periodeHalf.periode = thQuarterYear.textContent;
+                locations[i].price.periodeHalf.periode = sixMonth.value;
             } else {
                 cell[8].setAttribute('hidden', 'hidden');
                 cell[8].innerHTML = Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[8].children[0].value));
                 locations[i].price.periodeHalf.priceHalf = billboardTBody.rows[i].cells[8].children[0].value;
-                locations[i].price.periodeHalf.periode = thQuarterYear.textContent;
+                locations[i].price.periodeHalf.periode = sixMonth.value;
             }
             cell[9] = newRow[i].insertCell(9);
             cell[9].classList.add('td-table-preview');
@@ -504,12 +504,12 @@ btnPreview.addEventListener('click', function () {
                 cell[9].removeAttribute('hidden');
                 cell[9].innerHTML = Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[9].children[0].value));
                 locations[i].price.periodeYear.priceYear = billboardTBody.rows[i].cells[9].children[0].value;
-                locations[i].price.periodeYear.periode = thAYear.textContent;
+                locations[i].price.periodeYear.periode = twelveMonth.value;
             } else {
                 cell[9].setAttribute('hidden', 'hidden');
                 cell[9].innerHTML = Intl.NumberFormat('en-US').format(Number(billboardTBody.rows[i].cells[9].children[0].value));
                 locations[i].price.periodeYear.priceYear = billboardTBody.rows[i].cells[9].children[0].value;
-                locations[i].price.periodeYear.periode = thAYear.textContent;
+                locations[i].price.periodeYear.periode = twelveMonth.value;
             }
         }
         objBillboards = { locations };
@@ -523,8 +523,6 @@ btnPreview.addEventListener('click', function () {
             previewBBNote7.removeChild(previewBBNote7.firstChild);
         }
 
-        console.log(billboardNote.children);
-        console.log(inputNotes);
         for (i = 0; i < billboardNote.children.length; i++) {
             if (i + 1 == 2) {
                 labelPreviewBBNote1.innerHTML = inputBBNote1.value;
@@ -1240,6 +1238,8 @@ function addPaymentTerms() {
         paymentValue[indexPayment].setAttribute('type', 'number');
         paymentValue[indexPayment].classList.add("payment-value");
         paymentValue[indexPayment].setAttribute('placeholder', '0');
+        paymentValue[indexPayment].setAttribute('min', '0');
+        paymentValue[indexPayment].setAttribute('max', '100');
 
         percentLabel.classList.add("percent-label");
         percentLabel.innerHTML = "%";
@@ -1312,6 +1312,8 @@ btnAddPayment.addEventListener('click', function () {
         paymentValue[indexPayment].setAttribute('type', 'number');
         paymentValue[indexPayment].classList.add("payment-value");
         paymentValue[indexPayment].setAttribute('placeholder', '0');
+        paymentValue[indexPayment].setAttribute('min', '0');
+        paymentValue[indexPayment].setAttribute('max', '100');
 
         percentLabel.classList.add("percent-label");
         percentLabel.innerHTML = "%";

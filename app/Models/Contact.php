@@ -24,4 +24,8 @@ class Contact extends Model
     public function billboard_quotations(){
         return $this->hasMany(BillboardQuotation::class, 'contact_id', 'id');
     }
+
+    public function sales(){
+        return $this->hasMany(Sale::class, 'contact_id', 'id');
+    }
 }

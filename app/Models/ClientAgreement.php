@@ -12,4 +12,12 @@ class ClientAgreement extends Model
     public function sale(){
         return $this->belongsTo(Sale::class);
     }
+
+    public function billboard_quotation(){
+        return $this->belongsTo(BillboardQuotation::class);
+    }
+
+    public function billboard_quot_revision(){
+        return $this->belongsTo(BillboardQuotRevision::class);
+    }
 }

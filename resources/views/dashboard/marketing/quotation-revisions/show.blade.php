@@ -129,6 +129,8 @@
                                     @else
                                         <div class="mt-1">
                                             <input type="checkbox" id="cbUpdateProgress" name="cbUpdateProgress">
+                                            <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                value="{{ old('cb-update-value') }}" hidden>
                                             <label class="text-sm font-semibold text-teal-900" for="cbUpdateProgress">
                                                 Update
                                                 Progress</label>
@@ -137,6 +139,8 @@
                                 @else
                                     <div class="mt-1" hidden>
                                         <input type="checkbox" id="cbUpdateProgress" name="cbUpdateProgress">
+                                        <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                            value="{{ old('cb-update-value') }}" hidden>
                                         <label class="text-sm font-semibold text-teal-900" for="cbUpdateProgress"> Update
                                             Progress</label>
                                     </div>
@@ -148,56 +152,114 @@
                                 font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                 @error('status') is-invalid @enderror"
                                         type="text" value="{{ old('status') }}">
-                                        @foreach ($billboard_quot_revision->billboard_quot_statuses as $quotStatus)
-                                            @if ($quotStatus->status == 'Follow Up')
-                                                <?php
-                                                $followUp = true;
-                                                ?>
-                                            @else
-                                                <?php
-                                                $followUp = false;
-                                                ?>
-                                            @endif
-                                            @if ($followUp != true)
-                                                @if ($quotStatus->status != $status[$loop->iteration - 1])
-                                                    <option value="{{ $status[$loop->iteration - 1] }}">
-                                                        {{ $status[$loop->iteration - 1] }}
-                                                    </option>
+                                        @if (old('status') == 'Deal')
+                                            @foreach ($billboard_quot_revision->billboard_quot_statuses as $quotStatus)
+                                                @if ($quotStatus->status == 'Follow Up')
+                                                    <?php
+                                                    $followUp = true;
+                                                    ?>
+                                                @else
+                                                    <?php
+                                                    $followUp = false;
+                                                    ?>
                                                 @endif
-                                                <?php
-                                                $numberStatus = $numberStatus + 1;
-                                                // $lastStatus = $status[$loop->iteration - 1];
-                                                ?>
+                                                @if ($followUp != true)
+                                                    @if ($quotStatus->status != $status[$loop->iteration - 1])
+                                                        <option value="{{ $status[$loop->iteration - 1] }}">
+                                                            {{ $status[$loop->iteration - 1] }}
+                                                        </option>
+                                                    @endif
+                                                    <?php
+                                                    $numberStatus = $numberStatus + 1;
+                                                    ?>
+                                                @endif
+                                            @endforeach
+                                            @for ($i = $numberStatus; $i < count($status); $i++)
+                                                @if ($status[$numberStatus] == 'Deal')
+                                                    <option value="{{ $status[$numberStatus] }}" selected>
+                                                        {{ $status[$numberStatus] }}
+                                                    </option>
+                                                    <?php
+                                                    $numberStatus = $numberStatus + 1;
+                                                    ?>
+                                                @else
+                                                    <option value="{{ $status[$numberStatus] }}">
+                                                        {{ $status[$numberStatus] }}
+                                                    </option>
+                                                    <?php
+                                                    $numberStatus = $numberStatus + 1;
+                                                    ?>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @foreach ($billboard_quot_revision->billboard_quot_statuses as $quotStatus)
+                                                @if ($quotStatus->status == 'Follow Up')
+                                                    <?php
+                                                    $followUp = true;
+                                                    ?>
+                                                @else
+                                                    <?php
+                                                    $followUp = false;
+                                                    ?>
+                                                @endif
+                                                @if ($followUp != true)
+                                                    @if ($quotStatus->status != $status[$loop->iteration - 1])
+                                                        <option value="{{ $status[$loop->iteration - 1] }}">
+                                                            {{ $status[$loop->iteration - 1] }}
+                                                        </option>
+                                                    @endif
+                                                    <?php
+                                                    $numberStatus = $numberStatus + 1;
+                                                    // $lastStatus = $status[$loop->iteration - 1];
+                                                    ?>
+                                                @endif
+                                            @endforeach
+                                            @if ($lastStatus == 'Created')
+                                                <option value="{{ $status[1] }}">
+                                                    {{ $status[1] }}
+                                                </option>
+                                                <option value="{{ $status[4] }}">
+                                                    {{ $status[4] }}
+                                                </option>
+                                            @elseif ($lastStatus == 'Sent' || $lastStatus == 'Follow Up')
+                                                @for ($i = $numberStatus; $i < count($status); $i++)
+                                                    <option value="{{ $status[$numberStatus] }}">
+                                                        {{ $status[$numberStatus] }}
+                                                    </option>
+                                                    <?php
+                                                    $numberStatus = $numberStatus + 1;
+                                                    ?>
+                                                @endfor
+                                            @elseif ($lastStatus == 'Follow Up')
+                                                @for ($i = $numberStatus; $i < count($status); $i++)
+                                                    <option value="{{ $status[$numberStatus] }}">
+                                                        {{ $status[$numberStatus] }}
+                                                    </option>
+                                                    <?php
+                                                    $numberStatus = $numberStatus + 1;
+                                                    ?>
+                                                @endfor
                                             @endif
-                                        @endforeach
-                                        @if ($lastStatus == 'Created')
-                                            <option value="{{ $status[1] }}">
-                                                {{ $status[1] }}
-                                            </option>
-                                            <option value="{{ $status[4] }}">
-                                                {{ $status[4] }}
-                                            </option>
-                                        @elseif ($lastStatus == 'Sent' || $lastStatus == 'Follow Up')
-                                            @for ($i = $numberStatus; $i < count($status); $i++)
-                                                <option value="{{ $status[$numberStatus] }}">
-                                                    {{ $status[$numberStatus] }}
-                                                </option>
-                                                <?php
-                                                $numberStatus = $numberStatus + 1;
-                                                ?>
-                                            @endfor
-                                        @elseif ($lastStatus == 'Follow Up')
-                                            @for ($i = $numberStatus; $i < count($status); $i++)
-                                                <option value="{{ $status[$numberStatus] }}">
-                                                    {{ $status[$numberStatus] }}
-                                                </option>
-                                                <?php
-                                                $numberStatus = $numberStatus + 1;
-                                                ?>
-                                            @endfor
                                         @endif
                                     </select>
                                     @error('status')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-1" id="divApproval" hidden>
+                                    <label class="text-sm text-teal-700">Document Approval</label>
+                                    <div class="flex items-center">
+                                        <label id="labelDocumentApproval"
+                                            class="flex text-sm text-teal-700 border border-teal-700 rounded-lg px-2 w-40">0
+                                            images selected</label>
+                                        <button class="btn-sale" id="btnApproval" onclick="btnApprovalEvent()"
+                                            type="button">
+                                            <span class="text-sm mx-2">Add/view</span>
+                                        </button>
+                                    </div>
+                                    @error('document_approval')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -208,7 +270,7 @@
                                     <textarea
                                         class="flex w-80 text-sm text-left font-semibold text-teal-900 border rounded-lg p-2 outline-none
                                 @error('description') is-invalid @enderror"
-                                        id="description" name="description" rows="4" cols=""></textarea>
+                                        id="description" name="description" rows="4" cols="">{{ old('description') }}</textarea>
                                     @error('description')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -228,6 +290,99 @@
                                         <span class="ml-2 text-white">Save Progress</span>
                                     </button>
                                 </div>
+                                <!-- Add / view Approval start -->
+                                <div id="modalApproval" name="modalApproval"
+                                    class="absolute justify-center top-0 w-[1100px] h-full bg-black bg-opacity-90 z-50 hidden">
+                                    <div>
+                                        <div class="flex mt-10">
+                                            <button id="btnApprovalSubmit"
+                                                class="flex justify-center items-center mx-1 btn-primary mb-2"
+                                                title="Submit" type="button">
+                                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                                    width="24" height="24" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-12.751 8.306c-.165-.147-.249-.351-.249-.556 0-.411.333-.746.748-.746.178 0 .355.062.499.19l2.371 2.011 4.453-4.962c.149-.161.35-.243.554-.243.417 0 .748.336.748.746 0 .179-.065.359-.196.503l-4.953 5.508c-.148.161-.35.243-.553.243-.177 0-.356-.063-.498-.19z"
+                                                        fill-rule="nonzero" />
+                                                </svg>
+                                                <span class="ml-2 text-white">Submit</span>
+                                            </button>
+                                            <button id="btnApprovalCancel"
+                                                class="flex justify-center items-center mx-1 btn-danger mb-2"
+                                                title="Cancel" type="button">
+                                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                                    width="24" height="24" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                                                </svg>
+                                                <span class="ml-2 text-white">Cancel</span>
+                                            </button>
+                                        </div>
+                                        <div class="w-[800px] h-max bg-white mt-2 p-4">
+                                            <div class="flex justify-center">
+                                                <div>
+                                                    <div class="flex justify-center w-full m-2">
+                                                        <button id="btnChoseApproval" name="btnChoseApproval"
+                                                            class="flex justify-center items-center w-44 btn-primary"
+                                                            title="Chose Files" type="button"
+                                                            onclick="document.getElementById('documentApproval').click()">
+                                                            <svg class="fill-current w-[18px]"
+                                                                xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                                                                clip-rule="evenodd" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
+                                                            </svg>
+                                                            <span class="ml-2">Chose Images</span>
+                                                        </button>
+                                                        <input class="hidden" id="documentApproval"
+                                                            name="document_approval[]" type="file"
+                                                            accept="image/png, image/jpg, image/jpeg"
+                                                            onchange="previewAppovalImage()" multiple>
+                                                    </div>
+                                                    <div class="flex justify-center my-2 border-b-2 border-teal-700">
+                                                        <label id="numberApprovalFile" class="text-sm text-teal-700">No
+                                                            Files Chosen</label>
+                                                    </div>
+                                                    <figure
+                                                        class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700"
+                                                        id="approvalImg">
+
+                                                    </figure>
+                                                    <div class="relative m-auto w-[750px] h-max">
+                                                        <div id="prevApprovalButton"
+                                                            class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
+                                                            <button
+                                                                class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer"
+                                                                type="button">
+                                                                <svg class="fill-white w-5"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                                                                    clip-rule="evenodd" viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                        <div id="nextApprovalButton"
+                                                            class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
+                                                            <button type="button"
+                                                                class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer">
+                                                                <svg class="fill-white w-5"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                                                                    clip-rule="evenodd" viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                        <div id="slidesApprovalPreview" class="mt-2">
+                                                            {{-- <img class="approval-preview w-full" src="" alt="" hidden> --}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Add / view Approval end -->
                             </form>
                             <div class="flex justify-start mt-5">
                                 <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-success"

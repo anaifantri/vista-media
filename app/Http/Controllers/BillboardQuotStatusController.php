@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BillboardQuotStatus;
+use App\Models\ClientApproval;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,6 +32,13 @@ class BillboardQuotStatusController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
+        
+        if($request->status == "Deal"){
+            if ($request->document_approval == null){
+                return back()->withErrors(['document_approval' => ['Silahkan pilih dokumen approval']])->withInput();
+            }
+        }
+
         $validateData = $request->validate([
             'status' => 'required',
             'description' => 'required',
@@ -56,6 +64,22 @@ class BillboardQuotStatusController extends Controller
         // dd($validateData['billboard_quotation_id']);
             
         BillboardQuotStatus::create($validateData);
+
+        if($request->file('document_approval')){
+            $documentApproval = [];
+            $images = $request->file('document_approval');
+            foreach($images as $image){
+                $documentApproval[] = [
+                    'billboard_quotation_id' => $validateData['billboard_quotation_id'],
+                    'billboard_quot_revision_id' => $validateData['billboard_quot_revision_id'],
+                    'approval_image' => $image->store('approval-images')
+                ];
+            }
+            // dd($documentApproval);
+            ClientApproval::insert($documentApproval);
+        }
+        // dd($validateData);
+
         if($request->billboard_quot_revision_id != ""){
         return redirect('/dashboard/marketing/billboard-quot-revisions/'.$validateData['billboard_quot_revision_id'])->with('success','Progress revisi surat penawaran telah di update');
         } elseif($request->billboard_quotation_id != ""){

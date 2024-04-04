@@ -68,5 +68,17 @@ class BillboardQuotation extends Model
         return $this->hasMany(Sale::class, 'billboard_quotation_id', 'id');
     }
 
+    public function client_approvals(){
+        return $this->hasMany(ClientApproval::class, 'billboard_quotation_id', 'id');
+    }
+
+    public function client_agreements(){
+        return $this->hasMany(ClientAgreement::class, 'billboard_quotation_id', 'id');
+    }
+
+    public function client_orders(){
+        return $this->hasMany(ClientOrder::class, 'billboard_quotation_id', 'id');
+    }
+
     public $sortable = ['number'];
 }

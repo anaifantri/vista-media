@@ -190,14 +190,14 @@
                     <input id="cbBillboardNote-3" class="ml-1" type="checkbox" checked>
                     <label class="ml-4 text-sm text-black flex">• Free pemasangan visual</label>
                     <input id="inputBBNote-3" class="ml-1 text-sm text-black outline-none w-8 text-center"
-                        placeholder="0" type="number" value="">
+                        placeholder="0" type="number" value="" min="0">
                     <label id="labelBBNote-3" class="ml-1 text-sm text-black flex">x selama kontrak</label>
                 </div>
                 <div id="billboardNote-4" class="flex">
                     <input id="cbBillboardNote-4" class="ml-1" type="checkbox" checked>
                     <label class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
                     <input id="inputBBNote-4" class="ml-1 text-sm text-black outline-none w-8 text-center"
-                        placeholder="0" type="number" value="">
+                        placeholder="0" type="number" value="" min="0">
                     <label id="labelBBNote-4" class="ml-1 text-sm text-black flex">x selama kontrak, di luar
                         Design.</label>
                 </div>

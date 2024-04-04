@@ -17,6 +17,11 @@ class ClientApprovalController extends Controller
         //
     }
 
+    public function showClientApproval(){
+        $dataClientApproval = ClientApproval::all();
+        return response()->json(['dataClientApproval'=> $dataClientApproval]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

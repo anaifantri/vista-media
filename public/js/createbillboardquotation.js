@@ -366,7 +366,7 @@ function fillQuotation() {
         bodyTopBillboard.innerHTML = bodyTop.value;
     };
     if (bodyEnd.value != "") {
-        bodyEndBillboard.innerHTML = bodyEnd.value;
+        bodyEndBillboard.value = bodyEnd.value;
     };
 
     if (inputContact.value != "") {
@@ -1051,19 +1051,19 @@ btnPreview.addEventListener('click', function () {
         modalPreview.classList.add('flex');
         window.scrollTo(0, 0);
         quotationNumberBBPreview.innerHTML = number.value;
-        attachmentBBPreview.innerHTML = attachmentBillboard.textContent;
+        attachmentBBPreview.innerHTML = attachmentBillboard.innerText;
         attachment.value = "";
-        attachment.value = attachmentBBPreview.textContent;
-        subjectBBPreview.innerHTML = subjectBillboard.textContent;
+        attachment.value = attachmentBBPreview.innerText;
+        subjectBBPreview.innerHTML = subjectBillboard.innerText;
         subject.value = "";
-        subject.value = subjectBBPreview.textContent;
-        clientBBPreview.innerHTML = clientCompany.textContent;
-        contactBBPreview.innerHTML = clientContact.textContent;
-        contactEmailBBPreview.innerHTML = contactEmail.textContent;
-        contactPhoneBBPreview.innerHTML = contactPhone.textContent;
-        letterBodyBBPreview.innerHTML = bodyTopBillboard.textContent;
+        subject.value = subjectBBPreview.innerText;
+        clientBBPreview.innerHTML = clientCompany.innerText;
+        contactBBPreview.innerHTML = clientContact.innerText;
+        contactEmailBBPreview.innerHTML = contactEmail.innerText;
+        contactPhoneBBPreview.innerHTML = contactPhone.innerText;
+        letterBodyBBPreview.innerHTML = bodyTopBillboard.value;
         bodyTop.value = "";
-        bodyTop.value = letterBodyBBPreview.textContent;
+        bodyTop.value = letterBodyBBPreview.innerText;
 
         while (previewBBTBody.hasChildNodes()) {
             previewBBTBody.removeChild(previewBBTBody.firstChild);
@@ -1109,6 +1109,7 @@ btnPreview.addEventListener('click', function () {
             cell[6] = newRow[iBillboard].insertCell(6);
             if (manual.checked == true) {
                 locations[iBillboard].price.periodeMonth.priceMonth = Number(inputPriceMonth[iBillboard].value);
+                locations[iBillboard].price.periodeMonth.periode = oneMonth.value;
                 cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeMonth.priceMonth));
             } else {
                 cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeMonth.priceMonth));
@@ -1122,6 +1123,7 @@ btnPreview.addEventListener('click', function () {
             cell[7] = newRow[iBillboard].insertCell(7);
             if (manual.checked == true) {
                 locations[iBillboard].price.periodeQuarter.priceQuarter = Number(inputPriceQuarter[iBillboard].value);
+                locations[iBillboard].price.periodeQuarter.periode = threeMonth.value;
                 cell[7].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeQuarter.priceQuarter));
             } else {
                 cell[7].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeQuarter.priceQuarter));
@@ -1135,6 +1137,7 @@ btnPreview.addEventListener('click', function () {
             cell[8] = newRow[iBillboard].insertCell(8);
             if (manual.checked == true) {
                 locations[iBillboard].price.periodeHalf.priceHalf = Number(inputPriceHalf[iBillboard].value);
+                locations[iBillboard].price.periodeHalf.periode = sixMonth.value;
                 cell[8].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeHalf.priceHalf));
             } else {
                 cell[8].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeHalf.priceHalf));
@@ -1148,6 +1151,7 @@ btnPreview.addEventListener('click', function () {
             cell[9] = newRow[iBillboard].insertCell(9);
             if (manual.checked == true) {
                 locations[iBillboard].price.periodeYear.priceYear = inputPriceYear[iBillboard].value;
+                locations[iBillboard].price.periodeYear.periode = twelveMonth.value;
                 cell[9].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeYear.priceYear));
             } else {
                 cell[9].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[iBillboard].price.periodeYear.priceYear));
@@ -1917,8 +1921,8 @@ function searchTable() {
         td1 = tr[i].getElementsByTagName("td")[1];
         td2 = tr[i].getElementsByTagName("td")[2];
         if (td1 || td2) {
-            txtValue1 = td1.textContent || td1.innerText;
-            txtValue2 = td2.textContent || td2.innerText;
+            txtValue1 = td1.innerText || td1.innerText;
+            txtValue2 = td2.innerText || td2.innerText;
             if (txtValue1.toUpperCase().indexOf(filter) > -1 || txtValue2.toUpperCase().indexOf(filter) > -1) {
                 tr[i].style.display = "";
             } else {
@@ -2570,6 +2574,8 @@ function addPaymentTerms() {
         paymentValue[indexPayment].setAttribute('type', 'number');
         paymentValue[indexPayment].classList.add("payment-value");
         paymentValue[indexPayment].setAttribute('placeholder', '0');
+        paymentValue[indexPayment].setAttribute('min', '0');
+        paymentValue[indexPayment].setAttribute('max', '100');
 
         percentLabel.classList.add("percent-label");
         percentLabel.innerHTML = "%";
@@ -2612,6 +2618,8 @@ btnAddPayment.addEventListener('click', function () {
         paymentValue[indexPayment].setAttribute('type', 'number');
         paymentValue[indexPayment].classList.add("payment-value");
         paymentValue[indexPayment].setAttribute('placeholder', '0');
+        paymentValue[indexPayment].setAttribute('min', '0');
+        paymentValue[indexPayment].setAttribute('max', '100');
 
         percentLabel.classList.add("percent-label");
         percentLabel.innerHTML = "%";

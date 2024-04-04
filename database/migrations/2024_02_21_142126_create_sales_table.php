@@ -17,14 +17,16 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('company_id')->constrained();
             $table->foreignId('client_id')->constrained();
+            $table->foreignId('contact_id')->constrained();
             $table->foreignId('billboard_id')->constrained();
             $table->foreignId('billboard_quotation_id')->nullable()->constrained();
+            $table->foreignId('billboard_quot_revision_id')->nullable()->constrained();
             $table->decimal('price',12,0)->unsigned()->default(0);
             $table->decimal('dpp',12,0)->unsigned()->default(0);
             $table->string('category');
             $table->string('duration');
-            $table->time('start_at', $precision = 0)->nullable();
-            $table->time('end_at', $precision = 0)->nullable();
+            $table->date('start_at')->nullable();
+            $table->date('end_at')->nullable();
             $table->json('terms_of_payment');
             $table->integer('free_instalation');
             $table->integer('free_print');

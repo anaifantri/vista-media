@@ -365,7 +365,7 @@
 }
 
 .btn-sale{
-    @apply w-max h-5 ml-2 cursor-pointer bg-teal-500 rounded-lg text-white hover:bg-teal-600 drop-shadow-lg;
+    @apply w-max h-5 cursor-pointer bg-teal-500 rounded-lg text-white hover:bg-teal-600 drop-shadow-lg;
 }
 
 .th-table{
@@ -373,7 +373,7 @@
 }
 
 .sale-note{
-    @apply flex justify-center mt-4;
+    @apply flex justify-center mt-4 w-full;
 }
 
 .div-sale-notes{
@@ -385,7 +385,11 @@
 }
 
 .label-sale-notes{
-    @apply ml-2 flex text-sm text-teal-700;
+    @apply flex text-sm text-teal-700 w-[290px];
+}
+
+.label-number-notes{
+    @apply ml-1 flex text-sm text-teal-700 w-4;
 }
 
 .line-label{
@@ -397,7 +401,7 @@
 }
 
 .div-sign{
-    @apply flex justify-center w-[792px] h-36;
+    @apply flex justify-center w-[780px] h-36;
 }
 
 .th-title-sign{
@@ -405,11 +409,11 @@
 }
 
 .th-sign{
-    @apply text-xs text-teal-700 border w-[198px] h-5;
+    @apply text-xs text-teal-700 border w-[190px] h-5;
 }
 
 .td-sign{
-    @apply text-center align-bottom text-sm font-bold text-teal-700 border w-[195px] p-2 underline;
+    @apply text-center align-bottom text-sm font-bold text-teal-700 border w-[190px] p-2 underline;
 }
 
 .table-sign{
