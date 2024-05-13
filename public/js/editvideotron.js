@@ -3,9 +3,9 @@ const cityId = document.getElementById("city_id");
 const city = document.getElementById("city");
 const lat = document.getElementById("lat");
 const lng = document.getElementById("lng");
-const kondisi = document.getElementById("kondisi");
-const terbangun = document.getElementById("terbangun");
-const pembangunan = document.getElementById("pembangunan");
+// const kondisi = document.getElementById("kondisi");
+// const terbangun = document.getElementById("terbangun");
+// const pembangunan = document.getElementById("pembangunan");
 const rencana = document.getElementById("rencana");
 const sector = document.getElementById("sector");
 const airport = document.getElementById("airport");
@@ -32,13 +32,13 @@ let myLatLng = {
     lng: longitude
 };
 
-if (kondisi.value == 'Terbangun') {
-    terbangun.checked = true;
-} else if (kondisi.value == 'Pembangunan') {
-    pembangunan.checked = true;
-} else if (kondisi.value == 'Rencana') {
-    rencana.checked = true;
-}
+// if (kondisi.value == 'Terbangun') {
+//     terbangun.checked = true;
+// } else if (kondisi.value == 'Pembangunan') {
+//     pembangunan.checked = true;
+// } else if (kondisi.value == 'Rencana') {
+//     rencana.checked = true;
+// }
 
 // Show City --> start
 const optionCity = [];
@@ -66,7 +66,8 @@ if (cityId.value != '') {
                     if (objCity.dataCity[i]['area_id'] == areaId.value) {
                         optionCity[i + 1] = document.createElement('option');
                         optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
-                        if (city.value == objCity.dataCity[i]['city']) {
+                        optionCity[i + 1].setAttribute('value', objCity.dataCity[i]['id']);
+                        if (cityId.value == objCity.dataCity[i]['id']) {
                             optionCity[i + 1].setAttribute('selected', 'selected');
                         }
                         city.appendChild(optionCity[i + 1]);
@@ -98,6 +99,7 @@ if (cityId.value != '') {
                     if (objCity.dataCity[i]['area_id'] == areaId.value) {
                         optionCity[i + 1] = document.createElement('option');
                         optionCity[i + 1].appendChild(document.createTextNode(objCity.dataCity[i]['city']));
+                        optionCity[i + 1].setAttribute('value', objCity.dataCity[i]['id']);
                         city.appendChild(optionCity[i + 1]);
                     }
                 }
@@ -448,6 +450,7 @@ house.addEventListener('click', function () {
 
 // Google Maps --> start
 city.addEventListener('change', function () {
+    console.log(city.value);
     cityId.value = city.value;
     const xhrCity = new XMLHttpRequest();
     const methodCity = "GET";

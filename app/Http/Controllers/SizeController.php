@@ -47,18 +47,18 @@ class SizeController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            if($request->side == '0'){
-                return back()->withErrors(['side' => ['Silahkan pilih jumlah sisi']])->withInput();
-            }
+            // if($request->side == '0'){
+            //     return back()->withErrors(['side' => ['Silahkan pilih jumlah sisi']])->withInput();
+            // }
 
-            if($request->orientation == 'Pilih Orientasi'){
-                return back()->withErrors(['orientation' => ['Silahkan pilih orientasi']])->withInput();
-            }
+            // if($request->orientation == 'Pilih Orientasi'){
+            //     return back()->withErrors(['orientation' => ['Silahkan pilih orientasi']])->withInput();
+            // }
         
             $validateData = $request->validate([
                 'size' => 'required',
-                'side' => 'required',
-                'orientation' => 'required'
+                'category' => 'required'
+                // 'orientation' => 'required'
             ]);
     
             $validateData['user_id'] = auth()->user()->id;
@@ -102,21 +102,21 @@ class SizeController extends Controller
     public function update(Request $request, Size $size): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            if ($request->size == $size->size && $request->side == $size->side && $request->orientation == $size->orientation ) {
+            if ($request->size == $size->size) {
                 return redirect('/dashboard/media/sizes')->with('success','Ukuran '. $request->size . ' tidak ada perubahan');
             } else {
-                if($request->side == '0'){
-                    return back()->withErrors(['side' => ['Silahkan pilih jumlah sisi']])->withInput();
-                }
+                // if($request->side == '0'){
+                //     return back()->withErrors(['side' => ['Silahkan pilih jumlah sisi']])->withInput();
+                // }
 
-                if($request->orientation == 'Pilih Orientasi'){
-                    return back()->withErrors(['orientation' => ['Silahkan pilih orientasi']])->withInput();
-                }
+                // if($request->orientation == 'Pilih Orientasi'){
+                //     return back()->withErrors(['orientation' => ['Silahkan pilih orientasi']])->withInput();
+                // }
             
                 $validateData = $request->validate([
                     'size' => 'required',
-                    'side' => 'required',
-                    'orientation' => 'required'
+                    'category' => 'required',
+                    // 'orientation' => 'required'
                 ]);
         
                 $validateData['user_id'] = auth()->user()->id;

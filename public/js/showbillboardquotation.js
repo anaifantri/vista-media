@@ -61,34 +61,34 @@ cbUpdateProgress.addEventListener('click', function () {
 // Checkbox Update Progress Action --> start
 
 // Create PDF --> start
-document.getElementById("btnCreatePdf").onclick = function () {
-    var element = document.getElementById('pdfPreview');
-    var opt = {
-        margin: 0,
-        filename: 'test.pdf',
-        image: {
-            type: 'jpeg',
-            quality: 1
-        },
-        pagebreak: {
-            mode: ['avoid-all', 'css', 'legacy']
-        },
-        html2canvas: {
-            dpi: 192,
-            scale: 4,
-            letterRendering: true,
-            useCORS: true
-        },
-        jsPDF: {
-            unit: 'in',
-            format: 'a4',
-            orientation: 'portrait',
-            putTotalPages: true
-        }
-    };
-    // html2pdf(element, opt);
-    html2pdf().set(opt).from(element).save();
-};
+// document.getElementById("btnCreatePdf").onclick = function () {
+//     const saveName = document.getElementById("fileName");
+//     var element = document.getElementById('pdfPreview');
+//     var opt = {
+//         margin: 0,
+//         filename: saveName.value,
+//         image: {
+//             type: 'jpeg',
+//             quality: 1
+//         },
+//         pagebreak: {
+//             mode: ['avoid-all', 'css', 'legacy']
+//         },
+//         html2canvas: {
+//             dpi: 192,
+//             scale: 4,
+//             letterRendering: true,
+//             useCORS: true
+//         },
+//         jsPDF: {
+//             unit: 'in',
+//             format: 'a4',
+//             orientation: 'portrait',
+//             putTotalPages: true
+//         }
+//     };
+//     html2pdf().set(opt).from(element).save();
+// };
 // Create PDF --> end
 
 // Function Button Approval Event --> start
@@ -138,7 +138,7 @@ function previewAppovalImage() {
         slidesApprovalPreview.removeChild(slidesApprovalPreview.firstChild);
     }
 
-    console.log(documentApproval.files.length);
+    console.log(documentApproval.files);
 
     if (documentApproval.files.length != 0) {
         numberApprovalFile.innerHTML = "";

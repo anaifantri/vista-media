@@ -205,6 +205,7 @@ let iSize = 0;
 let iBillboardCategory = 0;
 let iBillboardPhoto = 0;
 let iCity = 0;
+let iArea = 0;
 let priceColumn = 0;
 
 let area = '';
@@ -414,6 +415,7 @@ function fillQuotation() {
                     speed: dataBillboard[i].speed_average,
                     sector: dataBillboard[i].sector,
                     size: dataBillboard[i].size_id,
+                    orientation: dataBillboard[i].orientation,
                     price: dataBillboard[i].price
                 };
                 n++;
@@ -440,6 +442,7 @@ function fillQuotation() {
                     speed: dataBillboard[i].speed_average,
                     sector: dataBillboard[i].sector,
                     size: dataBillboard[i].size_id,
+                    orientation: dataBillboard[i].orientation,
                     price: dataBillboard[i].price
                 };
                 n++;
@@ -770,6 +773,7 @@ function getArea(sel) {
                 speed: dataBillboard[i].speed_average,
                 sector: dataBillboard[i].sector,
                 size: dataBillboard[i].size_id,
+                orientation: dataBillboard[i].orientation,
                 price: dataBillboard[i].price
             };
             n++;
@@ -824,6 +828,7 @@ function getCity(sel) {
                     speed: dataBillboard[i].speed_average,
                     sector: dataBillboard[i].sector,
                     size: dataBillboard[i].size_id,
+                    orientation: dataBillboard[i].orientation,
                     price: dataBillboard[i].price
                 };
                 n++;
@@ -846,6 +851,7 @@ function getCity(sel) {
                     speed: dataBillboard[i].speed_average,
                     sector: dataBillboard[i].sector,
                     size: dataBillboard[i].size_id,
+                    orientation: dataBillboard[i].orientation,
                     price: dataBillboard[i].price
                 };
                 n++;
@@ -1453,10 +1459,10 @@ btnAdd.addEventListener('click', function () {
                 cell[5] = newRow[row].insertCell(5);
                 for (iSize = 0; iSize < objSize.dataSize.length; iSize++) {
                     if (dataLocation[iBillboard].size == objSize.dataSize[iSize].id) {
-                        orientation = objSize.dataSize[iSize].orientation;
-                        if (orientation == "Vertikal") {
+                        // orientation = objSize.dataSize[iSize].orientation;
+                        if (dataLocation[iBillboard].orientation == "Vertikal") {
                             cell[5].innerHTML = objSize.dataSize[iSize].size + " - V";
-                        } else if (orientation == "Horizontal") {
+                        } else if (dataLocation[iBillboard].orientation == "Horizontal") {
                             cell[5].innerHTML = objSize.dataSize[iSize].size + " - H";
                         }
                     }
@@ -1519,10 +1525,10 @@ btnAdd.addEventListener('click', function () {
                 cell[5] = newRow[row].insertCell(5);
                 for (iSize = 0; iSize < objSize.dataSize.length; iSize++) {
                     if (dataLocation[iBillboard].size == objSize.dataSize[iSize].id) {
-                        orientation = objSize.dataSize[iSize].orientation;
-                        if (orientation == "Vertikal") {
+                        // orientation = objSize.dataSize[iSize].orientation;
+                        if (dataLocation[iBillboard].orientation == "Vertikal") {
                             cell[5].innerHTML = objSize.dataSize[iSize].size + " - V";
-                        } else if (orientation == "Horizontal") {
+                        } else if (dataLocation[iBillboard].orientation == "Horizontal") {
                             cell[5].innerHTML = objSize.dataSize[iSize].size + " - H";
                         }
                     }
@@ -1589,10 +1595,10 @@ btnAdd.addEventListener('click', function () {
                 cell[5] = newRow[row].insertCell(5);
                 for (iSize = 0; iSize < objSize.dataSize.length; iSize++) {
                     if (dataLocation[iBillboard].size == objSize.dataSize[iSize].id) {
-                        orientation = objSize.dataSize[iSize].orientation;
-                        if (orientation == "Vertikal") {
+                        // orientation = objSize.dataSize[iSize].orientation;
+                        if (dataLocation[iBillboard].orientation == "Vertikal") {
                             cell[5].innerHTML = objSize.dataSize[iSize].size + " - V";
-                        } else if (orientation == "Horizontal") {
+                        } else if (dataLocation[iBillboard].orientation == "Horizontal") {
                             cell[5].innerHTML = objSize.dataSize[iSize].size + " - H";
                         }
                     }
@@ -1660,10 +1666,10 @@ btnAdd.addEventListener('click', function () {
                 cell[5] = newRow[row].insertCell(5);
                 for (iSize = 0; iSize < objSize.dataSize.length; iSize++) {
                     if (dataLocation[iBillboard].size == objSize.dataSize[iSize].id) {
-                        orientation = objSize.dataSize[iSize].orientation;
-                        if (orientation == "Vertikal") {
+                        // orientation = objSize.dataSize[iSize].orientation;
+                        if (dataLocation[iBillboard].orientation == "Vertikal") {
                             cell[5].innerHTML = objSize.dataSize[iSize].size + " - V";
-                        } else if (orientation == "Horizontal") {
+                        } else if (dataLocation[iBillboard].orientation == "Horizontal") {
                             cell[5].innerHTML = objSize.dataSize[iSize].size + " - H";
                         }
                     }
@@ -1719,10 +1725,16 @@ getSelected.addEventListener('click', function () {
                 }
             }
 
+            // for (iArea = 0; iArea < dataArea.length; iArea++) {
+            //     if (dataLocation[iBillboard].area == dataArea[iArea].id) {
+            //         var getArea = dataArea[iArea].area;
+            //     }
+            // }
+
             for (iSize = 0; iSize < dataSize.length; iSize++) {
                 if (dataLocation[iBillboard].size == dataSize[iSize].id) {
                     var getSize = dataSize[iSize].size;
-                    var getOrientation = dataSize[iSize].orientation;
+                    // var getOrientation = dataSize[iSize].orientation;
                 }
             }
 
@@ -1739,7 +1751,7 @@ getSelected.addEventListener('click', function () {
             }
             locations[i] = {
                 id: dataLocation[iBillboard].id,
-                area: dataLocation[iBillboard].area_id,
+                area: area,
                 city: cityCode,
                 code: dataLocation[iBillboard].code,
                 address: dataLocation[iBillboard].address,
@@ -1753,7 +1765,7 @@ getSelected.addEventListener('click', function () {
                 sector: dataLocation[iBillboard].sector,
                 size: getSize,
                 photo: getBillboardPhoto,
-                orientation: getOrientation,
+                orientation: dataLocation[iBillboard].orientation,
                 price: {
                     periodeMonth: {
                         cbPeriode: aMonth.checked,
@@ -2387,7 +2399,7 @@ function createImageLocations(locations, i) {
     codeLine.setAttribute('src', '/img/code-line.png');
 
     addressPreview.classList.add("address-preview");
-    addressPreview.innerHTML = locations[i].address;
+    addressPreview.innerHTML = locations[i].address + " | " + locations[i].area.toUpperCase();
     title.appendChild(codeNumber);
     title.appendChild(codeCity);
     title.appendChild(codeLine);
@@ -2412,12 +2424,12 @@ function createImageLocations(locations, i) {
     mapPreview.classList.add("map-preview");
     mapPreview.classList.add("items-end");
     imageMap.classList.add("image-map");
-    imageMap.setAttribute('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + locations[i].lat + ',' + locations[i].lng + '&zoom=15&size=476x330&maptype=roadmap&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' + locations[i].lat + ',' + locations[i].lng + '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg');
+    imageMap.setAttribute('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + locations[i].lat + ',' + locations[i].lng + '&zoom=16&size=476x330&maptype=roadmap&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' + locations[i].lat + ',' + locations[i].lng + '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg');
     qrCodeMapDisplay.classList.add("mb-2");
     qrCodeMapDisplay.classList.add("ml-2");
     qrCodeMapDisplay.classList.add("absolute");
     qrCodeMapDisplay.classList.add("w-[100px]")
-    new QRCode(qrCodeMapDisplay, 'https://www.google.co.id/maps/place/' + locations[i].lat + ',' + locations[i].lng + '/@' + locations[i].lat + ',' + locations[i].lng + ',15z');
+    new QRCode(qrCodeMapDisplay, 'https://www.google.co.id/maps/place/' + locations[i].lat + ',' + locations[i].lng + '/@' + locations[i].lat + ',' + locations[i].lng + ',16z');
     mapPreview.appendChild(imageMap);
     mapPreview.appendChild(qrCodeMapDisplay);
     mainMap.appendChild(mapTitle);
@@ -2470,7 +2482,7 @@ function createImageLocations(locations, i) {
     arealName.classList.add("area-name");
     arealName.innerHTML = "Kawasan";
     qrCodeDisplay.classList.add("mt-10");
-    new QRCode(qrCodeDisplay, "https://vistamedia.co.id/preview/" + locations[i].id);
+    new QRCode(qrCodeDisplay, "https://vistamedia.co.id/dashboard/media/billboards/preview/" + locations[i].id);
     arealName.appendChild(qrCodeDisplay);
     arealValue.classList.add("area-value");
     const sectorText = locations[i].sector;

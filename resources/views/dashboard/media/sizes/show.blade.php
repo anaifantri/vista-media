@@ -12,12 +12,12 @@
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Ukuran</label>
                             <h6 class="text-base font-semibold text-teal-900">{{ $size->size }}</h6>
                         </div>
-                        <div class="border-b mt-2"><label class="text-sm text-teal-700">Jumlah Sisi</label>
+                        {{-- <div class="border-b mt-2"><label class="text-sm text-teal-700">Jumlah Sisi</label>
                             <h6 class="text-base font-semibold text-teal-900">{{ $size->side }}</h6>
                         </div>
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Orientasi</label>
                             <h6 class="text-base font-semibold text-teal-900">{{ $size->orientation }}</h6>
-                        </div>
+                        </div> --}}
                         <div class="border-b mt-2"><label class="text-sm text-teal-700">Tanggal Dibuat</label>
                             <h6 class="text-base font-semibold text-teal-900">
                                 {{ $size->created_at->format('l, d-M-Y') }}

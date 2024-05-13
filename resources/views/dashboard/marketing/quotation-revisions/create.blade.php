@@ -133,9 +133,15 @@
                                                     <label class="ml-1 text-sm text-black flex w-20">Kepada Yth</label>
                                                     <label id="clientCompany"
                                                         class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_quotation->client->company }}</label>
-                                                    <label id="clientContact"
-                                                        class="ml-1 text-sm text-black flex font-semibold">UP.
-                                                        {{ $billboard_quotation->contact->name }}</label>
+                                                    @if ($billboard_quotation->contact->gender == 'Laki-Laki')
+                                                        <label id="clientContact"
+                                                            class="ml-1 text-sm text-black flex font-semibold">UP. Bapak
+                                                            {{ $billboard_quotation->contact->name }}</label>
+                                                    @elseif ($billboard_quotation->contact->gender == 'Perempuan')
+                                                        <label id="clientContact"
+                                                            class="ml-1 text-sm text-black flex font-semibold">UP. Ibu
+                                                            {{ $billboard_quotation->contact->name }}</label>
+                                                    @endif
                                                     <label class="ml-1 text-sm text-black flex">Di -</label>
                                                     <label class="ml-6 text-sm text-black flex">Tempat</label>
                                                 </div>
@@ -603,8 +609,10 @@
                                     $objNotes = json_decode($billboard_quotation->note);
                                     $payment = $objNotes->notes[6];
                                     $objPayment = json_encode($payment);
+                                    $noteQty = count($objNotes->notes);
                                     ?>
                                     <input id="termPayment" type="text" value="{{ $objPayment }}" hidden>
+                                    <input id="noteQty" type="text" value="{{ $noteQty }}" hidden>
                                     <input id="notesAdd" type="text" value="{{ $billboard_quotation->note }}"
                                         hidden>
                                     <div class="flex justify-center">

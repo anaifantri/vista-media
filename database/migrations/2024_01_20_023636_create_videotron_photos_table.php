@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('company_id')->constrained();
             $table->string('photo');
+            $table->string('videotron_code');
             $table->timestamps();
         });
     }

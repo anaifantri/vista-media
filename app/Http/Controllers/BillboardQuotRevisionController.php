@@ -151,6 +151,7 @@ class BillboardQuotRevisionController extends Controller
             'billboard_quot_revisions' => BillboardQuotRevision::all(),
             'title' => 'Detail Revisi Penawaran Billboard',
             'billboard_photos'=>BillboardPhoto::all(),
+            'billboard_categories'=>BillboardCategory::all(),
             'companies'=>Company::all(),
             compact('billboard_quotation', 'billboard_quot_statuses', 'clients', 'contacts')
         ]);

@@ -1,5 +1,6 @@
 // Declaration Quotation Create --> start
 const number = document.getElementById("number");
+const noteQty = document.getElementById("noteQty");
 const mainNumber = document.getElementById("mainNumber");
 const revisionNumber = document.getElementById("revisionNumber");
 const revisionNumberPreview = document.getElementById("revisionNumberPreview");
@@ -522,8 +523,9 @@ btnPreview.addEventListener('click', function () {
         while (previewBBNote7.hasChildNodes()) {
             previewBBNote7.removeChild(previewBBNote7.firstChild);
         }
-
-        for (i = 0; i < billboardNote.children.length; i++) {
+        console.log(noteQty.value);
+        // for (i = 0; i < billboardNote.children.length; i++) {
+        for (i = 0; i < Number(noteQty.value); i++) {
             if (i + 1 == 2) {
                 labelPreviewBBNote1.innerHTML = inputBBNote1.value;
                 if (cbBillboardNote1.checked == true) {
@@ -869,7 +871,7 @@ function createImageLocations(locations, i) {
     codeLine.setAttribute('src', '/img/code-line.png');
 
     addressPreview.classList.add("address-preview");
-    addressPreview.innerHTML = locations[i].address;
+    addressPreview.innerHTML = locations[i].address + " | " + locations[i].area.toUpperCase();
     title.appendChild(codeNumber);
     title.appendChild(codeCity);
     title.appendChild(codeLine);
@@ -894,12 +896,12 @@ function createImageLocations(locations, i) {
     mapPreview.classList.add("map-preview");
     mapPreview.classList.add("items-end");
     imageMap.classList.add("image-map");
-    imageMap.setAttribute('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + locations[i].lat + ',' + locations[i].lng + '&zoom=15&size=476x330&maptype=roadmap&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' + locations[i].lat + ',' + locations[i].lng + '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg');
+    imageMap.setAttribute('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + locations[i].lat + ',' + locations[i].lng + '&zoom=16&size=476x330&maptype=roadmap&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' + locations[i].lat + ',' + locations[i].lng + '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg');
     qrCodeMapDisplay.classList.add("mb-2");
     qrCodeMapDisplay.classList.add("ml-2");
     qrCodeMapDisplay.classList.add("absolute");
     qrCodeMapDisplay.classList.add("w-[100px]")
-    new QRCode(qrCodeMapDisplay, 'https://www.google.co.id/maps/place/' + locations[i].lat + ',' + locations[i].lng + '/@' + locations[i].lat + ',' + locations[i].lng + ',15z');
+    new QRCode(qrCodeMapDisplay, 'https://www.google.co.id/maps/place/' + locations[i].lat + ',' + locations[i].lng + '/@' + locations[i].lat + ',' + locations[i].lng + ',16z');
     mapPreview.appendChild(imageMap);
     mapPreview.appendChild(qrCodeMapDisplay);
     mainMap.appendChild(mapTitle);
@@ -952,7 +954,7 @@ function createImageLocations(locations, i) {
     arealName.classList.add("area-name");
     arealName.innerHTML = "Kawasan";
     qrCodeDisplay.classList.add("mt-10");
-    new QRCode(qrCodeDisplay, "https://vistamedia.co.id/preview/" + locations[i].id);
+    new QRCode(qrCodeDisplay, "/dashboard/marketing/quotation-revisions/preview/" + locations[i].id);
     arealName.appendChild(qrCodeDisplay);
     arealValue.classList.add("area-value");
     const sectorText = locations[i].sector;

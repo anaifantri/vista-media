@@ -1,9 +1,9 @@
 const areaId = document.getElementById("area_id");
 const cityId = document.getElementById("city_id");
 const city = document.getElementById("city");
-const vista = document.getElementById("vista");
-const mitra = document.getElementById("mitra");
-const vendorId = document.getElementById("vendor_id");
+// const vista = document.getElementById("vista");
+// const mitra = document.getElementById("mitra");
+// const vendorId = document.getElementById("vendor_id");
 const sector = document.getElementById("sector");
 const airport = document.getElementById("airport");
 const tol = document.getElementById("tol");
@@ -164,12 +164,12 @@ areaId.addEventListener('change', function () {
 // Show City --> end
 
 // Ownership event --> start
-mitra.addEventListener('click', function () {
-    vendorId.removeAttribute('hidden');
-})
-vista.addEventListener('click', function () {
-    vendorId.setAttribute('hidden', 'hidden');
-})
+// mitra.addEventListener('click', function () {
+//     vendorId.removeAttribute('hidden');
+// })
+// vista.addEventListener('click', function () {
+//     vendorId.setAttribute('hidden', 'hidden');
+// })
 // Ownership event --> end
 
 // Show Sector --> start

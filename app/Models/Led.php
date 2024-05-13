@@ -34,10 +34,10 @@ class Led extends Model
         return $this->hasMany(Product::class, 'led_id', 'id');
     }
     public function videotrons(){
-        return $this->hasMany(Videotron::class, 'vendor_id', 'id');
+        return $this->hasMany(Videotron::class, 'led_id', 'id');
     }
     public function signages(){
-        return $this->hasMany(Signage::class, 'vendor_id', 'id');
+        return $this->hasMany(Signage::class, 'led_id', 'id');
     }
 
     public $sortable = ['name', 'pixel_pitch'];

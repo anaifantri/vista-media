@@ -3,7 +3,7 @@
 @section('container')
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
-            <div class="w-[1100px] p-2">
+            <div class="w-[1200px] p-2">
                 <div class="flex">
                     <h1 class="index-h1"> Daftar Surat Penawaran</h1>
                     <div class="flex border-b">
@@ -43,98 +43,102 @@
                 </form>
             </div>
         </div>
-        <div class="flex justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible z-0">
-            <table class="table-auto w-max mb-6">
-                <thead>
-                    <tr>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-8">No.</th>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-40">
-                            <button class="flex justify-center items-center w-44">@sortablelink('number', 'Nomor Penawaran')
-                                <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                                </svg>
-                            </button>
-                        </th>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-32">Klien</th>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-32">Kontak Person</th>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-60">Lokasi</th>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-36">Status</th>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-24">Tgl. Dibuat</th>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-28">Dibuat Oleh</th>
-                        <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-16">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($billboard_quotations as $billboard_quotation)
+        <div class="flex justify-center w-full">
+            <div class="w-[1200px]">
+                <table class="table-auto w-full">
+                    <thead>
                         <tr>
-                            <td class="text-teal-700 border text-sm text-center">{{ $loop->iteration }}</td>
-                            <td class="text-teal-700 border text-sm text-center">{{ $billboard_quotation->number }}</td>
-                            <td class="text-teal-700 border text-sm text-center">{{ $billboard_quotation->client->name }}
-                            </td>
-                            <td class="text-teal-700 border text-sm text-center">{{ $billboard_quotation->contact->name }}
-                            </td>
-                            <td class="text-teal-700 border w-60 text-sm text-center">
-                                <?php
-                                $n = 0;
-                                ?>
-                                @foreach (json_decode($billboard_quotation->billboards) as $billboard)
-                                    @foreach ($billboard as $location)
-                                        @if ($n != count($billboard) - 1)
-                                            {{ $location->code }},
-                                        @else
-                                            {{ $location->code }}
-                                        @endif
-                                        <?php
-                                        $n++;
-                                        ?>
-                                    @endforeach
-                                @endforeach
-                            </td>
-                            <td class="text-teal-700 border text-sm text-center">
-                                <?php
-                                $getStatus = '';
-                                ?>
-                                @if (count($billboard_quotation->billboard_quot_revisions) != 0)
-                                    @foreach ($billboard_quot_status as $status)
-                                        @if (
-                                            $status->billboard_quot_revision_id ==
-                                                $billboard_quotation->billboard_quot_revisions[count($billboard_quotation->billboard_quot_revisions) - 1]->id)
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-8">No.</th>
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-40">
+                                <button class="flex justify-center items-center w-44">@sortablelink('number', 'Nomor Penawaran')
+                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-32">Klien</th>
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-36">Kontak Person</th>
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm">Lokasi</th>
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-32">Status</th>
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-24">Tgl. Dibuat</th>
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-24">Dibuat Oleh</th>
+                            <th class="text-teal-700 bg-teal-100 h-8 border text-sm w-16">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($billboard_quotations as $billboard_quotation)
+                            <tr>
+                                <td class="text-teal-700 border text-sm text-center">{{ $loop->iteration }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $billboard_quotation->number }}</td>
+                                <td class="text-teal-700 border text-sm text-center">
+                                    {{ $billboard_quotation->client->name }}
+                                </td>
+                                <td class="text-teal-700 border text-sm text-center">
+                                    {{ $billboard_quotation->contact->name }}
+                                </td>
+                                <td class="text-teal-700 border w-60 text-sm text-center">
+                                    <?php
+                                    $n = 0;
+                                    ?>
+                                    @foreach (json_decode($billboard_quotation->billboards) as $billboard)
+                                        @foreach ($billboard as $location)
+                                            @if ($n != count($billboard) - 1)
+                                                {{ $location->code }},
+                                            @else
+                                                {{ $location->code }}
+                                            @endif
                                             <?php
-                                            $getStatus = '';
-                                            $getStatus = 'Revision : ' . $status->status;
+                                            $n++;
                                             ?>
-                                        @endif
+                                        @endforeach
                                     @endforeach
-                                @elseif ($billboard_quotation->billboard_quot_statuses)
-                                    @foreach ($billboard_quotation->billboard_quot_statuses as $status)
-                                        @if ($billboard_quotation->id == $status->billboard_quotation_id)
-                                            <?php
-                                            $getStatus = '';
-                                            $getStatus = 'Main : ' . $status->status;
-                                            ?>
-                                        @endif
-                                    @endforeach
-                                @endif
-                                {{ $getStatus }}
-                            </td>
-                            <td class="text-teal-700 border text-sm text-center">
-                                {{ date('d-M-Y', strtotime($billboard_quotation->created_at)) }}</td>
-                            <td class="text-teal-700 border text-sm text-center">{{ $billboard_quotation->user->name }}
-                            </td>
-                            <td class="text-teal-700 border text-sm text-center align-center">
-                                <div class="flex justify-center">
-                                    <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}"
-                                        class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
-                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"
-                                                fill-rule="nonzero" />
-                                        </svg>
-                                    </a>
-                                </div>
-                                {{-- <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}/edit"
+                                </td>
+                                <td class="text-teal-700 border text-sm text-center">
+                                    <?php
+                                    $getStatus = '';
+                                    ?>
+                                    @if (count($billboard_quotation->billboard_quot_revisions) != 0)
+                                        @foreach ($billboard_quot_status as $status)
+                                            @if (
+                                                $status->billboard_quot_revision_id ==
+                                                    $billboard_quotation->billboard_quot_revisions[count($billboard_quotation->billboard_quot_revisions) - 1]->id)
+                                                <?php
+                                                $getStatus = '';
+                                                $getStatus = 'Revision : ' . $status->status;
+                                                ?>
+                                            @endif
+                                        @endforeach
+                                    @elseif ($billboard_quotation->billboard_quot_statuses)
+                                        @foreach ($billboard_quotation->billboard_quot_statuses as $status)
+                                            @if ($billboard_quotation->id == $status->billboard_quotation_id)
+                                                <?php
+                                                $getStatus = '';
+                                                $getStatus = 'Main : ' . $status->status;
+                                                ?>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                    {{ $getStatus }}
+                                </td>
+                                <td class="text-teal-700 border text-sm text-center">
+                                    {{ date('d-M-Y', strtotime($billboard_quotation->created_at)) }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $billboard_quotation->user->name }}
+                                </td>
+                                <td class="text-teal-700 border text-sm text-center align-center">
+                                    <div class="flex justify-center">
+                                        <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}"
+                                            class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    {{-- <a href="/dashboard/marketing/billboard-quotations/{{ $billboard_quotation->id }}/edit"
                                     class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -160,11 +164,12 @@
                                         </svg>
                                     </button>
                                 </form> --}}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="flex justify-center text-teal-900">
             {{ $billboard_quotations->links() }}

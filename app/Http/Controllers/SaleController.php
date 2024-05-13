@@ -218,13 +218,24 @@ class SaleController extends Controller
                     ClientAgreement::create($documentAgreement);
                 }
             }
+
+            $saleAll = Sale::all();
+            $salesId = [];
             $salesNumber = [];
             $i = 0;
             foreach($sales as $sale){
                 $saleNumber[$i] = $sale['number'];
+
+                foreach($saleAll as $data){
+                    if($data->number == $saleNumber[$i]){
+                        $salesId[$i] = $data->id;
+                    }
+                }
+
                 $i = $i + 1;
             }
-            return redirect('/sales/preview/')->with('success','Data penjualan berhasil ditambahkan')->with(['sales_store' => $sales]);
+
+            return redirect('/sales/preview/')->with('success','Data penjualan berhasil ditambahkan')->with(['sales_store' => $sales, 'sales_id' => $salesId]);
         } else {
             abort(403);
         }

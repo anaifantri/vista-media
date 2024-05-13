@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('lng');
             $table->integer('slots');
             $table->integer('duration');
+            $table->string('orientation');
+            $table->string('side');
             $table->time('start_at', $precision = 0)->nullable();
             $table->time('end_at', $precision = 0)->nullable();
             $table->string('condition');

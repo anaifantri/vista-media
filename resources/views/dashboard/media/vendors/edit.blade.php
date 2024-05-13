@@ -69,7 +69,6 @@
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('vendor_category_id') is-invalid @enderror"
                                     name="vendor_category_id" id="vendor_category_id"
                                     value="{{ $vendor->vendor_category_id }}">
-                                    <option value="Pilih Katagori">Pilih Katagori</option>
                                     @foreach ($vendor_categories as $category)
                                         @if ($category->id == $vendor->vendor_category_id)
                                             <option value="{{ $category->id }}" selected>

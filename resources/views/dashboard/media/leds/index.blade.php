@@ -43,93 +43,98 @@
                 </form>
             </div>
         </div>
-        <div class="flex lg:justify-center p-2 w-full overflow-x-scroll xl:overflow-x-visible z-0">
-            <table class="table-auto w-full lg:w-[1400px] mb-6">
-                <thead>
-                    <tr class="index-tr items-center h-10 bg-teal-100 border-t">
-                        <th class="index-td text-sm w-8">No.</th>
-                        <th class="index-td text-sm w-36">
-                            @sortablelink('name', 'Nama Produk')
-                            <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                            </svg>
-                        </th>
-                        <th class="index-td text-sm w-24">Vendor</th>
-                        <th class="index-td text-sm w-28">
-                            @sortablelink('pixel_pitch', 'Pixel Pitch')
-                            <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                            </svg>
-                        </th>
-                        <th class="index-td text-sm w-28">Pixel Density</th>
-                        <th class="index-td text-sm w-24">Module Size</th>
-                        <th class="index-td text-sm w-28">Cab. Size</th>
-                        <th class="index-td text-sm w-28">Cab. Material</th>
-                        <th class="index-td text-sm w-28">Cab. Weight</th>
-                        <th class="index-td text-sm w-20">IP Level</th>
-                        <th class="index-td text-sm w-28">Brigthness</th>
-                        <th class="index-td text-sm w-32">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $number = 1 + ($leds->currentPage() - 1) * $leds->perPage();
-                    @endphp
-                    @foreach ($leds as $led)
-                        <tr class="index-tr">
-                            <td class="index-td text-sm w-8 text-center">{{ $number++ }}</td>
-                            <td class="index-td text-sm w-36">{{ $led->name }}</td>
-                            <td class="index-td text-sm w-24">{{ $led->vendor->name }}</td>
-                            <td class="index-td text-sm w-28">{{ $led->pixel_pitch }}</td>
-                            <td class="index-td text-sm w-28">{{ $led->pixel_density }}</td>
-                            <td class="index-td text-sm w-24">{{ $led->module_size }}</td>
-                            <td class="index-td text-sm w-28">{{ $led->cabinet_size }}</td>
-                            <td class="index-td text-sm w-28">{{ $led->cabinet_material }}</td>
-                            <td class="index-td text-sm w-28">{{ $led->cabinet_weight }}</td>
-                            <td class="index-td text-sm w-20">{{ $led->protective_grade }}</td>
-                            <td class="index-td text-sm w-28">{{ $led->brightness }}</td>
-                            <td class="index-td text-sm w-32">
-                                <a href="/dashboard/media/leds/{{ $led->id }}"
-                                    class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
-                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"
-                                            fill-rule="nonzero" />
+        <div class="flex justify-center w-full">
+            <div class="w-[1200px]">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr class="bg-teal-100 h-10">
+                            <th class="text-teal-700 border text-sm w-8 text-center">No.</th>
+                            <th class="text-teal-700 border text-sm w-36 text-center">
+                                <button class="flex justify-center items-center w-36">@sortablelink('name', 'Produk')
+                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
-                                </a>
-                                <a href="/dashboard/media/leds/{{ $led->id }}/edit"
-                                    class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
-                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                            fill-rule="nonzero" />
+                                </button>
+                            </th>
+                            <th class="text-teal-700 border text-sm text-center">Nama Vendor</th>
+                            <th class="text-teal-700 border text-sm w-16 text-center">
+                                <button class="flex justify-center items-center w-16">@sortablelink('pixel_pitch', 'Pixel')
+                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
-                                </a>
-                                <form action="/dashboard/media/leds/{{ $led->id }}" method="post"
-                                    class="flex m-auto">
-                                    @method('delete')
-                                    @csrf
-                                    <button
-                                        class="index-link text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md mr-1"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus Produk LED {{ $led->name }} ?')">
-                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                                fill-rule="nonzero" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </td>
+                                </button>
+                            </th>
+                            <th class="text-teal-700 border text-sm text-center w-36">Uk. Kabinet (mm)</th>
+                            <th class="text-teal-700 border text-sm text-center w-28">Material</th>
+                            <th class="text-teal-700 border text-sm text-center w-16">Berat</th>
+                            <th class="text-teal-700 border text-sm text-center w-40">IP Rating</th>
+                            <th class="text-teal-700 border text-sm text-center w-20">Brigthness</th>
+                            <th class="text-teal-700 border text-sm text-center w-32">Action</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @php
+                            $number = 1 + ($leds->currentPage() - 1) * $leds->perPage();
+                        @endphp
+                        @foreach ($leds as $led)
+                            <tr>
+                                <td class="text-teal-700 border text-sm text-center">{{ $number++ }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->name }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->vendor->company }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->pixel_pitch }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->cabinet_size }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->cabinet_material }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->cabinet_weight }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->protective_grade }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ number_format($led->brightness) }}
+                                </td>
+                                <td class="text-teal-700 border text-sm text-center">
+                                    <div class="flex justify-center items-center">
+                                        <a href="/dashboard/media/leds/{{ $led->id }}"
+                                            class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                        </a>
+                                        <a href="/dashboard/media/leds/{{ $led->id }}/edit"
+                                            class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                        </a>
+                                        <form action="/dashboard/media/leds/{{ $led->id }}" method="post"
+                                            class="d-inline m-1">
+                                            @method('delete')
+                                            @csrf
+                                            <button
+                                                class="index-link text-white w-8 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md mr-1"
+                                                onclick="return confirm('Apakah anda yakin ingin menghapus Produk LED {{ $led->name }} ?')">
+                                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                        fill-rule="nonzero" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="flex justify-center text-teal-900">
             {{ $leds->links() }}

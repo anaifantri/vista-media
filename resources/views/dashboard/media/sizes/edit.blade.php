@@ -22,7 +22,34 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="mt-2"><label class="text-sm text-teal-700">Jumlah Sisi</label>
+                        @php
+                            $numberCategory = 0;
+                            $categories = ['Billboard', 'Bando', 'Baliho', 'Midiboard', 'Videotron', 'Signage'];
+                        @endphp
+                        <div class="mt-1">
+                            <label class="text-sm  text-teal-700">Katagori</label>
+                            <select id="category" name="category"
+                                class="flex text-sm w-full font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('category') is-invalid @enderror"
+                                type="text" value="{{ $size->category }}">
+                                @for ($numberCategory = 0; $numberCategory < count($categories); $numberCategory++)
+                                    @if ($size->category == $categories[$numberCategory])
+                                        <option value="{{ $categories[$numberCategory] }}" selected>
+                                            {{ $categories[$numberCategory] }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $categories[$numberCategory] }}">
+                                            {{ $categories[$numberCategory] }}
+                                        </option>
+                                    @endif
+                                @endfor
+                            </select>
+                            @error('category')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        {{-- <div class="mt-2"><label class="text-sm text-teal-700">Jumlah Sisi</label>
                             @php
                                 $number = 0;
                                 $sides = ['Pilih Jumlah Sisi', '1 Sisi', '2 Sisi'];
@@ -73,7 +100,7 @@
                                     {{ $message }}
                                 </div>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="flex mt-5">
                             <button class="flex items-center justify-center btn-primary mx-1" type="submit" id="btnSubmit"
                                 name="btnSubmit">

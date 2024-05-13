@@ -10,7 +10,8 @@
                         <h4 class="text-xl font-semibold tracking-wider text-teal-900">Tambah Ukuran</h4>
                     </div>
                     <div class="mt-5 w-full">
-                        <div class="mt-2"><label class="text-sm text-teal-700">Ukuran</label>
+                        <div class="mt-2">
+                            <label class="text-sm text-teal-700">Ukuran</label>
                             <input
                                 class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('size') is-invalid @enderror"
                                 type="text" id="size" name="size" placeholder="Ukuran"
@@ -21,7 +22,35 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="mt-2"><label class="text-sm text-teal-700">Jumlah Sisi</label>
+                        @php
+                            $numberCategory = 0;
+                            $categories = ['Billboard', 'Bando', 'Baliho', 'Midiboard', 'Videotron', 'Signage'];
+                        @endphp
+                        <div class="mt-1">
+                            <label class="text-sm  text-teal-700">Katagori</label>
+                            <select id="category" name="category"
+                                class="flex text-sm w-full font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('category') is-invalid @enderror"
+                                type="text" value="{{ old('category') }}">
+                                <option value="pilih">- pilih -</option>
+                                @for ($numberCategory = 0; $numberCategory < count($categories); $numberCategory++)
+                                    @if (old('category') == $categories[$numberCategory])
+                                        <option value="{{ $categories[$numberCategory] }}" selected>
+                                            {{ $categories[$numberCategory] }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $categories[$numberCategory] }}">
+                                            {{ $categories[$numberCategory] }}
+                                        </option>
+                                    @endif
+                                @endfor
+                            </select>
+                            @error('category')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        {{-- <div class="mt-2"><label class="text-sm text-teal-700">Jumlah Sisi</label>
                             @php
                                 $number = 0;
                                 $sides = ['Pilih Jumlah Sisi', '1 Sisi', '2 Sisi'];
@@ -72,7 +101,7 @@
                                     {{ $message }}
                                 </div>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="flex mt-5">
                             <button class="flex items-center justify-center btn-primary mx-1" type="submit" id="btnSubmit"
                                 name="btnSubmit">

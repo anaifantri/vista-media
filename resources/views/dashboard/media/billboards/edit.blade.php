@@ -189,17 +189,56 @@
                                             class="flex px-2 w-36 xl:w-48 2xl:w-56 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
                                             type="text" value="{{ $billboard->size_id }}">
                                             @foreach ($sizes as $size)
-                                                @if ($billboard->size_id == $size->id)
-                                                    <option value="{{ $size->id }}" selected>
-                                                        {{ $size->size . ' - ' . $size->side . ' - ' . $size->orientation }}
+                                                @if (
+                                                    $size->category == 'Billboard' ||
+                                                        $size->category == 'Bando' ||
+                                                        $size->category == 'Baliho' ||
+                                                        $size->category == 'Midiboard')
+                                                    @if ($billboard->size_id == $size->id)
+                                                        <option value="{{ $size->id }}" selected>
+                                                            {{ $size->size }}
+                                                        </option>
+                                                    @endif
+                                                    <option value="{{ $size->id }}">
+                                                        {{ $size->size }}
                                                     </option>
                                                 @endif
-                                                <option value="{{ $size->id }}">
-                                                    {{ $size->size . ' - ' . $size->side . ' - ' . $size->orientation }}
-                                                </option>
                                             @endforeach
                                         </select>
                                         @error('size_id')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-1">
+                                    @php
+                                        $numberOrientation = 0;
+                                        $orientations = ['Vertikal', 'Horizontal'];
+                                    @endphp
+                                    <div class="flex mt-1">
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Orientasi</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <select id="orientation" name="orientation"
+                                            class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
+                                            font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                            @error('orientation') is-invalid @enderror"
+                                            type="text" value="{{ $billboard->orientation }}">
+                                            @for ($numberOrientation = 0; $numberOrientation < count($orientations); $numberOrientation++)
+                                                @if ($billboard->orientation == $orientations[$numberOrientation])
+                                                    <option value="{{ $orientations[$numberOrientation] }}" selected>
+                                                        {{ $orientations[$numberOrientation] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $orientations[$numberOrientation] }}">
+                                                        {{ $orientations[$numberOrientation] }}
+                                                    </option>
+                                                @endif
+                                            @endfor
+                                        </select>
+                                        @error('orientation')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -235,7 +274,7 @@
                             <div class="flex mt-1">
                                 @php
                                     $numberBuild = 0;
-                                    $builds = ['Terbangun', 'Rencana'];
+                                    $builds = ['Terbangun', 'Rencana', 'Tidak Ada'];
                                 @endphp
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kondisi</label>
@@ -420,21 +459,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex mt-1">
-                                <div id="price" name="price" class="mt-1">
-                                    <label id="lblClient" name="lblClient"
-                                        class="xl:text-md 2xl:text-lg text-teal-700">Harga</label>
-                                    <input
-                                        class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
-                                        type="number" id="price" name="price" value="{{ $billboard->price }}"
-                                        placeholder="Harga">
-                                    @error('price')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                            @canany(['isAdmin', 'isMarketing'])
+                                <div class="flex mt-1">
+                                    <div id="price" name="price" class="mt-1">
+                                        <label id="lblClient" name="lblClient"
+                                            class="xl:text-md 2xl:text-lg text-teal-700">Harga</label>
+                                        <input
+                                            class="flex px-2 w-40 xl:w-52 2xl:w-60 xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                            type="number" id="price" name="price" value="{{ $billboard->price }}"
+                                            placeholder="Harga">
+                                        @error('price')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
+                            @endcanany
                         </div>
                     </div>
                     <!-- Edit Billboard end -->

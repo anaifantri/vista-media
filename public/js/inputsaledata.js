@@ -810,41 +810,49 @@ function createMultipleSale(locations, i) {
             labelQuotation[n].innerHTML = "No. Penawaran";
             divQuotation[n].appendChild(labelQuotation[n]);
             divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
             divQuotation[n].appendChild(labelQuotationValue[n]);
         } else if (n == 1) {
             labelQuotation[n].innerHTML = "Tgl. Penawaran";
             divQuotation[n].appendChild(labelQuotation[n]);
             divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
             divQuotation[n].appendChild(labelQuotationValue[n]);
         } else if (n == 2) {
             labelQuotation[n].innerHTML = "Nama Klien";
             divQuotation[n].appendChild(labelQuotation[n]);
             divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
             divQuotation[n].appendChild(labelQuotationValue[n]);
         } else if (n == 3) {
             labelQuotation[n].innerHTML = "Perusahaan";
             divQuotation[n].appendChild(labelQuotation[n]);
             divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
             divQuotation[n].appendChild(labelQuotationValue[n]);
         } else if (n == 4) {
             labelQuotation[n].innerHTML = "Alamat";
             divQuotation[n].appendChild(labelQuotation[n]);
             divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
             divQuotation[n].appendChild(labelQuotationValue[n]);
         } else if (n == 5) {
             labelQuotation[n].innerHTML = "Kontak Person";
             divQuotation[n].appendChild(labelQuotation[n]);
             divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
             divQuotation[n].appendChild(labelQuotationValue[n]);
         } else if (n == 6) {
             labelQuotation[n].innerHTML = "No. Telp./Hp.";
             divQuotation[n].appendChild(labelQuotation[n]);
             divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
             divQuotation[n].appendChild(labelQuotationValue[n]);
         } else if (n == 7) {
             labelQuotation[n].innerHTML = "Email";
             divQuotation[n].appendChild(labelQuotation[n]);
             divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
             divQuotation[n].appendChild(labelQuotationValue[n]);
         }
 
@@ -1199,9 +1207,9 @@ function createMultipleSale(locations, i) {
     bodyBottom.classList.add("body-bottom-sale");
     qrCodeSale.classList.add("qr-code-sale");
     qrCodeSale.classList.add("ml-4");
-    qrCodeImage.classList.add("qrcode-img-sale");
-    new QRCode(qrCodeImage, "https://vistamedia.co.id/preview/");
-    qrCodeSale.appendChild(qrCodeImage);
+    // qrCodeImage.classList.add("qrcode-img-sale");
+    // new QRCode(qrCodeImage, "https://vistamedia.co.id/preview/");
+    // qrCodeSale.appendChild(qrCodeImage);
     bodyBottom.appendChild(photoLocation);
     bodyBottom.appendChild(qrCodeSale);
     body.appendChild(bodyBottom);
@@ -1253,7 +1261,7 @@ function createMultipleSale(locations, i) {
                 labelQuotationValue[1].innerHTML = getFormatDate(new Date(quotationData[a].created_at), options, '-');
                 saleQuotDate = quotationData[a].created_at;
                 for (n = 0; n < dataClient.length; n++) {
-                    if (dataClient[n].id == quotationData[a].client_id) {
+                    if (dataClient[n].id == saleClientId) {
                         labelQuotationValue[2].innerHTML = "";
                         labelQuotationValue[2].innerHTML = dataClient[n].name;
                         labelQuotationValue[3].innerHTML = "";
@@ -1264,7 +1272,7 @@ function createMultipleSale(locations, i) {
                         saleClientCompany = dataClient[n].company;
                         saleClientAddress = dataClient[n].address;
                         for (j = 0; j < dataContact.length; j++) {
-                            if (dataClient[n].id == dataContact[j].client_id) {
+                            if (dataContact[j].id == saleContactId) {
                                 labelQuotationValue[5].innerHTML = "";
                                 labelQuotationValue[5].innerHTML = dataContact[j].name;
                                 labelQuotationValue[6].innerHTML = "";
@@ -1289,7 +1297,7 @@ function createMultipleSale(locations, i) {
                 labelQuotationValue[1].innerHTML = getFormatDate(new Date(quotRevisionData[a].created_at), options, '-');
                 saleQuotDate = quotRevisionData[a].created_at;
                 for (n = 0; n < dataClient.length; n++) {
-                    if (dataClient[n].id == quotationData[a].client_id) {
+                    if (dataClient[n].id == saleClientId) {
                         labelQuotationValue[2].innerHTML = "";
                         labelQuotationValue[2].innerHTML = dataClient[n].name;
                         labelQuotationValue[3].innerHTML = "";
@@ -1300,7 +1308,7 @@ function createMultipleSale(locations, i) {
                         saleClientCompany = dataClient[n].company;
                         saleClientAddress = dataClient[n].address;
                         for (j = 0; j < dataContact.length; j++) {
-                            if (dataClient[n].id == dataContact[j].client_id) {
+                            if (dataContact[j].id == saleContactId) {
                                 labelQuotationValue[5].innerHTML = "";
                                 labelQuotationValue[5].innerHTML = dataContact[j].name;
                                 labelQuotationValue[6].innerHTML = "";
@@ -2080,48 +2088,56 @@ function createPreviewSale(locations, i) {
             labelPreviewQuotationValue[n].innerHTML = labelQuotationValue[0].innerHTML;
             divQuotationPreview[n].appendChild(labelPreviewQuotation[n]);
             divQuotationPreview[n].appendChild(labelPreviewQuotationColon[n]);
+            labelPreviewQuotationValue[n].classList.add("w-60");
             divQuotationPreview[n].appendChild(labelPreviewQuotationValue[n]);
         } else if (n == 1) {
             labelPreviewQuotation[n].innerHTML = "Tgl. Penawaran";
             labelPreviewQuotationValue[n].innerHTML = labelQuotationValue[1].innerHTML;
             divQuotationPreview[n].appendChild(labelPreviewQuotation[n]);
             divQuotationPreview[n].appendChild(labelPreviewQuotationColon[n]);
+            labelPreviewQuotationValue[n].classList.add("w-60");
             divQuotationPreview[n].appendChild(labelPreviewQuotationValue[n]);
         } else if (n == 2) {
             labelPreviewQuotation[n].innerHTML = "Nama Klien";
             labelPreviewQuotationValue[n].innerHTML = labelQuotationValue[2].innerHTML;
             divQuotationPreview[n].appendChild(labelPreviewQuotation[n]);
             divQuotationPreview[n].appendChild(labelPreviewQuotationColon[n]);
+            labelPreviewQuotationValue[n].classList.add("w-60");
             divQuotationPreview[n].appendChild(labelPreviewQuotationValue[n]);
         } else if (n == 3) {
             labelPreviewQuotation[n].innerHTML = "Perusahaan";
             labelPreviewQuotationValue[n].innerHTML = labelQuotationValue[3].innerHTML;
             divQuotationPreview[n].appendChild(labelPreviewQuotation[n]);
             divQuotationPreview[n].appendChild(labelPreviewQuotationColon[n]);
+            labelPreviewQuotationValue[n].classList.add("w-60");
             divQuotationPreview[n].appendChild(labelPreviewQuotationValue[n]);
         } else if (n == 4) {
             labelPreviewQuotation[n].innerHTML = "Alamat";
             labelPreviewQuotationValue[n].innerHTML = labelQuotationValue[4].innerHTML;
             divQuotationPreview[n].appendChild(labelPreviewQuotation[n]);
             divQuotationPreview[n].appendChild(labelPreviewQuotationColon[n]);
+            labelPreviewQuotationValue[n].classList.add("w-60");
             divQuotationPreview[n].appendChild(labelPreviewQuotationValue[n]);
         } else if (n == 5) {
             labelPreviewQuotation[n].innerHTML = "Kontak Person";
             labelPreviewQuotationValue[n].innerHTML = labelQuotationValue[5].innerHTML;
             divQuotationPreview[n].appendChild(labelPreviewQuotation[n]);
             divQuotationPreview[n].appendChild(labelPreviewQuotationColon[n]);
+            labelPreviewQuotationValue[n].classList.add("w-60");
             divQuotationPreview[n].appendChild(labelPreviewQuotationValue[n]);
         } else if (n == 6) {
             labelPreviewQuotation[n].innerHTML = "No. Telp./Hp.";
             labelPreviewQuotationValue[n].innerHTML = labelQuotationValue[6].innerHTML;
             divQuotationPreview[n].appendChild(labelPreviewQuotation[n]);
             divQuotationPreview[n].appendChild(labelPreviewQuotationColon[n]);
+            labelPreviewQuotationValue[n].classList.add("w-60");
             divQuotationPreview[n].appendChild(labelPreviewQuotationValue[n]);
         } else if (n == 7) {
             labelPreviewQuotation[n].innerHTML = "Email";
             labelPreviewQuotationValue[n].innerHTML = labelQuotationValue[7].innerHTML;
             divQuotationPreview[n].appendChild(labelPreviewQuotation[n]);
             divQuotationPreview[n].appendChild(labelPreviewQuotationColon[n]);
+            labelPreviewQuotationValue[n].classList.add("w-60");
             divQuotationPreview[n].appendChild(labelPreviewQuotationValue[n]);
         }
 
@@ -2437,9 +2453,9 @@ function createPreviewSale(locations, i) {
     bodyBottom.classList.add("body-bottom-sale");
     qrCodeSale.classList.add("qr-code-sale");
     qrCodeSale.classList.add("ml-4");
-    qrCodeImage.classList.add("qrcode-img-sale");
-    new QRCode(qrCodeImage, "https://vistamedia.co.id/preview/");
-    qrCodeSale.appendChild(qrCodeImage);
+    // qrCodeImage.classList.add("qrcode-img-sale");
+    // new QRCode(qrCodeImage, "https://vistamedia.co.id/preview/");
+    // qrCodeSale.appendChild(qrCodeImage);
     bodyBottom.appendChild(photoLocation);
     bodyBottom.appendChild(qrCodeSale);
     body.appendChild(bodyBottom);
@@ -2490,7 +2506,7 @@ function createPreviewSale(locations, i) {
                 labelQuotationValue[1].innerHTML = "";
                 labelQuotationValue[1].innerHTML = getFormatDate(new Date(quotationData[a].created_at), options, '-');
                 for (n = 0; n < dataClient.length; n++) {
-                    if (dataClient[n].id == quotationData[a].client_id) {
+                    if (dataClient[n].id == saleClientId) {
                         labelQuotationValue[2].innerHTML = "";
                         labelQuotationValue[2].innerHTML = dataClient[n].name;
                         labelQuotationValue[3].innerHTML = "";
@@ -2500,7 +2516,7 @@ function createPreviewSale(locations, i) {
                     }
                 }
                 for (j = 0; j < dataContact.length; j++) {
-                    if (quotationData[a].contact_id == dataContact[j].id) {
+                    if (dataContact[j].id == saleContactId) {
                         labelQuotationValue[5].innerHTML = "";
                         labelQuotationValue[5].innerHTML = dataContact[j].name;
                         labelQuotationValue[6].innerHTML = "";
@@ -2519,7 +2535,7 @@ function createPreviewSale(locations, i) {
                 labelQuotationValue[1].innerHTML = "";
                 labelQuotationValue[1].innerHTML = getFormatDate(new Date(quotRevisionData[a].created_at), options, '-');
                 for (n = 0; n < dataClient.length; n++) {
-                    if (dataClient[n].id == quotationData[a].client_id) {
+                    if (dataClient[n].id == saleClientId) {
                         labelQuotationValue[2].innerHTML = "";
                         labelQuotationValue[2].innerHTML = dataClient[n].name;
                         labelQuotationValue[3].innerHTML = "";
@@ -2527,7 +2543,7 @@ function createPreviewSale(locations, i) {
                         labelQuotationValue[4].innerHTML = "";
                         labelQuotationValue[4].innerHTML = dataClient[n].address;
                         for (j = 0; j < dataContact.length; j++) {
-                            if (dataClient[n].id == dataContact[j].client_id) {
+                            if (dataContact[j].id == dataContact[j].saleContactId) {
                                 labelQuotationValue[5].innerHTML = "";
                                 labelQuotationValue[5].innerHTML = dataContact[j].name;
                                 labelQuotationValue[6].innerHTML = "";

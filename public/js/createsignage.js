@@ -11,6 +11,7 @@ const signageCategoryId = document.getElementById("signage_category_id");
 const signageCategory = document.getElementById("signageCategory");
 const ledType = document.getElementById("ledType");
 const slotQty = document.getElementById("slotQty");
+const duration = document.getElementById("duration");
 const on = document.getElementById("on");
 const off = document.getElementById("off");
 const eksklusif = document.getElementById("eksklusif");
@@ -248,6 +249,7 @@ qty.addEventListener('keyup', function () {
                 input.classList.add("2xl:text-lg");
                 input.setAttribute('name', 'input' + i);
                 input.setAttribute('id', 'input' + i);
+                input.setAttribute('readonly', 'readonly');
                 lokasi.appendChild(input);
             }
         } else {
@@ -260,35 +262,58 @@ qty.addEventListener('keyup', function () {
 // Signage Qty event --> end
 
 // Signage Category event --> start
-signageCategoryId.addEventListener('change', function () {
-    signageCategory.value = signageCategoryId.options[signageCategoryId.value].text;
-    if (signageCategoryId.options[signageCategoryId.value].text == "Videotron") {
+// signageCategoryId.addEventListener('change', function () {
+//     signageCategory.value = signageCategoryId.options[signageCategoryId.value].text;
+//     if (signageCategoryId.options[signageCategoryId.value].text == "Videotron") {
+//         ledType.removeAttribute('hidden');
+//         slotQty.removeAttribute('hidden');
+//         on.removeAttribute('hidden');
+//         off.removeAttribute('hidden');
+//         eksklusif.removeAttribute('hidden');
+//         sharing.removeAttribute('hidden');
+//         harga.setAttribute('hidden', 'hidden');
+//     } else {
+//         ledType.setAttribute('hidden', 'hidden');
+//         slotQty.setAttribute('hidden', 'hidden');
+//         on.setAttribute('hidden', 'hidden');
+//         off.setAttribute('hidden', 'hidden');
+//         eksklusif.setAttribute('hidden', 'hidden');
+//         sharing.setAttribute('hidden', 'hidden');
+//         harga.removeAttribute('hidden');
+//     }
+// })
+
+function getCategory(sel) {
+    signageCategory.value = sel.options[sel.selectedIndex].text;
+    if (sel.options[sel.selectedIndex].text == "Videotron") {
         ledType.removeAttribute('hidden');
         slotQty.removeAttribute('hidden');
         on.removeAttribute('hidden');
         off.removeAttribute('hidden');
-        eksklusif.removeAttribute('hidden');
-        sharing.removeAttribute('hidden');
-        harga.setAttribute('hidden', 'hidden');
+        // eksklusif.removeAttribute('hidden');
+        // sharing.removeAttribute('hidden');
+        // harga.setAttribute('hidden', 'hidden');
+        duration.removeAttribute('hidden');
     } else {
         ledType.setAttribute('hidden', 'hidden');
         slotQty.setAttribute('hidden', 'hidden');
         on.setAttribute('hidden', 'hidden');
         off.setAttribute('hidden', 'hidden');
-        eksklusif.setAttribute('hidden', 'hidden');
-        sharing.setAttribute('hidden', 'hidden');
-        harga.removeAttribute('hidden');
+        // eksklusif.setAttribute('hidden', 'hidden');
+        // sharing.setAttribute('hidden', 'hidden');
+        // harga.removeAttribute('hidden');
+        duration.setAttribute('hidden', 'hidden');
     }
-})
+}
 // Signage Category event --> end
 
 // Ownership event --> start
-mitra.addEventListener('click', function () {
-    vendorId.removeAttribute('hidden');
-})
-vista.addEventListener('click', function () {
-    vendorId.setAttribute('hidden', 'hidden');
-})
+// mitra.addEventListener('click', function () {
+//     vendorId.removeAttribute('hidden');
+// })
+// vista.addEventListener('click', function () {
+//     vendorId.setAttribute('hidden', 'hidden');
+// })
 // Ownership event --> end
 
 // Show Sector --> start

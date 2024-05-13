@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('lat');
             $table->string('lng');
             $table->string('lighting');
+            $table->string('orientation');
+            $table->string('side');
             $table->string('condition');
             $table->string('sector');
             $table->string('road_segment');

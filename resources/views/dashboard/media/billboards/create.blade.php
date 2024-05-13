@@ -126,7 +126,7 @@
                                             font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                             @error('billboard_category_id') is-invalid @enderror"
                                             type="text" value="{{ old('billboard_category_id') }}">
-                                            <option value="Pilih Katagori">Pilih Katagori</option>
+                                            <option value="Pilih Katagori">- pilih -</option>
                                             @foreach ($billboard_categories as $category)
                                                 @if (old('billboard_category_id') == $category->id)
                                                     <option value="{{ $category->id }}" selected>
@@ -159,7 +159,7 @@
                                             font-semibold text-teal-900 border rounded-lg p-1 outline-none
                                             @error('lighting') is-invalid @enderror"
                                             type="text" value="{{ old('lighting') }}">
-                                            <option value="Pilih Penerangan">Pilih Penerangan</option>
+                                            <option value="pilih">- pilih -</option>
                                             @for ($numberLighting = 0; $numberLighting < count($lightings); $numberLighting++)
                                                 @if (old('lighting') == $lightings[$numberLighting])
                                                     <option value="{{ $lightings[$numberLighting] }}" selected>
@@ -185,19 +185,59 @@
                                         <select id="size_id" name="size_id"
                                             class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('size_id') is-invalid @enderror"
                                             type="text" value="{{ old('size_id') }}">
-                                            <option value="Pilih Ukuran">Pilih Ukuran</option>
+                                            <option value="pilih">- pilih -</option>
                                             @foreach ($sizes as $size)
-                                                @if (old('size_id') == $size->id)
-                                                    <option value="{{ $size->id }}" selected>
-                                                        {{ $size->size . ' - ' . $size->side . ' - ' . $size->orientation }}
+                                                @if (
+                                                    $size->category == 'Billboard' ||
+                                                        $size->category == 'Bando' ||
+                                                        $size->category == 'Baliho' ||
+                                                        $size->category == 'Midiboard')
+                                                    @if (old('size_id') == $size->id)
+                                                        <option value="{{ $size->id }}" selected>
+                                                            {{ $size->size }}
+                                                        </option>
+                                                    @endif
+                                                    <option value="{{ $size->id }}">
+                                                        {{ $size->size }}
                                                     </option>
                                                 @endif
-                                                <option value="{{ $size->id }}">
-                                                    {{ $size->size . ' - ' . $size->side . ' - ' . $size->orientation }}
-                                                </option>
                                             @endforeach
                                         </select>
                                         @error('size_id')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-1">
+                                    @php
+                                        $numberOrientation = 0;
+                                        $orientations = ['Vertikal', 'Horizontal'];
+                                    @endphp
+                                    <div class="flex mt-1">
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Orientasi</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <select id="orientation" name="orientation"
+                                            class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
+                                            font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                            @error('orientation') is-invalid @enderror"
+                                            type="text" value="{{ old('orientation') }}">
+                                            <option value="pilih">- pilih -</option>
+                                            @for ($numberOrientation = 0; $numberOrientation < count($orientations); $numberOrientation++)
+                                                @if (old('orientation') == $orientations[$numberOrientation])
+                                                    <option value="{{ $orientations[$numberOrientation] }}" selected>
+                                                        {{ $orientations[$numberOrientation] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $orientations[$numberOrientation] }}">
+                                                        {{ $orientations[$numberOrientation] }}
+                                                    </option>
+                                                @endif
+                                            @endfor
+                                        </select>
+                                        @error('orientation')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -241,7 +281,7 @@
                                     <select id="condition" name="condition"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('condition') is-invalid @enderror"
                                         type="text" value="{{ old('condition') }}">
-                                        <option value="Pilih Kondisi">Pilih Kondisi</option>
+                                        <option value="Ppilih">- pilih -</option>
                                         @for ($numberBuild = 0; $numberBuild < count($builds); $numberBuild++)
                                             @if (old('condition') == $builds[$numberBuild])
                                                 <option value="{{ $builds[$numberBuild] }}" selected>
@@ -271,7 +311,7 @@
                                     <select id="road_segment" name="road_segment"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('road_segment') is-invalid @enderror"
                                         type="text" value="{{ old('road_segment') }}">
-                                        <option value="Pilih Type Jalan">Pilih Type Jalan</option>
+                                        <option value="pilih">- pilih -</option>
                                         @for ($numberRoad = 0; $numberRoad < count($roads); $numberRoad++)
                                             @if (old('road_segment') == $roads[$numberRoad])
                                                 <option value="{{ $roads[$numberRoad] }}" selected>
@@ -294,14 +334,22 @@
                             <div class="flex mt-1">
                                 @php
                                     $numberDistance = 0;
-                                    $distances = ['> 50 meter', '> 100 meter', '> 150 meter', '> 200 meter', '> 250 meter', '> 300 meter', '> 500 meter'];
+                                    $distances = [
+                                        '> 50 meter',
+                                        '> 100 meter',
+                                        '> 150 meter',
+                                        '> 200 meter',
+                                        '> 250 meter',
+                                        '> 300 meter',
+                                        '> 500 meter',
+                                    ];
                                 @endphp
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Jarak Pandang</label>
                                     <select id="max_distance" name="max_distance"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('max_distance') is-invalid @enderror"
                                         type="text" value="{{ old('max_distance') }}">
-                                        <option value="Pilih Jarak Pandang">Pilih Jarak Pandang</option>
+                                        <option value="pilih">- pilih -</option>
                                         @for ($numberDistance = 0; $numberDistance < count($distances); $numberDistance++)
                                             @if (old('max_distance') == $distances[$numberDistance])
                                                 <option value="{{ $distances[$numberDistance] }}" selected>
@@ -324,14 +372,23 @@
                             <div class="flex mt-1">
                                 @php
                                     $numberSpeed = 0;
-                                    $speeds = ['0 - 10 km/jam', '0 - 20 km/jam', '10 - 20 km/jam', '10 - 40 km/jam', '20 - 40 km/jam', '20 - 60 km/jam', '40 - 60 km/jam', '40 - 80 km/jam'];
+                                    $speeds = [
+                                        '0 - 10 km/jam',
+                                        '0 - 20 km/jam',
+                                        '10 - 20 km/jam',
+                                        '10 - 40 km/jam',
+                                        '20 - 40 km/jam',
+                                        '20 - 60 km/jam',
+                                        '40 - 60 km/jam',
+                                        '40 - 80 km/jam',
+                                    ];
                                 @endphp
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kecepatan Kendaraan</label>
                                     <select id="speed_average" name="speed_average"
                                         class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('speed_average') is-invalid @enderror"
                                         type="text" value="{{ old('speed_average') }}">
-                                        <option value="Pilih Kecepatan">Pilih Kecepatan</option>
+                                        <option value="pilih">- pilih -</option>
                                         @for ($numberSpeed = 0; $numberSpeed < count($speeds); $numberSpeed++)
                                             @if (old('speed_average') == $speeds[$numberSpeed])
                                                 <option value="{{ $speeds[$numberSpeed] }}" selected>
@@ -406,22 +463,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="price" name="price" class="mt-1">
-                                <div class="flex mt-1">
-                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Harga</label>
+                            @canany(['isAdmin', 'isMarketing'])
+                                <div id="price" name="price" class="mt-1">
+                                    <div class="flex mt-1">
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Harga</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <input
+                                            class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('price') is-invalid @enderror"
+                                            type="number" id="price" name="price" value="{{ old('price') }}"
+                                            placeholder="Input Harga">
+                                        @error('price')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                                <div class="mt-1">
-                                    <input
-                                        class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('price') is-invalid @enderror"
-                                        type="number" id="price" name="price" value="{{ old('price') }}"
-                                        placeholder="Harga">
-                                    @error('price')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
+                            @endcanany
                             <!-- Create New Billboard end -->
                         </div>
                     </div>

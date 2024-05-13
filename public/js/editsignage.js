@@ -35,7 +35,7 @@ let objCity = {};
 
 let map;
 let markers = [];
-let zoomMaps = 18;
+let zoomMaps = 16;
 dataObject = JSON.parse(locations.value)
 objLocations = dataObject.signageLocations;
 
@@ -254,15 +254,6 @@ signageCategoryId.addEventListener('change', function () {
     }
 })
 // Signage Category event --> end
-
-// Ownership event --> start
-mitra.addEventListener('click', function () {
-    vendorId.removeAttribute('hidden');
-})
-vista.addEventListener('click', function () {
-    vendorId.setAttribute('hidden', 'hidden');
-})
-// Ownership event --> end
 
 // Show Sector --> start
 let split = [];

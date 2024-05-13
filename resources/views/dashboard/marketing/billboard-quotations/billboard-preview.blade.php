@@ -229,7 +229,7 @@
                         </div>
                         <div class="w-[400px]">
                             <div>
-                                {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/') }}
+                                {{-- {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/') }} --}}
                             </div>
                         </div>
                     </div>

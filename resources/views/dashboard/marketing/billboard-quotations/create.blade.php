@@ -66,8 +66,7 @@
                                 <div class="flex mt-1">
                                     <div class="mt-1">
                                         <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Area</label>
-                                        {{-- <input id="area" name="area" type="text" hidden
-                                            value="{{ old('area') }}"> --}}
+                                        {{-- <input id="area" name="area" type="text" hidden> --}}
                                         <select id="area_id" name="area_id"
                                             class="flex w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
                                             type="text" value="{{ old('area_id') }}" onchange="getArea(this)" disabled>
@@ -119,19 +118,21 @@
                                             @foreach ($clients as $client)
                                                 @if (old('client_id') == $client->id)
                                                     <option value="{{ $client->id }}" selected>
-                                                        @if ($client->company != '')
+                                                        {{ $client->name }}
+                                                        {{-- @if ($client->company != '')
                                                             {{ $client->company }}
                                                         @else
                                                             {{ $client->name }}
-                                                        @endif
+                                                        @endif --}}
                                                     </option>
                                                 @else
                                                     <option value="{{ $client->id }}">
-                                                        @if ($client->company != '')
+                                                        {{ $client->name }}
+                                                        {{-- @if ($client->company != '')
                                                             {{ $client->company }}
                                                         @else
                                                             {{ $client->name }}
-                                                        @endif
+                                                        @endif --}}
                                                     </option>
                                                 @endif
                                             @endforeach

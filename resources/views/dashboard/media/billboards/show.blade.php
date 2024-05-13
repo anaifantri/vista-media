@@ -112,8 +112,7 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $billboard->size->size }} x {{ $billboard->size->side }} sisi -
-                                            {{ $billboard->size->orientation }} </label>
+                                            {{ $billboard->size->size }} - {{ $billboard->orientation }}</label>
                                     </div>
                                 </div>
                                 @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
@@ -210,17 +209,19 @@
                                         {{ date('d-M-Y', strtotime($billboard->created_at)) }}</label>
                                 </div>
                             </div>
-                            <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                                <div class="flex items-center">
-                                    <label
-                                        class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Harga</label>
-                                    <label
-                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                    <label
-                                        class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">Rp.
-                                        {{ number_format($billboard->price) }},-</label>
+                            @canany(['isAdmin', 'isMarketing'])
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
+                                    <div class="flex items-center">
+                                        <label
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Harga</label>
+                                        <label
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                        <label
+                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">Rp.
+                                            {{ number_format($billboard->price) }},-</label>
+                                    </div>
                                 </div>
-                            </div>
+                            @endcanany
                             <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                 <div class="flex items-center">
                                     <label
@@ -259,7 +260,8 @@
                                     <svg class="fill-current w-4 lg:w-5" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24">
                                         <path
-                                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                                            d="m10.978 14.999v3.251c0 .412-.335.75-.752.75-.188 0-.375-.071-.518-.206-1.775-1.685-4.945-4.692-6.396-6.069-.2-.189-.312-.452-.312-.725 0-.274.112-.536.312-.725 1.451-1.377 4.621-4.385 6.396-6.068.143-.136.33-.207.518-.207.417 0 .752.337.752.75v3.251h9.02c.531 0 1.002.47 1.002 1v3.998c0 .53-.471 1-1.002 1z"
+                                            fill-rule="nonzero" />
                                     </svg>
                                     <span class="mx-1 text-sm lg:text-md lg:mx-2">Back</span>
                                 </a>
@@ -342,14 +344,11 @@
         <div class="overflow-x-scroll">
             <div class="w-[800px] h-8 mt-2 ml-2">
                 <div class="flex relative items-center">
-                    {{-- <button title="Export to PNG" id="btn-png" name="btn-png"
-                        class="flex justify-center items-center mx-1 btn-warning">Save as
-                        PNG</button> --}}
                     <button title="Export to PDF" id="btn-pdf" name="btn-pdf"
                         class="flex justify-center items-center mx-1 btn-danger">Save as
                         PDF</button>
                     <?php
-                    $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $billboard->lat . ',' . $billboard->lng . '&zoom=15&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $billboard->lat . ',' . $billboard->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                    $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $billboard->lat . ',' . $billboard->lng . '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $billboard->lat . ',' . $billboard->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                     ?>
                     <button id="btn-close" name="btn-close" class="flex absolute justify-center items-center ml-[750px]"
                         title="Close">
@@ -361,7 +360,7 @@
                     </button>
                 </div>
             </div>
-            <div id="preview" name="preview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
+            <div id="preview" name="preview" class="w-[780px] h-[1100px] bg-white mt-2">
                 <div class="flex w-full justify-center items-center">
                     <img class="mt-3" src="/img/logo-vm.png" alt="">
                 </div>
@@ -377,7 +376,7 @@
                         <img class="h-10" src="/img/code-line.png" alt="">
                         <span
                             class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $billboard->address }}
-                            | {{ strtoupper($billboard->city->city) }}</span>
+                            | {{ strtoupper($billboard->area->area) }}</span>
                     </div>
                 </div>
                 <div class="flex w-full h-[465px] justify-center mt-[1px]">
@@ -402,7 +401,7 @@
                                 </div>
                                 <div class="flex relative w-[476px] h-[355px] mt-[1px] rounded-b-lg">
                                     <div class="flex absolute w-[100px] mt-[250px] ml-1">
-                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $billboard->lat . ',' . $billboard->lng . '/@' . $billboard->lat . ',' . $billboard->lng . ',15z') }}
+                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $billboard->lat . ',' . $billboard->lng . '/@' . $billboard->lat . ',' . $billboard->lng . ',16z') }}
                                     </div>
                                     <img class="w-[476px] h-[355px] border rounded-b-xl" id="myImage" name="myImage"
                                         src="{{ $src }}" alt="">
@@ -426,13 +425,13 @@
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Ukuran</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $billboard->size->size }} x {{ $billboard->size->side }} sisi</span>
+                                            {{ $billboard->size->size }}</span>
                                     </div>
                                     <div class="flex mt-1">
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Orientasi</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $billboard->size->orientation }}</span>
+                                            {{ $billboard->orientation }}</span>
                                     </div>
                                     <div class="flex mt-1">
                                         <span
@@ -468,7 +467,7 @@
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                 <br><br><br><br><br>
-                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/preview/' . $billboard->id) }}
+                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/dashboard/media/billboards/preview/' . $billboard->id) }}
                                             </span>
                                             <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
                                                 <div>:</div>
@@ -515,6 +514,7 @@
     </div>
     </div>
     <!-- Preview Billboard end -->
+
     <!-- Script Billboard start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
         defer></script>
@@ -538,7 +538,7 @@
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 16.5,
+                zoom: 16,
                 center: myLatLng,
             });
 
@@ -554,21 +554,8 @@
             });
         }
         // Google Maps --> end
+
         // Preview Billboard Script start -->
-        // document.getElementById("btn-png").onclick = function() {
-        //     const pngTarget = document.getElementById("preview");
-
-        //     html2canvas(pngTarget).then((canvas) => {
-        //         const base64image = canvas.toDataURL("image/jpg");
-        //         var anchor = document.createElement('a');
-        //         anchor.setAttribute("href", base64image);
-        //         anchor.setAttribute("download", code.value + " - " + city.value + " - " + address.value +
-        //             ".jpg");
-        //         anchor.click();
-        //         anchor.remove();
-        //     })
-        // };
-
         document.getElementById("btn-pdf").onclick = function() {
             var element = document.getElementById('preview');
             var opt = {

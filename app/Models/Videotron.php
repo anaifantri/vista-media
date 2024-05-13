@@ -7,7 +7,6 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Size;
 use App\Models\Led;
-use App\Models\Vendor;
 use App\Models\Quotation;
 use Kyslik\ColumnSortable\Sortable;
 
@@ -74,15 +73,16 @@ class Videotron extends Model
     public function led(){
         return $this->belongsTo(Led::class);
     }
-    public function vendor(){
-        return $this->belongsTo(Vendor::class);
-    }
     public function user(){
         return $this->belongsTo(User::class);
     }
 
     public function quotations(){
         return $this->hasMany(Quotation::class, 'videotron_id', 'id');
+    }
+
+    public function videotron_photos(){
+        return $this->hasMany(VideotronPhoto::class, 'videotron_id', 'id');
     }
 
     public $sortable = ['code',

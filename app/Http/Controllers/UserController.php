@@ -67,6 +67,8 @@ class UserController extends Controller
         ]);
 
         $validateData['password'] = Hash::make($validateData['password']);
+        $validateData['online_status'] = 0;
+        $validateData['active_status'] = 1;
 
         if($request->file('avatar')){
             $validateData['avatar'] = $request->file('avatar')->store('user-images');

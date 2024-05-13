@@ -144,7 +144,7 @@
                                 </a>
                             </li>
                             <li class="group">
-                                <a class="nav-a ml-[40px]" href="/dashboard/media/vendor-categories">
+                                <a class="nav-a ml-[40px]" href="#">
                                     <svg class="child-nav-svg" xmlns="http://www.w3.org/2000/svg" role="img"
                                         viewBox="0 0 24 24">
                                         <path

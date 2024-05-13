@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('size');
-            $table->string('side');
-            $table->string('orientation');
+            $table->string('category');
             $table->timestamps();
         });
     }

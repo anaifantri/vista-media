@@ -152,6 +152,7 @@ class BillboardQuotationController extends Controller
             'title' => 'Detail Penawaran Billboard',
             'billboard_photos'=>BillboardPhoto::all(),
             'billboard_quot_status' => BillboardQuotStatus::All(),
+            'billboard_categories'=>BillboardCategory::all(),
             'companies'=>Company::all(),
             compact('billboard_quotations', 'billboard_quot_revisions', 'billboard_quot_statuses', 'clients', 'contacts')
         ]);

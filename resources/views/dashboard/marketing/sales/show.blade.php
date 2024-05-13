@@ -31,7 +31,8 @@
                 </div>
             </div>
             <!-- Title Show Quotatin end -->
-            <input type="text" id="saveNumber" value="{{ Str::substr($sale['number'], 0, 4) }}-Sales" hidden>
+            <input type="text" id="saveNumber"
+                value="{{ Str::substr($sale['number'], 0, 4) }}-Sales-{{ $sale->client->name }}" hidden>
             <div id="pdfPreview">
                 <div class="mt-2 w-[950px]">
                     <!-- Header start -->
@@ -188,15 +189,18 @@
                                                                 {{ $loop->iteration }}.
                                                                 {{ $terms->termValue }} %</td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                {{ number_format($sale['price']) }}</td>
+                                                                {{ number_format(($sale['price'] * $terms->termValue) / 100) }}
+                                                            </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                {{ number_format($sale['dpp']) }}</td>
+                                                                {{ number_format(($sale['dpp'] * $terms->termValue) / 100) }}
+                                                            </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                {{ number_format($ppn) }}</td>
+                                                                {{ number_format(($ppn * $terms->termValue) / 100) }}</td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                {{ number_format($pph) }}</td>
+                                                                {{ number_format(($pph * $terms->termValue) / 100) }}</td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                {{ number_format($sale['price'] + $ppn - $pph) }}</td>
+                                                                {{ number_format((($sale['price'] + $ppn - $pph) * $terms->termValue) / 100) }}
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -237,7 +241,8 @@
                                                                 {{-- {{ date('d-M-Y', strtotime($sale->created_at)) }} --}}
                                                             </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                {{ number_format($sale['price'] + $ppn - $pph) }}</td>
+                                                                {{ number_format((($sale['price'] + $ppn - $pph) * $terms->termValue) / 100) }}
+                                                            </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
                                                                 sent / paid </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
@@ -620,9 +625,9 @@
                                             @elseif ($sale->billboard->lighting == 'Nonlight')
                                                 <td class="td-table w-10">NL</td>
                                             @endif
-                                            @if ($sale->billboard->size->orientation == 'Vertikal')
+                                            @if ($sale->billboard->orientation == 'Vertikal')
                                                 <td class="td-table w-28">{{ $sale->billboard->size->size }} - V</td>
-                                            @elseif ($sale->billboard->size->orientation == 'Horizontal')
+                                            @elseif ($sale->billboard->orientation == 'Horizontal')
                                                 <td class="td-table w-28">{{ $sale->billboard->size->size }} - H</td>
                                             @endif
                                             <td class="td-table-sale">{{ number_format($sale['price']) }}</td>

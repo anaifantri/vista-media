@@ -14,12 +14,12 @@
                             src="/img/photo_profile.png">
                     @endif
                     <span class="flex justify-center font-semibold text-teal-900 border-b mt-3">{{ $client->name }}</span>
-                    <span class="flex justify-center text-teal-700 text-sm">{{ $client->company }}</span>
+                    <span class="flex justify-center text-teal-700 text-sm text-center">{{ $client->company }}</span>
                 </div>
             </div>
             <!-- Logo Client End -->
             <!-- Detail Client Start -->
-            <div class="flex justify-center w-72">
+            <div class="flex justify-center w-[500px]">
                 <div class="p-2 w-full justify-center">
                     <div class="flex items-center mb-3">
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Detail Klien</h4>
@@ -103,9 +103,9 @@
             </div>
             <!-- Detail Client End -->
             <!-- Kontak Person Start -->
-            <div class="justify-center relative w-[360px] md:w-[420px] border-l md:h-[580px] md:overflow-y-auto">
+            <div class="justify-center relative w-[475px] h-[580px] overflow-y-auto">
                 <div class="flex bg-white w-full">
-                    <div class="w-[360px] md:w-[420px] p-2">
+                    <div class="w-[450px] p-2">
                         <!-- Title Kontak Person Start -->
                         <h4 class="text-2xl font-semibold tracking-wider text-teal-900 w-48">Kontak Person</h4>
                         <!-- Title Kontak Person End -->
@@ -156,70 +156,78 @@
                 <!-- Button Add Kontak Person End -->
                 <div class="items-center p-2 relative w-full">
                     <!-- Show Kontak Person Start -->
+                    <?php
+                    $i = 0;
+                    ?>
                     @foreach ($contacts as $contact)
-                        <div class="md:flex border-t">
-                            <h6 class="flex absolute text-sm mx-3 mt-3 font-semibold text-teal-900">
-                                {{ $loop->iteration }}
-                            </h6>
-                            <div class="flex justify-center w-32 md:w-44">
-                                <div class="flex p-2">
-                                    @if ($contact->photo)
-                                        <img class="m-auto rounded-full img-preview flex items-center w-28 h-28"
-                                            src="{{ asset('storage/' . $contact->photo) }}">
-                                    @else
-                                        <img class="m-auto rounded-full img-preview flex items-center w-28 h-28"
-                                            src="/img/photo_profile.png">
-                                    @endif
+                        @if ($contact->client_id == $client->id)
+                            <?php
+                            $i = $i + 1;
+                            ?>
+                            <div class="md:flex border-t">
+                                <h6 class="flex absolute text-sm mx-3 mt-3 font-semibold text-teal-900">
+                                    {{ $i }}
+                                </h6>
+                                <div class="flex justify-center w-32 md:w-44">
+                                    <div class="flex p-2">
+                                        @if ($contact->photo)
+                                            <img class="m-auto rounded-full img-preview flex items-center w-28 h-28"
+                                                src="{{ asset('storage/' . $contact->photo) }}">
+                                        @else
+                                            <img class="m-auto rounded-full img-preview flex items-center w-28 h-28"
+                                                src="/img/photo_profile.png">
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mt-2 w-40 md:w-52">
-                                <div class="border-b mt-1"><label class="text-sm text-teal-700">Nama</label>
-                                    <h6 class="text-sm font-semibold text-teal-900">{{ $contact->name }}</h6>
-                                </div>
-                                <div class="border-b mt-1"><label class="text-sm text-teal-700">Email</label>
-                                    <h6 class="text-sm font-semibold text-teal-900">{{ $contact->email }}</h6>
-                                </div>
-                                <div class="border-b mt-1"><label class="text-sm text-teal-700">No. Handphone</label>
-                                    <h6 class="text-sm font-semibold text-teal-900">{{ $contact->phone }}</h6>
-                                </div>
-                                <div class="border-b mt-1"><label class="text-sm text-teal-700">Jenis Kelamin</label>
-                                    <h6 class="text-sm font-semibold text-teal-900">{{ $contact->gender }}</h6>
-                                </div>
-                                <div class="border-b mt-1"><label class="text-sm text-teal-700">Jabatan</label>
-                                    <h6 class="text-sm font-semibold text-teal-900">{{ $contact->position }}</h6>
-                                </div>
-                                <div class="flex mt-2">
-                                    <a href="/dashboard/marketing/contacts/{{ $contact->id, $client->id }}/edit"
-                                        class="flex items-center justify-center btn-warning mx-1" name="btnEdit"
-                                        id="btnEdit">
-                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                                fill-rule="nonzero" />
-                                        </svg>
-                                        <span class="mx-1"> Edit </span>
-                                    </a>
-                                    <form action="/dashboard/marketing/contacts/{{ $contact->id }}" method="post"
-                                        class="d-inline">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="flex items-center justify-center btn-danger mx-1"
-                                            onclick="return confirm('Apakah anda yakin ingin menghapus Contact {{ $contact->name }} ?')">
+                                <div class="mt-2 w-full">
+                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">Nama</label>
+                                        <h6 class="text-sm font-semibold text-teal-900">{{ $contact->name }}</h6>
+                                    </div>
+                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">Email</label>
+                                        <h6 class="text-sm font-semibold text-teal-900">{{ $contact->email }}</h6>
+                                    </div>
+                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">No. Handphone</label>
+                                        <h6 class="text-sm font-semibold text-teal-900">{{ $contact->phone }}</h6>
+                                    </div>
+                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                                        <h6 class="text-sm font-semibold text-teal-900">{{ $contact->gender }}</h6>
+                                    </div>
+                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">Jabatan</label>
+                                        <h6 class="text-sm font-semibold text-teal-900">{{ $contact->position }}</h6>
+                                    </div>
+                                    <div class="flex mt-2">
+                                        <a href="/dashboard/marketing/contacts/{{ $contact->id, $client->id }}/edit"
+                                            class="flex items-center justify-center btn-warning mx-1" name="btnEdit"
+                                            id="btnEdit">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
-                                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
                                                     fill-rule="nonzero" />
                                             </svg>
-                                            <span class="mx-1"> Delete </span>
-                                        </button>
-                                    </form>
+                                            <span class="mx-1"> Edit </span>
+                                        </a>
+                                        <form action="/dashboard/marketing/contacts/{{ $contact->id }}" method="post"
+                                            class="d-inline">
+                                            @method('delete')
+                                            @csrf
+                                            <button class="flex items-center justify-center btn-danger mx-1"
+                                                onclick="return confirm('Apakah anda yakin ingin menghapus Contact {{ $contact->name }} ?')">
+                                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                        fill-rule="nonzero" />
+                                                </svg>
+                                                <span class="mx-1"> Delete </span>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
                     <!-- Show Kontak Person End -->
                 </div>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('billboard_photos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('billboard_id')->constrained();
             $table->foreignId('company_id')->constrained();
             $table->string('photo');
             $table->string('billboard_code');

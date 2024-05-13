@@ -21,6 +21,8 @@
                                             Lokasi</label>
                                         <input id="code" name="code" type="text" value="{{ $videotron->code }}"
                                             hidden>
+                                        <input id="city" name="city" type="text"
+                                            value="{{ $videotron->city->code }}" hidden>
                                         <input id="id" name="id" type="text" value="{{ $videotron->id }}"
                                             hidden>
                                         <label
@@ -113,22 +115,10 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->size->size }} x {{ $videotron->size->side }} sisi -
-                                            {{ $videotron->size->orientation }} </label>
+                                            {{ $videotron->size->size }} - {{ $videotron->orientation }} </label>
                                     </div>
                                 </div>
                                 @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
-                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                                        <div class="flex items-center">
-                                            <label
-                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kepemilikan</label>
-                                            <label
-                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                            <label
-                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                                {{ $videotron->ownership }}</label>
-                                        </div>
-                                    </div>
                                     <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b ">
                                         <div class="flex items-center">
                                             <label
@@ -207,6 +197,42 @@
                                         @endforeach
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
+                            <div class="flex items-center">
+                                <label
+                                    class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Durasi
+                                    Video</label>
+                                <label
+                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                <label
+                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">{{ $videotron->duration }}
+                                    detik</label>
+                            </div>
+                        </div>
+                        <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
+                            <div class="flex items-center">
+                                <label
+                                    class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Waktu
+                                    Nyala</label>
+                                <label
+                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                <label
+                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
+                                    {{ $videotron->start_at }} - WITA</label>
+                            </div>
+                        </div>
+                        <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
+                            <div class="flex items-center">
+                                <label
+                                    class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Waktu
+                                    Off</label>
+                                <label
+                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
+                                <label
+                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
+                                    {{ $videotron->end_at }} - WITA</label>
                             </div>
                         </div>
                         @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
@@ -314,8 +340,12 @@
                     <div>
                         <span class="mt-2 border-b flex justify-center text-base text-cyan-800 font-semibold">Photo
                             Lokasi</span>
-                        <img class="img-preview m-photo-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl"
-                            src="{{ asset('storage/' . $videotron->photo) }}" alt="">
+                        @foreach ($videotron_photos as $photo)
+                            @if ($photo->videotron_id == $videotron->id && $photo->company_id == '1')
+                                <img class="img-preview m-photo-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl"
+                                    src="{{ asset('storage/' . $photo->photo) }}" alt="">
+                            @endif
+                        @endforeach
                     </div>
                     <!-- Photo Videotron end -->
                 </div>
@@ -339,19 +369,16 @@
         <div class="overflow-x-scroll">
             <div class="w-[800px] h-8 mt-2 ml-2">
                 <div class="flex relative items-center">
-                    <button title="Export to PNG" id="btn-png" name="btn-png"
-                        class="flex justify-center items-center mx-1 btn-warning">Save as
-                        PNG</button>
                     <button title="Export to PDF" id="btn-pdf" name="btn-pdf"
                         class="flex justify-center items-center mx-1 btn-danger">Save as
                         PDF</button>
                     <?php
-                    $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $videotron->lat . ',' . $videotron->lng . '&zoom=15&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $videotron->lat . ',' . $videotron->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
-                    $destFolder = 'img/map/';
-                    $fromFolder = '/img/map/';
-                    $mapImgName = 'google-map-' . $videotron->code . '.PNG';
-                    $imagePath = $destFolder . $mapImgName;
-                    file_put_contents($imagePath, file_get_contents($src));
+                    $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $videotron->lat . ',' . $videotron->lng . '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $videotron->lat . ',' . $videotron->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                    // $destFolder = 'img/map/';
+                    // $fromFolder = '/img/map/';
+                    // $mapImgName = 'google-map-' . $videotron->code . '.PNG';
+                    // $imagePath = $destFolder . $mapImgName;
+                    // file_put_contents($imagePath, file_get_contents($src));
                     ?>
                     <button id="btn-close" name="btn-close" class="flex absolute justify-center items-center ml-[750px]"
                         title="Close">
@@ -363,7 +390,7 @@
                     </button>
                 </div>
             </div>
-            <div id="preview" name="preview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
+            <div id="pdfPreview" name="pdfPreview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
                 <div class="flex w-full justify-center items-center">
                     <img class="mt-3" src="/img/logo-vm.png" alt="">
                 </div>
@@ -379,13 +406,17 @@
                         <img class="h-10" src="/img/code-line.png" alt="">
                         <span
                             class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $videotron->address }}
-                            | {{ strtoupper($videotron->city->city) }}</span>
+                            | {{ strtoupper($videotron->area->area) }}</span>
                     </div>
                 </div>
                 <div class="flex w-full h-[465px] justify-center mt-[1px]">
                     <div class="flex w-[700px] h-[465px] justify-center items-center bg-slate-50 border rounded-b-xl">
-                        <img class="m-auto w-[670px] h-[435px]" src="{{ asset('storage/' . $videotron->photo) }}"
-                            alt="">
+                        @foreach ($videotron_photos as $photo)
+                            @if ($photo->videotron_id == $videotron->id && $photo->company_id == '1')
+                                <img class="m-auto w-[670px] h-[435px]" src="{{ asset('storage/' . $photo->photo) }}"
+                                    alt="">
+                            @endif
+                        @endforeach
                     </div>
                 </div>
                 <div class="flex w-full h-[385px] justify-center mt-1">
@@ -400,10 +431,10 @@
                                 </div>
                                 <div class="flex relative w-[476px] h-[355px] mt-[1px] rounded-b-lg">
                                     <div class="flex absolute w-[100px] mt-[250px] ml-1">
-                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $videotron->lat . ',' . $videotron->lng . '/@' . $videotron->lat . ',' . $videotron->lng . ',15z') }}
+                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $videotron->lat . ',' . $videotron->lng . '/@' . $videotron->lat . ',' . $videotron->lng . ',16z') }}
                                     </div>
                                     <img class="w-[476px] h-[355px] border rounded-b-xl" id="myImage" name="myImage"
-                                        src="{{ $fromFolder . $mapImgName }}" alt="">
+                                        src="{{ $src }}" alt="">
 
                                 </div>
                             </div>
@@ -425,13 +456,13 @@
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Ukuran</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $videotron->size->size }} x {{ $videotron->size->side }} sisi</span>
+                                            {{ $videotron->size->size }}</span>
                                     </div>
                                     <div class="flex mt-1">
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Orientasi</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $videotron->size->orientation }}</span>
+                                            {{ $videotron->orientation }}</span>
                                     </div>
                                     <div class="flex mt-1">
                                         <span
@@ -468,7 +499,7 @@
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                 <br><br><br><br><br>
-                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/videotron/' . $videotron->id) }}
+                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/dashboard/media/videotrons/preview/' . $videotron->id) }}
                                             </span>
                                             <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
                                                 <div>:</div>
@@ -527,8 +558,10 @@
         let map;
         const latitude = document.getElementById("lat");
         const longitude = document.getElementById("lng");
-        const code = document.getElementById("code");
         const id = document.getElementById("id");
+        const code = document.getElementById("code");
+        const city = document.getElementById("city");
+        const address = document.getElementById("address");
         let myLatLng = {
             lat: Number(latitude.value),
             lng: Number(longitude.value)
@@ -536,7 +569,7 @@
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 16.5,
+                zoom: 16,
                 center: myLatLng,
             });
 
@@ -548,28 +581,14 @@
             });
 
             marker.addListener("click", () => {
-                // window.open("http://vista-app.test/dashboard/media/products/" + id.value);
                 window.location.replace("https://vistamedia.co.id/dashboard/media/videotrons/" + id.value);
             });
         }
         // Google Maps --> end
+
         // Preview Videotron Script start -->
-        document.getElementById("btn-png").onclick = function() {
-            const pngTarget = document.getElementById("preview");
-
-            html2canvas(pngTarget).then((canvas) => {
-                const base64image = canvas.toDataURL("image/jpg");
-                var anchor = document.createElement('a');
-                anchor.setAttribute("href", base64image);
-                anchor.setAttribute("download", code.value + " - " + city.value + " - " + address.value +
-                    ".jpg");
-                anchor.click();
-                anchor.remove();
-            })
-        };
-
         document.getElementById("btn-pdf").onclick = function() {
-            var element = document.getElementById('preview');
+            var element = document.getElementById('pdfPreview');
             var opt = {
                 margin: 0,
                 filename: code.value + ' - ' + city.value + ' - ' + address.value + '.pdf',
@@ -581,7 +600,10 @@
                     mode: ['avoid-all', 'css', 'legacy']
                 },
                 html2canvas: {
-                    scale: 1
+                    dpi: 192,
+                    scale: 4,
+                    letterRendering: true,
+                    useCORS: true
                 },
                 jsPDF: {
                     unit: 'in',
@@ -590,7 +612,6 @@
                     putTotalPages: true
                 }
             };
-            // html2pdf(element, opt);
             html2pdf().set(opt).from(element).save();
         };
 

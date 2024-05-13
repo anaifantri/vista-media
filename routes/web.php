@@ -57,6 +57,7 @@ Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [Billbo
 Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQuotRevisionController::class, 'preview']);
 Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
+// Route::get('/dashboard/marketing/sales/preview/', [SaleController::class,'preview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-approvals', ClientApprovalController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-orders', ClientOrderController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-agreements', ClientAgreementController::class)->middleware(['auth','user_access']);
@@ -65,8 +66,14 @@ Route::resource('/dashboard/media/area', AreaController::class)->middleware(['au
 Route::resource('/dashboard/media/cities', CityController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/products', ProductController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/billboards', BillboardController::class)->middleware(['auth','user_access']);
+Route::get('/dashboard/media/billboards/preview/{id}', [BillboardController::class,'preview']);
+Route::get('/dashboard/media/billboards/pdf-preview/{id}', [BillboardController::class,'pdfPreview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/videotrons', VideotronController::class)->middleware(['auth','user_access']);
+Route::get('/dashboard/media/videotrons/preview/{id}', [VideotronController::class,'preview']);
+Route::get('/dashboard/media/videotrons/pdf-preview/{id}', [VideotronController::class,'pdfPreview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/signages', SignageController::class)->middleware(['auth','user_access']);
+Route::get('/dashboard/media/signages/preview/{id}', [SignageController::class,'preview']);
+Route::get('/dashboard/media/signages/pdf-preview/{id}', [SignageController::class,'pdfPreview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/sizes', SizeController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/leds', LedController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/vendors', VendorController::class)->middleware(['auth','user_access']);
@@ -82,8 +89,8 @@ Route::get('/showContact', [ContactController::class,'showContact'])->middleware
 Route::get('/showClient', [ClientController::class,'showClient'])->middleware(['auth','user_access']);
 Route::get('/showSize', [SizeController::class,'showSize'])->middleware(['auth','user_access']);
 Route::get('/test', [BillboardController::class,'test'])->middleware(['auth','user_access']);
-Route::get('/preview/{id}', [PreviewController::class, 'preview']);
-Route::get('/videotron/{id}', [PreviewController::class, 'videotronPreview']);
+// Route::get('/preview/{id}', [PreviewController::class, 'preview']);
+// Route::get('/videotron/{id}', [PreviewController::class, 'videotronPreview']);
 Route::get('/showQuotation', [QuotationController::class,'showQuotation'])->middleware(['auth','user_access']);
 Route::get('/showBillboardQuotation', [BillboardQuotationController::class,'showBillboardQuotation'])->middleware(['auth','user_access']);
 Route::get('/showBillboardPhoto', [BillboardPhotoController::class,'showBillboardPhoto'])->middleware(['auth','user_access']);

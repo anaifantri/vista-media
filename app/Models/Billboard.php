@@ -34,11 +34,11 @@ class Billboard extends Model
         }
     }
 
-    // public function scopeBuild($query){
-    //     if (request('build') != 'All') {
-    //         return $query->where('build_status', 'like', '%' . request('build') . '%');
-    //     }
-    // }
+    public function scopeCondition($query){
+        if (request('condition') != 'All') {
+            return $query->where('condition', 'like', '%' . request('condition') . '%');
+        }
+    }
 
     // public function scopeStatus($query){
     //     if (request('sale') != 'All') {
@@ -50,6 +50,7 @@ class Billboard extends Model
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('code', 'like', '%' . $search . '%')
                     ->orWhere('address', 'like', '%' . $search . '%')
+                    ->orWhere('condition', 'like', '%' . $search . '%')
                     ->orWhereHas('area', function($query) use ($search){
                         $query->where('area', 'like', '%' . $search . '%');
                     })
@@ -84,6 +85,10 @@ class Billboard extends Model
 
     public function billboard_quotations(){
         return $this->hasMany(BillboardQuotation::class, 'billboard_id', 'id');
+    }
+
+    public function billboard_photos(){
+        return $this->hasMany(BillboardPhoto::class, 'billboard_id', 'id');
     }
 
     public function sales(){

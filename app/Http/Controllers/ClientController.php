@@ -18,9 +18,14 @@ class ClientController extends Controller
      */
     public function index(): Response
     {
+        $clients = client::with('client_category')->get();
+        $client_categories = ClientCategory::with('clients')->get();
+        $users = User::with('clients')->get();
+
         return response()->view('dashboard.marketing.clients.index', [
             'clients' => Client::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
-            'title' => 'Daftar Klien'
+            'title' => 'Daftar Klien',
+            compact('clients', 'users', 'client_categories')
         ]);
     }
 
@@ -52,7 +57,7 @@ class ClientController extends Controller
     
         $validateData = $request->validate([
             'name' => 'required|max:255|unique:clients',
-            'company' => 'required|min:6|unique:clients',
+            'company' => 'min:6|unique:clients',
             'phone' => 'min:10|unique:clients',
             'email' => 'email:dns|unique:clients',
             'address' => 'required',
@@ -114,7 +119,7 @@ class ClientController extends Controller
         }
 
         if($request->company != $client->company){
-            $rules['company'] = 'required|unique:clients';
+            $rules['company'] = 'unique:clients';
         } 
 
         if($request->phone != $client->phone){

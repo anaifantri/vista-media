@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 use App\Models\Billboard;
 use App\Models\Videotron;
+use App\Models\Signage;
 use Kyslik\ColumnSortable\Sortable;
 
 class Area extends Model

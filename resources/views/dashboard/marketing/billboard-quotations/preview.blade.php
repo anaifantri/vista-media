@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Show Quotatin start -->
-    <div class="flex justify-center">
+    <div class="flex justify-center bg-black">
         <div class="mt-10">
             <!-- Title Show Quotatin start -->
             <div class="flex border-b">
@@ -100,9 +100,15 @@
                                             <label class="ml-1 text-sm text-black flex w-20">Kepada Yth</label>
                                             <label id="clientBBPreview"
                                                 class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_quotation->client->company }}</label>
-                                            <label id="contactBBPreview"
-                                                class="ml-1 text-sm text-black flex font-semibold">UP.
-                                                {{ $billboard_quotation->contact->name }}</label>
+                                            @if ($billboard_quotation->contact->gender == 'Laki-Laki')
+                                                <label id="contactBBPreview"
+                                                    class="ml-1 text-sm text-black flex font-semibold">UP. Bapak
+                                                    {{ $billboard_quotation->contact->name }}</label>
+                                            @elseif ($billboard_quotation->contact->gender == 'Perempuan')
+                                                <label id="contactBBPreview"
+                                                    class="ml-1 text-sm text-black flex font-semibold">UP. Ibu
+                                                    {{ $billboard_quotation->contact->name }}</label>
+                                            @endif
                                             <label class="ml-1 text-sm text-black flex">Di -</label>
                                             <label class="ml-6 text-sm text-black flex">Tempat</label>
                                         </div>
@@ -358,7 +364,7 @@
                                 </div>
                                 <div class="w-[400px]">
                                     <div>
-                                        {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/dashboard/marketing/billboard-quotations/' . $billboard_quotation->id) }}
+                                        {{ QrCode::size(100)->generate('https://www.vistamedia.co.id/dashboard/marketing/billboard-quotations/preview/' . $billboard_quotation->id) }}
                                     </div>
                                 </div>
                             </div>
@@ -394,7 +400,7 @@
                     $objLocations = json_decode($billboard_quotation->billboards);
                     ?>
                     @foreach ($objLocations->locations as $location)
-                        <div id="preview" name="preview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
+                        <div id="preview" name="preview" class="w-[780px] h-[1100px] bg-white mt-2">
                             <div class="flex w-full justify-center items-center">
                                 <img class="mt-3" src="/img/logo-vm.png" alt="">
                             </div>
@@ -411,7 +417,8 @@
                                     </span>
                                     <img class="h-10" src="/img/code-line.png" alt="">
                                     <span
-                                        class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $location->address }}</span>
+                                        class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $location->address }}
+                                        | {{ strtoupper($location->area) }}</span>
                                 </div>
                             </div>
                             <div class="flex w-full h-[465px] justify-center mt-[1px]">
@@ -433,10 +440,10 @@
                                             </div>
                                             <div class="flex relative w-[476px] h-[355px] mt-[1px] rounded-b-lg">
                                                 <div class="flex absolute w-[100px] mt-[250px] ml-1">
-                                                    {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $location->lat . ',' . $location->lng . '/@' . $location->lat . ',' . $location->lng . ',15z') }}
+                                                    {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $location->lat . ',' . $location->lng . '/@' . $location->lat . ',' . $location->lng . ',16z') }}
                                                 </div>
                                                 <?php
-                                                $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $location->lat . ',' . $location->lng . '&zoom=15&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $location->lat . ',' . $location->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                                                $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $location->lat . ',' . $location->lng . '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $location->lat . ',' . $location->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                                                 ?>
                                                 <img class="w-[476px] h-[355px] border rounded-b-xl" id="myImage"
                                                     name="myImage" src="{{ $src }}" alt="">
@@ -515,7 +522,7 @@
                                                         <span
                                                             class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                             <br><br><br><br><br>
-                                                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/preview/' . $location->id) }}
+                                                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/dashboard/media/billboards/preview/' . $location->id) }}
                                                         </span>
                                                         <span
                                                             class="flex w-[120px] text-xs font-mono font-thin text-teal-900">

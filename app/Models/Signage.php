@@ -7,7 +7,7 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Size;
 use App\Models\Led;
-use App\Models\Vendor;
+// use App\Models\Vendor;
 use App\Models\SignageCategory;
 use App\Models\Quotation;
 use Kyslik\ColumnSortable\Sortable;
@@ -69,9 +69,7 @@ class Signage extends Model
     public function led(){
         return $this->belongsTo(Led::class);
     }
-    public function vendor(){
-        return $this->belongsTo(Vendor::class);
-    }
+    
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -82,6 +80,10 @@ class Signage extends Model
 
     public function quotations(){
         return $this->hasMany(Quotation::class, 'signage_id', 'id');
+    }
+
+    public function signage_photos(){
+        return $this->hasMany(SignagePhoto::class, 'signage_id', 'id');
     }
 
     public $sortable = ['code',

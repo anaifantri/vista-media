@@ -140,7 +140,7 @@
                                 </div>
                                 <div class="mt-1">
                                     <div class="flex mt-1">
-                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Slot</label>
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Jumlah Slot</label>
                                     </div>
                                     <div class="mt-1">
                                         <input
@@ -148,6 +148,41 @@
                                             type="text" id="slots" name="slots" value="{{ old('slots') }}"
                                             placeholder="Slot" required>
                                         @error('slots')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-1">
+                                    @php
+                                        $numberDuration = 0;
+                                        $durations = ['15', '30', '60'];
+                                    @endphp
+                                    <div class="flex mt-1">
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Durasi Video
+                                            (Detik)</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <select id="duration" name="duration"
+                                            class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
+                                            font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                            @error('duration') is-invalid @enderror"
+                                            type="text" value="{{ old('duration') }}">
+                                            <option value="pilih">- pilih -</option>
+                                            @for ($numberDuration = 0; $numberDuration < count($durations); $numberDuration++)
+                                                @if (old('duration') == $durations[$numberDuration])
+                                                    <option value="{{ $durations[$numberDuration] }}" selected>
+                                                        {{ $durations[$numberDuration] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $durations[$numberDuration] }}">
+                                                        {{ $durations[$numberDuration] }}
+                                                    </option>
+                                                @endif
+                                            @endfor
+                                        </select>
+                                        @error('duration')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -162,17 +197,57 @@
                                             type="text" value="{{ old('size_id') }}">
                                             <option value="pilih">-- pilih --</option>
                                             @foreach ($sizes as $size)
-                                                @if (old('size_id') == $size->id)
-                                                    <option value="{{ $size->id }}" selected>
-                                                        {{ $size->size . ' - ' . $size->orientation }}
+                                                @if (
+                                                    $size->category == 'Billboard' ||
+                                                        $size->category == 'Bando' ||
+                                                        $size->category == 'Baliho' ||
+                                                        $size->category == 'Midiboard')
+                                                    @if (old('size_id') == $size->id)
+                                                        <option value="{{ $size->id }}" selected>
+                                                            {{ $size->size }}
+                                                        </option>
+                                                    @endif
+                                                    <option value="{{ $size->id }}">
+                                                        {{ $size->size }}
                                                     </option>
                                                 @endif
-                                                <option value="{{ $size->id }}">
-                                                    {{ $size->size . ' - ' . $size->orientation }}
-                                                </option>
                                             @endforeach
                                         </select>
                                         @error('size_id')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-1">
+                                    @php
+                                        $numberOrientation = 0;
+                                        $orientations = ['Vertikal', 'Horizontal'];
+                                    @endphp
+                                    <div class="flex mt-1">
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Orientasi</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <select id="orientation" name="orientation"
+                                            class="w-36 xl:w-48 2xl:w-56  text-sm xl:text-md 2xl:text-lg
+                                            font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                            @error('orientation') is-invalid @enderror"
+                                            type="text" value="{{ old('orientation') }}">
+                                            <option value="pilih">- pilih -</option>
+                                            @for ($numberOrientation = 0; $numberOrientation < count($orientations); $numberOrientation++)
+                                                @if (old('orientation') == $orientations[$numberOrientation])
+                                                    <option value="{{ $orientations[$numberOrientation] }}" selected>
+                                                        {{ $orientations[$numberOrientation] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $orientations[$numberOrientation] }}">
+                                                        {{ $orientations[$numberOrientation] }}
+                                                    </option>
+                                                @endif
+                                            @endfor
+                                        </select>
+                                        @error('orientation')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -206,7 +281,7 @@
                             </div>
                         </div>
                         <div class="mx-1 w-[172px] xl:w-[208px] xl:mx-4 2xl:w-[240px]">
-                            <div class="flex mt-1">
+                            {{-- <div class="flex mt-1">
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kepemilikan</label>
                                     <div class="flex">
@@ -273,6 +348,36 @@
                                         </div>
                                     @enderror
                                 </div>
+                            </div> --}}
+                            <div class="flex mt-1">
+                                @php
+                                    $numberBuild = 0;
+                                    $builds = ['Terbangun', 'Rencana'];
+                                @endphp
+                                <div class="mt-1">
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kondisi</label>
+                                    <select id="condition" name="condition"
+                                        class="flex w-40 xl:w-52 2xl:w-60 text-sm xl:text-md 2xl:text-lg font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('condition') is-invalid @enderror"
+                                        type="text" value="{{ old('condition') }}">
+                                        <option value="Ppilih">- pilih -</option>
+                                        @for ($numberBuild = 0; $numberBuild < count($builds); $numberBuild++)
+                                            @if (old('condition') == $builds[$numberBuild])
+                                                <option value="{{ $builds[$numberBuild] }}" selected>
+                                                    {{ $builds[$numberBuild] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $builds[$numberBuild] }}">
+                                                    {{ $builds[$numberBuild] }}
+                                                </option>
+                                            @endif
+                                        @endfor
+                                    </select>
+                                    @error('condition')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="flex mt-1">
                                 @php
@@ -307,7 +412,15 @@
                             <div class="flex mt-1">
                                 @php
                                     $numberDistance = 0;
-                                    $distances = ['> 50 meter', '> 100 meter', '> 150 meter', '> 200 meter', '> 250 meter', '> 300 meter', '> 500 meter'];
+                                    $distances = [
+                                        '> 50 meter',
+                                        '> 100 meter',
+                                        '> 150 meter',
+                                        '> 200 meter',
+                                        '> 250 meter',
+                                        '> 300 meter',
+                                        '> 500 meter',
+                                    ];
                                 @endphp
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Jarak Pandang</label>
@@ -337,7 +450,16 @@
                             <div class="flex mt-1">
                                 @php
                                     $numberSpeed = 0;
-                                    $speeds = ['0 - 10 km/jam', '0 - 20 km/jam', '10 - 20 km/jam', '10 - 40 km/jam', '20 - 40 km/jam', '20 - 60 km/jam', '40 - 60 km/jam', '40 - 80 km/jam'];
+                                    $speeds = [
+                                        '0 - 10 km/jam',
+                                        '0 - 20 km/jam',
+                                        '10 - 20 km/jam',
+                                        '10 - 40 km/jam',
+                                        '20 - 40 km/jam',
+                                        '20 - 60 km/jam',
+                                        '40 - 60 km/jam',
+                                        '40 - 80 km/jam',
+                                    ];
                                 @endphp
                                 <div class="mt-1">
                                     <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Kecepatan Kendaraan</label>
@@ -419,32 +541,81 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-2">
+                            @canany(['isAdmin', 'isMarketing'])
+                                <div class="mt-2">
+                                    <div class="flex mt-1">
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Harga</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <input
+                                            class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('exclusive_price') is-invalid @enderror"
+                                            type="number" id="price" name="price" value="{{ old('price') }}"
+                                            placeholder="input harga">
+                                        @error('price')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                {{-- <div class="mt-1">
+                                    <div class="flex mt-1">
+                                        <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Harga Sharing</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <input
+                                            class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('sharing_price') is-invalid @enderror"
+                                            type="number" id="sharing_price" name="sharing_price"
+                                            value="{{ old('sharing_price') }}" placeholder="Harga Sharing">
+                                        @error('sharing_price')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div> --}}
+                            @endcanany
+                            {{-- <div class="mt-1">
                                 <div class="flex mt-1">
-                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Harga Eksklusif</label>
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Durasi Video
+                                        (detik)</label>
                                 </div>
                                 <div class="mt-1">
                                     <input
-                                        class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('exclusive_price') is-invalid @enderror"
-                                        type="number" id="exclusive_price" name="exclusive_price"
-                                        value="{{ old('exclusive_price') }}" placeholder="Harga Eksklusif" required>
-                                    @error('exclusive_price')
+                                        class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-24 border rounded-lg p-1 outline-teal-300 @error('duration') is-invalid @enderror"
+                                        type="number" id="duration" name="duration" value="{{ old('duration') }}"
+                                        min="0" max="60" placeholder="0-60">
+                                    @error('duration')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div> --}}
+                            <div id="on" name="on" class="mt-1">
+                                <div class="flex mt-1">
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Waktu Nyala</label>
+                                </div>
+                                <div class="mt-1">
+                                    <input
+                                        class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-24 border rounded-lg p-1 outline-teal-300 @error('start_at') is-invalid @enderror"
+                                        type="time" id="start_at" name="start_at" value="{{ old('start_at') }}">
+                                    @error('start_at')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mt-1">
+                            <div id="off" name="off" class="mt-2">
                                 <div class="flex mt-1">
-                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Harga Sharing</label>
+                                    <label class="text-sm xl:text-md 2xl:text-lg text-teal-700">Waktu Off</label>
                                 </div>
                                 <div class="mt-1">
                                     <input
-                                        class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 xl:w-52 2xl:w-60 border rounded-lg p-1 outline-teal-300 @error('sharing_price') is-invalid @enderror"
-                                        type="number" id="sharing_price" name="sharing_price"
-                                        value="{{ old('sharing_price') }}" placeholder="Harga Sharing" required>
-                                    @error('sharing_price')
+                                        class="flex text-sm xl:text-md 2xl:text-lg font-semibold text-slate-500 w-24 border rounded-lg p-1 outline-teal-300 @error('end_at') is-invalid @enderror"
+                                        type="time" id="end_at" name="end_at" value="{{ old('end_at') }}">
+                                    @error('end_at')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

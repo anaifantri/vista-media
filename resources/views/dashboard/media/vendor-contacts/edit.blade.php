@@ -19,15 +19,15 @@
                         <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
                         <input type="hidden" name="oldPhoto" value="{{ $contact->photo }}">
                         @if ($contact->photo)
-                            <img class="m-auto photo-preview rounded-full flex items-center w-20 h-20"
+                            <img class="m-auto img-preview rounded-full flex items-center w-20 h-20"
                                 src="{{ asset('storage/' . $contact->photo) }}">
                         @else
-                            <img class="m-auto photo-preview rounded-full flex items-center w-20 h-20"
+                            <img class="m-auto img-preview rounded-full flex items-center w-20 h-20"
                                 src="/img/photo_profile.png">
                         @endif
                         <input
                             class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full mt-5 @error('avatar') is-invalid @enderror"
-                            type="file" id="photo" name="photo" onchange="previewPhoto()">
+                            type="file" id="photo" name="photo" onchange="previewImage()">
                         @error('photo')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -94,9 +94,9 @@
                             <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <path
-                                    d="M15.004 3h2.996v5h-2.996v-5zm8.996 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9zm-2 2h-14v1h14v-1zm0 2h-14v1h14v-1zm0 2h-14v1h14v-1z" />
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 20l-1.359-2.038c-1.061.653-2.305 1.038-3.641 1.038-3.859 0-7-3.14-7-7h2c0 2.757 2.243 5 5 5 .927 0 1.786-.264 2.527-.708l-1.527-2.292h5.719l-1.719 6zm0-8c0-2.757-2.243-5-5-5-.927 0-1.786.264-2.527.708l1.527 2.292h-5.719l1.719-6 1.359 2.038c1.061-.653 2.305-1.038 3.641-1.038 3.859 0 7 3.14 7 7h-2z" />
                             </svg>
-                            <span class="mx-2"> Save </span>
+                            <span class="mx-2"> Update </span>
                         </button>
                         <a href="/dashboard/media/vendors/{{ $contact->vendor_id }}"
                             class="flex items-center justify-center btn-danger mx-1" id="editCancel" name="editCancel">

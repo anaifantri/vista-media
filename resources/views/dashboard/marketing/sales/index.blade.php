@@ -52,7 +52,7 @@
                 </form>
             </div>
         </div>
-        <div class="flex justify-center p-2 w-full z-0">
+        <div class="flex justify-center px-2 pb-8 w-full z-0">
             <div class="w-[1200px] overflow-x-scroll">
                 <table class="table-auto w-max mb-6">
                     <thead>
@@ -122,17 +122,17 @@
                                         <div class="flex ml-1">
                                             <label class="w-8">Kode</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2">{{ $sale->billboard->code }}</label>
+                                            <label class="ml-2 w-32">{{ $sale->billboard->code }}</label>
                                         </div>
                                         <div class="flex ml-1">
                                             <label class="w-8">Lokasi</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2">{{ $sale->billboard->address }}</label>
+                                            <label class="ml-2 w-32">{{ $sale->billboard->address }}</label>
                                         </div>
                                         <div class="flex ml-1">
                                             <label class="w-8">Size</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2">{{ $sale->billboard->size->size }}</label>
+                                            <label class="ml-2 w-32">{{ $sale->billboard->size->size }}</label>
                                         </div>
                                     </div>
                                 </td>
@@ -141,17 +141,17 @@
                                         <div class="flex ml-1">
                                             <label class="w-14">Klien</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2">{{ $sale->client->name }}</label>
+                                            <label class="ml-2 w-36">{{ $sale->client->name }}</label>
                                         </div>
                                         <div class="flex ml-1">
                                             <label class="w-14">Perusahaan</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2">{{ $sale->client->company }}</label>
+                                            <label class="ml-2 w-36">{{ $sale->client->company }}</label>
                                         </div>
                                         <div class="flex ml-1">
                                             <label class="w-14">Kontak</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2">{{ $sale->contact->name }}</label>
+                                            <label class="ml-2 w-36">{{ $sale->contact->name }}</label>
                                         </div>
                                     </div>
                                 </td>
@@ -566,7 +566,7 @@
                                 <div class="relative m-auto w-[750px] h-max">
                                     <div id="prevApprovalButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
                                         <button
-                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer"
+                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
                                             type="button">
                                             <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
                                                 fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
@@ -578,7 +578,7 @@
                                     <div id="nextApprovalButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto"
                                         hidden>
                                         <button type="button"
-                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer">
+                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
                                             <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
                                                 fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
                                                 <path
@@ -712,7 +712,7 @@
                                 <div class="relative m-auto w-[750px] h-max">
                                     <div id="prevPOButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
                                         <button
-                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer"
+                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
                                             type="button">
                                             <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
                                                 fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
@@ -723,7 +723,7 @@
                                     </div>
                                     <div id="nextPOButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
                                         <button type="button"
-                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer">
+                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
                                             <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
                                                 fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
                                                 <path
@@ -850,7 +850,7 @@
                                     <div id="prevAgreementButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto"
                                         hidden>
                                         <button
-                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer"
+                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
                                             type="button">
                                             <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
                                                 fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
@@ -862,7 +862,7 @@
                                     <div id="nextAgreementButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto"
                                         hidden>
                                         <button type="button"
-                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer">
+                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
                                             <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
                                                 fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
                                                 <path

@@ -8,10 +8,12 @@ use App\Models\City;
 use App\Models\Size;
 use App\Models\Led;
 use App\Models\Vendor;
+use App\Models\VideotronPhoto;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class VideotronController extends Controller
 {
@@ -23,7 +25,7 @@ class VideotronController extends Controller
         return response()-> view ('dashboard.media.videotrons.index', [
             'videotrons'=>Videotron::filter(request('search'))->area()->city()->condition()->sortable()->paginate(10)->withQueryString(),
             'areas'=>Area::all(),
-            'title' => 'Daftar Videotron'
+            'title' => 'Daftar Lokasi Videotron'
         ]);
     }
 
@@ -31,6 +33,39 @@ class VideotronController extends Controller
         $dataVideotron = Videotron::All();
 
         return response()->json(['dataVideotron'=> $dataVideotron]);
+    }
+
+    public function preview(string $id): View
+    {
+        $videotrons = Videotron::with('area');
+        $areas = Area::with('videotrons')->get();
+        $cities = City::with('videotrons')->get();
+        $sizes = Size::with('videotrons')->get();
+        $leds = Led::with('videotrons')->get();
+
+        return view('dashboard.media.videotrons.preview', [
+            'videotron' => Videotron::findOrFail($id),
+            'title' => 'Detail Videotron',
+            'videotron_photos'=>VideotronPhoto::all(),
+            compact('videotrons', 'areas', 'cities', 'sizes', 'leds')
+        ]);
+    }
+
+    public function pdfPreview(string $id): View
+    {
+        
+        $videotrons = Videotron::with('area');
+        $areas = Area::with('videotrons')->get();
+        $cities = City::with('videotrons')->get();
+        $sizes = Size::with('videotrons')->get();
+        $leds = Led::with('videotrons')->get();
+
+        return view('dashboard.media.videotrons.pdf-preview', [
+            'videotron' => Videotron::findOrFail($id),
+            'title' => 'Detail Videotron',
+            'videotron_photos'=>VideotronPhoto::all(),
+            compact('videotrons', 'areas', 'cities', 'sizes', 'leds')
+        ]);
     }
     /**
      * Show the form for creating a new resource.
@@ -71,9 +106,12 @@ class VideotronController extends Controller
             if ($request->size_id == 'pilih'){
                 return back()->withErrors(['size_id' => ['Silahkan pilih ukuran']])->withInput();
             }
-            if ($request->owneship == 'pilih'){
-                return back()->withErrors(['ownership' => ['Silahkan pilih kepemilikan']])->withInput();
+            if ($request->orientation == 'pilih'){
+                return back()->withErrors(['orientation' => ['Silahkan pilih orientasi']])->withInput();
             }
+            // if ($request->owneship == 'pilih'){
+            //     return back()->withErrors(['ownership' => ['Silahkan pilih kepemilikan']])->withInput();
+            // }
             if ($request->condition == 'pilih'){
                 return back()->withErrors(['condition' => ['Silahkan pilih kondisi']])->withInput();
             }
@@ -100,21 +138,23 @@ class VideotronController extends Controller
                 'slots' => 'required',
                 'lat' => 'required',
                 'lng' => 'required',
-                'ownership' => 'required',
+                'orientation' => 'required',
                 'condition' => 'required',
+                'duration' => 'required',
+                'start_at' => 'required',
+                'end_at' => 'required',
                 'road_segment' => 'required',
                 'max_distance' => 'required',
                 'speed_average' => 'required',
-                'exclusive_price' => 'required',
-                'sharing_price' => 'required',
+                'price' => 'required',
                 'sector' => 'required|max:255',
                 'photo' => 'image|file|max:1024'
             ]);
-            if ($request->input('ownership') == 'Vista Media'){
-                $validateData['vendor_id'] = null;
-            } else {
-                $validateData['vendor_id'] = $request->input('vendor_id');
-            }
+            // if ($request->input('ownership') == 'Vista Media'){
+            //     $validateData['vendor_id'] = null;
+            // } else {
+            //     $validateData['vendor_id'] = $request->input('vendor_id');
+            // }
             
             $validateData['user_id'] = auth()->user()->id;
     
@@ -160,13 +200,28 @@ class VideotronController extends Controller
             // }
             //  dd($validateData['code']);
     
+            Videotron::create($validateData);
+
+            $dataVideotrons = Videotron::all();
+            $videotronId = 0;
+            foreach ($dataVideotrons as $videotron) {
+                if($videotron->code == $validateData['code']){
+                    $videotronId = $videotron->id;
+                }
+            }
+
             if($request->file('photo')){
                 $validateData['photo'] = $request->file('photo')->store('videotron-images');
             }
-    
-            Videotron::create($validateData);
+
+            $validateData['company_id'] = '1';
+            $validateData['videotron_code'] = $validateData['code'];
+            $validateData['videotron_id'] =  $videotronId;
+
+            VideotronPhoto::create($validateData);
             
-            return redirect('/dashboard/media/videotrons')->with('success','Videotron dengan kode '. $validateData['code'] . ' berhasil ditambahkan');
+            return redirect('/dashboard/media/videotrons/pdf-preview/'.$videotronId)->with('success','Videotron dengan kode '. $validateData['code'] . ' berhasil ditambahkan');
+            // return redirect('/dashboard/media/videotrons')->with('success','Videotron dengan kode '. $validateData['code'] . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -182,12 +237,12 @@ class VideotronController extends Controller
         $cities = City::with('videotrons')->get();
         $sizes = Size::with('videotrons')->get();
         $leds = Led::with('videotrons')->get();
-        $vendors = Vendor::with('videotrons')->get();
 
         return response()->view('dashboard.media.videotrons.show', [
             'videotron' => $videotron,
             'title' => 'Detail Videotron',
-            compact('videotrons', 'areas', 'cities', 'sizes', 'leds', 'vendors')
+            'videotron_photos'=>VideotronPhoto::all(),
+            compact('videotrons', 'areas', 'cities', 'sizes', 'leds')
         ]);
     }
 
@@ -211,6 +266,7 @@ class VideotronController extends Controller
                 'vendors'=>Vendor::WhereHas('vendor_category', function($query){
                     $query->where('name','OOH');
                 })->orderBy("name", "asc")->get(),
+                'videotron_photos'=>VideotronPhoto::all(),
                 'title' => 'Edit Detail Videotron',
                 compact('videotrons', 'areas', 'cities', 'sizes')
             ]);
@@ -238,15 +294,16 @@ class VideotronController extends Controller
                 'slots' => 'required',
                 'lat' => 'required',
                 'lng' => 'required',
-                'ownership' => 'required',
+                'orientation' => 'required',
                 'condition' => 'required',
+                'duration' => 'required',
+                'start_at' => 'required',
+                'end_at' => 'required',
                 'road_segment' => 'required',
                 'max_distance' => 'required',
                 'speed_average' => 'required',
-                'exclusive_price' => 'required',
-                'sharing_price' => 'required',
-                'sector' => 'required|max:255',
-                'photo' => 'image|file|max:1024'
+                'price' => 'required',
+                'sector' => 'required|max:255'
             ];
 
             if ($request->code == $videotron->code) {
@@ -254,16 +311,27 @@ class VideotronController extends Controller
             } else {
                 $rules['code'] = 'required|unique:videotrons';
             }
-
-            if ($request->input('ownership') == 'Vista Media'){
-                $validateData['vendor_id'] = null;
-            } else {
-                $validateData['vendor_id'] = $request->input('vendor_id');
-            }
             
             $validateData['user_id'] = auth()->user()->id;
 
             $validateData = $request->validate($rules);
+
+            Videotron::where('id', $videotron->id)
+                    ->update($validateData);
+            
+            $rules = [
+                'photo' => 'image|file|max:1024'
+            ];
+        
+            $validateData = $request->validate($rules);
+
+            $dataPhotos = VideotronPhoto::all();
+            $photoId = '';
+            foreach ($dataPhotos as $photo) {
+                if($photo->videotron_code == $request->input('code')){
+                    $photoId = $photo->id;
+                }
+            }
 
             if($request->file('photo')){
                 if($request->oldPhoto){
@@ -272,10 +340,23 @@ class VideotronController extends Controller
                 $validateData['photo'] = $request->file('photo')->store('videotron-images');
             }
 
-            Videotron::where('id', $videotron->id)
+            $dataVideotrons = Videotron::all();
+            $videotronId = '';
+            foreach ($dataVideotrons as $videotron) {
+                if($videotron->code == $request->input('code')){
+                    $videotronId = $videotron->id;
+                }
+            }
+            
+            $validateData['company_id'] = '1';
+            $validateData['videotron_code'] = $request->input('code');
+            $validateData['videotron_id'] =  $videotronId;
+
+            VideotronPhoto::where('id', $photoId)
                     ->update($validateData);
-    
-            return redirect('/dashboard/media/videotrons')->with('success','Lokasi Videotron Has Been Updated');
+                    
+            return redirect('/dashboard/media/videotrons/pdf-preview/'.$videotronId)->with('success','Lokasi videotron dengan kode '. $request->input('code') . ' berhasil di update');
+            // return redirect('/dashboard/media/videotrons')->with('success','Lokasi Videotron Has Been Updated');
 
         } else {
             abort(403);

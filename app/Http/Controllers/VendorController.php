@@ -9,6 +9,7 @@ use App\Models\VendorCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class VendorController extends Controller
 {
@@ -35,7 +36,7 @@ class VendorController extends Controller
     {
         return response()->view('dashboard.media.vendors.create', [
             'vendor_categories'=>VendorCategory::all(),
-            'title' => 'Tambah Klien'
+            'title' => 'Tambah Vendor'
         ]);
     }
 

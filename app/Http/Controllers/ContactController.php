@@ -38,7 +38,7 @@ class ContactController extends Controller
 
         $validateData = $request->validate([
             'name' => 'required|max:255',
-            'email' => 'required|email:dns|unique:contacts',
+            'email' => 'email:dns|unique:contacts',
             'phone' => 'required|min:10|max:15|unique:contacts',
             'gender' => 'required|max:255',
             'photo' => 'image|file|max:1024'

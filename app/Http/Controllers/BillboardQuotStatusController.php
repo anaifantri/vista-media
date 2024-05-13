@@ -60,25 +60,21 @@ class BillboardQuotStatusController extends Controller
         }
         
         $validateData['user_id'] = auth()->user()->id;
-
-        // dd($validateData['billboard_quotation_id']);
             
         BillboardQuotStatus::create($validateData);
 
         if($request->file('document_approval')){
-            $documentApproval = [];
             $images = $request->file('document_approval');
             foreach($images as $image){
-                $documentApproval[] = [
+                $documentApproval = [];
+                $documentApproval = [
                     'billboard_quotation_id' => $validateData['billboard_quotation_id'],
                     'billboard_quot_revision_id' => $validateData['billboard_quot_revision_id'],
                     'approval_image' => $image->store('approval-images')
                 ];
+                ClientApproval::create($documentApproval);
             }
-            // dd($documentApproval);
-            ClientApproval::insert($documentApproval);
         }
-        // dd($validateData);
 
         if($request->billboard_quot_revision_id != ""){
         return redirect('/dashboard/marketing/billboard-quot-revisions/'.$validateData['billboard_quot_revision_id'])->with('success','Progress revisi surat penawaran telah di update');

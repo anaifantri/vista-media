@@ -1,14 +1,14 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Show Videotron start -->
-    <!-- Title Show Videotron start -->
+    <!-- Show Signage start -->
+    <!-- Title Show Signage start -->
     <div class="flex justify-center mt-8 overflow-y-scroll">
         <div>
             <div class="flex border-b p-2">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider">DETAIL VIDEOTRON</h1>
+                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider">DETAIL SIGNAGE</h1>
             </div>
-            <!-- Title Show Videotron end -->
+            <!-- Title Show Signage end -->
             <div class="lg:flex">
                 <div class="flex">
                     <div class="flex justify-center w-full">
@@ -19,19 +19,19 @@
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kode
                                             Lokasi</label>
-                                        <input id="code" name="code" type="text" value="{{ $videotron->code }}"
+                                        <input id="code" name="code" type="text" value="{{ $signage->code }}"
                                             hidden>
                                         <input id="city" name="city" type="text"
-                                            value="{{ $videotron->city->code }}" hidden>
-                                        <input id="address" name="address" type="text"
-                                            value="{{ $videotron->address }}" hidden>
-                                        <input id="id" name="id" type="text" value="{{ $videotron->id }}"
+                                            value="{{ $signage->city->city }}" hidden>
+                                        <input id="address" name="address" type="text" value="{{ $signage->address }}"
+                                            hidden>
+                                        <input id="id" name="id" type="text" value="{{ $signage->id }}"
                                             hidden>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->code }} - {{ $videotron->city->code }}</label>
+                                            {{ $signage->code }} - {{ $signage->city->code }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -42,10 +42,10 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->area->area }}</label>
+                                            {{ $signage->area->area }}</label>
                                     </div>
                                 </div>
-                                <div class="lex mx-1 lg:mx-5 w-full">
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kota</label>
@@ -53,7 +53,9 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->city->city }}</label>
+                                            {{ $signage->city->city }}</label>
+                                        <input id="city" name="city" type="text"
+                                            value="{{ $signage->city->city }}" hidden>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -64,45 +66,65 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <textarea
                                             class="flex h-max text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 w-52 lg:w-60 2xl:w-72 ml-2"
-                                            readonly>{{ $videotron->address }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                                    <div class="flex items-center">
-                                        <label
-                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Latitude</label>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                        <input id="lat" name="lat" type="text" value="{{ $videotron->lat }}"
+                                            readonly>{{ $signage->address }}</textarea>
+                                        <input id="address" name="address" type="text" value="{{ $signage->address }}"
                                             hidden>
-                                        <label
-                                            class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->lat }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Longitude</label>
-                                        <input id="lng" name="lng" type="text" value="{{ $videotron->lng }}"
-                                            hidden>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Jumlah
+                                            Lokasi</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->lng }}</label>
+                                            {{ $signage->qty }}</label>
+                                    </div>
+                                </div>
+                                <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
+                                    <?php
+                                    $objLocations = json_decode($signage->locations);
+                                    ?>
+                                    <div class="items-center">
+                                        <div class="flex">
+                                            <label
+                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">
+                                                Latitude
+                                                & Longitude</label>
+                                            <input name="locations" id="locations" type="text"
+                                                value="{{ $signage->locations }}" hidden>
+                                            <label
+                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">
+                                                :</label>
+                                            <div>
+                                                @foreach ($objLocations->signageLocations as $locations)
+                                                    <div
+                                                        class="text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
+                                                        <?php
+                                                        // $numLat = $locations->lat;
+                                                        $lat = bcadd($locations->lat, '0', 7);
+                                                        $lng = bcadd($locations->lng, '0', 7);
+                                                        ?>
+                                                        {{ $locations->number }}. {{ $lat }},
+                                                        {{ $lng }}
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                     <div class="flex items-center">
                                         <label
-                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Type
-                                            LED</label>
+                                            class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Type</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->led->name }}</label>
+                                            {{ $signage->signage_category->name }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -113,7 +135,8 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->size->size }} - {{ $videotron->size->orientation }} </label>
+                                            {{ $signage->size->size }} x {{ $signage->side }} sisi -
+                                            {{ $signage->orientation }} </label>
                                     </div>
                                 </div>
                                 @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
@@ -125,7 +148,7 @@
                                                 class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                             <label
                                                 class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                                {{ $videotron->condition }}</label>
+                                                {{ $signage->condition }}</label>
                                         </div>
                                     </div>
                                 @endcanany
@@ -138,7 +161,7 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->road_segment }}</label>
+                                            {{ $signage->road_segment }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -150,7 +173,7 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->max_distance }}</label>
+                                            {{ $signage->max_distance }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -161,7 +184,7 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $videotron->speed_average }}</label>
+                                            {{ $signage->speed_average }}</label>
                                     </div>
                                 </div>
                                 <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -171,7 +194,7 @@
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <?php
-                                        $data = $videotron->sector;
+                                        $data = $signage->sector;
                                         $sectors = explode('-', $data);
                                         ?>
                                         <div class="w-48 lg:w-56 2xl:w-64 ml-2">
@@ -197,42 +220,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                            <div class="flex items-center">
-                                <label
-                                    class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Durasi
-                                    Video</label>
-                                <label
-                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                <label
-                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">{{ $videotron->duration }}
-                                    detik</label>
-                            </div>
-                        </div>
-                        <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                            <div class="flex items-center">
-                                <label
-                                    class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Waktu
-                                    Nyala</label>
-                                <label
-                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                <label
-                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                    {{ $videotron->start_at }} - WITA</label>
-                            </div>
-                        </div>
-                        <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                            <div class="flex items-center">
-                                <label
-                                    class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Waktu
-                                    Off</label>
-                                <label
-                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                <label
-                                    class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                    {{ $videotron->end_at }} - WITA</label>
-                            </div>
-                        </div>
                         @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
                             <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                 <div class="flex items-center">
@@ -243,7 +230,7 @@
                                         class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                     <label
                                         class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                        {{ date('d-M-Y', strtotime($videotron->created_at)) }}</label>
+                                        {{ date('d-M-Y', strtotime($signage->created_at)) }}</label>
                                 </div>
                             </div>
                             <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
@@ -255,12 +242,12 @@
                                         class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                     <label
                                         class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                        {{ date('d-M-Y', strtotime($videotron->updated_at)) }}</label>
+                                        {{ date('d-M-Y', strtotime($signage->updated_at)) }}</label>
                                 </div>
                             </div>
                             <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
                                 <div class="flex items-center">
-                                    @if ($videotron->created_at != $videotron->updated_at)
+                                    @if ($signage->created_at != $signage->updated_at)
                                         <label
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Diupdate
                                             Oleh</label>
@@ -273,14 +260,13 @@
                                         class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                     <label
                                         class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                        {{ $videotron->user->name }}</label>
+                                        {{ $signage->user->name }}</label>
                                 </div>
                             </div>
                         @endcanany
                         <div class="flex mx-1 lg:mx-5 mt-2 mb-2">
                             @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia'])
-                                <a class="flex justify-center items-center mx-2 btn-primary"
-                                    href="/dashboard/media/videotrons">
+                                <a class="flex justify-center items-center mx-2 btn-primary" href="/dashboard/media/signages">
                                     <svg class="fill-current w-4 lg:w-5" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24">
                                         <path
@@ -290,7 +276,7 @@
                                 </a>
                             @endcanany
                             @canany(['isAdmin', 'isMarketing', 'isMedia'])
-                                <a href="/dashboard/media/videotrons/{{ $videotron->id }}/edit"
+                                <a href="/dashboard/media/signages/{{ $signage->id }}/edit"
                                     class="flex justify-center items-center mx-1 btn-warning">
                                     <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -301,12 +287,12 @@
                                     </svg>
                                     <span class="mx-1 text-sm lg:text-md lg:mx-2">Edit</span>
                                 </a>
-                                <form action="/dashboard/media/videotrons/{{ $videotron->id }}" method="post"
+                                <form action="/dashboard/media/signages/{{ $signage->id }}" method="post"
                                     class="d-inline">
                                     @method('delete')
                                     @csrf
                                     <button class="flex items-center justify-center btn-danger mx-1"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus billboard dengan kode {{ $videotron->code }} ?')">
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus signage dengan kode {{ $signage->code }} ?')">
                                         <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -328,42 +314,40 @@
                                 <span class="mx-1 text-sm lg:text-md lg:mx-2">Preview</span>
                             </button>
                         </div>
-                        <!-- Show Videotron end -->
+                        <!-- Show Signage end -->
                     </div>
                 </div>
             </div>
             <div>
-                <!-- Photo Videotron start -->
+                <!-- Photo signage start -->
                 <div>
                     <div>
                         <span class="mt-2 border-b flex justify-center text-base text-cyan-800 font-semibold">Photo
                             Lokasi</span>
-                        @foreach ($videotron_photos as $photo)
-                            @if ($photo->videotron_id == $videotron->id && $photo->company_id == '1')
-                                <img class="img-preview m-photo-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl"
-                                    src="{{ asset('storage/' . $photo->photo) }}" alt="">
+                        @foreach ($signage_photos as $photo)
+                            @if ($photo->signage_id == $signage->id && $photo->company_id == '1')
+                                <img class="w-[670px] h-[435px] rounded-xl" src="{{ asset('storage/' . $photo->photo) }}"
+                                    alt="">
                             @endif
                         @endforeach
-                        {{-- <img class="img-preview m-photo-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl"
-                            src="{{ asset('storage/' . $videotron->photo) }}" alt=""> --}}
                     </div>
-                    <!-- Photo Videotron end -->
+                    <!-- Photo signage end -->
                 </div>
                 <div>
-                    <!-- Maps Videotron start -->
+                    <!-- Maps signage start -->
                     <span class="mt-2 border-b flex justify-center text-base text-cyan-800 font-semibold">Peta
                         Lokasi</span>
                     <div class="m-map-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl mt-2 mb-10"
                         id="map">
                     </div>
-                    <!-- Maps Videotron end -->
+                    <!-- Maps signage end -->
                 </div>
             </div>
         </div>
     </div>
     </div>
-    <!-- Show Videotron end -->
-    <!-- Preview Videotron start -->
+    <!-- Show Signage end -->
+    <!-- Preview signage start -->
     <div id="modal" name="modal"
         class="absolute justify-center top-0 w-full h-[1500px] bg-black bg-opacity-90 z-50 hidden">
         <div class="overflow-x-scroll">
@@ -373,12 +357,44 @@
                         class="flex justify-center items-center mx-1 btn-danger">Save as
                         PDF</button>
                     <?php
-                    $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $videotron->lat . ',' . $videotron->lng . '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $videotron->lat . ',' . $videotron->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
-                    // $destFolder = 'img/map/';
-                    // $fromFolder = '/img/map/';
-                    // $mapImgName = 'google-map' . $videotron->code . '.PNG';
-                    // $imagePath = $destFolder . $mapImgName;
-                    // file_put_contents($imagePath, file_get_contents($src));
+                    $objLocations = json_decode($signage->locations);
+                    $locationQty = count($objLocations->signageLocations);
+                    if ($locationQty == 1) {
+                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                    } elseif ($locationQty == 2) {
+                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                    } elseif ($locationQty == 3) {
+                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[2]->lat . ',' . $objLocations->signageLocations[2]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                    } elseif ($locationQty == 4) {
+                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[2]->lat . ',' . $objLocations->signageLocations[2]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[3]->lat . ',' . $objLocations->signageLocations[3]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                    } elseif ($locationQty == 5) {
+                        $src =
+                            'https://maps.googleapis.com/maps/api/staticmap?center=' .
+                            $objLocations->signageLocations[2]->lat .
+                            ',' .
+                            $objLocations->signageLocations[2]->lng .
+                            '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                            $objLocations->signageLocations[0]->lat .
+                            ',' .
+                            $objLocations->signageLocations[0]->lng .
+                            '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                            $objLocations->signageLocations[1]->lat .
+                            ',' .
+                            $objLocations->signageLocations[1]->lng .
+                            '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                            $objLocations->signageLocations[2]->lat .
+                            ',' .
+                            $objLocations->signageLocations[2]->lng .
+                            '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                            $objLocations->signageLocations[3]->lat .
+                            ',' .
+                            $objLocations->signageLocations[3]->lng .
+                            '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                            $objLocations->signageLocations[4]->lat .
+                            ',' .
+                            $objLocations->signageLocations[4]->lng .
+                            '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                    }
                     ?>
                     <button id="btn-close" name="btn-close" class="flex absolute justify-center items-center ml-[750px]"
                         title="Close">
@@ -400,20 +416,19 @@
                 <div class="flex w-full h-[44px] justify-center items-center mt-1">
                     <div class="flex w-[700px] h-[44px] justify-start items-center bg-slate-50 border rounded-t-xl">
                         <span
-                            class="flex justify-end items-center w-20 h-[36px] text-lg text-red-700 font-bold">{{ $videotron->code }}</span>
+                            class="flex justify-end items-center w-20 h-[36px] text-lg text-red-700 font-bold">{{ $signage->code }}</span>
                         <span class="flex justify-start items-center w-24 h-[36px] text-lg font-bold ml-1"> -
-                            {{ $videotron->city->code }}</span>
+                            {{ $signage->city->code }}</span>
                         <img class="h-10" src="/img/code-line.png" alt="">
-                        <span
-                            class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $videotron->address }}
-                            | {{ strtoupper($videotron->area->area) }}</span>
+                        <span class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $signage->address }}
+                            | {{ strtoupper($signage->area->area) }}</span>
                     </div>
                 </div>
                 <div class="flex w-full h-[465px] justify-center mt-[1px]">
                     <div class="flex w-[700px] h-[465px] justify-center items-center bg-slate-50 border rounded-b-xl">
-                        @foreach ($videotron_photos as $photo)
-                            @if ($photo->videotron_id == $videotron->id && $photo->company_id == '1')
-                                <img class="m-auto w-[670px] h-[435px]" src="{{ asset('storage/' . $photo->photo) }}"
+                        @foreach ($signage_photos as $photo)
+                            @if ($photo->signage_id == $signage->id && $photo->company_id == '1')
+                                <img class="w-[670px] h-[435px]" src="{{ asset('storage/' . $photo->photo) }}"
                                     alt="">
                             @endif
                         @endforeach
@@ -423,19 +438,15 @@
                     <div class="flex w-[700px] h-[385px] bg-white">
                         <div class="flex w-[476px] h-[385px] bg-white justify-center">
                             <div class="">
-                                <input id="lat" name="lat" type="text" value="{{ $videotron->lat }}"
-                                    hidden>
-                                <input id="lng" name="lng" type="text" value="{{ $videotron->lng }}"
-                                    hidden>
                                 <div
                                     class="flex w-[476px] h-7 bg-slate-50 items-center border justify-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
                                     Google Maps
                                     Koordinat :
-                                    {{ number_format($videotron->lat, 7) . ', ' . number_format($videotron->lng, 7) }}
+                                    {{ number_format($objLocations->signageLocations[0]->lat, 7) . ', ' . number_format($objLocations->signageLocations[0]->lng, 7) }}
                                 </div>
                                 <div class="flex relative w-[476px] h-[355px] mt-[1px] rounded-b-lg">
                                     <div class="flex absolute w-[100px] mt-[250px] ml-1">
-                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $videotron->lat . ',' . $videotron->lng . '/@' . $videotron->lat . ',' . $videotron->lng . ',16z') }}
+                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '/@' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . ',17z') }}
                                     </div>
                                     <img class="w-[476px] h-[355px] border rounded-b-xl" id="myImage" name="myImage"
                                         src="{{ $src }}" alt="">
@@ -447,68 +458,85 @@
                             <div class="">
                                 <div
                                     class="flex p-1 items-center justify-center w-[220px] h-7 bg-slate-50 border rounded-t-lg text-sm font-bold font-mono text-teal-900">
-                                    Deskripsi Videotron
+                                    Deskripsi signage
                                 </div>
-                                <div class="w-[220px] h-[92px] bg-slate-50 mt-[1px] rounded-b-lg border">
+                                <div class="w-[220px] h-[106px] bg-slate-50 mt-[1px] rounded-b-lg border">
                                     <div class="flex mt-1">
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Jenis</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            Videotron</span>
+                                            Signage </span>
                                     </div>
                                     <div class="flex mt-1">
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Ukuran</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $videotron->size->size }}</span>
+                                            {{ $signage->size->size }} x {{ $signage->side }} sisi </span>
+                                    </div>
+                                    <div class="flex mt-1">
+                                        <span
+                                            class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Jumlah</span>
+                                        <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
+                                            {{ $signage->qty }}</span>
                                     </div>
                                     <div class="flex mt-1">
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Orientasi</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $videotron->orientation }}</span>
+                                            {{ $signage->orientation }}</span>
                                     </div>
-                                    <div class="flex mt-1">
-                                        <span
-                                            class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Type
-                                            LED</span>
-                                        <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $videotron->led->name }} </span>
-                                    </div>
+                                    @if ($signage->signage_category->name == 'Neon Box' || $signage->signage_category->name == 'Papan')
+                                        <div class="flex mt-1">
+                                            <span
+                                                class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Type</span>
+                                            <span
+                                                class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
+                                                {{ $signage->signage_category->name }} </span>
+                                        </div>
+                                    @else
+                                        <div class="flex mt-1">
+                                            <span
+                                                class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Type</span>
+                                            <span
+                                                class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
+                                                {{ $signage->signage_category->name }}, {{ $signage->led->pixel_pitch }}
+                                            </span>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div
                                     class="flex w-[220px] h-7 p-1 bg-slate-50 mt-[1px] border justify-center items-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
                                     Informasi Area
                                 </div>
-                                <div class="flex w-[220px] h-[234px] border bg-slate-50 mt-[1px] rounded-b-lg">
+                                <div class="flex w-[220px] h-[220px] border bg-slate-50 mt-[1px] rounded-b-lg">
                                     <div>
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono text-teal-900 ml-2">Type Jalan</span>
                                             <span class="w-[120px] text-xs font-mono text-teal-900">:
-                                                {{ $videotron->road_segment }} </span>
+                                                {{ $signage->road_segment }} </span>
                                         </div>
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono text-teal-900 ml-2">Jarak
                                                 Pandang</span>
                                             <span class="w-[120px] text-xs font-mono text-teal-900">:
-                                                {{ $videotron->max_distance }} </span>
+                                                {{ $signage->max_distance }} </span>
                                         </div>
                                         <div class="flex">
                                             <span
                                                 class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kecepatan
                                                 Kend.</span>
                                             <span class="w-[120px] text-xs font-mono font-thin text-teal-900">:
-                                                {{ $videotron->speed_average }} </span>
+                                                {{ $signage->speed_average }} </span>
                                         </div>
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
-                                                <br><br><br><br><br>
-                                                {{ QrCode::size(100)->generate('http://vistamedia.co.id/dashboard/media/videotrons/preview/' . $videotron->id) }}
+                                                <br><br><br><br>
+                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/dashboard/media/siganges/preview/' . $signage->id) }}
                                             </span>
                                             <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
                                                 <div>:</div>
                                                 <?php
-                                                $data = $videotron->sector;
+                                                $data = $signage->sector;
                                                 $sectors = explode('-', $data);
                                                 ?>
                                                 <div>
@@ -548,8 +576,9 @@
             <div class="h-10"></div>
         </div>
     </div>
-    <!-- Preview Billboard end -->
-    <!-- Script Billboard start -->
+    </div>
+    <!-- Preview signage end -->
+    <!-- Script signage start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
         defer></script>
 
@@ -557,40 +586,80 @@
     <script src="/js/html2pdf.bundle.min.js"></script>
 
     <script>
-        // Google Maps --> start
+        // Google Maps-- > start
         let map;
-        const latitude = document.getElementById("lat");
-        const longitude = document.getElementById("lng");
-        const id = document.getElementById("id");
+        let markers = [];
+        const locations = document.getElementById("locations");
         const code = document.getElementById("code");
+        const id = document.getElementById("id");
         const city = document.getElementById("city");
         const address = document.getElementById("address");
+        const zoomMaps = 17;
+
+        let dataObject = {};
+        let objLocations = [];
+
+        // console.log(locations.value);
+        dataObject = JSON.parse(locations.value)
+        objLocations = dataObject.signageLocations;
+
         let myLatLng = {
-            lat: Number(latitude.value),
-            lng: Number(longitude.value)
+            lat: Number(objLocations[0].lat),
+            lng: Number(objLocations[0].lng)
+        };
+
+        let posisi = {
+            lat: Number(objLocations[0].lat),
+            lng: Number(objLocations[0].lng)
         };
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 16,
+                zoom: zoomMaps,
                 center: myLatLng,
             });
+            for (i = 0; i < objLocations.length; i++) {
+                posisi = {
+                    lat: Number(objLocations[i].lat),
+                    lng: Number(objLocations[i].lng)
+                };
+                // console.log(objLocations.lat);
+                addMarker(posisi, title = "Nomor : " + objLocations[i].number, icon = "/img/marker-red.png");
+            }
+        }
 
+        // console.log(objLocations);
+        // console.log(objLocations[0].lat);
+
+
+        // Adds a marker to the map and push to the array.
+        function addMarker(position, title, icon, id) {
             const marker = new google.maps.Marker({
-                position: myLatLng,
+                position,
                 map,
-                title: code.value,
-                icon: "/img/marker-red.png",
+                title,
+                icon,
+                id,
+                optimized: false,
             });
+            markers.push(marker);
+        }
 
-            marker.addListener("click", () => {
-                window.location.replace("http://vistamedia.co.id/dashboard/media/videotrons/" + id.value);
-            });
+        // Sets the map on all markers in the array.
+        function setMapOnAll(map) {
+            for (let i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkers() {
+            setMapOnAll(null);
+            markers = [];
         }
         // Google Maps --> end
 
-        // Preview Billboard Script start -->
-
+        // Preview signage Script start -->
         document.getElementById("btn-pdf").onclick = function() {
             var element = document.getElementById('pdfPreview');
             var opt = {
@@ -635,36 +704,7 @@
             modal.classList.add('hidden');
         });
 
-        // Preview Billboard Script end -->
-
-        //View Client --> start
-        // const status = document.getElementById("status");
-        // const periode = document.getElementById("periode");
-        // const divKlien = document.getElementById("divKlien");
-        // const harga = document.getElementById("harga");
-        // const contractRemaining = document.getElementById("contractRemaining");
-
-        // if (status.value == 'Sold') {
-        //     periode.classList.remove('hidden');
-        //     divKlien.classList.remove('hidden');
-        //     harga.classList.remove('hidden');
-        //     contractRemaining.classList.remove('hidden');
-        //     periode.classList.add('flex');
-        //     divKlien.classList.add('flex');
-        //     harga.classList.add('flex');
-        //     contractRemaining.classList.add('flex');
-        // } else {
-        //     periode.classList.add('hidden');
-        //     divKlien.classList.add('hidden');
-        //     harga.classList.add('hidden');
-        //     contractRemaining.classList.add('hidden');
-        //     periode.classList.remove('flex');
-        //     divKlien.classList.remove('flex');
-        //     harga.classList.remove('flex');
-        //     contractRemaining.classList.remove('flex');
-        // }
-
-        //View Client --> start
+        // Preview signage Script end -->
     </script>
-    <!-- Script Billboard end -->
+    <!-- Script signage end -->
 @endsection

@@ -23,8 +23,10 @@ return new class extends Migration
             $table->string('address');
             $table->integer('qty');
             $table->json('locations');
-            $table->integer('slots');
-            $table->integer('duration');
+            $table->string('orientation');
+            $table->string('side');
+            $table->integer('slots')->nullable();
+            $table->integer('duration')->nullable();
             $table->time('start_at', $precision = 0)->nullable();
             $table->time('end_at', $precision = 0)->nullable();
             $table->string('condition');

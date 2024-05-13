@@ -19,4 +19,8 @@ class BillboardPhoto extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function billboard(){
+        return $this->belongsTo(Billboard::class);
+    }
+
 }

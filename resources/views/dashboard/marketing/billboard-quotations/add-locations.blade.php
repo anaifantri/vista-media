@@ -11,7 +11,7 @@
                 </svg>
             </button>
         </div>
-        <div class="w-[750px] h-[530px] bg-white mt-2">
+        <div class="w-[900px] h-max bg-white mt-2 py-4">
             <div class="flex justify-center items-center border-b py-1">
                 <h1 class="text-xl text-cyan-800 font-bold tracking-wider">DAFTAR LOKASI</h1>
             </div>
@@ -28,20 +28,20 @@
                         </svg>
                     </button>
                 </div>
-                <div class="flex justify-end w-full mr-2">
+                <div class="flex justify-end w-full mr-7">
                     <button type="button" id="getSelected" class="index-link btn-primary">
                         <span class="mx-1">Submit</span>
                     </button>
                 </div>
             </div>
-            <div class="justify-center ml-2 h-[500px]">
-                <div class="mt-2 h-96 bg-slate-50 overflow-y-scroll">
+            <div class="flex justify-center h-[400px]">
+                <div class="mt-2 h-[380px] bg-slate-50 overflow-y-scroll mx-7">
                     <table id="locationsTable" class="table-auto mt-2">
                         <thead>
                             <tr>
                                 <th class="text-sm text-teal-700 border w-8" rowspan="2">No</th>
                                 <th class="text-sm text-teal-700 border w-20" rowspan="2">Kode</th>
-                                <th class="text-sm text-teal-700 border w-64" rowspan="2">Lokasi</th>
+                                <th class="text-sm text-teal-700 border w-[330px]" rowspan="2">Lokasi</th>
                                 <th class="text-sm text-teal-700 border w-52" colspan="3">Deskripsi</th>
                                 <th class="text-sm text-teal-700 border w-28" rowspan="2">harga</th>
                                 <th class="text-sm text-teal-700 border w-10" rowspan="2"></th>
@@ -49,7 +49,7 @@
                             <tr>
                                 <th id="tHead4" class="text-sm text-teal-700 border w-10"></th>
                                 <th id="tHead5" class="text-sm text-teal-700 border w-10"></th>
-                                <th class="text-sm text-teal-700 border w-32">Size-Side-V/H</th>
+                                <th class="text-sm text-teal-700 border w-32">Size-V/H</th>
                             </tr>
                         </thead>
                         <tbody id="locationTBody">
@@ -57,9 +57,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div>
-                    <label class="text-sm text-teal-900">* Silahkan pilih maksimal 5 lokasi</label>
-                </div>
+            </div>
+            <div>
+                <label class="ml-7 text-sm text-teal-900">* Silahkan pilih maksimal 5 lokasi</label>
             </div>
         </div>
     </div>

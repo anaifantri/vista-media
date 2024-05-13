@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Videotron;
 use App\Models\Led;
 use App\Models\Product;
 use App\Models\VendorContact;
@@ -35,16 +34,6 @@ class Vendor extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
-    }
-
-    public function products(){
-        return $this->hasMany(Product::class, 'vendor_id', 'id');
-    }
-    public function videotrons(){
-        return $this->hasMany(Videotron::class, 'vendor_id', 'id');
-    }
-    public function signages(){
-        return $this->hasMany(Signage::class, 'vendor_id', 'id');
     }
 
     public function vendor_contacts(){

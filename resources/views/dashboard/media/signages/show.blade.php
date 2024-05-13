@@ -6,7 +6,7 @@
     <div class="flex justify-center mt-8 overflow-y-scroll">
         <div>
             <div class="flex border-b p-2">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider">DETAIL SIGNAGE-</h1>
+                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider">DETAIL SIGNAGE</h1>
             </div>
             <!-- Title Show Signage end -->
             <div class="lg:flex">
@@ -20,6 +20,10 @@
                                             class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kode
                                             Lokasi</label>
                                         <input id="code" name="code" type="text" value="{{ $signage->code }}"
+                                            hidden>
+                                        <input id="city" name="city" type="text"
+                                            value="{{ $signage->city->city }}" hidden>
+                                        <input id="address" name="address" type="text" value="{{ $signage->address }}"
                                             hidden>
                                         <input id="id" name="id" type="text" value="{{ $signage->id }}"
                                             hidden>
@@ -131,22 +135,11 @@
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
                                         <label
                                             class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                            {{ $signage->size->size }} x {{ $signage->size->side }} sisi -
-                                            {{ $signage->size->orientation }} </label>
+                                            {{ $signage->size->size }} x {{ $signage->side }} sisi -
+                                            {{ $signage->orientation }} </label>
                                     </div>
                                 </div>
                                 @canany(['isAdmin', 'isMarketing', 'isAccounting', 'isOwner', 'isMedia', 'Workshop'])
-                                    <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b">
-                                        <div class="flex items-center">
-                                            <label
-                                                class="flex text-xs md:text-sm lg:text-md 2xl:text-lg text-teal-700 w-20 md:w-[88px] lg:w-32 2xl:w-40">Kepemilikan</label>
-                                            <label
-                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-5 md:ml-10">:</label>
-                                            <label
-                                                class="flex text-sm md:text-sm lg:text-md 2xl:text-lg font-semibold text-slate-500 ml-2">
-                                                {{ $signage->ownership }}</label>
-                                        </div>
-                                    </div>
                                     <div class="flex mx-1 lg:mx-5 lg:w-[400px] 2xl:w-[500px] border-b ">
                                         <div class="flex items-center">
                                             <label
@@ -331,8 +324,12 @@
                     <div>
                         <span class="mt-2 border-b flex justify-center text-base text-cyan-800 font-semibold">Photo
                             Lokasi</span>
-                        <img class="img-preview m-photo-product sm:w-[495px] sm:h-[330px] lg:w-[550px] lg:h-[367px] 2xl:w-[640px] 2xl:h-[427px] rounded-xl"
-                            src="{{ asset('storage/' . $signage->photo) }}" alt="">
+                        @foreach ($signage_photos as $photo)
+                            @if ($photo->signage_id == $signage->id && $photo->company_id == '1')
+                                <img class="w-[670px] h-[435px] rounded-xl" src="{{ asset('storage/' . $photo->photo) }}"
+                                    alt="">
+                            @endif
+                        @endforeach
                     </div>
                     <!-- Photo signage end -->
                 </div>
@@ -356,9 +353,6 @@
         <div class="overflow-x-scroll">
             <div class="w-[800px] h-8 mt-2 ml-2">
                 <div class="flex relative items-center">
-                    <button title="Export to PNG" id="btn-png" name="btn-png"
-                        class="flex justify-center items-center mx-1 btn-warning">Save as
-                        PNG</button>
                     <button title="Export to PDF" id="btn-pdf" name="btn-pdf"
                         class="flex justify-center items-center mx-1 btn-danger">Save as
                         PDF</button>
@@ -366,20 +360,20 @@
                     $objLocations = json_decode($signage->locations);
                     $locationQty = count($objLocations->signageLocations);
                     if ($locationQty == 1) {
-                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&zoom=18&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                     } elseif ($locationQty == 2) {
-                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&zoom=18&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                     } elseif ($locationQty == 3) {
-                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&zoom=18&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[2]->lat . ',' . $objLocations->signageLocations[2]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[2]->lat . ',' . $objLocations->signageLocations[2]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                     } elseif ($locationQty == 4) {
-                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&zoom=18&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[2]->lat . ',' . $objLocations->signageLocations[2]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[3]->lat . ',' . $objLocations->signageLocations[3]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                        $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[1]->lat . ',' . $objLocations->signageLocations[1]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[2]->lat . ',' . $objLocations->signageLocations[2]->lng . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[3]->lat . ',' . $objLocations->signageLocations[3]->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                     } elseif ($locationQty == 5) {
                         $src =
                             'https://maps.googleapis.com/maps/api/staticmap?center=' .
-                            $objLocations->signageLocations[0]->lat .
+                            $objLocations->signageLocations[2]->lat .
                             ',' .
-                            $objLocations->signageLocations[0]->lng .
-                            '&zoom=18&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                            $objLocations->signageLocations[2]->lng .
+                            '&zoom=17&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
                             $objLocations->signageLocations[0]->lat .
                             ',' .
                             $objLocations->signageLocations[0]->lng .
@@ -401,12 +395,6 @@
                             $objLocations->signageLocations[4]->lng .
                             '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                     }
-                    
-                    $destFolder = 'img/map/';
-                    $fromFolder = '/img/map/';
-                    $mapImgName = 'google-map-' . $signage->code . '.PNG';
-                    $imagePath = $destFolder . $mapImgName;
-                    file_put_contents($imagePath, file_get_contents($src));
                     ?>
                     <button id="btn-close" name="btn-close" class="flex absolute justify-center items-center ml-[750px]"
                         title="Close">
@@ -418,7 +406,7 @@
                     </button>
                 </div>
             </div>
-            <div id="preview" name="preview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
+            <div id="pdfPreview" name="pdfPreview" class="ml-2 w-[780px] h-[1100px] bg-white mt-2">
                 <div class="flex w-full justify-center items-center">
                     <img class="mt-3" src="/img/logo-vm.png" alt="">
                 </div>
@@ -433,13 +421,17 @@
                             {{ $signage->city->code }}</span>
                         <img class="h-10" src="/img/code-line.png" alt="">
                         <span class="flex items-center w-[575px] h-[36px] text-base font-semibold">{{ $signage->address }}
-                            | {{ strtoupper($signage->city->city) }}</span>
+                            | {{ strtoupper($signage->area->area) }}</span>
                     </div>
                 </div>
                 <div class="flex w-full h-[465px] justify-center mt-[1px]">
                     <div class="flex w-[700px] h-[465px] justify-center items-center bg-slate-50 border rounded-b-xl">
-                        <img class="m-auto w-[670px] h-[435px]" src="{{ asset('storage/' . $signage->photo) }}"
-                            alt="">
+                        @foreach ($signage_photos as $photo)
+                            @if ($photo->signage_id == $signage->id && $photo->company_id == '1')
+                                <img class="w-[670px] h-[435px]" src="{{ asset('storage/' . $photo->photo) }}"
+                                    alt="">
+                            @endif
+                        @endforeach
                     </div>
                 </div>
                 <div class="flex w-full h-[385px] justify-center mt-1">
@@ -454,10 +446,10 @@
                                 </div>
                                 <div class="flex relative w-[476px] h-[355px] mt-[1px] rounded-b-lg">
                                     <div class="flex absolute w-[100px] mt-[250px] ml-1">
-                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $signage->lat . ',' . $signage->lng . '/@' . $signage->lat . ',' . $signage->lng . ',15z') }}
+                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . '/@' . $objLocations->signageLocations[0]->lat . ',' . $objLocations->signageLocations[0]->lng . ',17z') }}
                                     </div>
                                     <img class="w-[476px] h-[355px] border rounded-b-xl" id="myImage" name="myImage"
-                                        src="{{ $fromFolder . $mapImgName }}" alt="">
+                                        src="{{ $src }}" alt="">
 
                                 </div>
                             </div>
@@ -468,7 +460,7 @@
                                     class="flex p-1 items-center justify-center w-[220px] h-7 bg-slate-50 border rounded-t-lg text-sm font-bold font-mono text-teal-900">
                                     Deskripsi signage
                                 </div>
-                                <div class="w-[220px] h-[92px] bg-slate-50 mt-[1px] rounded-b-lg border">
+                                <div class="w-[220px] h-[106px] bg-slate-50 mt-[1px] rounded-b-lg border">
                                     <div class="flex mt-1">
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Jenis</span>
@@ -479,13 +471,19 @@
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Ukuran</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $signage->size->size }} x {{ $signage->size->side }} sisi</span>
+                                            {{ $signage->size->size }} x {{ $signage->side }} sisi </span>
+                                    </div>
+                                    <div class="flex mt-1">
+                                        <span
+                                            class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Jumlah</span>
+                                        <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
+                                            {{ $signage->qty }}</span>
                                     </div>
                                     <div class="flex mt-1">
                                         <span
                                             class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Orientasi</span>
                                         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-                                            {{ $signage->size->orientation }}</span>
+                                            {{ $signage->orientation }}</span>
                                     </div>
                                     @if ($signage->signage_category->name == 'Neon Box' || $signage->signage_category->name == 'Papan')
                                         <div class="flex mt-1">
@@ -505,13 +503,12 @@
                                             </span>
                                         </div>
                                     @endif
-
                                 </div>
                                 <div
                                     class="flex w-[220px] h-7 p-1 bg-slate-50 mt-[1px] border justify-center items-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
                                     Informasi Area
                                 </div>
-                                <div class="flex w-[220px] h-[234px] border bg-slate-50 mt-[1px] rounded-b-lg">
+                                <div class="flex w-[220px] h-[220px] border bg-slate-50 mt-[1px] rounded-b-lg">
                                     <div>
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono text-teal-900 ml-2">Type Jalan</span>
@@ -533,8 +530,8 @@
                                         </div>
                                         <div class="flex">
                                             <span class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
-                                                <br><br><br><br><br>
-                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/signage/' . $signage->id) }}
+                                                <br><br><br><br>
+                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/dashboard/media/siganges/preview/' . $signage->id) }}
                                             </span>
                                             <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
                                                 <div>:</div>
@@ -595,7 +592,9 @@
         const locations = document.getElementById("locations");
         const code = document.getElementById("code");
         const id = document.getElementById("id");
-        const zoomMaps = 18;
+        const city = document.getElementById("city");
+        const address = document.getElementById("address");
+        const zoomMaps = 17;
 
         let dataObject = {};
         let objLocations = [];
@@ -660,22 +659,8 @@
         }
         // Google Maps --> end
         // Preview signage Script start -->
-        document.getElementById("btn-png").onclick = function() {
-            const pngTarget = document.getElementById("preview");
-
-            html2canvas(pngTarget).then((canvas) => {
-                const base64image = canvas.toDataURL("image/jpg");
-                var anchor = document.createElement('a');
-                anchor.setAttribute("href", base64image);
-                anchor.setAttribute("download", code.value + " - " + city.value + " - " + address.value +
-                    ".jpg");
-                anchor.click();
-                anchor.remove();
-            })
-        };
-
         document.getElementById("btn-pdf").onclick = function() {
-            var element = document.getElementById('preview');
+            var element = document.getElementById('pdfPreview');
             var opt = {
                 margin: 0,
                 filename: code.value + ' - ' + city.value + ' - ' + address.value + '.pdf',
@@ -683,16 +668,24 @@
                     type: 'jpeg',
                     quality: 1
                 },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy']
+                },
                 html2canvas: {
-                    scale: 1
+                    dpi: 192,
+                    scale: 4,
+                    letterRendering: true,
+                    useCORS: true
                 },
                 jsPDF: {
                     unit: 'in',
                     format: 'a4',
-                    orientation: 'portrait'
+                    orientation: 'portrait',
+                    putTotalPages: true
                 }
             };
-            html2pdf(element, opt);
+            // html2pdf(element, opt);
+            html2pdf().set(opt).from(element).save();
         };
 
         const modal = document.getElementById("modal");

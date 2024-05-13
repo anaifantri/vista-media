@@ -5,6 +5,7 @@
     <?php
     $salesData = [];
     $salesData = session()->get('sales_store');
+    $salesId = session()->get('sales_id');
     ?>
 
     <div class="flex justify-center bg-black">
@@ -51,7 +52,7 @@
                             <!-- Header start -->
                             <div class="w-[950px] h-[1345px] bg-white">
                                 <?php
-                                $saveNumber[$loop->iteration - 1] = Str::substr($sale['number'], 0, 4);
+                                $saveNumber[$loop->iteration - 1] = Str::substr($sale['number'], 0, 4) . '-Sales-' . $sale['client_name'] . '-' . $sale['billboard_code'];
                                 ?>
                                 <div class="h-24 mt-4">
                                     <div class="flex w-full justify-center items-center">
@@ -113,43 +114,43 @@
                                             <div class="div-sale">
                                                 <label class="label-sale-01">No. Penawaran</label>
                                                 <label class="label-sale-02">:</label>
-                                                <label class="label-sale-02">{{ $sale['quot_number'] }}</label>
+                                                <label class="label-sale-02 w-64">{{ $sale['quot_number'] }}</label>
                                             </div>
                                             <div class="div-sale">
                                                 <label class="label-sale-01">Tgl. Penawaran</label>
                                                 <label class="label-sale-02">:</label>
                                                 <label
-                                                    class="label-sale-02">{{ date('d-M-Y', strtotime($sale['quot_date'])) }}</label>
+                                                    class="label-sale-02 w-64">{{ date('d-M-Y', strtotime($sale['quot_date'])) }}</label>
                                             </div>
                                             <div class="div-sale">
                                                 <label class="label-sale-01">Nama Klien</label>
                                                 <label class="label-sale-02">:</label>
-                                                <label class="label-sale-02">{{ $sale['client_name'] }}</label>
+                                                <label class="label-sale-02 w-64">{{ $sale['client_name'] }}</label>
                                             </div>
                                             <div class="div-sale">
                                                 <label class="label-sale-01">Perusahaan</label>
                                                 <label class="label-sale-02">:</label>
-                                                <label class="label-sale-02">{{ $sale['client_company'] }}</label>
+                                                <label class="label-sale-02 w-64">{{ $sale['client_company'] }}</label>
                                             </div>
                                             <div class="div-sale">
                                                 <label class="label-sale-01">Alamat</label>
                                                 <label class="label-sale-02">:</label>
-                                                <label class="label-sale-02">{{ $sale['client_address'] }}</label>
+                                                <label class="label-sale-02 w-64">{{ $sale['client_address'] }}</label>
                                             </div>
                                             <div class="div-sale">
                                                 <label class="label-sale-01">Kontak Person</label>
                                                 <label class="label-sale-02">:</label>
-                                                <label class="label-sale-02">{{ $sale['contact_name'] }}</label>
+                                                <label class="label-sale-02 w-64">{{ $sale['contact_name'] }}</label>
                                             </div>
                                             <div class="div-sale">
                                                 <label class="label-sale-01">No. Telp./Hp.</label>
                                                 <label class="label-sale-02">:</label>
-                                                <label class="label-sale-02">{{ $sale['contact_phone'] }}</label>
+                                                <label class="label-sale-02 w-64">{{ $sale['contact_phone'] }}</label>
                                             </div>
                                             <div class="div-sale">
                                                 <label class="label-sale-01">Email</label>
                                                 <label class="label-sale-02">:</label>
-                                                <label class="label-sale-02">{{ $sale['contact_email'] }}</label>
+                                                <label class="label-sale-02 w-64">{{ $sale['contact_email'] }}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -304,7 +305,10 @@
                                                 alt="">
                                         </div>
                                         <div class="qr-code-sale">
-                                            {{ QrCode::size(100)->generate('http://vistamedia.co.id/') }}
+                                            <?php
+                                            $src = 'http://vistamedia.co.id/dashboard/marketing/sales/' . $salesId[$loop->iteration - 1];
+                                            ?>
+                                            {{ QrCode::size(100)->generate($src) }}
                                         </div>
                                     </div>
                                 </div>

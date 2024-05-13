@@ -24,7 +24,7 @@ let map;
 let markers = [];
 let latitude = Number(lat.value);
 let longitude = Number(lng.value);
-let zoomMaps = 15;
+let zoomMaps = 18;
 
 let myLatLng = {
     lat: latitude,
