@@ -45,6 +45,24 @@ class SaleController extends Controller
         ]);
     }
 
+    public function reports(): View
+    {
+        $clients = Client::with('sales')->get();
+        $contacts = Contact::with('sales')->get();
+        $billboards = Billboard::with('sales')->get();
+        $companies = Company::with('sales')->get();
+        $billboard_quotations = BillboardQuotation::with('sales');
+        $billboard_quot_revisions = BillboardQuotRevision::with('sales');
+        $users = User::with('sales')->get();
+        return view('dashboard.marketing.sales.reports', [
+            'sales' => Sale::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+            'title' => 'Daftar Penjualan',
+            'client_agreements' => ClientAgreement::all(),
+            'client_orders' => ClientOrder::all(),
+            compact('clients', 'billboards', 'companies', 'billboard_quotations', 'billboard_quot_revisions', 'users', 'contacts')
+        ]);
+    }
+
     public function showSale(){
         $dataSale = Sale::all();
         return response()->json(['dataSale'=> $dataSale]);

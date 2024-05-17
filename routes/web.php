@@ -57,7 +57,6 @@ Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [Billbo
 Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQuotRevisionController::class, 'preview']);
 Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
-// Route::get('/dashboard/marketing/sales/preview/', [SaleController::class,'preview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-approvals', ClientApprovalController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-orders', ClientOrderController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-agreements', ClientAgreementController::class)->middleware(['auth','user_access']);
@@ -101,6 +100,7 @@ Route::get('/showClientOrder', [ClientOrderController::class,'showClientOrder'])
 Route::get('/showClientAgreement', [ClientAgreementController::class,'showClientAgreement'])->middleware(['auth','user_access']);
 Route::get('/showSale', [SaleController::class,'showSale'])->middleware(['auth','user_access']);
 Route::get('/sales/preview/', [SaleController::class,'preview'])->middleware(['auth','user_access']);
+Route::get('/sales/reports/', [SaleController::class,'reports'])->middleware(['auth','user_access']);
 
 Route::get('/', function () {
     return view('index',[

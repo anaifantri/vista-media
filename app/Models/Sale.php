@@ -23,15 +23,15 @@ class Sale extends Model
                 $query->where('number', 'like', '%' . $search . '%')
                     ->orWhere('duration', 'like', '%' . $search . '%')
                     ->orWhereHas('client', function($query) use ($search){
-                        $query->where('name', 'like', '%' . $search . '%');
-                        $query->where('company', 'like', '%' . $search . '%');
+                        $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('company', 'like', '%' . $search . '%');
                     })
                     ->orWhereHas('company', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');
                     })
                     ->orWhereHas('billboard', function($query) use ($search){
-                        $query->where('code', 'like', '%' . $search . '%');
-                        $query->where('address', 'like', '%' . $search . '%');
+                        $query->where('code', 'like', '%' . $search . '%')
+                        ->orWhere('address', 'like', '%' . $search . '%');
                     })
                     ->orWhereHas('user', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');

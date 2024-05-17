@@ -973,15 +973,15 @@ function createMultipleSale(locations, i) {
         cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[i].price.periodeQuarter.priceQuarter));
         dpp[i] = Number(locations[i].price.periodeQuarter.priceQuarter);
         saleDpp[i] = dpp[i];
-        saleDuration = locations[i].price.periodeHalf.periode;
-        salePrice[i] = Number(locations[i].price.periodeHalf.priceHalf);
+        saleDuration = locations[i].price.periodeQuarter.periode;
+        salePrice[i] = Number(locations[i].price.periodeQuarter.priceQuarter);
     }
     if (locations[i].price.periodeMonth.cbPeriode == true) {
         cell[6].innerHTML = Intl.NumberFormat('en-US').format(Number(locations[i].price.periodeMonth.priceMonth));
         dpp[i] = Number(locations[i].price.periodeMonth.priceMonth);
         saleDpp[i] = dpp[i];
-        saleDuration = locations[i].price.periodeHalf.periode;
-        salePrice[i] = Number(locations[i].price.periodeHalf.priceHalf);
+        saleDuration = locations[i].price.periodeMonth.periode;
+        salePrice[i] = Number(locations[i].price.periodeMonth.priceMonth);
     }
 
     cell[6].classList.add('td-table-sale');

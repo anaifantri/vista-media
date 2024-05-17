@@ -53,12 +53,12 @@
             </div>
         </div>
         <div class="flex justify-center px-2 pb-8 w-full z-0">
-            <div class="w-[1200px] overflow-x-scroll">
+            <div class="w-[1200px] overflow-x-scroll h-[450px] overflow-y-auto">
                 <table class="table-auto w-max mb-6">
-                    <thead>
+                    <thead class="sticky top-0">
                         <tr class="bg-teal-100">
-                            <th class="text-teal-700 border text-[0.65rem] w-6" rowspan="2">No.</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-44 text-center" rowspan="2">
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-6" rowspan="2">No.</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-44 text-center" rowspan="2">
                                 <button class="flex justify-center items-center w-44">@sortablelink('number', 'Data Penjualan')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
@@ -66,20 +66,25 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-[0.65rem] w-44" rowspan="2">Data Reklame</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-52" rowspan="2">Klien</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-36" rowspan="2">Deskripsi</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-48" rowspan="2">Penawaran</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-32" rowspan="2">Harga (Rp.)</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-[360px]" colspan="5">Termin Pembayaran</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-40" colspan="2">Penagihan</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-40" colspan="2">Pembayaran</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-16" rowspan="2">Approval</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-16" rowspan="2">PO/SPK</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-16" rowspan="2">Agreement</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-24" rowspan="2">Tanggal Dibuat</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-24" rowspan="2">Dibuat Oleh</th>
-                            <th class="text-teal-700 border text-[0.65rem] w-16" rowspan="2">Action</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-44" rowspan="2">Data Reklame
+                            </th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-52" rowspan="2">Klien</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-36" rowspan="2">Deskripsi</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-48" rowspan="2">Penawaran</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-32" rowspan="2">Harga (Rp.)
+                            </th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-[360px]" colspan="5">Termin
+                                Pembayaran</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-40" colspan="2">Penagihan</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-40" colspan="2">Pembayaran</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-16" rowspan="2">Approval</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-16" rowspan="2">PO/SPK</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-16" rowspan="2">Agreement</th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-24" rowspan="2">Tanggal Dibuat
+                            </th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-24" rowspan="2">Dibuat Oleh
+                            </th>
+                            <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-16" rowspan="2">Action</th>
                         </tr>
                         <tr class="bg-teal-100">
                             <th class="text-teal-700 border text-[0.65rem] w-10">Termin</th>

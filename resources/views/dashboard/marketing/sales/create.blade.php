@@ -114,7 +114,12 @@
         <div class="flex justify-center mt-4">
             @if (count($sales) != 0)
                 <?php
-                $saleNumber = count($sales) + 1;
+                $endObject = $sales[count($sales) - 1];
+                // var_dump($endObject->number);
+                // $endNumber = $endObject->number;
+                $endNumber = substr($endObject->number, 0, 4);
+                // var_dump($endNumber);
+                $saleNumber = ((int) $endNumber) + 1;
                 ?>
             @else
                 <?php

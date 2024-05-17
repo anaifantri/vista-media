@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\BillboardQuotRevision;
+use App\Models\BillboardQuotStatus;
 use Kyslik\ColumnSortable\Sortable;
 
 class BillboardQuotation extends Model
@@ -22,7 +23,6 @@ class BillboardQuotation extends Model
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('number', 'like', '%' . $search . '%')
                     ->orWhere('billboards', 'like', '%' . $search . '%')
-                    ->orWhere('status', 'like', '%' . $search . '%')
                     ->orWhereHas('client', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');
                     })
