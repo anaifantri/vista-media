@@ -89,25 +89,25 @@ let kotaMalang = new City("MLG", "Jatim", "Malang", -7.9761185, 112.619891, 12.5
 let kotaMojokerto = new City("MJK", "Jatim", "Mojokerto", -7.4720428, 112.4407848, 13.75);
 let kabJember = new City("JBR", "Jatim", "Jember", -8.1851244, 113.7044038, 12);
 let kabPamekasan = new City("PMK", "Jatim", "Pamekasan", -7.1782008, 113.481792, 12.5);
-//Area Kalsel
-let banjarmasin = new City("BJM", "Kalsel", "Banjarmasin", -3.317649, 114.5854566, 13);
-let banjarbaru = new City("BJB", "Kalsel", "Banjarbaru", -3.4608001, 114.7974584, 12.75);
-let martapura = new City("MTP", "Kalsel", "Martapura", -3.4265854, 114.7737913, 12.5);
-let barito = new City("BAT", "Kalsel", "Barito Kuala", -3.2652175, 114.6032853, 13.25);
-let kandangan = new City("KDG", "Kalsel", "Kandangan", -2.7834092, 115.271409, 13.5);
-let balangan = new City("BLG", "Kalsel", "Balangan", -2.3361292, 115.4602356, 14.5);
-let barabai = new City("BRB", "Kalsel", "Barabai", -2.5817574, 115.3839551, 14.25);
-let tapin = new City("TPN", "Kalsel", "Tapin", -3.0220571, 115.146846, 11.25);
-let batulicin = new City("BLC", "Kalsel", "Batulicin", -3.4768345, 115.997039, 13);
-let tanjung = new City("TJG", "Kalsel", "Tanjung", -2.1670513, 115.3997033, 13);
-let tarakan = new City("TRK", "Kaltara", "Tarakan", 3.3355728, 117.5841015, 12.75);
-let samarinda = new City("SMD", "Kaltim", "Samarinda", -0.5018035, 117.1480332, 13);
-let sampit = new City("SPT", "Kalteng", "Sampit", -2.5379729, 112.947809, 14.75);
-let palangkaraya = new City("PKY", "Kalteng", "Palangkaraya", -2.2109807, 113.9138929, 13.25);
-let kapuas = new City("KPS", "Kalteng", "Kapuas", -2.9871032, 114.4066379, 13);
-let pontianak = new City("PNK", "Kalbar", "Pontianak", -0.0668599, 109.3483369, 12.25);
-let balikpapan = new City("BLP", "Kaltim", "Balikpapan", -1.2488277, 116.8662009, 13.25);
-//Area NTB
+//Area Kalimantan
+let banjarmasin = new City("BJM", "Kalimantan", "Banjarmasin", -3.317649, 114.5854566, 13);
+let banjarbaru = new City("BJB", "Kalimantan", "Banjarbaru", -3.4608001, 114.7974584, 12.75);
+let martapura = new City("MTP", "Kalimantan", "Martapura", -3.4265854, 114.7737913, 12.5);
+let barito = new City("BAT", "Kalimantan", "Barito Kuala", -3.2652175, 114.6032853, 13.25);
+let kandangan = new City("KDG", "Kalimantan", "Kandangan", -2.7834092, 115.271409, 13.5);
+let balangan = new City("BLG", "Kalimantan", "Balangan", -2.3361292, 115.4602356, 14.5);
+let barabai = new City("BRB", "Kalimantan", "Barabai", -2.5817574, 115.3839551, 14.25);
+let tapin = new City("TPN", "Kalimantan", "Tapin", -3.0220571, 115.146846, 11.25);
+let batulicin = new City("BLC", "Kalimantan", "Batulicin", -3.4768345, 115.997039, 13);
+let tanjung = new City("TJG", "Kalimantan", "Tanjung", -2.1670513, 115.3997033, 13);
+let tarakan = new City("TRK", "Kalimantan", "Tarakan", 3.3355728, 117.5841015, 12.75);
+let samarinda = new City("SMD", "Kalimantan", "Samarinda", -0.5018035, 117.1480332, 13);
+let sampit = new City("SPT", "Kalimantan", "Sampit", -2.5379729, 112.947809, 14.75);
+let palangkaraya = new City("PKY", "Kalimantan", "Palangkaraya", -2.2109807, 113.9138929, 13.25);
+let kapuas = new City("KPS", "Kalimantan", "Kapuas", -2.9871032, 114.4066379, 13);
+let pontianak = new City("PNK", "Kalimantan", "Pontianak", -0.0668599, 109.3483369, 12.25);
+let balikpapan = new City("BLP", "Kalimantan", "Balikpapan", -1.2488277, 116.8662009, 13.25);
+//Area Lombok
 let praya = new City("PRY", "Lombok", "Praya", -8.6905626, 116.2802245, 12.75);
 let mataram = new City("MTR", "Lombok", "Mataram", -8.5906503, 116.1034722, 13.5);
 let selong = new City("SLG", "Lombok", "Selong", -8.6626391, 116.5339923, 13.75);

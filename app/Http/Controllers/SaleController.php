@@ -14,6 +14,10 @@ use App\Models\ClientAgreement;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Billboard;
+use App\Models\BillboardCategory;
+use App\Models\Area;
+use App\Models\City;
+use App\Models\Size;
 use App\Models\BillboardPhoto;
 use App\Models\Company;
 use Illuminate\Http\RedirectResponse;
@@ -47,6 +51,10 @@ class SaleController extends Controller
 
     public function reports(): View
     {
+        $areas = Area::with('billboards')->get();
+        $cities = City::with('billboards')->get();
+        $sizes = Size::with('billboards')->get();
+        $billboard_categories = BillboardCategory::with('billboards')->get();
         $clients = Client::with('sales')->get();
         $contacts = Contact::with('sales')->get();
         $billboards = Billboard::with('sales')->get();
@@ -56,10 +64,11 @@ class SaleController extends Controller
         $users = User::with('sales')->get();
         return view('dashboard.marketing.sales.reports', [
             'sales' => Sale::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+            'billboards'=>Billboard::filter(request('search'))->area()->city()->condition()->sortable()->get(),
             'title' => 'Daftar Penjualan',
             'client_agreements' => ClientAgreement::all(),
             'client_orders' => ClientOrder::all(),
-            compact('clients', 'billboards', 'companies', 'billboard_quotations', 'billboard_quot_revisions', 'users', 'contacts')
+            compact('clients', 'billboards', 'companies', 'billboard_quotations', 'billboard_quot_revisions', 'users', 'contacts', 'areas', 'cities', 'sizes', 'billboard_categories')
         ]);
     }
 

@@ -22,6 +22,7 @@ class Sale extends Model
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('number', 'like', '%' . $search . '%')
                     ->orWhere('duration', 'like', '%' . $search . '%')
+                    ->orWhere('created_at', 'like', '%' . $search . '%')
                     ->orWhereHas('client', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%')
                         ->orWhere('company', 'like', '%' . $search . '%');
