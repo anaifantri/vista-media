@@ -254,6 +254,73 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="mt-4 ml-2">
+                                        <label class="text-sm font-semibold underline text-teal-700">C. Data Cetak &
+                                            Pasang</label>
+                                    </div>
+                                    <div class="border rounded-lg mt-1 w-[760px] p-2">
+                                        <div>
+                                            <table class="table-auto w-[740px] mt-1">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="w-12 text-[0.65rem] text-teal-700 border"
+                                                            colspan="6">Detail Cetak</th>
+                                                        <th class="w-20 text-[0.65rem] text-teal-700 border"
+                                                            colspan="6">Detail Pasang</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="w-6 text-[0.65rem] text-teal-700 border">No.</th>
+                                                        <th class="w-16 text-[0.65rem] text-teal-700 border">SPK Cetak</th>
+                                                        <th class="w-16 text-[0.65rem] text-teal-700 border">Tgl. Cetak
+                                                        </th>
+                                                        <th class="w-16 text-[0.65rem] text-teal-700 border">Design</th>
+                                                        <th class="w-12 text-[0.65rem] text-teal-700 border">Status</th>
+                                                        <th class="w-24 text-[0.65rem] text-teal-700 border">No. Penawaran
+                                                        </th>
+                                                        <th class="w-6 text-[0.65rem] text-teal-700 border">No.</th>
+                                                        <th class="w-16 text-[0.65rem] text-teal-700 border">SPK Pasang
+                                                        </th>
+                                                        <th class="w-16 text-[0.65rem] text-teal-700 border">Tgl. Pasang
+                                                        </th>
+                                                        <th class="w-16 text-[0.65rem] text-teal-700 border">Design</th>
+                                                        <th class="w-12 text-[0.65rem] text-teal-700 border">Status</th>
+                                                        <th class="w-24 text-[0.65rem] text-teal-700 border">No. Penawaran
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for ($i = 0; $i < 36; $i++)
+                                                        <tr>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">
+                                                                {{ $i + 1 }}</td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                            <td class="text-[0.65rem] text-teal-700 border text-center">-
+                                                            </td>
+                                                        </tr>
+                                                    @endfor
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

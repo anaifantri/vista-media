@@ -46,7 +46,7 @@
                         <label class="flex items-center w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="zoom"
                             id="zoom" name="zoom">{{ $city->zoom }}</label>
                     </div>
-                    <div class="flex
+                    {{-- <div class="flex
                     mx-5 mt-3">
                         <span class="w-36">Dibuat Oleh</span>
                         <label class="flex items-center w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="zoom"
@@ -63,7 +63,7 @@
                         <span class="w-36">Tgl. Update</span>
                         <label class="flex items-center w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="zoom"
                             id="updated_at" name="updated_at">{{ $city->updated_at->format('l, d-M-Y') }}</label>
-                    </div>
+                    </div> --}}
                     <div class="flex items-center mx-5 mt-2 mb-2">
                         <!-- Form Button Show City start -->
                         <a class="flex justify-center items-center mx-1 btn-primary" href="/dashboard/media/cities">

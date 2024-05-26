@@ -13,33 +13,33 @@
                 <!-- Show Area start -->
                 <div class="w-full sm:w-[360px] ml-0">
                     <div class="flex mx-5 mt-1">
-                        <span class="w-32">Kode Area</span>
+                        <span class="w-48">Kode Area</span>
                         <label class="w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="code">
                             {{ $area->area_code }}</label>
                     </div>
                     <div class="flex mx-5 mt-1 items-center">
-                        <span class="w-32">Nama Provinsi</span>
+                        <span class="w-48">Nama Wilayah</span>
                         <label class="w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900"
                             for="provinsi">{{ $area->provinsi }}</label>
                     </div>
                     <div class="flex mx-5 mt-1">
-                        <span class="w-32">Nama Area</span>
+                        <span class="w-48">Nama Area</span>
                         <input type="text" id="area" name="area" hidden value="{{ $area->id }}">
                         <label class="w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900"
                             for="area">{{ $area->area }}</label>
                     </div>
                     <div class="flex mx-5 mt-1">
-                        <span class="w-32">Latitude</span>
+                        <span class="w-48">Latitude</span>
                         <label class="w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="lat" id="lat"
                             name="lat">{{ $area->lat }}</label>
                     </div>
                     <div class="flex mx-5 mt-1">
-                        <span class="w-32">Longitude</span>
+                        <span class="w-48">Longitude</span>
                         <label class="w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="lng" id="lng"
                             name="lng">{{ $area->lng }}</label>
                     </div>
                     <div class="flex mx-5 mt-1">
-                        <span class="w-32">Zoom</span>
+                        <span class="w-48">Zoom</span>
                         <label class="w-full h-8 rounded-lg bg-gray-50 px-2 text-teal-900" for="zoom" id="zoom"
                             name="zoom">{{ $area->zoom }}</label>
                     </div>

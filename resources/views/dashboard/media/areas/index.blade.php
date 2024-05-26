@@ -68,7 +68,7 @@
                                 </button>
                             </th>
                             <th class="text-teal-700 border text-sm text-center w-36">
-                                <button class="flex justify-center items-center w-36">@sortablelink('provinsi', 'Provinsi')
+                                <button class="flex justify-center items-center w-36">@sortablelink('provinsi', 'Wilayah')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
