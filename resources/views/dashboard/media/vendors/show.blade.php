@@ -3,7 +3,7 @@
 @section('container')
     <div class="lg:flex justify-center mt-10">
         <div class="lg:flex justify-center">
-            <!-- Logo Client Start -->
+            <!-- Logo Vendor Start -->
             <div class="flex justify-center items-center w-full md:w-64">
                 <div class="d-flex w-full justify-center items-center p-8">
                     @if ($vendor->logo)
@@ -17,8 +17,8 @@
                     <span class="flex justify-center text-teal-700 text-sm text-center">{{ $vendor->company }}</span>
                 </div>
             </div>
-            <!-- Logo Client End -->
-            <!-- Detail Client Start -->
+            <!-- Logo Vendor End -->
+            <!-- Detail Vendor Start -->
             <div class="flex justify-center w-[500px]">
                 <div class="p-2 w-full justify-center">
                     <div class="flex items-center mb-3">
@@ -84,7 +84,7 @@
                                 @method('delete')
                                 @csrf
                                 <button class="flex items-center justify-center btn-danger mx-1"
-                                    onclick="return confirm('Apakah anda yakin ingin menghapus User {{ $vendor->username }} ?')">
+                                    onclick="return confirm('Apakah anda yakin ingin menghapus data vendor dengan nama {{ $vendor->username }} ?')">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Detail Client End -->
+            <!-- Detail Vendor End -->
             <!-- Kontak Person Start -->
             <div class="justify-center relative w-[475px] border-l h-[580px] overflow-y-auto">
                 <div class="flex bg-white w-full">

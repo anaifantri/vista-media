@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LedController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\SizeController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PreviewController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SignageController;
+use App\Http\Controllers\SignageCategoryController;
 use App\Http\Controllers\BillboardController;
 use App\Http\Controllers\BillboardPhotoController;
 use App\Http\Controllers\BillboardCategoryController;
@@ -20,6 +22,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\BillboardQuotationController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SaleCategoryController;
 use App\Http\Controllers\BillboardQuotRevisionController;
 use App\Http\Controllers\BillboardQuotStatusController;
 use App\Http\Controllers\VideotronController;
@@ -29,6 +32,9 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ClientApprovalController;
 use App\Http\Controllers\ClientOrderController;
 use App\Http\Controllers\ClientAgreementController;
+use App\Http\Controllers\PrintingProductController;
+use App\Http\Controllers\PrintingPriceController;
+use App\Http\Controllers\InstallationPriceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,20 +63,24 @@ Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [Billbo
 Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQuotRevisionController::class, 'preview']);
 Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/sale-categories', SaleCategoryController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-approvals', ClientApprovalController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-orders', ClientOrderController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-agreements', ClientAgreementController::class)->middleware(['auth','user_access']);
 
+Route::resource('/dashboard/media/companies', CompanyController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/area', AreaController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/cities', CityController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/products', ProductController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/billboards', BillboardController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/billboard-categories', BillboardCategoryController::class)->middleware(['auth','user_access']);
 Route::get('/dashboard/media/billboards/preview/{id}', [BillboardController::class,'preview']);
 Route::get('/dashboard/media/billboards/pdf-preview/{id}', [BillboardController::class,'pdfPreview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/videotrons', VideotronController::class)->middleware(['auth','user_access']);
 Route::get('/dashboard/media/videotrons/preview/{id}', [VideotronController::class,'preview']);
 Route::get('/dashboard/media/videotrons/pdf-preview/{id}', [VideotronController::class,'pdfPreview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/signages', SignageController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/signage-categories', SignageCategoryController::class)->middleware(['auth','user_access']);
 Route::get('/dashboard/media/signages/preview/{id}', [SignageController::class,'preview']);
 Route::get('/dashboard/media/signages/pdf-preview/{id}', [SignageController::class,'pdfPreview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/sizes', SizeController::class)->middleware(['auth','user_access']);
@@ -78,6 +88,9 @@ Route::resource('/dashboard/media/leds', LedController::class)->middleware(['aut
 Route::resource('/dashboard/media/vendors', VendorController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/contacts', VendorContactController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/vendor-categories', VendorCategoryController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/printing-products', PrintingProductController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/printing-prices', PrintingPriceController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/media/installation-prices', InstallationPriceController::class)->middleware(['auth','user_access']);
 Route::get('/showProduct', [ProductController::class,'showProduct'])->middleware(['auth','user_access']);
 Route::get('/showBillboard', [BillboardController::class,'showBillboard'])->middleware(['auth','user_access']);
 Route::get('/showVideotron', [VideotronController::class,'showVideotron'])->middleware(['auth','user_access']);

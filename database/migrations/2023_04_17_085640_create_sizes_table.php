@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('size');
+            $table->string('size')->unique();
             $table->string('category');
             $table->timestamps();
         });

@@ -14,7 +14,10 @@ class BillboardCategoryController extends Controller
      */
     public function index(): Response
     {
-        //
+        return response()-> view ('dashboard.media.billboard-categories.index', [
+            'billboard_categories'=>BillboardCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("name", "asc")->paginate(10)->withQueryString(),
+            'title' => 'Daftar Katagori Billboard'
+        ]);
     }
 
     public function showBillboardCategory(){
@@ -28,7 +31,13 @@ class BillboardCategoryController extends Controller
      */
     public function create(): Response
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            return response()-> view ('dashboard.media.billboard-categories.create', [
+                'title' => 'Create Billboard Category'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -36,7 +45,20 @@ class BillboardCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        
+            $validateData = $request->validate([
+                'name' => 'required|unique:billboard_categories',
+                'description' => 'required'
+            ]);
+            
+            $validateData['user_id'] = auth()->user()->id;
+            BillboardCategory::create($validateData);
+    
+            return redirect('/dashboard/media/billboard-categories')->with('success','Katagori billboard dengan nama '. $request->name . ' berhasil ditambahkan');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -44,7 +66,10 @@ class BillboardCategoryController extends Controller
      */
     public function show(BillboardCategory $billboardCategory): Response
     {
-        //
+        return response()-> view ('dashboard.media.billboard-categories.show', [
+            'billboard_category' => $billboardCategory,
+            'title' => 'Detail Katagori Billboard' . $billboardCategory->name
+        ]);
     }
 
     /**
@@ -52,7 +77,14 @@ class BillboardCategoryController extends Controller
      */
     public function edit(BillboardCategory $billboardCategory): Response
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            return response()->view('dashboard.media.billboard-categories.edit', [
+                'billboard_category' => $billboardCategory,
+                'title' => 'Edit Katagori Billboard'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -60,7 +92,27 @@ class BillboardCategoryController extends Controller
      */
     public function update(Request $request, BillboardCategory $billboardCategory): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            if ($request->name != $billboardCategory->name) {
+                $validateData = $request->validate([
+                    'name' => 'required|unique:billboard_categories',
+                    'description' => 'required'
+                ]);
+            } else {
+                $validateData = $request->validate([
+                    'description' => 'required'
+                ]);
+            }
+                
+            $validateData['user_id'] = auth()->user()->id;
+                
+            BillboardCategory::where('id', $billboardCategory->id)
+                ->update($validateData);
+        
+            return redirect('/dashboard/media/billboard-categories')->with('success','Katagori Billboard dengan nama '. $billboardCategory->name . ' berhasil diupdate');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -68,6 +120,12 @@ class BillboardCategoryController extends Controller
      */
     public function destroy(BillboardCategory $billboardCategory): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            BillboardCategory::destroy($billboardCategory->id);
+
+            return redirect('/dashboard/media/billboard-categories')->with('success','Katagori billboard dengan nama '. $billboardCategory->name .' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }

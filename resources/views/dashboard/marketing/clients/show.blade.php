@@ -86,7 +86,7 @@
                                 @method('delete')
                                 @csrf
                                 <button class="flex items-center justify-center btn-danger mx-1"
-                                    onclick="return confirm('Apakah anda yakin ingin menghapus User {{ $client->username }} ?')">
+                                    onclick="return confirm('Apakah anda yakin ingin menghapus data klien dengan nama {{ $client->username }} ?')">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">

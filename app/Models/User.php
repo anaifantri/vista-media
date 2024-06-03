@@ -46,11 +46,20 @@ class User extends Authenticatable
     // public function products(){
     //     return $this->hasMany(Product::class, 'user_id', 'id');
     // }
+    public function billboard_categories(){
+        return $this->hasMany(BillboardCategory::class, 'user_id', 'id');
+    }
     public function billboards(){
         return $this->hasMany(Billboard::class, 'user_id', 'id');
     }
     public function videotrons(){
         return $this->hasMany(Videotron::class, 'user_id', 'id');
+    }
+    public function signages(){
+        return $this->hasMany(Signage::class, 'user_id', 'id');
+    }
+    public function signage_categories(){
+        return $this->hasMany(SignageCategory::class, 'user_id', 'id');
     }
     public function clients(){
         return $this->hasMany(Client::class, 'user_id', 'id');
@@ -75,6 +84,18 @@ class User extends Authenticatable
     }
     public function sales(){
         return $this->hasMany(Sale::class, 'user_id', 'id');
+    }
+    public function sale_categories(){
+        return $this->hasMany(SaleCategory::class, 'user_id', 'id');
+    }
+    public function printing_products(){
+        return $this->hasMany(PrintingProduct::class, 'user_id', 'id');
+    }
+    public function printing_prices(){
+        return $this->hasMany(PrintingPrice::class, 'user_id', 'id');
+    }
+    public function installation_prices(){
+        return $this->hasMany(InstallationPrice::class, 'user_id', 'id');
     }
 
     public $sortable = ['name', 'username'];

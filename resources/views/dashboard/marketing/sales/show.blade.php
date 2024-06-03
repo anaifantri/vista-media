@@ -65,31 +65,87 @@
                                             dan
                                             Pasang</label>
                                     </div>
-                                    <div class="border rounded-lg mt-1 w-[760px] p-2">
+                                    <div class="border rounded-lg mt-1 w-[760px] p-1">
                                         <div class="flex">
                                             <label class="text-sm text-teal-700 w-28">Free cetak</label>
                                             @if ($sale->free_print)
                                                 <label class="flex text-sm text-teal-700 w-24">: {{ $sale->free_print }}
                                                     x</label>
+                                                <label class="text-sm text-teal-700 w-20">Terpakai</label>
+                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
                                                 <label class="text-sm text-teal-700 w-10">Sisa</label>
                                                 <label class="flex text-sm text-teal-700 w-24">: - </label>
+                                                <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
+                                                    href="#">
+                                                    <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                            fill-rule="nonzero" />
+                                                    </svg>
+                                                    <span class="ml-1 text-sm">SPK Cetak</span>
+                                                </a>
                                             @else
                                                 <label class="flex text-sm text-teal-700 w-24">: - </label>
+                                                <label class="text-sm text-teal-700 w-20">Terpakai</label>
+                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
+                                                <label class="text-sm text-teal-700 w-10">Sisa</label>
+                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
+                                                <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-gray-500 cursor-default rounded-md text-white drop-shadow-md"
+                                                    href="#">
+                                                    <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                            fill-rule="nonzero" />
+                                                    </svg>
+                                                    <span class="ml-1 text-sm">SPK Cetak</span>
+                                                </a>
                                             @endif
                                         </div>
                                         <div class="flex">
-                                            <label class="text-sm text-teal-700 w-28">Free Pemasangan</label>
+                                            <label class="text-sm text-teal-700 w-28">Free Pasang</label>
                                             @if ($sale->free_instalation)
                                                 <label class="flex text-sm text-teal-700 w-24">:
                                                     {{ $sale->free_instalation }}
                                                     x</label>
+                                                <label class="text-sm text-teal-700 w-20">Terpakai</label>
+                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
                                                 <label class="text-sm text-teal-700 w-10">Sisa</label>
                                                 <label class="flex text-sm text-teal-700 w-24">: - </label>
+                                                <a class="flex mt-1 justify-center items-center ml-4 p-1 w-28 h-6 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
+                                                    href="#">
+                                                    <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                            fill-rule="nonzero" />
+                                                    </svg>
+                                                    <span class="ml-1 text-sm">SPK Pasang</span>
+                                                </a>
                                             @else
                                                 <label class="flex text-sm text-teal-700 w-24">: - </label>
+                                                <label class="text-sm text-teal-700 w-20">Terpakai</label>
+                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
+                                                <label class="text-sm text-teal-700 w-10">Sisa</label>
+                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
+                                                <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-gray-500 cursor-default rounded-md text-white drop-shadow-md"
+                                                    href="#">
+                                                    <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                            fill-rule="nonzero" />
+                                                    </svg>
+                                                    <span class="ml-1 text-sm">SPK Pasang</span>
+                                                </a>
                                             @endif
                                         </div>
-                                        @if ($sale->free_print)
+                                        {{-- @if ($sale->free_print)
                                             <div class="mt-2">
                                                 <label class="text-sm text-teal-700 underline">Penggunaan Free
                                                     Cetak & Pemasangan</label>
@@ -122,13 +178,11 @@
                                                                 -
                                                             </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                {{-- {{ date('d-M-Y', strtotime($sale->created_at)) }} --}}
                                                             </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
                                                                 -
                                                             </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                {{-- {{ date('d-M-Y', strtotime($sale->created_at)) }} --}}
                                                             </td>
                                                             <td class="text-[0.7rem] text-center text-teal-700 border">
                                                                 -
@@ -152,7 +206,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                     <div class="mt-4 ml-2">
                                         <label class="text-sm font-semibold underline text-teal-700">B. Data

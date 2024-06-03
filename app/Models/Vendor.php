@@ -40,5 +40,9 @@ class Vendor extends Model
         return $this->hasMany(VendorContact::class, 'vendor_id', 'id');
     }
 
+    public function printing_prices(){
+        return $this->hasMany(PrintingPrice::class, 'vendor_id', 'id');
+    }
+
     public $sortable = ['name','company'];
 }

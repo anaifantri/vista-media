@@ -9,7 +9,7 @@
                 @csrf
                 <div class="flex justify-center items-center w-60 md:w-72">
                     <div class="d-flex justify-center items-center p-8">
-                        <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
+                        <label class="flex justify-center text-sm text-teal-700 mb-2">Logo Klien</label>
                         <input type="hidden" name="oldLogo" value="{{ $client->logo }}">
                         @if ($client->logo)
                             <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
@@ -67,7 +67,19 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">Katagori</label>
                                 @php
                                     $number = 0;
-                                    $categories = ['Pilih Katagori', 'Rokok', 'Operator', 'Cellular', 'Hotel', 'Restoran', 'Club', 'Minuman', 'Bank', 'Startup', 'Lainnya'];
+                                    $categories = [
+                                        'Pilih Katagori',
+                                        'Rokok',
+                                        'Operator',
+                                        'Cellular',
+                                        'Hotel',
+                                        'Restoran',
+                                        'Club',
+                                        'Minuman',
+                                        'Bank',
+                                        'Startup',
+                                        'Lainnya',
+                                    ];
                                 @endphp
                                 <select
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('client_category_id') is-invalid @enderror"

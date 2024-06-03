@@ -14,7 +14,10 @@ class SaleCategoryController extends Controller
      */
     public function index(): Response
     {
-        //
+        return response()-> view ('dashboard.marketing.sale-categories.index', [
+            'sale_categories'=>SaleCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("name", "asc")->paginate(10)->withQueryString(),
+            'title' => 'Daftar Katagori Penjualan'
+        ]);
     }
 
     /**
@@ -22,7 +25,13 @@ class SaleCategoryController extends Controller
      */
     public function create(): Response
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            return response()-> view ('dashboard.marketing.sale-categories.create', [
+                'title' => 'Create Sale Category'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -30,7 +39,20 @@ class SaleCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        
+            $validateData = $request->validate([
+                'name' => 'required|unique:sale_categories',
+                'description' => 'required'
+            ]);
+            
+            $validateData['user_id'] = auth()->user()->id;
+            SaleCategory::create($validateData);
+    
+            return redirect('/dashboard/marketing/sale-categories')->with('success','Katagori penjualan dengan nama '. $request->name . ' berhasil ditambahkan');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -38,7 +60,10 @@ class SaleCategoryController extends Controller
      */
     public function show(SaleCategory $saleCategory): Response
     {
-        //
+        return response()-> view ('dashboard.marketing.sale-categories.show', [
+            'sale_category' => $saleCategory,
+            'title' => 'Detail Katagori Penjualan' . $saleCategory->name
+        ]);
     }
 
     /**
@@ -46,7 +71,14 @@ class SaleCategoryController extends Controller
      */
     public function edit(SaleCategory $saleCategory): Response
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            return response()->view('dashboard.marketing.sale-categories.edit', [
+                'sale_category' => $saleCategory,
+                'title' => 'Edit Katagori Penjualan'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -54,7 +86,27 @@ class SaleCategoryController extends Controller
      */
     public function update(Request $request, SaleCategory $saleCategory): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            if ($request->name != $saleCategory->name) {
+                $validateData = $request->validate([
+                    'name' => 'required|unique:sale_categories',
+                    'description' => 'required'
+                ]);
+            } else {
+                $validateData = $request->validate([
+                    'description' => 'required'
+                ]);
+            }
+                
+            $validateData['user_id'] = auth()->user()->id;
+                
+            SaleCategory::where('id', $saleCategory->id)
+                ->update($validateData);
+        
+            return redirect('/dashboard/marketing/sale-categories')->with('success','Katagori penjualan dengan nama '. $saleCategory->name . ' berhasil diupdate');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -62,6 +114,12 @@ class SaleCategoryController extends Controller
      */
     public function destroy(SaleCategory $saleCategory): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            SaleCategory::destroy($saleCategory->id);
+
+            return redirect('/dashboard/marketing/sale-categories')->with('success','Katagori penjualan dengan nama '. $saleCategory->name .' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }

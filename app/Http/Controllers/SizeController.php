@@ -56,7 +56,7 @@ class SizeController extends Controller
             // }
         
             $validateData = $request->validate([
-                'size' => 'required',
+                'size' => 'required|unique:sizes',
                 'category' => 'required'
                 // 'orientation' => 'required'
             ]);
@@ -103,7 +103,7 @@ class SizeController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             if ($request->size == $size->size) {
-                return redirect('/dashboard/media/sizes')->with('success','Ukuran '. $request->size . ' tidak ada perubahan');
+                return redirect('/dashboard/media/sizes')->with('success','Ukuran '. $size->size . ' tidak ada perubahan');
             } else {
                 // if($request->side == '0'){
                 //     return back()->withErrors(['side' => ['Silahkan pilih jumlah sisi']])->withInput();

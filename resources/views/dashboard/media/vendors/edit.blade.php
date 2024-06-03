@@ -9,7 +9,7 @@
                 @csrf
                 <div class="flex justify-center items-center w-60 md:w-72">
                     <div class="d-flex justify-center items-center p-8">
-                        <label class="flex justify-center text-sm text-teal-700 mb-2">Photo Profile</label>
+                        <label class="flex justify-center text-sm text-teal-700 mb-2">PLogo Vendor</label>
                         <input type="hidden" name="oldLogo" value="{{ $vendor->logo }}">
                         @if ($vendor->logo)
                             <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
