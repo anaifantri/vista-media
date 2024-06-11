@@ -35,6 +35,7 @@ use App\Http\Controllers\ClientAgreementController;
 use App\Http\Controllers\PrintingProductController;
 use App\Http\Controllers\PrintingPriceController;
 use App\Http\Controllers\InstallationPriceController;
+use App\Http\Controllers\PrintInstalQuotationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ Route::resource('/dashboard/marketing/billboard-quot-revisions', BillboardQuotRe
 Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [BillboardQuotRevisionController::class, 'revision'])->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQuotRevisionController::class, 'preview']);
 Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/print-instal-quotations', PrintInstalQuotationController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sale-categories', SaleCategoryController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-approvals', ClientApprovalController::class)->middleware(['auth','user_access']);

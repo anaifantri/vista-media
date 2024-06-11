@@ -58,12 +58,18 @@ class PrintingPriceController extends Controller
             if ($request->vendor_id == 'Pilih Vendor'){
                 return back()->withErrors(['vendor_id' => ['Silahkan pilih vendor']])->withInput();
             }
+
+            $priceData = PrintingPrice::all();
+            foreach($priceData as $price){
+                if($price->printing_product_id == $request->printing_product_id && $price->vendor_id == $request->vendor_id){
+                    return back()->withErrors(['printing_product_id' => ['Nama bahan dengan vendor yang sama sudah terdaftar, silahkan pilih bahan/vendor yang lain']])->withInput();
+                }
+            }
             
             $validateData = $request->validate([
                 'vendor_id' => 'required',
                 'printing_product_id' => 'required',
-                'printing_price' => 'required',
-                'sale_price' => 'required'
+                'price' => 'required'
             ]);
 
             $data_printing_products = PrintingProduct::all();
@@ -121,8 +127,7 @@ class PrintingPriceController extends Controller
             $validateData = $request->validate([
                 'vendor_id' => 'required',
                 'printing_product_id' => 'required',
-                'printing_price' => 'required',
-                'sale_price' => 'required',
+                'price' => 'required'
             ]);
                 
             $validateData['user_id'] = auth()->user()->id;

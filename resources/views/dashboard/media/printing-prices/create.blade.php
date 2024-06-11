@@ -65,22 +65,10 @@
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Harga Cetak</label>
                                 <input
-                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('printing_price') is-invalid @enderror"
-                                    type="number" id="printing_price" name="printing_price" placeholder="Input harga cetak"
-                                    value="{{ old('printing_price') }}" required>
-                                @error('printing_price')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mt-1">
-                                <label class="text-sm text-teal-700">Harga Jual</label>
-                                <input
-                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('sale_price') is-invalid @enderror"
-                                    type="number" id="sale_price" name="sale_price" placeholder="Input harga jual"
-                                    value="{{ old('sale_price') }}" required>
-                                @error('sale_price')
+                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                    type="number" id="price" name="price" placeholder="Input harga cetak"
+                                    value="{{ old('price') }}" required>
+                                @error('price')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

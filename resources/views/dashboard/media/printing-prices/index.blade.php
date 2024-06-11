@@ -62,7 +62,6 @@
                             <th class="text-teal-700 border text-xs text-center w-24">Nama Bahan</th>
                             <th class="text-teal-700 border text-xs text-center w-24">Nama Vendor</th>
                             <th class="text-teal-700 border text-xs text-center w-20">Harga Cetak</th>
-                            <th class="text-teal-700 border text-xs text-center w-20">Harga Jual</th>
                             <th class="text-teal-700 border text-xs text-center w-24">Dibuat oleh</th>
                             <th class="text-teal-700 border text-xs text-center w-24">Tanggal dibuat</th>
                             <th class="text-teal-700 border text-xs text-center w-24">Action</th>
@@ -80,10 +79,7 @@
                                 <td class="px-2 text-teal-700 border text-xs text-center">
                                     {{ $printing_price->vendor->name }}</td>
                                 <td class="px-2 text-teal-700 border text-xs text-center">
-                                    {{ number_format($printing_price->printing_price) }}</td>
-                                <td class="px-2 text-teal-700 border text-xs text-center">
-                                    {{ number_format($printing_price->sale_price) }}
-                                </td>
+                                    {{ number_format($printing_price->price) }}</td>
                                 <td class="px-2 text-teal-700 border text-xs text-center">{{ $printing_price->user->name }}
                                 </td>
                                 <td class="px-2 text-teal-700 border text-xs text-center">

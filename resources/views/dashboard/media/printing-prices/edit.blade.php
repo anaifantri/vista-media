@@ -15,10 +15,17 @@
                         <div>
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Nama Bahan</label>
-                                <select
+                                <input type="text" id="printing_product_id" name="printing_product_id"
+                                    placeholder="Input harga cetak" value="{{ $printing_price->printing_product_id }}"
+                                    hidden>
+                                <input
+                                    class="flex px-2 text-sm font-semibold text-gray-400 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                    type="text" placeholder="Input harga cetak"
+                                    value="{{ $printing_price->printing_product->name }}" readonly>
+                                {{-- <select
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('printing_product_id') is-invalid @enderror"
                                     name="printing_product_id" id="printing_product_id"
-                                    value="{{ $printing_price->printing_product->id }}" required>
+                                    value="{{ $printing_price->printing_product->id }}" required disabled>
                                     @foreach ($printing_products as $printing_product)
                                         @if ($printing_product->id == $printing_price->printing_product->id)
                                             <option value="{{ $printing_product->id }}" selected>
@@ -30,7 +37,7 @@
                                             </option>
                                         @endif
                                     @endforeach
-                                </select>
+                                </select> --}}
                                 @error('printing_product_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -39,9 +46,16 @@
                             </div>
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Nama Vendor</label>
-                                <select
+                                <input type="text" id="vendor_id" name="vendor_id" placeholder="Input harga cetak"
+                                    value="{{ $printing_price->vendor_id }}" hidden>
+                                <input
+                                    class="flex px-2 text-sm font-semibold text-gray-400 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                    type="text" placeholder="Input harga cetak"
+                                    value="{{ $printing_price->vendor->name }}" readonly>
+                                {{-- <select
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('vendor_id') is-invalid @enderror"
-                                    name="vendor_id" id="vendor_id" value="{{ $printing_price->vendor->id }}" required>
+                                    name="vendor_id" id="vendor_id" value="{{ $printing_price->vendor->id }}" required
+                                    disabled>
                                     @foreach ($vendors as $vendor)
                                         @if ($vendor->vendor_category->name == 'Printing')
                                             @if ($vendor->id == $printing_price->vendor->id)
@@ -55,7 +69,7 @@
                                             @endif
                                         @endif
                                     @endforeach
-                                </select>
+                                </select> --}}
                                 @error('vendor_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -65,22 +79,10 @@
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Harga Cetak</label>
                                 <input
-                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('printing_price') is-invalid @enderror"
-                                    type="number" id="printing_price" name="printing_price" placeholder="Input harga cetak"
-                                    value="{{ $printing_price->printing_price }}" required>
+                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                    type="number" id="price" name="price" placeholder="Input harga cetak"
+                                    value="{{ $printing_price->price }}" required>
                                 @error('printing_price')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mt-1">
-                                <label class="text-sm text-teal-700">Harga Jual</label>
-                                <input
-                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('sale_price') is-invalid @enderror"
-                                    type="number" id="sale_price" name="sale_price" placeholder="Input harga jual"
-                                    value="{{ $printing_price->sale_price }}"required>
-                                @error('sale_price')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

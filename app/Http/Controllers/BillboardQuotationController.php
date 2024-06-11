@@ -106,7 +106,7 @@ class BillboardQuotationController extends Controller
 
             $validateData['user_id'] = auth()->user()->id;
             $validateData['company_id'] = "1";
-            $validateData['price_periode'] = "Test";
+            // $validateData['price_periode'] = "Test";
 
             
     

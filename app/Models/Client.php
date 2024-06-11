@@ -45,5 +45,9 @@ class Client extends Model
         return $this->hasMany(Sale::class, 'client_id', 'id');
     }
 
+    public function print_instal_quotations(){
+        return $this->hasMany(PrintInstalQuotation::class, 'client_id', 'id');
+    }
+
     public $sortable = ['name','company', 'category'];
 }

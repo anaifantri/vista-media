@@ -60,7 +60,6 @@
                         <tr class="bg-teal-100 h-10">
                             <th class="text-teal-700 border text-xs w-10 text-center">No.</th>
                             <th class="text-teal-700 border text-xs text-center w-10">Kode</th>
-                            <th class="text-teal-700 border text-xs text-center w-24">Nama</th>
                             <th class="text-teal-700 border text-xs text-center w-20">Jenis</th>
                             <th class="text-teal-700 border text-xs text-center w-20">Harga</th>
                             <th class="text-teal-700 border text-xs text-center w-24">Dibuat oleh</th>
@@ -77,8 +76,6 @@
                                 <td class="text-teal-700 border text-xs text-center">{{ $number++ }}</td>
                                 <td class="text-teal-700 border text-xs text-center">
                                     {{ $installation_price->code }}</td>
-                                <td class="px-2 text-teal-700 border text-xs text-center">
-                                    {{ $installation_price->name }}</td>
                                 <td class="px-2 text-teal-700 border text-xs text-center">
                                     {{ $installation_price->type }}</td>
                                 <td class="px-2 text-teal-700 border text-xs text-center">
@@ -120,7 +117,7 @@
                                                 @csrf
                                                 <button
                                                     class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                    onclick="return confirm('Apakah anda yakin ingin menghapus data harga pasang dengan nama {{ $installation_price->name }} tipe {{ $installation_price->type }}?')">
+                                                    onclick="return confirm('Apakah anda yakin ingin menghapus data harga pasang dengan tipe {{ $installation_price->type }}?')">
                                                     <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                                         width="24" height="24" viewBox="0 0 24 24">
                                                         <title>DELETE</title>

@@ -14,11 +14,11 @@
     @apply flex items-center font-medium text-sm mx-1 group-hover:text-emerald-200;
 }
 
-.right-profile-show{
+.right-profile-show {
     @apply translate-y-[186px];
 }
 
-.right-setting-show{
+.right-setting-show {
     @apply translate-y-[170px];
 }
 
@@ -50,10 +50,10 @@
 .active {
     @apply text-gray-400;
 }
-.nav-svg{
+.nav-svg {
     @apply flex fill-current w-6 hover:text-emerald-600 hover:scale-125;
 }
-.child-nav-svg{
+.child-nav-svg {
     @apply flex fill-current w-4 mr-1 hover:text-emerald-600;
 }
 .svg-arrow {
@@ -91,25 +91,25 @@
 
 /* alert */
 .alert-primary {
-    @apply  text-teal-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-teal-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
-}   
+    @apply text-teal-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-teal-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
+}
 
 .alert-success {
-    @apply  text-green-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-green-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
+    @apply text-green-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-green-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
 }
 
 .alert-warning {
-    @apply  text-yellow-700 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-yellow-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
+    @apply text-yellow-700 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-yellow-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
 }
 
 .alert-danger {
-    @apply  text-red-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-red-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
+    @apply text-red-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-red-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
 }
 /* Main end*/
 
 /* Form start*/
 .input-area {
-@apply ml-3 p-1 bg-white text-slate-600 rounded-md border;
+    @apply ml-3 p-1 bg-white text-slate-600 rounded-md border;
 }
 /* Form end*/
 
@@ -145,337 +145,340 @@
 
 /* maps start */
 .map {
-    @apply w-full h-[500px]; 
-        
+    @apply w-full h-[500px];
 }
 .lg-map-product {
-    @apply w-[600px] h-[400px] rounded-xl;     
+    @apply w-[600px] h-[400px] rounded-xl;
 }
 
 .lg-photo-product {
-    @apply w-[600px] h-[400px] rounded-xl;      
+    @apply w-[600px] h-[400px] rounded-xl;
 }
 .md-map-product {
-    @apply w-[495px] h-[330px] rounded-xl;   
+    @apply w-[495px] h-[330px] rounded-xl;
 }
 
 .md-photo-product {
-    @apply w-[495px] h-[330px] rounded-xl;       
+    @apply w-[495px] h-[330px] rounded-xl;
 }
 
 .sm-map-product {
-    @apply w-[450px] h-[300px] rounded-xl; 
+    @apply w-[450px] h-[300px] rounded-xl;
 }
 
 .sm-photo-product {
-    @apply w-[450px] h-[300px] rounded-xl; 
+    @apply w-[450px] h-[300px] rounded-xl;
 }
 
 .m-map-product {
-    @apply w-[340px] h-[225px] rounded-xl; 
+    @apply w-[340px] h-[225px] rounded-xl;
 }
 
 .m-photo-product {
-    @apply w-[340px] h-[225px] rounded-xl; 
+    @apply w-[340px] h-[225px] rounded-xl;
 }
 
 /* maps end */
-.label{
+.label {
     @apply text-sm text-teal-700;
 }
 
-.input{
+.input {
     @apply flex text-sm font-semibold text-slate-500 w-32 border rounded-lg p-1 outline-teal-300;
 }
 
-.td-table{
+.td-table {
     @apply text-xs text-teal-700 text-center border;
 }
 
-.td-table-sale{
+.td-table-sale {
     @apply text-xs text-teal-700 text-right font-semibold border px-2;
 }
 
-.td-table-preview{
+.td-table-preview {
     @apply text-[0.65rem] text-teal-700 text-center border;
 }
 
-.btn-del{
+.btn-del {
     @apply flex items-center justify-center text-xs font-semibold text-white w-4 h-4 rounded-full hover:bg-red-700 drop-shadow-md mx-1;
 }
 
-.input-price{
+.input-price {
     @apply w-[72px] outline-none border rounded-md text-xs text-teal-700 text-center;
 }
 
-.input-price-preview{
+.input-price-preview {
     @apply w-[108px] outline-none text-xs text-teal-700 text-center;
 }
 
-.main-title{
+.main-title {
     @apply flex w-full h-[44px] justify-center items-center mt-1;
 }
 
-.title{
+.title {
     @apply flex w-[700px] h-[44px] justify-start items-center bg-slate-50 border rounded-t-xl;
 }
 
-.code-number{
+.code-number {
     @apply flex justify-end items-center w-16 h-[36px] text-lg text-red-700 font-bold;
 }
 
-.code-city{
+.code-city {
     @apply flex justify-start items-center w-16 h-[36px] text-lg font-bold ml-1;
 }
 
-.address-preview{
+.address-preview {
     @apply flex justify-start items-center w-[575px] h-[36px] text-base font-semibold;
 }
 
-.main-image{
+.main-image {
     @apply flex w-full h-[465px] justify-center mt-[1px];
 }
 
-.image-frame{
+.image-frame {
     @apply flex w-[700px] h-[465px] justify-center items-center bg-slate-50 border rounded-b-xl;
 }
 
-.image-preview{
+.image-preview {
     @apply m-auto w-[670px] h-[435px];
 }
 
-.body-bottom{
+.body-bottom {
     @apply flex w-full h-[360px] justify-center mt-1;
 }
 
-.main-bottom{
+.main-bottom {
     @apply flex w-[700px] h-[360px] bg-white;
 }
 
-.main-map{
+.main-map {
     @apply w-[476px] h-[360px] bg-white justify-center;
 }
 
-.map-title{
+.map-title {
     @apply flex w-[476px] h-7 bg-slate-50 items-center border justify-center rounded-t-lg text-sm font-bold font-mono text-teal-900;
 }
 
-.map-preview{
+.map-preview {
     @apply flex relative w-[476px] h-[330px] mt-[1px] rounded-b-lg;
 }
 
-.image-map{
+.image-map {
     @apply w-[476px] h-[330px] border rounded-b-xl;
 }
 
-.main-description{
+.main-description {
     @apply w-[220px] h-[360px] bg-white justify-center ml-1;
 }
 
-.description-title{
+.description-title {
     @apply flex p-1 items-center justify-center w-[220px] h-7 bg-slate-50 border rounded-t-lg text-sm font-bold font-mono text-teal-900;
 }
 
-.description{
+.description {
     @apply w-[220px] h-[92px] bg-slate-50 mt-[1px] rounded-b-lg border;
 }
 
-.description-element{
+.description-element {
     @apply flex mt-1;
 }
 
-.description-name{
+.description-name {
     @apply w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2;
 }
 
-.description-value{
+.description-value {
     @apply w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900;
 }
 
-.area-title{
+.area-title {
     @apply flex w-[220px] h-7 p-1 bg-slate-50 mt-[1px] border justify-center items-center rounded-t-lg text-sm font-bold font-mono text-teal-900;
 }
 
-.area-information{
+.area-information {
     @apply w-[220px] h-[210px] border bg-slate-50 mt-[1px] rounded-b-lg;
 }
 
-.area-element{
+.area-element {
     @apply flex;
 }
 
-.area-name{
+.area-name {
     @apply w-[100px] text-xs font-mono text-teal-900 ml-2;
 }
 
-.area-value{
+.area-value {
     @apply flex w-[120px] text-xs font-mono text-teal-900;
 }
 
-.footer{
+.footer {
     @apply items-end justify-center;
 }
 
-.footer-line{
+.footer-line {
     @apply flex w-full h-max justify-center mt-2;
 }
 
-.footer-company{
+.footer-company {
     @apply flex items-center w-full justify-center;
 }
 
-.company{
+.company {
     @apply text-sm font-semibold;
 }
 
-.footer-text{
+.footer-text {
     @apply text-xs;
 }
 
-.footer-element{
+.footer-element {
     @apply flex items-center w-full justify-center;
 }
 
-.sale-label-title{
-        @apply flex text-lg font-bold border-b text-teal-700 mt-4;
+.sale-label-title {
+    @apply flex text-lg font-bold border-b text-teal-700 mt-4;
 }
 
-.body-detail{
+.body-detail {
     @apply flex justify-center mt-4;
 }
 
-.body-bottom-sale{
+.body-bottom-sale {
     @apply flex justify-center;
 }
 
-.sale-detail{
+.sale-detail {
     @apply w-[385px] border rounded-lg mt-2 p-2;
 }
 
-.div-sale{
+.div-sale {
     @apply flex mt-1;
 }
 
-.label-sale-01{
-    @apply text-sm text-teal-700 w-28
+.label-sale-01 {
+    @apply text-sm text-teal-700 w-28;
 }
 
-.label-sale-02{
+.label-sale-02 {
     @apply text-sm text-teal-700 ml-2;
 }
 
-.btn-sale{
+.btn-sale {
     @apply w-max h-5 cursor-pointer bg-teal-500 rounded-lg text-white hover:bg-teal-600 drop-shadow-lg;
 }
 
-.th-table{
+.th-table {
     @apply text-xs text-teal-700 border text-center font-bold;
 }
 
-.sale-note{
+.sale-note {
     @apply flex justify-center mt-4 w-full;
 }
 
-.div-sale-notes{
+.div-sale-notes {
     @apply border rounded-lg mt-2 p-2;
 }
 
-.sale-note-title{
+.sale-note-title {
     @apply text-sm font-semibold underline text-teal-700;
 }
 
-.label-sale-notes{
+.label-sale-notes {
     @apply flex text-sm text-teal-700 w-[290px];
 }
 
-.label-number-notes{
+.label-number-notes {
     @apply ml-1 flex text-sm text-teal-700 w-4;
 }
 
-.line-label{
+.line-label {
     @apply flex text-sm text-teal-700 w-[416px] border-b h-5 border-dotted;
 }
 
-.sign-area{
+.sign-area {
     @apply flex justify-center mt-4;
 }
 
-.div-sign{
+.div-sign {
     @apply flex justify-center w-[780px] h-36;
 }
 
-.th-title-sign{
+.th-title-sign {
     @apply text-teal-700 border h-6 underline;
 }
 
-.th-sign{
+.th-sign {
     @apply text-xs text-teal-700 border w-[190px] h-5;
 }
 
-.td-sign{
+.td-sign {
     @apply text-center align-bottom text-sm font-bold text-teal-700 border w-[190px] p-2 underline;
 }
 
-.table-sign{
+.table-sign {
     @apply mt-2 w-full;
 }
 
-.img-location-sale{
+.img-location-sale {
     @apply flex w-[375px] h-[250px] rounded-lg;
 }
 
-.qr-code-sale{
+.qr-code-sale {
     @apply flex justify-center items-center w-[385px] mt-2 p-2;
 }
 
-.qrcode-img-sale{
+.qrcode-img-sale {
     @apply flex w-[150px] h-[150px] rounded-lg;
 }
 
-.document-approval{
+.document-approval {
     @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale;
 }
 
-.document-approval-active{
+.document-approval-active {
     @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale-0;
 }
 
-.payment-value{
+.payment-value {
     @apply ml-1 text-sm text-black outline-none w-10 text-center;
 }
 
-.percent-label{
+.percent-label {
     @apply ml-1 text-sm text-black flex;
 }
 
-.payment-note{
+.payment-note {
     @apply ml-1 text-sm text-black outline-none w-full;
 }
 
-.label-preview-bb-note{
+.label-preview-bb-note {
     @apply ml-2 text-[0.7rem] text-black w-full;
 }
 
-.div-preview-bb-note{
+.div-preview-bb-note {
     @apply flex;
 }
 
-.label-payment{
+.label-payment {
     @apply ml-4 text-[0.7rem] text-black w-full;
 }
 
-.label-radio{
+.label-radio {
     @apply text-xs text-teal-700 ml-1;
 }
 
-.input-dpp{
+.input-dpp {
     @apply outline-none text-teal-700 text-xs rounded-sm w-24 text-right;
 }
 
-.title-periode{
+.title-periode {
     @apply text-teal-700 text-sm border-b-2 border-teal-700;
 }
 
-.date-periode{
+.date-periode {
     @apply outline-none text-teal-700 text-sm rounded-sm w-32 ml-2;
+}
+
+.text-area-notes {
+    @apply ml-1 w-[721px] outline-none text-sm;
 }

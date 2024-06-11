@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->foreignId('user_id')->constrained();
-            $table->string('name');
-            $table->string('type');
+            $table->string('type')->unique();
             $table->decimal('price',12,0)->unsigned()->default(0);
             $table->timestamps();
         });

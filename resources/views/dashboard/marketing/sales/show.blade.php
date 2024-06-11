@@ -6,8 +6,8 @@
         <div class="mt-10">
             <!-- Title Show Quotatin start -->
             <div class="flex border-b w-[950px]">
-                <div class="flex w-72 items-center">
-                    <h1 class="text-xl text-white font-bold tracking-wider">DETAIL PENJUALAN</h1>
+                <div class="flex w-96 items-center">
+                    <h1 class="text-xl text-white font-bold tracking-wider">DETAIL PENJUALAN BILLBOARD</h1>
                 </div>
                 <div class="flex justify-end w-[660px]">
                     <a class="flex justify-center items-center ml-1 btn-success" href="/dashboard/marketing/sales">
@@ -47,6 +47,24 @@
                         </div>
                         <!-- Header end -->
                         <!-- Body start -->
+                        <?php
+                        $usedPrint = 0;
+                        $usedInstall = 0;
+                        ?>
+                        @foreach ($w_o_prints as $woPrint)
+                            @if ($woPrint->sale_id == $sale->id)
+                                <?php
+                                $usedPrint = $usedPrint + 1;
+                                ?>
+                            @endif
+                        @endforeach
+                        @foreach ($w_o_installs as $woInstall)
+                            @if ($woInstall->sale_id == $sale->id)
+                                <?php
+                                $usedInstall = $usedInstall + 1;
+                                ?>
+                            @endif
+                        @endforeach
                         <div class="h-[1125px]">
                             <div>
                                 <div class="flex justify-center mt-4 w-full">
@@ -65,148 +83,164 @@
                                             dan
                                             Pasang</label>
                                     </div>
-                                    <div class="border rounded-lg mt-1 w-[760px] p-1">
-                                        <div class="flex">
-                                            <label class="text-sm text-teal-700 w-28">Free cetak</label>
-                                            @if ($sale->free_print)
-                                                <label class="flex text-sm text-teal-700 w-24">: {{ $sale->free_print }}
-                                                    x</label>
-                                                <label class="text-sm text-teal-700 w-20">Terpakai</label>
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <label class="text-sm text-teal-700 w-10">Sisa</label>
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
-                                                    href="#">
-                                                    <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                                            fill-rule="nonzero" />
-                                                    </svg>
-                                                    <span class="ml-1 text-sm">SPK Cetak</span>
-                                                </a>
-                                            @else
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <label class="text-sm text-teal-700 w-20">Terpakai</label>
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <label class="text-sm text-teal-700 w-10">Sisa</label>
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-gray-500 cursor-default rounded-md text-white drop-shadow-md"
-                                                    href="#">
-                                                    <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                                            fill-rule="nonzero" />
-                                                    </svg>
-                                                    <span class="ml-1 text-sm">SPK Cetak</span>
-                                                </a>
-                                            @endif
-                                        </div>
-                                        <div class="flex">
-                                            <label class="text-sm text-teal-700 w-28">Free Pasang</label>
-                                            @if ($sale->free_instalation)
-                                                <label class="flex text-sm text-teal-700 w-24">:
-                                                    {{ $sale->free_instalation }}
-                                                    x</label>
-                                                <label class="text-sm text-teal-700 w-20">Terpakai</label>
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <label class="text-sm text-teal-700 w-10">Sisa</label>
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <a class="flex mt-1 justify-center items-center ml-4 p-1 w-28 h-6 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
-                                                    href="#">
-                                                    <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                                            fill-rule="nonzero" />
-                                                    </svg>
-                                                    <span class="ml-1 text-sm">SPK Pasang</span>
-                                                </a>
-                                            @else
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <label class="text-sm text-teal-700 w-20">Terpakai</label>
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <label class="text-sm text-teal-700 w-10">Sisa</label>
-                                                <label class="flex text-sm text-teal-700 w-24">: - </label>
-                                                <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-gray-500 cursor-default rounded-md text-white drop-shadow-md"
-                                                    href="#">
-                                                    <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                                            fill-rule="nonzero" />
-                                                    </svg>
-                                                    <span class="ml-1 text-sm">SPK Pasang</span>
-                                                </a>
-                                            @endif
-                                        </div>
-                                        {{-- @if ($sale->free_print)
-                                            <div class="mt-2">
-                                                <label class="text-sm text-teal-700 underline">Penggunaan Free
-                                                    Cetak & Pemasangan</label>
-                                                <table class="table-auto w-[740px] mt-1">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="w-10 text-[0.7rem] text-teal-700 border">No.
-                                                            </th>
-                                                            <th class="w-24 text-[0.7rem] text-teal-700 border">No. SPK
-                                                                Cetak
-                                                            </th>
-                                                            <th class="w-24 text-[0.7rem] text-teal-700 border">Tgl.
-                                                                Cetak</th>
-                                                            <th class="w-24 text-[0.7rem] text-teal-700 border">No. SPK
-                                                                Pasang
-                                                            </th>
-                                                            <th class="w-20 text-[0.7rem] text-teal-700 border">Tgl.
-                                                                Pasang</th>
-                                                            <th class="w-52 text-[0.7rem] text-teal-700 border">Desain
-                                                            </th>
-                                                            <th class="w-10 text-[0.7rem] text-teal-700 border">Dok.
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                1</td>
-                                                            <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                -
-                                                            </td>
-                                                            <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                            </td>
-                                                            <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                -
-                                                            </td>
-                                                            <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                            </td>
-                                                            <td class="text-[0.7rem] text-center text-teal-700 border">
-                                                                -
-                                                            </td>
-                                                            <td
-                                                                class="flex justify-center text-[0.7rem] text-center text-teal-700 border">
-                                                                <button
-                                                                    class="flex justify-center items-center w-6 h-4 rounded-lg border bg-teal-200 hover:bg-teal-500"
-                                                                    type="button">
-                                                                    <svg class="fill-current w-4" clip-rule="evenodd"
-                                                                        fill-rule="evenodd" stroke-linejoin="round"
-                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
-                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                        <path
-                                                                            d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"
-                                                                            fill-rule="nonzero" />
-                                                                    </svg>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                    <div class="flex border rounded-lg mt-1 w-[760px] p-1">
+                                        <div>
+                                            <div class="flex">
+                                                <label class="text-sm text-teal-700 h-6 items-center w-28">Free
+                                                    cetak</label>
+                                                @if ($sale->free_print)
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-12 ml-2 h-6"
+                                                        readonly type="number" name="free_print" id="free_print"
+                                                        value="{{ $sale->free_print }}">
+                                                    <label
+                                                        class="flex text-sm text-teal-700 h-6 items-center w-20">Terpakai</label>
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-12 ml-2 h-6"
+                                                        readonly type="number" name="usedPrint" id="usedPrint"
+                                                        value="{{ $usedPrint }}">
+                                                    <label
+                                                        class="flex text-sm text-teal-700 h-6 items-center w-10">Sisa</label>
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-28 ml-2 h-6"
+                                                        readonly type="number" name="diffPrint" id="diffPrint"
+                                                        value="{{ $sale->free_print - $usedPrint }}">
+                                                    <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
+                                                        href="#">
+                                                        <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
+                                                            fill-rule="evenodd" stroke-linejoin="round"
+                                                            stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                                fill-rule="nonzero" />
+                                                        </svg>
+                                                        <span class="ml-1 text-sm">SPK Cetak</span>
+                                                    </a>
+                                                @else
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-12 ml-2" h-6
+                                                        readonly type="number" name="free_print" id="free_print"
+                                                        value="0">
+                                                    <label
+                                                        class="flex text-sm text-teal-700 h-6 items-center w-20">Terpakai</label>
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-12 ml-2" h-6
+                                                        readonly type="number" name="usedPrint" id="usedPrint"
+                                                        value="0">
+                                                    <label
+                                                        class="flex text-sm text-teal-700 h-6 items-center w-10">Sisa</label>
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-28 ml-2" h-6
+                                                        readonly type="number" name="diffPrint" id="diffPrint"
+                                                        value="0">
+                                                    <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-gray-500 cursor-default rounded-md text-white drop-shadow-md"
+                                                        href="#">
+                                                        <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
+                                                            fill-rule="evenodd" stroke-linejoin="round"
+                                                            stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                                fill-rule="nonzero" />
+                                                        </svg>
+                                                        <span class="ml-1 text-sm">SPK Cetak</span>
+                                                    </a>
+                                                @endif
                                             </div>
-                                        @endif --}}
+                                            <div class="flex">
+                                                <label class="text-sm text-teal-700 h-6 items-center w-28">Free
+                                                    Pasang</label>
+                                                @if ($sale->free_instalation)
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-12 ml-2" h-6
+                                                        readonly type="number" name="free_instal" id="free_instal"
+                                                        value="{{ $sale->free_instalation }}">
+                                                    <label
+                                                        class="flex text-sm text-teal-700 h-6 items-center w-20">Terpakai</label>
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-12 ml-2" h-6
+                                                        readonly type="number" name="usedInstal" id="usedInstal"
+                                                        value="{{ $usedInstall }}">
+                                                    <label
+                                                        class="flex text-sm text-teal-700 h-6 items-center w-10">Sisa</label>
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-28 ml-2" h-6
+                                                        readonly type="number" name="diffInstal" id="diffInstal"
+                                                        value="{{ $sale->free_instalation - $usedInstall }}">
+                                                    <a class="flex mt-1 justify-center items-center ml-4 p-1 w-28 h-6 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
+                                                        href="#">
+                                                        <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
+                                                            fill-rule="evenodd" stroke-linejoin="round"
+                                                            stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                                fill-rule="nonzero" />
+                                                        </svg>
+                                                        <span class="ml-1 text-sm">SPK Pasang</span>
+                                                    </a>
+                                                @else
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-12 ml-2" h-6
+                                                        readonly type="number" name="free_instal" id="free_instal"
+                                                        value="0">
+                                                    <label
+                                                        class="flex text-sm text-teal-700 h-6 items-center w-20">Terpakai</label>
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-12 ml-2 h-6"
+                                                        readonly type="number" name="usedInstal" id="usedInstal"
+                                                        value="0">
+                                                    <label
+                                                        class="flex text-sm text-teal-700 h-6 items-center w-10">Sisa</label>
+                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <input class="flex outline-none text-sm text-teal-700 w-28 ml-2 h-6"
+                                                        readonly type="number" name="diffInstal" id="diffInstal"
+                                                        value="0">
+                                                    <a class="flex justify-center items-center ml-4 p-1 w-28 h-6 bg-gray-500 cursor-default rounded-md text-white drop-shadow-md"
+                                                        href="#">
+                                                        <svg class="fill-current w-4 ml-1" clip-rule="evenodd"
+                                                            fill-rule="evenodd" stroke-linejoin="round"
+                                                            stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                                fill-rule="nonzero" />
+                                                        </svg>
+                                                        <span class="ml-1 text-sm">SPK Pasang</span>
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div>
+                                            @if ($sale->free_instalation - $usedInstall > 0 && $sale->free_print - $usedPrint > 0)
+                                                <button
+                                                    class="flex justify-center items-center ml-4 p-1 h-6 bg-gray-700 rounded-md text-white cursor-default drop-shadow-md"
+                                                    href="#">
+                                                    <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
+                                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                            fill-rule="nonzero" />
+                                                    </svg>
+                                                    <span class="ml-1 text-sm">Buat Penawaran</span>
+                                                </button>
+                                            @else
+                                                <button id="btnCreate"
+                                                    class="flex justify-center items-center ml-4 p-1 h-6 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
+                                                    href="#">
+                                                    <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
+                                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                            fill-rule="nonzero" />
+                                                    </svg>
+                                                    <span class="ml-1 text-sm">Buat Penawaran</span>
+                                                </button>
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="mt-4 ml-2">
                                         <label class="text-sm font-semibold underline text-teal-700">B. Data
@@ -904,44 +938,15 @@
             <div class="h-10"></div>
         </div>
     </div>
-    </div>
+    @include('dashboard.marketing.print-instal-quotations.create-quotations')
+
     <!-- Show Quotatin end -->
 
     <!-- Script start -->
     <script src="/js/html2canvas.min.js"></script>
     <script src="/js/html2pdf.bundle.min.js"></script>
     <script src="/js/qrcode.min.js"></script>
+    <script src="/js/printinstallquotation.js"></script>
 
-    <script>
-        const saveName = document.getElementById("saveNumber");
-        document.getElementById("btnCreatePdf").onclick = function() {
-            var element = document.getElementById('pdfPreview');
-            var opt = {
-                margin: 0,
-                filename: saveName.value,
-                image: {
-                    type: 'jpeg',
-                    quality: 1
-                },
-                pagebreak: {
-                    mode: ['avoid-all', 'css', 'legacy']
-                },
-                html2canvas: {
-                    dpi: 300,
-                    scale: 4,
-                    letterRendering: true,
-                    useCORS: true
-                },
-                jsPDF: {
-                    unit: 'px',
-                    format: [950, 1380],
-                    orientation: 'portrait',
-                    putTotalPages: true
-                }
-            };
-            // html2pdf(element, opt);
-            html2pdf().set(opt).from(element).save();
-        };
-    </script>
     <!-- Script end -->
 @endsection

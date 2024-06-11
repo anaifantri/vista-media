@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('billboard_quotations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('company_id')->constrained();
             $table->foreignId('client_id')->constrained();
             $table->foreignId('contact_id')->constrained();
             $table->foreignId('billboard_category_id')->constrained();

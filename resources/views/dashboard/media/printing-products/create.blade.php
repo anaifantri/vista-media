@@ -24,11 +24,56 @@
                                 @enderror
                             </div>
                             <div class="mt-1">
+                                @php
+                                    $numberType = 0;
+                                    $types = ['Frontlight', 'Backlight'];
+                                @endphp
+                                <div class="flex mt-1">
+                                    <label class="text-sm text-teal-700">Type</label>
+                                </div>
+                                <div class="mt-1">
+                                    <select id="type" name="type"
+                                        class="w-[250px] text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                            @error('type') is-invalid @enderror"
+                                        type="text" value="{{ old('type') }}">
+                                        <option value="pilih">- pilih -</option>
+                                        @for ($numbertype = 0; $numbertype < count($types); $numbertype++)
+                                            @if (old('type') == $types[$numbertype])
+                                                <option value="{{ $types[$numbertype] }}" selected>
+                                                    {{ $types[$numbertype] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $types[$numbertype] }}">
+                                                    {{ $types[$numbertype] }}
+                                                </option>
+                                            @endif
+                                        @endfor
+                                    </select>
+                                    @error('type')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="mt-1">
                                 <label class="text-sm text-teal-700">Deskripsi</label>
                                 <textarea
                                     class="flex text-sm font-semibold text-teal-900 w-[250px]  border rounded-lg p-1 outline-teal-300 @error('description') is-invalid @enderror"
                                     name="description" id="description" placeholder="Input deskripsi bahan">{{ old('description') }}</textarea>
                                 @error('description')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mt-1">
+                                <label class="text-sm text-teal-700">Harga Jual</label>
+                                <input
+                                    class="text-sm p-1 font-semibold text-teal-900 border rounded-md outline-none w-[250px] @error('price') is-invalid @enderror"
+                                    type="number" id="price" name="price" min="0" value="{{ old('price') }}"
+                                    required>
+                                @error('price')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

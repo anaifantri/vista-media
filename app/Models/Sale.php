@@ -84,6 +84,13 @@ class Sale extends Model
         return $this->hasMany(ClientAgreement::class, 'sale_id', 'id');
     }
 
+    public function w_o_prints(){
+        return $this->hasMany(WOPrint::class, 'sale_id', 'id');
+    }
+
+    public function w_o_installs(){
+        return $this->hasMany(WOInstall::class, 'sale_id', 'id');
+    }
 
     public $sortable = ['number'];
 }

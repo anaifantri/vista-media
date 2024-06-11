@@ -13,9 +13,16 @@
                             <div class="border-b mt-2"><label class="text-sm text-teal-700">Nama Bahan</label>
                                 <h6 class="text-base font-semibold text-teal-900">{{ $printing_product->name }}</h6>
                             </div>
+                            <div class="border-b mt-2"><label class="text-sm text-teal-700">Type</label>
+                                <h6 class="text-base font-semibold text-teal-900">{{ $printing_product->type }}</h6>
+                            </div>
                             <div class="mt-1">
                                 <label class="text-sm text-teal-700">Deskripsi</label>
                                 <textarea class="flex text-base font-semibold text-teal-900 w-[300px]  border rounded-lg p-1 outline-teal-300" readonly>{{ $printing_product->description }}</textarea>
+                            </div>
+                            <div class="border-b mt-2"><label class="text-sm text-teal-700">Harga Jual</label>
+                                <h6 class="text-base font-semibold text-teal-900">Rp.
+                                    {{ number_format($printing_product->price) }},-</h6>
                             </div>
                             <div class="border-b mt-2"><label class="text-sm text-teal-700">Tanggal Dibuat</label>
                                 <h6 class="text-base font-semibold text-teal-900">

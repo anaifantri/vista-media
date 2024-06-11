@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('print_install_sales', function (Blueprint $table) {
             $table->id();
             $table->string('number')->unique();
             $table->foreignId('user_id')->constrained();
@@ -19,17 +19,12 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained();
             $table->foreignId('contact_id')->constrained();
             $table->foreignId('billboard_id')->constrained();
-            $table->foreignId('billboard_quotation_id')->nullable()->constrained();
-            $table->foreignId('billboard_quot_revision_id')->nullable()->constrained();
-            $table->decimal('price',12,0)->unsigned()->default(0);
-            $table->decimal('dpp',12,0)->unsigned()->default(0);
-            $table->string('category');
-            $table->string('duration');
-            $table->date('start_at')->nullable();
-            $table->date('end_at')->nullable();
-            $table->json('terms_of_payment');
-            $table->integer('free_installation');
-            $table->integer('free_print');
+            $table->foreignId('printing_product_id')->nullable()->constrained();
+            $table->foreignId('installation_price_id')->nullable()->constrained();
+            $table->foreignId('vendor_id')->nullable()->constrained();
+            $table->foreignId('print_instal_quotation_id')->constrained();
+            $table->decimal('print_price',12,0)->unsigned()->default(0)->nullable();
+            $table->decimal('install_price',12,0)->unsigned()->default(0)->nullable();
             $table->timestamps();
         });
     }
@@ -39,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('print_install_sales');
     }
 };

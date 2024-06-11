@@ -67,7 +67,9 @@
                                     </svg>
                                 </button>
                             </th>
+                            <th class="text-teal-700 border text-xs text-center w-20">Type</th>
                             <th class="text-teal-700 border text-xs text-center">Deskripsi</th>
+                            <th class="text-teal-700 border text-xs text-center w-24">Harga Jual</th>
                             <th class="text-teal-700 border text-xs text-center w-24">Action</th>
                         </tr>
                     </thead>
@@ -79,7 +81,11 @@
                             <tr>
                                 <td class="text-teal-700 border text-xs text-center">{{ $number++ }}</td>
                                 <td class="text-teal-700 border text-xs text-center">{{ $printing_product->name }}</td>
+                                <td class="text-teal-700 border text-xs text-center">{{ $printing_product->type }}</td>
                                 <td class="px-2 text-teal-700 border text-xs">{{ $printing_product->description }}
+                                </td>
+                                <td class="px-2 text-teal-700 border text-xs text-center">Rp.
+                                    {{ number_format($printing_product->price) }},-
                                 </td>
                                 <td class="text-teal-700 border text-xs text-center">
                                     <div class="flex justify-center items-center">

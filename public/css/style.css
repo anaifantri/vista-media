@@ -1220,6 +1220,10 @@ video {
   width: 2.25rem;
 }
 
+.w-96 {
+  width: 24rem;
+}
+
 .w-\[100px\] {
   width: 100px;
 }
@@ -1386,6 +1390,10 @@ video {
 
 .w-\[575px\] {
   width: 575px;
+}
+
+.w-\[576px\] {
+  width: 576px;
 }
 
 .w-\[588px\] {
@@ -1798,6 +1806,11 @@ video {
   background-color: rgb(107 114 128 / var(--tw-bg-opacity));
 }
 
+.bg-gray-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+
 .bg-gray-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity));
@@ -1846,11 +1859,6 @@ video {
 .bg-teal-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(204 251 241 / var(--tw-bg-opacity));
-}
-
-.bg-teal-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(153 246 228 / var(--tw-bg-opacity));
 }
 
 .bg-teal-50 {
@@ -1929,6 +1937,10 @@ video {
 
 .fill-current {
   fill: currentColor;
+}
+
+.fill-gray-500 {
+  fill: #6b7280;
 }
 
 .fill-white {
@@ -2036,6 +2048,10 @@ video {
 
 .pb-24 {
   padding-bottom: 6rem;
+}
+
+.pb-4 {
+  padding-bottom: 1rem;
 }
 
 .pb-8 {
@@ -2188,6 +2204,11 @@ video {
 .text-emerald-700 {
   --tw-text-opacity: 1;
   color: rgb(4 120 87 / var(--tw-text-opacity));
+}
+
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
 }
 
 .text-gray-500 {
@@ -3570,6 +3591,15 @@ video {
   outline-offset: 2px;
 }
 
+.text-area-notes {
+  margin-left: 0.25rem;
+  width: 721px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 .selection\:bg-red-500 *::-moz-selection {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
@@ -3656,11 +3686,6 @@ video {
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-teal-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(20 184 166 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-teal-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(13 148 136 / var(--tw-bg-opacity));
@@ -3681,6 +3706,10 @@ video {
 
 .hover\:fill-red-600:hover {
   fill: #dc2626;
+}
+
+.hover\:fill-red-700:hover {
+  fill: #b91c1c;
 }
 
 .hover\:text-emerald-500:hover {

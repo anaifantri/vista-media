@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('name')->unique();
+            $table->string('type');
             $table->string('description')->nullable();
+            $table->decimal('price',12,0)->unsigned()->default(0);
             $table->timestamps();
         });
     }

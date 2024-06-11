@@ -19,11 +19,7 @@
                             </div>
                             <div class="border-b mt-2"><label class="text-sm text-teal-700">Harga Cetak</label>
                                 <h6 class="text-base font-semibold text-teal-900">
-                                    {{ number_format($printing_price->printing_price) }}</h6>
-                            </div>
-                            <div class="border-b mt-2"><label class="text-sm text-teal-700">Harga Jual</label>
-                                <h6 class="text-base font-semibold text-teal-900">
-                                    {{ number_format($printing_price->sale_price) }}</h6>
+                                    {{ number_format($printing_price->price) }}</h6>
                             </div>
                             <div class="border-b mt-2"><label class="text-sm text-teal-700">Tanggal Dibuat</label>
                                 <h6 class="text-base font-semibold text-teal-900">

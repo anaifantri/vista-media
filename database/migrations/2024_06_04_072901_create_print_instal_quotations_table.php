@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('printing_prices', function (Blueprint $table) {
+        Schema::create('print_instal_quotations', function (Blueprint $table) {
             $table->id();
+            $table->string('number')->unique();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('vendor_id')->constrained();
-            $table->foreignId('printing_product_id')->constrained();
-            $table->decimal('price',12,0)->unsigned()->default(0);
+            $table->foreignId('company_id')->constrained();
+            $table->foreignId('client_id')->constrained();
+            $table->foreignId('contact_id')->constrained();
+            $table->json('products');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('printing_prices');
+        Schema::dropIfExists('print_instal_quotations');
     }
 };

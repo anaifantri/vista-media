@@ -42,8 +42,21 @@ class PrintingProductController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
         
+            if ($request->type == 'pilih'){
+                return back()->withErrors(['type' => ['Silahkan pilih type bahan']])->withInput();
+            }
+
+            $productData = PrintingProduct::all();
+            foreach($productData as $poduct){
+                if($poduct->name == $request->name && $poduct->type == $request->type){
+                    return back()->withErrors(['name' => ['Nama bahan dengan tipe yang sama sudah terdaftar, silahkan input nama atau pilih tipe yang lain']])->withInput();
+                }
+            }
+
             $validateData = $request->validate([
-                'name' => 'required|unique:printing_products'
+                'name' => 'required|unique:printing_products',
+                'type' => 'required',
+                'price' => 'required'
             ]);
             
             $validateData['description'] = $request->description;
@@ -94,6 +107,8 @@ class PrintingProductController extends Controller
                 ]);
             }
                 
+            $validateData['type'] = $request->type;
+            $validateData['price'] = $request->price;
             $validateData['description'] = $request->description;
             $validateData['user_id'] = auth()->user()->id;
                 

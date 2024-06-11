@@ -12,18 +12,6 @@
                     <div class="flex justify-center mt-5 w-full">
                         <div>
                             <div class="mt-1">
-                                <label class="text-sm text-teal-700">Nama</label>
-                                <input
-                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('name') is-invalid @enderror"
-                                    type="text" id="name" name="name" placeholder="Input nama harga pasang"
-                                    value="{{ old('name') }}" required>
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mt-1">
                                 @php
                                     $numberType = 0;
                                     $types = ['Frontlight', 'Backlight'];

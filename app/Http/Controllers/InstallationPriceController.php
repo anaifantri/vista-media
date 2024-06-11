@@ -15,7 +15,7 @@ class InstallationPriceController extends Controller
     public function index(): Response
     {
         return response()-> view ('dashboard.media.installation-prices.index', [
-            'installation_prices'=>InstallationPrice::filter(request('search'))->sortable()->with(['user'])->orderBy("name", "asc")->paginate(10)->withQueryString(),
+            'installation_prices'=>InstallationPrice::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
             'title' => 'Daftar Harga Pasang'
         ]);
     }
@@ -45,8 +45,7 @@ class InstallationPriceController extends Controller
             }
             
             $validateData = $request->validate([
-                'name' => 'required',
-                'type' => 'required',
+                'type' => 'required|unique:installation_prices',
                 'price' => 'required'
             ]);
 
@@ -71,7 +70,7 @@ class InstallationPriceController extends Controller
 
             InstallationPrice::create($validateData);
     
-            return redirect('/dashboard/media/installation-prices')->with('success','Harga pemasangan dengan nama '. $request->name . ' tipe ' . $request->type . ' berhasil ditambahkan');
+            return redirect('/dashboard/media/installation-prices')->with('success','Harga pemasangan dengan tipe ' . $request->type . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -105,8 +104,7 @@ class InstallationPriceController extends Controller
     public function update(Request $request, InstallationPrice $installationPrice): RedirectResponse
     {
         $rules = [
-            'name' => 'required',
-            'type' => 'required',
+            'type' => 'required|unique:installation_prices',
             'price' => 'required'
         ];
 
@@ -116,7 +114,7 @@ class InstallationPriceController extends Controller
         InstallationPrice::where('id', $installationPrice->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/media/installation-prices')->with('success','Harga pasang dengan nama '. $installationPrice->name . ' tipe ' . $installationPrice->type . ' berhasil di update');
+        return redirect('/dashboard/media/installation-prices')->with('success','Harga pasang dengan type '. $installationPrice->type .' berhasil di update');
     }
 
     /**
@@ -128,7 +126,7 @@ class InstallationPriceController extends Controller
             
             InstallationPrice::destroy($installationPrice->id);
 
-            return redirect('/dashboard/media/installation-prices')->with('success','Harga pasang dengan nama '. $installationPrice->name . ' tipe ' . $installationPrice->type . ' berhasil dihapus');
+            return redirect('/dashboard/media/installation-prices')->with('success','Harga pasang dengan tipe ' . $installationPrice->type . ' berhasil dihapus');
         } else {
             abort(403);
         }

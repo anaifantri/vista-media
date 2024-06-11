@@ -18,6 +18,10 @@ use App\Models\BillboardCategory;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Size;
+use App\Models\WOPrint;
+use App\Models\WOInstall;
+use App\Models\PrintingProduct;
+use App\Models\InstallationPrice;
 use App\Models\BillboardPhoto;
 use App\Models\Company;
 use Illuminate\Http\RedirectResponse;
@@ -286,8 +290,13 @@ class SaleController extends Controller
             'title' => 'Detail Penjualan',
             'client_agreements' => ClientAgreement::all(),
             'client_orders' => ClientOrder::all(),
+            'contacts' => Contact::all(),
             'client_approvals' => ClientApproval::all(),
             'billboard_photos' => BillboardPhoto::all(),
+            'w_o_installs' => WOInstall::all(),
+            'w_o_prints' => WOPrint::all(),
+            'printing_products'=>PrintingProduct::all(),
+            'installation_prices'=>InstallationPrice::all(),
             compact('clients', 'billboards', 'companies', 'billboard_quotations', 'billboard_quot_revisions', 'users', 'contacts')
         ]);
     }
