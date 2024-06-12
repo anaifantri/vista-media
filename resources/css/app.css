@@ -47,6 +47,9 @@
 .nav-a {
     @apply flex items-center text-base text-slate-700 py-1 group-hover:text-emerald-600;
 }
+.div-nav-a {
+    @apply flex items-start text-base text-slate-700 py-1 mx-2 group-hover:text-emerald-600;
+}
 .active {
     @apply text-gray-400;
 }

@@ -565,7 +565,7 @@
                 </div>
                 <!-- Footer end -->
             </div>
-            @include('dashboard.marketing.print-install-quotations.change-contact')
+            @include('dashboard.marketing.print-instal-quotations.change-contact')
         </form>
     </div>
 </div>

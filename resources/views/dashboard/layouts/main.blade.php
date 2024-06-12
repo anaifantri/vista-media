@@ -24,7 +24,7 @@
     </div>
     <!-- Sidebar End-->
     <!-- Main start-->
-    <div class="w-full h-full top-0 relative z-0">
+    <div id="main-wrapper" class="w-full h-full top-0 relative z-0">
         {{-- <div class="flex relative"> --}}
         <!-- Sidebar start-->
         {{-- @include('dashboard.layouts.sidebar') --}}

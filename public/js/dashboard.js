@@ -40,6 +40,10 @@ const gambarArrow = document.querySelector('#gambarArrow');
 const userArrow = document.querySelector('#userArrow');
 
 hamburger.addEventListener('click', function () {
+    showHideMenu();
+});
+
+function showHideMenu() {
     hamburger.classList.toggle('hamburger-active');
     liDashboard.classList.toggle('hidden');
     liMedia.classList.toggle('hidden');
@@ -60,7 +64,42 @@ hamburger.addEventListener('click', function () {
     accountingArrow.classList.add('rotate-180');
     workshopArrow.classList.add('rotate-180');
     userArrow.classList.add('rotate-180');
-});
+}
+
+var mainWrapper = document.getElementById("main-wrapper");
+var mainHeader = document.getElementById("main-header");
+
+mainWrapper.addEventListener('click', function () {
+    hideMenu();
+}, false);
+
+mainHeader.addEventListener('click', function () {
+    hideMenu();
+}, false);
+
+function hideMenu() {
+    hamburger.classList.remove('hamburger-active');
+    liDashboard.classList.add('hidden');
+    liMedia.classList.add('hidden');
+    liMarketing.classList.add('hidden');
+    liAccounting.classList.add('hidden');
+    liWorkshop.classList.add('hidden');
+    liUser.classList.add('hidden');
+    liLogout.classList.add('hidden');
+    menu.classList.add('hidden');
+    menu.classList.remove('flex');
+    mediaChild.classList.add('hidden');
+    marketingChild.classList.add('hidden');
+    accountingChild.classList.add('hidden');
+    workshopChild.classList.add('hidden');
+    userChild.classList.add('hidden');
+    mediaArrow.classList.add('rotate-180');
+    marketingArrow.classList.add('rotate-180');
+    accountingArrow.classList.add('rotate-180');
+    workshopArrow.classList.add('rotate-180');
+    userArrow.classList.add('rotate-180');
+}
+
 
 // Nav Right - Profile
 const profile = document.querySelector('#profile');
@@ -87,105 +126,76 @@ setting.addEventListener('click', function () {
 });
 
 // Sidebar dropdown
+function showHideDropdown(sel) {
+    sel.classList.toggle('group');
+    sel.children[0].children[1].classList.toggle('rotate-180');
+    sel.children[1].classList.toggle('hidden');
+}
+
 // Media OOH
 liMedia.addEventListener('click', function () {
-    liMedia.classList.toggle('group');
-    mediaArrow.classList.toggle('rotate-180');
-    mediaChild.classList.toggle('hidden');
+    showHideDropdown();
 });
 // Marketing
 liMarketing.addEventListener('click', function () {
-    liMarketing.classList.toggle('group');
-    marketingArrow.classList.toggle('rotate-180');
-    marketingChild.classList.toggle('hidden');
+    showHideDropdown();
 });
 // Penawaran
-const penawaran = document.querySelector('#penawaran');
-const penawaranChild = document.querySelector('#penawaranChild');
+
+function childMenu(e, sel) {
+    e.stopPropagation();
+    sel.classList.toggle('group');
+    sel.children[0].children[2].classList.toggle('rotate-180');
+    sel.children[1].classList.toggle('hidden');
+}
 
 penawaran.addEventListener('click', function () {
-    penawaran.classList.toggle('group');
-    penawaranArrow.classList.toggle('rotate-180');
-    penawaranChild.classList.toggle('hidden');
+    childMenu();
 });
 // Penjualan
-const penjualan = document.querySelector('#penjualan');
-const penjualanChild = document.querySelector('#penjualanChild');
 
 penjualan.addEventListener('click', function () {
-    penjualan.classList.toggle('group');
-    penjualanArrow.classList.toggle('rotate-180');
-    penjualanChild.classList.toggle('hidden');
+    childMenu();
 });
 // Penggantian Materi
-const materi = document.querySelector('#materi');
-const materiChild = document.querySelector('#materiChild');
 
 materi.addEventListener('click', function () {
-    materi.classList.toggle('group');
-    materiArrow.classList.toggle('rotate-180');
-    materiChild.classList.toggle('hidden');
+    childMenu();
 });
 //Accounting
 liAccounting.addEventListener('click', function () {
-    liAccounting.classList.toggle('group');
-    accountingArrow.classList.toggle('rotate-180');
-    accountingChild.classList.toggle('hidden');
+    showHideDropdown();
 });
 //penagihan
-const penagihan = document.querySelector('#penagihan');
-const penagihanChild = document.querySelector('#penagihanChild');
 
 penagihan.addEventListener('click', function () {
-    penagihan.classList.toggle('group');
-    penagihanArrow.classList.toggle('rotate-180');
-    penagihanChild.classList.toggle('hidden');
+    childMenu();
 });
 //ppn
-const ppn = document.querySelector('#ppn');
-const ppnChild = document.querySelector('#ppnChild');
 
 ppn.addEventListener('click', function () {
-    ppn.classList.toggle('group');
-    ppnArrow.classList.toggle('rotate-180');
-    ppnChild.classList.toggle('hidden');
+    childMenu();
 });
 //pph
-const pph = document.querySelector('#pph');
-const pphChild = document.querySelector('#pphChild');
 
 pph.addEventListener('click', function () {
-    pph.classList.toggle('group');
-    pphArrow.classList.toggle('rotate-180');
-    pphChild.classList.toggle('hidden');
+    childMenu();
 });
 //Workshop
 liWorkshop.addEventListener('click', function () {
-    liWorkshop.classList.toggle('group');
-    workshopArrow.classList.toggle('rotate-180');
-    workshopChild.classList.toggle('hidden');
+    showHideDropdown();
 });
 //Monitoring
-const monitoring = document.querySelector('#monitoring');
-const monitoringChild = document.querySelector('#monitoringChild');
 
 monitoring.addEventListener('click', function () {
-    monitoring.classList.toggle('group');
-    monitoringArrow.classList.toggle('rotate-180');
-    monitoringChild.classList.toggle('hidden');
+    childMenu();
 });
 //Pasang Gambar
-const gambar = document.querySelector('#gambar');
-const gambarChild = document.querySelector('#gambarChild');
 
 gambar.addEventListener('click', function () {
-    gambar.classList.toggle('group');
-    gambarArrow.classList.toggle('rotate-180');
-    gambarChild.classList.toggle('hidden');
+    childMenu();
 });
 //User
 liUser.addEventListener('click', function () {
-    liUser.classList.toggle('group');
-    userArrow.classList.toggle('rotate-180');
-    userChild.classList.toggle('hidden');
+    showHideDropdown();
 });

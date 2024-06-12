@@ -1,5 +1,5 @@
 <header class="top-0 left-0 absolute w-full flex items-center z-10">
-    <div class="w-full bg-cyan-800">
+    <div id="main-header" class="w-full bg-cyan-800">
         <div class="flex items-center relative justify-between">
             <!-- Logo & Tittle Start-->
             <div class="flex items-center ml-2 px-2 w-full sm:max-w-[180px]">

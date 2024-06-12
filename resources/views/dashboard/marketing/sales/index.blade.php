@@ -55,7 +55,7 @@
         <div class="flex justify-center px-2 pb-8 w-full z-0">
             <div class="w-[1200px] overflow-x-scroll h-[450px] overflow-y-auto">
                 <table class="table-auto w-max mb-6">
-                    <thead class="sticky top-0">
+                    <thead class="sticky top-0 z-10">
                         <tr class="bg-teal-100">
                             <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-6" rowspan="2">No.</th>
                             <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-44 text-center" rowspan="2">
