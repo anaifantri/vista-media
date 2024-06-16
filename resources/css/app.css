@@ -485,3 +485,15 @@
 .text-area-notes {
     @apply ml-1 w-[721px] outline-none text-sm;
 }
+.td-print-install {
+    @apply text-xs text-teal-700 border text-center p-1;
+}
+.td-address-print-install {
+    @apply text-xs text-teal-700 border p-1;
+}
+.td-price-print-install {
+    @apply text-xs text-teal-700 border p-1 text-right;
+}
+.select-print-product {
+    @apply flex w-28 text-sm font-semibold text-teal-700 border rounded-lg outline-none;
+}

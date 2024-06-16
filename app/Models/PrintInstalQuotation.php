@@ -22,9 +22,6 @@ class PrintInstalQuotation extends Model
                     ->orWhereHas('contact', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');
                     })
-                    ->orWhereHas('sale', function($query) use ($search){
-                        $query->where('number', 'like', '%' . $search . '%');
-                    })
                     ->orWhereHas('user', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');
                     })
@@ -37,6 +34,10 @@ class PrintInstalQuotation extends Model
 
     public function client(){
         return $this->belongsTo(Client::class);
+    }
+
+    public function contact(){
+        return $this->belongsTo(Contact::class);
     }
 
     public function company(){

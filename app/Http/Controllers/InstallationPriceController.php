@@ -49,10 +49,10 @@ class InstallationPriceController extends Controller
                 'price' => 'required'
             ]);
 
-            $dataInstallationPrices = InstallationPrice::all();
+            $dataInstallationPrices = InstallationPrice::all()->last();
             // dd($dataInstallationPrices);
-            if(count($dataInstallationPrices) != 0){
-                $lastCode = (int)substr($dataInstallationPrices[0]->code,3,3);
+            if($dataInstallationPrices){
+                $lastCode = (int)substr($dataInstallationPrices->code,3,3);
                 $newCode = $lastCode + 1;
             } else {
                 $newCode = 1;

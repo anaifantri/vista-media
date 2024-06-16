@@ -68,6 +68,9 @@
                     </thead>
                     <tbody>
                         @foreach ($print_instal_quotations as $print_instal_quotation)
+                            <?php
+                            $products = json_decode($print_instal_quotation->products);
+                            ?>
                             <tr>
                                 <td class="text-teal-700 border text-sm text-center">{{ $loop->iteration }}</td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $print_instal_quotation->number }}
@@ -79,46 +82,27 @@
                                     {{ $print_instal_quotation->contact->name }}
                                 </td>
                                 <td class="text-teal-700 border w-60 text-sm text-center">
-                                    {{-- <?php
-                                    $n = 0;
-                                    ?>
-                                    @foreach (json_decode($print_instal_quotation->billboards) as $billboard)
-                                        @foreach ($billboard as $location)
-                                            @if ($n != count($billboard) - 1)
-                                                {{ $location->code }},
-                                            @else
-                                                {{ $location->code }}
-                                            @endif
-                                            <?php
-                                            $n++;
-                                            ?>
-                                        @endforeach
-                                    @endforeach --}}
+                                    @foreach ($products->quotationProducts as $location)
+                                        @if ($loop->iteration == count($products->quotationProducts))
+                                            {{ $location->billboard_code }}
+                                        @else
+                                            {{ $location->billboard_code }},
+                                        @endif
+                                    @endforeach
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
-                                    {{-- <?php
+                                    <?php
                                     $getStatus = '';
                                     ?>
-                                    @if (count($print_instal_quotation->billboard_quot_revisions) != 0)
-                                        @foreach ($billboard_quot_status as $status)
-                                            @if ($status->billboard_quot_revision_id == $print_instal_quotation->billboard_quot_revisions[count($print_instal_quotation->billboard_quot_revisions) - 1]->id)
-                                                <?php
-                                                $getStatus = '';
-                                                $getStatus = 'Revision : ' . $status->status;
-                                                ?>
-                                            @endif
-                                        @endforeach
-                                    @elseif ($print_instal_quotation->billboard_quot_statuses)
-                                        @foreach ($print_instal_quotation->billboard_quot_statuses as $status)
-                                            @if ($print_instal_quotation->id == $status->billboard_quotation_id)
-                                                <?php
-                                                $getStatus = '';
-                                                $getStatus = 'Main : ' . $status->status;
-                                                ?>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                    {{ $getStatus }} --}}
+                                    @foreach ($print_install_statuses as $status)
+                                        @if ($status->print_instal_quotation_id == $print_instal_quotation->id)
+                                            <?php
+                                            $getStatus = '';
+                                            $getStatus = $status->status;
+                                            ?>
+                                        @endif
+                                    @endforeach
+                                    {{ $getStatus }}
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     {{ date('d-M-Y', strtotime($print_instal_quotation->created_at)) }}</td>

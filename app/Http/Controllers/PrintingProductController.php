@@ -21,6 +21,12 @@ class PrintingProductController extends Controller
         ]);
     }
 
+    public function showPrintProduct(){
+        $dataPrintProduct = PrintingProduct::All();
+
+        return response()->json(['dataPrintProduct'=> $dataPrintProduct]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

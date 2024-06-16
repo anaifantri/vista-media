@@ -28,6 +28,12 @@ class PrintingPriceController extends Controller
         ]);
     }
 
+    public function showPrintPrice(){
+        $dataPrintPrice = PrintingPrice::All();
+
+        return response()->json(['dataPrintPrice'=> $dataPrintPrice]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

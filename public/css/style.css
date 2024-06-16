@@ -786,10 +786,6 @@ video {
   margin-left: 750px;
 }
 
-.ml-\[8px\] {
-  margin-left: 8px;
-}
-
 .mr-1 {
   margin-right: 0.25rem;
 }
@@ -1098,6 +1094,10 @@ video {
   height: 92px;
 }
 
+.h-\[full\] {
+  height: full;
+}
+
 .h-full {
   height: 100%;
 }
@@ -1302,6 +1302,10 @@ video {
 
 .w-\[270px\] {
   width: 270px;
+}
+
+.w-\[272px\] {
+  width: 272px;
 }
 
 .w-\[275px\] {
@@ -3622,6 +3626,49 @@ video {
   outline-offset: 2px;
 }
 
+.td-print-install {
+  border-width: 1px;
+  padding: 0.25rem;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+}
+
+.td-address-print-install {
+  border-width: 1px;
+  padding: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+}
+
+.td-price-print-install {
+  border-width: 1px;
+  padding: 0.25rem;
+  text-align: right;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+}
+
+.select-print-product {
+  display: flex;
+  width: 7rem;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 .selection\:bg-red-500 *::-moz-selection {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
@@ -3767,11 +3814,6 @@ video {
 
 .group:hover .group-hover\:stroke-gray-600 {
   stroke: #4b5563;
-}
-
-.group:hover .group-hover\:text-emerald-600 {
-  --tw-text-opacity: 1;
-  color: rgb(5 150 105 / var(--tw-text-opacity));
 }
 
 @media (prefers-reduced-motion: no-preference) {

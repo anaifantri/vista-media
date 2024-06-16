@@ -213,7 +213,9 @@
                                             </div>
                                         </div>
                                         <div>
-                                            @if ($sale->free_instalation - $usedInstall > 0 && $sale->free_print - $usedPrint > 0)
+                                            @if (
+                                                ($sale->free_instalation - $usedInstall > 0 && $sale->free_print - $usedPrint > 0) ||
+                                                    strtotime($sale->end_at) < strtotime(date('Y/m/d')))
                                                 <button
                                                     class="flex justify-center items-center ml-4 p-1 h-6 bg-gray-700 rounded-md text-white cursor-default drop-shadow-md"
                                                     href="#">
@@ -939,6 +941,7 @@
         </div>
     </div>
     @include('dashboard.marketing.print-instal-quotations.create-quotations')
+    @include('dashboard.marketing.print-instal-quotations.create-preview')
 
     <!-- Show Quotatin end -->
 
