@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PrintInstallStatus;
 use Kyslik\ColumnSortable\Sortable;
 
 class PrintInstalQuotation extends Model
@@ -44,8 +45,16 @@ class PrintInstalQuotation extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function print_instal_statuses(){
-        return $this->hasMany(PrintInstalStatus::class, 'print_instal_quotation_id', 'id');
+    public function print_install_statuses(){
+        return $this->hasMany(PrintInstallStatus::class, 'print_instal_quotation_id', 'id');
+    }
+
+    public function print_install_approvals(){
+        return $this->hasMany(PrintInstallApproval::class, 'print_instal_quotation_id', 'id');
+    }
+
+    public function print_install_orders(){
+        return $this->hasMany(PrintInstallOrder::class, 'print_instal_quotation_id', 'id');
     }
 
     public function w_o_prints(){

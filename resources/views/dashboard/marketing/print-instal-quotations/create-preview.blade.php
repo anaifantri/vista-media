@@ -25,15 +25,16 @@
                     </button>
                 </div>
             </div>
-            <input type="text" id="sale_id" name="sale_id" value="{{ $sale->id }}" hidden>
-            <input type="text" id="billboard_id" name="billboard_id" value="{{ $sale->billboard_id }}" hidden>
+            <input type="text" id="sale_id" name="sale_id" value="{{ $billboard_sale->id }}" hidden>
+            <input type="text" id="billboard_id" name="billboard_id" value="{{ $billboard_sale->billboard_id }}"
+                hidden>
             <input type="text" id="billboard_code" name="billboard_code"
-                value="{{ $sale->billboard->code }}-{{ $sale->billboard->city->code }}" hidden>
+                value="{{ $billboard_sale->billboard->code }}-{{ $billboard_sale->billboard->city->code }}" hidden>
             <input type="text" id="billboard_address" name="billboard_address"
-                value="{{ $sale->billboard->address }}" hidden>
-            <input type="text" id="company_id" name="company_id" value="{{ $sale->company_id }}" hidden>
-            <input type="text" id="client_id" name="client_id" value="{{ $sale->client_id }}" hidden>
-            <input type="text" id="contact_id" name="contact_id" value="{{ $sale->contact_id }}" hidden>
+                value="{{ $billboard_sale->billboard->address }}" hidden>
+            <input type="text" id="company_id" name="company_id" value="{{ $billboard_sale->company_id }}" hidden>
+            <input type="text" id="client_id" name="client_id" value="{{ $billboard_sale->client_id }}" hidden>
+            <input type="text" id="contact_id" name="contact_id" value="{{ $billboard_sale->contact_id }}" hidden>
             <input type="text" id="products" name="products" hidden>
             <div class="w-[950px] h-[1345px] border mb-10 mt-2 bg-white">
                 <!-- Header start -->
@@ -70,10 +71,10 @@
                                 <div>
                                     <label class="ml-1 text-sm text-black flex w-20">Kepada Yth</label>
                                     <label
-                                        class="ml-1 text-sm text-black flex font-semibold">{{ $sale->client->company }}</label>
+                                        class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_sale->client->company }}</label>
                                     <div class="flex">
                                         <label id="clientPreviewContact"
-                                            class="ml-1 text-sm text-black flex font-semibold">{{ $sale->contact->name }}</label>
+                                            class="ml-1 text-sm text-black flex font-semibold">{{ $billboard_sale->contact->name }}</label>
                                     </div>
                                     <label class="ml-1 text-sm text-black flex">Di -</label>
                                     <label class="ml-6 text-sm text-black flex">Tempat</label>
@@ -83,13 +84,13 @@
                                 <label class="ml-1 text-sm text-black flex w-20">Email</label>
                                 <label class="ml-1 text-sm text-black flex">:</label>
                                 <label id="contactPreviewEmail"
-                                    class="ml-1 text-sm text-black flex">{{ $sale->contact->email }}</label>
+                                    class="ml-1 text-sm text-black flex">{{ $billboard_sale->contact->email }}</label>
                             </div>
                             <div class="flex">
                                 <label class="ml-1 text-sm text-black flex w-20">No. Telp.</label>
                                 <label class="ml-1 text-sm text-black flex">:</label>
                                 <label id="contactPreviewPhone"
-                                    class="ml-1 text-sm text-black flex">{{ $sale->contact->phone }}</label>
+                                    class="ml-1 text-sm text-black flex">{{ $billboard_sale->contact->phone }}</label>
                             </div>
                             <div class="flex mt-4">
                                 <label class="ml-1 text-sm text-black flex">Dengan hormat,</label>
@@ -191,8 +192,23 @@
                                 <label class="ml-1 text-sm text-black flex w-20">Catatan</label>
                                 <label class="ml-1 text-sm text-black flex">:</label>
                             </div>
-                            <div id="notesPreview">
+                            <div>
+                                <div class="flex">
+                                    <label class="ml-1 text-sm">-</label>
+                                    <textarea class="text-area-notes" rows="1" readonly>Harga di atas sudah termasuk PPN.</textarea>
+                                </div>
                             </div>
+                            <div class="flex">
+                                <label class="ml-1 text-sm text-black flex mt-2">Sistem pembayaran :</label>
+                            </div>
+                            <div>
+                                <div class="flex">
+                                    <label class="ml-1 text-sm">-</label>
+                                    <textarea class="text-area-notes" rows="1" placeholder="input catatan" readonly>100 % setelah cetak dan pemasangan</textarea>
+                                </div>
+                            </div>
+                            {{-- <div id="notesPreview">
+                            </div> --}}
                         </div>
                     </div>
                     <!-- quotation note end -->

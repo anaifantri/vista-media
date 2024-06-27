@@ -42,6 +42,7 @@ const tdTotalInstall = document.getElementById("totalInstal");
 const totalInstalPreview = document.getElementById("totalInstalPreview");
 const usedInstall = document.getElementById("usedInstall");
 const freeInstall = document.getElementById("freeInstall");
+const paymentTerm1 = document.getElementById("paymentTerm1");
 
 const subTotal = document.getElementById("subTotal");
 const subTotalPreview = document.getElementById("subTotalPreview");
@@ -59,12 +60,12 @@ const companyId = document.getElementById("company_id");
 const contactId = document.getElementById("contact_id");
 const clientId = document.getElementById("client_id");
 const products = document.getElementById("products");
-const notesPreview = document.getElementById("notesPreview");
+// const notesPreview = document.getElementById("notesPreview");
 
-btnCreate.addEventListener("click", function () {
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-});
+// btnCreate.addEventListener("click", function () {
+//     modal.classList.remove("hidden");
+//     modal.classList.add("flex");
+// });
 
 btnCancel.addEventListener("click", function () {
     modal.classList.remove("flex");
@@ -135,10 +136,10 @@ btnAddNote.addEventListener("click", function () {
 
 // Button Remove Last Note Action --> start
 btnDelNote.addEventListener("click", function () {
-    if (notesQty.children.length > 0) {
+    if (notesQty.children.length > 1) {
         notesQty.removeChild(notesQty.lastChild);
     } else {
-        alert("Tidak ada catatan");
+        alert("Tidak ada tambahan catatan yang bisa dihapus");
     }
 });
 // Button Remove Last Note Action --> end
@@ -173,8 +174,9 @@ function fillProductData() {
         install_price: instalPrice.value,
         installProduct: installationProduct.innerText,
         free_install: Number(freeInstall.value),
-        used_install: Number(usedInstall),
-        notes: []
+        used_install: Number(usedInstall.value),
+        notes: [],
+        paymentTerms:[paymentTerm1.value]
     };
 
     let quotationProducts = [];
@@ -225,32 +227,33 @@ function fillProductData() {
     grandTotalPreview.innerHTML =
         Number(subTotalPreview.innerHTML) + Number(ppnValuePreview.innerHTML);
 
-    while (notesPreview.hasChildNodes()) {
-        notesPreview.removeChild(notesPreview.firstChild);
-    }
+    // while (notesPreview.hasChildNodes()) {
+    //     notesPreview.removeChild(notesPreview.firstChild);
+    // }
 
-    for (i = 0; i < quotationProducts[0].notes.length; i++) {
-        const divNotes = document.createElement("div");
-        const labelNotes = document.createElement("label");
-        const inputNotes = document.createElement("textarea");
-        divNotes.classList.add("flex");
-        labelNotes.classList.add("ml-1");
-        labelNotes.classList.add("text-sm");
-        labelNotes.innerHTML = "-";
-        inputNotes.classList.add("text-area-notes");
-        inputNotes.setAttribute("placeholder", "input catatan");
-        inputNotes.setAttribute("rows", "1");
-        inputNotes.innerHTML = quotationProducts[0].notes[i];
+    // for (i = 0; i < quotationProducts[0].notes.length; i++) {
+    //     const divNotes = document.createElement("div");
+    //     const labelNotes = document.createElement("label");
+    //     const inputNotes = document.createElement("textarea");
+    //     divNotes.classList.add("flex");
+    //     labelNotes.classList.add("ml-1");
+    //     labelNotes.classList.add("text-sm");
+    //     labelNotes.innerHTML = "-";
+    //     inputNotes.classList.add("text-area-notes");
+    //     inputNotes.setAttribute("placeholder", "input catatan");
+    //     inputNotes.setAttribute("rows", "1");
+    //     inputNotes.innerHTML = quotationProducts[0].notes[i];
 
-        divNotes.appendChild(labelNotes);
-        divNotes.appendChild(inputNotes);
+    //     divNotes.appendChild(labelNotes);
+    //     divNotes.appendChild(inputNotes);
 
-        notesPreview.appendChild(divNotes);
-    }
+    //     notesPreview.appendChild(divNotes);
+    // }
 
     let dataProducts = {quotationProducts};
 
     products.value = JSON.stringify(dataProducts);
+    console.log(dataProducts);
 }
 // Fill data --> end
 

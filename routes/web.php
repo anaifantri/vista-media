@@ -37,6 +37,8 @@ use App\Http\Controllers\PrintingPriceController;
 use App\Http\Controllers\InstallationPriceController;
 use App\Http\Controllers\PrintInstalQuotationController;
 use App\Http\Controllers\PrintInstallStatusController;
+use App\Http\Controllers\PrintInstallSaleController;
+use App\Http\Controllers\PrintInstallApprovalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +68,10 @@ Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQu
 Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/print-instal-quotations', PrintInstalQuotationController::class)->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/print-instal-quotations/preview/{id}', [PrintInstalQuotationController::class, 'preview']);
-Route::resource('/dashboard/marketing/print-install-statusess', PrintInstallStatusController::class)->middleware(['auth','user_access']);
+Route::get('/dashboard/marketing/print-instal-quotations/create-quotations/{id}', [PrintInstalQuotationController::class, 'createQuotation']);
+Route::resource('/dashboard/marketing/print-install-statuses', PrintInstallStatusController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/print-install-sales', PrintInstallSaleController::class)->middleware(['auth','user_access']);
+Route::get('/dashboard/marketing/print-install-sales/create-sales/{id}', [PrintInstallSaleController::class, 'createSales']);
 Route::resource('/dashboard/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sale-categories', SaleCategoryController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-approvals', ClientApprovalController::class)->middleware(['auth','user_access']);
@@ -121,6 +126,7 @@ Route::get('/sales/preview/', [SaleController::class,'preview'])->middleware(['a
 Route::get('/sales/reports/', [SaleController::class,'reports'])->middleware(['auth','user_access']);
 Route::get('/showPrintProduct', [PrintingProductController::class,'showPrintProduct'])->middleware(['auth','user_access']);
 Route::get('/showPrintPrice', [PrintingPriceController::class,'showPrintPrice'])->middleware(['auth','user_access']);
+Route::get('/printInstallApproval', [PrintInstallApprovalController::class,'printInstallApproval'])->middleware(['auth','user_access']);
 
 Route::get('/', function () {
     return view('index',[

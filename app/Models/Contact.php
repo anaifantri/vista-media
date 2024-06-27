@@ -32,4 +32,8 @@ class Contact extends Model
     public function sales(){
         return $this->hasMany(Sale::class, 'contact_id', 'id');
     }
+
+    public function print_install_sales(){
+        return $this->hasMany(PrintInstallSale::class, 'contact_id', 'id');
+    }
 }

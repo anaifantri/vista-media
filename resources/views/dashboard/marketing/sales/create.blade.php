@@ -2,137 +2,153 @@
 
 @section('container')
     <!-- Create Sales Data start -->
-    <!-- Form Create Sales Data start -->
-    <form class="justify-center" action="/dashboard/marketing/sales" method="post" enctype="multipart/form-data">
-        @csrf
-        <div class="flex justify-center">
-            <input type="text" name="sales_value" id="sales_value" hidden>
-            <div class="mt-10 w-[950px]">
-                <!-- Title Create Sales Data start -->
-                <div class="flex border-b">
+    <div class="flex justify-center">
+        <div class="mt-10 w-[950px]">
+            <!-- Title Create Sales Data start -->
+            <div class="flex border-b w-full py-1">
+                <div class="flex w-full">
                     <h1 class="text-xl text-cyan-800 font-bold tracking-wider">INPUT DATA PENJUALAN</h1>
                 </div>
-                <div class="flex border rounded-lg mt-2 p-2">
-                    <div class="flex">
-                        <select
-                            class="flex w-44 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('sale_category_id') is-invalid @enderror"
-                            name="sale_category_id" id="sale_category_id" onchange="getSaleCategory(this)">
-                            <option value="Pilih Katagori">Pilih Katagori</option>
-                            @foreach ($sale_categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                        <select
-                            class="hidden ml-4 w-56 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('quotationDeal') is-invalid @enderror"
-                            name="quotationDeal" id="quotationDeal">
-                            <option value="Pilih Penawaran">Pilih Penawaran</option>
-                            @foreach ($billboard_quotations as $quotation)
-                                <?php
-                                $deal = false;
-                                $sold = false;
-                                ?>
-                                @foreach ($billboard_quot_statuses as $status)
-                                    @if ($status->billboard_quotation_id == $quotation->id)
-                                        <?php
-                                        $sold = false;
-                                        ?>
-                                        @foreach ($sales as $sale)
-                                            @if ($sale->billboard_quotation_id == $quotation->id)
-                                                <?php
-                                                $sold = true;
-                                                ?>
-                                            @endif
-                                        @endforeach
-                                        @if ($status->status == 'Deal' && $sold != true)
-                                            <option value="{{ $quotation->number }}">{{ $quotation->number }}
-                                            </option>
+                <div class="flex w-full justify-end">
+                    <button id="btnPreview" class="hidden justify-center items-center mx-1 btn-primary" title="Preview"
+                        type="button">
+                        <svg class="fill-current w-5 ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z" />
+                        </svg>
+                        <span class="ml-2 text-white">Preview</span>
+                    </button>
+                    <a class="flex justify-center items-center ml-1 btn-danger" href="/dashboard/marketing/sales">
+                        <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                        </svg>
+                        <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Cancel</span>
+                    </a>
+                </div>
+            </div>
+            <div class="flex border rounded-lg mt-2 p-2">
+                <div class="flex">
+                    <select
+                        class="flex w-44 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('sale_category_id') is-invalid @enderror"
+                        name="sale_category_id" id="sale_category_id" onchange="getSaleCategory(this)">
+                        <option value="Pilih Katagori">Pilih Katagori</option>
+                        @foreach ($sale_categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    <select
+                        class="hidden ml-4 w-56 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('quotationDeal') is-invalid @enderror"
+                        name="quotationDeal" id="quotationDeal">
+                        <option value="pilih">-- pilih --</option>
+                        @foreach ($billboard_quotations as $quotation)
+                            <?php
+                            $billboardDeal = false;
+                            $billboardSold = false;
+                            ?>
+                            @foreach ($billboard_quot_statuses as $status)
+                                @if ($status->billboard_quotation_id == $quotation->id)
+                                    <?php
+                                    $billboardSold = false;
+                                    ?>
+                                    @foreach ($sales as $sale)
+                                        @if ($sale->billboard_quotation_id == $quotation->id)
                                             <?php
-                                            $deal = true;
+                                            $billboardSold = true;
                                             ?>
                                         @endif
-                                    @endif
-                                @endforeach
-                                @if ($deal != true)
-                                    @foreach ($billboard_quot_revisions as $revision)
-                                        <?php
-                                        $deal = false;
-                                        ?>
-                                        @if ($revision->billboard_quotation_id == $quotation->id)
-                                            @foreach ($billboard_quot_statuses as $status)
-                                                @if ($status->billboard_quot_revision_id == $revision->id)
-                                                    <?php
-                                                    $sold = false;
-                                                    ?>
-                                                    @foreach ($sales as $sale)
-                                                        @if ($sale->billboard_quot_revision_id == $revision->id)
-                                                            <?php
-                                                            $sold = true;
-                                                            ?>
-                                                        @endif
-                                                    @endforeach
-                                                    @if ($status->status == 'Deal' && $sold != true)
-                                                        <option value="{{ $revision->number }}">
-                                                            {{ $revision->number }}
-                                                        </option>
-                                                        <?php
-                                                        $deal = true;
-                                                        ?>
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        @endif
                                     @endforeach
+                                    @if ($status->status == 'Deal' && $billboardSold != true)
+                                        <option value="{{ $quotation->number }}">{{ $quotation->number }}
+                                        </option>
+                                        <?php
+                                        $billboardDeal = true;
+                                        ?>
+                                    @endif
                                 @endif
                             @endforeach
-                        </select>
-                    </div>
-                    <div id="divButton" class="hidden w-[780px] justify-end">
-                        <button id="btnPreview" class="flex justify-center items-center mx-1 btn-primary" title="Preview"
-                            type="button">
-                            <svg class="fill-current w-5 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24">
-                                <path
-                                    d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z" />
-                            </svg>
-                            <span class="ml-2 text-white">Preview</span>
-                        </button>
-                        <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
-                            href="/dashboard/marketing/sales">
-                            <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                            </svg>
-                            <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Cancel</span>
-                        </a>
-                    </div>
+                            @if ($billboardDeal != true)
+                                @foreach ($billboard_quot_revisions as $revision)
+                                    <?php
+                                    $billboardDeal = false;
+                                    ?>
+                                    @if ($revision->billboard_quotation_id == $quotation->id)
+                                        @foreach ($billboard_quot_statuses as $status)
+                                            @if ($status->billboard_quot_revision_id == $revision->id)
+                                                <?php
+                                                $billboardSold = false;
+                                                ?>
+                                                @foreach ($sales as $sale)
+                                                    @if ($sale->billboard_quot_revision_id == $revision->id)
+                                                        <?php
+                                                        $billboardSold = true;
+                                                        ?>
+                                                    @endif
+                                                @endforeach
+                                                @if ($status->status == 'Deal' && $billboardSold != true)
+                                                    <option value="{{ $revision->number }}">
+                                                        {{ $revision->number }}
+                                                    </option>
+                                                    <?php
+                                                    $billboardDeal = true;
+                                                    ?>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </select>
+                    <select
+                        class="hidden ml-4 w-56 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('printInstallDeal') is-invalid @enderror"
+                        name="printInstallDeal" id="printInstallDeal"
+                        onchange="if (this.value) window.location.href=this.value">
+                        <option value="pilih">-- pilih --</option>
+                        <?php
+                        $inputed = false;
+                        ?>
+                        @foreach ($print_instal_quotations as $print_quotation)
+                            @foreach ($print_install_statuses as $print_status)
+                                @if ($print_status->print_instal_quotation_id == $print_quotation->id && $print_status->status == 'Deal')
+                                    <?php
+                                    $inputed = false;
+                                    ?>
+                                    @foreach ($print_install_sales as $print_sale)
+                                        @if ($print_quotation->id == $print_sale->print_instal_quotation_id)
+                                            <?php
+                                            $inputed = true;
+                                            ?>
+                                        @endif
+                                    @endforeach
+                                    @if ($inputed == false)
+                                        <option
+                                            value="/dashboard/marketing/print-install-sales/create-sales/{{ $print_quotation->id }}">
+                                            {{ $print_quotation->number }}
+                                        </option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Multiple Sale Start -->
-        <div class="flex justify-center mt-4">
-            @if (count($sales) != 0)
-                <?php
-                $endObject = $sales[count($sales) - 1];
-                // var_dump($endObject->number);
-                // $endNumber = $endObject->number;
-                $endNumber = substr($endObject->number, 0, 4);
-                // var_dump($endNumber);
-                $saleNumber = ((int) $endNumber) + 1;
-                ?>
-            @else
-                <?php
-                $saleNumber = 1;
-                ?>
-            @endif
-            <input id="number" name="number" type="text" value="{{ $saleNumber }}" hidden>
-            <div id="multipleSale" class="h-max">
+    <!-- Multiple Sale Start -->
+    <div class="flex justify-center mt-4">
+        <div id="multipleSale" class="h-max">
 
-            </div>
         </div>
-        <!-- Multiple Sale End -->
+    </div>
+    <!-- Multiple Sale End -->
 
+    <!-- Form Create Billboard Sales start -->
+    <form class="justify-center" action="/dashboard/marketing/sales" method="post" enctype="multipart/form-data">
+        @csrf
         <!-- Add / view Approval start -->
         <div id="modalApproval" name="modalApproval"
             class="absolute justify-center top-0 w-full h-full bg-black bg-opacity-90 z-50 hidden">
@@ -272,7 +288,7 @@
                             <div class="relative m-auto w-[750px] h-max">
                                 <div id="prevPOButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
                                     <button
-                                        class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer"
+                                        class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
                                         type="button">
                                         <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
                                             fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
@@ -283,7 +299,7 @@
                                 </div>
                                 <div id="nextPOButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
                                     <button type="button"
-                                        class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-black bg-opacity-0 hover:bg-opacity-50 transition duration-500 ease-in-out cursor-pointer">
+                                        class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
                                         <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
                                             fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
                                             <path
@@ -405,6 +421,7 @@
         <!-- Add / view Agreement end -->
         <!-- Sales Preview start -->
         <div id="modalPreview" class="absolute justify-center top-0 w-full h-max bg-black bg-opacity-90 z-50 hidden">
+            <input type="text" name="sales_value" id="sales_value" hidden>
             <div>
                 <div class="flex mt-10">
                     <div class="flex w-48">
@@ -434,7 +451,15 @@
         </div>
         <!-- Sales Preview end -->
     </form>
-    <!-- Form Create Sales Data end -->
+    <!-- Form Create Billboard Sales end -->
+
+    <!-- Form Create Print & Install Sales start -->
+    <form class="justify-center" action="/dashboard/marketing/print-install-sales" method="post"
+        enctype="multipart/form-data">
+        @csrf
+
+    </form>
+    <!-- Create Print & Install Sales start -->
 
     <!-- Script start -->
     <script src="/js/inputsaledata.js"></script>

@@ -4,10 +4,10 @@ const btnPreview = document.getElementById("btnPreview");
 const modalPreview = document.getElementById("modalPreview");
 const salesPreview = document.getElementById("salesPreview");
 const btnClosePreview = document.getElementById("btnClosePreview");
-const divButton = document.getElementById("divButton");
-const number = document.getElementById("number");
+// const number = document.getElementById("number");
 const saleCategoryId = document.getElementById("sale_category_id");
 const quotationDeal = document.getElementById("quotationDeal");
+const printInstallDeal = document.getElementById("printInstallDeal");
 const quotationNumber = document.getElementById("quotationNumber");
 const client = document.getElementById("client");
 const clientCompany = document.getElementById("clientCompany");
@@ -316,12 +316,25 @@ function getDataClient() {
 
 // Select Category Event --> start
 function getSaleCategory(sel) {
-    if (saleCategoryId.value != "Pilih Katagori") {
-        quotationDeal.classList.remove("hidden");
-        quotationDeal.classList.add("flex");
-    } else {
+    quotationDeal.options[0].selected = 'selected';
+    printInstallDeal.options[0].selected = 'selected';
+    btnPreview.classList.remove("flex");
+    btnPreview.classList.add("hidden");
+    if (sel.value == "pilih") {
         quotationDeal.classList.add("hidden");
         quotationDeal.classList.remove("flex");
+        printInstallDeal.classList.add("hidden");
+        printInstallDeal.classList.remove("flex");
+    } else if(sel.options[sel.selectedIndex].text == "Billboard"){
+        printInstallDeal.classList.add("hidden");
+        printInstallDeal.classList.remove("flex");
+        quotationDeal.classList.remove("hidden");
+        quotationDeal.classList.add("flex");
+    } else if(sel.options[sel.selectedIndex].text == "Print & Instal"){
+        quotationDeal.classList.add("hidden");
+        quotationDeal.classList.remove("flex");
+        printInstallDeal.classList.remove("hidden");
+        printInstallDeal.classList.add("flex");
     }
 
     while (poImg.hasChildNodes()) {
@@ -347,51 +360,42 @@ function getSaleCategory(sel) {
     while (slidesAgreementPreview.hasChildNodes()) {
         slidesAgreementPreview.removeChild(slidesAgreementPreview.firstChild);
     }
+    while (multipleSale.hasChildNodes()) {
+        multipleSale.removeChild(multipleSale.firstChild);
+    }
     saleCategory = "";
     saleCategory = sel.options[sel.selectedIndex].text;
 }
-// saleCategoryId.addEventListener('change', function () {
-//     if (saleCategoryId.value != "Pilih Katagori") {
-//         quotationDeal.classList.remove("hidden");
-//         quotationDeal.classList.add("flex");
+
+// Select Print & Install Quotation Deal Event --> start
+// printInstallDeal.addEventListener('change', () => {
+//     if(printInstallDeal.value == "pilih"){
+//         btnPreview.classList.add("hidden");
+//         btnPreview.classList.remove("flex");
+
+//         // Clear multiple sale --> start
+//         while (multipleSale.hasChildNodes()) {
+//             multipleSale.removeChild(multipleSale.firstChild);
+//         }
+//         // Clear multiple sale --> end
 //     } else {
-//         quotationDeal.classList.add("hidden");
-//         quotationDeal.classList.remove("flex");
-//     }
+//         btnPreview.classList.add("flex");
+//         btnPreview.classList.remove("hidden");
 
-//     while (poImg.hasChildNodes()) {
-//         poImg.removeChild(poImg.firstChild);
-//     }
+//         // Clear multiple sale --> start
+//         while (multipleSale.hasChildNodes()) {
+//             multipleSale.removeChild(multipleSale.firstChild);
+//         }
+//         // Clear multiple sale --> end
 
-//     while (slidesPOPreview.hasChildNodes()) {
-//         slidesPOPreview.removeChild(slidesPOPreview.firstChild);
-//     }
+//         printSales();
 
-//     while (approvalImg.hasChildNodes()) {
-//         approvalImg.removeChild(approvalImg.firstChild);
 //     }
-
-//     while (slidesApprovalPreview.hasChildNodes()) {
-//         slidesApprovalPreview.removeChild(slidesApprovalPreview.firstChild);
-//     }
-
-//     while (agreementImg.hasChildNodes()) {
-//         agreementImg.removeChild(agreementImg.firstChild);
-//     }
-
-//     while (slidesAgreementPreview.hasChildNodes()) {
-//         slidesAgreementPreview.removeChild(slidesAgreementPreview.firstChild);
-//     }
-//     saleCategory = "";
-//     saleCategory = saleCategoryId.textContent;
 // })
-// Select Category Event --> end
+// Select Print & Install Quotation Deal Event --> end
 
 // Select Quotation Deal Event --> start
 quotationDeal.addEventListener('change', function () {
-    divButton.classList.remove('hidden');
-    divButton.classList.add('flex');
-
     // Clear Document PO --> start
     documentPO.value = null;
     while (poImg.hasChildNodes()) {
@@ -437,7 +441,14 @@ quotationDeal.addEventListener('change', function () {
     }
     // Clear multiple sale --> end
 
-    // Check and get quotation data / quotation revision data --> start
+    if(quotationDeal.value == "pilih"){
+        btnPreview.classList.add("hidden");
+        btnPreview.classList.remove("flex");
+    } else {
+        btnPreview.classList.add("flex");
+        btnPreview.classList.remove("hidden");
+
+         // Check and get quotation data / quotation revision data --> start
     if (quotationDeal.value.includes('rev') == false) {
         for (i = 0; i < quotationData.length; i++) {
             if (quotationData[i].number == quotationDeal.value) {
@@ -493,7 +504,8 @@ quotationDeal.addEventListener('change', function () {
     for (i = 0; i < locations.length; i++) {
         createMultipleSale(locations, i);
     }
-    // Create multiple sale view --> ende
+    // Create multiple sale view --> end
+    }
 })
 // Select Quotation Deal Event --> end
 
@@ -544,19 +556,198 @@ function dppKeypress(sel) {
     saleTable[Number(sel.name)].tBodies[0].rows[4].cells[1].innerHTML = Intl.NumberFormat('en-US').format(salePrice[sel.name] + (dpp[Number(sel.name)] * (11 / 100)) - (dpp[Number(sel.name)] * (2 / 100)));
 }
 
-// Create Multiple Sales --> start
-function createMultipleSale(locations, i) {
-    var bgElement = document.createElement("div");
-
+//Letter Header --> start
+letterHeader = (bgElement) => {
     var header = document.createElement("div");
     var logo = document.createElement("div");
     var imgLogo = document.createElement("img");
     var lineHeader = document.createElement("div");
     var lineHeaderImg = document.createElement("img");
 
-    var body = document.createElement("div");
+     // Header element --> start
+     header.classList.add("h-24");
+     header.classList.add("mt-2");
+     bgElement.appendChild(header);
+ 
+     logo.classList.add("flex");
+     logo.classList.add("w-full");
+     logo.classList.add("justify-center");
+     logo.classList.add("items-center");
+     header.appendChild(logo);
+ 
+     imgLogo.classList.add("mt-3");
+     imgLogo.setAttribute('src', '/img/logo-vm.png');
+     logo.appendChild(imgLogo);
+ 
+     lineHeader.classList.add("flex");
+     lineHeader.classList.add("w-full");
+     lineHeader.classList.add("justify-center");
+     lineHeader.classList.add("items-center");
+     lineHeader.classList.add("mt-2");
+     header.appendChild(lineHeader);
+ 
+     lineHeaderImg.setAttribute('src', '/img/line-top.png');
+     lineHeader.appendChild(lineHeaderImg);
+     // Header element --> end
+}
+//Letter Header --> end
+
+//Location Photo --> start
+locationPhoto = (locationPhoto,body) => {
+var bodyBottom = document.createElement("div");    
+var photoLocation = document.createElement("div");
+var qrCodeSale = document.createElement("div");
+var imageLocation = document.createElement("img");
+
+imageLocation.classList.add("img-location-sale");
+imageLocation.setAttribute('src', '/storage/' + locationPhoto);
+photoLocation.classList.add("sale-detail");
+photoLocation.appendChild(imageLocation);
+bodyBottom.classList.add("body-bottom-sale");
+qrCodeSale.classList.add("qr-code-sale");
+qrCodeSale.classList.add("ml-4");
+bodyBottom.appendChild(photoLocation);
+bodyBottom.appendChild(qrCodeSale);
+body.appendChild(bodyBottom);
+}
+//Location Photo --> end
+
+//Body Title --> start
+letterBodyTitle = (body, title) => {
     var bodyTitle = document.createElement("div");
     var labelTitle = document.createElement("label");
+
+    bodyTitle.classList.add("flex");
+    bodyTitle.classList.add("justify-center");
+    bodyTitle.classList.add("mt-4");
+    labelTitle.classList.add("sale-label-title");
+    labelTitle.innerHTML = title;
+    bodyTitle.appendChild(labelTitle);
+    body.appendChild(bodyTitle);
+}
+//Body Title --> end
+
+// Sign element --> start
+letterSign = (body) => {
+    var signArea = document.createElement("div");
+    var divSign = document.createElement("div");
+    var tableSign = document.createElement("table");
+    var theadSign = document.createElement("thead");
+    var tbodySign = document.createElement("tbody");
+    var thTitleSign = document.createElement("th");
+
+    thTitleSign.classList.add("th-title-sign");
+    thTitleSign.setAttribute('colspan', '4');
+    thTitleSign.innerHTML = "Mengetahui :";
+    trSign[0] = document.createElement("tr");
+    trSign[0].appendChild(thTitleSign);
+    theadSign.appendChild(trSign[0]);
+    trSign[1] = document.createElement("tr");
+    for (a = 0; a < 4; a++) {
+        if (a == 0) {
+            thSign[a] = trSign[0] = document.createElement("th");
+            thSign[a].classList.add("th-sign");
+            thSign[a].innerHTML = "Penjualan dan Pemasaran";
+        } else if (a == 1) {
+            thSign[a] = trSign[0] = document.createElement("th");
+            thSign[a].classList.add("th-sign");
+            thSign[a].innerHTML = "Penagihan";
+        } else if (a == 2) {
+            thSign[a] = trSign[0] = document.createElement("th");
+            thSign[a].classList.add("th-sign");
+            thSign[a].innerHTML = "Keuangan";
+        } else if (a == 3) {
+            thSign[a] = trSign[0] = document.createElement("th");
+            thSign[a].classList.add("th-sign");
+            thSign[a].innerHTML = "Direktur";
+        }
+        trSign[1].appendChild(thSign[a]);
+    }
+    theadSign.appendChild(trSign[1]);
+    tableSign.appendChild(theadSign);
+    trSign[2] = trSign[0] = document.createElement("tr");
+    for (a = 0; a < 4; a++) {
+        if (a == 0) {
+            tdSign[a] = trSign[0] = document.createElement("td");
+            tdSign[a].classList.add("td-sign");
+            tdSign[a].innerHTML = "Nur Cahyono";
+        } else if (a == 1) {
+            tdSign[a] = trSign[0] = document.createElement("td");
+            tdSign[a].classList.add("td-sign");
+            tdSign[a].innerHTML = "Yudhi Pratama";
+        } else if (a == 2) {
+            tdSign[a] = trSign[0] = document.createElement("td");
+            tdSign[a].classList.add("td-sign");
+            tdSign[a].innerHTML = "Ayu Putri Lestari";
+        } else if (a == 3) {
+            tdSign[a] = trSign[0] = document.createElement("td");
+            tdSign[a].classList.add("td-sign");
+            tdSign[a].innerHTML = "Sandy Kamboy";
+        }
+        trSign[2].appendChild(tdSign[a]);
+    }
+    tbodySign.appendChild(trSign[2])
+    tableSign.appendChild(tbodySign);
+    tableSign.classList.add("table-sign");
+    divSign.appendChild(tableSign);
+    divSign.classList.add("div-sign")
+    signArea.classList.add("sign-area")
+    signArea.appendChild(divSign);
+    body.appendChild(signArea);
+}
+// Sign element --> end
+
+//Letter Footer --> start
+letterFooter = (bgElement) => {
+    var footer = document.createElement("div");
+    var footerLine = document.createElement("div");
+    var footerLineImg = document.createElement("img");
+    var footerCompany = document.createElement("div");
+    var company = document.createElement("span");
+    var footerAddress = document.createElement("div");
+    var address = document.createElement("span");
+    var footerPhone = document.createElement("div");
+    var phone = document.createElement("span");
+    var footerEmail = document.createElement("div");
+    var email = document.createElement("span");
+
+    // Footer element --> start
+    footer.classList.add("footer");
+    footerLine.classList.add("footer-line");
+    footerLineImg.classList.add("footter-line-img");
+    footerLineImg.setAttribute('src', '/img/line-bottom.png');
+    footerCompany.classList.add("footer-company");
+    company.innerHTML = "PT. Vista Media";
+    company.classList.add("company");
+    footerAddress.classList.add("footer-element");
+    address.classList.add("footer-text");
+    address.innerHTML = "Jl. Pulau Kawe No. 40 - Denpasar | Bali - Indonesia"
+    footerPhone.classList.add("footer-element");
+    phone.classList.add("footer-text");
+    phone.innerHTML = "Ph. +62 361 230000 | Fax. +62 361 237800";
+    footerEmail.classList.add("footer-element");
+    email.classList.add("footer-text");
+    email.innerHTML = "e-mail : info@vistamedia.co.id | www.vistamedia.co.id";
+
+    footerLine.appendChild(footerLineImg);
+    footer.appendChild(footerLine);
+    footerCompany.appendChild(company);
+    footer.appendChild(footerCompany);
+    footerAddress.appendChild(address);
+    footer.appendChild(footerAddress);
+    footerPhone.appendChild(phone);
+    footer.appendChild(footerPhone);
+    footerEmail.appendChild(email);
+    footer.appendChild(footerEmail);
+    bgElement.appendChild(footer);
+    // Footer element --> end
+}
+//Letter Footer --> end
+
+// Create Multiple Sales --> start
+function createMultipleSale(locations, i) {
+    var bgElement = document.createElement("div");
+    var body = document.createElement("div");
 
     var bodyDetail = document.createElement("div");
     var saleDetail = document.createElement("div");
@@ -577,99 +768,20 @@ function createMultipleSale(locations, i) {
     var divNotes = document.createElement("div");
     var labelNoteTitle = document.createElement("label");
 
-    var signArea = document.createElement("div");
-    var divSign = document.createElement("div");
-    var tableSign = document.createElement("table");
-    var theadSign = document.createElement("thead");
-    var tbodySign = document.createElement("tbody");
-    var thTitleSign = document.createElement("th");
-
-    var footer = document.createElement("div");
-    var footerLine = document.createElement("div");
-    var footerLineImg = document.createElement("img");
-    var footerCompany = document.createElement("div");
-    var company = document.createElement("span");
-    var footerAddress = document.createElement("div");
-    var address = document.createElement("span");
-    var footerPhone = document.createElement("div");
-    var phone = document.createElement("span");
-    var footerEmail = document.createElement("div");
-    var email = document.createElement("span");
-
-
     // Main element --> start
     bgElement.classList.add("w-[950px]");
     bgElement.classList.add("h-[1345px]");
     bgElement.classList.add("border");
     bgElement.classList.add("mb-10");
     bgElement.classList.add("bg-white");
-    multipleSale.appendChild(bgElement);
     // Main element --> end
 
-    // Header element --> start
-    header.classList.add("h-24");
-    header.classList.add("mt-2");
-    bgElement.appendChild(header);
-
-    logo.classList.add("flex");
-    logo.classList.add("w-full");
-    logo.classList.add("justify-center");
-    logo.classList.add("items-center");
-    header.appendChild(logo);
-
-    imgLogo.classList.add("mt-3");
-    imgLogo.setAttribute('src', '/img/logo-vm.png');
-    logo.appendChild(imgLogo);
-
-    lineHeader.classList.add("flex");
-    lineHeader.classList.add("w-full");
-    lineHeader.classList.add("justify-center");
-    lineHeader.classList.add("items-center");
-    lineHeader.classList.add("mt-2");
-    header.appendChild(lineHeader);
-
-    lineHeaderImg.setAttribute('src', '/img/line-top.png');
-    lineHeader.appendChild(lineHeaderImg);
-    // Header element --> end
+    letterHeader(bgElement);
 
     // Body element --> start
-    // Title element --> start
     body.classList.add("h-[1125px]");
 
-    bodyTitle.classList.add("flex");
-    bodyTitle.classList.add("justify-center");
-    bodyTitle.classList.add("mt-4");
-    labelTitle.classList.add("sale-label-title");
-    labelTitle.innerHTML = "DATA PENJUALAN";
-    body.appendChild(bodyTitle);
-    // Title element --> end
-
-    // Sale detail element --> start
-    if (date.getMonth() + 1 == 1) {
-        month = "I";
-    } else if (date.getMonth() + 1 == 2) {
-        month = "II";
-    } else if (date.getMonth() + 1 == 3) {
-        month = "III";
-    } else if (date.getMonth() + 1 == 4) {
-        month = "IV";
-    } else if (date.getMonth() + 1 == 5) {
-        month = "V";
-    } else if (date.getMonth() + 1 == 6) {
-        month = "VI";
-    } else if (date.getMonth() + 1 == 7) {
-        month = "VII";
-    } else if (date.getMonth() + 1 == 8) {
-        month = "VIII";
-    } else if (date.getMonth() + 1 == 9) {
-        month = "IX";
-    } else if (date.getMonth() + 1 == 10) {
-        month = "X";
-    } else if (date.getMonth() + 1 == 11) {
-        month = "XI";
-    } else if (date.getMonth() + 1 == 12) {
-        month = "XII";
-    }
+    letterBodyTitle(body,"DATA PENJUALAN BILLBOARD")
 
     bodyDetail.classList.add("body-detail");
     saleDetail.classList.add("sale-detail");
@@ -686,35 +798,7 @@ function createMultipleSale(locations, i) {
         if (j == 0) {
             labelSale[j].innerHTML = "No. Penjualan";
             divSale[j].appendChild(labelSale[j]);
-            if (i == 0) {
-                if (number.value < 10) {
-                    labelSaleValue[j].innerHTML = "000" + Number(number.value) + "/APP/PJ/VM/" + month + "-" + year;
-                    saleNumber[i] = labelSaleValue[j].innerText;
-                } else if (number.value < 100) {
-                    labelSaleValue[j].innerHTML = "00" + Number(number.value) + "/APP/PJ/VM/" + month + "-" + year;
-                    saleNumber[i] = labelSaleValue[j].innerText;
-                } else if (number.value < 1000) {
-                    labelSaleValue[j].innerHTML = "0" + Number(number.value) + "/APP/PJ/VM/" + month + "-" + year;
-                    saleNumber[i] = labelSaleValue[j].innerText;
-                } else if (number.valuer >= 1000) {
-                    labelSaleValue[j].innerHTML = Number(number.value) + "/APP/VM/PJ/" + month + "-" + year;
-                    saleNumber[i] = labelSaleValue[j].innerText;
-                }
-            } else {
-                if (number.value < 10) {
-                    labelSaleValue[j].innerHTML = "000" + (Number(number.value) + i) + "/APP/PJ/VM/" + month + "-" + year;
-                    saleNumber[i] = labelSaleValue[j].innerText;
-                } else if (number.value < 100) {
-                    labelSaleValue[j].innerHTML = "00" + (Number(number.value) + i) + "/APP/PJ/VM/" + month + "-" + year;
-                    saleNumber[i] = labelSaleValue[j].innerText;
-                } else if (number.value < 1000) {
-                    labelSaleValue[j].innerHTML = "0" + (Number(number.value) + i) + "/APP/PJ/VM/" + month + "-" + year;
-                    saleNumber[i] = labelSaleValue[j].innerText;
-                } else if (number.valuer >= 1000) {
-                    labelSaleValue[j].innerHTML = (Number(number.value) + i) + "/APP/VM/PJ/" + month + "-" + year;
-                    saleNumber[i] = labelSaleValue[j].innerText;
-                }
-            }
+            labelSaleValue[j].innerHTML = "";
             divSale[j].appendChild(labelSaleColon[j]);
             divSale[j].appendChild(labelSaleValue[j]);
         } else if (j == 1) {
@@ -863,7 +947,6 @@ function createMultipleSale(locations, i) {
     bodyDetail.appendChild(saleDetail);
     bodyDetail.appendChild(quotationDetail);
 
-    bodyTitle.appendChild(labelTitle);
     body.appendChild(bodyDetail);
     // Sale detail element --> end
 
@@ -1131,125 +1214,17 @@ function createMultipleSale(locations, i) {
     saleNote.appendChild(divOtherNotes);
     body.appendChild(saleNote);
     // Notes element --> start
+    letterSign(body);
 
-    // Sign element --> start
-    thTitleSign.classList.add("th-title-sign");
-    thTitleSign.setAttribute('colspan', '4');
-    thTitleSign.innerHTML = "Mengetahui :";
-    trSign[0] = document.createElement("tr");
-    trSign[0].appendChild(thTitleSign);
-    theadSign.appendChild(trSign[0]);
-    trSign[1] = document.createElement("tr");
-    for (a = 0; a < 4; a++) {
-        if (a == 0) {
-            thSign[a] = trSign[0] = document.createElement("th");
-            thSign[a].classList.add("th-sign");
-            thSign[a].innerHTML = "Penjualan dan Pemasaran";
-        } else if (a == 1) {
-            thSign[a] = trSign[0] = document.createElement("th");
-            thSign[a].classList.add("th-sign");
-            thSign[a].innerHTML = "Penagihan";
-        } else if (a == 2) {
-            thSign[a] = trSign[0] = document.createElement("th");
-            thSign[a].classList.add("th-sign");
-            thSign[a].innerHTML = "Keuangan";
-        } else if (a == 3) {
-            thSign[a] = trSign[0] = document.createElement("th");
-            thSign[a].classList.add("th-sign");
-            thSign[a].innerHTML = "Direktur";
-        }
-        trSign[1].appendChild(thSign[a]);
-    }
-    theadSign.appendChild(trSign[1]);
-    tableSign.appendChild(theadSign);
-    trSign[2] = trSign[0] = document.createElement("tr");
-    for (a = 0; a < 4; a++) {
-        if (a == 0) {
-            tdSign[a] = trSign[0] = document.createElement("td");
-            tdSign[a].classList.add("td-sign");
-            tdSign[a].innerHTML = "Nur Cahyono";
-        } else if (a == 1) {
-            tdSign[a] = trSign[0] = document.createElement("td");
-            tdSign[a].classList.add("td-sign");
-            tdSign[a].innerHTML = "Yudhi Pratama";
-        } else if (a == 2) {
-            tdSign[a] = trSign[0] = document.createElement("td");
-            tdSign[a].classList.add("td-sign");
-            tdSign[a].innerHTML = "Ayu Putri Lestari";
-        } else if (a == 3) {
-            tdSign[a] = trSign[0] = document.createElement("td");
-            tdSign[a].classList.add("td-sign");
-            tdSign[a].innerHTML = "Sandy Kamboy";
-        }
-        trSign[2].appendChild(tdSign[a]);
-    }
-    tbodySign.appendChild(trSign[2])
-    tableSign.appendChild(tbodySign);
-    tableSign.classList.add("table-sign");
-    divSign.appendChild(tableSign);
-    divSign.classList.add("div-sign")
-    signArea.classList.add("sign-area")
-    signArea.appendChild(divSign);
-    body.appendChild(signArea);
-    // Sign element --> end
-
-    // Body Bottom --> start
-    var bodyBottom = document.createElement("div");
-    var photoLocation = document.createElement("div");
-    var qrCodeSale = document.createElement("div");
-    var imageLocation = document.createElement("img");
-    var qrCodeImage = document.createElement("div");
-
-    imageLocation.classList.add("img-location-sale");
-    imageLocation.setAttribute('src', '/storage/' + locations[i].photo);
-    photoLocation.classList.add("sale-detail");
-    photoLocation.appendChild(imageLocation);
-    bodyBottom.classList.add("body-bottom-sale");
-    qrCodeSale.classList.add("qr-code-sale");
-    qrCodeSale.classList.add("ml-4");
-    // qrCodeImage.classList.add("qrcode-img-sale");
-    // new QRCode(qrCodeImage, "https://vistamedia.co.id/preview/");
-    // qrCodeSale.appendChild(qrCodeImage);
-    bodyBottom.appendChild(photoLocation);
-    bodyBottom.appendChild(qrCodeSale);
-    body.appendChild(bodyBottom);
-    // Body Bottom --> end
+    locationPhoto(locations[i].photo,body);
 
     bgElement.appendChild(body);
 
     // Body element --> end
 
+    letterFooter(bgElement);
 
-    // Footer element --> start
-    footer.classList.add("footer");
-    footerLine.classList.add("footer-line");
-    footerLineImg.classList.add("footter-line-img");
-    footerLineImg.setAttribute('src', '/img/line-bottom.png');
-    footerCompany.classList.add("footer-company");
-    company.innerHTML = "PT. Vista Media";
-    company.classList.add("company");
-    footerAddress.classList.add("footer-element");
-    address.classList.add("footer-text");
-    address.innerHTML = "Jl. Pulau Kawe No. 40 - Denpasar | Bali - Indonesia"
-    footerPhone.classList.add("footer-element");
-    phone.classList.add("footer-text");
-    phone.innerHTML = "Ph. +62 361 230000 | Fax. +62 361 237800";
-    footerEmail.classList.add("footer-element");
-    email.classList.add("footer-text");
-    email.innerHTML = "e-mail : info@vistamedia.co.id | www.vistamedia.co.id";
-
-    footerLine.appendChild(footerLineImg);
-    footer.appendChild(footerLine);
-    footerCompany.appendChild(company);
-    footer.appendChild(footerCompany);
-    footerAddress.appendChild(address);
-    footer.appendChild(footerAddress);
-    footerPhone.appendChild(phone);
-    footer.appendChild(footerPhone);
-    footerEmail.appendChild(email);
-    footer.appendChild(footerEmail);
-    bgElement.appendChild(footer);
-    // Footer element --> end
+    multipleSale.appendChild(bgElement);
 
     // Fill element --> start
     if (quotationDeal.value.includes('rev') == false) {
@@ -1819,16 +1794,8 @@ btnPreview.addEventListener('click', function () {
 // Create Preview Sales --> start
 function createPreviewSale(locations, i) {
     var bgElement = document.createElement("div");
-
-    var header = document.createElement("div");
-    var logo = document.createElement("div");
-    var imgLogo = document.createElement("img");
-    var lineHeader = document.createElement("div");
-    var lineHeaderImg = document.createElement("img");
-
     var body = document.createElement("div");
-    var bodyTitle = document.createElement("div");
-    var labelTitle = document.createElement("label");
+    var saleNote = document.createElement("div");
 
     var bodyDetail = document.createElement("div");
     var saleDetail = document.createElement("div");
@@ -1847,7 +1814,7 @@ function createPreviewSale(locations, i) {
     var saleTHead = document.createElement("thead");
     var saleTBody = document.createElement("tbody");
 
-    var saleNote = document.createElement("div");
+    // var saleNote = document.createElement("div");
     var divPreviewSaleNotes = document.createElement("div");
     var divPreviewTerms = [];
     var termsNote = document.createElement("div");
@@ -1862,104 +1829,27 @@ function createPreviewSale(locations, i) {
     var labelNoteTitle = document.createElement("label");
     var linePreviewLabel = [];
 
-    var signArea = document.createElement("div");
-    var divSign = document.createElement("div");
-    var tableSign = document.createElement("table");
-    var theadSign = document.createElement("thead");
-    var tbodySign = document.createElement("tbody");
-    var thTitleSign = document.createElement("th");
-    var trPreviewSign = [];
-    var thPreviewSign = [];
-    var tdPreviewSign = [];
-
-    var footer = document.createElement("div");
-    var footerLine = document.createElement("div");
-    var footerLineImg = document.createElement("img");
-    var footerCompany = document.createElement("div");
-    var company = document.createElement("span");
-    var footerAddress = document.createElement("div");
-    var address = document.createElement("span");
-    var footerPhone = document.createElement("div");
-    var phone = document.createElement("span");
-    var footerEmail = document.createElement("div");
-    var email = document.createElement("span");
-
-
     // Main element --> start
     bgElement.classList.add("w-[950px]");
     bgElement.classList.add("h-[1345px]");
     bgElement.classList.add("border");
     bgElement.classList.add("mb-10");
     bgElement.classList.add("bg-white");
-    salesPreview.appendChild(bgElement);
     // Main element --> end
 
     // Header element --> start
-    header.classList.add("h-24");
-    header.classList.add("mt-2");
-    bgElement.appendChild(header);
-
-    logo.classList.add("flex");
-    logo.classList.add("w-full");
-    logo.classList.add("justify-center");
-    logo.classList.add("items-center");
-    header.appendChild(logo);
-
-    imgLogo.classList.add("mt-3");
-    imgLogo.setAttribute('src', '/img/logo-vm.png');
-    logo.appendChild(imgLogo);
-
-    lineHeader.classList.add("flex");
-    lineHeader.classList.add("w-full");
-    lineHeader.classList.add("justify-center");
-    lineHeader.classList.add("items-center");
-    lineHeader.classList.add("mt-2");
-    header.appendChild(lineHeader);
-
-    lineHeaderImg.setAttribute('src', '/img/line-top.png');
-    lineHeader.appendChild(lineHeaderImg);
+   letterHeader(bgElement);
     // Header element --> end
 
     // Body element --> start
-    // Title element --> start
     body.classList.add("h-[1125px]");
 
-    bodyTitle.classList.add("flex");
-    bodyTitle.classList.add("justify-center");
-    bodyTitle.classList.add("mt-4");
-    labelTitle.classList.add("sale-label-title");
-    labelTitle.innerHTML = "DATA PENJUALAN";
-    body.appendChild(bodyTitle);
-    // Title element --> end
+    letterBodyTitle(body, "DATA PENJUALAN BILLBOARD")
 
     // Sale detail element --> start
     bodyDetail.classList.add("body-detail");
     saleDetail.classList.add("sale-detail");
-    if (date.getMonth() + 1 == 1) {
-        month = "I";
-    } else if (date.getMonth() + 1 == 2) {
-        month = "II";
-    } else if (date.getMonth() + 1 == 3) {
-        month = "III";
-    } else if (date.getMonth() + 1 == 4) {
-        month = "IV";
-    } else if (date.getMonth() + 1 == 5) {
-        month = "V";
-    } else if (date.getMonth() + 1 == 6) {
-        month = "VI";
-    } else if (date.getMonth() + 1 == 7) {
-        month = "VII";
-    } else if (date.getMonth() + 1 == 8) {
-        month = "VIII";
-    } else if (date.getMonth() + 1 == 9) {
-        month = "IX";
-    } else if (date.getMonth() + 1 == 10) {
-        month = "X";
-    } else if (date.getMonth() + 1 == 11) {
-        month = "XI";
-    } else if (date.getMonth() + 1 == 12) {
-        month = "XII";
-    }
+    
     for (j = 0; j < 8; j++) {
         divPreviewSale[j] = document.createElement("div");
         divPreviewSale[j].classList.add("div-sale");
@@ -1974,28 +1864,7 @@ function createPreviewSale(locations, i) {
             console.log(labelSaleValue[j].innerHTML);
             labelPreviewSale[j].innerHTML = "No. Penjualan";
             divPreviewSale[j].appendChild(labelPreviewSale[j]);
-            if (i == 0) {
-                if (number.value < 10) {
-                    labelPreviewSaleValue[j].innerHTML = "000" + Number(number.value) + "/APP/PJ/VM/" + month + "-" + year;
-                } else if (number.value < 100) {
-                    labelPreviewSaleValue[j].innerHTML = "00" + Number(number.value) + "/APP/PJ/VM/" + month + "-" + year;
-                } else if (number.value < 1000) {
-                    labelPreviewSaleValue[j].innerHTML = "0" + Number(number.value) + "/APP/PJ/VM/" + month + "-" + year;
-                } else if (number.valuer >= 1000) {
-                    labelPreviewSaleValue[j].innerHTML = Number(number.value) + "/APP/VM/PJ/" + month + "-" + year;
-                }
-            } else {
-                if (number.value < 10) {
-                    labelPreviewSaleValue[j].innerHTML = "000" + (Number(number.value) + i) + "/APP/PJ/VM/" + month + "-" + year;
-                } else if (number.value < 100) {
-                    labelPreviewSaleValue[j].innerHTML = "00" + (Number(number.value) + i) + "/APP/PJ/VM/" + month + "-" + year;
-                } else if (number.value < 1000) {
-                    labelPreviewSaleValue[j].innerHTML = "0" + (Number(number.value) + i) + "/APP/PJ/VM/" + month + "-" + year;
-                } else if (number.valuer >= 1000) {
-                    labelPreviewSaleValue[j].innerHTML = (Number(number.value) + i) + "/APP/VM/PJ/" + month + "-" + year;
-                }
-            }
-            // labelPreviewSaleValue[j].innerHTML = labelSaleValue[j].innerHTML;
+            labelPreviewSaleValue[j].innerHTML = "";
             saleNumber[i] = labelPreviewSaleValue[j].innerText;
             divPreviewSale[j].appendChild(labelPreviewSaleColon[j]);
             divPreviewSale[j].appendChild(labelPreviewSaleValue[j]);
@@ -2148,7 +2017,6 @@ function createPreviewSale(locations, i) {
     bodyDetail.appendChild(saleDetail);
     bodyDetail.appendChild(quotationDetail);
 
-    bodyTitle.appendChild(labelTitle);
     body.appendChild(bodyDetail);
     // Sale detail element --> end
 
@@ -2376,126 +2244,25 @@ function createPreviewSale(locations, i) {
     saleNote.appendChild(divPreviewSaleNotes);
     saleNote.appendChild(divOtherNotes);
     body.appendChild(saleNote);
-    // Notes element --> start
+    // Notes element --> end
 
-    // Sign element --> start
-    thTitleSign.classList.add("th-title-sign");
-    thTitleSign.setAttribute('colspan', '4');
-    thTitleSign.innerHTML = "Mengetahui :";
-    trPreviewSign[0] = document.createElement("tr");
-    trPreviewSign[0].appendChild(thTitleSign);
-    theadSign.appendChild(trPreviewSign[0]);
-    trPreviewSign[1] = document.createElement("tr");
-    for (a = 0; a < 4; a++) {
-        if (a == 0) {
-            thPreviewSign[a] = trPreviewSign[0] = document.createElement("th");
-            thPreviewSign[a].classList.add("th-sign");
-            thPreviewSign[a].innerHTML = "Penjualan dan Pemasaran";
-        } else if (a == 1) {
-            thPreviewSign[a] = trPreviewSign[0] = document.createElement("th");
-            thPreviewSign[a].classList.add("th-sign");
-            thPreviewSign[a].innerHTML = "Penagihan";
-        } else if (a == 2) {
-            thPreviewSign[a] = trPreviewSign[0] = document.createElement("th");
-            thPreviewSign[a].classList.add("th-sign");
-            thPreviewSign[a].innerHTML = "Keuangan";
-        } else if (a == 3) {
-            thPreviewSign[a] = trPreviewSign[0] = document.createElement("th");
-            thPreviewSign[a].classList.add("th-sign");
-            thPreviewSign[a].innerHTML = "Direktur";
-        }
-        trPreviewSign[1].appendChild(thPreviewSign[a]);
-    }
-    theadSign.appendChild(trPreviewSign[1]);
-    tableSign.appendChild(theadSign);
-    trPreviewSign[2] = trPreviewSign[0] = document.createElement("tr");
-    for (a = 0; a < 4; a++) {
-        if (a == 0) {
-            tdPreviewSign[a] = trPreviewSign[0] = document.createElement("td");
-            tdPreviewSign[a].classList.add("td-sign");
-            tdPreviewSign[a].innerHTML = "Nur Cahyono";
-        } else if (a == 1) {
-            tdPreviewSign[a] = trPreviewSign[0] = document.createElement("td");
-            tdPreviewSign[a].classList.add("td-sign");
-            tdPreviewSign[a].innerHTML = "Yudhi Pratama";
-        } else if (a == 2) {
-            tdPreviewSign[a] = trPreviewSign[0] = document.createElement("td");
-            tdPreviewSign[a].classList.add("td-sign");
-            tdPreviewSign[a].innerHTML = "Ayu Putri Lestari";
-        } else if (a == 3) {
-            tdPreviewSign[a] = trPreviewSign[0] = document.createElement("td");
-            tdPreviewSign[a].classList.add("td-sign");
-            tdPreviewSign[a].innerHTML = "Sandy Kamboy";
-        }
-        trPreviewSign[2].appendChild(tdPreviewSign[a]);
-    }
-    tbodySign.appendChild(trPreviewSign[2])
-    tableSign.appendChild(tbodySign);
-    tableSign.classList.add("table-sign");
-    divSign.appendChild(tableSign);
-    divSign.classList.add("div-sign")
-    signArea.classList.add("sign-area")
-    signArea.appendChild(divSign);
-    body.appendChild(signArea);
-    // Sign element --> end
+    // Sign Area --> start
+    letterSign(body);
+    // Sign Area --> end
 
-    // Body Bottom --> start
-    var bodyBottom = document.createElement("div");
-    var photoLocation = document.createElement("div");
-    var qrCodeSale = document.createElement("div");
-    var imageLocation = document.createElement("img");
-    var qrCodeImage = document.createElement("div");
-
-    imageLocation.classList.add("img-location-sale");
-    imageLocation.setAttribute('src', '/storage/' + locations[i].photo);
-    photoLocation.classList.add("sale-detail");
-    photoLocation.appendChild(imageLocation);
-    bodyBottom.classList.add("body-bottom-sale");
-    qrCodeSale.classList.add("qr-code-sale");
-    qrCodeSale.classList.add("ml-4");
-    // qrCodeImage.classList.add("qrcode-img-sale");
-    // new QRCode(qrCodeImage, "https://vistamedia.co.id/preview/");
-    // qrCodeSale.appendChild(qrCodeImage);
-    bodyBottom.appendChild(photoLocation);
-    bodyBottom.appendChild(qrCodeSale);
-    body.appendChild(bodyBottom);
-    // Body Bottom --> end
+    // Location photo --> start
+    locationPhoto(locations[i].photo, body);
+    // Location photo --> end
 
     bgElement.appendChild(body);
 
     // Body element --> end
 
-
     // Footer element --> start
-    footer.classList.add("footer");
-    footerLine.classList.add("footer-line");
-    footerLineImg.classList.add("footter-line-img");
-    footerLineImg.setAttribute('src', '/img/line-bottom.png');
-    footerCompany.classList.add("footer-company");
-    company.innerHTML = "PT. Vista Media";
-    company.classList.add("company");
-    footerAddress.classList.add("footer-element");
-    address.classList.add("footer-text");
-    address.innerHTML = "Jl. Pulau Kawe No. 40 - Denpasar | Bali - Indonesia"
-    footerPhone.classList.add("footer-element");
-    phone.classList.add("footer-text");
-    phone.innerHTML = "Ph. +62 361 230000 | Fax. +62 361 237800";
-    footerEmail.classList.add("footer-element");
-    email.classList.add("footer-text");
-    email.innerHTML = "e-mail : info@vistamedia.co.id | www.vistamedia.co.id";
-
-    footerLine.appendChild(footerLineImg);
-    footer.appendChild(footerLine);
-    footerCompany.appendChild(company);
-    footer.appendChild(footerCompany);
-    footerAddress.appendChild(address);
-    footer.appendChild(footerAddress);
-    footerPhone.appendChild(phone);
-    footer.appendChild(footerPhone);
-    footerEmail.appendChild(email);
-    footer.appendChild(footerEmail);
-    bgElement.appendChild(footer);
+    letterFooter(bgElement);
     // Footer element --> end
+
+    salesPreview.appendChild(bgElement);
 
     // Fill element --> start
     if (quotationDeal.value.includes('rev') == false) {
@@ -2568,8 +2335,362 @@ btnClosePreview.addEventListener('click', function () {
 })
 // Button Close Preview Event --> end
 
-// Button Save Event --> start
-btnSave.addEventListener('click', function () {
-    console.log(salesValue.value);
-})
-// Button Save Event --> end
+//Create print sales --> start
+printSales = () => {
+    var bgElement = document.createElement("div");
+    var body = document.createElement("div"); 
+    
+    var bodyDetail = document.createElement("div");
+    var saleDetail = document.createElement("div");
+    var quotationDetail = document.createElement("div");
+
+    var saleData = document.createElement("div");
+    var divTable = document.createElement("div");
+    var saleTHead = document.createElement("thead");
+    var saleTBody = document.createElement("tbody");
+
+    var saleNote = document.createElement("div");
+    var divSaleNotes = document.createElement("div");
+    var termsNote = document.createElement("div");
+    var labelTermTitle = document.createElement("label");
+    var divServices = document.createElement("div");
+    var labelServiceTitle = document.createElement("label");
+    var divOtherNotes = document.createElement("div");
+    var divNotes = document.createElement("div");
+    var labelNoteTitle = document.createElement("label");
+
+    // Main element --> start
+    bgElement.classList.add("w-[950px]");
+    bgElement.classList.add("h-[1345px]");
+    bgElement.classList.add("border");
+    bgElement.classList.add("mb-10");
+    bgElement.classList.add("bg-white");
+    // Main element --> end
+
+    letterHeader(bgElement);
+
+    // Body element --> start
+    // Title element --> start
+    body.classList.add("h-[1125px]");
+
+    letterBodyTitle(body, "DATA PENJUALAN CETAK & PASANG");
+
+    bodyDetail.classList.add("body-detail");
+    saleDetail.classList.add("sale-detail");
+    for (let j = 0; j < 5; j++) {
+        divSale[j] = document.createElement("div");
+        divSale[j].classList.add("div-sale");
+        labelSale[j] = document.createElement("label");
+        labelSale[j].classList.add("label-sale-01");
+        labelSaleValue[j] = document.createElement("label");
+        labelSaleValue[j].classList.add("label-sale-02");
+        labelSaleColon[j] = document.createElement("label");
+        labelSaleColon[j].classList.add("label-sale-02");
+        labelSaleColon[j].innerHTML = ":";
+        if (j == 0) {
+            labelSale[j].innerHTML = "No. Penjualan";
+            divSale[j].appendChild(labelSale[j]);
+            labelSaleValue[j].innerHTML = "";
+            divSale[j].appendChild(labelSaleColon[j]);
+            divSale[j].appendChild(labelSaleValue[j]);
+        } else if (j == 1) {
+            labelSale[j].innerHTML = "Tgl. Penjualan";
+            labelSaleValue[j].innerHTML = saleDate;
+            divSale[j].appendChild(labelSale[j]);
+            divSale[j].appendChild(labelSaleColon[j]);
+            divSale[j].appendChild(labelSaleValue[j]);
+        } else if (j == 2) {
+            labelSale[j].innerHTML = "Dok. Approval";
+            divSale[j].appendChild(labelSale[j]);
+            divSale[j].appendChild(labelSaleColon[j]);
+            spanButton[j] = document.createElement("span");
+            spanButton[j].classList.add("text-sm");
+            spanButton[j].classList.add("mx-2");
+            spanButton[j].innerHTML = "View";
+            // btnApproval[i] = document.createElement("button");
+            // btnApproval[i].classList.add("btn-sale");
+            // btnApproval[i].setAttribute('type', 'button');
+            // btnApproval[i].setAttribute('onclick', 'previewAppovalImage()');
+            // btnApproval[i].appendChild(spanButton[j]);
+            // divSale[j].appendChild(btnApproval[i]);
+        } else if (j == 3) {
+            labelSale[j].innerHTML = "Dok. PO/SPK";
+            divSale[j].appendChild(labelSale[j]);
+            divSale[j].appendChild(labelSaleColon[j]);
+            spanButton[j] = document.createElement("span");
+            spanButton[j].classList.add("text-sm");
+            spanButton[j].classList.add("mx-2");
+            spanButton[j].innerHTML = "Add/View";
+            // btnPO[i] = document.createElement("button");
+            // btnPO[i].classList.add("btn-sale");
+            // btnPO[i].setAttribute('type', 'button');
+            // btnPO[i].setAttribute('onclick', 'btnPOEvent()');
+            // btnPO[i].appendChild(spanButton[j]);
+            // divSale[j].appendChild(btnPO[i]);
+        } 
+
+        saleDetail.appendChild(divSale[j]);
+    }
+
+    for (n = 0; n < 8; n++) {
+        divQuotation[n] = document.createElement("div");
+        divQuotation[n].classList.add("div-sale");
+        labelQuotation[n] = document.createElement("label");
+        labelQuotation[n].classList.add("label-sale-01");
+        labelQuotationValue[n] = document.createElement("label");
+        labelQuotationValue[n].classList.add("label-sale-02");
+        labelQuotationColon[n] = document.createElement("label");
+        labelQuotationColon[n].classList.add("label-sale-02");
+        labelQuotationColon[n].innerHTML = ":";
+        if (n == 0) {
+            labelQuotation[n].innerHTML = "No. Penawaran";
+            divQuotation[n].appendChild(labelQuotation[n]);
+            divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
+            divQuotation[n].appendChild(labelQuotationValue[n]);
+        } else if (n == 1) {
+            labelQuotation[n].innerHTML = "Tgl. Penawaran";
+            divQuotation[n].appendChild(labelQuotation[n]);
+            divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
+            divQuotation[n].appendChild(labelQuotationValue[n]);
+        } else if (n == 2) {
+            labelQuotation[n].innerHTML = "Nama Klien";
+            divQuotation[n].appendChild(labelQuotation[n]);
+            divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
+            divQuotation[n].appendChild(labelQuotationValue[n]);
+        } else if (n == 3) {
+            labelQuotation[n].innerHTML = "Perusahaan";
+            divQuotation[n].appendChild(labelQuotation[n]);
+            divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
+            divQuotation[n].appendChild(labelQuotationValue[n]);
+        } else if (n == 4) {
+            labelQuotation[n].innerHTML = "Alamat";
+            divQuotation[n].appendChild(labelQuotation[n]);
+            divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
+            divQuotation[n].appendChild(labelQuotationValue[n]);
+        } else if (n == 5) {
+            labelQuotation[n].innerHTML = "Kontak Person";
+            divQuotation[n].appendChild(labelQuotation[n]);
+            divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
+            divQuotation[n].appendChild(labelQuotationValue[n]);
+        } else if (n == 6) {
+            labelQuotation[n].innerHTML = "No. Telp./Hp.";
+            divQuotation[n].appendChild(labelQuotation[n]);
+            divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
+            divQuotation[n].appendChild(labelQuotationValue[n]);
+        } else if (n == 7) {
+            labelQuotation[n].innerHTML = "Email";
+            divQuotation[n].appendChild(labelQuotation[n]);
+            divQuotation[n].appendChild(labelQuotationColon[n]);
+            labelQuotationValue[n].classList.add("w-60");
+            divQuotation[n].appendChild(labelQuotationValue[n]);
+        }
+
+        quotationDetail.appendChild(divQuotation[n]);
+    }
+    quotationDetail.classList.add("sale-detail");
+    quotationDetail.classList.add("ml-4");
+    bodyDetail.appendChild(saleDetail);
+    bodyDetail.appendChild(quotationDetail);
+
+    body.appendChild(bodyDetail);
+
+    // Sale location element --> start
+    var printInstallTable = document.createElement("table");
+    printInstallTable.classList.add("table-auto");
+    printInstallTable.classList.add("mt-2");
+    printInstallTable.classList.add("w-[780px]");
+
+    newRow[0] = saleTHead.insertRow(0);
+    cell[0] = newRow[0].insertCell(0);
+    cell[0].innerHTML = "No.";
+    cell[0].classList.add('th-table');
+    cell[0].classList.add('w-8');
+    cell[0].setAttribute('rowspan', '2');
+    cell[1] = newRow[0].insertCell(1);
+    cell[1].innerHTML = "Jenis";
+    cell[1].classList.add('th-table');
+    cell[1].classList.add('w-14');
+    cell[1].setAttribute('rowspan', '2');
+    cell[2] = newRow[0].insertCell(2);
+    cell[2].innerHTML = "Lokasi";
+    cell[2].classList.add('th-table');
+    cell[2].setAttribute('colspan', '2');
+    cell[3] = newRow[0].insertCell(3);
+    cell[3].innerHTML = "Deskripsi";
+    cell[3].classList.add('th-table');
+    cell[3].classList.add('w-72');
+    cell[3].setAttribute('colspan', '4');
+    newRow[1] = saleTHead.insertRow(1);
+    cell[0] = newRow[1].insertCell(0);
+    cell[0].innerHTML = "Kode";
+    cell[0].classList.add('th-table');
+    cell[0].classList.add('w-24');
+    cell[1] = newRow[1].insertCell(1);
+    cell[1].innerHTML = "Alamat";
+    cell[1].classList.add('th-table');
+    // cell[1].classList.add('w-10');
+    cell[2] = newRow[1].insertCell(2);
+    cell[2].innerHTML = "Bahan";
+    cell[2].classList.add('th-table');
+    cell[2].classList.add('w-28');
+    cell[3] = newRow[1].insertCell(3);
+    cell[3].classList.add('th-table');
+    cell[3].classList.add('w-8');
+    cell[3].innerHTML = "Luas";
+    cell[4] = newRow[1].insertCell(4);
+    cell[4].classList.add('th-table');
+    cell[4].classList.add('w-16');
+    cell[4].innerHTML = "Harga";
+    cell[5] = newRow[1].insertCell(5);
+    cell[5].classList.add('th-table');
+    cell[5].classList.add('w-20');
+    cell[5].innerHTML = "Total";
+
+    while (saleTBody.hasChildNodes()) {
+        saleTBody.removeChild(saleTBody.firstChild);
+    }
+
+    newRow[0] = saleTBody.insertRow(0);
+    cell[0] = newRow[0].insertCell(0);
+    cell[0].innerHTML = 1;
+    cell[0].classList.add('td-table');
+    cell[0].setAttribute('rowspan', '2');
+    cell[1] = newRow[0].insertCell(1);
+    cell[1].innerHTML = "Cetak";
+    cell[1].classList.add('td-table');
+    cell[2] = newRow[0].insertCell(2);
+    cell[2].innerHTML = "7001 - BDG";
+    cell[2].classList.add('td-table');
+    cell[2].setAttribute('rowspan', '2');
+    cell[3] = newRow[0].insertCell(3);
+    cell[3].classList.add('text-xs');
+    cell[3].classList.add('text-teal-700');
+    cell[3].classList.add('border');
+    cell[3].classList.add('px-1');
+    cell[3].innerHTML = "Jl. Bypass Ngurah Rai";
+    cell[3].setAttribute('rowspan', '2');
+    cell[4] = newRow[0].insertCell(4);
+    cell[4].innerHTML = "FL 380";
+    cell[4].classList.add('td-table');
+    cell[5] = newRow[0].insertCell(5);
+    cell[5].innerHTML = "50";
+    cell[5].classList.add('td-table');
+    cell[6] = newRow[0].insertCell(6);
+    cell[6].innerHTML = "50000";
+    cell[6].classList.add('td-table');
+
+    cell[7] = newRow[0].insertCell(7);
+    cell[7].innerHTML = "2500000";
+
+    cell[7].classList.add('td-table-sale');
+
+    newRow[1] = saleTBody.insertRow(1);
+    cell[0] = newRow[1].insertCell(0);
+    cell[0].innerHTML = "Pasang";
+    cell[0].classList.add('td-table');
+    cell[1] = newRow[1].insertCell(1);
+    cell[1].innerHTML = "FL 380";
+    cell[1].classList.add('td-table');
+    cell[2] = newRow[1].insertCell(2);
+    cell[2].innerHTML = "50";
+    cell[2].classList.add('td-table');
+    cell[3] = newRow[1].insertCell(3);
+    cell[3].innerHTML = "50000";
+    cell[3].classList.add('td-table');
+
+    cell[4] = newRow[1].insertCell(4);
+    cell[4].innerHTML = "2500000";
+    cell[4].classList.add('td-table-sale');
+
+
+    newRow[2] = saleTBody.insertRow(2);
+    cell[0] = newRow[2].insertCell(0);
+    cell[0].innerHTML = "PPN 11% (A)";
+    cell[0].classList.add('td-table-sale');
+    cell[0].setAttribute('colspan', '7');
+    cell[1] = newRow[2].insertCell(1);
+    cell[1].innerHTML = "";
+    cell[1].classList.add('td-table-sale');
+
+    newRow[3] = saleTBody.insertRow(3);
+    cell[0] = newRow[3].insertCell(0);
+    cell[0].innerHTML = "PPh 23 2% (B)";
+    cell[0].classList.add('td-table-sale');
+    cell[0].setAttribute('colspan', '7');
+    cell[1] = newRow[3].insertCell(1);
+    cell[1].innerHTML = "";
+    cell[1].classList.add('td-table-sale');
+
+    newRow[4] = saleTBody.insertRow(4);
+    cell[0] = newRow[4].insertCell(0);
+    cell[0].innerHTML = "Grand Total ((Harga + A) - B)";
+    cell[0].classList.add('td-table-sale');
+    cell[0].setAttribute('colspan', '7');
+    cell[1] = newRow[4].insertCell(1);
+    cell[1].innerHTML = "";
+    cell[1].classList.add('td-table-sale');
+
+    printInstallTable.appendChild(saleTHead);
+    printInstallTable.appendChild(saleTBody);
+    divTable.appendChild(printInstallTable);
+    divTable.classList.add("flex");
+    divTable.classList.add("justify-center");
+    saleData.classList.add("mt-4");
+    saleData.appendChild(divTable);
+    body.appendChild(saleData);
+    // Sale location element --> end
+
+    // Notes element --> start
+    labelTermTitle.classList.add("sale-note-title");
+    labelTermTitle.innerHTML = "Termin Pembayaran";
+    termsNote.appendChild(labelTermTitle);
+    divSaleNotes.appendChild(termsNote);
+
+    divSaleNotes.appendChild(divServices);
+    divSaleNotes.classList.add("div-sale-notes");
+    divSaleNotes.classList.add("w-[325px]");
+
+    divOtherNotes.classList.add("div-sale-notes");
+    divOtherNotes.classList.add("w-[435px]");
+    divOtherNotes.classList.add("ml-5");
+    divOtherNotes.appendChild(divNotes);
+    labelNoteTitle.classList.add("sale-note-title");
+    labelNoteTitle.innerHTML = "Keterangan Tambahan :";
+    divNotes.appendChild(labelNoteTitle);
+    for (a = 0; a < 6; a++) {
+        lineLabel[a] = document.createElement("label");
+        lineLabel[a].classList.add("line-label");
+        divNotes.appendChild(lineLabel[a]);
+    }
+    saleNote.classList.add("sale-note");
+
+    saleNote.appendChild(divSaleNotes);
+    saleNote.appendChild(divOtherNotes);
+    body.appendChild(saleNote);
+    // Notes element --> start
+
+    // Sign Area --> start
+    letterSign(body);
+    // Sign Area --> end
+
+    // Location photo --> start
+    locationPhoto("test", body);
+    // Location photo --> end
+
+    bgElement.appendChild(body);
+    // Body element --> end
+
+    // Footer element --> start
+    letterFooter(bgElement);
+    // Footer element --> end
+
+    multipleSale.appendChild(bgElement);
+}
+//Create print sales --> end

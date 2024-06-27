@@ -1,8 +1,8 @@
 <div id="changeContact" name="changeContact"
     class="absolute justify-center top-0 w-full h-full bg-black bg-opacity-90 z-50 hidden">
-    <div class="mt-10 flex justify-center w-full">
-        <div class="w-[600px] h-max px-4 pb-4 bg-white">
-            <div class="flex w-[576px] justify-end mt-2 mr-2">
+    <div class="mt-10">
+        <div class="w-[600px] h-max px-4 py-2 bg-white">
+            <div class="flex w-[576px] justify-end mr-2">
                 <button id="btnClose" class="flex" title="Close" type="button">
                     <svg class="fill-gray-500 w-6 m-auto hover:fill-red-700" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
@@ -29,7 +29,7 @@
                     $i = 0;
                     ?>
                     @foreach ($contacts as $contact)
-                        @if ($contact->client_id == $sale->client_id)
+                        @if ($contact->client_id == $billboard_sale->client_id)
                             <?php
                             $i++;
                             ?>

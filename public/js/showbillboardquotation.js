@@ -117,6 +117,7 @@ btnApprovalCancel.addEventListener('click', function () {
 })
 
 btnApprovalSubmit.addEventListener('click', function () {
+    slideApprovalIndex = 0;
     if (documentApproval.files.length == 0) {
         alert("Document approval belum dipilih")
     } else {

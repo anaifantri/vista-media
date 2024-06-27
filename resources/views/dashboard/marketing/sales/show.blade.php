@@ -217,8 +217,7 @@
                                                 ($sale->free_instalation - $usedInstall > 0 && $sale->free_print - $usedPrint > 0) ||
                                                     strtotime($sale->end_at) < strtotime(date('Y/m/d')))
                                                 <button
-                                                    class="flex justify-center items-center ml-4 p-1 h-6 bg-gray-700 rounded-md text-white cursor-default drop-shadow-md"
-                                                    href="#">
+                                                    class="flex justify-center items-center ml-4 p-1 h-6 bg-gray-700 rounded-md text-white cursor-default drop-shadow-md">
                                                     <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
                                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -229,9 +228,9 @@
                                                     <span class="ml-1 text-sm">Buat Penawaran</span>
                                                 </button>
                                             @else
-                                                <button id="btnCreate"
+                                                <a id="btnCreate"
                                                     class="flex justify-center items-center ml-4 p-1 h-6 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
-                                                    href="#">
+                                                    href="/dashboard/marketing/print-instal-quotations/create-quotations/{{ $sale->id }}">
                                                     <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
                                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -240,7 +239,7 @@
                                                             fill-rule="nonzero" />
                                                     </svg>
                                                     <span class="ml-1 text-sm">Buat Penawaran</span>
-                                                </button>
+                                                </a>
                                             @endif
                                         </div>
                                     </div>
@@ -940,8 +939,6 @@
             <div class="h-10"></div>
         </div>
     </div>
-    @include('dashboard.marketing.print-instal-quotations.create-quotations')
-    @include('dashboard.marketing.print-instal-quotations.create-preview')
 
     <!-- Show Quotatin end -->
 
@@ -949,7 +946,6 @@
     <script src="/js/html2canvas.min.js"></script>
     <script src="/js/html2pdf.bundle.min.js"></script>
     <script src="/js/qrcode.min.js"></script>
-    <script src="/js/printinstallquotation.js"></script>
 
     <!-- Script end -->
 @endsection

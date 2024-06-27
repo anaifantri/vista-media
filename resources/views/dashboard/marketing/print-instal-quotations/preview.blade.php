@@ -128,10 +128,19 @@
                                             <?php
                                             $products = json_decode($print_instal_quotation->products);
                                             $subTotal = 0;
+                                            // $number = 0;
                                             ?>
                                             @foreach ($products->quotationProducts as $product)
                                                 <tr>
-                                                    <td class="text-xs text-teal-700 border text-center p-1">1</td>
+                                                    {{-- @if ($number == 0)
+                                                        <td class="text-xs text-teal-700 border text-center p-1">
+                                                            {{ $number + 1 }}</td>
+                                                    @else
+                                                        <td class="text-xs text-teal-700 border text-center p-1">
+                                                            {{ $number * 2 + 1 }}</td>
+                                                    @endif --}}
+                                                    <td class="text-xs text-teal-700 border text-center p-1" rowspan="2">
+                                                        {{ $loop->iteration }}</td>
                                                     <td class="text-xs text-teal-700 border text-center p-1">Cetak</td>
                                                     <td class="text-xs text-teal-700 border text-center p-1" rowspan="2">
                                                         {{ $products->quotationProducts[$loop->iteration - 1]->billboard_code }}
@@ -168,7 +177,13 @@
                                                     @endif
                                                 </tr>
                                                 <tr>
-                                                    <td class="text-xs text-teal-700 border text-center p-1">2</td>
+                                                    {{-- @if ($number == 0)
+                                                        <td class="text-xs text-teal-700 border text-center p-1">
+                                                            {{ $number + 2 }}</td>
+                                                    @else
+                                                        <td class="text-xs text-teal-700 border text-center p-1">
+                                                            {{ $number * 2 + 2 }}</td>
+                                                    @endif --}}
                                                     <td class="text-xs text-teal-700 border text-center p-1">Pasang</td>
                                                     <td class="text-xs text-teal-700 border text-center">
                                                         {{ $products->quotationProducts[$loop->iteration - 1]->installProduct }}
@@ -192,6 +207,7 @@
                                                 <?php
                                                 $subTotal = $subTotal + ($products->quotationProducts[$loop->iteration - 1]->print_price * $products->quotationProducts[$loop->iteration - 1]->wide + $products->quotationProducts[$loop->iteration - 1]->install_price * $products->quotationProducts[$loop->iteration - 1]->wide);
                                                 $ppn = ($subTotal * 11) / 100;
+                                                // $number++;
                                                 ?>
                                             @endforeach
                                             <tr>
@@ -238,6 +254,15 @@
                                             <textarea class="text-area-notes" rows="1" readonly>{{ $note }}</textarea>
                                         </div>
                                     @endforeach
+                                </div>
+                                <div class="flex">
+                                    <label class="ml-1 text-sm text-black flex mt-2">Sistem pembayaran :</label>
+                                </div>
+                                <div>
+                                    <div class="flex">
+                                        <label class="ml-1 text-sm">-</label>
+                                        <textarea class="text-area-notes" rows="1" placeholder="input catatan" readonly>100 % setelah cetak dan pemasangan</textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>

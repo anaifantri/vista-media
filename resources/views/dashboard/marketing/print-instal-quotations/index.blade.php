@@ -90,7 +90,7 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td class="text-teal-700 border text-sm text-center">
+                                <td class="border flex justify-center items-center">
                                     <?php
                                     $getStatus = '';
                                     ?>
@@ -102,7 +102,7 @@
                                             ?>
                                         @endif
                                     @endforeach
-                                    {{ $getStatus }}
+                                    <label class="text-teal-700 text-sm text-center">{{ $getStatus }}</label>
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     {{ date('d-M-Y', strtotime($print_instal_quotation->created_at)) }}</td>

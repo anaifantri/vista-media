@@ -13,6 +13,18 @@ class PrintInstallSale extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
+
+    public function contact(){
+        return $this->belongsTo(Contact::class);
+    }
+
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
+
     public function w_o_prints(){
         return $this->hasMany(WOPrint::class, 'print_install_sale_id', 'id');
     }

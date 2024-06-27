@@ -34,6 +34,7 @@ const btnAddNote = document.getElementById("btnAddNote");
 const btnDelNote = document.getElementById("btnDelNote");
 const notesQty = document.getElementById("notesQty");
 const btnPreview = document.getElementById("btnPreview");
+const paymentTerm1 = document.getElementById("paymentTerm1");
 
 // Get Data Print Product --> start
 let objPrintProduct = {};
@@ -78,7 +79,7 @@ function getPrintPrice(sel){
         sale_id : "",
         total : 0
     };
-    fillProductData();
+    // fillProductData();
     if (salesData.length == 1) {
         for(let i = 0; i < dataPrintProduct.length; i++){
             if(sel.value != 'pilih'){
@@ -376,10 +377,10 @@ btnAddNote.addEventListener("click", function() {
 
 // Button Remove Last Note Action --> start
 btnDelNote.addEventListener("click", function() {
-    if (notesQty.children.length > 0) {
+    if (notesQty.children.length > 1) {
         notesQty.removeChild(notesQty.lastChild);
     } else {
-        alert("Tidak ada catatan");
+        alert("Tidak ada catatan tambahan yang dapat dihapus");
     }
 });
 // Button Remove Last Note Action --> end
@@ -398,6 +399,7 @@ btnPreview.addEventListener("click", function() {
         previewModal.classList.remove("hidden");
         previewModal.classList.add("flex");
         products.value = JSON.stringify(dataProducts);   
+        console.log(dataProducts);
     }
 });
 // Button Preview Action --> end
@@ -465,7 +467,8 @@ function fillProductData() {
             installProduct: salesData[i].install_type,
             free_install: Number(salesData[i].free_install),
             used_install: Number(salesData[i].used_install),
-            notes: []
+            notes: [],
+            paymentTerms:[paymentTerm1.value]
         };
 
         if (Number(salesData[i].free_install) - Number(salesData[i].used_install) == 0) {
@@ -770,10 +773,10 @@ function createRowsTable() {
                 cell[3].classList.add('td-price-print-install');   
             } else {
                 cell[1] = newRow[(2*i)+1].insertCell(1);
-                cell[1].innerHTML = salesData[i].install_type;
+                cell[1].innerHTML = "Free";
                 cell[1].classList.add('td-print-install');
                 cell[2] = newRow[(2*i)+1].insertCell(2);
-                cell[2].innerHTML = salesData[i].install_price;
+                cell[2].innerHTML = "Free";
                 cell[2].classList.add('td-print-install');
                 cell[3] = newRow[(2*i)+1].insertCell(3);
                 cell[3].innerHTML = "Free ke "+ (Number(salesData[i].used_install) + 1) + " dari " + salesData[i].free_install;
@@ -843,10 +846,10 @@ function createRowsTable() {
                 cell[3].classList.add('td-price-print-install');   
             } else {
                 cell[1] = newRow[(2*i)+1].insertCell(1);
-                cell[1].innerHTML = salesData[i].install_type;
+                cell[1].innerHTML = "Free";
                 cell[1].classList.add('td-print-install');
                 cell[2] = newRow[(2*i)+1].insertCell(2);
-                cell[2].innerHTML = salesData[i].install_price;
+                cell[2].innerHTML = "Free";
                 cell[2].classList.add('td-print-install');
                 cell[3] = newRow[(2*i)+1].insertCell(3);
                 cell[3].innerHTML = "Free ke "+ (Number(salesData[i].used_install) + 1) + " dari " + salesData[i].free_install;

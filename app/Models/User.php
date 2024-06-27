@@ -101,6 +101,10 @@ class User extends Authenticatable
         return $this->hasMany(PrintInstalQuotation::class, 'user_id', 'id');
     }
 
+    public function print_install_sales(){
+        return $this->hasMany(PrintInstallSales::class, 'user_id', 'id');
+    }
+
     public function print_instal_statuses(){
         return $this->hasMany(PrintInstalStatus::class, 'user_id', 'id');
     }

@@ -9,6 +9,9 @@ use App\Models\Company;
 use App\Models\Sale;
 use App\Models\WOPrint;
 use App\Models\WOInstall;
+use App\Models\User;
+use App\Models\Billboard;
+use App\Models\BillboardPhoto;
 use App\Models\PrintingProduct;
 use App\Models\InstallationPrice;
 use App\Models\PrintInstallStatus;
@@ -41,6 +44,26 @@ class PrintInstalQuotationController extends Controller
             'title' => 'Preview Print & Install Quotation',
             'companies'=>Company::all(),
             compact('clients', 'contacts')
+        ]);
+    }
+
+    public function createQuotation(string $id): View
+    {
+        $clients = Client::with('sales')->get();
+        $contacts = Contact::with('sales')->get();
+        $companies = Company::with('sales')->get();
+        $users = User::with('sales')->get();
+        $billboards = Billboard::with('sales')->get();
+        $billboard_photos = Billboard::with('billboard_photos')->get();
+        
+        return view('dashboard.marketing.print-instal-quotations.create-quotations', [
+            'billboard_sale' => Sale::findOrFail($id),
+            'title' => 'Create Print & Instal Quotation',
+            'w_o_prints' => WOPrint::all(),
+            'w_o_installs' => WOInstall::all(),
+            'printing_products' => PrintingProduct::all(),
+            'contacts' => Contact::all(),
+            compact('clients', 'companies','users', 'contacts', 'billboards', 'billboard_photos')
         ]);
     }
 
@@ -96,7 +119,7 @@ class PrintInstalQuotationController extends Controller
             }
             
             if($newNumber < 10 ){
-               $number = '000'.$newNumber.'/VM/Print&Install/'.$month.'-'.$year;
+                $number = '000'.$newNumber.'/VM/Print&Install/'.$month.'-'.$year;
             } else if($newNumber < 100 ) {
                 $number = '00'.$newNumber.'/VM/Print&Install/'.$month.'-'.$year;
             } else if($newNumber < 1000 ) {
@@ -135,7 +158,17 @@ class PrintInstalQuotationController extends Controller
      */
     public function show(PrintInstalQuotation $printInstalQuotation): Response
     {
-        //
+        $print_install_statuses = PrintInstalQuotation::with('print_install_statuses');
+        
+        $clients = Client::with('print_instal_quotations')->get();
+        $contacts = Contact::with('print_instal_quotations')->get();
+        $companies = Company::with('print_instal_quotations')->get();
+
+        return response()-> view('dashboard.marketing.print-instal-quotations.show', [
+            'print_instal_quotation' => $printInstalQuotation,
+            'title' => 'Preview Print & Install Quotation',
+            compact('clients', 'contacts','print_install_statuses','companies')
+        ]);
     }
 
     /**

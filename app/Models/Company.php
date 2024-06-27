@@ -37,6 +37,10 @@ class Company extends Model
         return $this->hasMany(Sale::class, 'company_id', 'id');
     }
 
+    public function print_install_sales(){
+        return $this->hasMany(PrintInstallSale::class, 'company_id', 'id');
+    }
+
     public function print_instal_quotations(){
         return $this->hasMany(PrintInstalQuotation::class, 'company_id', 'id');
     }

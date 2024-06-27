@@ -8,6 +8,9 @@ use App\Models\SaleCategory;
 use App\Models\BillboardQuotation;
 use App\Models\BillboardQuotRevision;
 use App\Models\BillboardQuotStatus;
+use App\Models\PrintInstalQuotation;
+use App\Models\PrintInstallStatus;
+use App\Models\PrintInstallSale;
 use App\Models\ClientApproval;
 use App\Models\ClientOrder;
 use App\Models\ClientAgreement;
@@ -112,6 +115,9 @@ class SaleController extends Controller
                 'billboard_quotations'=>BillboardQuotation::all(),
                 'billboard_quot_revisions'=>BillboardQuotRevision::all(),
                 'billboard_quot_statuses'=>BillboardQuotStatus::all(),
+                'print_instal_quotations'=>PrintInstalQuotation::all(),
+                'print_install_statuses'=>PrintInstallStatus::all(),
+                'print_install_sales'=>PrintInstallSale::all(),
                 'client_approval'=>ClientApproval::all(),
                 'title' => 'Input Data Penjualan'
             ]);
@@ -159,8 +165,34 @@ class SaleController extends Controller
                     $saleEndAt = $saleData->end_at;
                 }
 
+                $lastSale = Sale::all()->last();
+                $number = 0;
+                $monthRomawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+    
+                $month = $monthRomawi[(int)date('m')];
+                $year = date('y');
+    
+                if($lastSale){
+                    $lastNumber = (int)substr($lastSale->number,0,4);
+                    $newNumber = $lastNumber + 1;
+                } else {
+                    $newNumber = 1;
+                }
+                
+                if($newNumber < 10 ){
+                   $number = '000'.$newNumber.'/APP/PJ/VM/'.$month.'-'.$year;
+                } else if($newNumber < 100 ) {
+                    $number = '00'.$newNumber.'/APP/PJ/VM/'.$month.'-'.$year;
+                } else if($newNumber < 1000 ) {
+                    $number = '0'.$newNumber.'/APP/PJ/VM/'.$month.'-'.$year;
+                } else {
+                    $number = $newNumber.'/APP/PJ/VM/'.$month.'-'.$year;
+                }
+    
+                // $validateData['number'] = $number;     
+
                 $sales[] = [
-                    'number' => $saleData->number,
+                    'number' => $number,
                     'date' => $saleData->date,
                     'user_id' => auth()->user()->id,
                     'company_id' => $saleData->company_id,
@@ -198,7 +230,7 @@ class SaleController extends Controller
                     'end_at' => $saleEndAt
                     
                 ];
-                $validateData['number'] = $saleData->number;
+                $validateData['number'] = $number;
                 $validateData['user_id'] = auth()->user()->id;
                 $validateData['company_id'] = $saleData->company_id;
                 $validateData['client_id'] = $saleData->client_id;

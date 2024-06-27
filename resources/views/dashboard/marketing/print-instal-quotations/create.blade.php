@@ -276,16 +276,16 @@
                                                     <div class="flex ml-1">
                                                         <label class="w-16">Free Pasang</label>
                                                         <label class="ml-1">:</label>
-                                                        <label
-                                                            class="ml-2 w-6">{{ $sale->free_instalation - $usedInstall }}</label>
+                                                        <label class="ml-2 w-6">{{ $sale->free_instalation }}</label>
                                                         <label class="w-6 ml-2">Sisa</label>
                                                         <label class="ml-1">:</label>
-                                                        <label class="ml-2">{{ $sale->free_instalation }}</label>
+                                                        <label
+                                                            class="ml-2">{{ $sale->free_instalation - $usedInstall }}</label>
                                                     </div>
                                                     <div class="flex ml-1">
                                                         <label class="w-16">Terpakai</label>
                                                         <label class="ml-1">:</label>
-                                                        <label class="ml-2">{{ $sale->free_instalation }}</label>
+                                                        <label class="ml-2">{{ $usedInstall }}</label>
                                                     </div>
                                                 </div>
                                             </td>
@@ -321,7 +321,7 @@
                                                     <div class="flex ml-1">
                                                         <label class="w-16">Terpakai</label>
                                                         <label class="ml-1">:</label>
-                                                        <label class="ml-2">{{ $sale->free_instalation }}</label>
+                                                        <label class="ml-2">{{ $usedInstall }}</label>
                                                     </div>
                                                 </div>
                                             </td>
@@ -343,6 +343,11 @@
                                                     ?>
                                                 @endif
                                             @endforeach
+                                            @if ($diffInstall > 0)
+                                                <?php
+                                                $install_price = 0;
+                                                ?>
+                                            @endif
                                             <div class="flex justify-center">
                                                 <input class="outline-none" type="checkbox"
                                                     value="{{ $sale->id }})({{ $sale->billboard->id }})({{ $sale->billboard->code }} - {{ $sale->billboard->city->code }})({{ $sale->billboard->address }})({{ $wide }})({{ $diffPrint }})({{ $diffInstall }})({{ $install_price }})({{ $install_product }})({{ $sale->contact_id }})({{ $sale->client_id }})({{ $sale->client->company }})({{ $sale->contact->name }})({{ $sale->contact->phone }})({{ $sale->contact->email }})({{ $sale->contact->gender }})({{ $sale->free_print }})({{ $usedPrint }})({{ $sale->free_instalation }})({{ $usedInstall }}"
@@ -495,11 +500,7 @@
                             <div id="notesQty">
                                 <div class="flex">
                                     <label class="ml-1 text-sm">-</label>
-                                    <textarea class="text-area-notes" rows="1" placeholder="input catatan">Harga di atas sudah termasuk PPN.</textarea>
-                                </div>
-                                <div class="flex">
-                                    <label class="ml-1 text-sm">-</label>
-                                    <textarea class="text-area-notes" rows="1" placeholder="input catatan">Sistem Pembayaran 100% setelah cetak dan pemasangan</textarea>
+                                    <textarea class="text-area-notes" rows="1" placeholder="input catatan" readonly>Harga di atas sudah termasuk PPN.</textarea>
                                 </div>
                             </div>
                             <div class="flex">
@@ -522,6 +523,17 @@
                                             d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm4.253 9.25h-8.5c-.414 0-.75.336-.75.75s.336.75.75.75h8.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75z"
                                             fill-rule="nonzero" />
                                     </svg>remove last note</button>
+                            </div>
+                            <div class="flex mt-2">
+                                <label class="ml-1 text-sm text-black flex">Sistem pembayaran :</label>
+                            </div>
+                            <div id="paymentTerms">
+                                <div class="flex">
+                                    <label class="ml-1 text-sm">-</label>
+                                    <input id="paymentTerm1" class="text-sm ml-2 outline-none border rounded-md px-1 w-12"
+                                        type="number" min="0" max="100" value="100" readonly>
+                                    <textarea class="text-area-notes" rows="1" placeholder="input catatan" readonly>% setelah cetak dan pemasangan</textarea>
+                                </div>
                             </div>
                         </div>
                         @error('note')
@@ -751,13 +763,7 @@
                                     <label class="ml-1 text-sm text-black flex">Dengan hormat,</label>
                                 </div>
                                 <div class="flex mt-2">
-                                    @if ($sale->free_instalation - $usedInstall > 0 && $sale->free_print - $usedPrint > 0)
-                                        <textarea class="ml-1 w-[721px] outline-none text-sm" readonly>Bersama ini kami menyampaikan surat penawaran biaya cetak dan pasang materi billboard dengan spesifikasi sebagai berikut :</textarea>
-                                    @elseif ($sale->free_instalation - $usedInstall > 0 && $sale->free_print - $usedPrint == 0)
-                                        <textarea class="ml-1 w-[721px] outline-none text-sm" readonly>Bersama ini kami menyampaikan surat penawaran biaya pemasangan materi billboard dengan spesifikasi sebagai berikut :</textarea>
-                                    @elseif ($sale->free_instalation - $usedInstall == 0 && $sale->free_print - $usedPrint > 0)
-                                        <textarea class="ml-1 w-[721px] outline-none text-sm" readonly>Bersama ini kami menyampaikan surat penawaran biaya cetak materi billboard dengan spesifikasi sebagai berikut :</textarea>
-                                    @endif
+                                    <textarea class="ml-1 w-[721px] outline-none text-sm" readonly>Bersama ini kami menyampaikan surat penawaran biaya cetak dan pasang materi billboard dengan spesifikasi sebagai berikut :</textarea>
                                 </div>
                             </div>
                         </div>
@@ -800,8 +806,26 @@
                                     <label class="ml-1 text-sm text-black flex w-20">Catatan</label>
                                     <label class="ml-1 text-sm text-black flex">:</label>
                                 </div>
-                                <div id="notesPreview">
+                                <div id="notesQty">
+                                    <div class="flex">
+                                        <label class="ml-1 text-sm">-</label>
+                                        <textarea class="text-area-notes" rows="1" placeholder="input catatan" readonly>Harga di atas sudah termasuk PPN.</textarea>
+                                    </div>
                                 </div>
+                                <div class="flex mt-2">
+                                    <label class="ml-1 text-sm text-black flex">Sistem pembayaran :</label>
+                                </div>
+                                <div id="paymentTerms">
+                                    <div class="flex">
+                                        <label class="ml-1 text-sm">-</label>
+                                        <input id="paymentTerm1"
+                                            class="text-sm ml-2 outline-none border rounded-md px-1 w-12" type="number"
+                                            min="0" max="100" value="100" readonly>
+                                        <textarea class="text-area-notes" rows="1" placeholder="input catatan" readonly>% setelah cetak dan pemasangan</textarea>
+                                    </div>
+                                </div>
+                                {{-- <div id="notesPreview">
+                                </div> --}}
                             </div>
                         </div>
                         <!-- quotation note end -->
