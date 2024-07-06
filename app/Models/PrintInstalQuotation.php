@@ -49,6 +49,10 @@ class PrintInstalQuotation extends Model
         return $this->hasMany(PrintInstallStatus::class, 'print_instal_quotation_id', 'id');
     }
 
+    public function print_install_sales(){
+        return $this->hasMany(PrintInstallSale::class, 'print_instal_quotation_id', 'id');
+    }
+
     public function print_install_approvals(){
         return $this->hasMany(PrintInstallApproval::class, 'print_instal_quotation_id', 'id');
     }

@@ -25,6 +25,14 @@ class PrintInstallSale extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function billboard(){
+        return $this->belongsTo(Billboard::class);
+    }
+
+    public function print_instal_quotation(){
+        return $this->belongsTo(PrintInstalQuotation::class);
+    }
+
     public function w_o_prints(){
         return $this->hasMany(WOPrint::class, 'print_install_sale_id', 'id');
     }

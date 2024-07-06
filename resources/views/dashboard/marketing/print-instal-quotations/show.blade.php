@@ -298,16 +298,25 @@
                                             </svg>
                                             <span class="ml-2 text-white">Submit</span>
                                         </button>
-                                        <button id="btnApprovalCancel"
+                                        <button id="btnApprovalClear"
                                             class="flex justify-center items-center mx-1 btn-danger mb-2" title="Cancel"
                                             type="button">
                                             <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg"
                                                 width="24" height="24" viewBox="0 0 24 24">
                                                 <path
-                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                                                    d="M13.5 2c-5.621 0-10.211 4.443-10.475 10h-3.025l5 6.625 5-6.625h-2.975c.257-3.351 3.06-6 6.475-6 3.584 0 6.5 2.916 6.5 6.5s-2.916 6.5-6.5 6.5c-1.863 0-3.542-.793-4.728-2.053l-2.427 3.216c1.877 1.754 4.389 2.837 7.155 2.837 5.79 0 10.5-4.71 10.5-10.5s-4.71-10.5-10.5-10.5z" />
                                             </svg>
-                                            <span class="ml-2 text-white">Cancel</span>
+                                            <span class="ml-2 text-white">Clear</span>
                                         </button>
+                                        <div class="flex justify-end px-2 w-full">
+                                            <button id="btnApprovalClose" class="flex" title="Close" type="button">
+                                                <svg class="fill-gray-500 w-6 m-auto hover:fill-red-700"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="w-[800px] h-max bg-white mt-2 p-4">
                                         <div class="flex justify-center">
@@ -731,7 +740,8 @@
         const divApproval = document.getElementById("divApproval");
         const modalApproval = document.getElementById("modalApproval");
 
-        const btnApprovalCancel = document.getElementById("btnApprovalCancel");
+        const btnApprovalClear = document.getElementById("btnApprovalClear");
+        const btnApprovalClose = document.getElementById("btnApprovalClose");
         const btnApprovalSubmit = document.getElementById("btnApprovalSubmit");
         const documentApproval = document.querySelector('#documentApproval');
 
@@ -795,22 +805,26 @@
             window.scrollTo(0, 0);
         }
 
-        btnApprovalCancel.addEventListener('click', function() {
-            modalApproval.classList.add("hidden");
-            modalApproval.classList.remove("flex");
+        btnApprovalClear.addEventListener('click', function() {
+            prevApprovalButton.setAttribute('hidden', 'hidden');
+            nextApprovalButton.setAttribute('hidden', 'hidden');
             documentApproval.value = null;
             labelDocumentApproval.innerHTML = "0 images selected";
             numberApprovalFile.innerHTML = "No Files Chosen";
             approvalImage = [];
             slideApprovalPreview = [];
             slideApprovalImage = [];
-            slideApprovalIndex = 0;
             while (approvalImg.hasChildNodes()) {
                 approvalImg.removeChild(approvalImg.firstChild);
             }
             while (slidesApprovalPreview.hasChildNodes()) {
                 slidesApprovalPreview.removeChild(slidesApprovalPreview.firstChild);
             }
+        })
+
+        btnApprovalClose.addEventListener('click', function() {
+            modalApproval.classList.add("hidden");
+            modalApproval.classList.remove("flex");
         })
 
         btnApprovalSubmit.addEventListener('click', function() {
@@ -873,47 +887,49 @@
                 prevApprovalButton.removeAttribute('hidden');
                 nextApprovalButton.removeAttribute('hidden');
             }
-
-            prevApprovalButton.addEventListener('click', function() {
-                if (slideApprovalIndex != 0) {
-                    slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-                    approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
-                    approvalImage[slideApprovalIndex].classList.add("document-approval");
-                    slideApprovalIndex = slideApprovalIndex - 1;
-                    slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-                    approvalImage[slideApprovalIndex].classList.remove("document-approval");
-                    approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-                } else {
-                    slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-                    approvalImage[0].classList.remove("document-approval-active");
-                    approvalImage[0].classList.add("document-approval");
-                    slideApprovalIndex = documentApproval.files.length - 1;
-                    slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-                    approvalImage[slideApprovalIndex].classList.remove("document-approval");
-                    approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-                }
-            })
-
-            nextApprovalButton.addEventListener('click', function() {
-                if (slideApprovalIndex != documentApproval.files.length - 1) {
-                    slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-                    approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
-                    approvalImage[slideApprovalIndex].classList.add("document-approval");
-                    slideApprovalIndex = slideApprovalIndex + 1;
-                    slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-                    approvalImage[slideApprovalIndex].classList.remove("document-approval");
-                    approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-                } else {
-                    slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-                    approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
-                    approvalImage[slideApprovalIndex].classList.add("document-approval");
-                    slideApprovalIndex = 0;
-                    slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-                    approvalImage[slideApprovalIndex].classList.remove("document-approval");
-                    approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-                }
-            })
         }
+
+        prevApprovalButton.addEventListener('click', function() {
+            console.log(slideApprovalIndex);
+            if (slideApprovalIndex != 0) {
+                slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+                approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
+                approvalImage[slideApprovalIndex].classList.add("document-approval");
+                slideApprovalIndex = slideApprovalIndex - 1;
+                slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+                approvalImage[slideApprovalIndex].classList.remove("document-approval");
+                approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+            } else {
+                slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+                approvalImage[0].classList.remove("document-approval-active");
+                approvalImage[0].classList.add("document-approval");
+                slideApprovalIndex = documentApproval.files.length - 1;
+                slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+                approvalImage[slideApprovalIndex].classList.remove("document-approval");
+                approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+            }
+        })
+
+        nextApprovalButton.addEventListener('click', function() {
+            console.log(slideApprovalIndex);
+            if (slideApprovalIndex != documentApproval.files.length - 1) {
+                slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+                approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
+                approvalImage[slideApprovalIndex].classList.add("document-approval");
+                slideApprovalIndex = slideApprovalIndex + 1;
+                slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+                approvalImage[slideApprovalIndex].classList.remove("document-approval");
+                approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+            } else {
+                slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+                approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
+                approvalImage[slideApprovalIndex].classList.add("document-approval");
+                slideApprovalIndex = 0;
+                slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+                approvalImage[slideApprovalIndex].classList.remove("document-approval");
+                approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+            }
+        })
 
         function myApprovalSlide(img) {
             slideApprovalImage[slideApprovalIndex].classList.add("hidden");

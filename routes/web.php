@@ -71,7 +71,8 @@ Route::get('/dashboard/marketing/print-instal-quotations/preview/{id}', [PrintIn
 Route::get('/dashboard/marketing/print-instal-quotations/create-quotations/{id}', [PrintInstalQuotationController::class, 'createQuotation']);
 Route::resource('/dashboard/marketing/print-install-statuses', PrintInstallStatusController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/print-install-sales', PrintInstallSaleController::class)->middleware(['auth','user_access']);
-Route::get('/dashboard/marketing/print-install-sales/create-sales/{id}', [PrintInstallSaleController::class, 'createSales']);
+Route::get('/dashboard/marketing/print-install-sales/create-sales/{id}', [PrintInstallSaleController::class, 'createSales'])->middleware(['auth','user_access']);
+Route::get('/dashboard/marketing/print-install-sales/preview/{id}', [PrintInstallSaleController::class, 'preview'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/sale-categories', SaleCategoryController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-approvals', ClientApprovalController::class)->middleware(['auth','user_access']);

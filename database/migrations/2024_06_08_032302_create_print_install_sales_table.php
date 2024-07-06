@@ -19,12 +19,8 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained();
             $table->foreignId('contact_id')->constrained();
             $table->foreignId('billboard_id')->constrained();
-            $table->foreignId('printing_product_id')->nullable()->constrained();
-            $table->foreignId('installation_price_id')->nullable()->constrained();
             $table->foreignId('print_instal_quotation_id')->constrained();
-            $table->decimal('print_price',12,0)->unsigned()->default(0)->nullable();
-            $table->decimal('install_price',12,0)->unsigned()->default(0)->nullable();
-            $table->json('terms_of_payment');
+            $table->json('products');
             $table->timestamps();
         });
     }

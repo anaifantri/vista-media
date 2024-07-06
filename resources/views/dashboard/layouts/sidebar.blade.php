@@ -29,6 +29,7 @@
                             </li>
                         </div>
                         <!-- Sidebar Dashboard End-->
+
                         <!-- Sidebar Media OOH start-->
                         <div class="div-nav-a">
                             <a class="nav-a" href="/dashboard/media/billboards">
@@ -251,6 +252,7 @@
                             </li>
                         </div>
                         <!-- Sidebar Media OOH End-->
+
                         <!-- Sidebar Marketing start-->
                         <div class="div-nav-a">
                             <a class="nav-a {{ Request::is('dashboard/marketing*') ? 'active' : '' }}" href="">
@@ -261,7 +263,8 @@
                                         d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm6.23 16.244a.371.371 0 0 1-.373.372H16.29a.371.371 0 0 1-.372-.372v-4.828c0-.04-.046-.06-.08-.033l-3.32 3.32a.742.742 0 0 1-1.043 0l-3.32-3.32c-.027-.027-.08-.007-.08.033v4.828a.371.371 0 0 1-.372.372H6.136a.371.371 0 0 1-.372-.372V7.757c0-.206.166-.372.372-.372h1.076a.75.75 0 0 1 .525.22l4.13 4.13a.18.18 0 0 0 .26 0l4.13-4.13c.14-.14.325-.22.525-.22h1.075c.206 0 .372.166.372.372z" />
                                 </svg>
                             </a>
-                            <li class="hidden" id="liMarketing" name="liMarketing" onclick="showHideDropdown(this)">
+                            <li class="group hidden" id="liMarketing" name="liMarketing"
+                                onclick="showHideDropdown(this)">
                                 <a href="#"
                                     class="nav-a mx-2 {{ Request::is('dashboard/marketing*') ? 'active' : '' }}">
                                     <span class="flex w-40"> Marketing </span>
@@ -465,8 +468,8 @@
                                 <!-- Child Marketing End -->
                             </li>
                         </div>
-
                         <!-- Sidebar Marketing End-->
+
                         <!-- Sidebar Accounting start-->
                         <div class="div-nav-a">
                             <a class="nav-a" href="">
@@ -675,6 +678,7 @@
                             </li>
                         </div>
                         <!-- Sidebar Accounting End-->
+
                         <!-- Sidebar Workshop start-->
                         <div class="div-nav-a">
                             <a class="nav-a" href="">
@@ -788,6 +792,7 @@
                             </li>
                         </div>
                         <!-- Sidebar Workshop End-->
+
                         <!-- Sidebar User start-->
                         <div class="div-nav-a">
                             <a class="nav-a" href="/dashboard/users/users">
@@ -857,6 +862,7 @@
                             </li>
                         </div>
                         <!-- Sidebar User End-->
+
                         <!-- Sidebar Logout start-->
                         <div class="div-nav-a">
                             <form class="nav-a" action="/logout" method="post">

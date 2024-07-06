@@ -1,7 +1,7 @@
-const modal = document.getElementById("quotation_modal");
+// const modal = document.getElementById("quotation_modal");
 const previewModal = document.getElementById("preview_modal");
 const btnCreate = document.getElementById("btnCreate");
-const btnCancel = document.getElementById("btnCancel");
+// const btnCancel = document.getElementById("btnCancel");
 const btnPreviewCancel = document.getElementById("btnPreviewCancel");
 const btnClose = document.getElementById("btnClose");
 const btnChangeContact = document.getElementById("btnChangeContact");
@@ -67,10 +67,10 @@ const products = document.getElementById("products");
 //     modal.classList.add("flex");
 // });
 
-btnCancel.addEventListener("click", function () {
-    modal.classList.remove("flex");
-    modal.classList.add("hidden");
-});
+// btnCancel.addEventListener("click", function () {
+//     modal.classList.remove("flex");
+//     modal.classList.add("hidden");
+// });
 
 btnPreviewCancel.addEventListener("click", function () {
     previewModal.classList.remove("flex");

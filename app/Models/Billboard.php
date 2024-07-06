@@ -95,6 +95,10 @@ class Billboard extends Model
         return $this->hasMany(Sale::class, 'billboard_id', 'id');
     }
 
+    public function print_install_sales(){
+        return $this->hasMany(PrintInstallSale::class, 'billboard_id', 'id');
+    }
+
     public $sortable = ['code',
                         'price'
                         ];

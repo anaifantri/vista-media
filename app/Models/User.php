@@ -102,7 +102,7 @@ class User extends Authenticatable
     }
 
     public function print_install_sales(){
-        return $this->hasMany(PrintInstallSales::class, 'user_id', 'id');
+        return $this->hasMany(PrintInstallSale::class, 'user_id', 'id');
     }
 
     public function print_instal_statuses(){

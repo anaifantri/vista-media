@@ -87,7 +87,7 @@
                                             <label class="label-sale-02">{{ $print_instal_quotation->number }}</label>
                                         </div>
                                         <div class="div-sale">
-                                            <label class="label-sale-01">Tgl. Penjualan</label>
+                                            <label class="label-sale-01">Tgl. Penawaran</label>
                                             <label class="label-sale-02">:</label>
                                             <label
                                                 class="label-sale-02">{{ date('j', strtotime($print_instal_quotation->created_at)) }}
@@ -303,6 +303,7 @@
                         </div>
                     @endforeach
                 </div>
+                <input type="text" name="sales_data" value="{{ json_encode($print_instal_quotation) }}" hidden>
                 <div class="mb-10">
                 </div>
             </div>
@@ -661,7 +662,7 @@
         const prevPOButton = document.getElementById("prevPOButton");
         const nextPOButton = document.getElementById("nextPOButton");
         const poImg = document.getElementById("poImg");
-        const orderDocuments = document.getElementById("orderDocuments");
+        const orderDocuments = document.querySelectorAll("[id='orderDocuments']");
 
         let poImage = [];
         let slidePOPreview = [];
@@ -782,16 +783,20 @@
             } else {
                 modalPO.classList.add("hidden");
                 modalPO.classList.remove("flex");
-                orderDocuments.innerHTML = "";
-                orderDocuments.innerHTML = numberPOFile.innerHTML;
+                for (let i = 0; i < orderDocuments.length; i++) {
+                    orderDocuments[i].innerHTML = "";
+                    orderDocuments[i].innerHTML = numberPOFile.innerHTML;
+                }
             }
         })
 
         btnPOClear.addEventListener('click', function() {
             prevPOButton.setAttribute('hidden', 'hidden');
             nextPOButton.setAttribute('hidden', 'hidden');
-            orderDocuments.innerHTML = "";
-            orderDocuments.innerHTML = "No Files Chosen";
+            for (let i = 0; i < orderDocuments.length; i++) {
+                orderDocuments[i].innerHTML = "";
+                orderDocuments[i].innerHTML = "No Files Chosen";
+            }
             documentPO.value = null;
             while (poImg.hasChildNodes()) {
                 poImg.removeChild(poImg.firstChild);
