@@ -27,16 +27,8 @@ const workshopChild = document.querySelector('#workshopChild');
 const userChild = document.querySelector('#userChild');
 const mediaArrow = document.querySelector('#mediaArrow');
 const marketingArrow = document.getElementById('marketingArrow');
-const penawaranArrow = document.querySelector('#penawaranArrow');
-const penjualanArrow = document.querySelector('#penjualanArrow');
-const materiArrow = document.querySelector('#materiArrow');
 const accountingArrow = document.querySelector('#accountingArrow');
-const penagihanArrow = document.querySelector('#penagihanArrow');
-const ppnArrow = document.querySelector('#ppnArrow');
-const pphArrow = document.querySelector('#pphArrow');
 const workshopArrow = document.querySelector('#workshopArrow');
-const monitoringArrow = document.querySelector('#monitoringArrow');
-const gambarArrow = document.querySelector('#gambarArrow');
 const userArrow = document.querySelector('#userArrow');
 
 hamburger.addEventListener('click', function () {
@@ -140,7 +132,6 @@ liMedia.addEventListener('click', function () {
 liMarketing.addEventListener('click', function () {
     showHideDropdown();
 });
-// Penawaran
 
 function childMenu(e, sel) {
     e.stopPropagation();
@@ -149,52 +140,16 @@ function childMenu(e, sel) {
     sel.children[1].classList.toggle('hidden');
 }
 
-penawaran.addEventListener('click', function () {
-    childMenu();
-});
-// Penjualan
-
-penjualan.addEventListener('click', function () {
-    childMenu();
-});
-// Penggantian Materi
-
-materi.addEventListener('click', function () {
-    childMenu();
-});
 //Accounting
 liAccounting.addEventListener('click', function () {
     showHideDropdown();
 });
-//penagihan
 
-penagihan.addEventListener('click', function () {
-    childMenu();
-});
-//ppn
-
-ppn.addEventListener('click', function () {
-    childMenu();
-});
-//pph
-
-pph.addEventListener('click', function () {
-    childMenu();
-});
 //Workshop
 liWorkshop.addEventListener('click', function () {
     showHideDropdown();
 });
-//Monitoring
 
-monitoring.addEventListener('click', function () {
-    childMenu();
-});
-//Pasang Gambar
-
-gambar.addEventListener('click', function () {
-    childMenu();
-});
 //User
 liUser.addEventListener('click', function () {
     showHideDropdown();
