@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PrintInstallSale;
 use App\Models\PrintInstalQuotation;
+use App\Models\PrintInstallStatus;
 use App\Models\PrintInstallApproval;
 use App\Models\PrintInstallOrder;
 use App\Models\Client;
@@ -11,6 +12,7 @@ use App\Models\Contact;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\Billboard;
+use App\Models\Size;
 use App\Models\BillboardPhoto;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,7 +27,23 @@ class PrintInstallSaleController extends Controller
      */
     public function index(): Response
     {
-        //
+        $clients = Client::with('print_install_sales')->get();
+        $contacts = Contact::with('print_install_sales')->get();
+        $billboards = Billboard::with('print_install_sales')->get();
+        $sizes = Size::with('billboards')->get();
+        $companies = Company::with('print_install_sales')->get();
+        $print_instal_quotations = PrintInstalQuotation::with('print_install_sales');
+        $users = User::with('print_install_sales')->get();
+        $print_install_orders = PrintInstalQuotation::with('print_install_orders')->get();
+        $print_install_approvals = PrintInstalQuotation::with('print_install_approvals')->get();
+
+        return response()->view('dashboard.marketing.print-install-sales.index', [
+            'print_install_sales' => PrintInstallSale::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+            'title' => 'Daftar Penjualan Cetak dan Pasang',
+            'print_install_quotations' => PrintInstalQuotation::all(),
+            'print_install_statuses' => PrintInstallStatus::all(),
+            compact('clients', 'billboards', 'companies', 'print_instal_quotations', 'users', 'contacts', 'print_install_approvals', 'print_install_orders', 'sizes')
+        ]);
     }
 
     public function createSales(string $id): View
@@ -51,7 +69,6 @@ class PrintInstallSaleController extends Controller
         $clients = Client::with('print_install_sales')->get();
         $contacts = Contact::with('print_install_sales')->get();
         $billboards = Billboard::with('print_install_sales')->get();
-        // $billboard_photos = Billboard::with('billboard_photos')->get();
         $companies = Company::with('print_install_sales')->get();
         $print_instal_quotations = PrintInstalQuotation::with('print_install_sales');
         $users = User::with('print_install_sales')->get();
@@ -101,7 +118,7 @@ class PrintInstallSaleController extends Controller
             }
             
             if($newNumber < 10 ){
-               $number = '000'.$newNumber.'/APP/Print&Install/VM/'.$month.'-'.$year;
+                $number = '000'.$newNumber.'/APP/Print&Install/VM/'.$month.'-'.$year;
             } else if($newNumber < 100 ) {
                 $number = '00'.$newNumber.'/APP/Print&Install/VM/'.$month.'-'.$year;
             } else if($newNumber < 1000 ) {
@@ -149,7 +166,21 @@ class PrintInstallSaleController extends Controller
      */
     public function show(PrintInstallSale $printInstallSale): Response
     {
-        //
+        $clients = Client::with('print_install_sales')->get();
+        $contacts = Contact::with('print_install_sales')->get();
+        $billboards = Billboard::with('print_install_sales')->get();
+        $companies = Company::with('print_install_sales')->get();
+        $print_instal_quotations = PrintInstalQuotation::with('print_install_sales');
+        $users = User::with('print_install_sales')->get();
+
+        return response()-> view('dashboard.marketing.print-install-sales.show', [
+            'print_install_sale' => $printInstallSale,
+            'title' => 'Data Penjualan Cetak dan Pasang',
+            'billboard_photos' => BillboardPhoto::all(),
+            'print_install_approvals' => PrintInstallApproval::where('print_instal_quotation_id', $printInstallSale->print_instal_quotation_id)->get(),
+            'print_install_orders' => PrintInstallOrder::where('print_instal_quotation_id', $printInstallSale->print_instal_quotation_id)->get(),
+            compact('clients', 'companies', 'print_instal_quotations', 'users', 'contacts', 'billboards')
+        ]);
     }
 
     /**

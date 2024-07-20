@@ -16,7 +16,7 @@
                     <span class="ml-2 text-white">Save PDF</span>
                 </button>
                 <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
-                    href="/dashboard/marketing/sales">
+                    href="/dashboard/marketing/print-install-sales">
                     <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
                         <path

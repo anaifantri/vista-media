@@ -39,6 +39,7 @@ use App\Http\Controllers\PrintInstalQuotationController;
 use App\Http\Controllers\PrintInstallStatusController;
 use App\Http\Controllers\PrintInstallSaleController;
 use App\Http\Controllers\PrintInstallApprovalController;
+use App\Http\Controllers\PrintInstallOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,7 @@ Route::resource('/dashboard/marketing/sale-categories', SaleCategoryController::
 Route::resource('/dashboard/marketing/client-approvals', ClientApprovalController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-orders', ClientOrderController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/client-agreements', ClientAgreementController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/print-install-orders', PrintInstallOrderController::class)->middleware(['auth','user_access']);
 
 Route::resource('/dashboard/media/companies', CompanyController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/area', AreaController::class)->middleware(['auth','user_access']);
@@ -128,6 +130,7 @@ Route::get('/sales/reports/', [SaleController::class,'reports'])->middleware(['a
 Route::get('/showPrintProduct', [PrintingProductController::class,'showPrintProduct'])->middleware(['auth','user_access']);
 Route::get('/showPrintPrice', [PrintingPriceController::class,'showPrintPrice'])->middleware(['auth','user_access']);
 Route::get('/printInstallApproval', [PrintInstallApprovalController::class,'printInstallApproval'])->middleware(['auth','user_access']);
+Route::get('/printInstallOrder', [PrintInstallOrderController::class,'printInstallOrder'])->middleware(['auth','user_access']);
 
 Route::get('/', function () {
     return view('index',[

@@ -1116,6 +1116,10 @@ video {
   max-height: max-content;
 }
 
+.min-h-\[1600px\] {
+  min-height: 1600px;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }

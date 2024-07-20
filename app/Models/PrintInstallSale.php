@@ -4,10 +4,34 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
 class PrintInstallSale extends Model
 {
+    use Sortable;
+
     protected $guarded = ['id'];
+
+    public function scopeFilter($query, $filter){
+        $query->when($filter ?? false, fn($query, $search) => 
+                $query->where('number', 'like', '%' . $search . '%')
+                    ->orWhere('created_at', 'like', '%' . $search . '%')
+                    ->orWhereHas('client', function($query) use ($search){
+                        $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('company', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('company', function($query) use ($search){
+                        $query->where('name', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('billboard', function($query) use ($search){
+                        $query->where('code', 'like', '%' . $search . '%')
+                        ->orWhere('address', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('user', function($query) use ($search){
+                        $query->where('name', 'like', '%' . $search . '%');
+                    })
+                );
+    }
     
     public function user(){
         return $this->belongsTo(User::class);

@@ -18,7 +18,7 @@
                         <span class="ml-2 text-white">Save</span>
                     </button>
                     <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
-                        href="/dashboard/marketing/sales/create">
+                        href="/dashboard/marketing/print-install-sales">
                         <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24">
                             <path
@@ -51,7 +51,7 @@
                                         <div class="div-sale">
                                             <label class="label-sale-01">No. Penjualan</label>
                                             <label class="label-sale-02">:</label>
-                                            <label class="label-sale-02"></label>
+                                            <label class="text-sm text-gray-400 ml-2">Auto Number</label>
                                         </div>
                                         <div class="div-sale">
                                             <label class="label-sale-01">Tgl. Penjualan</label>
@@ -309,7 +309,7 @@
             </div>
         </div>
         <!-- Create Print Install Sale end -->
-        <div id="modalApproval" name="modalApproval"
+        {{-- <div id="modalApproval" name="modalApproval"
             class="absolute justify-center top-0 w-full h-full bg-black bg-opacity-90 z-50 hidden">
             <div>
                 <div class="flex mt-10">
@@ -362,7 +362,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
+
+        @include('dashboard.layouts.print-install-approvals')
 
         <!-- Add / view PO / SPK start -->
         <div id="modalPO" name="modalPO"
@@ -489,163 +491,164 @@
     <script src="/js/html2canvas.min.js"></script>
     <script src="/js/html2pdf.bundle.min.js"></script>
     <script src="/js/qrcode.min.js"></script>
+    <script src="/js/printinstallapprovals.js"></script>
 
     <script>
         // Preview Approval Document --> start
-        const documentApproval = document.querySelector('#documentApproval');
-        const slidesApprovalPreview = document.getElementById("slidesApprovalPreview");
-        const prevApprovalButton = document.getElementById("prevApprovalButton");
-        const nextApprovalButton = document.getElementById("nextApprovalButton");
-        const approvalImg = document.getElementById("approvalImg");
-        const btnCloseApproval = document.getElementById("btnCloseApproval");
+        // const documentApproval = document.querySelector('#documentApproval');
+        // const slidesApprovalPreview = document.getElementById("slidesApprovalPreview");
+        // const prevApprovalButton = document.getElementById("prevApprovalButton");
+        // const nextApprovalButton = document.getElementById("nextApprovalButton");
+        // const approvalImg = document.getElementById("approvalImg");
+        // const btnCloseApproval = document.getElementById("btnCloseApproval");
 
-        let objApproval = {};
-        let approvalData = [];
-        let approvalUrl = [];
-        let approvalImage = [];
-        let slideApprovalPreview = [];
-        let slideApprovalImage = [];
-        let slideApprovalIndex = 0;
+        // let objApproval = {};
+        // let approvalData = [];
+        // let approvalUrl = [];
+        // let approvalImage = [];
+        // let slideApprovalPreview = [];
+        // let slideApprovalImage = [];
+        // let slideApprovalIndex = 0;
 
         //Get Document Approval --> start
-        getApprovalData();
+        // getApprovalData();
 
-        function getApprovalData() {
-            const xhrDocumentApproval = new XMLHttpRequest();
-            const methodDocumentApproval = "GET";
-            const urlDocumentApproval = "/printInstallApproval";
+        // function getApprovalData() {
+        //     const xhrDocumentApproval = new XMLHttpRequest();
+        //     const methodDocumentApproval = "GET";
+        //     const urlDocumentApproval = "/printInstallApproval";
 
-            xhrDocumentApproval.open(methodDocumentApproval, urlDocumentApproval, true);
-            xhrDocumentApproval.send();
+        //     xhrDocumentApproval.open(methodDocumentApproval, urlDocumentApproval, true);
+        //     xhrDocumentApproval.send();
 
-            xhrDocumentApproval.onreadystatechange = () => {
-                // In local files, status is 0 upon success in Mozilla Firefox
-                if (xhrDocumentApproval.readyState === XMLHttpRequest.DONE) {
-                    const status = xhrDocumentApproval.status;
-                    if (status === 0 || (status >= 200 && status < 400)) {
-                        objApproval = JSON.parse(xhrDocumentApproval.responseText);
-                        approvalData = objApproval.dataApproval;
-                        console.log(approvalData);
-                    } else {
-                        // Oh no! There has been an error with the request!
-                    }
-                }
-            }
-        }
+        //     xhrDocumentApproval.onreadystatechange = () => {
+        //         // In local files, status is 0 upon success in Mozilla Firefox
+        //         if (xhrDocumentApproval.readyState === XMLHttpRequest.DONE) {
+        //             const status = xhrDocumentApproval.status;
+        //             if (status === 0 || (status >= 200 && status < 400)) {
+        //                 objApproval = JSON.parse(xhrDocumentApproval.responseText);
+        //                 approvalData = objApproval.dataApproval;
+        //                 console.log(approvalData);
+        //             } else {
+        //                 // Oh no! There has been an error with the request!
+        //             }
+        //         }
+        //     }
+        // }
         //Get Document Approval --> end
 
-        function previewAppovalImage(quotID) {
-            modalApproval.classList.remove("hidden");
-            modalApproval.classList.add("flex");
-            window.scrollTo(0, 0);
-            slideApprovalIndex = 0;
+        // function previewAppovalImage(quotID) {
+        //     modalApproval.classList.remove("hidden");
+        //     modalApproval.classList.add("flex");
+        //     window.scrollTo(0, 0);
+        //     slideApprovalIndex = 0;
 
-            while (approvalImg.hasChildNodes()) {
-                approvalImg.removeChild(approvalImg.firstChild);
-            }
+        //     while (approvalImg.hasChildNodes()) {
+        //         approvalImg.removeChild(approvalImg.firstChild);
+        //     }
 
-            while (slidesApprovalPreview.hasChildNodes()) {
-                slidesApprovalPreview.removeChild(slidesApprovalPreview.firstChild);
-            }
+        //     while (slidesApprovalPreview.hasChildNodes()) {
+        //         slidesApprovalPreview.removeChild(slidesApprovalPreview.firstChild);
+        //     }
 
-            var a = 0;
-            approvalUrl = [];
-            console.log(quotID);
-            for (i = 0; i < approvalData.length; i++) {
-                console.log(approvalData[i].print_instal_quotation_id);
-                if (approvalData[i].print_instal_quotation_id == quotID) {
-                    approvalUrl[a] = approvalData[i].approval_image;
-                    a = a + 1;
-                }
-            }
+        //     var a = 0;
+        //     approvalUrl = [];
+        //     console.log(quotID);
+        //     for (i = 0; i < approvalData.length; i++) {
+        //         console.log(approvalData[i].print_instal_quotation_id);
+        //         if (approvalData[i].print_instal_quotation_id == quotID) {
+        //             approvalUrl[a] = approvalData[i].approval_image;
+        //             a = a + 1;
+        //         }
+        //     }
 
-            if (approvalUrl.length != 0) {
-                for (n = 0; n < approvalUrl.length; n++) {
-                    approvalImage[n] = document.createElement("img")
-                    if (n == 0) {
-                        approvalImage[n].classList.add("document-approval-active");
-                    } else {
-                        approvalImage[n].classList.add("document-approval");
-                    }
+        //     if (approvalUrl.length != 0) {
+        //         for (n = 0; n < approvalUrl.length; n++) {
+        //             approvalImage[n] = document.createElement("img")
+        //             if (n == 0) {
+        //                 approvalImage[n].classList.add("document-approval-active");
+        //             } else {
+        //                 approvalImage[n].classList.add("document-approval");
+        //             }
 
-                    approvalImage[n].src = '/storage/' + approvalUrl[n];
-                    approvalImage[n].setAttribute('id', n);
-                    approvalImage[n].setAttribute('onclick', 'myApprovalSlide(this)');
-                    approvalImg.appendChild(approvalImage[n]);
+        //             approvalImage[n].src = '/storage/' + approvalUrl[n];
+        //             approvalImage[n].setAttribute('id', n);
+        //             approvalImage[n].setAttribute('onclick', 'myApprovalSlide(this)');
+        //             approvalImg.appendChild(approvalImage[n]);
 
-                    slideApprovalPreview[n] = document.createElement("figure");
-                    slideApprovalPreview[n].classList.add("mySlides");
-                    slideApprovalPreview[n].classList.add("fade");
-                    slideApprovalImage[n] = document.createElement("img");
-                    if (n != 0) {
-                        slideApprovalImage[n].classList.add("hidden");
-                    }
-                    slideApprovalImage[n].classList.add("w-full");
-                    slideApprovalImage[n].classList.add("mt-2");
-                    slideApprovalImage[n].src = '/storage/' + approvalUrl[n];
-                    slideApprovalPreview[n].appendChild(slideApprovalImage[n]);
-                    slidesApprovalPreview.appendChild(slideApprovalPreview[n]);
-                }
+        //             slideApprovalPreview[n] = document.createElement("figure");
+        //             slideApprovalPreview[n].classList.add("mySlides");
+        //             slideApprovalPreview[n].classList.add("fade");
+        //             slideApprovalImage[n] = document.createElement("img");
+        //             if (n != 0) {
+        //                 slideApprovalImage[n].classList.add("hidden");
+        //             }
+        //             slideApprovalImage[n].classList.add("w-full");
+        //             slideApprovalImage[n].classList.add("mt-2");
+        //             slideApprovalImage[n].src = '/storage/' + approvalUrl[n];
+        //             slideApprovalPreview[n].appendChild(slideApprovalImage[n]);
+        //             slidesApprovalPreview.appendChild(slideApprovalPreview[n]);
+        //         }
 
-                prevApprovalButton.removeAttribute('hidden');
-                nextApprovalButton.removeAttribute('hidden');
-            }
-        }
+        //         prevApprovalButton.removeAttribute('hidden');
+        //         nextApprovalButton.removeAttribute('hidden');
+        //     }
+        // }
 
-        prevApprovalButton.addEventListener('click', function() {
-            if (slideApprovalIndex != 0) {
-                slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-                approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
-                approvalImage[slideApprovalIndex].classList.add("document-approval");
-                slideApprovalIndex = slideApprovalIndex - 1;
-                slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-                approvalImage[slideApprovalIndex].classList.remove("document-approval");
-                approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-            } else {
-                slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-                approvalImage[0].classList.remove("document-approval-active");
-                approvalImage[0].classList.add("document-approval");
-                slideApprovalIndex = approvalUrl.length - 1;
-                slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-                approvalImage[slideApprovalIndex].classList.remove("document-approval");
-                approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-            }
-        })
+        // prevApprovalButton.addEventListener('click', function() {
+        //     if (slideApprovalIndex != 0) {
+        //         slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+        //         approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
+        //         approvalImage[slideApprovalIndex].classList.add("document-approval");
+        //         slideApprovalIndex = slideApprovalIndex - 1;
+        //         slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+        //         approvalImage[slideApprovalIndex].classList.remove("document-approval");
+        //         approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+        //     } else {
+        //         slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+        //         approvalImage[0].classList.remove("document-approval-active");
+        //         approvalImage[0].classList.add("document-approval");
+        //         slideApprovalIndex = approvalUrl.length - 1;
+        //         slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+        //         approvalImage[slideApprovalIndex].classList.remove("document-approval");
+        //         approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+        //     }
+        // })
 
-        nextApprovalButton.addEventListener('click', function() {
-            if (slideApprovalIndex != approvalUrl.length - 1) {
-                slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-                approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
-                approvalImage[slideApprovalIndex].classList.add("document-approval");
-                slideApprovalIndex = slideApprovalIndex + 1;
-                slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-                approvalImage[slideApprovalIndex].classList.remove("document-approval");
-                approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-            } else {
-                slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-                approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
-                approvalImage[slideApprovalIndex].classList.add("document-approval");
-                slideApprovalIndex = 0;
-                slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-                approvalImage[slideApprovalIndex].classList.remove("document-approval");
-                approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-            }
-        })
+        // nextApprovalButton.addEventListener('click', function() {
+        //     if (slideApprovalIndex != approvalUrl.length - 1) {
+        //         slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+        //         approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
+        //         approvalImage[slideApprovalIndex].classList.add("document-approval");
+        //         slideApprovalIndex = slideApprovalIndex + 1;
+        //         slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+        //         approvalImage[slideApprovalIndex].classList.remove("document-approval");
+        //         approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+        //     } else {
+        //         slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+        //         approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
+        //         approvalImage[slideApprovalIndex].classList.add("document-approval");
+        //         slideApprovalIndex = 0;
+        //         slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+        //         approvalImage[slideApprovalIndex].classList.remove("document-approval");
+        //         approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+        //     }
+        // })
 
-        function myApprovalSlide(img) {
-            slideApprovalImage[slideApprovalIndex].classList.add("hidden");
-            approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
-            approvalImage[slideApprovalIndex].classList.add("document-approval");
-            slideApprovalIndex = Number(img.id);
-            slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
-            approvalImage[slideApprovalIndex].classList.remove("document-approval");
-            approvalImage[slideApprovalIndex].classList.add("document-approval-active");
-        }
+        // function myApprovalSlide(img) {
+        //     slideApprovalImage[slideApprovalIndex].classList.add("hidden");
+        //     approvalImage[slideApprovalIndex].classList.remove("document-approval-active");
+        //     approvalImage[slideApprovalIndex].classList.add("document-approval");
+        //     slideApprovalIndex = Number(img.id);
+        //     slideApprovalImage[slideApprovalIndex].classList.remove("hidden");
+        //     approvalImage[slideApprovalIndex].classList.remove("document-approval");
+        //     approvalImage[slideApprovalIndex].classList.add("document-approval-active");
+        // }
 
-        btnCloseApproval.addEventListener('click', function() {
-            modalApproval.classList.add("hidden");
-            modalApproval.classList.remove("flex");
-        })
+        // btnCloseApproval.addEventListener('click', function() {
+        //     modalApproval.classList.add("hidden");
+        //     modalApproval.classList.remove("flex");
+        // })
 
         // Preview Approval Document --> end
 

@@ -40,13 +40,21 @@
                             </svg>
                             <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
                         </div>
-                    @elseif (session()->has('failed'))
-                        <div class="ml-2 flex alert-warning">
+                    @elseif (session()->has('order_success'))
+                        <div class="ml-2 flex alert-success">
                             <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path
                                     d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
                             </svg>
-                            <span class="font-semibold mx-1">Failed!</span> {{ session('failed') }}
+                            <span class="font-semibold mx-1">Success!</span> {{ session('order_success') }}
+                        </div>
+                    @elseif (session()->has('agreement_success'))
+                        <div class="ml-2 flex alert-success">
+                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                            </svg>
+                            <span class="font-semibold mx-1">Success!</span> {{ session('agreement_success') }}
                         </div>
                     @endif
                 </form>
@@ -423,64 +431,72 @@
                                 </td>
                                 <td class="text-teal-700 border text-[0.65rem]">
                                     <div class="flex items-center justify-center">
-                                        <button class="btn-sale flex justify-center" id="btnPO"
-                                            onclick="previewPOImage('{{ $quotID }}', '{{ $quot }}')"
-                                            type="button">
-                                            <?php
-                                            $hasOrders = '0';
-                                            ?>
-                                            @foreach ($client_orders as $order)
-                                                @if ($quot == 'Main')
-                                                    @if ($order->billboard_quotation_id == $quotID)
-                                                        <?php
-                                                        $hasOrders = '1';
-                                                        ?>
-                                                    @endif
-                                                @elseif ($quot == 'Revision')
-                                                    @if ($order->billboard_quot_revision_id == $quotID)
-                                                        <?php
-                                                        $hasOrders = '1';
-                                                        ?>
-                                                    @endif
+                                        <?php
+                                        $hasOrders = false;
+                                        ?>
+                                        @foreach ($client_orders as $order)
+                                            @if ($quot == 'Main')
+                                                @if ($order->billboard_quotation_id == $quotID)
+                                                    <?php
+                                                    $hasOrders = true;
+                                                    ?>
                                                 @endif
-                                            @endforeach
-                                            @if ($hasOrders == '1')
-                                                <span id="spanBtnPO" class="text-sm mx-2">view</span>
-                                            @else
-                                                <span id="spanBtnPO" class="text-sm mx-2">add</span>
+                                            @elseif ($quot == 'Revision')
+                                                @if ($order->billboard_quot_revision_id == $quotID)
+                                                    <?php
+                                                    $hasOrders = true;
+                                                    ?>
+                                                @endif
                                             @endif
-                                        </button>
+                                        @endforeach
+                                        @if ($hasOrders == true)
+                                            <button class="btn-sale flex justify-center" id="btnPO"
+                                                onclick="previewPOImage('{{ $quotID }}', '{{ $quot }}')"
+                                                type="button">
+                                                <span id="spanBtnPO" class="text-sm mx-2">view</span>
+                                            </button>
+                                        @else
+                                            <button class="btn-sale flex justify-center" id="btnViewPO"
+                                                onclick="addPOImage('{{ $quotID }}', '{{ $quot }}')"
+                                                type="button">
+                                                <span id="spanBtnPO" class="text-sm mx-2">add</span>
+                                            </button>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="text-teal-700 border text-[0.65rem]">
                                     <div class="flex items-center justify-center">
-                                        <button class="btn-sale flex justify-center" id="btnAgreement"
-                                            onclick="previewAgreementImage('{{ $quotID }}', '{{ $quot }}')"
-                                            type="button">
-                                            <?php
-                                            $hasAgreements = '0';
-                                            ?>
-                                            @foreach ($client_agreements as $agreement)
-                                                @if ($quot == 'Main')
-                                                    @if ($agreement->billboard_quotation_id == $quotID)
-                                                        <?php
-                                                        $hasAgreements = '1';
-                                                        ?>
-                                                    @endif
-                                                @elseif ($quot == 'Revision')
-                                                    @if ($agreement->billboard_quot_revision_id == $quotID)
-                                                        <?php
-                                                        $hasAgreements = '1';
-                                                        ?>
-                                                    @endif
+                                        <?php
+                                        $hasAgreements = false;
+                                        ?>
+                                        @foreach ($client_agreements as $agreement)
+                                            @if ($quot == 'Main')
+                                                @if ($agreement->billboard_quotation_id == $quotID)
+                                                    <?php
+                                                    $hasAgreements = true;
+                                                    ?>
                                                 @endif
-                                            @endforeach
-                                            @if ($hasAgreements == '1')
-                                                <span id="spanBtnAgreement" class="text-sm mx-2">view</span>
-                                            @else
-                                                <span id="spanBtnAgreement" class="text-sm mx-2">add</span>
+                                            @elseif ($quot == 'Revision')
+                                                @if ($agreement->billboard_quot_revision_id == $quotID)
+                                                    <?php
+                                                    $hasAgreements = true;
+                                                    ?>
+                                                @endif
                                             @endif
-                                        </button>
+                                        @endforeach
+                                        @if ($hasAgreements == true)
+                                            <button class="btn-sale flex justify-center" id="btnAgreement"
+                                                onclick="previewAgreementImage('{{ $quotID }}', '{{ $quot }}')"
+                                                type="button">
+                                                <span id="spanBtnAgreement" class="text-sm mx-2">view</span>
+                                            </button>
+                                        @else
+                                            <button class="btn-sale flex justify-center" id="btnViewAgreement"
+                                                onclick="addAgreementImage('{{ $quotID }}', '{{ $quot }}')"
+                                                type="button">
+                                                <span id="spanBtnAgreement" class="text-sm mx-2">add</span>
+                                            </button>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="text-teal-700 border text-[0.65rem] text-center align-center">
@@ -490,7 +506,7 @@
                                 </td>
                                 <td class="text-teal-700 border text-[0.65rem] text-center align-center">
                                     <div class="flex justify-center">
-                                        <a href="/dashboard/marketing/sales/{{ $sale->id }}"
+                                        <a href="/dashboard/marketing/print-install-sales/{{ $sale->id }}"
                                             class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1"
                                             title="Show">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
@@ -540,355 +556,26 @@
             {{ $sales->links() }}
         </div>
 
-        <!-- Add / view Approval start -->
-        <form class="justify-center" action="/dashboard/marketing/client-approvals" method="post"
-            enctype="multipart/form-data">
-            @csrf
-            <div id="modalApproval" name="modalApproval"
-                class="absolute justify-center top-0 w-full h-max bg-black bg-opacity-90 z-50 hidden">
-                <div>
-                    <div class="flex mt-10">
-                        <div class="flex w-[788px] justify-end">
-                            <button id="btnCloseApproval" class="flex" title="Close" type="button">
-                                <svg class="fill-white w-6 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="w-[800px] h-max bg-white mt-2 p-4 mb-96">
-                        <div class="flex justify-center">
-                            <div>
-                                <div class="flex justify-center my-2 border-b-2 border-teal-700">
-                                    <label class="text-xl font-semibold text-teal-700">Document Approval</label>
-                                </div>
-                                <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700"
-                                    id="approvalImg">
-
-                                </figure>
-                                <div class="relative m-auto w-[750px] h-max">
-                                    <div id="prevApprovalButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
-                                        <button
-                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                            type="button">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div id="nextApprovalButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto"
-                                        hidden>
-                                        <button type="button"
-                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div id="slidesApprovalPreview" class="mt-2">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <!-- Add / view Approval end -->
+        <!-- View Approval start -->
+        @include('dashboard.layouts.billboard-approvals')
+        <!-- View Approval end -->
 
         <!-- Add / view PO / SPK start -->
-        @if (session()->has('order_success'))
-            <input type="radio" name="" id="sessionOrder" checked hidden>
-        @else
-            <input type="radio" name="" id="sessionOrder" hidden>
-        @endif
-        <form class="justify-center" action="/dashboard/marketing/client-orders" method="post"
-            enctype="multipart/form-data">
-            @csrf
-            <div id="modalPO" name="modalPO"
-                class="absolute justify-center top-0 w-full h-max bg-black bg-opacity-90 z-50 hidden">
-                <div>
-                    <div class="flex mt-10">
-                        <div class="flex w-[212px]">
-                            <button id="btnPOSave" type="submit" hidden></button>
-                            <button id="btnPOUpload" class="flex justify-center items-center mx-1 btn-primary mb-2"
-                                title="Upload" type="button">
-                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 24c6.627 0 12-5.373 12-12s-5.373-12-12-12-12 5.373-12 12 5.373 12 12 12zm0-22c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm2 14h-4v-1h4v1zm0 1v1h-4v-1h4zm-4-6h-4l6-6 6 6h-4v3h-4v-3z" />
-                                </svg>
-                                <span class="ml-2 text-white">Upload</span>
-                            </button>
-                            <button id="btnPOCancel" class="flex justify-center items-center mx-1 btn-danger mb-2"
-                                title="Cancel" type="button">
-                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                                </svg>
-                                <span class="ml-2 text-white">Cancel</span>
-                            </button>
-                        </div>
-                        <div id="btnClosePO" class="hidden w-[588px] justify-end">
-                            <button class="flex" title="Close" type="button">
-                                <svg class="fill-white w-6 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="w-[800px] h-max bg-white mt-2 p-4 mb-96">
-                        <div class="flex justify-center">
-                            <div>
-                                @if (session()->has('order_success'))
-                                    <div class="ml-2 flex alert-success">
-                                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                                        </svg>
-                                        <span class="font-semibold mx-1">Success!</span> {{ session('order_success') }}
-                                    </div>
-                                @endif
-                                <div class="flex justify-center w-full m-2">
-                                    <button id="btnChosePO" name="btnChosePO"
-                                        class="flex justify-center items-center w-44 btn-primary" title="Chose Files"
-                                        type="button" onclick="document.getElementById('documentPO').click()">
-                                        <svg class="fill-current w-[18px]" xmlns="http://www.w3.org/2000/svg"
-                                            fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                            <path
-                                                d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
-                                        </svg>
-                                        <span class="ml-2">Chose Images</span>
-                                    </button>
-                                    <input class="hidden" id="documentPO" name="document_po[]" type="file"
-                                        accept="image/png, image/jpg, image/jpeg" onchange="chosePOImage()" multiple>
-                                </div>
-                                <div class="my-2 border-b-2 border-teal-700">
-                                    <input type="text" name="po_billboard_quotation_id" id="poBillboardQuotationId"
-                                        hidden>
-                                    <input type="text" name="po_billboard_quot_revision_id"
-                                        id="poBillboardQuotRevisionId" hidden>
-                                    <div class="flex items-center mt-1">
-                                        <label class="text-sm text-teal-700 w-32">Jenis</label>
-                                        <label class="text-sm text-teal-700 ml-2">:</label>
-                                        <input class="ml-2" type="radio" name="order_name" id="order_po"
-                                            value="po" checked>
-                                        <label class="text-sm text-teal-700 ml-2">PO</label>
-                                        <input class="ml-2" type="radio" name="order_name" id="order_spk"
-                                            value="spk">
-                                        <label class="text-sm text-teal-700 ml-2">SPK</label>
-                                    </div>
-                                    <div class="flex items-center mt-1">
-                                        <label class="text-sm text-teal-700 w-32">Nomor PO/SPK</label>
-                                        <label class="text-sm text-teal-700 ml-2">:</label>
-                                        <input
-                                            class="px-2 text-sm text-teal-700 ml-2 outline-none border rounded-lg border-teal-700"
-                                            type="text" id="order_number" name="order_number"
-                                            placeholder="input nomor PO/SPK">
-                                    </div>
-                                    <div class="flex items-center mt-1">
-                                        <label class="text-sm text-teal-700 w-32">Tanggal PO/SPK</label>
-                                        <label class="text-sm text-teal-700 ml-2">:</label>
-                                        <input
-                                            class="text-sm text-teal-700 ml-2 outline-none px-2 border rounded-lg border-teal-700"
-                                            type="date" id="order_date" name="order_date">
-                                    </div>
-                                    <div class="flex items-center mt-1">
-                                        <label class="text-sm text-teal-700 w-32">Jumlah File</label>
-                                        <label class="text-sm text-teal-700 ml-2">:</label>
-                                        <label id="numberPOFile" class="text-sm text-teal-700 ml-2">No Files
-                                            Chosen</label>
-                                    </div>
-                                </div>
-                                <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700"
-                                    id="poImg">
-
-                                </figure>
-                                <div class="relative m-auto w-[750px] h-max">
-                                    <div id="prevPOButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
-                                        <button
-                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                            type="button">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div id="nextPOButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
-                                        <button type="button"
-                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div id="slidesPOPreview" class="mt-2">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+        @include('dashboard.layouts.add-billboard-orders')
+        @include('dashboard.layouts.view-billboard-orders')
         <!-- Add / view PO / SPK end -->
 
         <!-- Add / view Agreement start -->
-        @if (session()->has('agreement_success'))
-            <input type="radio" name="" id="sessionAgreement" checked hidden>
-        @else
-            <input type="radio" name="" id="sessionAgreement" hidden>
-        @endif
-        <form class="justify-center" action="/dashboard/marketing/client-agreements" method="post"
-            enctype="multipart/form-data">
-            @csrf
-            <div id="modalAgreement" name="modalAgreement"
-                class="absolute justify-center top-0 w-full h-max bg-black bg-opacity-90 z-50 hidden">
-                <div>
-                    <div class="flex mt-10">
-                        <div class="flex w-[212px]">
-                            <button id="btnAgreementSave" type="submit" hidden></button>
-                            <button id="btnAgreementUpload" class="flex justify-center items-center mx-1 btn-primary mb-2"
-                                title="Upload" type="button">
-                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 24c6.627 0 12-5.373 12-12s-5.373-12-12-12-12 5.373-12 12 5.373 12 12 12zm0-22c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm2 14h-4v-1h4v1zm0 1v1h-4v-1h4zm-4-6h-4l6-6 6 6h-4v3h-4v-3z" />
-                                </svg>
-                                <span class="ml-2 text-white">Upload</span>
-                            </button>
-                            <button id="btnAgreementCancel" class="flex justify-center items-center mx-1 btn-danger mb-2"
-                                title="Cancel" type="button">
-                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                                </svg>
-                                <span class="ml-2 text-white">Cancel</span>
-                            </button>
-                        </div>
-                        <div id="btnCloseAgreement" class="w-[588px] justify-end hidden">
-                            <button class="flex" title="Close" type="button">
-                                <svg class="fill-white w-6 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="w-[800px] h-max bg-white mt-2 p-4 mb-96">
-                        <div class="flex justify-center">
-                            <div>
-                                @if (session()->has('agreement_success'))
-                                    <div class="ml-2 flex alert-success">
-                                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                                        </svg>
-                                        <span class="font-semibold mx-1">Success!</span>
-                                        {{ session('agreement_success') }}
-                                    </div>
-                                @endif
-                                <div class="flex justify-center w-full m-2">
-                                    <button id="btnChoseAgreement" name="btnChosePO"
-                                        class="flex justify-center items-center w-44 btn-primary" title="Chose Files"
-                                        type="button" onclick="document.getElementById('documentAgreement').click()">
-                                        <svg class="fill-current w-[18px]" xmlns="http://www.w3.org/2000/svg"
-                                            fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                            <path
-                                                d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
-                                        </svg>
-                                        <span class="ml-2">Chose Images</span>
-                                    </button>
-                                    <input class="hidden" id="documentAgreement" name="document_agreement[]"
-                                        type="file" accept="image/png, image/jpg, image/jpeg"
-                                        onchange="choseAgreementImage()" multiple>
-                                </div>
-                                <div class="my-2 border-b-2 border-teal-700">
-                                    <input type="text" name="agreement_billboard_quotation_id"
-                                        id="agreementBillboardQuotationId" hidden>
-                                    <input type="text" name="agreement_billboard_quot_revision_id"
-                                        id="agreementBillboardQuotRevisionId" hidden>
-                                    <div class="flex items-center mt-1">
-                                        <label class="text-sm text-teal-700 w-32">Nomor Agreement</label>
-                                        <label class="text-sm text-teal-700 ml-2">:</label>
-                                        <input
-                                            class="text-sm px-2 text-teal-700 ml-2 outline-none border rounded-lg border-teal-700"
-                                            type="text" id="agreement_number" name="agreement_number"
-                                            placeholder="input nomor perjanjian">
-                                    </div>
-                                    <div class="flex items-center mt-1">
-                                        <label class="text-sm text-teal-700 w-32">Tanggal Agreement</label>
-                                        <label class="text-sm text-teal-700 ml-2">:</label>
-                                        <input
-                                            class="text-sm text-teal-700 ml-2 px-2 outline-none border rounded-lg border-teal-700"
-                                            type="date" id="agreement_date" name="agreement_date">
-                                    </div>
-                                    <div class="flex items-center mt-1">
-                                        <label class="text-sm text-teal-700 w-32">Jumlah File</label>
-                                        <label class="text-sm text-teal-700 ml-2">:</label>
-                                        <label id="numberAgreementFile" class="text-sm text-teal-700 ml-2">No Files
-                                            Chosen</label>
-                                    </div>
-                                </div>
-                                <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700"
-                                    id="agreementImg">
-
-                                </figure>
-                                <div class="relative m-auto w-[750px] h-max">
-                                    <div id="prevAgreementButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto"
-                                        hidden>
-                                        <button
-                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                            type="button">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div id="nextAgreementButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto"
-                                        hidden>
-                                        <button type="button"
-                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div id="slidesAgreementPreview" class="mt-2">
-                                        {{-- <img class="approval-preview w-full" src="" alt="" hidden> --}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+        @include('dashboard.layouts.add-billboard-agreements')
+        @include('dashboard.layouts.view-billboard-agreements')
         <!-- Add / view Agreement end -->
     </div>
 
     <!-- Script start -->
-    <script src="/js/indexsales.js"></script>
+    <script src="/js/billboardapprovals.js"></script>
+    <script src="/js/addbillboardorders.js"></script>
+    <script src="/js/viewbillboardorders.js"></script>
+    <script src="/js/addbillboardagreements.js"></script>
+    <script src="/js/viewbillboardagreements.js"></script>
     <!-- Script end -->
 @endsection

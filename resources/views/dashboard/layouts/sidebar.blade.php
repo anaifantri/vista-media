@@ -415,7 +415,8 @@
                                                 </a>
                                             </li>
                                             <li class="group">
-                                                <a class="nav-a ml-5 border-t-[1px]" href="#">
+                                                <a class="nav-a ml-5 border-t-[1px]"
+                                                    href="/dashboard/marketing/print-install-sales">
                                                     <svg class="child-nav-svg" role="img"
                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                         fill-rule="evenodd" clip-rule="evenodd">
@@ -565,7 +566,7 @@
                                         <!-- Sales Reports Child Start -->
                                         <ul class="hidden" id="saleReportChild" name="saleReportChild">
                                             <li class="group">
-                                                <a class="nav-a ml-5" href="#">
+                                                <a class="nav-a ml-5" href="/sales/reports/">
                                                     <svg class="child-nav-svg" role="img"
                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                         <path
@@ -575,7 +576,7 @@
                                                 </a>
                                             </li>
                                             <li class="group">
-                                                <a class="nav-a ml-5" href="/sales/reports/">
+                                                <a class="nav-a ml-5" href="#">
                                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
