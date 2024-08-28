@@ -58,8 +58,8 @@
                                 </button>
                             </th>
                             <th class="text-teal-700 border text-sm text-center">Nama Vendor</th>
-                            <th class="text-teal-700 border text-sm w-16 text-center">
-                                <button class="flex justify-center items-center w-16">@sortablelink('pixel_pitch', 'Pixel')
+                            <th class="text-teal-700 border text-sm w-20 text-center">
+                                <button class="flex justify-center items-center w-20">@sortablelink('pixel_pitch', 'Pixel')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
@@ -70,7 +70,8 @@
                             <th class="text-teal-700 border text-sm text-center w-28">Material</th>
                             <th class="text-teal-700 border text-sm text-center w-16">Berat</th>
                             <th class="text-teal-700 border text-sm text-center w-40">IP Rating</th>
-                            <th class="text-teal-700 border text-sm text-center w-20">Brigthness</th>
+                            <th class="text-teal-700 border text-sm text-center w-28">Brigthness</th>
+                            <th class="text-teal-700 border text-sm text-center w-20">Refresh Rate</th>
                             <th class="text-teal-700 border text-sm text-center w-32">Action</th>
                         </tr>
                     </thead>
@@ -82,14 +83,15 @@
                             <tr>
                                 <td class="text-teal-700 border text-sm text-center">{{ $number++ }}</td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $led->name }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $led->vendor->company }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $led->pixel_pitch }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->vendor->name }}</td>
+                                <td class="text-teal-700 border text-sm text-center">
+                                    {{ $led->pixel_pitch }}-{{ $led->type }}</td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $led->cabinet_size }}</td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $led->cabinet_material }}</td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $led->cabinet_weight }}</td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $led->protective_grade }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ number_format($led->brightness) }}
-                                </td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->brightness }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $led->refresh_rate }}</td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/dashboard/media/leds/{{ $led->id }}"

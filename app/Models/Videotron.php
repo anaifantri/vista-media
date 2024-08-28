@@ -23,7 +23,7 @@ class Videotron extends Model
     }
 
     public function scopeCity($query){
-        $dataCity = request('requestCity');
+        $dataCity = request('city');
 
         if (request('area') != request('requestArea')) {
             $dataCity = '';

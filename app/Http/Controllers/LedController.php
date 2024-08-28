@@ -56,13 +56,51 @@ class LedController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            if($request->vendor_id == 'Pilih Vendor'){
+            if($request->vendor_id == 'pilih'){
                 return back()->withErrors(['vendor_id' => ['Silahkan pilih vendor']])->withInput();
+            }
+            if($request->type == 'pilih'){
+                return back()->withErrors(['type' => ['Silahkan pilih type led']])->withInput();
+            }
+            if($request->pixel_config == 'pilih'){
+                return back()->withErrors(['pixel_config' => ['Silahkan pilih konfigurasi pixel']])->withInput();
+            }
+            if($request->pixel_pitch == 'pilih'){
+                return back()->withErrors(['pixel_pitch' => ['Silahkan pilih ukuran pixel']])->withInput();
+            }
+            if($request->module_size == 'pilih'){
+                return back()->withErrors(['module_size' => ['Silahkan pilih ukuran module']])->withInput();
+            }
+            if($request->cabinet_size == 'pilih'){
+                return back()->withErrors(['cabinet_size' => ['Silahkan pilih ukuran cabinet']])->withInput();
+            }
+            if($request->cabinet_material == 'pilih'){
+                return back()->withErrors(['cabinet_material' => ['Silahkan pilih material cabinet']])->withInput();
+            }
+            if($request->protective_grade == 'pilih'){
+                return back()->withErrors(['protective_grade' => ['Silahkan pilih tingkat ketahanan air']])->withInput();
+            }
+            if($request->view_angle_v == 'pilih'){
+                return back()->withErrors(['view_angle_v' => ['Silahkan pilih sudut pandang vertikal']])->withInput();
+            }
+            if($request->view_angle_h == 'pilih'){
+                return back()->withErrors(['view_angle_h' => ['Silahkan pilih sudut pandang horizontal']])->withInput();
+            }
+            if($request->brightness == 'pilih'){
+                return back()->withErrors(['brightness' => ['Silahkan pilih brightness']])->withInput();
+            }
+            if($request->refresh_rate == 'pilih'){
+                return back()->withErrors(['refresh_rate' => ['Silahkan pilih refresh rate']])->withInput();
+            }
+            if($request->view_distancing == 'pilih'){
+                return back()->withErrors(['view_distancing' => ['Silahkan pilih jarak pandang terbaik']])->withInput();
             }
         
             $validateData = $request->validate([
                 'vendor_id' => 'required',
                 'name' => 'required',
+                'pixel_config' => 'required',
+                'type' => 'required',
                 'pixel_pitch' => 'required',
                 'pixel_density' => 'required',
                 'module_size' => 'required',
@@ -76,6 +114,7 @@ class LedController extends Controller
                 'max_power' => 'required',
                 'average_power' => 'required',
                 'brightness' => 'required',
+                'refresh_rate' => 'required',
             ]);
     
             $validateData['user_id'] = auth()->user()->id;
@@ -126,26 +165,26 @@ class LedController extends Controller
     public function update(Request $request, Led $led): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-                if($request->vendor_id == 'Pilih Vendor'){
-                    return back()->withErrors(['vendor_id' => ['Silahkan pilih vendor']])->withInput();
-                }
             
                 $validateData = $request->validate([
                     'vendor_id' => 'required',
-                    'name' => 'required',
-                    'pixel_pitch' => 'required',
-                    'pixel_density' => 'required',
-                    'module_size' => 'required',
-                    'cabinet_size' => 'required',
-                    'cabinet_material' => 'required',
-                    'cabinet_weight' => 'required',
-                    'protective_grade' => 'required',
-                    'view_distancing' => 'required',
-                    'view_angle_v' => 'required',
-                    'view_angle_h' => 'required',
-                    'max_power' => 'required',
-                    'average_power' => 'required',
-                    'brightness' => 'required',
+                'name' => 'required',
+                'pixel_config' => 'required',
+                'type' => 'required',
+                'pixel_pitch' => 'required',
+                'pixel_density' => 'required',
+                'module_size' => 'required',
+                'cabinet_size' => 'required',
+                'cabinet_material' => 'required',
+                'cabinet_weight' => 'required',
+                'protective_grade' => 'required',
+                'view_distancing' => 'required',
+                'view_angle_v' => 'required',
+                'view_angle_h' => 'required',
+                'max_power' => 'required',
+                'average_power' => 'required',
+                'brightness' => 'required',
+                'refresh_rate' => 'required',
                 ]);
         
                 $validateData['user_id'] = auth()->user()->id;

@@ -325,7 +325,7 @@
                                                 </a>
                                             </li>
                                             <li class="group">
-                                                <a class="nav-a ml-5" href="#">
+                                                <a class="nav-a ml-5" href="/dashboard/marketing/videotron-quotations">
                                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

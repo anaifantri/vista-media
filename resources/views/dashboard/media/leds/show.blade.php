@@ -2,86 +2,101 @@
 
 @section('container')
     <div class="flex justify-center mt-10">
-        <div class="flex w-full sm:w-[500px] items-center">
+        <div class="flex w-full items-center">
             <div class="p-3 py-5 w-full">
                 <div class="flex items-center justify-center mb-2 border-b">
                     <h4 class="text-xl font-semibold tracking-wider text-teal-900">Detail Produk LED</h4>
                 </div>
                 <div class="mt-5 w-full">
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Nama
-                            Produk</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
-                            {{ $led->name }}</h6>
-                    </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Nama
-                            Vendor</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Nama Vendor</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->vendor->name }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Pixel
-                            Pitch</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Nama Produk</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">{{ $led->name }}
+                        </h6>
+                    </div>
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Tipe LED</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">{{ $led->type }}
+                        </h6>
+                    </div>
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Konfigurasi Pixel</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
+                            {{ $led->pixel_config }}</h6>
+                    </div>
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Ukuran Pixel</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->pixel_pitch }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Pixel
-                            Density</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
-                            {{ $led->pixel_density }}</h6>
-                    </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Module
-                            Size</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Ukuran Module</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->module_size }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Cabinet
-                            Size</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Ukuran Kabinet</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->cabinet_size }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Cabinet
-                            Material</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Bahan Kabinet</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->cabinet_material }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Cabinet
-                            Weight</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
-                            {{ $led->cabinet_weight }}</h6>
-                    </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Protective
-                            Grade</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Tingkat Ketahanan Air</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->protective_grade }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">View
-                            Distancing</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
-                            {{ $led->view_distancing }}</h6>
-                    </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">View Angle
-                            Vertikal</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">SUdut Pandang Vertikal</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->view_angle_v }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">View Angle
-                            Horizontal</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Sudut Pandang Horizontal</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->view_angle_h }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Max
-                            Power</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Brightness</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
+                            {{ $led->brightness }}</h6>
+                    </div>
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Refresh Rate</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
+                            {{ $led->refresh_rate }}</h6>
+                    </div>
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Jarak Pandang Terbaik</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
+                            {{ $led->view_distancing }}</h6>
+                    </div>
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Berat Kabinet</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
+                            {{ $led->cabinet_weight }}</h6>
+                    </div>
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Kerapatan Pixel</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
+                            {{ $led->pixel_density }}</h6>
+                    </div>
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Daya Maksimal</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->max_power }}</h6>
                     </div>
-                    <div class="flex mt-2 justify-center"><label class="w-36 sm:w-44 text-sm text-teal-700">Average
-                            Power</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
+                    <div class="flex mt-2 justify-center">
+                        <label class="w-44 text-sm text-teal-700">Daya Rata-rata</label>
+                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-44 border rounded-lg">
                             {{ $led->average_power }}</h6>
-                    </div>
-                    <div class="flex mt-2 justify-center"><label
-                            class="w-36 sm:w-44 text-sm text-teal-700">Brightness</label>
-                        <h6 class="flex px-2 text-sm font-semibold text-teal-900 w-36 sm:w-44 border rounded-lg">
-                            {{ $led->brightness }}</h6>
                     </div>
                     <div class="flex justify-center mt-5">
                         <a href="/dashboard/media/leds" class="flex items-center justify-center btn-primary mx-1">

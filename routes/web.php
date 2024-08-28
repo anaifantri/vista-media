@@ -40,6 +40,7 @@ use App\Http\Controllers\PrintInstallStatusController;
 use App\Http\Controllers\PrintInstallSaleController;
 use App\Http\Controllers\PrintInstallApprovalController;
 use App\Http\Controllers\PrintInstallOrderController;
+use App\Http\Controllers\VideotronQuotationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,8 @@ Route::resource('/dashboard/marketing/billboard-quot-revisions', BillboardQuotRe
 Route::get('/dashboard/marketing/quotation-revisions/revision/{number}', [BillboardQuotRevisionController::class, 'revision'])->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/quotation-revisions/preview/{id}', [BillboardQuotRevisionController::class, 'preview']);
 Route::resource('/dashboard/marketing/billboard-quot-statuses', BillboardQuotStatusController::class)->middleware(['auth','user_access']);
+Route::resource('/dashboard/marketing/videotron-quotations', VideotronQuotationController::class)->middleware(['auth','user_access']);
+Route::get('/dashboard/marketing/videotron-quotations/create-quotations/{id}', [VideotronQuotationController::class, 'createQuotation'])->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/print-instal-quotations', PrintInstalQuotationController::class)->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/print-instal-quotations/preview/{id}', [PrintInstalQuotationController::class, 'preview']);
 Route::get('/dashboard/marketing/print-instal-quotations/create-quotations/{id}', [PrintInstalQuotationController::class, 'createQuotation']);

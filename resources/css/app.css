@@ -483,7 +483,7 @@
 }
 
 .text-area-notes {
-    @apply ml-1 w-[721px] outline-none text-sm;
+    @apply ml-1 w-[721px] outline-none text-xs;
 }
 .td-print-install {
     @apply text-xs text-teal-700 border text-center p-1;
@@ -496,4 +496,7 @@
 }
 .select-print-product {
     @apply flex w-28 text-sm font-semibold text-teal-700 border rounded-lg outline-none;
+}
+.term-of-payment {
+    @apply text-xs ml-2 outline-none border rounded-md px-1 w-12;
 }

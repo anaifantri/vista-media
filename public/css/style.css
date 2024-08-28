@@ -990,12 +990,20 @@ video {
   height: 1500px;
 }
 
+.h-\[150px\] {
+  height: 150px;
+}
+
 .h-\[220px\] {
   height: 220px;
 }
 
 .h-\[22px\] {
   height: 22px;
+}
+
+.h-\[232px\] {
+  height: 232px;
 }
 
 .h-\[234px\] {
@@ -1038,6 +1046,14 @@ video {
   height: 400px;
 }
 
+.h-\[42px\] {
+  height: 42px;
+}
+
+.h-\[430px\] {
+  height: 430px;
+}
+
 .h-\[435px\] {
   height: 435px;
 }
@@ -1054,12 +1070,28 @@ video {
   height: 465px;
 }
 
+.h-\[470px\] {
+  height: 470px;
+}
+
 .h-\[500px\] {
   height: 500px;
 }
 
+.h-\[50px\] {
+  height: 50px;
+}
+
 .h-\[530px\] {
   height: 530px;
+}
+
+.h-\[540px\] {
+  height: 540px;
+}
+
+.h-\[570px\] {
+  height: 570px;
 }
 
 .h-\[580px\] {
@@ -1276,6 +1308,10 @@ video {
   width: 172px;
 }
 
+.w-\[180px\] {
+  width: 180px;
+}
+
 .w-\[184px\] {
   width: 184px;
 }
@@ -1302,6 +1338,10 @@ video {
 
 .w-\[250px\] {
   width: 250px;
+}
+
+.w-\[256px\] {
+  width: 256px;
 }
 
 .w-\[270px\] {
@@ -1388,12 +1428,20 @@ video {
   width: 476px;
 }
 
+.w-\[480px\] {
+  width: 480px;
+}
+
 .w-\[500px\] {
   width: 500px;
 }
 
 .w-\[520px\] {
   width: 520px;
+}
+
+.w-\[544px\] {
+  width: 544px;
 }
 
 .w-\[575px\] {
@@ -1466,6 +1514,10 @@ video {
 
 .w-\[760px\] {
   width: 760px;
+}
+
+.w-\[770px\] {
+  width: 770px;
 }
 
 .w-\[775px\] {
@@ -1711,6 +1763,14 @@ video {
 .rounded-t-xl {
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
+}
+
+.rounded-tl-lg {
+  border-top-left-radius: 0.5rem;
+}
+
+.rounded-tr-lg {
+  border-top-right-radius: 0.5rem;
 }
 
 .border {
@@ -3624,8 +3684,8 @@ video {
 .text-area-notes {
   margin-left: 0.25rem;
   width: 721px;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
@@ -3669,6 +3729,19 @@ video {
   font-weight: 600;
   --tw-text-opacity: 1;
   color: rgb(15 118 110 / var(--tw-text-opacity));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.term-of-payment {
+  margin-left: 0.5rem;
+  width: 3rem;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
@@ -3971,10 +4044,6 @@ video {
     height: 90px;
   }
 
-  .sm\:w-44 {
-    width: 11rem;
-  }
-
   .sm\:w-5 {
     width: 1.25rem;
   }
@@ -4001,10 +4070,6 @@ video {
 
   .sm\:w-\[495px\] {
     width: 495px;
-  }
-
-  .sm\:w-\[500px\] {
-    width: 500px;
   }
 
   .sm\:w-\[74px\] {
