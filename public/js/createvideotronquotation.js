@@ -35,14 +35,17 @@ const createBodyTop = document.getElementById("createBodyTop");
 const createBodyEnd = document.getElementById("createBodyEnd");
 const createAttachment = document.getElementById("createAttachment");
 const createSubject = document.getElementById("createSubject");
-const number = document.getElementById("number");
 const clientContact = document.getElementById("client_contact");
 const contactEmail = document.getElementById("contact_email");
+const previewEmail = document.getElementById("previewEmail");
 const contactPhone = document.getElementById("contact_phone");
+const previewPhone = document.getElementById("previewPhone");
 const bodyTop = document.getElementById("body_top");
 const bodyEnd = document.getElementById("body_end");
 const attachment = document.getElementById("attachment");
+const previewAttachment = document.getElementById("previewAttachment");
 const subject = document.getElementById("subject");
+const previewSubject = document.getElementById("previewSubject");
 
 // Set Current Scroll --> start
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -146,31 +149,6 @@ function getDataContact() {
 }
 // Get Data Contact --> end
 
-// Get Client --> start
-// function getClient(sel) {
-//     if (sel.options[sel.selectedIndex].value != "pilih") {
-//         divContact.classList.remove("hidden");
-//         divContact.classList.add("flex");
-//         contactId.removeAttribute('disabled');
-//         clientCompany.innerHTML = "";
-//         clientCompany.innerHTML = sel.options[sel.selectedIndex].id;
-
-//         createContactEmail.innerHTML = "-";
-//         createContactPhone.innerHTML = "-";
-//         createClientContact.innerHTML = "-";
-//         showContact();
-//     } else {
-//         divContact.classList.add("hidden");
-//         divContact.classList.remove("flex");
-//         contactId.setAttribute('disabled');
-//         clientCompany.innerHTML = "-";
-//         createContactEmail.innerHTML = "-";
-//         createContactPhone.innerHTML = "-";
-//         createClientContact.innerHTML = "-";
-//     }
-// }
-// Get Client --> end
-
 // Show Contact --> start
 function showContact() {
     while (contactId.hasChildNodes()) {
@@ -207,8 +185,10 @@ function getContact(sel) {
             }
             createContactEmail.innerHTML = dataContact[i]['email'];
             contactEmail.value = dataContact[i]['email'];
+            previewEmail.innerHTML = dataContact[i]['email'];
             createContactPhone.innerHTML = dataContact[i]['phone'];
             contactPhone.value = dataContact[i]['phone'];
+            previewPhone.innerHTML = dataContact[i]['phone'];
 
         }
     }
@@ -217,22 +197,19 @@ function getContact(sel) {
 
 // Button Add Note Action --> start
 btnAddNote.addEventListener("click", function() {
-    if (notesQty.children.length < 8) {
+    if (notesQty.children.length < 9) {
         const divNotes = document.createElement("div");
-        const labelNotes = document.createElement("label");
         const inputNotes = document.createElement("textarea");
         divNotes.classList.add("flex");
-        labelNotes.classList.add("ml-1");
-        labelNotes.classList.add("text-sm");
-        labelNotes.innerHTML = "-";
         inputNotes.classList.add("text-area-notes");
-        inputNotes.setAttribute("placeholder", "input catatan");
+        inputNotes.value = "- ";
         inputNotes.setAttribute("rows", "1");
 
-        divNotes.appendChild(labelNotes);
         divNotes.appendChild(inputNotes);
 
-        notesQty.appendChild(divNotes);
+        // notesQty.appendChild(divNotes);
+        notesQty.insertBefore(divNotes, notesQty.children[notesQty.children.length - 1]);
+        inputNotes.focus();
     } else {
         alert("Maksimal tambahan 3 catatan");
     }
@@ -241,8 +218,8 @@ btnAddNote.addEventListener("click", function() {
 
 // Button Remove Last Note Action --> start
 btnDelNote.addEventListener("click", function() {
-    if (notesQty.children.length > 5) {
-        notesQty.removeChild(notesQty.lastChild);
+    if (notesQty.children.length > 6) {
+        notesQty.removeChild(notesQty.children[notesQty.children.length - 2]);
     } else {
         alert("Tidak ada tambahan catatan yang bisa dihapus");
     }
@@ -278,6 +255,7 @@ btnAddPayment.addEventListener("click", function() {
         divPayment.appendChild(paymentDescription);
 
         paymentTerms.appendChild(divPayment);
+        termOfPayment.focus();
     } else {
         alert("Maksimal 4 termin pembayaran");
     }
@@ -296,16 +274,20 @@ btnDelPayment.addEventListener("click", function() {
 
 // Button Preview Action --> start
 btnPreview.addEventListener("click", function(){
-    if(numberCheck() == false){
-        alert("Silahkan input nomor surat penawaran");
-        createNumber.focus();
-    } else if(clientCheck() == false) {
+    // if(numberCheck() == false){
+    //     alert("Silahkan input nomor surat penawaran");
+    //     createNumber.focus();
+    // } else 
+    if(clientCheck() == false) {
         alert("Silahkan pilih klien dan kontak");
     } else {
         paymentCheck();
         if(paymentCheck() == true){
             modalPreview.classList.remove("hidden");
             fillData();
+            getNotes();
+            getPayments();
+            getPrice();
         }
     }
 })
@@ -316,16 +298,6 @@ btnClose.addEventListener("click", function(){
     modalPreview.classList.add("hidden");
 })
 // Button Close Action --> end
-
-// Function Number Check --> start
-numberCheck = () => {
-    if(createNumber.value == ""){
-        return false;
-    } else {
-        return true;
-    }
-  }
-// Function Number Check --> end
 
 // Function Client Check --> start
 clientCheck = () => {
@@ -371,13 +343,206 @@ paymentCheck = () => {
     } else {
         return true;
     }
-  }
+}
 // Function Payment Check --> end
 
 // Function Fill Data --> start
 fillData = () => {
-    number.value = createNumber.value;
+    // number.value = createNumber.value;
+    // previewNumber.innerHTML = createNumber.value;
     attachment.value = createAttachment.innerText;
+    previewAttachment.innerHTML = createAttachment.innerText;
     subject.value = createSubject.innerText;
+    previewSubject.innerHTML = createSubject.innerText;
 }
-// Function Fill Data --> end
+// Function Fill Data --> 
+
+// Function Get Note --> start
+getNotes = () => {
+    const notes = document.getElementById("notes");
+    const previewNotesQty = document.getElementById("previewNotesQty");
+    let objNotes = {};
+    let dataNotes = [];    
+
+    while (previewNotesQty.hasChildNodes()) {
+        previewNotesQty.removeChild(previewNotesQty.firstChild);
+    }
+
+    for(let i = 0; i < notesQty.children.length; i++){
+        if(notesQty.children[i].children[0].value != ""){
+            dataNotes[i] = notesQty.children[i].children[0].value;
+
+            const divNotes = document.createElement("div");
+            const labelNotes = document.createElement("label");
+            
+            divNotes.classList.add("flex");
+            labelNotes.classList.add("flex");
+            labelNotes.classList.add("text-xs");
+            labelNotes.classList.add("text-black");
+
+            if(i == 2 || i == 3 ){
+                labelNotes.classList.add("ml-4");
+            } else {
+                labelNotes.classList.add("ml-1");
+            }
+
+            labelNotes.innerHTML = notesQty.children[i].children[0].value;
+
+            divNotes.appendChild(labelNotes);
+            previewNotesQty.appendChild(divNotes);
+        }
+    }
+
+    objNotes = {dataNotes};
+    notes.value = JSON.stringify(objNotes);
+}
+// Function Get Note --> end
+
+// Function Get Payment Terms --> start
+getPayments = () => {
+    const terms = document.getElementById("payment_terms");
+    const previewPaymentTerms = document.getElementById("previewPaymentTerms");
+    let objPayments = {};
+    let dataPayments = [];
+
+    while (previewPaymentTerms.hasChildNodes()) {
+        previewPaymentTerms.removeChild(previewPaymentTerms.firstChild);
+    }
+
+    for(let i = 0; i < paymentTerms.children.length; i++){
+            dataPayments[i] = {
+                term : paymentTerms.children[i].children[1].value,
+                note : paymentTerms.children[i].children[2].value,
+            }
+
+            const divTerms = document.createElement("div");
+            const labelTerms = document.createElement("label");
+            
+            divTerms.classList.add("flex");
+            labelTerms.classList.add("flex");
+            labelTerms.classList.add("text-xs");
+            labelTerms.classList.add("ml-1");
+            labelTerms.classList.add("text-black");
+
+            labelTerms.innerHTML = '- ' + paymentTerms.children[i].children[1].value + ' ' + paymentTerms.children[i].children[2].value;
+
+            divTerms.appendChild(labelTerms);
+            previewPaymentTerms.appendChild(divTerms);
+    }
+
+    objPayments = {dataPayments};
+    terms.value = JSON.stringify(objPayments);
+}
+// Function Get Payment Terms --> end
+
+// Function Get Price --> start
+getPrice = () => {
+    const price = document.getElementById("price");
+    const videotronTBody = document.getElementById("videotronTBody");
+    const previewTBody = document.getElementById("previewTBody");
+    var tableRow = videotronTBody.getElementsByTagName('tr');
+    var previewTableRow = previewTBody.getElementsByTagName('tr');
+    
+    let objPrice = {};
+    let sharePrice = [];
+    let exPrice = [];
+    let priceType = [];
+
+    for (let i = 0; i < 4; i++){
+        sharePrice[i] = {
+            checkbox : tableRow[11].cells[i+1].children[0].children[0].checked,
+            title : tableRow[11].cells[i+1].children[0].children[1].value,
+            price : Number(tableRow[12].cells[i].children[0].children[0].value)
+        }
+
+        if(tableRow[11].cells[i+1].children[0].children[0].checked == true){
+            previewTableRow[11].cells[i+1].innerHTML = tableRow[11].cells[i+1].children[0].children[1].value;
+            previewTableRow[12].cells[i].innerHTML = 'Rp. ' + Number(tableRow[12].cells[i].children[0].children[0].value).toLocaleString() + ',-';
+        }
+    }
+
+    for (let i = 0; i < 4; i++){
+        exPrice[i] = {
+            checkbox : tableRow[13].cells[i+1].children[0].children[0].checked,
+            title : tableRow[13].cells[i+1].children[0].children[1].value,
+            price : Number(tableRow[14].cells[i].children[0].children[0].value)
+        }
+
+        if(tableRow[13].cells[i+1].children[0].children[0].checked == true){
+            previewTableRow[13].cells[i+1].innerHTML = tableRow[13].cells[i+1].children[0].children[1].value;
+            previewTableRow[14].cells[i].innerHTML = 'Rp. ' + Number(tableRow[14].cells[i].children[0].children[0].value).toLocaleString() + ',-';
+        }
+    }
+
+    if (tableRow[11].cells[0].children[0].children[0].checked == true) {
+        priceType[0] = true;
+    } else {
+        priceType[0] = false;
+    }
+
+    if (tableRow[13].cells[0].children[0].children[0].checked == true) {
+        priceType[1] = true;
+    } else {
+        priceType[1] = false;
+    }
+
+    objPrice = {priceType, sharePrice, exPrice};
+    price.value = JSON.stringify(objPrice);
+}
+// Function Get Price --> end
+
+// Function Sharing Price Action --> start
+sharingPrice = (sel) => {
+    const videotronTBody = document.getElementById("videotronTBody");
+    var tableRow = videotronTBody.getElementsByTagName('tr');let objPrice = {};
+    const previewTBody = document.getElementById("previewTBody");
+    var previewTableRow = previewTBody.getElementsByTagName('tr');
+    if(sel.checked == true){
+        for (let i = 0; i < 4; i++){
+            tableRow[11].cells[i+1].children[0].children[0].checked = true;
+            tableRow[11].cells[i+1].children[0].children[0].removeAttribute('disabled');
+            tableRow[11].cells[i+1].children[0].children[1].removeAttribute('disabled');
+            tableRow[12].cells[i].children[0].children[0].removeAttribute('disabled');
+        }
+        previewTableRow[11].removeAttribute('hidden');
+        previewTableRow[12].removeAttribute('hidden');
+    } else {
+        for (let i = 0; i < 4; i++){
+            tableRow[11].cells[i+1].children[0].children[0].checked = false;
+            tableRow[11].cells[i+1].children[0].children[0].setAttribute('disabled', 'disabled');
+            tableRow[11].cells[i+1].children[0].children[1].setAttribute('disabled', 'disabled');
+            tableRow[12].cells[i].children[0].children[0].setAttribute('disabled', 'disabled');
+        }
+        previewTableRow[11].setAttribute('hidden', 'hidden');
+        previewTableRow[12].setAttribute('hidden', 'hidden');
+    }
+}
+// Function Sharing Price Action --> end
+
+// Function Exclusive Price Action --> start
+exclusivePrice = (sel) => {
+    const videotronTBody = document.getElementById("videotronTBody");
+    var tableRow = videotronTBody.getElementsByTagName('tr');let objPrice = {};
+    const previewTBody = document.getElementById("previewTBody");
+    var previewTableRow = previewTBody.getElementsByTagName('tr');
+    if(sel.checked == true){
+        for (let i = 0; i < 4; i++){
+            tableRow[13].cells[i+1].children[0].children[0].checked = true;
+            tableRow[13].cells[i+1].children[0].children[0].removeAttribute('disabled');
+            tableRow[13].cells[i+1].children[0].children[1].removeAttribute('disabled');
+            tableRow[14].cells[i].children[0].children[0].removeAttribute('disabled');
+        }
+        previewTableRow[13].removeAttribute('hidden');
+        previewTableRow[14].removeAttribute('hidden');
+    } else {
+        for (let i = 0; i < 4; i++){
+            tableRow[13].cells[i+1].children[0].children[0].checked = false;
+            tableRow[13].cells[i+1].children[0].children[0].setAttribute('disabled', 'disabled');
+            tableRow[13].cells[i+1].children[0].children[1].setAttribute('disabled', 'disabled');
+            tableRow[14].cells[i].children[0].children[0].setAttribute('disabled', 'disabled');
+        }
+        previewTableRow[13].setAttribute('hidden', 'hidden');
+        previewTableRow[14].setAttribute('hidden', 'hidden');
+    }
+}
+// Function Exclusive Price Action --> end

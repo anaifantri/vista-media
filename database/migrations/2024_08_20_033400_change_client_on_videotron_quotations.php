@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::table('videotron_quotations', function (Blueprint $table) {
             $table->foreignId('client_id')->constrained();
-            $table->string('user_name');
-            $table->string('user_position');
+            $table->foreignId('videotron_id')->constrained();
+            $table->json('payment_terms');
+            $table->json('price');
             $table->dropColumn('client_company');
-            $table->dropColumn('client_name');            
+            $table->dropColumn('client_name');          
         });
     }
 
@@ -28,8 +29,10 @@ return new class extends Migration
         Schema::table('videotron_quotations', function (Blueprint $table) {
             $table->dropForeign(['client_id']);
             $table->dropColumn('client_id');
-            $table->dropColumn('user_name');
-            $table->dropColumn('user_position');
+            $table->dropForeign(['videotron_id']);
+            $table->dropColumn('videotron_id');
+            $table->dropColumn('payment_terms');
+            $table->dropColumn('price');
             $table->string('client_company');
             $table->string('client_name');
         });

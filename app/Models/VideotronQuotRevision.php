@@ -14,10 +14,18 @@ class VideotronQuotRevision extends Model
     }
 
     public function videotron_quot_statuses(){
-        return $this->hasMany(VideotronQuotStatus::class, 'videotron_quotation_id', 'id');
+        return $this->hasMany(VideotronQuotStatus::class, 'videotron_quot_revision_id', 'id');
     }
 
-    public function videotron_quot_revisions(){
-        return $this->hasMany(VideotronQuotRevision::class, 'videotron_quot_revision_id', 'id');
+    public function videotron_quotation_approvals(){
+        return $this->hasMany(VideotronQuotationApproval::class, 'videotron_quot_revision_id', 'id');
+    }
+
+    public function videotron_quotation_orders(){
+        return $this->hasMany(VideotronQuotationOrder::class, 'videotron_quot_revision_id', 'id');
+    }
+
+    public function videotron_quot_agreements(){
+        return $this->hasMany(VideotronQuotAgreement::class, 'videotron_quot_revision_id', 'id');
     }
 }

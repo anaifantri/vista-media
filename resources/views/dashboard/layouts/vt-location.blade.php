@@ -20,12 +20,14 @@
             </div>
             <div class="flex w-full h-[570px] justify-center mt-2">
                 <div class="flex w-[800px] h-[570px] justify-center items-center bg-slate-50 border rounded-b-xl">
-                    @foreach ($videotron_photos as $photo)
+                    <img class="m-auto w-[770px] h-[540px]" src="{{ asset('storage/' . $videotron_photo->photo) }}"
+                        alt="">
+                    {{-- @foreach ($videotron_photos as $photo)
                         @if ($photo->videotron_id == $videotron->id && $photo->company_id == '1')
                             <img class="m-auto w-[770px] h-[540px]" src="{{ asset('storage/' . $photo->photo) }}"
                                 alt="">
                         @endif
-                    @endforeach
+                    @endforeach --}}
                 </div>
             </div>
             <div class="flex w-full h-[470px] justify-center mt-4">
@@ -39,7 +41,7 @@
                                 {{ number_format($videotron->lat, 7) . ', ' . number_format($videotron->lng, 7) }}
                             </div>
                             <div class="flex relative w-[544px] h-[430px] mt-1 rounded-b-lg">
-                                <div class="flex absolute w-[100px] mt-[250px] ml-1">
+                                <div class="flex absolute w-[100px] mt-[325px] ml-1">
                                     {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $videotron->lat . ',' . $videotron->lng . '/@' . $videotron->lat . ',' . $videotron->lng . ',16z') }}
                                 </div>
                                 <?php

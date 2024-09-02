@@ -77,8 +77,8 @@ class Videotron extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function quotations(){
-        return $this->hasMany(Quotation::class, 'videotron_id', 'id');
+    public function videotron_quotations(){
+        return $this->hasMany(VideotronQuotation::class, 'videotron_id', 'id');
     }
 
     public function videotron_photos(){

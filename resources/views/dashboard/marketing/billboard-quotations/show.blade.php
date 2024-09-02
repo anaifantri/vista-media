@@ -141,27 +141,25 @@
                                 @error('status') is-invalid @enderror"
                                     type="text" value="{{ old('status') }}">
                                     @if (old('status') == 'Deal')
-                                        @foreach ($billboard_quotation->billboard_quot_statuses as $quotStatus)
-                                            @if ($quotStatus->status == 'Follow Up')
-                                                <?php
-                                                $followUp = true;
-                                                ?>
-                                            @else
-                                                <?php
-                                                $followUp = false;
-                                                ?>
+                                        @if ($quotStatus->status == 'Follow Up')
+                                            <?php
+                                            $followUp = true;
+                                            ?>
+                                        @else
+                                            <?php
+                                            $followUp = false;
+                                            ?>
+                                        @endif
+                                        @if ($followUp != true)
+                                            @if ($quotStatus->status != $status[$loop->iteration - 1])
+                                                <option value="{{ $status[$loop->iteration - 1] }}">
+                                                    {{ $status[$loop->iteration - 1] }}
+                                                </option>
                                             @endif
-                                            @if ($followUp != true)
-                                                @if ($quotStatus->status != $status[$loop->iteration - 1])
-                                                    <option value="{{ $status[$loop->iteration - 1] }}">
-                                                        {{ $status[$loop->iteration - 1] }}
-                                                    </option>
-                                                @endif
-                                                <?php
-                                                $numberStatus = $numberStatus + 1;
-                                                ?>
-                                            @endif
-                                        @endforeach
+                                            <?php
+                                            $numberStatus = $numberStatus + 1;
+                                            ?>
+                                        @endif
                                         @for ($i = $numberStatus; $i < count($status); $i++)
                                             @if ($status[$numberStatus] == 'Deal')
                                                 <option value="{{ $status[$numberStatus] }}" selected>

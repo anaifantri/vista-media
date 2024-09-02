@@ -41,6 +41,10 @@ class Client extends Model
         return $this->hasMany(BillboardQuotation::class, 'client_id', 'id');
     }
 
+    public function videotron_quotations(){
+        return $this->hasMany(VideotronQuotation::class, 'client_id', 'id');
+    }
+
     public function sales(){
         return $this->hasMany(Sale::class, 'client_id', 'id');
     }

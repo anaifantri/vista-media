@@ -75,13 +75,30 @@
                                     {{ $videotron_quotation->client->name }}
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
-                                    {{ $videotron_quotation->contact->name }}
+                                    {{ $videotron_quotation->client_contact }}
                                 </td>
-                                <td class="text-teal-700 border w-60 text-sm text-center"></td>
-                                <td class="text-teal-700 border text-sm text-center"></td>
+                                <td class="text-teal-700 border w-60 text-sm text-center">
+                                    <?php
+                                    $product = json_decode($videotron_quotation->products);
+                                    ?>
+                                    {{ $product->code }} - {{ $product->city_code }}
+                                </td>
+                                <td class="text-teal-700 border text-sm text-center">
+                                    @if ($videotron_quotation->videotron_quot_statuses[count($videotron_quotation->videotron_quot_statuses) - 1]->videotron_quot_revision_id)
+                                        Revision :
+                                        {{ $videotron_quotation->videotron_quot_statuses[count($videotron_quotation->videotron_quot_statuses) - 1]->status }}
+                                    @else
+                                        Main :
+                                        {{ $videotron_quotation->videotron_quot_statuses[count($videotron_quotation->videotron_quot_statuses) - 1]->status }}
+                                    @endif
+                                </td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     {{ date('d-M-Y', strtotime($videotron_quotation->created_at)) }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $videotron_quotation->user->name }}
+                                <td class="text-teal-700 border text-sm text-center">
+                                    <?php
+                                    $created_by = json_decode($videotron_quotation->created_by);
+                                    ?>
+                                    {{ $created_by->name }}
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center align-center">
                                     <div class="flex justify-center">

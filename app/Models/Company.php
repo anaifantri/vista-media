@@ -29,6 +29,10 @@ class Company extends Model
         return $this->hasMany(BillboardQuotation::class, 'company_id', 'id');
     }
 
+    public function videotron_quotations(){
+        return $this->hasMany(VideotronQuotation::class, 'company_id', 'id');
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
     }
