@@ -281,8 +281,7 @@ btnPreview.addEventListener("click", function(){
     if(clientCheck() == false) {
         alert("Silahkan pilih klien dan kontak");
     } else {
-        paymentCheck();
-        if(paymentCheck() == true){
+        if (paymentCheck() == true && getPrice() == true) {
             modalPreview.classList.remove("hidden");
             fillData();
             getNotes();
@@ -438,6 +437,7 @@ getPayments = () => {
 // Function Get Price --> start
 getPrice = () => {
     const price = document.getElementById("price");
+    var checkPrice = false;
     const videotronTBody = document.getElementById("videotronTBody");
     const previewTBody = document.getElementById("previewTBody");
     var tableRow = videotronTBody.getElementsByTagName('tr');
@@ -458,6 +458,15 @@ getPrice = () => {
         if(tableRow[11].cells[i+1].children[0].children[0].checked == true){
             previewTableRow[11].cells[i+1].innerHTML = tableRow[11].cells[i+1].children[0].children[1].value;
             previewTableRow[12].cells[i].innerHTML = 'Rp. ' + Number(tableRow[12].cells[i].children[0].children[0].value).toLocaleString() + ',-';
+            previewTableRow[11].cells[i + 1].removeAttribute('hidden');
+            previewTableRow[12].cells[i].removeAttribute('hidden');
+        } else {
+            previewTableRow[11].cells[i + 1].setAttribute('hidden', 'hidden');
+            previewTableRow[12].cells[i].setAttribute('hidden', 'hidden');
+        }
+
+        if(tableRow[11].cells[i+1].children[0].children[0].checked){
+            checkPrice = true;
         }
     }
 
@@ -471,6 +480,15 @@ getPrice = () => {
         if(tableRow[13].cells[i+1].children[0].children[0].checked == true){
             previewTableRow[13].cells[i+1].innerHTML = tableRow[13].cells[i+1].children[0].children[1].value;
             previewTableRow[14].cells[i].innerHTML = 'Rp. ' + Number(tableRow[14].cells[i].children[0].children[0].value).toLocaleString() + ',-';
+            previewTableRow[13].cells[i + 1].removeAttribute('hidden');
+            previewTableRow[14].cells[i].removeAttribute('hidden');
+        } else {
+            previewTableRow[13].cells[i + 1].setAttribute('hidden', 'hidden');
+            previewTableRow[14].cells[i].setAttribute('hidden', 'hidden');
+        }
+
+        if(tableRow[13].cells[i+1].children[0].children[0].checked){
+            checkPrice = true;
         }
     }
 
@@ -487,7 +505,14 @@ getPrice = () => {
     }
 
     objPrice = {priceType, sharePrice, exPrice};
-    price.value = JSON.stringify(objPrice);
+    if (checkPrice == false) {
+        alert("Pilihan harga tidak boleh kosong");
+        return false;
+    } else {
+        price.value = JSON.stringify(objPrice);
+        return true;
+    }
+    
 }
 // Function Get Price --> end
 

@@ -52,7 +52,7 @@
                                 <div class="flex">
                                     <label class="ml-1 text-sm text-black w-20">Nomor</label>
                                     <label class="ml-1 text-sm text-black">:</label>
-                                    <label class="ml-1 text-sm text-black">{{ $videotron_quotation->number }}</label>
+                                    <label class="ml-1 text-sm text-slate-500">Auto Numbering</label>
                                 </div>
                                 <div class="flex">
                                     <label class="ml-1 text-sm text-black w-20">Lampiran</label>
@@ -259,7 +259,7 @@
                                                 @foreach ($share_price as $share)
                                                     @if ($share->checkbox == true)
                                                         <td class="border text-center text-xs text-black bg-slate-200">
-                                                            <div class="flex w-28 justify-center items-center">
+                                                            <div class="flex justify-center items-center">
                                                                 <input type="checkbox" checked>
                                                                 <input
                                                                     class="text-xs text-black  ml-1 w-12 outline-none bg-transparent"
@@ -270,8 +270,8 @@
                                                     @else
                                                         <td class="border text-center text-xs text-black bg-slate-200"
                                                             hidden>
-                                                            <div class="flex w-28 justify-center items-center">
-                                                                <input type="checkbox" checked>
+                                                            <div class="flex justify-center items-center">
+                                                                <input type="checkbox">
                                                                 <input
                                                                     class="text-xs text-black  ml-1 w-12 outline-none bg-transparent"
                                                                     type="text" id="exmonth-title"
@@ -320,7 +320,7 @@
                                                 @foreach ($ex_price as $exclusive)
                                                     @if ($exclusive->checkbox == true)
                                                         <td class="border text-center text-xs text-black bg-slate-200">
-                                                            <div class="flex w-28 justify-center items-center">
+                                                            <div class="flex justify-center items-center">
                                                                 <input type="checkbox" checked>
                                                                 <input
                                                                     class="text-xs text-black  ml-1 w-12 outline-none bg-transparent"
@@ -331,8 +331,8 @@
                                                     @else
                                                         <td class="border text-center text-xs text-black bg-slate-200"
                                                             hidden>
-                                                            <div class="flex w-28 justify-center items-center">
-                                                                <input type="checkbox" checked>
+                                                            <div class="flex justify-center items-center">
+                                                                <input type="checkbox">
                                                                 <input
                                                                     class="text-xs text-black  ml-1 w-12 outline-none bg-transparent"
                                                                     type="text" id="exmonth-title"
@@ -347,7 +347,7 @@
                                                     @if ($exclusive->checkbox == true)
                                                         <td class="border text-center text-xs text-black font-semibold">
                                                             <input
-                                                                class="flex text-center text-xs text-black w-[112px] outline-none font-semibold"
+                                                                class="text-center text-xs text-black w-[112px] outline-none font-semibold"
                                                                 type="number" min="0"
                                                                 value="{{ $exclusive->price }}">
                                                         </td>
@@ -600,7 +600,7 @@
                                     <div class="flex">
                                         <label class="ml-1 text-sm text-black w-20">Nomor</label>
                                         <label class="ml-1 text-sm text-black">:</label>
-                                        <label class="ml-1 text-sm text-black">{{ $videotron_quotation->number }}</label>
+                                        <label class="ml-1 text-sm text-slate-500">Auto Numbering</label>
                                     </div>
                                     <div class="flex">
                                         <label class="ml-1 text-sm text-black w-20">Lampiran</label>
@@ -741,24 +741,27 @@
                                                     <td class="px-4 text-xs text-black border" rowspan="2">Harga
                                                         Sharing
                                                         (per slot)</td>
-                                                    <td class="border bg-slate-100 text-center text-xs text-black"></td>
-                                                    <td class="border bg-slate-100 text-center text-xs text-black"></td>
-                                                    <td class="border bg-slate-100 text-center text-xs text-black"></td>
-                                                    <td class="border bg-slate-100 text-center text-xs text-black"></td>
+                                                    @foreach ($share_price as $share)
+                                                        @if ($share->checkbox == true)
+                                                            <td class="border bg-slate-100 text-center text-xs text-black">
+                                                            </td>
+                                                        @else
+                                                            <td class="border bg-slate-100 text-center text-xs text-black"
+                                                                hidden>
+                                                            </td>
+                                                        @endif
+                                                    @endforeach
                                                 </tr>
                                                 <tr>
-                                                    <td
-                                                        class="border text-center text-xs text-black outline-none font-semibold">
-                                                    </td>
-                                                    <td
-                                                        class="border text-center text-xs text-black outline-none font-semibold">
-                                                    </td>
-                                                    <td
-                                                        class="border text-center text-xs text-black outline-none font-semibold">
-                                                    </td>
-                                                    <td
-                                                        class="border text-center text-xs text-black outline-none font-semibold">
-                                                    </td>
+                                                    @foreach ($share_price as $share)
+                                                        @if ($share->checkbox == true)
+                                                            <td class="border text-center text-xs text-black">
+                                                            </td>
+                                                        @else
+                                                            <td class="border text-center text-xs text-black" hidden>
+                                                            </td>
+                                                        @endif
+                                                    @endforeach
                                                 </tr>
                                             @else
                                                 <tr hidden>
@@ -790,16 +793,27 @@
                                                     <td class="px-4 text-xs text-black border" rowspan="2">Harga
                                                         eksklusif
                                                         (4 slot)</td>
-                                                    <td class="border bg-slate-100 text-xs text-black text-center"></td>
-                                                    <td class="border bg-slate-100 text-xs text-black text-center"></td>
-                                                    <td class="border bg-slate-100 text-xs text-black text-center"></td>
-                                                    <td class="border bg-slate-100 text-xs text-black text-center"></td>
+                                                    @foreach ($ex_price as $exclusive)
+                                                        @if ($exclusive->checkbox == true)
+                                                            <td class="border bg-slate-100 text-center text-xs text-black">
+                                                            </td>
+                                                        @else
+                                                            <td class="border bg-slate-100 text-center text-xs text-black"
+                                                                hidden>
+                                                            </td>
+                                                        @endif
+                                                    @endforeach
                                                 </tr>
                                                 <tr>
-                                                    <td class="border text-center text-xs text-black font-semibold"></td>
-                                                    <td class="border text-center text-xs text-black font-semibold"></td>
-                                                    <td class="border text-center text-xs text-black font-semibold"></td>
-                                                    <td class="border text-center text-xs text-black font-semibold"></td>
+                                                    @foreach ($ex_price as $exclusive)
+                                                        @if ($exclusive->checkbox == true)
+                                                            <td class="border text-center text-xs text-black">
+                                                            </td>
+                                                        @else
+                                                            <td class="border text-center text-xs text-black" hidden>
+                                                            </td>
+                                                        @endif
+                                                    @endforeach
                                                 </tr>
                                             @else
                                                 <tr hidden>
@@ -840,7 +854,7 @@
                             </div>
                             <!-- quotation note end -->
 
-                            <div class="h-[1125px]">
+                            <div>
                                 <div class="flex justify-center">
                                     <div class="flex mt-4">
                                         <textarea id="body_end" name="body_end" class="ml-1 w-[721px] outline-none text-sm" rows="1" readonly>Demikian surat penawaran ini kami sampaikan, atas perhatian dan kerjasamanya kami ucapkan terima kasih.</textarea>
@@ -1216,7 +1230,7 @@
                     tableRow[11].cells[i + 1].children[0].children[0].checked = true;
                     tableRow[11].cells[i + 1].children[0].children[0].removeAttribute('disabled');
                     tableRow[11].cells[i + 1].children[0].children[1].removeAttribute('disabled');
-                    tableRow[12].cells[i].children[0].children[0].removeAttribute('disabled');
+                    tableRow[12].cells[i].children[0].removeAttribute('disabled');
                 }
                 previewTableRow[11].removeAttribute('hidden');
                 previewTableRow[12].removeAttribute('hidden');
@@ -1225,7 +1239,7 @@
                     tableRow[11].cells[i + 1].children[0].children[0].checked = false;
                     tableRow[11].cells[i + 1].children[0].children[0].setAttribute('disabled', 'disabled');
                     tableRow[11].cells[i + 1].children[0].children[1].setAttribute('disabled', 'disabled');
-                    tableRow[12].cells[i].children[0].children[0].setAttribute('disabled', 'disabled');
+                    tableRow[12].cells[i].children[0].setAttribute('disabled', 'disabled');
                 }
                 previewTableRow[11].setAttribute('hidden', 'hidden');
                 previewTableRow[12].setAttribute('hidden', 'hidden');
@@ -1245,7 +1259,7 @@
                     tableRow[13].cells[i + 1].children[0].children[0].checked = true;
                     tableRow[13].cells[i + 1].children[0].children[0].removeAttribute('disabled');
                     tableRow[13].cells[i + 1].children[0].children[1].removeAttribute('disabled');
-                    tableRow[14].cells[i].children[0].children[0].removeAttribute('disabled');
+                    tableRow[14].cells[i].children[0].removeAttribute('disabled');
                 }
                 previewTableRow[13].removeAttribute('hidden');
                 previewTableRow[14].removeAttribute('hidden');
@@ -1254,7 +1268,7 @@
                     tableRow[13].cells[i + 1].children[0].children[0].checked = false;
                     tableRow[13].cells[i + 1].children[0].children[0].setAttribute('disabled', 'disabled');
                     tableRow[13].cells[i + 1].children[0].children[1].setAttribute('disabled', 'disabled');
-                    tableRow[14].cells[i].children[0].children[0].setAttribute('disabled', 'disabled');
+                    tableRow[14].cells[i].children[0].setAttribute('disabled', 'disabled');
                 }
                 previewTableRow[13].setAttribute('hidden', 'hidden');
                 previewTableRow[14].setAttribute('hidden', 'hidden');

@@ -23,43 +23,61 @@
                 <div class="flex justify-center mx-1">
                     <div>
                         <div class="mt-1">
-                            <div class="mt-1">
-                                <label class="text-sm text-teal-700">Progres Penawaran</label>
-                            </div>
                             <div class="mt-1 w-80 h-max border rounded-md py-1 px-2">
-                                @foreach ($videotron_quotation->videotron_quot_statuses as $quotStatus)
-                                    @if ($quotStatus->videotron_quot_revision_id == null)
-                                        <div class="border-b">
-                                            <label class="flex text-sm font-semibold text-teal-900">{{ $loop->iteration }}.
-                                                {{ $quotStatus->status }}</label>
-                                            <div class="flex ml-[14px]">
-                                                <label class="flex w-28 text-sm font-semibold text-teal-900">Tanggal</label>
-                                                <label class="flex w-2 text-sm font-semibold text-teal-900">: </label>
-                                                <label
-                                                    class="flex ml-2 w-44 text-sm font-semibold text-teal-900">{{ date('d F Y', strtotime($quotStatus->created_at)) }}</label>
+                                <div class="mt-1">
+                                    <label class="text-sm text-teal-700 border-b font-semibold">Progres Penawaran</label>
+                                </div>
+                                <div class="overflow-y-auto h-[350px]">
+                                    @foreach ($videotron_quotation->videotron_quot_statuses as $quotStatus)
+                                        @if ($quotStatus->videotron_quot_revision_id == null)
+                                            <?php
+                                            $updated_by = json_decode($quotStatus->updated_by);
+                                            ?>
+                                            <div class="border-b">
+                                                <div class="flex ml-[14px] text-sm text-teal-900 font-semibold">
+                                                    {{ $loop->iteration }}.
+                                                </div>
+                                                <div class="flex ml-[14px]">
+                                                    <label class="flex w-28 text-sm text-teal-900">Diupdate oleh</label>
+                                                    <label class="flex w-2 text-sm text-teal-900">: </label>
+                                                    <label
+                                                        class="flex ml-2 w-44 text-sm text-teal-900">{{ $updated_by->name }}</label>
+                                                </div>
+                                                <div class="flex ml-[14px]">
+                                                    <label class="flex w-28 text-sm text-teal-900">Status</label>
+                                                    <label class="flex w-2 text-sm text-teal-900">: </label>
+                                                    <label
+                                                        class="flex ml-2 w-44 text-sm text-teal-900">{{ $quotStatus->status }}</label>
+                                                </div>
+                                                <div class="flex ml-[14px]">
+                                                    <label class="flex w-28 text-sm text-teal-900">Tanggal</label>
+                                                    <label class="flex w-2 text-sm text-teal-900">: </label>
+                                                    <label
+                                                        class="flex ml-2 w-44 text-sm text-teal-900">{{ date('d F Y', strtotime($quotStatus->created_at)) }}</label>
+                                                </div>
+                                                <div class="flex mb-3 ml-[14px]">
+                                                    <label class="flex w-28 text-sm text-teal-900">Keterangan</label>
+                                                    <label class="flex w-2 text-sm text-teal-900">: </label>
+                                                    <label class="flex ml-2 w-44 text-sm text-teal-900">
+                                                        {{ $quotStatus->description }}</label>
+                                                </div>
                                             </div>
-                                            <div class="flex mb-3 ml-[14px]">
-                                                <label
-                                                    class="flex w-28 text-sm font-semibold text-teal-900">Keterangan</label>
-                                                <label class="flex w-2 text-sm font-semibold text-teal-900">: </label>
-                                                <label class="flex ml-2 w-44 text-sm font-semibold text-teal-900">
-                                                    {{ $quotStatus->description }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
+                                        @endif
+                                    @endforeach
+                                </div>
                                 @if (count($videotron_quotation->videotron_quot_revisions) != 0)
                                     <div class="mt-1">
-                                        <label class="text-sm font-semibold text-teal-900 border-b">Daftar
-                                            Revisi</label>
-                                        @foreach ($videotron_quotation->videotron_quot_revisions as $videotron_quot_revision)
-                                            <a class="flex"
-                                                href="/dashboard/marketing/videotron-quot-revisions/{{ $videotron_quot_revision->id }}">
-                                                <span
-                                                    class="text-teal-900 hover:text-emerald-500 text-sm font-semibold">{{ $loop->iteration }}.
-                                                    {{ $videotron_quot_revision->number }}</span>
-                                            </a>
-                                        @endforeach
+                                        <label class="text-sm text-teal-900 border-b font-semibold">Daftar Revisi</label>
+                                        <div class="overflow-y-auto h-16">
+                                            @foreach ($videotron_quotation->videotron_quot_revisions as $videotron_quot_revision)
+                                                <a class="flex"
+                                                    href="/dashboard/marketing/videotron-quot-revisions/{{ $videotron_quot_revision->id }}">
+                                                    <span
+                                                        class="text-teal-900 hover:text-emerald-500 text-sm">{{ $loop->iteration }}.
+                                                        {{ $videotron_quot_revision->number }}</span>
+                                                </a>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 @endif
                             </div>
@@ -82,8 +100,16 @@
                             enctype="multipart/form-data">
                             @csrf
 
+                            <?php
+                            $updated_by = new stdClass();
+                            $updated_by->id = auth()->user()->id;
+                            $updated_by->name = auth()->user()->name;
+                            $updated_by->position = auth()->user()->position;
+                            ?>
                             <input class="@error('videotron_quotation_id') is-invalid @enderror"
                                 name="videotron_quotation_id" type="text" value="{{ $videotron_quotation->id }}" hidden>
+                            <input type="text" id="updated_by" name="updated_by" value="{{ json_encode($updated_by) }}"
+                                hidden>
                             @if (
                                 $last_quot_statuses->status == 'Deal' ||
                                     $last_quot_statuses->status == 'Closed' ||
@@ -294,15 +320,15 @@
                                 </svg>
                                 <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Back</span>
                             </a>
-                            <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-success"
-                                href="/dashboard/marketing/videotron-quotations/preview/{{ $videotron_quotation->id }}">
+                            <button id="btnCreatePdf" class="flex justify-center items-center ml-1 btn-success"
+                                type="button">
                                 <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" viewBox="0 0 24 24">
                                     <path
                                         d="M12.819 14.427c.064.267.077.679-.021.948-.128.351-.381.528-.754.528h-.637v-2.12h.496c.474 0 .803.173.916.644zm3.091-8.65c2.047-.479 4.805.279 6.09 1.179-1.494-1.997-5.23-5.708-7.432-6.882 1.157 1.168 1.563 4.235 1.342 5.703zm-7.457 7.955h-.546v.943h.546c.235 0 .467-.027.576-.227.067-.123.067-.366 0-.489-.109-.198-.341-.227-.576-.227zm13.547-2.732v13h-20v-24h8.409c4.858 0 3.334 8 3.334 8 3.011-.745 8.257-.42 8.257 3zm-12.108 2.761c-.16-.484-.606-.761-1.224-.761h-1.668v3.686h.907v-1.277h.761c.619 0 1.064-.277 1.224-.763.094-.292.094-.597 0-.885zm3.407-.303c-.297-.299-.711-.458-1.199-.458h-1.599v3.686h1.599c.537 0 .961-.181 1.262-.535.554-.659.586-2.035-.063-2.693zm3.701-.458h-2.628v3.686h.907v-1.472h1.49v-.732h-1.49v-.698h1.721v-.784z" />
                                 </svg>
                                 <span class="ml-2 text-white">Create PDF</span>
-                            </a>
+                            </button>
                             @if ($last_quot_statuses->status != 'Deal' && $last_quot_statuses->status != 'Closed')
                                 <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-warning"
                                     href="/dashboard/marketing/videotron-quot-revisions/revision/{{ $videotron_quotation->id }}">
@@ -332,8 +358,8 @@
                     </div>
                 </div>
                 <div id="pdfPreview">
-                    <div class="flex justify-center w-full">
-                        <div class="w-[950px] h-[1345px] border mb-10 mt-1 bg-white">
+                    <div class="flex justify-center w-full border-b">
+                        <div class="w-[950px] h-[1345px] mt-1 bg-white">
                             <!-- Header start -->
                             @include('dashboard.layouts.letter-header')
                             <!-- Header end -->
@@ -590,7 +616,7 @@
                                 </div>
                                 <!-- quotation note end -->
 
-                                <div class="h-[1125px]">
+                                <div>
                                     <div class="flex justify-center">
                                         <div class="flex mt-4">
                                             <label
@@ -641,31 +667,11 @@
             <div class="h-10"></div>
         </div>
     </div>
-    {{-- <?php
-    $number = Str::substr($billboard_quotation->number, 0, 4);
-    $getCode = '';
+    <?php
+    $number = Str::substr($videotron_quotation->number, 0, 4);
     ?>
-    @foreach ($billboard_categories as $category)
-        @if ($billboard_quotation->billboard_category_id == $category->id)
-            <?php
-            $getCategory = $category->name;
-            ?>
-        @endif
-    @endforeach
-    @foreach (json_decode($billboard_quotation->billboards) as $billboard)
-        @foreach ($billboard as $location)
-            <?php
-            if ($getCode == '') {
-                $getCode = $location->code;
-            } else {
-                $getCode = $getCode . '-' . $location->code;
-            }
-            ?>
-        @endforeach
-    @endforeach
-    <input id="fileName" type="text"
-        value="{{ $number }}-{{ $billboard_quotation->client->name }}-{{ $getCategory }}-{{ $getCode }}"
-        hidden> --}}
+    <input id="saveName" type="text" value="{{ $number }}-VT-{{ $videotron_quotation->client->name }}"
+        hidden>
     <!-- Show Quotatin end -->
 
     <!-- Script start -->
@@ -874,6 +880,38 @@
             approvalImage[slideApprovalIndex].classList.add("document-approval-active");
         }
         // Preview Approval Document --> end
+
+        //Function create pdf --> start
+        const saveName = document.getElementById("saveName");
+        document.getElementById("btnCreatePdf").onclick = function() {
+            var element = document.getElementById('pdfPreview');
+            var opt = {
+                margin: 0,
+                filename: saveName.value,
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy']
+                },
+                html2canvas: {
+                    dpi: 192,
+                    scale: 4,
+                    letterRendering: true,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'px',
+                    format: [950, 1365],
+                    orientation: 'portrait',
+                    putTotalPages: true
+                }
+            };
+            // html2pdf(element, opt);
+            html2pdf().set(opt).from(element).save();
+        };
+        //Function create pdf --> end
     </script>
     <!-- Script end -->
 @endsection

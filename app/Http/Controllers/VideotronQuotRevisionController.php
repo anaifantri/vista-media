@@ -106,6 +106,7 @@ class VideotronQuotRevisionController extends Controller
             $validateData['videotron_quotation_id'] = $request->videotron_quotation_id;
             $validateData['videotron_quot_revision_id'] = $dataVideotron->id;
             $validateData['status'] = "Created";
+            $validateData['updated_by'] = $validateData['modified_by'];
             $validateData['description'] = "Revisi surat penawaran videotron dengan nomor".$validateData['number']." telah dibuat dan tersimpan";
             
             VideotronQuotStatus::create($validateData);

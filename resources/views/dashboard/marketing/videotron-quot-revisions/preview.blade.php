@@ -47,7 +47,7 @@
             <!-- Title Show Quotatin end -->
             <div id="pdfPreview">
                 <div class="flex justify-center w-full">
-                    <div class="w-[950px] h-[1345px] border mb-10 mt-1 bg-white">
+                    <div class="w-[950px] h-[1345px] mt-1 bg-white">
                         <!-- Header start -->
                         @include('dashboard.layouts.letter-header')
                         <!-- Header end -->
@@ -295,7 +295,7 @@
                             </div>
                             <!-- quotation note end -->
 
-                            <div class="h-[1125px]">
+                            <div>
                                 <div class="flex justify-center">
                                     <div class="flex mt-4">
                                         <label class="ml-1 w-[721px] text-sm">{{ $videotron_quotation->body_end }}</label>
@@ -340,8 +340,10 @@
                 <!-- View Location end -->
             </div>
         </div>
-        <input type="text" id="saveName"
-            value="{{ $videotron_quot_revision->number }}- Cetak & Pasang - {{ $videotron_quotation->client->name }}"
+        <?php
+        $number = Str::substr($videotron_quot_revision->number, 0, 9);
+        ?>
+        <input id="saveName" type="text" value="{{ $number }}-VT-{{ $videotron_quotation->client->name }}"
             hidden>
     </div>
     <!-- Show Quotatin end -->

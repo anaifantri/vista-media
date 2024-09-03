@@ -74,7 +74,7 @@
                             <div class="flex">
                                 <label class="ml-1 text-sm text-black flex w-20">Nomor</label>
                                 <label class="ml-1 text-sm text-black flex">:</label>
-                                <label id="previewNumber" class="ml-1 text-sm text-slate-500">Auto Numbering</label>
+                                <label class="ml-1 text-sm text-slate-500">Auto Numbering</label>
                                 {{-- <input class="ml-1 text-sm text-black flex outline-none border rounded-lg w-56 px-2"
                                     id="createNumber" name="createNumber" type="text" autofocus> --}}
                             </div>
@@ -601,7 +601,7 @@
                                     <div class="flex">
                                         <label class="ml-1 text-sm text-black w-20">Nomor</label>
                                         <label class="ml-1 text-sm text-black">:</label>
-                                        <label id="previewNumber" class="ml-1 text-sm text-slate-500">Auto
+                                        <label class="ml-1 text-sm text-slate-500">Auto
                                             Numbering</label>
                                     </div>
                                     <div class="flex">

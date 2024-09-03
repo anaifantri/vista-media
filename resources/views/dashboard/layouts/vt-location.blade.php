@@ -1,6 +1,6 @@
 <!-- Layout Location Videotron start -->
 <div class="flex justify-center w-full">
-    <div class="w-[950px] h-[1345px] border mb-10 mt-1 bg-white">
+    <div class="w-[950px] h-[1345px] mt-1 bg-white">
         <!-- Header start -->
         @include('dashboard.layouts.letter-header')
         <!-- Header end -->
@@ -22,12 +22,6 @@
                 <div class="flex w-[800px] h-[570px] justify-center items-center bg-slate-50 border rounded-b-xl">
                     <img class="m-auto w-[770px] h-[540px]" src="{{ asset('storage/' . $videotron_photo->photo) }}"
                         alt="">
-                    {{-- @foreach ($videotron_photos as $photo)
-                        @if ($photo->videotron_id == $videotron->id && $photo->company_id == '1')
-                            <img class="m-auto w-[770px] h-[540px]" src="{{ asset('storage/' . $photo->photo) }}"
-                                alt="">
-                        @endif
-                    @endforeach --}}
                 </div>
             </div>
             <div class="flex w-full h-[470px] justify-center mt-4">

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('videotron_quot_statuses', function (Blueprint $table) {
             $table->string('status_image')->nullable()->change();
             $table->dropColumn('created_by');
+            $table->json('updated_by');
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('videotron_quot_statuses', function (Blueprint $table) {
             $table->string('status_image')->change();
             $table->json('created_by');
+            $table->dropColumn('updated_by');
         });
     }
 };

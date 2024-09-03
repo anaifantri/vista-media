@@ -33,15 +33,28 @@ class VideotronQuotStatusController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
-            $validateData = $request->validate([
-                'status' => 'required',
-                'description' => 'required',
-                'status_image' => 'image|file|max:1024',
-            ]);
+            if($request->status == "Deal"){
+                $validateData = $request->validate([
+                    'status' => 'required',
+                    'description' => 'required',
+                    'updated_by' => 'required',
+                    'status_image' => 'image|file|max:1024',
+                    'document_approval' => 'required'
+                ]);
+            }else {
+                $validateData = $request->validate([
+                    'status' => 'required',
+                    'description' => 'required',
+                    'updated_by' => 'required',
+                    'status_image' => 'image|file|max:1024'
+                ]);
+            }
             $validateData['videotron_quotation_id'] = $request->videotron_quotation_id;
 
             if($request->videotron_quot_revision_id){
                 $validateData['videotron_quot_revision_id'] = $request->videotron_quot_revision_id;
+            } else {
+                $validateData['videotron_quot_revision_id'] = null;
             }
             
             VideotronQuotStatus::create($validateData);
@@ -52,6 +65,7 @@ class VideotronQuotStatusController extends Controller
                     $documentApproval = [];
                     $documentApproval = [
                         'videotron_quotation_id' => $validateData['videotron_quotation_id'],
+                        'videotron_quot_revision_id' => $validateData['videotron_quot_revision_id'],
                         'approval_image' => $image->store('approval-images')
                     ];
                     VideotronQuotationApproval::create($documentApproval);

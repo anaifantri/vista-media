@@ -149,6 +149,7 @@ class VideotronQuotationController extends Controller
 
             $validateData['videotron_quotation_id'] = $dataVideotron->id;
             $validateData['status'] = "Created";
+            $validateData['updated_by'] = $request->created_by;
             $validateData['description'] = "Surat penawaran videotron dengan nomor".$validateData['number']." telah dibuat dan tersimpan";
             // dd($validateData);
             
