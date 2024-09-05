@@ -33,6 +33,10 @@ class Company extends Model
         return $this->hasMany(VideotronQuotation::class, 'company_id', 'id');
     }
 
+    public function signage_quotations(){
+        return $this->hasMany(VideotronQuotation::class, 'company_id', 'id');
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
     }

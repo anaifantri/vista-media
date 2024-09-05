@@ -545,8 +545,6 @@
     </div>
 
     <!-- Modal Preview start -->
-
-    <!-- Modal Preview end -->
     <form class="flex justify-center" action="/dashboard/marketing/videotron-quotations" method="post"
         enctype="multipart/form-data">
         @csrf
@@ -838,6 +836,7 @@
             </div>
         </div>
     </form>
+    <!-- Modal Preview end -->
     <!-- Quotation Videotron end -->
     <script src="/js/createvideotronquotation.js"></script>
 @endsection

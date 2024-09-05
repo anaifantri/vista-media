@@ -83,7 +83,7 @@ class VideotronQuotationController extends Controller
                 'cities'=>City::orderBy("city", "asc")->get(),
                 'contacts'=>Contact::orderBy("name", "asc")->get(),
                 'videotrons'=>Videotron::filter(request('search'))->area()->city()->condition()->sortable()->paginate(10)->withQueryString(),
-                'title' => 'Membuat Penawaran Billboard'
+                'title' => 'Membuat Penawaran Videotron'
             ]);
         } else {
             abort(403);

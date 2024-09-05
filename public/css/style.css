@@ -1288,10 +1288,6 @@ video {
   width: 1100px;
 }
 
-.w-\[110px\] {
-  width: 110px;
-}
-
 .w-\[112px\] {
   width: 112px;
 }
@@ -1568,10 +1564,6 @@ video {
   width: 80px;
 }
 
-.w-\[84px\] {
-  width: 84px;
-}
-
 .w-\[88px\] {
   width: 88px;
 }
@@ -1599,6 +1591,14 @@ video {
 .w-max {
   width: -moz-max-content;
   width: max-content;
+}
+
+.w-\[90px\] {
+  width: 90px;
+}
+
+.w-\[850px\] {
+  width: 850px;
 }
 
 .max-w-7xl {
@@ -3793,6 +3793,75 @@ video {
   outline-offset: 2px;
 }
 
+.input-on-td {
+  border-radius: 0.125rem;
+  border-width: 1px;
+  text-align: center;
+  font-size: 0.7rem;
+  --tw-text-opacity: 1;
+  color: rgb(15 118 110 / var(--tw-text-opacity));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.in-out-spin-none {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+
+.in-out-spin-none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+          appearance: none;
+}
+
+.in-out-spin-none::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+          appearance: none;
+}
+
+.btn-del-note {
+  margin-left: 0.5rem;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+  padding: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.btn-del-note:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(127 29 29 / var(--tw-bg-opacity));
+}
+
+.btn-add-note {
+  margin-left: 1rem;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(20 184 166 / var(--tw-bg-opacity));
+  padding: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.btn-add-note:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(19 78 74 / var(--tw-bg-opacity));
+}
+
 .selection\:bg-red-500 *::-moz-selection {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
@@ -4515,10 +4584,6 @@ video {
     width: 4rem;
   }
 
-  .\32xl\:w-24 {
-    width: 6rem;
-  }
-
   .\32xl\:w-28 {
     width: 7rem;
   }
@@ -4561,10 +4626,6 @@ video {
 
   .\32xl\:w-8 {
     width: 2rem;
-  }
-
-  .\32xl\:w-80 {
-    width: 20rem;
   }
 
   .\32xl\:w-\[240px\] {
