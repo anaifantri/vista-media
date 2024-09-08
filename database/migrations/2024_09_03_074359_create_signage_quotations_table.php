@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained();
             $table->foreignId('client_id')->constrained();
-            $table->foreignId('signage_id')->constrained();
             $table->string('number')->unique();
             $table->string('attachment');
             $table->string('subject');

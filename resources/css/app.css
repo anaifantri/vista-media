@@ -505,6 +505,22 @@
     @apply text-center text-[0.7rem] text-teal-700 outline-none border rounded-sm;
 }
 
+.input-td-enable {
+    @apply text-center text-[0.7rem] text-teal-700 outline-none border rounded-sm;
+}
+
+.input-td-disabled {
+    @apply text-center text-[0.7rem] text-slate-400 outline-none border rounded-sm;
+}
+
+.td-enable {
+    @apply text-[0.7rem] px-1 text-teal-700 border;
+}
+
+.td-disabled {
+    @apply text-[0.7rem] px-1 text-slate-400 border;
+}
+
 .in-out-spin-none {
     @apply [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
 }

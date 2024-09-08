@@ -532,14 +532,14 @@ cbMonth = (sel) => {
     const priceMonths = document.querySelectorAll('[id=priceMonth]');
     if(Boolean(sel.checked == true)){
         thMonth.removeAttribute('disabled');
-        thMonth.value = "1 Bulan";
+        thMonth.removeAttribute('hidden');
         for (let i = 0; i < priceMonths.length; i++) {
             priceMonths[i].classList.remove('hidden');
             priceMonths[i].classList.add('flex');
         }
     }else{
         thMonth.setAttribute('disabled', 'disabled');
-        thMonth.value = "";
+        thMonth.setAttribute('hidden', 'hidden');
         for (let i = 0; i < priceMonths.length; i++) {
             priceMonths[i].classList.add('hidden');
             priceMonths[i].classList.remove('flex');
@@ -554,14 +554,14 @@ cbQuarter = (sel) => {
     const priceQuarters = document.querySelectorAll('[id=priceQuarter]');
     if(Boolean(sel.checked == true)){
         thQuarter.removeAttribute('disabled');
-        thQuarter.value = "3 Bulan";
+        thQuarter.removeAttribute('hidden');
         for (let i = 0; i < priceQuarters.length; i++) {
             priceQuarters[i].classList.remove('hidden');
             priceQuarters[i].classList.add('flex');
         }
     }else{
         thQuarter.setAttribute('disabled', 'disabled');
-        thQuarter.value = "";
+        thQuarter.setAttribute('hidden', 'hidden');
         for (let i = 0; i < priceQuarters.length; i++) {
             priceQuarters[i].classList.add('hidden');
             priceQuarters[i].classList.remove('flex');
@@ -576,14 +576,14 @@ cbHalf = (sel) => {
     const priceHalfs = document.querySelectorAll('[id=priceHalf]');
     if(Boolean(sel.checked == true)){
         thHalf.removeAttribute('disabled');
-        thHalf.value = "6 Bulan";
+        thHalf.removeAttribute('hidden');
         for (let i = 0; i < priceHalfs.length; i++) {
             priceHalfs[i].classList.remove('hidden');
             priceHalfs[i].classList.add('flex');
         }
     }else{
         thHalf.setAttribute('disabled', 'disabled');
-        thHalf.value = "";
+        thHalf.setAttribute('hidden', 'hidden');
         for (let i = 0; i < priceHalfs.length; i++) {
             priceHalfs[i].classList.add('hidden');
             priceHalfs[i].classList.remove('flex');
@@ -598,14 +598,14 @@ cbYear = (sel) => {
     const priceYears = document.querySelectorAll('[id=priceYear]');
     if(Boolean(sel.checked == true)){
         thYear.removeAttribute('disabled');
-        thYear.value = "1 Tahun";
+        thYear.removeAttribute('hidden');
         for (let i = 0; i < priceYears.length; i++) {
             priceYears[i].classList.remove('hidden');
             priceYears[i].classList.add('flex');
         }
     }else{
         thYear.setAttribute('disabled', 'disabled');
-        thYear.value = "";
+        thYear.setAttribute('hidden', 'hidden');
         for (let i = 0; i < priceYears.length; i++) {
             priceYears[i].classList.add('hidden');
             priceYears[i].classList.remove('flex');
@@ -613,8 +613,3 @@ cbYear = (sel) => {
     }
 }
 // Function Checkbox Year --> end
-const products = document.getElementById("products");
-const signageId = document.getElementById("signage_id");
-let objProducts = JSON.parse(products.value);
-console.log(objProducts);
-console.log(signageId.value);

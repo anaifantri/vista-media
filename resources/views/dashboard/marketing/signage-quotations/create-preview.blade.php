@@ -6,6 +6,7 @@
     foreach ($signages as $signage) {
         $dataProduct = new stdClass();
         $dataProduct->code = $signage->code;
+        $dataProduct->id = $signage->id;
         $dataProduct->area = $signage->area->area;
         $dataProduct->city = $signage->city->city;
         $dataProduct->city_code = $signage->city->code;
@@ -15,9 +16,9 @@
                 $dataProduct->photo = $photo->photo;
             }
         }
-        $dataProduct->lat = $signage->lat;
-        $dataProduct->lng = $signage->lng;
+        $dataProduct->locations = $signage->locations;
         $dataProduct->size = $signage->size->size;
+        $dataProduct->side = $signage->side;
         $dataProduct->orientation = $signage->orientation;
         $dataProduct->road_segment = $signage->road_segment;
         $dataProduct->max_distance = $signage->max_distance;
@@ -204,8 +205,7 @@
                                         </th>
                                         <th class="border w-[64px]">
                                             <div class="flex w-[64px] justify-center items-center">
-                                                <input input id="cbQuarter" type="checkbox" onclick="cbQuarter(this)"
-                                                    checked>
+                                                <input id="cbQuarter" type="checkbox" onclick="cbQuarter(this)" checked>
                                                 <input id="thQuarter"
                                                     class="text-[0.7rem] text-teal-700 ml-1 w-12 outline-none border rounded-sm bg-transparent"
                                                     type="text" value="3 Bulan">
@@ -213,8 +213,7 @@
                                         </th>
                                         <th class="border w-[64px]">
                                             <div class="flex w-[64px] justify-center items-center">
-                                                <input input id="cbHalf" type="checkbox" onclick="cbHalf(this)"
-                                                    checked>
+                                                <input id="cbHalf" type="checkbox" onclick="cbHalf(this)" checked>
                                                 <input id="thHalf"
                                                     class="text-[0.7rem] text-teal-700 ml-1 w-12 outline-none border rounded-sm bg-transparent"
                                                     type="text" value="6 Bulan">
@@ -222,8 +221,7 @@
                                         </th>
                                         <th class="border w-[72px]">
                                             <div class="flex w-[72px] justify-center items-center">
-                                                <input input id="cbYear" type="checkbox" onclick="cbYear(this)"
-                                                    checked>
+                                                <input id="cbYear" type="checkbox" onclick="cbYear(this)" checked>
                                                 <input id="thYear"
                                                     class="text-[0.7rem] text-teal-700 ml-1 w-14 outline-none border rounded-sm bg-transparent"
                                                     type="text" value="1 Tahun">
@@ -416,6 +414,11 @@
                 <!-- Footer end -->
             </div>
         </div>
+        <!-- View Location start -->
+        @foreach ($signages as $signage)
+            @include('dashboard.layouts.sn-location')
+        @endforeach
+        <!-- View Location end -->
     </div>
 
     <!-- Modal Preview start -->
@@ -424,7 +427,6 @@
         @csrf
         <input type="text" name="company_id" id="company_id" value="1" hidden>
         <input type="text" name="client_id" id="client_id" hidden>
-        <input type="text" name="signage_id" id="signage_id" value="{{ implode(',', $signage_id) }}" hidden>
         <input type="text" id="attachment" name="attachment" hidden>
         <input type="text" id="subject" name="subject" hidden>
         <input type="text" name="client_contact" id="client_contact" hidden>
@@ -434,7 +436,7 @@
         <input type="text" name="payment_terms" id="payment_terms" hidden>
         <input type="text" name="price" id="price" hidden>
         <input type="text" name="products" id="products" value="{{ json_encode($products) }}" hidden>
-        <input type="text" id="created_by" name="created_by" hidden>
+        <input type="text" id="created_by" name="created_by" value="{{ json_encode($created_by) }}" hidden>
         <div id="modalPreview" name="modalPreview"
             class="absolute justify-center top-0 w-full h-[full] bg-black bg-opacity-90 z-20 hidden">
             <div class="mt-10">
@@ -633,9 +635,9 @@
                         <!-- Footer end -->
                     </div>
                 </div>
-                {{-- <!-- View Location start -->
-                @include('dashboard.layouts.vt-location')
-                <!-- View Location end --> --}}
+                <!-- View Location start -->
+                @include('dashboard.layouts.sn-location')
+                <!-- View Location end -->
             </div>
         </div>
     </form>

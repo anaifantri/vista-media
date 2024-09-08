@@ -79,9 +79,15 @@
                                 </td>
                                 <td class="text-teal-700 border w-60 text-sm text-center">
                                     <?php
-                                    $product = json_decode($signage_quotation->products);
+                                    $products = json_decode($signage_quotation->products);
                                     ?>
-                                    {{ $product->code }} - {{ $product->city_code }}
+                                    @foreach ($products as $product)
+                                        @if ($product != end($products))
+                                            {{ $product->code }} - {{ $product->city_code }} |
+                                        @else
+                                            {{ $product->code }} - {{ $product->city_code }}
+                                        @endif
+                                    @endforeach
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     @if ($signage_quotation->signage_quot_statuses[count($signage_quotation->signage_quot_statuses) - 1]->signage_quot_revision_id)

@@ -123,7 +123,7 @@ class VideotronQuotRevisionController extends Controller
      */
     public function show(VideotronQuotRevision $videotronQuotRevision): Response
     {
-        $videotron_quot_statuses = VideotronQuotRevision::with('videotron_quot_revision_statuses');
+        $videotron_quot_statuses = VideotronQuotRevision::with('videotron_quot_statuses');
         $data_quotation = VideotronQuotation::findOrFail($videotronQuotRevision->videotron_quotation_id);
         $videotron_quotations = VideotronQuotation::with('videotron_quot_revisions')->get();
 

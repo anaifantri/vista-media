@@ -13,7 +13,7 @@
 
 <body>
     <div class="container-xl mx-auto position-relative flex h-screen bg-fixed bg-center bg-auto"
-        style="background-image: url('https://source.unsplash.com/1280x1080?nature')">
+        style="background-image: url('/img/bg/photo-1493246507139-91e8fad9978e.jpg')">
         <div class="flex w-full absolute justify-end items-center mt-4">
             <a href="/login" class="index-link btn-warning mr-4">
                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
