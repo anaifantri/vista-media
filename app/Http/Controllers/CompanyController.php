@@ -16,7 +16,7 @@ class CompanyController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('dashboard.media.companies.index', [
+        return response()-> view ('companies.index', [
             'companies'=>Company::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
             'title' => 'Daftar Perusahaan'
         ]);
@@ -27,7 +27,7 @@ class CompanyController extends Controller
      */
     public function create(): Response
     {
-        return response()->view('dashboard.media.companies.create', [
+        return response()->view('companies.create', [
             'companies'=>Company::all(),
             'title' => 'Tambah Perusahaan'
         ]);
@@ -41,15 +41,15 @@ class CompanyController extends Controller
         $validateData = $request->validate([
             'name' => 'required|unique:companies',
             'address' => 'required',
-            'phone' => 'min:10|unique:companies',
+            'phone' => 'min:8|unique:companies',
             'mobile_phone' => 'min:10|unique:companies',
             'email' => 'email:dns|unique:companies',
             'logo' => 'image|file|max:1024'
         ]);
 
-        $dataCompanies = Company::all();
+        $dataCompanies = Company::all()->last();
         if($dataCompanies){
-            $lastCode = (int)substr($dataCompanies[0]->code,3,3);
+            $lastCode = (int)substr($dataCompanies->code,3,3);
             $newCode = $lastCode + 1;
         } else {
             $newCode = 1;
@@ -75,7 +75,7 @@ class CompanyController extends Controller
         
         Company::create($validateData);
         
-        return redirect('/dashboard/media/companies')->with('success','Perusahaan baru '. $request->name . ' berhasil ditambahkan');
+        return redirect('/companies')->with('success','Perusahaan baru '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -83,7 +83,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company): Response
     {
-        return response()->view('dashboard.media.companies.show', [
+        return response()->view('companies.show', [
             'company' => $company,
             'title' => 'Detail Perusahaan'
         ]);
@@ -94,7 +94,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company): Response
     {
-        return response()->view('dashboard.media.companies.edit', [
+        return response()->view('companies.edit', [
             'company' => $company,
             'title' => 'Edit Data Perusahaan'
         ]);
@@ -139,7 +139,7 @@ class CompanyController extends Controller
         Company::where('id', $company->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/media/companies')->with('success','Data perusahaan dengan nama '. $request->name . ' berhasil di update');
+        return redirect('/companies')->with('success','Data perusahaan dengan nama '. $request->name . ' berhasil di update');
     }
 
     /**
@@ -154,7 +154,7 @@ class CompanyController extends Controller
             }
             Company::destroy($company->id);
 
-            return redirect('/dashboard/media/companies')->with('success','Data perusahaan dengan nama '. $company->name .' berhasil dihapus');
+            return redirect('/companies')->with('success','Data perusahaan dengan nama '. $company->name .' berhasil dihapus');
         } else {
             abort(403);
         }

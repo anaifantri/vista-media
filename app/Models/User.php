@@ -24,6 +24,9 @@ class User extends Authenticatable
     public function sizes(){
         return $this->hasMany(Size::class, 'user_id', 'id');
     }
+    public function media_sizes(){
+        return $this->hasMany(MediaSize::class, 'user_id', 'id');
+    }
 
     public function leds(){
         return $this->hasMany(Led::class, 'user_id', 'id');
@@ -43,11 +46,17 @@ class User extends Authenticatable
     public function cities(){
         return $this->hasMany(City::class, 'user_id', 'id');
     }
-    // public function products(){
-    //     return $this->hasMany(Product::class, 'user_id', 'id');
-    // }
+    public function locations(){
+        return $this->hasMany(Location::class, 'user_id', 'id');
+    }
+    public function location_photos(){
+        return $this->hasMany(LocationPhoto::class, 'user_id', 'id');
+    }
     public function billboard_categories(){
         return $this->hasMany(BillboardCategory::class, 'user_id', 'id');
+    }
+    public function media_categories(){
+        return $this->hasMany(MediaCategory::class, 'user_id', 'id');
     }
     public function billboards(){
         return $this->hasMany(Billboard::class, 'user_id', 'id');

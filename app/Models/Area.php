@@ -4,10 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product;
-use App\Models\Billboard;
-use App\Models\Videotron;
-use App\Models\Signage;
 use Kyslik\ColumnSortable\Sortable;
 
 class Area extends Model
@@ -21,10 +17,9 @@ class Area extends Model
                 $query->where('area', 'like', '%' . $search . '%')
                     ->orWhere('provinsi', 'like', '%' . $search . '%'));
     }
-
-    // public function products(){
-    //     return $this->hasMany(Product::class, 'area_id', 'id');
-    // }
+    public function locations(){
+        return $this->hasMany(Location::class, 'area_id', 'id');
+    }
     public function billboards(){
         return $this->hasMany(Billboard::class, 'area_id', 'id');
     }

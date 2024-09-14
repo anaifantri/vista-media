@@ -46,6 +46,10 @@ use App\Http\Controllers\VideotronQuotRevisionController;
 use App\Http\Controllers\SignageQuotationController;
 use App\Http\Controllers\SignageQuotRevisionController;
 use App\Http\Controllers\SignageQuotStatusController;
+use App\Http\Controllers\MediaCategoryController;
+use App\Http\Controllers\MediaSizeController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\LocationPhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,8 +121,6 @@ Route::get('/dashboard/marketing/print-instal-quotations/create-quotations/{id}'
 Route::resource('/dashboard/marketing/print-install-statuses', PrintInstallStatusController::class)->middleware(['auth','user_access']);
 // Route dashboard->marketing->print_install_quotations --> end
 
-
-
 Route::resource('/dashboard/marketing/print-install-sales', PrintInstallSaleController::class)->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/print-install-sales/create-sales/{id}', [PrintInstallSaleController::class, 'createSales'])->middleware(['auth','user_access']);
 Route::get('/dashboard/marketing/print-install-sales/preview/{id}', [PrintInstallSaleController::class, 'preview'])->middleware(['auth','user_access']);
@@ -129,9 +131,21 @@ Route::resource('/dashboard/marketing/client-orders', ClientOrderController::cla
 Route::resource('/dashboard/marketing/client-agreements', ClientAgreementController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/marketing/print-install-orders', PrintInstallOrderController::class)->middleware(['auth','user_access']);
 
-Route::resource('/dashboard/media/companies', CompanyController::class)->middleware(['auth','user_access']);
-Route::resource('/dashboard/media/area', AreaController::class)->middleware(['auth','user_access']);
-Route::resource('/dashboard/media/cities', CityController::class)->middleware(['auth','user_access']);
+Route::resource('/companies', CompanyController::class)->middleware(['auth','user_access']);
+
+// Route dashboard->area --> start
+Route::resource('/area', AreaController::class)->middleware(['auth','user_access']);
+Route::resource('/cities', CityController::class)->middleware(['auth','user_access']);
+// Route dashboard->area --> end
+
+Route::resource('/location-photos', LocationPhotoController::class)->middleware(['auth','user_access']);
+Route::resource('/media-categories', MediaCategoryController::class)->middleware(['auth','user_access']);
+Route::resource('/media-sizes', MediaSizeController::class)->middleware(['auth','user_access']);
+Route::resource('/locations', LocationController::class)->middleware(['auth','user_access']);
+Route::get('/locations/preview/{category}/{id}', [LocationController::class,'preview']);
+Route::get('/locations/create-location/{category}', [LocationController::class,'createLocation']);
+Route::get('/locations/home/{category}', [LocationController::class,'home']);
+
 Route::resource('/dashboard/media/products', ProductController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/billboards', BillboardController::class)->middleware(['auth','user_access']);
 Route::resource('/dashboard/media/billboard-categories', BillboardCategoryController::class)->middleware(['auth','user_access']);
@@ -182,7 +196,7 @@ Route::get('/printInstallOrder', [PrintInstallOrderController::class,'printInsta
 
 Route::get('/', function () {
     return view('index',[
-        'title' => 'Welcome'
+        'title' => 'Selamat Datang'
     ]);   
 });
 

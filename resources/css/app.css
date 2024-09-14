@@ -438,7 +438,15 @@
     @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale;
 }
 
+.photo {
+    @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale;
+}
+
 .document-approval-active {
+    @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale-0;
+}
+
+.photo-active {
     @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale-0;
 }
 
@@ -531,4 +539,8 @@
 
 .btn-add-note {
     @apply flex bg-teal-500 text-xs rounded-md hover:bg-teal-900 cursor-pointer ml-4 justify-center items-center text-white p-1;
+}
+
+.text-semibold {
+    @apply text-sm font-semibold text-teal-900;
 }

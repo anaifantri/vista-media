@@ -21,6 +21,14 @@ class Company extends Model
                     ->orWhere('address', 'like', '%' . $search . '%'));
     }
     
+    public function location_photos(){
+        return $this->hasMany(LocationPhoto::class, 'company_id', 'id');
+    }
+
+    public function locations(){
+        return $this->hasMany(Location::class, 'company_id', 'id');
+    }
+
     public function billboard_photos(){
         return $this->hasMany(BillboardPhoto::class, 'company_id', 'id');
     }

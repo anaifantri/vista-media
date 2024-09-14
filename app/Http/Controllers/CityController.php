@@ -16,7 +16,7 @@ class CityController extends Controller
      */
     public function index(): Response
     {        
-        return response()-> view ('dashboard.media.cities.index',[
+        return response()-> view ('cities.index',[
             'cities'=>City::sortable()->with(['user', 'area'])->filter(request(['search']))->paginate(10)->withQueryString(),
             'title' => 'Daftar Kota'
         ]);
@@ -28,7 +28,7 @@ class CityController extends Controller
     public function create(): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()->view('dashboard.media.cities.create', [
+            return response()->view('cities.create', [
                 'title' => 'Tambah Kota',
                 'cities'=>City::all(),
                 'areas'=>Area::all()
@@ -75,7 +75,7 @@ class CityController extends Controller
             City::create($validateData);
     
             $city = $request->input('city');
-            return redirect('/dashboard/media/cities')->with('success','Kota '. $city . ' berhasil ditambahkan');
+            return redirect('/cities')->with('success','Kota '. $city . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -91,7 +91,7 @@ class CityController extends Controller
         $areas = Area::with('cities')->get();
         $users = User::with('cities')->get();
 
-        return response()-> view ('dashboard.media.cities.show', [
+        return response()-> view ('cities.show', [
             'city' => $city,
             'title' => 'Kota ' . $city->city,
             'areas'=>Area::all(),
@@ -123,7 +123,7 @@ class CityController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             City::destroy($city->id);
 
-            return redirect('/dashboard/media/cities')->with('success','Kota '. $city->city .' berhasil dihapus');
+            return redirect('/cities')->with('success','Kota '. $city->city .' berhasil dihapus');
         } else {
             abort(403);
         }

@@ -24,7 +24,7 @@
                             </a>
                             <li id="liDashboard" data-name="liDashboard" class="group hidden">
                                 <a href="#" class="nav-a mx-2 {{ Request::is('dashboard') ? 'active' : '' }}">
-                                    <span class="flex w-40"> Dashboard </span>
+                                    <span class="flex w-40"> DASHBOARD </span>
                                 </a>
                             </li>
                         </div>
@@ -35,14 +35,15 @@
                             <a class="nav-a" href="/dashboard/media/billboards">
                                 <svg class="nav-svg transition duration-300 ease-in-out {{ Request::is('dashboard/media*') ? 'active' : '' }}"
                                     role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <title>OOH</title>
+                                    <title>DATA MEDIA</title>
                                     <path
                                         d="M8.051 5.238c-1.328 1.566-2.186 3.883-2.246 6.48v.564c.061 2.598.918 4.912 2.246 6.479 1.721 2.236 4.279 3.654 7.139 3.654 1.756 0 3.4-.537 4.807-1.471C17.879 22.846 15.074 24 12 24c-.192 0-.383-.004-.57-.014C5.064 23.689 0 18.436 0 12 0 5.371 5.373 0 12 0h.045c3.055.012 5.84 1.166 7.953 3.055-1.408-.93-3.051-1.471-4.81-1.471-2.858 0-5.417 1.42-7.14 3.654h.003zM24 12c0 3.556-1.545 6.748-4.002 8.945-3.078 1.5-5.946.451-6.896-.205 3.023-.664 5.307-4.32 5.307-8.74 0-4.422-2.283-8.075-5.307-8.74.949-.654 3.818-1.703 6.896-.205C22.455 5.25 24 8.445 24 12z" />
                                 </svg>
                             </a>
+
                             <li class="group hidden" id="liMedia" name="liMedia" onclick="showHideDropdown(this)">
                                 <a href="#" class="nav-a mx-2 {{ Request::is('dashboard/media*') ? 'active' : '' }}">
-                                    <span class="flex w-40"> Media OOH </span>
+                                    <span class="flex w-40"> DATA MEDIA </span>
                                     <svg id="mediaArrow" name="mediaArrow"
                                         class="svg-arrow rotate-180 transition duration-300 ease-in-out" role="img"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -51,9 +52,361 @@
                                             d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
                                     </svg>
                                 </a>
+
                                 <!-- Child Media OOH start-->
                                 <ul class="hidden" id="mediaChild" name="mediaChild">
-                                    <span class="flex nav-a ml-2 border-t-[1px]"> Data OOH </span>
+                                    <!-- Data Lokasi Start -->
+                                    <li class="group" onclick="childMenu(event,this)">
+                                        <a class="nav-a ml-2" href="#">
+                                            <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm10.881-2.501c0-1.492-.739-2.83-1.902-3.748l.741-.752c1.395 1.101 2.28 2.706 2.28 4.5s-.885 3.4-2.28 4.501l-.741-.753c1.163-.917 1.902-2.256 1.902-3.748zm-3.381 2.249l.74.751c.931-.733 1.521-1.804 1.521-3 0-1.195-.59-2.267-1.521-3l-.74.751c.697.551 1.141 1.354 1.141 2.249s-.444 1.699-1.141 2.249zm-16.479 1.499l-.741.753c-1.395-1.101-2.28-2.707-2.28-4.501s.885-3.399 2.28-4.5l.741.752c-1.163.918-1.902 2.256-1.902 3.748s.739 2.831 1.902 3.748zm.338-3.748c0-.896.443-1.698 1.141-2.249l-.74-.751c-.931.733-1.521 1.805-1.521 3 0 1.196.59 2.267 1.521 3l.74-.751c-.697-.55-1.141-1.353-1.141-2.249zm16.641 14.501c0 2.209-3.581 4-8 4s-8-1.791-8-4c0-1.602 1.888-2.98 4.608-3.619l1.154 1.824c-.401.068-.806.135-1.178.242-3.312.949-3.453 2.109-.021 3.102 2.088.603 4.777.605 6.874-.001 3.619-1.047 3.164-2.275-.268-3.167-.296-.077-.621-.118-.936-.171l1.156-1.828c2.723.638 4.611 2.016 4.611 3.618z" />
+                                            </svg>
+                                            <span class="flex w-36"> DATA LOKASI </span>
+                                            <svg class="svg-arrow rotate-180 transition duration-300 ease-in-out"
+                                                role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <title>Arrow</title>
+                                                <path
+                                                    d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
+                                            </svg>
+                                        </a>
+
+                                        <!-- Child Data Lokasi Start -->
+                                        <ul class="hidden">
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/locations/home/All">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Semua Lokasi </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/locations/home/Billboard">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Billboard </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/locations/home/Bando">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Bando Jalan </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/locations/home/Videotron">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Videotron </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/locations/home/Baliho">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Baliho </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/locations/home/Midiboard">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Midiboard </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/locations/home/Signage">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Signage </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- Child Data Lokasi End -->
+                                    </li>
+                                    <!-- Data Lokasi end -->
+
+                                    <!-- Area Start -->
+                                    <li class="group" onclick="childMenu(event,this)">
+                                        <a class="nav-a ml-2" href="#">
+                                            <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm10.881-2.501c0-1.492-.739-2.83-1.902-3.748l.741-.752c1.395 1.101 2.28 2.706 2.28 4.5s-.885 3.4-2.28 4.501l-.741-.753c1.163-.917 1.902-2.256 1.902-3.748zm-3.381 2.249l.74.751c.931-.733 1.521-1.804 1.521-3 0-1.195-.59-2.267-1.521-3l-.74.751c.697.551 1.141 1.354 1.141 2.249s-.444 1.699-1.141 2.249zm-16.479 1.499l-.741.753c-1.395-1.101-2.28-2.707-2.28-4.501s.885-3.399 2.28-4.5l.741.752c-1.163.918-1.902 2.256-1.902 3.748s.739 2.831 1.902 3.748zm.338-3.748c0-.896.443-1.698 1.141-2.249l-.74-.751c-.931.733-1.521 1.805-1.521 3 0 1.196.59 2.267 1.521 3l.74-.751c-.697-.55-1.141-1.353-1.141-2.249zm16.641 14.501c0 2.209-3.581 4-8 4s-8-1.791-8-4c0-1.602 1.888-2.98 4.608-3.619l1.154 1.824c-.401.068-.806.135-1.178.242-3.312.949-3.453 2.109-.021 3.102 2.088.603 4.777.605 6.874-.001 3.619-1.047 3.164-2.275-.268-3.167-.296-.077-.621-.118-.936-.171l1.156-1.828c2.723.638 4.611 2.016 4.611 3.618z" />
+                                            </svg>
+                                            <span class="flex w-36"> AREA </span>
+                                            <svg class="svg-arrow rotate-180 transition duration-300 ease-in-out"
+                                                role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <title>Arrow</title>
+                                                <path
+                                                    d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
+                                            </svg>
+                                        </a>
+
+                                        <!-- Child Area Start -->
+                                        <ul class="hidden">
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/area">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Area </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/cities">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> Kota </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- Child Area End -->
+                                    </li>
+                                    <!-- Area end -->
+
+                                    <!-- Setting Start -->
+                                    <li class="group" onclick="childMenu(event,this)">
+                                        <a class="nav-a ml-2" href="#">
+                                            <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm10.881-2.501c0-1.492-.739-2.83-1.902-3.748l.741-.752c1.395 1.101 2.28 2.706 2.28 4.5s-.885 3.4-2.28 4.501l-.741-.753c1.163-.917 1.902-2.256 1.902-3.748zm-3.381 2.249l.74.751c.931-.733 1.521-1.804 1.521-3 0-1.195-.59-2.267-1.521-3l-.74.751c.697.551 1.141 1.354 1.141 2.249s-.444 1.699-1.141 2.249zm-16.479 1.499l-.741.753c-1.395-1.101-2.28-2.707-2.28-4.501s.885-3.399 2.28-4.5l.741.752c-1.163.918-1.902 2.256-1.902 3.748s.739 2.831 1.902 3.748zm.338-3.748c0-.896.443-1.698 1.141-2.249l-.74-.751c-.931.733-1.521 1.805-1.521 3 0 1.196.59 2.267 1.521 3l.74-.751c-.697-.55-1.141-1.353-1.141-2.249zm16.641 14.501c0 2.209-3.581 4-8 4s-8-1.791-8-4c0-1.602 1.888-2.98 4.608-3.619l1.154 1.824c-.401.068-.806.135-1.178.242-3.312.949-3.453 2.109-.021 3.102 2.088.603 4.777.605 6.874-.001 3.619-1.047 3.164-2.275-.268-3.167-.296-.077-.621-.118-.936-.171l1.156-1.828c2.723.638 4.611 2.016 4.611 3.618z" />
+                                            </svg>
+                                            <span class="flex w-36"> PENGATURAN </span>
+                                            <svg class="svg-arrow rotate-180 transition duration-300 ease-in-out"
+                                                role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <title>Arrow</title>
+                                                <path
+                                                    d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
+                                            </svg>
+                                        </a>
+
+                                        <!-- Child Setting Start -->
+                                        <ul class="hidden">
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/companies">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> PERUSAHAAN </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/media-categories">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> KATAGORI MEDIA </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="/media-sizes">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> UKURAN </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> JENIS LED </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> BAHAN CETAK </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> HARGA CETAK </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> HARGA PASANG </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- Child Setting End -->
+                                    </li>
+                                    <!-- Setting end -->
+
+                                    <!-- Vendor Start -->
+                                    <li class="group" onclick="childMenu(event,this)">
+                                        <a class="nav-a ml-2" href="#">
+                                            <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm10.881-2.501c0-1.492-.739-2.83-1.902-3.748l.741-.752c1.395 1.101 2.28 2.706 2.28 4.5s-.885 3.4-2.28 4.501l-.741-.753c1.163-.917 1.902-2.256 1.902-3.748zm-3.381 2.249l.74.751c.931-.733 1.521-1.804 1.521-3 0-1.195-.59-2.267-1.521-3l-.74.751c.697.551 1.141 1.354 1.141 2.249s-.444 1.699-1.141 2.249zm-16.479 1.499l-.741.753c-1.395-1.101-2.28-2.707-2.28-4.501s.885-3.399 2.28-4.5l.741.752c-1.163.918-1.902 2.256-1.902 3.748s.739 2.831 1.902 3.748zm.338-3.748c0-.896.443-1.698 1.141-2.249l-.74-.751c-.931.733-1.521 1.805-1.521 3 0 1.196.59 2.267 1.521 3l.74-.751c-.697-.55-1.141-1.353-1.141-2.249zm16.641 14.501c0 2.209-3.581 4-8 4s-8-1.791-8-4c0-1.602 1.888-2.98 4.608-3.619l1.154 1.824c-.401.068-.806.135-1.178.242-3.312.949-3.453 2.109-.021 3.102 2.088.603 4.777.605 6.874-.001 3.619-1.047 3.164-2.275-.268-3.167-.296-.077-.621-.118-.936-.171l1.156-1.828c2.723.638 4.611 2.016 4.611 3.618z" />
+                                            </svg>
+                                            <span class="flex w-36"> DATA VENDOR </span>
+                                            <svg class="svg-arrow rotate-180 transition duration-300 ease-in-out"
+                                                role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <title>Arrow</title>
+                                                <path
+                                                    d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
+                                            </svg>
+                                        </a>
+
+                                        <!-- Child Vendor Start -->
+                                        <ul class="hidden">
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> KATAGORI VENDOR </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> DAFTAR VENDOR </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- Child Vendor End -->
+                                    </li>
+                                    <!-- Vendor end -->
+
+                                    <!-- Media Legality Start -->
+                                    <li class="group" onclick="childMenu(event,this)">
+                                        <a class="nav-a ml-2" href="#">
+                                            <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm10.881-2.501c0-1.492-.739-2.83-1.902-3.748l.741-.752c1.395 1.101 2.28 2.706 2.28 4.5s-.885 3.4-2.28 4.501l-.741-.753c1.163-.917 1.902-2.256 1.902-3.748zm-3.381 2.249l.74.751c.931-.733 1.521-1.804 1.521-3 0-1.195-.59-2.267-1.521-3l-.74.751c.697.551 1.141 1.354 1.141 2.249s-.444 1.699-1.141 2.249zm-16.479 1.499l-.741.753c-1.395-1.101-2.28-2.707-2.28-4.501s.885-3.399 2.28-4.5l.741.752c-1.163.918-1.902 2.256-1.902 3.748s.739 2.831 1.902 3.748zm.338-3.748c0-.896.443-1.698 1.141-2.249l-.74-.751c-.931.733-1.521 1.805-1.521 3 0 1.196.59 2.267 1.521 3l.74-.751c-.697-.55-1.141-1.353-1.141-2.249zm16.641 14.501c0 2.209-3.581 4-8 4s-8-1.791-8-4c0-1.602 1.888-2.98 4.608-3.619l1.154 1.824c-.401.068-.806.135-1.178.242-3.312.949-3.453 2.109-.021 3.102 2.088.603 4.777.605 6.874-.001 3.619-1.047 3.164-2.275-.268-3.167-.296-.077-.621-.118-.936-.171l1.156-1.828c2.723.638 4.611 2.016 4.611 3.618z" />
+                                            </svg>
+                                            <span class="flex w-36"> DATA LEGALITAS </span>
+                                            <svg class="svg-arrow rotate-180 transition duration-300 ease-in-out"
+                                                role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <title>Arrow</title>
+                                                <path
+                                                    d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
+                                            </svg>
+                                        </a>
+
+                                        <!-- Child Media Legality Start -->
+                                        <ul class="hidden">
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> KATAGORI IZIN </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> DAFTAR IZIN </span>
+                                                </a>
+                                            </li>
+                                            <li class="group">
+                                                <a class="nav-a ml-5" href="#">
+                                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                                    </svg>
+                                                    <span class="flex w-40"> SEWA LAHAN </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- Child Media Legality End -->
+                                    </li>
+                                    <!-- Media Legality end -->
+
+                                    {{-- <span class="flex nav-a ml-2 border-t-[1px]"> Data OOH </span>
                                     <li class="group">
                                         <a class="nav-a ml-2 border-t-[1px] {{ Request::is('dashboard/media/billboards*') ? 'active' : '' }}"
                                             href="/dashboard/media/billboards">
@@ -246,7 +599,7 @@
                                             </svg>
                                             <span class="flex w-40"> Perizinan </span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                                 <!-- Child Media OOH end-->
                             </li>
@@ -969,8 +1322,9 @@
                                             <li class="group">
                                                 <a class="nav-a ml-5 border-b-[1px]" href="#">
                                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
                                                         <path
                                                             d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-12.751 8.306c-.165-.147-.249-.351-.249-.556 0-.411.333-.746.748-.746.178 0 .355.062.499.19l2.371 2.011 4.453-4.962c.149-.161.35-.243.554-.243.417 0 .748.336.748.746 0 .179-.065.359-.196.503l-4.953 5.508c-.148.161-.35.243-.553.243-.177 0-.356-.063-.498-.19z"
                                                             fill-rule="nonzero" />
@@ -1014,8 +1368,8 @@
                                     <li class="group">
                                         <a class="nav-a ml-2 border-t-[1px] {{ Request::is('/dashboard/users/users*') ? 'active' : '' }}"
                                             href="/dashboard/users/users">
-                                            <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24">
+                                            <svg class="child-nav-svg" role="img"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <path
                                                     d="M19 7.001c0 3.865-3.134 7-7 7s-7-3.135-7-7c0-3.867 3.134-7.001 7-7.001s7 3.134 7 7.001zm-1.598 7.18c-1.506 1.137-3.374 1.82-5.402 1.82-2.03 0-3.899-.685-5.407-1.822-4.072 1.793-6.593 7.376-6.593 9.821h24c0-2.423-2.6-8.006-6.598-9.819z" />
                                             </svg>
@@ -1025,8 +1379,8 @@
                                     <li class="group">
                                         <a class="nav-a ml-2 {{ Request::is('/dashboard/users/notifications*') ? 'active' : '' }}"
                                             href="/dashboard/users/notifications">
-                                            <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24">
+                                            <svg class="child-nav-svg" role="img"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <path fill="none" d="M0 0h24v24H0V0z" />
                                                 <path
                                                     d="M18 16v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.68-1.5-1.51-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-1.3 1.29c-.63.63-.19 1.71.7 1.71h13.17c.89 0 1.34-1.08.71-1.71L18 16zm-6.01 6c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zM6.77 4.73c.42-.38.43-1.03.03-1.43-.38-.38-1-.39-1.39-.02C3.7 4.84 2.52 6.96 2.14 9.34c-.09.61.38 1.16 1 1.16.48 0 .9-.35.98-.83.3-1.94 1.26-3.67 2.65-4.94zM18.6 3.28c-.4-.37-1.02-.36-1.4.02-.4.4-.38 1.04.03 1.42 1.38 1.27 2.35 3 2.65 4.94.07.48.49.83.98.83.61 0 1.09-.55.99-1.16-.38-2.37-1.55-4.48-3.25-6.05z" />
@@ -1036,8 +1390,8 @@
                                     </li>
                                     <li class="group">
                                         <a class="nav-a ml-2 border-b-[1px]" href="#">
-                                            <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 64 64">
+                                            <svg class="child-nav-svg" role="img"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
                                                 <circle cx="16" cy="31.58" r="1" />
                                                 <path
                                                     d="M45.75,19H10.32A5.3,5.3,0,0,0,5,24.26V38.74c0,2.37,2.75,4.17,4,4.87v7.06a1,1,0,0,0,1,1,1,1,0,0,0,.71-.3L18.07,44H45.75A5.26,5.26,0,0,0,51,38.74V24.46A5.28,5.28,0,0,0,45.75,19ZM13,31.58a3,3,0,1,1,3,3A3,3,0,0,1,13,31.58Zm8,0a3,3,0,1,1,3,3A3,3,0,0,1,21,31.58Zm8,0a3,3,0,1,1,3,3A3,3,0,0,1,29,31.58Zm11,3a3,3,0,1,1,3-3A3,3,0,0,1,40,34.58Z" />

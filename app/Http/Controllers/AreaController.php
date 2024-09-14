@@ -15,7 +15,7 @@ class AreaController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('dashboard.media.areas.index', [
+        return response()-> view ('areas.index', [
             'areas'=>Area::filter(request('search'))->sortable()->with(['user'])->paginate(10)->withQueryString(),
             'title' => 'Daftar Area'
         ]);
@@ -33,7 +33,7 @@ class AreaController extends Controller
     public function create(): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()-> view ('dashboard.media.areas.create', [
+            return response()-> view ('areas.create', [
                 'title' => 'Menambahkan Area'
             ]);
         } else {
@@ -65,7 +65,7 @@ class AreaController extends Controller
             Area::create($validateData);
     
             $area = $request->input('area');
-            return redirect('/dashboard/media/area')->with('success','Area '. $area . ' berhasil ditambahkan');
+            return redirect('/area')->with('success','Area '. $area . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -76,7 +76,7 @@ class AreaController extends Controller
      */
     public function show(Area $area): Response
     {
-        return response()-> view ('dashboard.media.areas.show', [
+        return response()-> view ('areas.show', [
             'area' => $area,
             'title' => 'Area ' . $area->area
         ]);
@@ -106,7 +106,7 @@ class AreaController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             Area::destroy($area->id);
 
-            return redirect('/dashboard/media/area')->with('success','Area '. $area->area .' berhasil dihapus');
+            return redirect('/area')->with('success','Area '. $area->area .' berhasil dihapus');
         } else {
             abort(403);
         }
