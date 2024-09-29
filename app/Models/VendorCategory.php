@@ -13,7 +13,8 @@ class VendorCategory extends Model
 
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
-                $query->where('name', 'like', '%' . $search . '%'));
+                $query->where('code', 'like', '%' . $search . '%')
+                ->orWhere('name', 'like', '%' . $search . '%'));
     }
 
     public function vendors(){
@@ -24,5 +25,5 @@ class VendorCategory extends Model
         return $this->belongsTo(User::class);
     }
 
-    public $sortable = ['name'];
+    public $sortable = ['name', 'code'];
 }

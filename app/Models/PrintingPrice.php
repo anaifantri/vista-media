@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PrintingProduct;
+use Kyslik\ColumnSortable\Sortable;
 
 class PrintingPrice extends Model
 {
+    use Sortable;
     protected $guarded = ['id'];
 
     public function scopeFilter($query, $filter){
@@ -32,5 +34,5 @@ class PrintingPrice extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-
+    public $sortable = ['code'];
 }

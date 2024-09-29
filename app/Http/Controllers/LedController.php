@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Led;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,14 +17,14 @@ class LedController extends Controller
      */
     public function index(): Response
     {
-        $leds = LED::with('vendor')->get();
         $vendors = Vendor::with('leds')->get();
         $users = User::with('leds')->get();
 
-        return response()-> view ('dashboard.media.leds.index', [
+        return response()-> view ('leds.index', [
             'leds'=>Led::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
             'title' => 'Daftar Jenis LED',
-            compact('leds', 'users', 'vendors')
+            'categories' => MediaCategory::all(),
+            compact('users', 'vendors')
         ]);
     }
 
@@ -39,11 +40,12 @@ class LedController extends Controller
     public function create(): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()-> view ('dashboard.media.leds.create', [
+            return response()-> view ('leds.create', [
                 'vendors'=>Vendor::WhereHas('vendor_category', function($query){
                     $query->where('name','LED');
                 })->orderBy("name", "asc")->get(),
-                'title' => 'Menambahkan Produk LED'
+                'title' => 'Menambahkan Produk LED',
+                'categories' => MediaCategory::all(),
             ]);
         } else {
             abort(403);
@@ -68,59 +70,69 @@ class LedController extends Controller
             if($request->pixel_pitch == 'pilih'){
                 return back()->withErrors(['pixel_pitch' => ['Silahkan pilih ukuran pixel']])->withInput();
             }
-            if($request->module_size == 'pilih'){
-                return back()->withErrors(['module_size' => ['Silahkan pilih ukuran module']])->withInput();
+            if($request->vertical_angle == 'pilih'){
+                return back()->withErrors(['vertical_angle' => ['Silahkan pilih sudut pandang vertikal']])->withInput();
             }
-            if($request->cabinet_size == 'pilih'){
-                return back()->withErrors(['cabinet_size' => ['Silahkan pilih ukuran cabinet']])->withInput();
-            }
-            if($request->cabinet_material == 'pilih'){
-                return back()->withErrors(['cabinet_material' => ['Silahkan pilih material cabinet']])->withInput();
-            }
-            if($request->protective_grade == 'pilih'){
-                return back()->withErrors(['protective_grade' => ['Silahkan pilih tingkat ketahanan air']])->withInput();
-            }
-            if($request->view_angle_v == 'pilih'){
-                return back()->withErrors(['view_angle_v' => ['Silahkan pilih sudut pandang vertikal']])->withInput();
-            }
-            if($request->view_angle_h == 'pilih'){
-                return back()->withErrors(['view_angle_h' => ['Silahkan pilih sudut pandang horizontal']])->withInput();
-            }
-            if($request->brightness == 'pilih'){
-                return back()->withErrors(['brightness' => ['Silahkan pilih brightness']])->withInput();
+            if($request->horizontal_angle == 'pilih'){
+                return back()->withErrors(['horizontal_angle' => ['Silahkan pilih sudut pandang horizontal']])->withInput();
             }
             if($request->refresh_rate == 'pilih'){
                 return back()->withErrors(['refresh_rate' => ['Silahkan pilih refresh rate']])->withInput();
             }
-            if($request->view_distancing == 'pilih'){
-                return back()->withErrors(['view_distancing' => ['Silahkan pilih jarak pandang terbaik']])->withInput();
+            if($request->optimal_distance == 'pilih'){
+                return back()->withErrors(['optimal_distance' => ['Silahkan pilih jarak pandang terbaik']])->withInput();
             }
+            if($request->cabinet_material == 'pilih'){
+                return back()->withErrors(['cabinet_material' => ['Silahkan pilih material cabinet']])->withInput();
+            }
+
+            // Set Code --> start
+            $dataLeds = Led::all()->last();
+            if($dataLeds){
+                $lastCode = (int)substr($dataLeds->code,4,3);
+                $newCode = $lastCode + 1;
+            } else {
+                $newCode = 1;
+            }
+            
+
+            if($newCode < 10 ){
+                $code = 'LED-00'.$newCode;
+            } else {
+                $code = 'LED-0'.$newCode;
+            }
+            // Set Code --> end
         
+            $request->request->add(['code' => $code,'user_id' => auth()->user()->id]);
             $validateData = $request->validate([
                 'vendor_id' => 'required',
-                'name' => 'required',
-                'pixel_config' => 'required',
-                'type' => 'required',
+                'user_id' => 'required',
+                'code' => 'required|unique:leds',
+                'name' => 'required|unique:leds',
                 'pixel_pitch' => 'required',
                 'pixel_density' => 'required',
-                'module_size' => 'required',
-                'cabinet_size' => 'required',
+                'module_width' => 'required',
+                'module_height' => 'required',
+                'cabinet_width' => 'required',
+                'cabinet_height' => 'required',
                 'cabinet_material' => 'required',
                 'cabinet_weight' => 'required',
-                'protective_grade' => 'required',
-                'view_distancing' => 'required',
-                'view_angle_v' => 'required',
-                'view_angle_h' => 'required',
+                'front_protection' => 'required',
+                'back_protection' => 'required',
+                'optimal_distance' => 'required',
+                'vertical_angle' => 'required',
+                'horizontal_angle' => 'required',
                 'max_power' => 'required',
                 'average_power' => 'required',
                 'brightness' => 'required',
+                'type' => 'required',
                 'refresh_rate' => 'required',
+                'pixel_config' => 'required'
             ]);
-    
-            $validateData['user_id'] = auth()->user()->id;
+            
             Led::create($validateData);
     
-            return redirect('/dashboard/media/leds')->with('success','Produk '. $request->name . ' berhasil ditambahkan');
+            return redirect('/leds')->with('success','Produk dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -133,9 +145,10 @@ class LedController extends Controller
     {
         $vendors = Vendor::with('leds')->get();
         $users = User::with('leds')->get();
-        return response()-> view ('dashboard.media.leds.show', [
+        return response()-> view ('leds.show', [
             'led' => $led,
             'title' => 'Detail Produk LED ' . $led->name,
+            'categories' => MediaCategory::all(),
             compact('users', 'vendors')
         ]);
     }
@@ -148,10 +161,11 @@ class LedController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             $vendors = Vendor::with('leds')->get();
             $users = User::with('leds')->get();
-            return response()->view('dashboard.media.leds.edit', [
+            return response()->view('leds.edit', [
                 'led' => $led,
                 'vendors'=>Vendor::orderBy("name", "asc")->get(),
-                'title' => 'Edit Produk LED',
+                'title' => 'Edit Data Produk LED'.$led->name,
+                'categories' => MediaCategory::all(),
                 compact('users', 'vendors')
             ]);
         } else {
@@ -165,34 +179,40 @@ class LedController extends Controller
     public function update(Request $request, Led $led): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            
-                $validateData = $request->validate([
-                    'vendor_id' => 'required',
-                'name' => 'required',
-                'pixel_config' => 'required',
-                'type' => 'required',
+            $request->request->add(['user_id' => auth()->user()->id]);
+            $rules = [
+                'vendor_id' => 'required',
+                'user_id' => 'required',
                 'pixel_pitch' => 'required',
                 'pixel_density' => 'required',
-                'module_size' => 'required',
-                'cabinet_size' => 'required',
+                'module_width' => 'required',
+                'module_height' => 'required',
+                'cabinet_width' => 'required',
+                'cabinet_height' => 'required',
                 'cabinet_material' => 'required',
                 'cabinet_weight' => 'required',
-                'protective_grade' => 'required',
-                'view_distancing' => 'required',
-                'view_angle_v' => 'required',
-                'view_angle_h' => 'required',
+                'front_protection' => 'required',
+                'back_protection' => 'required',
+                'optimal_distance' => 'required',
+                'vertical_angle' => 'required',
+                'horizontal_angle' => 'required',
                 'max_power' => 'required',
                 'average_power' => 'required',
                 'brightness' => 'required',
+                'type' => 'required',
                 'refresh_rate' => 'required',
-                ]);
-        
-                $validateData['user_id'] = auth()->user()->id;
+                'pixel_config' => 'required'
+            ];
+            if($request->name != $led->name){
+                $rules['name'] = 'required|unique:leds';
+            }
+
+            $validateData = $request->validate($rules);
                 
-                Led::where('id', $led->id)
-                    ->update($validateData);
+            Led::where('id', $led->id)
+                ->update($validateData);
         
-                return redirect('/dashboard/media/leds')->with('success','Produk LED '. $led->name . ' berhasil diupdate');
+            return redirect('/leds')->with('success','Produk LED dengan nama '. $led->name . ' berhasil dirubah');
             
         } else {
             abort(403);
@@ -207,7 +227,7 @@ class LedController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             Led::destroy($led->id);
 
-            return redirect('/dashboard/media/leds')->with('success','Produk LED '. $led->name .' berhasil dihapus');
+            return redirect('/leds')->with('success','Produk LED dengan nama'. $led->name .' berhasil dihapus');
         } else {
             abort(403);
         }

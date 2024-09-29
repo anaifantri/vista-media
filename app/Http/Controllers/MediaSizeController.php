@@ -20,6 +20,7 @@ class MediaSizeController extends Controller
         return response()-> view ('media-sizes.index', [
             'media_sizes'=>MediaSize::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
             'title' => 'Daftar Ukuran',
+            'categories' => MediaCategory::all(),
             compact('media_categories')
         ]);
     }
@@ -32,7 +33,7 @@ class MediaSizeController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('media-sizes.create', [
                 'title' => 'Menambahkan Ukuran',
-                'media_categories' => MediaCategory::all()
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -48,6 +49,8 @@ class MediaSizeController extends Controller
             if ($request->media_category_id == 'pilih'){
                 return back()->withErrors(['media_category_id' => ['Silahkan pilih katagori']])->withInput();
             }
+
+            // Set Code --> start
             $dataSize = MediaSize::all()->last();
             if($dataSize){
                 $lastCode = (int)substr($dataSize->code,3,3);
@@ -62,6 +65,7 @@ class MediaSizeController extends Controller
             } else {
                 $code = 'SZ-0'.$newCode;
             }
+            // Set Code --> end
 
             if($request->width < $request->height){
                 $size = $request->width.'m x '.$request->height.'m';
@@ -102,7 +106,8 @@ class MediaSizeController extends Controller
     {
         return response()-> view ('media-sizes.show', [
             'media_size' => $mediaSize,
-            'title' => 'Detail Ukuran ' . $mediaSize->size
+            'title' => 'Detail Ukuran ' . $mediaSize->size,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -115,7 +120,7 @@ class MediaSizeController extends Controller
             return response()->view('media-sizes.edit', [
                 'media_size' => $mediaSize,
                 'title' => 'Edit Ukuran',
-                'media_categories' => MediaCategory::all()
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);

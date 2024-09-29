@@ -3,7 +3,7 @@
 @section('container')
     <div class="xl:flex xl:justify-center">
         <div class="mt-10 z-0 mb-8">
-            <div class="flex p-1 w-full">
+            <div class="flex p-1 w-full border-b">
                 @if ($category == 'All')
                     <h1 class="index-h1">Daftar Lokasi Media</h1>
                 @else
@@ -12,7 +12,7 @@
                 @if ($category == 'All')
                     @if (request('media_category_id') != '' && request('media_category_id') != 'All')
                         @canany(['isAdmin', 'isMedia', 'isMarketing'])
-                            <div class="border-b">
+                            <div>
                                 <a href="/locations/create-location/{{ $data_categories->name }}" class="index-link btn-primary">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                         stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +27,7 @@
                     @endif
                 @else
                     @canany(['isAdmin', 'isMedia', 'isMarketing'])
-                        <div class="border-b">
+                        <div>
                             <a href="/locations/create-location/{{ $category }}" class="index-link btn-primary">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -94,7 +94,7 @@
                                     name="media_category_id" id="media_category_id" onchange="submit()"
                                     value="{{ request('media_category_id') }}">
                                     <option value="All">All</option>
-                                    @foreach ($media_categories as $category)
+                                    @foreach ($categories as $category)
                                         @if (request('media_category_id') == $category->id)
                                             <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                                         @else
@@ -119,7 +119,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="md:flex mt-2">
+                    <div class="flex mt-2">
                         <div class="flex">
                             <input id="search" name="search"
                                 class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900"
@@ -188,7 +188,7 @@
                                 <td class="text-teal-700 border text-sm text-center">{{ $location->code }} -
                                     {{ $location->city->code }}
                                 </td>
-                                <td class="text-teal-700 border text-sm">
+                                <td class="text-teal-700 border text-sm px-2">
                                     {{ $location->address }}
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $location->area->area }}</td>
@@ -211,6 +211,18 @@
                                 <td class="text-teal-700 border text-sm text-center">
                                     @if ($location->media_category->name == 'Videotron')
                                         LED
+                                    @elseif ($location->media_category->name == 'Signage')
+                                        @if ($description->type == 'Videotron')
+                                            LED
+                                        @else
+                                            @if ($description->lighting == 'Backlight')
+                                                BL
+                                            @elseif ($description->lighting == 'Frontlight')
+                                                FL
+                                            @elseif ($description->lighting == 'Nonlight')
+                                                NL
+                                            @endif
+                                        @endif
                                     @else
                                         @if ($description->lighting == 'Backlight')
                                             BL

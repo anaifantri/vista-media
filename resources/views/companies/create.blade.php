@@ -1,31 +1,52 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex relative mt-5 items-center justify-center">
-        <div class="md:flex">
-            <form class="md:flex" method="post" action="/companies" enctype="multipart/form-data">
-                @csrf
-                <div class="flex justify-center items-center w-60 md:w-72">
-                    <div class="d-flex justify-center items-center p-8">
-                        <label class="flex justify-center text-sm text-teal-700 mb-2">Logo Perusahaan</label>
-                        <img class="m-auto img-preview flex items-center w-36" src="/img/photo_profile.png">
-                        <input
-                            class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 md:w-72 mt-5 @error('photo') is-invalid @enderror"
-                            type="file" id="logo" name="logo" onchange="previewImage()">
-                        @error('logo')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
+    <form method="post" action="/companies" enctype="multipart/form-data">
+        @csrf
+        <div class="flex justify-center w-full ">
+            <div class="mt-10">
+                <div class="flex items-center w-[900px] border-b">
+                    <!-- Title Area start -->
+                    <h1 class="index-h1 w-[500px]"> MENAMBAHKAN DATA PERUSAHAAN</h1>
+                    <!-- Title Area end -->
+                    <div class="flex w-full justify-end items-center p-1">
+                        <button class="flex justify-center items-center mx-1 btn-primary" type="submit">
+                            <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                            </svg>
+                            <label class="mx-1">Save</label>
+                        </button>
+                        <a class="flex justify-center items-center mx-1 btn-danger" href="/companies">
+                            <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                            </svg>
+                            <label class="mx-1">Cancel</label>
+                        </a>
                     </div>
                 </div>
-                <div class="flex w-72 md:w-96 items-center">
-                    <div class="p-3 py-5 w-full">
-                        <div class="flex items-center mb-3">
-                            <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Menambah Perusahaan</h4>
+                <div class="flex justify-center">
+                    <div class="flex justify-center items-center mt-2 w-[350px] h-[500px] mx-2 border rounded-lg">
+                        <div>
+                            <img class="m-auto img-preview flex items-center w-36 m-t2" src="/img/photo_profile.png">
+                            <label class="flex justify-center text-sm text-teal-700">Logo Perusahaan</label>
+                            <input
+                                class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 md:w-72 mt-5 @error('photo') is-invalid @enderror"
+                                type="file" id="logo" name="logo" onchange="previewImage(this)">
+                            @error('logo')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
-                        <div class="mt-5 w-full">
-                            <div class="mt-2"><label class="text-sm text-teal-700">Nama Perusahaan</label>
+                    </div>
+                    <div class="flex justify-center w-[500px] h-[500px] border rounded-lg mx-2 mt-2">
+                        <div class="w-[400px]">
+                            <div class="mt-2">
+                                <label class="text-sm text-teal-700">Nama Perusahaan</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                     type="text" id="name" name="name" placeholder="Nama Perusahaan"
@@ -36,20 +57,22 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Alamat Perusahaan</label>
+                            <div class="mt-2">
+                                <label class="text-sm text-teal-700">Alamat Perusahaan</label>
                                 <textarea
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                    name="address" id="address" required placeholder="Alamat Perusahaan">{{ old('address') }}</textarea>
+                                    name="address" rows="5" id="address" required placeholder=" Input Alamat Perusahaan">{{ old('address') }}</textarea>
                                 @error('address')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Email</label>
+                            <div class="mt-2">
+                                <label class="text-sm text-teal-700">Email</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
-                                    type="email" id="email" name="email" placeholder="Email Perusahaan"
+                                    type="email" id="email" name="email" placeholder="Input Email Perusahaan"
                                     value="{{ old('email') }}" required>
                                 @error('email')
                                     <div class="invalid-feedback">
@@ -57,72 +80,38 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">No. Telepon</label>
+                            <div class="mt-2">
+                                <label class="text-sm text-teal-700">No. Telepon</label>
                                 <input
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
-                                    type="number" id="phone" name="phone" placeholder="No. Telepon Perusahaan"
-                                    value="{{ old('phone') }}" required>
+                                    class="flex px-2 text-base font-semibold in-out-spin-none text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                    type="number" min="0" id="phone" name="phone"
+                                    placeholder="Input No. Telepon Perusahaan" value="{{ old('phone') }}">
                                 @error('phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Mobile Phone</label>
+                            <div class="mt-2">
+                                <label class="text-sm text-teal-700">No. Handphone</label>
                                 <input
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('mobile_phone') is-invalid @enderror"
-                                    type="number" id="mobile_phone" name="mobile_phone" placeholder="No. HP Perusahaan"
-                                    value="{{ old('mobile_phone') }}" required>
-                                @error('mobile_phone')
+                                    class="flex px-2 text-base font-semibold in-out-spin-none text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('m_phone') is-invalid @enderror"
+                                    type="number" min="0" id="m_phone" name="m_phone"
+                                    placeholder="Input No. HP Perusahaan" value="{{ old('m_phone') }}">
+                                @error('m_phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <div class="flex mt-5">
-                                <button class="flex items-center justify-center btn-primary mx-1" type="submit"
-                                    id="btnSubmit" name="btnSubmit">
-                                    <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24">
-                                        <path
-                                            d="M15.004 3h2.996v5h-2.996v-5zm8.996 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9zm-2 2h-14v1h14v-1zm0 2h-14v1h14v-1zm0 2h-14v1h14v-1z" />
-                                    </svg>
-                                    <span class="mx-2"> Save </span>
-                                </button>
-                                <a href="/companies" class="flex items-center justify-center btn-danger mx-1">
-                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="mx-1"> Cancel </span>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 
     <!-- Script Preview Image start-->
-    <script>
-        function previewImage() {
-            const logo = document.querySelector('#logo');
-            const imgPreview = document.querySelector('.img-preview');
-
-            // imgPreview.style.display = 'block';
-
-            const oFReader = new FileReader();
-
-            oFReader.readAsDataURL(logo.files[0]);
-
-            oFReader.onload = function(oFREvent) {
-                imgPreview.src = oFREvent.target.result;
-            }
-        }
-    </script>
+    <script src="/js/previewimage.js"></script>
     <!-- Script Preview Image end-->
 @endsection

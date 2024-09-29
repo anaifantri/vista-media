@@ -4,14 +4,14 @@
     <!-- Container Index Size start -->
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
-            <div class="w-full md:w-[575px] p-2">
-                <div class="flex">
+            <div class="w-[800px]">
+                <div class="flex border-b">
                     <!-- Title Size start -->
                     <h1 class="index-h1"> DAFTAR UKURAN</h1>
                     <!-- Title Size end -->
                     <!-- Button Create New Size start -->
                     @canany(['isAdmin', 'isMedia'])
-                        <div class="flex border-b">
+                        <div class="flex">
                             <a href="/media-sizes/create" class="index-link btn-primary"><span></span>
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -54,21 +54,21 @@
         <!-- Alert Success Create New Size end -->
         <!-- View Size start -->
         <div class="flex justify-center w-full">
-            <div class="w-[580px]">
+            <div class="w-[800px]">
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="bg-teal-100 h-10">
-                            <th class="text-teal-700 border text-sm w-8 text-center">No.</th>
-                            <th class="text-teal-700 border text-sm text-center w-16">
-                                <button class="flex justify-center items-center w-16">@sortablelink('code', 'Kode')
+                            <th class="text-teal-700 border text-sm w-12 text-center">No.</th>
+                            <th class="text-teal-700 border text-sm text-center w-24">
+                                <button class="flex justify-center items-center w-24">@sortablelink('code', 'Kode')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-sm text-center w-36">
-                                <button class="flex justify-center items-center w-36">@sortablelink('size', 'Ukuran')
+                            <th class="text-teal-700 border text-sm text-center w-48">
+                                <button class="flex justify-center items-center w-48">@sortablelink('size', 'Ukuran')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
@@ -76,7 +76,7 @@
                                 </button>
                             </th>
                             <th class="text-teal-700 border text-sm text-center">Katagori</th>
-                            <th class="text-teal-700 border text-sm text-center w-24">Action</th>
+                            <th class="text-teal-700 border text-sm text-center w-36">Action</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -1,0 +1,606 @@
+@extends('dashboard.layouts.main');
+
+@section('container')
+    <!-- Show Quotatin start -->
+    <?php
+    $salesNote = [];
+    if ($category == 'Billboard') {
+        $freeInstall = $notes->freeInstall;
+        $freePrint = $notes->freePrint;
+        if ($freeInstall != 0 && $freePrint != 0) {
+            for ($i = 0; $i < count($notes->dataNotes); $i++) {
+                if ($i == 2 || $i == 3) {
+                    array_push($salesNote, $notes->dataNotes[$i]);
+                }
+            }
+        } elseif (($freeInstall != 0 && $freePrint == 0) || ($freeInstall == 0 && $freePrint != 0)) {
+            for ($i = 0; $i < count($notes->dataNotes); $i++) {
+                if ($i == 2) {
+                    array_push($salesNote, $notes->dataNotes[$i]);
+                }
+            }
+        }
+    } elseif ($category == 'Signage') {
+        $description = json_decode($products[0]->description);
+        if ($description->type == 'Videotron') {
+            for ($i = 0; $i < count($notes->dataNotes); $i++) {
+                if ($i == 2) {
+                    array_push($salesNote, $notes->dataNotes[$i]);
+                }
+            }
+        } else {
+            $freeInstall = $notes->freeInstall;
+            $freePrint = $notes->freePrint;
+            if ($freeInstall != 0 && $freePrint != 0) {
+                for ($i = 0; $i < count($notes->dataNotes); $i++) {
+                    if ($i == 2 || $i == 3) {
+                        array_push($salesNote, $notes->dataNotes[$i]);
+                    }
+                }
+            } elseif (($freeInstall != 0 && $freePrint == 0) || ($freeInstall == 0 && $freePrint != 0)) {
+                for ($i = 0; $i < count($notes->dataNotes); $i++) {
+                    if ($i == 2) {
+                        array_push($salesNote, $notes->dataNotes[$i]);
+                    }
+                }
+            }
+        }
+    } else {
+        for ($i = 0; $i < count($notes->dataNotes); $i++) {
+            if ($i == 2) {
+                array_push($salesNote, $notes->dataNotes[$i]);
+            }
+        }
+    }
+    
+    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    ?>
+    <div class="flex justify-center bg-black p-10">
+        <div>
+            <!-- Title Show Quotatin start -->
+            <div class="flex border-b">
+                <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary mb-2" title="Create PDF"
+                    type="button">
+                    <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24">
+                        <path
+                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                    </svg>
+                    <span class="ml-2 text-white">Save PDF</span>
+                </button>
+                <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
+                    href="/sales-data/home/{{ $category }}">
+                    <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                    </svg>
+                    <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Close</span>
+                </a>
+                @if (session()->has('success'))
+                    <div class="ml-2 flex alert-success">
+                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                        </svg>
+                        <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                    </div>
+                @endif
+            </div>
+            <!-- Title Show Quotatin end -->
+            <div id="pdfPreview">
+                <div class="flex justify-center w-full">
+                    <div>
+                        @foreach ($sales_data as $sale)
+                            <div class="w-[950px] h-[1345px] bg-white mt-1">
+                                <!-- Header start -->
+                                @include('dashboard.layouts.letter-header')
+                                <!-- Header end -->
+                                <!-- Body start -->
+                                <div class="h-[1125px]">
+                                    <div class="flex justify-center">
+                                        <div class="w-[725px]">
+                                            <div class="flex justify-center mt-5">
+                                                <label class="sale-label-title">DATA PENJUALAN
+                                                    {{ strtoupper($category) }}</label>
+                                            </div>
+                                            <div class="flex justify-center mt-5">
+                                                <div class="sale-detail">
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">Nomor Penjualan</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <label
+                                                            class="label-sale-02 font-semibold">{{ $sale->number }}</label>
+                                                    </div>
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">Tgl. Penjualan</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <label class="label-sale-02 font-semibold">
+                                                            {{ date('d', strtotime($sale->created_at)) }}
+                                                            {{ $bulan[(int) date('m', strtotime($sale->created_at))] }}
+                                                            {{ date('Y', strtotime($sale->created_at)) }}
+                                                        </label>
+                                                    </div>
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">Dok. Approval</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <label
+                                                            class="label-sale-02 font-semibold">{{ count($quotation_approvals) }}
+                                                            dokumen</label>
+                                                    </div>
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">Dok. PO/SPK</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <label
+                                                            class="label-sale-02 font-semibold">{{ count($quotation_orders) }}
+                                                            dokumen</label>
+                                                    </div>
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">Dok. Agreement</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <label
+                                                            class="label-sale-02 font-semibold">{{ count($quotation_agreements) }}
+                                                            dokumen</label>
+                                                    </div>
+                                                    <div class="div-sale justify-center">
+                                                        <label class="title-periode font-semibold">Periode Kontrak</label>
+                                                    </div>
+                                                    <div class="div-sale justify-center w-[350px] border rounded-lg p-1">
+                                                        <div>
+                                                            <div class="flex justify-center w-[160px]">
+                                                                <label class="text-sm text-teal-700 flex">Awal Kontrak
+                                                                    :</label>
+                                                            </div>
+                                                            <div class="flex justify-center w-[160px]">
+                                                                <label class="text-sm text-teal-700 flex font-semibold">
+                                                                    @if ($sale->start_at)
+                                                                        {{ date('d', strtotime($sale->start_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($sale->start_at))] }}
+                                                                        {{ date('Y', strtotime($sale->start_at)) }}
+                                                                    @else
+                                                                        -
+                                                                    @endif
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="flex justify-center w-[160px]">
+                                                                <label class="text-sm text-teal-700 flex">Akhir Kontrak
+                                                                    :</label>
+                                                            </div>
+                                                            <div class="flex justify-center w-[160px]">
+                                                                <label class="text-sm text-teal-700 flex font-semibold">
+                                                                    @if ($sale->end_at)
+                                                                        {{ date('d', strtotime($sale->end_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($sale->end_at))] }}
+                                                                        {{ date('Y', strtotime($sale->end_at)) }}
+                                                                    @else
+                                                                        -
+                                                                    @endif
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="sale-detail ml-2">
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">No. Penawaran</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <label
+                                                            class="label-sale-02 font-semibold">{{ $number }}</label>
+                                                    </div>
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">Tgl. Penawaran</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <label
+                                                            class="label-sale-02 font-semibold">{{ date('d', strtotime($created_at)) }}
+                                                            {{ $bulan[(int) date('m', strtotime($created_at))] }}
+                                                            {{ date('Y', strtotime($created_at)) }}</label>
+                                                    </div>
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">Nama Klien</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <label
+                                                            class="label-sale-02 font-semibold">{{ $clients->name }}</label>
+                                                    </div>
+                                                    @if ($clients->type == 'Perusahaan')
+                                                        <div class="div-sale">
+                                                            <label class="label-sale-01">Perusahaan</label>
+                                                            <label class="label-sale-02">:</label>
+                                                            <label
+                                                                class="label-sale-02 font-semibold">{{ $clients->company }}</label>
+                                                        </div>
+                                                    @endif
+                                                    <div class="div-sale">
+                                                        <label class="label-sale-01">Alamat</label>
+                                                        <label class="label-sale-02">:</label>
+                                                        <textarea class="ml-1 w-[230px] outline-none border text-teal-700 text-sm p-1 font-semibold" rows="2" readonly>{{ $clients->address }}</textarea>
+                                                    </div>
+                                                    @if ($clients->type == 'Perusahaan')
+                                                        <div class="div-sale">
+                                                            <label class="label-sale-01">Kontak Person</label>
+                                                            <label class="label-sale-02">:</label>
+                                                            <label
+                                                                class="label-sale-02 font-semibold">{{ $clients->contact_name }}</label>
+                                                        </div>
+                                                    @endif
+                                                    @if ($clients->type == 'Perusahaan')
+                                                        <div class="div-sale">
+                                                            <label class="label-sale-01">No. Handphone</label>
+                                                            <label class="label-sale-02">:</label>
+                                                            <label
+                                                                class="label-sale-02 font-semibold">{{ $clients->contact_phone }}</label>
+                                                        </div>
+                                                        <div class="div-sale">
+                                                            <label class="label-sale-01">Email</label>
+                                                            <label class="label-sale-02">:</label>
+                                                            <label
+                                                                class="label-sale-02 font-semibold">{{ $clients->contact_email }}</label>
+                                                        </div>
+                                                    @elseif ($clients->type == 'Perorangan')
+                                                        <div class="div-sale">
+                                                            <label class="label-sale-01">No. Handphone</label>
+                                                            <label class="label-sale-02">:</label>
+                                                            <label
+                                                                class="label-sale-02 font-semibold">{{ $clients->phone }}</label>
+                                                        </div>
+                                                        <div class="div-sale">
+                                                            <label class="label-sale-01">Email</label>
+                                                            <label class="label-sale-02">:</label>
+                                                            <label
+                                                                class="label-sale-02 font-semibold">{{ $clients->email }}</label>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- table start -->
+                                    <div class="flex justify-center mt-2">
+                                        <div class="w-[750px]">
+                                            <table class="table-auto w-full">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-xs text-teal-700 border w-20" rowspan="2">
+                                                            Kode
+                                                        </th>
+                                                        <th class="text-xs text-teal-700 border" rowspan="2">Lokasi
+                                                        </th>
+                                                        <th class="text-xs text-teal-700 border w-48" colspan="2">
+                                                            Deskripsi
+                                                        </th>
+                                                        <th class="text-xs text-teal-700 border w-24">Harga (Rp.)</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-xs text-teal-700 border w-16">Jenis</th>
+                                                        <th class="text-xs text-teal-700 border w-32">Size - V/H</th>
+                                                        <th class="text-xs text-teal-700 border w-24">
+                                                            @if ($category == 'Billboard')
+                                                                @foreach ($price->dataTitle as $dataTitle)
+                                                                    @if ($dataTitle->checkbox == true)
+                                                                        {{ $dataTitle->title }}
+                                                                    @endif
+                                                                @endforeach
+                                                            @elseif ($category == 'Signage')
+                                                                @if ($description->type == 'Videotron')
+                                                                    @if ($price->priceType[0] == true)
+                                                                        @foreach ($price->dataSharingPrice as $sharingPrice)
+                                                                            @if ($sharingPrice->checkbox == true)
+                                                                                {{ $sharingPrice->title }}
+                                                                                @php
+                                                                                    $thTitle =
+                                                                                        'HARGA SHARING ' .
+                                                                                        $price->slotQty .
+                                                                                        ' SLOT';
+                                                                                @endphp
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                    @if ($price->priceType[1] == true)
+                                                                        @foreach ($price->dataExclusivePrice as $exclusivePrice)
+                                                                            @if ($exclusivePrice->checkbox == true)
+                                                                                {{ $exclusivePrice->title }}
+                                                                                @php
+                                                                                    $thTitle = 'HARGA EKSKLUSIF 4 SLOT';
+                                                                                @endphp
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                @else
+                                                                    @foreach ($price->dataTitle as $dataTitle)
+                                                                        @if ($dataTitle->checkbox == true)
+                                                                            {{ $dataTitle->title }}
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            @else
+                                                                @if ($price->priceType[0] == true)
+                                                                    @foreach ($price->dataSharingPrice as $sharingPrice)
+                                                                        @if ($sharingPrice->checkbox == true)
+                                                                            {{ $sharingPrice->title }}
+                                                                            @php
+                                                                                $thTitle =
+                                                                                    'HARGA SHARING ' .
+                                                                                    $price->slotQty .
+                                                                                    ' SLOT';
+                                                                            @endphp
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                                @if ($price->priceType[1] == true)
+                                                                    @foreach ($price->dataExclusivePrice as $exclusivePrice)
+                                                                        @if ($exclusivePrice->checkbox == true)
+                                                                            {{ $exclusivePrice->title }}
+                                                                            @php
+                                                                                $thTitle = 'HARGA EKSKLUSIF 4 SLOT';
+                                                                            @endphp
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            @endif
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($products as $data)
+                                                        @if ($data->code == $sale->product_code)
+                                                            @php
+                                                                $product = $data;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    <tr>
+                                                        <td class="text-xs text-teal-700 border text-center">
+                                                            {{ $product->code }}-{{ $product->city_code }}</td>
+                                                        <td class="text-xs text-teal-700 border px-2">
+                                                            {{ $product->address }}
+                                                        </td>
+                                                        <td class="text-xs text-teal-700 border text-center">
+                                                            {{ $product->category }}</td>
+                                                        <td class="text-xs text-teal-700 border text-center">
+                                                            {{ $product->size }} - {{ $product->side }} -
+                                                            @if ($product->orientation == 'Vertikal')
+                                                                V
+                                                            @elseif ($product->orientation == 'Horizontal')
+                                                                H
+                                                            @endif
+                                                        </td>
+                                                        <td id="previewPrice"
+                                                            class="text-xs  text-teal-700 border text-right px-2">
+                                                            @if ($category == 'Billboard')
+                                                                @php
+                                                                    $index = $loop->iteration - 1;
+                                                                    $getCode =
+                                                                        $product->code . '-' . $product->city_code;
+                                                                    $getPrice = 0;
+                                                                    for ($i = 0; $i < count($price->dataTitle); $i++) {
+                                                                        if ($price->dataTitle[$i]->checkbox == true) {
+                                                                            $getPrice =
+                                                                                $price->dataPrice[$i][$index]->price;
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                                {{ number_format($getPrice) }}
+                                                            @elseif ($category == 'Signage')
+                                                                @if ($description->type == 'Videotron')
+                                                                    @if ($price->priceType[0] == true)
+                                                                        @foreach ($price->dataSharingPrice as $sharingPrice)
+                                                                            @if ($sharingPrice->checkbox == true)
+                                                                                {{ number_format($sharingPrice->price) }}
+                                                                                @php
+                                                                                    $getPrice = $sharingPrice->price;
+                                                                                @endphp
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                    @if ($price->priceType[1] == true)
+                                                                        @foreach ($price->dataExclusivePrice as $exclusivePrice)
+                                                                            @if ($exclusivePrice->checkbox == true)
+                                                                                {{ number_format($exclusivePrice->price) }}
+                                                                                @php
+                                                                                    $getPrice = $exclusivePrice->price;
+                                                                                @endphp
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                @else
+                                                                    @php
+                                                                        $index = $loop->iteration - 1;
+                                                                        $getCode =
+                                                                            $product->code . '-' . $product->city_code;
+                                                                        $getPrice = 0;
+                                                                        for (
+                                                                            $i = 0;
+                                                                            $i < count($price->dataTitle);
+                                                                            $i++
+                                                                        ) {
+                                                                            if (
+                                                                                $price->dataTitle[$i]->checkbox == true
+                                                                            ) {
+                                                                                $getPrice =
+                                                                                    $price->dataPrice[$i][$index]
+                                                                                        ->price;
+                                                                            }
+                                                                        }
+                                                                    @endphp
+                                                                    {{ number_format($getPrice) }}
+                                                                @endif
+                                                            @else
+                                                                @if ($price->priceType[0] == true)
+                                                                    @foreach ($price->dataSharingPrice as $sharingPrice)
+                                                                        @if ($sharingPrice->checkbox == true)
+                                                                            {{ number_format($sharingPrice->price) }}
+                                                                            @php
+                                                                                $getPrice = $sharingPrice->price;
+                                                                            @endphp
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                                @if ($price->priceType[1] == true)
+                                                                    @foreach ($price->dataExclusivePrice as $exclusivePrice)
+                                                                        @if ($exclusivePrice->checkbox == true)
+                                                                            {{ number_format($exclusivePrice->price) }}
+                                                                            @php
+                                                                                $getPrice = $exclusivePrice->price;
+                                                                            @endphp
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    @if ($sale->dpp)
+                                                        <tr>
+                                                            <td class="border px-2 text-right text-xs text-teal-700 font-semibold"
+                                                                colspan="4">DPP</td>
+                                                            <td class="text-xs text-teal-700 border text-right px-2">
+                                                                {{ number_format($sale->dpp) }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="border px-2 text-right text-xs text-teal-700 font-semibold"
+                                                                colspan="4">(A) PPN (11%)</td>
+                                                            <td class="text-xs text-teal-700 border text-right px-2">
+                                                                {{ number_format($sale->dpp * 0.11) }}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="border px-2 text-right text-xs text-teal-700 font-semibold"
+                                                                colspan="4">(B) PPh (2%)</td>
+                                                            <td class="text-xs text-teal-700 border text-right px-2">
+                                                                {{ number_format($sale->dpp * 0.02) }}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="border px-2 text-right text-xs text-teal-700 font-semibold"
+                                                                colspan="4">TOTAL (Harga + A - B)</td>
+                                                            <td class="text-xs text-teal-700 border text-right px-2">
+                                                                {{ number_format($getPrice + $sale->dpp * 0.11 - $sale->dpp * 0.02) }}
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- table end -->
+
+                                    <!-- notes start -->
+                                    <div class="flex justify-center mt-2">
+                                        <div class="div-sale-notes w-[365px] p-2">
+                                            <div>
+                                                <label class="sale-note-title">Termin Pembayaran</label>
+                                                @foreach ($payment_terms->dataPayments as $payment_term)
+                                                    <div class="flex">
+                                                        <label class="label-number-notes">{{ $loop->iteration }}. </label>
+                                                        <label class="label-sale-notes">{{ $payment_term->term }}
+                                                            {{ $payment_term->note }}</label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="mt-4">
+                                                <label class="sale-note-title">Gratis Pelayanan :</label>
+                                                <div>
+                                                    @foreach ($salesNote as $note)
+                                                        <label class="label-sale-notes flex">{{ $note }}</label>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="div-sale-notes w-[365px] p-2 ml-5">
+                                            <div>
+                                                <label class="sale-note-title">Keterangan Tambahan :</label>
+                                                <textarea class="label-sale-notes border outline-none p-2" rows="7" readonly>{{ $sale->note }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- notes end -->
+
+                                    <!-- sign area start -->
+                                    <div class="flex justify-center mt-2">
+                                        <div class="sign-area">
+                                            <div class="div-sign">
+                                                <table class="table-sign">
+                                                    <thead>
+                                                        <tr class="h-10">
+                                                            <th class="th-title-sign" colspan="4">Mengetahui :</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="td-sign">Nur Cahyono</td>
+                                                            <td class="td-sign">Yudhi Pratama</td>
+                                                            <td class="td-sign">Ayu Putri Lestari</td>
+                                                            <td class="td-sign">Texun Sandy Kamboy</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- sign area end -->
+
+                                    <!-- photo start -->
+                                    <div class="flex justify-center mt-2">
+                                        <div class="sale-detail">
+                                            <img class="img-location-sale"
+                                                src="{{ asset('storage/' . $product->location_photo) }}">
+                                        </div>
+                                        <div class="qr-code-sale ml-4">
+
+                                        </div>
+                                    </div>
+                                    <!-- photo end -->
+                                </div>
+                                <!-- Body end -->
+                                <!-- Footer start -->
+                                @include('dashboard.layouts.letter-footer')
+                                <!-- Footer end -->
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id="saveName" type="text"
+            value="{{ Str::substr($sale->number, 0, 4) }}-PJ-{{ $category }}-{{ $clients->name }}" hidden>
+    </div>
+    <!-- Show Quotatin end -->
+
+    <!-- Script start -->
+    <script src="/js/html2canvas.min.js"></script>
+    <script src="/js/html2pdf.bundle.min.js"></script>
+    <script src="/js/qrcode.min.js"></script>
+
+    <script>
+        const saveName = document.getElementById("saveName");
+        document.getElementById("btnCreatePdf").onclick = function() {
+            var element = document.getElementById('pdfPreview');
+            var opt = {
+                margin: 0,
+                filename: saveName.value,
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy']
+                },
+                html2canvas: {
+                    dpi: 192,
+                    scale: 4,
+                    letterRendering: true,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'px',
+                    format: [950, 1365],
+                    orientation: 'portrait',
+                    putTotalPages: true
+                }
+            };
+            // html2pdf(element, opt);
+            html2pdf().set(opt).from(element).save();
+        };
+    </script>
+    <!-- Script end -->
+@endsection

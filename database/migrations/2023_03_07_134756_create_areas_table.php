@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->integer('area_code');
-            $table->string('provinsi');
-            $table->string('area');
+            $table->integer('area_code')->unique();;
+            $table->string('area')->unique();;
             $table->double('lat');
             $table->double('lng');
             $table->float('zoom');
-
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\VendorCategory;
 use App\Models\User;
+use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,9 +16,10 @@ class VendorCategoryController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('dashboard.media.vendor-categories.index', [
-            'vendor_categories'=>VendorCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("name", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Vendor'
+        return response()-> view ('vendor-categories.index', [
+            'vendor_categories'=>VendorCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
+            'title' => 'Daftar Katagori Vendor',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -27,8 +29,9 @@ class VendorCategoryController extends Controller
     public function create(): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()-> view ('dashboard.media.vendor-categories.create', [
-                'title' => 'Create Vendor Category'
+            return response()-> view ('vendor-categories.create', [
+                'title' => 'Menambah Katagori Vendor',
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -41,16 +44,37 @@ class VendorCategoryController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-        
+            if ($request->name == 'pilih'){
+                return back()->withErrors(['name' => ['Silahkan pilih katagori']])->withInput();
+            }
+            // Set code --> start
+            $dataCategory = VendorCategory::all()->last();
+            if($dataCategory){
+                $lastCode = (int)substr($dataCategory->code,3,3);
+                $newCode = $lastCode + 1;
+            } else {
+                $newCode = 1;
+            }
+            
+    
+            if($newCode < 10 ){
+                $code = 'VC-00'.$newCode;
+            } else {
+                $code = 'VC-0'.$newCode;
+            }
+            // Set code --> end
+
+            $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
             $validateData = $request->validate([
+                'code' => 'required|unique:vendor_categories',
                 'name' => 'required|unique:vendor_categories',
+                'user_id' => 'required',
                 'description' => 'required'
             ]);
             
-            $validateData['user_id'] = auth()->user()->id;
             VendorCategory::create($validateData);
     
-            return redirect('/dashboard/media/vendor-categories')->with('success','Katagori vendor dengan nama '. $request->name . ' berhasil ditambahkan');
+            return redirect('/vendor-categories')->with('success','Katagori vendor dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -61,9 +85,10 @@ class VendorCategoryController extends Controller
      */
     public function show(VendorCategory $vendorCategory): Response
     {
-        return response()-> view ('dashboard.media.vendor-categories.show', [
+        return response()-> view ('vendor-categories.show', [
             'vendor_category' => $vendorCategory,
-            'title' => 'Detail Katagori Vendor' . $vendorCategory->name
+            'title' => 'Data Katagori Vendor' . $vendorCategory->name,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -73,9 +98,10 @@ class VendorCategoryController extends Controller
     public function edit(VendorCategory $vendorCategory): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()->view('dashboard.media.vendor-categories.edit', [
+            return response()->view('vendor-categories.edit', [
                 'vendor_category' => $vendorCategory,
-                'title' => 'Edit Katagori Vendor'
+                'title' => 'Edit Data Katagori Vendor',
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -88,23 +114,22 @@ class VendorCategoryController extends Controller
     public function update(Request $request, VendorCategory $vendorCategory): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $request->request->add(['user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'description' => 'required'
+            ];
+            
             if ($request->name != $vendorCategory->name) {
-                $validateData = $request->validate([
-                    'name' => 'required|unique:vendor_categories',
-                    'description' => 'required'
-                ]);
-            } else {
-                $validateData = $request->validate([
-                    'description' => 'required'
-                ]);
-            }
+                $rules['name'] = 'required|unique:vendor_categories';
+            } 
                 
-            $validateData['user_id'] = auth()->user()->id;
+            $validateData = $request->validate($rules);
                 
             VendorCategory::where('id', $vendorCategory->id)
                 ->update($validateData);
         
-            return redirect('/dashboard/media/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name . ' berhasil diupdate');
+            return redirect('/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name . ' berhasil dirubah');
         } else {
             abort(403);
         }
@@ -118,7 +143,7 @@ class VendorCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             VendorCategory::destroy($vendorCategory->id);
 
-            return redirect('/dashboard/media/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name .' berhasil dihapus');
+            return redirect('/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name .' berhasil dihapus');
         } else {
             abort(403);
         }

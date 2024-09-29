@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PrintingProduct;
 use App\Models\User;
+use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,9 +16,10 @@ class PrintingProductController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('dashboard.media.printing-products.index', [
+        return response()-> view ('printing-products.index', [
             'printing_products'=>PrintingProduct::filter(request('search'))->sortable()->with(['user'])->orderBy("name", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Bahan Printing'
+            'title' => 'Daftar Bahan Cetak',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -33,8 +35,9 @@ class PrintingProductController extends Controller
     public function create(): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()-> view ('dashboard.media.printing-products.create', [
-                'title' => 'Create Printing Product'
+            return response()-> view ('printing-products.create', [
+                'title' => 'Menambahkan Data Bahan Cetak',
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -52,24 +55,35 @@ class PrintingProductController extends Controller
                 return back()->withErrors(['type' => ['Silahkan pilih type bahan']])->withInput();
             }
 
-            $productData = PrintingProduct::all();
-            foreach($productData as $poduct){
-                if($poduct->name == $request->name && $poduct->type == $request->type){
-                    return back()->withErrors(['name' => ['Nama bahan dengan tipe yang sama sudah terdaftar, silahkan input nama atau pilih tipe yang lain']])->withInput();
-                }
+            // Set code --> start
+            $dataProduct = PrintingProduct::all()->last();
+            if($dataProduct){
+                $lastCode = (int)substr($dataProduct->code,3,3);
+                $newCode = $lastCode + 1;
+            } else {
+                $newCode = 1;
             }
+            
+    
+            if($newCode < 10 ){
+                $code = 'PP-00'.$newCode;
+            } else {
+                $code = 'PP-0'.$newCode;
+            }
+            // Set code --> end
 
+            $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
             $validateData = $request->validate([
+                'code' => 'required|unique:printing_products',
                 'name' => 'required|unique:printing_products',
+                'user_id' => 'required',
                 'type' => 'required',
-                'price' => 'required'
+                'description' => 'nullable'
             ]);
             
-            $validateData['description'] = $request->description;
-            $validateData['user_id'] = auth()->user()->id;
             PrintingProduct::create($validateData);
     
-            return redirect('/dashboard/media/printing-products')->with('success','Bahan cetak '. $request->name . ' berhasil ditambahkan');
+            return redirect('/printing-products')->with('success','Bahan cetak dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -80,9 +94,10 @@ class PrintingProductController extends Controller
      */
     public function show(PrintingProduct $printingProduct): Response
     {
-        return response()-> view ('dashboard.media.printing-products.show', [
+        return response()-> view ('printing-products.show', [
             'printing_product' => $printingProduct,
-            'title' => 'Detail Bahan ' . $printingProduct->name
+            'title' => 'Detail Data Bahan ' . $printingProduct->name,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -92,9 +107,10 @@ class PrintingProductController extends Controller
     public function edit(PrintingProduct $printingProduct): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()->view('dashboard.media.printing-products.edit', [
+            return response()->view('printing-products.edit', [
                 'printing_product' => $printingProduct,
-                'title' => 'Edit Bahan Cetak'
+                'title' => 'Edit Data Bahan Cetak',
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -107,21 +123,21 @@ class PrintingProductController extends Controller
     public function update(Request $request, PrintingProduct $printingProduct): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $request->request->add(['user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'type' => 'required',
+                'description' => 'nullable'
+            ];
             if ($request->name != $printingProduct->name) {
-                $validateData = $request->validate([
-                    'name' => 'required|unique:printing_products'
-                ]);
+                $rules['name'] = 'required|unique:printing_products';
             }
-                
-            $validateData['type'] = $request->type;
-            $validateData['price'] = $request->price;
-            $validateData['description'] = $request->description;
-            $validateData['user_id'] = auth()->user()->id;
+            $validateData = $request->validate($rules);
                 
             PrintingProduct::where('id', $printingProduct->id)
                 ->update($validateData);
         
-            return redirect('/dashboard/media/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name . ' berhasil diupdate');
+            return redirect('/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name . ' berhasil dirubah');
         } else {
             abort(403);
         }
@@ -135,7 +151,7 @@ class PrintingProductController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             PrintingProduct::destroy($printingProduct->id);
 
-            return redirect('/dashboard/media/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name .' berhasil dihapus');
+            return redirect('/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name .' berhasil dihapus');
         } else {
             abort(403);
         }

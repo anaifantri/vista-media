@@ -30,7 +30,7 @@
         {{-- @include('dashboard.layouts.sidebar') --}}
         <!-- Sidebar End-->
         <!-- Main Section start -->
-        <div class="relative ml-14">
+        <div class="relative">
             @yield('container')
         </div>
         <!-- Main Section end -->

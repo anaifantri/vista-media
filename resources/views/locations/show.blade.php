@@ -62,7 +62,7 @@
         <div class="mt-10">
             <!-- Show Location Title start -->
             <div class="flex w-[1140px] items-center border-b">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[5500px]"> DETAIL LOKASI
+                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]"> DETAIL LOKASI
                     {{ strtoupper($category) }}</h1>
                 <div class="flex justify-end">
                     <a class="flex justify-center items-center ml-1 btn-primary" href="/locations/home/{{ $category }}">

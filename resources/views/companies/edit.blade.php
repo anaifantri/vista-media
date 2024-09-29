@@ -1,38 +1,57 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex justify-center mt-10">
-        <div class="md:flex">
-            <form class="md:flex" method="post" action="/companies/{{ $company->id }}" enctype="multipart/form-data">
-                @method('put')
-                @csrf
-                <div class="flex justify-center items-center w-60 md:w-72">
-                    <div class="d-flex justify-center items-center p-8">
-                        <label class="flex justify-center text-sm text-teal-700 mb-2">Logo Perusahaan</label>
-                        <input type="hidden" name="oldLogo" value="{{ $company->logo }}">
-                        @if ($company->logo)
-                            <img class="m-auto img-preview flex rounded-full items-center w-48"
-                                src="{{ asset('storage/' . $company->logo) }}">
-                        @else
-                            <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
-                                src="/img/photo_profile.png">
-                        @endif
-                        <input
-                            class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 md:w-72 mt-5 @error('logo') is-invalid @enderror"
-                            type="file" id="logo" name="logo" onchange="previewImage()">
-                        @error('logo')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
+    <form method="post" action="/companies/{{ $company->id }}" enctype="multipart/form-data">
+        @method('put')
+        @csrf
+        <div class="flex justify-center">
+            <div class="mt-10">
+                <div class="flex items-center w-[900px] border-b">
+                    <!-- Title Area start -->
+                    <h1 class="index-h1 w-[500px]">MERUBAH DATA PERUSAHAAN</h1>
+                    <!-- Title Area end -->
+                    <div class="flex w-full justify-end items-center p-1">
+                        <button class="flex justify-center items-center mx-1 btn-primary" type="submit">
+                            <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                            </svg>
+                            <label class="mx-1">Save</label>
+                        </button>
+                        <a class="flex justify-center items-center mx-1 btn-danger" href="/companies">
+                            <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                            </svg>
+                            <label class="mx-1">Cancel</label>
+                        </a>
                     </div>
                 </div>
-                <div class="flex w-72 md:w-96 items-center">
-                    <div class="p-3 py-3 w-full">
-                        <div class="flex items-center mb-2">
-                            <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Edit Data Perusahaan</h4>
+                <div class="flex justify-center items-center w-[900px]">
+                    <div class="flex justify-center items-center w-[400px]">
+                        <div>
+                            <input type="hidden" name="oldLogo" value="{{ $company->logo }}">
+                            @if ($company->logo)
+                                <img class="m-auto img-preview flex items-center w-44"
+                                    src="{{ asset('storage/' . $company->logo) }}">
+                            @else
+                                <img class="m-auto img-preview flex items-center w-44" src="/img/photo_profile.png">
+                            @endif
+                            <label class="flex justify-center text-sm text-teal-700 mt-2">Logo Perusahaan</label>
+                            <input
+                                class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-4 @error('logo') is-invalid @enderror"
+                                type="file" id="logo" name="logo" onchange="previewImage(this)">
+                            @error('logo')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
-                        <div class="mt-5 w-full">
+                    </div>
+                    <div class="flex justify-center items-center w-[500px]">
+                        <div class="p-2 w-full">
                             <div class="border-b mt-2">
                                 <label class="flex text-sm text-teal-700">Kode</label>
                                 <label class="flex text-semibold">{{ $company->code }}</label>
@@ -40,7 +59,8 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">Nama Perusahaan</label>
                                 <input
                                     class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
-                                    type="text" id="name" name="name" value="{{ $company->name }}" autofocus>
+                                    type="text" id="name" name="name" value="{{ $company->name }}" required
+                                    autofocus>
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -50,7 +70,7 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">Alamat Perusahaan</label>
                                 <textarea
                                     class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                    name="address" id="address" required placeholder="Alamat Perusahaan">{{ $company->address }}</textarea>
+                                    name="address" id="address" placeholder="Input Alamat Perusahaan" required>{{ $company->address }}</textarea>
                                 @error('address')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -60,7 +80,7 @@
                             <div class="mt-2"><label class="text-sm text-teal-700">Email</label>
                                 <input
                                     class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
-                                    type="text" id="email" name="email" value="{{ $company->email }}">
+                                    type="text" id="email" name="email" value="{{ $company->email }}" required>
                                 @error('email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -79,58 +99,22 @@
                             </div>
                             <div class="mt-2"><label class="text-sm text-teal-700">No. Hp</label>
                                 <input
-                                    class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('mobile_phone') is-invalid @enderror"
-                                    type="text" id="mobile_phone" name="mobile_phone"
-                                    value="{{ $company->mobile_phone }}">
-                                @error('mobile_phone')
+                                    class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('m_phone') is-invalid @enderror"
+                                    type="text" id="m_phone" name="m_phone" value="{{ $company->m_phone }}">
+                                @error('m_phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <div class="flex mt-5">
-                                <button class="flex items-center justify-center btn-primary mx-1" type="submit">
-                                    <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 20l-1.359-2.038c-1.061.653-2.305 1.038-3.641 1.038-3.859 0-7-3.14-7-7h2c0 2.757 2.243 5 5 5 .927 0 1.786-.264 2.527-.708l-1.527-2.292h5.719l-1.719 6zm0-8c0-2.757-2.243-5-5-5-.927 0-1.786.264-2.527.708l1.527 2.292h-5.719l1.719-6 1.359 2.038c1.061-.653 2.305-1.038 3.641-1.038 3.859 0 7 3.14 7 7h-2z" />
-                                    </svg>
-                                    <span class="mx-1"> Update </span>
-                                </button>
-                                <a href="/companies" class="flex items-center justify-center btn-danger mx-1">
-                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="mx-1"> Cancel </span>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 
     <!-- Script Preview Image start-->
-    <script>
-        function previewImage() {
-            const logo = document.querySelector('#logo');
-            const imgPreview = document.querySelector('.img-preview');
-
-            // imgPreview.style.display = 'block';
-
-            const oFReader = new FileReader();
-
-            oFReader.readAsDataURL(logo.files[0]);
-
-            oFReader.onload = function(oFREvent) {
-                imgPreview.src = oFREvent.target.result;
-            }
-        }
-    </script>
+    <script src="/js/previewimage.js"></script>
     <!-- Script Preview Image end-->
 @endsection

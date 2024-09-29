@@ -25,6 +25,14 @@ class MediaCategory extends Model
         return $this->hasMany(Location::class, 'media_category_id', 'id');
     }
 
+    public function quotations(){
+        return $this->hasMany(Quotation::class, 'media_category_id', 'id');
+    }
+
+    public function sales_data(){
+        return $this->hasMany(SalesData::class, 'media_category_id', 'id');
+    }
+
     public function location_photos(){
         return $this->hasMany(LocationPhoto::class, 'media_category_id', 'id');
     }

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained();
             $table->foreignId('client_id')->constrained();
             $table->foreignId('contact_id')->constrained();
-            $table->foreignId('billboard_id')->constrained();
             $table->foreignId('print_instal_quotation_id')->constrained();
             $table->json('products');
             $table->timestamps();

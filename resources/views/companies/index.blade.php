@@ -4,9 +4,9 @@
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
             <div class="w-[1200px] p-2">
-                <div class="flex">
+                <div class="flex border-b">
                     <h1 class="index-h1"> Daftar Perusahaan</h1>
-                    <div class="flex border-b">
+                    <div class="flex">
                         <a href="/companies/create" class="index-link btn-primary">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +65,7 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-sm text-center">address</th>
+                            <th class="text-teal-700 border text-sm text-center">Alamat Perusahaan</th>
                             <th class="text-teal-700 border text-sm text-center w-44">Email</th>
                             <th class="text-teal-700 border text-sm text-center w-28">No. Telepon</th>
                             <th class="text-teal-700 border text-sm text-center w-28">Mobile Phone</th>

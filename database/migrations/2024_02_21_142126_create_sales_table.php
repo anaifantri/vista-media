@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained();
             $table->foreignId('client_id')->constrained();
             $table->foreignId('contact_id')->constrained();
-            $table->foreignId('billboard_id')->constrained();
             $table->foreignId('billboard_quotation_id')->nullable()->constrained();
             $table->foreignId('billboard_quot_revision_id')->nullable()->constrained();
             $table->decimal('price',12,0)->unsigned()->default(0);

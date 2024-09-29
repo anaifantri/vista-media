@@ -13,8 +13,8 @@
         <input id="description" type="text" value="{{ old('description') }}" hidden>
         <input name="created_by" type="text" value="{{ json_encode($created_by) }}" hidden>
         <input name="modified_by" type="text" value="{{ json_encode($created_by) }}" hidden>
-        <input name="media_category_id" type="text" value="{{ $categories->id }}" hidden>
-        <input name="category" type="text" value="{{ $categories->name }}" hidden>
+        <input name="media_category_id" type="text" value="{{ $data_category->id }}" hidden>
+        <input name="category" type="text" value="{{ $data_category->name }}" hidden>
         <div class="flex justify-center">
             <div class="mt-10">
                 <!-- Create New Location Title start -->

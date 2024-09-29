@@ -15,7 +15,7 @@ class Area extends Model
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('area', 'like', '%' . $search . '%')
-                    ->orWhere('provinsi', 'like', '%' . $search . '%'));
+                    ->orWhere('code', 'like', '%' . $search . '%'));
     }
     public function locations(){
         return $this->hasMany(Location::class, 'area_id', 'id');
@@ -39,7 +39,6 @@ class Area extends Model
     }
 
     public $sortable = ['area_code',
-                        'provinsi',
                         'area'
                         ];
 }

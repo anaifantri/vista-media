@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('code')->unique();
             $table->string('city')->unique();
-            $table->double('lat')->unique();
-            $table->double('lng')->unique();
+            $table->double('lat');
+            $table->double('lng');
             $table->float('zoom');
             $table->timestamps();
         });

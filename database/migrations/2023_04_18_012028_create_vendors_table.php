@@ -15,12 +15,21 @@ return new class extends Migration
             $table->id();
             $table->foreignId('vendor_category_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->string('code')->unique();
             $table->string('name')->unique();
             $table->string('company')->unique();
+            $table->string('npwp_number')->nullable()->unique();
+            $table->string('npwp_image')->nullable();
             $table->string('logo')->nullable();
             $table->string('address');
+            $table->string('village')->nullable();
+            $table->string('district')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
+            $table->string('post_code')->nullable();
             $table->string('email')->nullable()->unique();
             $table->string('phone')->nullable()->unique();
+            $table->string('website')->nullable()->unique();
             $table->timestamps();
         });
     }

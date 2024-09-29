@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Models\User;
+use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,7 +18,8 @@ class AreaController extends Controller
     {
         return response()-> view ('areas.index', [
             'areas'=>Area::filter(request('search'))->sortable()->with(['user'])->paginate(10)->withQueryString(),
-            'title' => 'Daftar Area'
+            'title' => 'Daftar Area',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -34,7 +36,8 @@ class AreaController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('areas.create', [
-                'title' => 'Menambahkan Area'
+                'title' => 'Menambahkan Area',
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -47,25 +50,23 @@ class AreaController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            if ($request->lat == ""){
+                return back()->withErrors(['lat' => ['Silahkan memberikan tanda pada peta untuk menentukan lokasi area']])->withInput();
+            }
+
+            $request->request->add(['user_id' => auth()->user()->id]);
             $validateData = $request->validate([
-                'area_code' => 'required',
-                'provinsi' => 'required|max:255',
+                'user_id' => 'required',
+                'area_code' => 'required|unique:areas',
                 'area' => 'required|unique:areas',
                 'lat' => 'required',
                 'lng' => 'required',
                 'zoom' => 'required'
             ]);
-    
-            $validateData['area_code'] = $request->input('area_code');
-            $validateData['area'] = $request->input('area');
-            $validateData['lat'] = $request->input('lat');
-            $validateData['lng'] = $request->input('lng');
-            $validateData['zoom'] = $request->input('zoom');
-            $validateData['user_id'] = auth()->user()->id;
+
             Area::create($validateData);
     
-            $area = $request->input('area');
-            return redirect('/area')->with('success','Area '. $area . ' berhasil ditambahkan');
+            return redirect('/area')->with('success','Area dengan nama '. $request->area . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -78,7 +79,8 @@ class AreaController extends Controller
     {
         return response()-> view ('areas.show', [
             'area' => $area,
-            'title' => 'Area ' . $area->area
+            'title' => 'Data Area ' . $area->area,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -87,7 +89,11 @@ class AreaController extends Controller
      */
     public function edit(Area $area): Response
     {
-        //
+        return response()->view('areas.edit', [
+            'area' => $area,
+            'title' => 'Merubah Data Area',
+            'categories' => MediaCategory::all()
+        ]);
     }
 
     /**
@@ -95,7 +101,27 @@ class AreaController extends Controller
      */
     public function update(Request $request, Area $area): RedirectResponse
     {
-        //
+        $request->request->add(['user_id' => auth()->user()->id]);
+        $rules = [
+            'user_id' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'zoom' => 'required'
+        ];
+
+        if($request->area_code != $area->area_code){
+            $rules['area_code'] = 'required|unique:areas';
+        }
+        if($request->area != $area->area){
+            $rules['area'] = 'required|unique:areas';
+        }
+
+        $validateData = $request->validate($rules);
+
+        Area::where('id', $area->id)
+                ->update($validateData);
+
+        return redirect('/area')->with('success','Data area dengan nama '.$area->area.' berhasil diupdate');
     }
 
     /**
@@ -106,7 +132,7 @@ class AreaController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             Area::destroy($area->id);
 
-            return redirect('/area')->with('success','Area '. $area->area .' berhasil dihapus');
+            return redirect('/area')->with('success','Area dengan nama '. $area->area .' berhasil dihapus');
         } else {
             abort(403);
         }

@@ -104,10 +104,11 @@
                 objLed = JSON.parse(selectLed.options[selectLed.selectedIndex].id);
                 var sizeWidth = objSize.width;
                 var sizeHeight = objSize.height;
-                var cabinetSize = objLed.cabinet_size;
+                var cabinetWidth = objLed.cabinet_width;
+                var cabinetHeight = objLed.cabinet_height;
                 var pixelPitch = objLed.pixel_pitch;
-                screenWidth.value = (cabinetSize / pixelPitch) * sizeWidth;
-                screenHeight.value = (cabinetSize / pixelPitch) * sizeHeight;
+                screenWidth.value = (cabinetWidth / pixelPitch) * sizeWidth;
+                screenHeight.value = (cabinetHeight / pixelPitch) * sizeHeight;
             }
         }
     })
@@ -119,10 +120,11 @@
                 objLed = JSON.parse(selectLed.options[selectLed.selectedIndex].id);
                 var sizeWidth = objSize.width;
                 var sizeHeight = objSize.height;
-                var cabinetSize = objLed.cabinet_size;
+                var cabinetWidth = objLed.cabinet_width;
+                var cabinetHeight = objLed.cabinet_height;
                 var pixelPitch = objLed.pixel_pitch;
-                screenWidth.value = (cabinetSize / pixelPitch) * sizeWidth;
-                screenHeight.value = (cabinetSize / pixelPitch) * sizeHeight;
+                screenWidth.value = (cabinetWidth / pixelPitch) * sizeWidth;
+                screenHeight.value = (cabinetHeight / pixelPitch) * sizeHeight;
             }
         }
     })

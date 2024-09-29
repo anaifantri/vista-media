@@ -21,9 +21,17 @@ class User extends Authenticatable
      */
     protected $guarded = ['id'];
 
-    public function sizes(){
-        return $this->hasMany(Size::class, 'user_id', 'id');
+    public function scopeFilter($query, $filter){
+        $query->when($filter ?? false, fn($query, $search) => 
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('username', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%')
+                    ->orWhere('gender', 'like', '%' . $search . '%')
+                    ->orWhere('position', 'like', '%' . $search . '%')
+                    ->orWhere('level', 'like', '%' . $search . '%'));
     }
+
     public function media_sizes(){
         return $this->hasMany(MediaSize::class, 'user_id', 'id');
     }
@@ -52,26 +60,17 @@ class User extends Authenticatable
     public function location_photos(){
         return $this->hasMany(LocationPhoto::class, 'user_id', 'id');
     }
-    public function billboard_categories(){
-        return $this->hasMany(BillboardCategory::class, 'user_id', 'id');
-    }
     public function media_categories(){
         return $this->hasMany(MediaCategory::class, 'user_id', 'id');
     }
-    public function billboards(){
-        return $this->hasMany(Billboard::class, 'user_id', 'id');
-    }
-    public function videotrons(){
-        return $this->hasMany(Videotron::class, 'user_id', 'id');
-    }
-    public function signages(){
-        return $this->hasMany(Signage::class, 'user_id', 'id');
-    }
-    public function signage_categories(){
-        return $this->hasMany(SignageCategory::class, 'user_id', 'id');
+    public function quotation_categories(){
+        return $this->hasMany(QuotationCategory::class, 'user_id', 'id');
     }
     public function clients(){
         return $this->hasMany(Client::class, 'user_id', 'id');
+    }
+    public function client_categories(){
+        return $this->hasMany(ClientCategory::class, 'user_id', 'id');
     }
     public function contacts(){
         return $this->hasMany(Contact::class, 'user_id', 'id');
@@ -87,9 +86,6 @@ class User extends Authenticatable
     }
     public function billboard_quot_statuses(){
         return $this->hasMany(BillboardQuotStatus::class, 'user_id', 'id');
-    }
-    public function billboard_photos(){
-        return $this->hasMany(BillboardPhoto::class, 'user_id', 'id');
     }
     public function sales(){
         return $this->hasMany(Sale::class, 'user_id', 'id');

@@ -44,5 +44,5 @@ class Vendor extends Model
         return $this->hasMany(PrintingPrice::class, 'vendor_id', 'id');
     }
 
-    public $sortable = ['name','company'];
+    public $sortable = ['code','name','company'];
 }

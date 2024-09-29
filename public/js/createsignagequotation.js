@@ -176,11 +176,11 @@ function showContact() {
 function getContact(sel) {
     for (i = 0; i < dataContact.length; i++) {
         if (dataContact[i]['name'] == sel.options[sel.selectedIndex].text) {
-            if (dataContact[i]['gender'] == 'Laki-Laki') {
+            if (dataContact[i]['gender'] == 'Male') {
                 createClientContact.innerHTML = 'UP. Bapak ' + sel.options[sel.selectedIndex].text;
                 previewClientContact.innerHTML = 'UP. Bapak ' + sel.options[sel.selectedIndex].text;
                 clientContact.value = sel.options[sel.selectedIndex].text;
-            } else if (dataContact[i]['gender'] == 'Perempuan') {
+            } else if (dataContact[i]['gender'] == 'Female') {
                 createClientContact.innerHTML = 'UP. Ibu ' + sel.options[sel.selectedIndex].text;
                 previewClientContact.innerHTML = 'UP. Ibu ' + sel.options[sel.selectedIndex].text;
                 clientContact.value = sel.options[sel.selectedIndex].text;

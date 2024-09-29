@@ -6,6 +6,7 @@ use App\Models\PrintingPrice;
 use App\Models\PrintingProduct;
 use App\Models\Vendor;
 use App\Models\User;
+use App\Models\MediaCategory;
 use App\Models\VendorCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,9 +22,10 @@ class PrintingPriceController extends Controller
         $printing_products = PrintingProduct::with('printing_prices')->get();
         $vendors = Vendor::with('printing_prices')->get();
 
-        return response()-> view ('dashboard.media.printing-prices.index', [
-            'printing_prices'=>PrintingPrice::filter(request('search'))->with(['user'])->paginate(10)->withQueryString(),
+        return response()-> view ('printing-prices.index', [
+            'printing_prices'=>PrintingPrice::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
             'title' => 'Daftar Harga Cetak',
+            'categories' => MediaCategory::all(),
             compact('vendors', 'printing_products')
         ]);
     }
@@ -40,10 +42,10 @@ class PrintingPriceController extends Controller
     public function create(): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()-> view ('dashboard.media.printing-prices.create', [
+            return response()-> view ('printing-prices.create', [
                 'printing_products'=>PrintingProduct::all(),
                 'vendors'=>Vendor::all(),
-                'vendor_categories'=>VendorCategory::all(),
+                'categories' => MediaCategory::all(),
                 'title' => 'Create Printing Price'
             ]);
         } else {
@@ -57,38 +59,48 @@ class PrintingPriceController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            if ($request->printing_product_id == 'Pilih Bahan'){
+            if ($request->printing_product_id == 'pilih'){
                 return back()->withErrors(['printing_product_id' => ['Silahkan pilih bahan']])->withInput();
             }
-
-            if ($request->vendor_id == 'Pilih Vendor'){
+            if ($request->vendor_id == 'pilih'){
                 return back()->withErrors(['vendor_id' => ['Silahkan pilih vendor']])->withInput();
             }
+            $priceData = PrintingPrice::where('printing_product_id', $request->printing_product_id)->where('vendor_id', $request->vendor_id)->get()->last();
+            
+            if($priceData){
+                return back()->withErrors(['printing_product_id' => ['Nama bahan dengan vendor yang sama sudah terdaftar, silahkan pilih bahan/vendor yang lain']])->withInput();
+            }
 
-            $priceData = PrintingPrice::all();
-            foreach($priceData as $price){
-                if($price->printing_product_id == $request->printing_product_id && $price->vendor_id == $request->vendor_id){
-                    return back()->withErrors(['printing_product_id' => ['Nama bahan dengan vendor yang sama sudah terdaftar, silahkan pilih bahan/vendor yang lain']])->withInput();
-                }
+            // Set code --> start
+            $dataPrice = PrintingPrice::all()->last();
+            if($dataPrice){
+                $lastCode = (int)substr($dataPrice->code,3,3);
+                $newCode = $lastCode + 1;
+            } else {
+                $newCode = 1;
             }
             
+    
+            if($newCode < 10 ){
+                $code = 'PR-00'.$newCode;
+            } else {
+                $code = 'PR-0'.$newCode;
+            }
+            // Set code --> end
+            
+            $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
             $validateData = $request->validate([
+                'code' => 'required|unique:printing_prices',
+                'user_id' => 'required',
                 'vendor_id' => 'required',
                 'printing_product_id' => 'required',
-                'price' => 'required'
+                'print_price' => 'required',
+                'sale_price' => 'required'
             ]);
-
-            $data_printing_products = PrintingProduct::all();
-            foreach($data_printing_products as $printing_product){
-                if($printing_product->id == $request->printing_product_id){
-                    $printing_product_name = $printing_product->name;
-                }
-            }
             
-            $validateData['user_id'] = auth()->user()->id;
             PrintingPrice::create($validateData);
     
-            return redirect('/dashboard/media/printing-prices')->with('success','Harga cetak dengan bahan '. $printing_product_name . ' berhasil ditambahkan');
+            return redirect('/printing-prices')->with('success','Harga cetak dengan kode '. $code . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -99,9 +111,10 @@ class PrintingPriceController extends Controller
      */
     public function show(PrintingPrice $printingPrice): Response
     {
-        return response()-> view ('dashboard.media.printing-prices.show', [
+        return response()-> view ('printing-prices.show', [
             'printing_price' => $printingPrice,
-            'title' => 'Detail Harga ' . $printingPrice->printing_product->name
+            'categories' => MediaCategory::all(),
+            'title' => 'Detail Harga Cetak '
         ]);
     }
 
@@ -111,11 +124,11 @@ class PrintingPriceController extends Controller
     public function edit(PrintingPrice $printingPrice): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()->view('dashboard.media.printing-prices.edit', [
+            return response()->view('printing-prices.edit', [
                 'printing_price' => $printingPrice,
                 'printing_products'=>PrintingProduct::all(),
                 'vendors'=>Vendor::all(),
-                'vendor_categories'=>VendorCategory::all(),
+                'categories' => MediaCategory::all(),
                 'title' => 'Edit Harga Cetak'
             ]);
         } else {
@@ -129,19 +142,19 @@ class PrintingPriceController extends Controller
     public function update(Request $request, PrintingPrice $printingPrice): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $request->request->add(['user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'print_price' => 'required',
+                'sale_price' => 'required'
+            ];
             
-            $validateData = $request->validate([
-                'vendor_id' => 'required',
-                'printing_product_id' => 'required',
-                'price' => 'required'
-            ]);
-                
-            $validateData['user_id'] = auth()->user()->id;
+            $validateData = $request->validate($rules);
                 
             PrintingPrice::where('id', $printingPrice->id)
                 ->update($validateData);
         
-            return redirect('/dashboard/media/printing-prices')->with('success','Harga cahan cetak dengan nama '. $printingPrice->printing_product->name . ' berhasil diupdate');
+            return redirect('/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->coe . ' berhasil dirubah');
         } else {
             abort(403);
         }
@@ -155,7 +168,7 @@ class PrintingPriceController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             PrintingPrice::destroy($printingPrice->id);
 
-            return redirect('/dashboard/media/printing-prices')->with('success','Bahan cetak dengan nama '. $printingPrice->printing_product->name .' berhasil dihapus');
+            return redirect('/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->code .' berhasil dihapus');
         } else {
             abort(403);
         }

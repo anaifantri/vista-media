@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Area;
 use App\Models\User;
+use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,7 +19,8 @@ class CityController extends Controller
     {        
         return response()-> view ('cities.index',[
             'cities'=>City::sortable()->with(['user', 'area'])->filter(request(['search']))->paginate(10)->withQueryString(),
-            'title' => 'Daftar Kota'
+            'title' => 'Daftar Kota',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -29,9 +31,9 @@ class CityController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()->view('cities.create', [
-                'title' => 'Tambah Kota',
-                'cities'=>City::all(),
-                'areas'=>Area::all()
+                'title' => 'Menambahkan Data Kota',
+                'areas'=>Area::all(),
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -49,33 +51,28 @@ class CityController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            if($request->area_id == 'Pilih Area'){
+            if($request->area_id == 'pilih'){
                 return back()->withErrors(['area_id' => ['Silahkan pilih area']])->withInput();
             }
-    
-            if ($request->city == 'Pilih Kota'){
-                return back()->withErrors(['city' => ['Silahkan pilih kota']])->withInput();
+
+            if ($request->lat == ""){
+                return back()->withErrors(['lat' => ['Silahkan memberikan tanda pada peta untuk menentukan lokasi kota']])->withInput();
             }
-    
+            
+            $request->request->add(['user_id' => auth()->user()->id]);
             $validateData = $request->validate([
-                'code' => 'required',
-                'area_id' => 'required',
+                'code' => 'required|unique:cities',
                 'city' => 'required|unique:cities',
+                'area_id' => 'required',
+                'user_id' => 'required',
                 'lat' => 'required',
                 'lng' => 'required',
                 'zoom' => 'required'
             ]);
-            $validateData['code'] = $request->input('code');
-            $validateData['area_id'] = $request->input('area_id');
-            $validateData['city'] = $request->input('city');
-            $validateData['lat'] = $request->input('lat');
-            $validateData['lng'] = $request->input('lng');
-            $validateData['zoom'] = $request->input('zoom');
-            $validateData['user_id'] = auth()->user()->id;
             City::create($validateData);
     
             $city = $request->input('city');
-            return redirect('/cities')->with('success','Kota '. $city . ' berhasil ditambahkan');
+            return redirect('/cities')->with('success','Data kota dengan nama '. $city . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -87,15 +84,14 @@ class CityController extends Controller
      */
     public function show(City $city): Response
     {
-        $cities = City::with('area')->with('user')->get();
         $areas = Area::with('cities')->get();
         $users = User::with('cities')->get();
 
         return response()-> view ('cities.show', [
             'city' => $city,
-            'title' => 'Kota ' . $city->city,
-            'areas'=>Area::all(),
-            compact('cities','areas', 'users')
+            'title' => 'Data Kota ' . $city->city,
+            'categories' => MediaCategory::all(),
+            compact('areas', 'users')
         ]);
     }
 
@@ -104,7 +100,12 @@ class CityController extends Controller
      */
     public function edit(City $city): Response
     {
-        //
+        return response()->view('cities.edit', [
+            'city' => $city,
+            'areas' => Area::all(),
+            'title' => 'Merubah Data Kota'.$city->city,
+            'categories' => MediaCategory::all()
+        ]);
     }
 
     /**
@@ -112,7 +113,28 @@ class CityController extends Controller
      */
     public function update(Request $request, City $city): RedirectResponse
     {
-        //
+        $request->request->add(['user_id' => auth()->user()->id]);
+        $rules = [
+            'area_id' => 'required',
+            'user_id' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'zoom' => 'required'
+        ];
+
+        if($request->code != $city->code){
+            $rules['code'] = 'required|unique:cities';
+        }
+        if($request->city != $city->city){
+            $rules['city'] = 'required|unique:cities';
+        }
+
+        $validateData = $request->validate($rules);
+
+        City::where('id', $city->id)
+                ->update($validateData);
+
+        return redirect('/cities')->with('success','Data kota dengan nama '.$city->city.' berhasil diupdate');
     }
 
     /**

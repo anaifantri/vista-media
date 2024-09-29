@@ -28,29 +28,15 @@ class Company extends Model
     public function locations(){
         return $this->hasMany(Location::class, 'company_id', 'id');
     }
-
-    public function billboard_photos(){
-        return $this->hasMany(BillboardPhoto::class, 'company_id', 'id');
+    public function quotations(){
+        return $this->hasMany(Quotation::class, 'company_id', 'id');
     }
-
-    public function billboard_quotations(){
-        return $this->hasMany(BillboardQuotation::class, 'company_id', 'id');
-    }
-
-    public function videotron_quotations(){
-        return $this->hasMany(VideotronQuotation::class, 'company_id', 'id');
-    }
-
-    public function signage_quotations(){
-        return $this->hasMany(VideotronQuotation::class, 'company_id', 'id');
+    public function sales_data(){
+        return $this->hasMany(SalesData::class, 'company_id', 'id');
     }
 
     public function user(){
         return $this->belongsTo(User::class);
-    }
-
-    public function sales(){
-        return $this->hasMany(Sale::class, 'company_id', 'id');
     }
 
     public function print_install_sales(){

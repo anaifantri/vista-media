@@ -17,10 +17,16 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name')->unique();
             $table->text('address');
-            $table->string('email')->unique();
-            $table->string('phone')->unique();
+            $table->string('village')->nullable();
+            $table->string('district')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
+            $table->string('post_code')->nullable();
+            $table->string('email')->nullable()->unique();
+            $table->string('phone')->nullable()->unique();
+            $table->string('m_phone')->nullable()->unique();
+            $table->string('website')->nullable()->unique();
             $table->string('logo');
-            $table->string('mobile_phone')->unique();
             $table->timestamps();
         });
     }

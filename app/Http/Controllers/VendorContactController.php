@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\VendorContact;
+use App\Models\MediaCategory;
+use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,15 +33,22 @@ class VendorContactController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validateData = $request->validate([
+        $request->request->add(['vendor_id' => $request->vendor_id, 'user_id' => auth()->user()->id]);
+        $rules = [
+            'user_id' => 'required',
+            'vendor_id' => 'required',
             'name' => 'required|max:255',
-            'email' => 'required|email:dns|unique:contacts',
-            'phone' => 'required|min:10|max:15|unique:contacts',
             'photo' => 'image|file|max:1024'
-        ]);
+        ];
+        if($request->email){
+            $rules['email'] = 'email:dns|unique:vendor_contacts';
+        }
+        if($request->phone){
+            $rules['phone'] = 'min:10|max:15|unique:vendor_contacts';
+        }
 
-        $validateData['user_id'] = auth()->user()->id;
-        $validateData['vendor_id'] = $request->vendor_id;
+        $validateData = $request->validate($rules);
+
         $validateData['position'] = $request->position;
 
         if($request->file('photo')){
@@ -48,7 +57,7 @@ class VendorContactController extends Controller
 
         VendorContact::create($validateData);
 
-        return redirect('/dashboard/media/vendors/'. $request->vendor_id)->with('success','Kontak baru '. $request->name . ' berhasil ditambahkan');
+        return redirect('/vendors/'. $request->vendor_id)->with('success','Kontak baru dengan nama '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -62,34 +71,40 @@ class VendorContactController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(VendorContact $contact): Response
+    public function edit(VendorContact $vendorContact): Response
     {
-        return response()->view('dashboard.media.vendor-contacts.edit', [
-            'contact' => $contact,
-            'title' => 'Edit Kontak Person'
+        $vendors = Vendor::with('vendor_contacts')->get();
+        return response()->view('vendor-contacts.edit', [
+            'contact' => $vendorContact,
+            'title' => 'Edit Kontak Vendor',
+            'categories' => MediaCategory::all(),
+            compact('vendors')
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, VendorContact $contact): RedirectResponse
+    public function update(Request $request, VendorContact $vendorContact): RedirectResponse
     {
+        $request->request->add(['vendor_id' => $request->vendor_id, 'user_id' => auth()->user()->id]);
         $rules = [
+            'user_id' => 'required',
+            'vendor_id' => 'required',
             'name' => 'required|max:255',
             'photo' => 'image|file|max:1024'
         ];
 
-        if($request->email != $contact->email){
-            $rules['email'] = 'required|email:dns|unique:contacts';
+        if($request->email != $vendorContact->email){
+            $rules['email'] = 'email:dns|unique:vendor_contacts';
         } 
 
-        if($request->phone != $contact->phone){
-            $rules['phone'] = 'required|min:10|max:15|unique:contacts';
+        if($request->phone != $vendorContact->phone){
+            $rules['phone'] = 'min:10|max:15|unique:vendor_contacts';
         }
 
         $validateData = $request->validate($rules);
-
+        $validateData['position'] = $request->position;
 
         if($request->file('photo')){
             if($request->oldPhoto){
@@ -98,26 +113,23 @@ class VendorContactController extends Controller
             $validateData['photo'] = $request->file('photo')->store('contact-images');
         }
 
-        $validateData['user_id'] = auth()->user()->id;
-        $validateData['vendor_id'] = $request->vendor_id;
-
-        VendorContact::where('id', $contact->id)
+        VendorContact::where('id', $vendorContact->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/media/vendors/'. $request->vendor_id)->with('success','Kontak person '. $request->name . ' berhasil di update');
+        return redirect('/vendors/'. $request->vendor_id)->with('success','Kontak person dengan nama '. $request->name . ' berhasil dirubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(VendorContact $contact): RedirectResponse
+    public function destroy(VendorContact $vendorContact): RedirectResponse
     {
-        if($contact->photo){
-            Storage::delete($contact->photo);
+        if($vendorContact->photo){
+            Storage::delete($vendorContact->photo);
         }
 
-        VendorContact::destroy($contact->id);
+        VendorContact::destroy($vendorContact->id);
         
-        return redirect('/dashboard/media/vendors/'. $contact->vendor_id)->with('success','Contact ' . $contact->name . ' berhasil dihapus');
+        return redirect('/vendors/'. $vendorContact->vendor_id)->with('success','Kontak person dengan nama ' . $vendorContact->name . ' berhasil dihapus');
     }
 }

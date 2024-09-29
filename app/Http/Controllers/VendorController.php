@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vendor;
 use App\Models\User;
 use App\Models\VendorContact;
+use App\Models\MediaCategory;
 use App\Models\VendorCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,9 +23,10 @@ class VendorController extends Controller
         $vendor_categories = VendorCategory::with('vendors')->get();
         $users = User::with('vendors')->get();
 
-        return response()-> view ('dashboard.media.vendors.index', [
+        return response()-> view ('vendors.index', [
             'vendors'=>Vendor::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
             'title' => 'Daftar Vendor',
+            'categories' => MediaCategory::all(),
             compact('vendors', 'users', 'vendor_categories')
         ]);
     }
@@ -34,9 +36,10 @@ class VendorController extends Controller
      */
     public function create(): Response
     {
-        return response()->view('dashboard.media.vendors.create', [
+        return response()->view('vendors.create', [
             'vendor_categories'=>VendorCategory::all(),
-            'title' => 'Tambah Vendor'
+            'title' => 'Menambah Data Vendor',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -45,28 +48,51 @@ class VendorController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->vendor_category_id == 'Pilih Katagori'){
-            return back()->withErrors(['vendor_category_id' => ['Silahkan pilih katagori']])->withInput();
-        }
-    
-        $validateData = $request->validate([
-            'name' => 'required|max:255|unique:vendors',
-            'company' => 'required|min:6|unique:vendors',
-            'phone' => 'min:10|unique:vendors',
-            'email' => 'email:dns|unique:vendors',
-            'address' => 'required',
-            'vendor_category_id' => 'required',
-            'logo' => 'image|file|max:1024'
-        ]);
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            if ($request->vendor_category_id == 'Pilih Katagori'){
+                return back()->withErrors(['vendor_category_id' => ['Silahkan pilih katagori']])->withInput();
+            }
 
-        if($request->file('logo')){
-            $validateData['logo'] = $request->file('logo')->store('vendor-images');
+            // Set code --> start
+            $dataVendor = Vendor::all()->last();
+            if($dataVendor){
+                $lastCode = (int)substr($dataVendor->code,3,3);
+                $newCode = $lastCode + 1;
+            } else {
+                $newCode = 1;
+            }
+            
+
+            if($newCode < 10 ){
+                $code = 'DV-00'.$newCode;
+            } else {
+                $code = 'DV-0'.$newCode;
+            }
+            // Set code --> end
+        
+            $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
+            $validateData = $request->validate([
+                'code' => 'required|unique:vendors',
+                'name' => 'required|max:255|unique:vendors',
+                'company' => 'required|min:6|unique:vendors',
+                'phone' => 'unique:vendors',
+                'email' => 'email:dns|unique:vendors',
+                'user_id' => 'required',
+                'address' => 'required',
+                'vendor_category_id' => 'required',
+                'logo' => 'image|file|max:1024'
+            ]);
+
+            if($request->file('logo')){
+                $validateData['logo'] = $request->file('logo')->store('vendor-images');
+            }
+            
+            Vendor::create($validateData);
+            
+            return redirect('/vendors')->with('success','Vendor baru dengan nama '. $request->name . ' berhasil ditambahkan');
+        } else {
+            abort(403);
         }
-        $validateData['user_id'] = auth()->user()->id;
-        
-        Vendor::create($validateData);
-        
-        return redirect('/dashboard/media/vendors')->with('success','Vendor baru '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -74,10 +100,11 @@ class VendorController extends Controller
      */
     public function show(Vendor $vendor): Response
     {
-        return response()->view('dashboard.media.vendors.show', [
+        return response()->view('vendors.show', [
             'vendor' => $vendor,
             'vendor_contacts' => VendorContact::all(),
-            'title' => 'Detail Vendor'
+            'title' => 'Data Vendor'.$vendor->name,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -86,10 +113,11 @@ class VendorController extends Controller
      */
     public function edit(Vendor $vendor): Response
     {
-        return response()->view('dashboard.media.vendors.edit', [
+        return response()->view('vendors.edit', [
             'vendor' => $vendor,
             'vendor_categories'=>VendorCategory::all(),
-            'title' => 'Edit Vendor'
+            'title' => 'Edit Data Vendor'.$vendor->name,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -98,46 +126,43 @@ class VendorController extends Controller
      */
     public function update(Request $request, Vendor $vendor): RedirectResponse
     {
-        if ($request->vendor_category_id == 'Pilih Katagori'){
-            return back()->withErrors(['vendor_category_id' => ['Silahkan pilih katagori']])->withInput();
-        }
-        
-        $rules = [
-            'name' => 'required|max:255',
-            'address' => 'required',
-            'logo' => 'image|file|max:1024'
-        ];
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $request->request->add(['user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'vendor_category_id' => 'required',
+                'address' => 'required',
+                'logo' => 'image|file|max:1024'
+            ];
 
-        if($request->email != $vendor->email){
-            $rules['email'] = 'email:dns|unique:vendors';
-        }
-
-        if($request->company != $vendor->company){
-            $rules['company'] = 'required|unique:vendors';
-        } 
-
-        if($request->phone != $vendor->phone){
-            $rules['phone'] = 'min:10|unique:vendors';
-        }
-
-        if($request->vendor_category_id != $vendor->vendor_category_id){
-            $rules['vendor_category_id'] = 'required';
-        }
-
-        $validateData = $request->validate($rules);
-
-
-        if($request->file('logo')){
-            if($request->oldLogo){
-                Storage::delete($request->oldLogo);
+            if($request->email != $vendor->email){
+                $rules['email'] = 'email:dns|unique:vendors';
             }
-            $validateData['logo'] = $request->file('logo')->store('vendor-images');
+
+            if($request->company != $vendor->company){
+                $rules['company'] = 'required|unique:vendors';
+            } 
+
+            if($request->phone != $vendor->phone){
+                $rules['phone'] = 'unique:vendors';
+            }
+
+            $validateData = $request->validate($rules);
+
+            if($request->file('logo')){
+                if($request->oldLogo){
+                    Storage::delete($request->oldLogo);
+                }
+                $validateData['logo'] = $request->file('logo')->store('vendor-images');
+            }
+
+            Vendor::where('id', $vendor->id)
+                    ->update($validateData);
+
+            return redirect('/vendors')->with('success','Vendor dengan nama '. $request->name . ' berhasil dirubah');
+        } else {
+            abort(403);
         }
-
-        Vendor::where('id', $vendor->id)
-                ->update($validateData);
-
-        return redirect('/dashboard/media/vendors')->with('success','Vendor '. $request->name . ' berhasil di update');
     }
 
     /**
@@ -145,6 +170,12 @@ class VendorController extends Controller
      */
     public function destroy(Vendor $vendor): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator'){
+            Vendor::destroy($vendor->id);
+
+            return redirect('/vendors')->with('success','Data vendor dengan nama '. $vendor->name .' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }

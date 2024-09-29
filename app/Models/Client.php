@@ -61,5 +61,5 @@ class Client extends Model
         return $this->hasMany(PrintInstallSale::class, 'client_id', 'id');
     }
 
-    public $sortable = ['name','company', 'category'];
+    public $sortable = ['code','name','company'];
 }

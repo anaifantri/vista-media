@@ -18,6 +18,12 @@ class Location extends Model
         }
     }
 
+    public function scopeType($query){
+        if (request('type') != 'All') {
+            return $query->where('description', 'like', '%' . request('type') . '%');
+        }
+    }
+
     public function scopeCity($query){
         if (request('city') != 'All') {
             return $query->where('city_id', 'like', '%' . request('city') . '%');

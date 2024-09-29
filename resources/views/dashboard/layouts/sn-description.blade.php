@@ -10,8 +10,8 @@
 <div class="w-[256px] h-[170px] bg-slate-50 mt-1 rounded-b-lg border">
     <div class="flex mt-1">
         <span class="w-[90px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Jenis</span>
-        <span class="w-[120px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-            {{ $location->media_category->name }}</span>
+        <span class="w-[150px] text-xs font-sans font-bold tracking-wide text-teal-900">:
+            {{ $location->media_category->name }} - {{ $description->type }}</span>
     </div>
     <div class="flex mt-1">
         <span class="w-[90px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Ukuran</span>

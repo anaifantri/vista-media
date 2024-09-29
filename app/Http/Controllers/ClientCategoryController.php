@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientCategory;
+use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +15,11 @@ class ClientCategoryController extends Controller
      */
     public function index(): Response
     {
-        //
+        return response()-> view ('client-categories.index', [
+            'client_categories'=>ClientCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
+            'title' => 'Daftar Katagori Media',
+            'categories' => MediaCategory::all()
+        ]);
     }
 
     /**
@@ -22,7 +27,14 @@ class ClientCategoryController extends Controller
      */
     public function create(): Response
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            return response()-> view ('client-categories.create', [
+                'title' => 'Menambahkan Katagori Klien',
+                'categories' => MediaCategory::all()
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -30,7 +42,38 @@ class ClientCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            // Set code --> start
+            $dataCategory = ClientCategory::all()->last();
+            if($dataCategory){
+                $lastCode = (int)substr($dataCategory->code,3,3);
+                $newCode = $lastCode + 1;
+            } else {
+                $newCode = 1;
+            }
+            
+    
+            if($newCode < 10 ){
+                $code = 'CL-00'.$newCode;
+            } else {
+                $code = 'CL-0'.$newCode;
+            }
+            // Set code --> end
+
+            $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
+            $validateData = $request->validate([
+                'code' => 'required|unique:client_categories',
+                'name' => 'required|unique:client_categories',
+                'user_id' => 'required',
+                'description' => 'required'
+            ]);
+            
+            ClientCategory::create($validateData);
+    
+            return redirect('/client-categories')->with('success','Katagori klien dengan nama '. $request->name . ' berhasil ditambahkan');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -38,7 +81,11 @@ class ClientCategoryController extends Controller
      */
     public function show(ClientCategory $clientCategory): Response
     {
-        //
+        return response()-> view ('client-categories.show', [
+            'client_category' => $clientCategory,
+            'title' => 'Detail Katagori Klien' . $clientCategory->name,
+            'categories' => MediaCategory::all()
+        ]);
     }
 
     /**
@@ -46,7 +93,15 @@ class ClientCategoryController extends Controller
      */
     public function edit(ClientCategory $clientCategory): Response
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            return response()->view('client-categories.edit', [
+                'client_category' => $clientCategory,
+                'title' => 'Edit Katagori Klien',
+                'categories' => MediaCategory::all()
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -54,7 +109,26 @@ class ClientCategoryController extends Controller
      */
     public function update(Request $request, ClientCategory $clientCategory): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $request->request->add(['user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'description' => 'required'
+            ];
+            
+            if ($request->name != $clientCategory->name) {
+                $rules['name'] = 'required|unique:media_categories';
+            } 
+
+            $validateData = $request->validate($rules);
+                
+            ClientCategory::where('id', $clientCategory->id)
+                ->update($validateData);
+        
+            return redirect('/client-categories')->with('success','Katagori klien dengan nama '. $clientCategory->name . ' berhasil diupdate');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -62,6 +136,12 @@ class ClientCategoryController extends Controller
      */
     public function destroy(ClientCategory $clientCategory): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            ClientCategory::destroy($clientCategory->id);
+
+            return redirect('/client-categories')->with('success','Katagori klien dengan nama '. $clientCategory->name .' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }

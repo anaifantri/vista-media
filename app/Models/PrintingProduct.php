@@ -26,5 +26,5 @@ class PrintingProduct extends Model
         return $this->belongsTo(User::class);
     }
 
-    public $sortable = ['name'];
+    public $sortable = ['code','name'];
 }

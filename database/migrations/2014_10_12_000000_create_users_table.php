@@ -20,11 +20,13 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->unique();
             $table->string('avatar')->nullable();
+            $table->string('division');
             $table->string('position');
             $table->string('gender');
             $table->string('level');
-            $table->boolean('online_status');
-            $table->boolean('active_status');
+            $table->json('user_access')->nullable();
+            $table->boolean('online_status')->nullable();
+            $table->boolean('active_status')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

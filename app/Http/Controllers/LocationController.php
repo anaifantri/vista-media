@@ -24,13 +24,7 @@ class LocationController extends Controller
      */
     public function index(): Response
     {
-        // return response()-> view ('locations.index', [
-        //     'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(10)->withQueryString(),
-        //     'areas'=>Area::all(),
-        //     'media_categories'=>MediaCategory::all(),
-        //     'category'=>$category,
-        //     'title' => 'Daftar Lokasi Media'
-        // ]);
+        //
     }
 
     public function home(String $category, Request $request): View
@@ -43,14 +37,20 @@ class LocationController extends Controller
             $media_category_id = $dataCategory->id;
             $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->paginate(10)->withQueryString();
         }
+
+        $areas = Area::with('locations')->get();
+        $cities = City::with('locations')->get();
+        $media_sizes = MediaSize::with('locations')->get();
+        $media_categories = MediaCategory::with('locations')->get();
         return view ('locations.index', [
             'locations'=>$dataLocations,
             'areas'=>Area::all(),
             'cities'=>City::all(),
-            'media_categories'=>MediaCategory::all(),
+            'categories'=>MediaCategory::all(),
             'category'=>$category,
             'data_categories'=>$dataCategory,
-            'title' => 'Daftar Lokasi Media'
+            'title' => 'Daftar Lokasi Media',
+            compact('areas', 'cities', 'media_sizes', 'media_categories')
         ]);
     }
 
@@ -67,23 +67,24 @@ class LocationController extends Controller
             'title' => 'Detail Location',
             'location_photos'=>LocationPhoto::where('location_id', $id)->where('set_default', true)->get()->last(),
             'category'=>$category,
+            'categories' => MediaCategory::all(),
             compact('areas', 'cities', 'media_sizes', 'media_categories')
         ]);
     }
 
     public function createLocation(String $category): View
     {
-        $dataCategory = MediaCategory::where('name', $category)->firstOrFail();
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $dataCategory = MediaCategory::where('name', $category)->firstOrFail();
             return view ('locations.create', [
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
                 'leds'=>Led::all(),
                 'companies'=>Company::all(),
-                'media_categories'=>MediaCategory::all(),
+                'categories'=>MediaCategory::all(),
                 'media_sizes'=>MediaSize::orderBy("size", "asc")->get(),
                 'title' => 'Menambahkan Data Lokasi',
-                'categories' => $dataCategory,
+                'data_category' => $dataCategory,
                 'category' => $category
             ]);
         } else {
@@ -96,19 +97,7 @@ class LocationController extends Controller
      */
     public function create(): Response
     {
-        // $dataCategory = MediaCategory::where('name', $category)->firstOrFail();
-        // if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-        //     return response()-> view ('locations.create', [
-        //         'areas'=>Area::all(),
-        //         'cities'=>City::all(),
-        //         'media_categories'=>MediaCategory::all(),
-        //         'media_sizes'=>MediaSize::orderBy("size", "asc")->get(),
-        //         'title' => 'Menambahkan Data Lokasi'
-        //         // 'category' => $dataCategory
-        //     ]);
-        // } else {
-        //     abort(403);
-        // }
+        //
     }
 
     /**
@@ -279,6 +268,7 @@ class LocationController extends Controller
             'leds'=>Led::all(),
             'category'=>$location->media_category->name,
             'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
+            'categories' => MediaCategory::all(),
             compact('areas', 'cities', 'media_sizes', 'media_categories', 'companies')
         ]);
     }
@@ -301,7 +291,7 @@ class LocationController extends Controller
             'companies'=>Company::all(),
             'cities'=>City::all(),
             'media_sizes'=>MediaSize::orderBy("size", "asc")->get(),
-            'media_categories'=>MediaCategory::all(),
+            'categories'=>MediaCategory::all(),
             'category'=>$location->media_category->name,
             'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
             compact('areas', 'media_sizes', 'media_categories', 'companies')

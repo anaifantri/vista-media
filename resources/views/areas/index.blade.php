@@ -4,14 +4,14 @@
     <!-- Container Index Area start -->
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
-            <div class="w-[915px] p-2">
-                <div class="flex">
+            <div class="w-[900px]">
+                <div class="flex border-b">
                     <!-- Title Area start -->
                     <h1 class="index-h1"> DAFTAR AREA</h1>
                     <!-- Title Area end -->
-                    <!-- Button Create New Area start -->
+                    <!-- Button Create start -->
                     @canany(['isAdmin', 'isMedia'])
-                        <div class="flex border-b">
+                        <div class="flex">
                             <a href="/area/create" class="index-link btn-primary"><span></span>
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -24,10 +24,10 @@
                         </div>
                     @endcanany
                 </div>
-                <!-- Button Create New Area end -->
-                <!-- Alert Success Create New Area start -->
-                <form class="flex mt-2" action="/area/">
-                    <div class="flex">
+                <!-- Button Create end -->
+                <div class="flex mt-2">
+                    <!-- Form Search start -->
+                    <form class="flex" action="/area/">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
                             placeholder="Search" value="{{ request('search') }}">
@@ -38,7 +38,9 @@
                                     d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
                             </svg>
                         </button>
-                    </div>
+                    </form>
+                    <!-- Form Search end -->
+                    <!-- Alert Success start -->
                     @if (session()->has('success'))
                         <div class="ml-2 flex alert-success">
                             <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -48,18 +50,18 @@
                             <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
                         </div>
                     @endif
-                </form>
+                    <!-- Alert Success end -->
+                </div>
             </div>
         </div>
-        <!-- Alert Success Create New Area end -->
         <!-- View Area start -->
         <div class="flex justify-center w-full">
             <div class="w-[900px]">
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="bg-teal-100 h-10">
-                            <th class="text-teal-700 border text-sm w-8 text-center">No.</th>
-                            <th class="text-teal-700 border text-sm text-center w-16">
+                            <th class="th-table w-8">No.</th>
+                            <th class="th-table w-16">
                                 <button class="flex justify-center items-center w-16">@sortablelink('area_code', 'Kode')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
@@ -67,15 +69,7 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-sm text-center w-36">
-                                <button class="flex justify-center items-center w-36">@sortablelink('provinsi', 'Wilayah')
-                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24">
-                                        <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                                    </svg>
-                                </button>
-                            </th>
-                            <th class="text-teal-700 border text-sm text-center w-36">
+                            <th class="th-table w-36">
                                 <button class="flex justify-center items-center w-36">@sortablelink('area', 'Nama Area')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
@@ -83,11 +77,11 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-sm text-center w-24">Latitude</th>
-                            <th class="text-teal-700 border text-sm text-center w-24">Longitude</th>
-                            <th class="text-teal-700 border text-sm text-center w-16">Zoom</th>
-                            <th class="text-teal-700 border text-sm text-center w-24">Dibuat Oleh</th>
-                            <th class="text-teal-700 border text-sm text-center w-24">Action</th>
+                            <th class="th-table w-24">Latitude</th>
+                            <th class="th-table w-24">Longitude</th>
+                            <th class="th-table w-16">Zoom</th>
+                            <th class="th-table w-24">Dibuat Oleh</th>
+                            <th class="th-table w-24">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,15 +90,14 @@
                         @endphp
                         @foreach ($areas as $area)
                             <tr>
-                                <td class="text-teal-700 border text-sm text-center">{{ $number++ }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $area->area_code }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $area->provinsi }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $area->area }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $area->lat }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $area->lng }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $area->zoom }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $area->user->name }}</td>
-                                <td class="text-teal-700 border text-sm text-center">
+                                <td class="td-table-center">{{ $number++ }}</td>
+                                <td class="td-table-center">{{ $area->area_code }}</td>
+                                <td class="td-table-center">{{ $area->area }}</td>
+                                <td class="td-table-center">{{ $area->lat }}</td>
+                                <td class="td-table-center">{{ $area->lng }}</td>
+                                <td class="td-table-center">{{ $area->zoom }}</td>
+                                <td class="td-table-center">{{ $area->user->name }}</td>
+                                <td class="td-table-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/area/{{ $area->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
@@ -118,6 +111,16 @@
                                             </svg>
                                         </a>
                                         @can('isAdmin')
+                                            <a href="/area/{{ $area->id }}/edit"
+                                                class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
+                                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                                        fill-rule="nonzero" />
+                                                </svg>
+                                            </a>
                                             <form action="/area/{{ $area->id }}" method="post" class="d-inline m-1">
                                                 @method('delete')
                                                 @csrf
@@ -144,7 +147,7 @@
         <div class="flex justify-center text-teal-900">
             {{ $areas->links() }}
         </div>
+        <!-- View Area end -->
     </div>
-    <!-- View Area end -->
     <!-- Container Index Area end -->
 @endsection

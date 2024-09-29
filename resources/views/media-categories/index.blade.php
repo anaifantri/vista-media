@@ -4,14 +4,14 @@
     <!-- Container Index Media Category start -->
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
-            <div class="w-[800px] p-2">
-                <div class="flex">
+            <div class="w-[1000px]">
+                <div class="flex border-b">
                     <!-- Title Media Category start -->
                     <h1 class="index-h1"> DAFTAR KATAGORI MEDIA</h1>
                     <!-- Title Media Category end -->
                     <!-- Button Create New Media Category start -->
                     @canany(['isAdmin', 'isMedia'])
-                        <div class="flex border-b">
+                        <div class="flex">
                             <a href="/media-categories/create" class="index-link btn-primary"><span></span>
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -19,7 +19,7 @@
                                         d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                         fill-rule="nonzero" />
                                 </svg>
-                                <span class="mx-1 hidden sm:flex"> Tambah Katagori Media</span>
+                                <span class="mx-1 hidden sm:flex"> Tambah Katagori</span>
                             </a>
                         </div>
                     @endcanany
@@ -54,29 +54,29 @@
         <!-- Alert Success Create New Media Category end -->
         <!-- View Media Category start -->
         <div class="flex justify-center w-full">
-            <div class="w-[800px]">
+            <div class="w-[1000px]">
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="bg-teal-100 h-10">
-                            <th class="text-teal-700 border text-xs w-10 text-center">No.</th>
-                            <th class="text-teal-700 border text-xs text-center w-16">
-                                <button class="flex justify-center items-center w-16">@sortablelink('code', 'Kode')
+                            <th class="text-teal-700 border text-sm w-10 text-center">No.</th>
+                            <th class="text-teal-700 border text-sm text-center w-20">
+                                <button class="flex justify-center items-center w-20">@sortablelink('code', 'Kode')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-xs text-center w-20">
-                                <button class="flex justify-center items-center w-20">@sortablelink('name', 'Katagori')
+                            <th class="text-teal-700 border text-sm text-center w-28">
+                                <button class="flex justify-center items-center w-28">@sortablelink('name', 'Katagori')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-xs text-center">Deskripsi</th>
-                            <th class="text-teal-700 border text-xs text-center w-24">Action</th>
+                            <th class="text-teal-700 border text-sm text-center">Deskripsi</th>
+                            <th class="text-teal-700 border text-sm text-center w-24">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,12 +85,12 @@
                         @endphp
                         @foreach ($media_categories as $category)
                             <tr>
-                                <td class="text-teal-700 border text-xs text-center">{{ $number++ }}</td>
-                                <td class="text-teal-700 border text-xs text-center">{{ $category->code }}</td>
-                                <td class="text-teal-700 border text-xs text-center">{{ $category->name }}</td>
-                                <td class="px-2 text-teal-700 border text-xs">{{ $category->description }}
+                                <td class="text-teal-700 border text-sm text-center">{{ $number++ }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $category->code }}</td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $category->name }}</td>
+                                <td class="px-2 text-teal-700 border text-sm">{{ $category->description }}
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/media-categories/{{ $category->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">

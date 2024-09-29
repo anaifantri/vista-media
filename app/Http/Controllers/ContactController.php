@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\Client;
+use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -32,20 +33,25 @@ class ContactController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->gender == 'Pilih Jenis Kelamin'){
+        if ($request->gender == 'pilih'){
             return back()->withErrors(['gender' => ['Silahkan pilih jenis kelamin']])->withInput();
         }
-
-        $validateData = $request->validate([
+        $request->request->add(['client_id' => $request->client_id, 'user_id' => auth()->user()->id]);
+        $rules = [
+            'user_id' => 'required',
+            'client_id' => 'required',
+            'gender' => 'required',
             'name' => 'required|max:255',
-            'email' => 'email:dns|unique:contacts',
-            'phone' => 'required|min:10|max:15|unique:contacts',
-            'gender' => 'required|max:255',
             'photo' => 'image|file|max:1024'
-        ]);
+        ];
+        if($request->email){
+            $rules['email'] = 'email:dns|unique:contacts';
+        }
+        if($request->phone){
+            $rules['phone'] = 'min:10|max:15|unique:contacts';
+        }
 
-        $validateData['user_id'] = auth()->user()->id;
-        $validateData['client_id'] = $request->client_id;
+        $validateData = $request->validate($rules);
         $validateData['position'] = $request->position;
 
         if($request->file('photo')){
@@ -54,7 +60,7 @@ class ContactController extends Controller
 
         Contact::create($validateData);
 
-        return redirect('/dashboard/marketing/clients/'. $request->client_id)->with('success','Kontak baru '. $request->name . ' berhasil ditambahkan');
+        return redirect('/clients/'. $request->client_id)->with('success','Kontak baru dengan nama '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -70,8 +76,9 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact): Response
     {
-        return response()->view('dashboard.marketing.contacts.edit', [
+        return response()->view('contacts.edit', [
             'contact' => $contact,
+            'categories' => MediaCategory::all(),
             'title' => 'Edit Kontak Person'
         ]);
     }
@@ -81,22 +88,33 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact): RedirectResponse
     {
+        $request->request->add(['client_id' => $request->client_id, 'user_id' => auth()->user()->id]);
         $rules = [
+            'user_id' => 'required',
+            'client_id' => 'required',
+            'gender' => 'required',
             'name' => 'required|max:255',
-            'gender' => 'required|max:255',
             'photo' => 'image|file|max:1024'
         ];
 
-        if($request->email != $contact->email){
-            $rules['email'] = 'required|email:dns|unique:contacts';
-        } 
+        if($request->email){
+            if($request->email != $contact->email){
+                $rules['email'] = 'email:dns|unique:contacts';
+            } 
+        }elseif($contact->email){
+            $rules['email'] = '';
+        }
 
-        if($request->phone != $contact->phone){
-            $rules['phone'] = 'required|min:10|max:15|unique:contacts';
+        if($request->phone){
+            if($request->phone != $contact->phone){
+                $rules['phone'] = 'min:10|max:15|unique:contacts';
+            }
+        }elseif($contact->phone){
+            $rules['phone'] = '';
         }
 
         $validateData = $request->validate($rules);
-
+        $validateData['position'] = $request->position;
 
         if($request->file('photo')){
             if($request->oldPhoto){
@@ -105,13 +123,10 @@ class ContactController extends Controller
             $validateData['photo'] = $request->file('photo')->store('contact-images');
         }
 
-        $validateData['user_id'] = auth()->user()->id;
-        $validateData['client_id'] = $request->client_id;
-
         Contact::where('id', $contact->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/marketing/clients/'. $request->client_id)->with('success','Kontak person '. $request->name . ' berhasil di update');
+        return redirect('/clients/'. $request->client_id)->with('success','Kontak person dengan nama '. $request->name . ' berhasil dirubah');
     }
 
     /**
@@ -125,7 +140,7 @@ class ContactController extends Controller
 
         Contact::destroy($contact->id);
 
-        return redirect('/dashboard/marketing/clients/'. $contact->client_id)->with('success','Contact ' . $contact->name . ' berhasil dihapus');
+        return redirect('/clients/'. $contact->client_id)->with('success','Kontak person dengan nama' . $contact->name . ' berhasil dihapus');
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,7 +19,8 @@ class CompanyController extends Controller
     {
         return response()-> view ('companies.index', [
             'companies'=>Company::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Perusahaan'
+            'title' => 'Daftar Perusahaan',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -29,7 +31,8 @@ class CompanyController extends Controller
     {
         return response()->view('companies.create', [
             'companies'=>Company::all(),
-            'title' => 'Tambah Perusahaan'
+            'title' => 'Tambah Perusahaan',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -38,15 +41,7 @@ class CompanyController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {    
-        $validateData = $request->validate([
-            'name' => 'required|unique:companies',
-            'address' => 'required',
-            'phone' => 'min:8|unique:companies',
-            'mobile_phone' => 'min:10|unique:companies',
-            'email' => 'email:dns|unique:companies',
-            'logo' => 'image|file|max:1024'
-        ]);
-
+        // Set Code --> start
         $dataCompanies = Company::all()->last();
         if($dataCompanies){
             $lastCode = (int)substr($dataCompanies->code,3,3);
@@ -61,21 +56,28 @@ class CompanyController extends Controller
         } else {
             $code = 'CP-0'.$newCode;
         }
+        // Set Code --> end
 
-        $validateData['user_id'] = auth()->user()->id;
-        $validateData['code'] = $code;
+        $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
+        $validateData = $request->validate([
+            'name' => 'required|unique:companies',
+            'code' => 'required|unique:companies',
+            'user_id' => 'required',
+            'address' => 'required',
+            'phone' => 'unique:companies',
+            'm_phone' => 'unique:companies',
+            'email' => 'required|email:dns|unique:companies',
+            'logo' => 'required|image|file|max:1024'
+        ]);
+
 
         if($request->file('logo')){
             $validateData['logo'] = $request->file('logo')->store('company-images');
         }
-
-        // foreach($dataCompanies as $company){
-        //     $companyCode = (int)substr(end$company->code,3,3);
-        // }
         
         Company::create($validateData);
         
-        return redirect('/companies')->with('success','Perusahaan baru '. $request->name . ' berhasil ditambahkan');
+        return redirect('/companies')->with('success','Data perusahaan baru dengan nama  '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -85,7 +87,8 @@ class CompanyController extends Controller
     {
         return response()->view('companies.show', [
             'company' => $company,
-            'title' => 'Detail Perusahaan'
+            'title' => 'Detail Perusahaan'.$company->name,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -96,7 +99,8 @@ class CompanyController extends Controller
     {
         return response()->view('companies.edit', [
             'company' => $company,
-            'title' => 'Edit Data Perusahaan'
+            'title' => 'Merubah Data Perusahaan'.$company->name,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -105,8 +109,10 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company): RedirectResponse
     {
+        $request->request->add(['user_id' => auth()->user()->id]);
         $rules = [
             'address' => 'required',
+            'user_id' => 'required',
             'logo' => 'image|file|max:1024'
         ];
 
@@ -122,7 +128,7 @@ class CompanyController extends Controller
             $rules['phone'] = 'min:10|unique:companies';
         }
 
-        if($request->mobile_phone != $company->mobile_phone){
+        if($request->m_phone != $company->m_phone){
             $rules['mobile_phone'] = 'min:10|unique:companies';
         }
 
@@ -139,7 +145,7 @@ class CompanyController extends Controller
         Company::where('id', $company->id)
                 ->update($validateData);
 
-        return redirect('/companies')->with('success','Data perusahaan dengan nama '. $request->name . ' berhasil di update');
+        return redirect('/companies')->with('success','Data perusahaan dengan nama '. $request->name . ' berhasil dirubah');
     }
 
     /**

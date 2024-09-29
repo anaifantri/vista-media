@@ -16,7 +16,8 @@ class MediaCategoryController extends Controller
     {
         return response()-> view ('media-categories.index', [
             'media_categories'=>MediaCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Media'
+            'title' => 'Daftar Katagori Media',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -27,7 +28,8 @@ class MediaCategoryController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('media-categories.create', [
-                'title' => 'Menambahkan Katagori Media'
+                'title' => 'Menambahkan Katagori Media',
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -40,11 +42,7 @@ class MediaCategoryController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            $validateData = $request->validate([
-                'name' => 'required|unique:media_categories',
-                'description' => 'required'
-            ]);
-
+            // Set code --> start
             $dataCategory = MediaCategory::all()->last();
             if($dataCategory){
                 $lastCode = (int)substr($dataCategory->code,3,3);
@@ -55,13 +53,19 @@ class MediaCategoryController extends Controller
             
     
             if($newCode < 10 ){
-                $code = 'CM-00'.$newCode;
+                $code = 'MC-00'.$newCode;
             } else {
-                $code = 'CM-0'.$newCode;
+                $code = 'MC-0'.$newCode;
             }
-    
-            $validateData['user_id'] = auth()->user()->id;
-            $validateData['code'] = $code;
+            // Set code --> end
+
+            $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
+            $validateData = $request->validate([
+                'code' => 'required|unique:media_categories',
+                'name' => 'required|unique:media_categories',
+                'user_id' => 'required',
+                'description' => 'required'
+            ]);
             
             MediaCategory::create($validateData);
     
@@ -78,7 +82,8 @@ class MediaCategoryController extends Controller
     {
         return response()-> view ('media-categories.show', [
             'media_category' => $mediaCategory,
-            'title' => 'Detail Katagori Media' . $mediaCategory->name
+            'title' => 'Detail Katagori Media' . $mediaCategory->name,
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -90,7 +95,8 @@ class MediaCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()->view('media-categories.edit', [
                 'media_category' => $mediaCategory,
-                'title' => 'Edit Katagori Media'
+                'title' => 'Edit Katagori Media',
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -103,18 +109,17 @@ class MediaCategoryController extends Controller
     public function update(Request $request, MediaCategory $mediaCategory): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $request->request->add(['user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'description' => 'required'
+            ];
+            
             if ($request->name != $mediaCategory->name) {
-                $validateData = $request->validate([
-                    'name' => 'required|unique:media_categories',
-                    'description' => 'required'
-                ]);
-            } else {
-                $validateData = $request->validate([
-                    'description' => 'required'
-                ]);
-            }
-                
-            $validateData['user_id'] = auth()->user()->id;
+                $rules['name'] = 'required|unique:media_categories';
+            } 
+
+            $validateData = $request->validate($rules);
                 
             MediaCategory::where('id', $mediaCategory->id)
                 ->update($validateData);

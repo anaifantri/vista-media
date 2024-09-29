@@ -141,29 +141,6 @@
             <!-- Hamburger Menu End-->
             <!-- Right Nav Start-->
             <div class="flex px-2 w-full  text-end py-3 items-center text-white justify-end">
-                <div class="group">
-                    <a href="#" class="right-nav">
-                        <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path fill="none" d="M0 0h24v24H0V0z" />
-                            <path
-                                d="M18 16v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.68-1.5-1.51-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-1.3 1.29c-.63.63-.19 1.71.7 1.71h13.17c.89 0 1.34-1.08.71-1.71L18 16zm-6.01 6c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zM6.77 4.73c.42-.38.43-1.03.03-1.43-.38-.38-1-.39-1.39-.02C3.7 4.84 2.52 6.96 2.14 9.34c-.09.61.38 1.16 1 1.16.48 0 .9-.35.98-.83.3-1.94 1.26-3.67 2.65-4.94zM18.6 3.28c-.4-.37-1.02-.36-1.4.02-.4.4-.38 1.04.03 1.42 1.38 1.27 2.35 3 2.65 4.94.07.48.49.83.98.83.61 0 1.09-.55.99-1.16-.38-2.37-1.55-4.48-3.25-6.05z" />
-                        </svg>
-                    </a>
-                </div>
-                <div class="group">
-                    <a href="#" class="right-nav">
-                        <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-                            <circle cx="16" cy="31.58" r="1" />
-                            <path
-                                d="M45.75,19H10.32A5.3,5.3,0,0,0,5,24.26V38.74c0,2.37,2.75,4.17,4,4.87v7.06a1,1,0,0,0,1,1,1,1,0,0,0,.71-.3L18.07,44H45.75A5.26,5.26,0,0,0,51,38.74V24.46A5.28,5.28,0,0,0,45.75,19ZM13,31.58a3,3,0,1,1,3,3A3,3,0,0,1,13,31.58Zm8,0a3,3,0,1,1,3,3A3,3,0,0,1,21,31.58Zm8,0a3,3,0,1,1,3,3A3,3,0,0,1,29,31.58Zm11,3a3,3,0,1,1,3-3A3,3,0,0,1,40,34.58Z" />
-                            <circle cx="40" cy="31.58" r="1" />
-                            <circle cx="32" cy="31.58" r="1" />
-                            <circle cx="24" cy="31.58" r="1" />
-                            <path
-                                d="M53.74,13h-34a5.1,5.1,0,0,0-5,4h31A7.27,7.27,0,0,1,53,24.25V38h.75A5.25,5.25,0,0,0,59,32.75V18.26A5.25,5.25,0,0,0,53.74,13Z" />
-                        </svg>
-                    </a>
-                </div>
                 <div>
                     <div class="group" id="profile" name="profile">
                         <a href="#" class="right-nav">
@@ -186,12 +163,11 @@
                     </div>
                     <div class="justify-end absolute mt-3 items-center transition duration-500 ease-in-out origin-center hidden"
                         id="profileChild" name="profileChild">
-                        <div
-                            class="flex bg-opacity-90 bg-emerald-50 w-12 md:w-36 h-28 top-0 rounded-b-xl border drop-shadow-md">
+                        <div class="flex bg-opacity-90 bg-emerald-50 w-36 top-0 rounded-b-xl border drop-shadow-md">
                             <nav class="flex top-0 w-12 md:w-36">
                                 <ul class="ml-4 text-left">
                                     <li class="group">
-                                        <a class="mt-0 nav-a" href="/dashboard/users/users/{{ auth()->user()->id }}">
+                                        <a class="mt-0 nav-a" href="/users/{{ auth()->user()->id }}">
                                             <svg class="fill-current" role="img"
                                                 xmlns="http://www.w3.org/2000/svg" width="16"
                                                 viewBox="0 0 24 24">
@@ -200,18 +176,6 @@
                                                     d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z" />
                                             </svg>
                                             <span class="ml-1 hidden md:flex"> My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li class="group">
-                                        <a class="mt-1 nav-a" href="/dashboard/users/notifications">
-                                            <svg class="fill-current" role="img"
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="24"
-                                                viewBox="0 0 24 24">
-                                                <title>Notifikasi</title>
-                                                <path
-                                                    d="M12 .02c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.99 6.98l-6.99 5.666-6.991-5.666h13.981zm.01 10h-14v-8.505l7 5.673 7-5.672v8.504z" />
-                                            </svg>
-                                            <span class="ml-1 hidden md:flex"> Notifikasi</span>
                                         </a>
                                     </li>
                                     <li class="group">

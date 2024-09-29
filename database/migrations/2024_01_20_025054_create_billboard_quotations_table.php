@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained();
             $table->foreignId('client_id')->constrained();
             $table->foreignId('contact_id')->constrained();
-            $table->foreignId('billboard_category_id')->constrained();
             $table->string('number')->unique();
             $table->string('attachment');
             $table->string('subject');
