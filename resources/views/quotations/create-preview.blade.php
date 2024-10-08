@@ -5,14 +5,28 @@
     @csrf
     <input type="text" name="company_id" id="company_id" value="1" hidden>
     <input type="text" name="media_category_id" id="media_category_id" value="{{ $data_category->id }}" hidden>
-    <input type="text" name="number" id="number" hidden>
-    <input type="text" id="category" value="{{ $data_category->name }}" hidden>
+    @if ($data_category->name == 'Signage')
+        <input type="text" id="category" name="{{ $dataDescription->type }}" value="{{ $data_category->name }}"
+            hidden>
+    @else
+        <input type="text" id="category" value="{{ $data_category->name }}" hidden>
+    @endif
+
+    <input type="text" id="quotationType" value="{{ $quotation_type }}" hidden>
+    @if ($quotation_type == 'extend' || $quotation_type == 'existing')
+        <input type="text" id="client_type" value="{{ $dataClient->type }}" hidden>
+    @endif
+    <input type="text" id="quotationType" value="{{ $quotation_type }}" hidden>
     @if ($data_category->name == 'Signage')
         <input type="text" value="{{ $dataDescription->type }}" id="signageType" hidden>
     @endif
     <input type="text" id="attachment" name="attachment" hidden>
     <input type="text" id="subject" name="subject" hidden>
-    <input type="text" name="clients" id="clients" hidden>
+    @if ($quotation_type == 'extend' || $quotation_type == 'existing')
+        <input type="text" name="clients" id="clients" value="{{ json_encode($dataClient) }}" hidden>
+    @else
+        <input type="text" name="clients" id="clients" hidden>
+    @endif
     <input type="text" name="body_top" id="body_top" hidden>
     <input type="text" name="body_end" id="body_end" hidden>
     <input type="text" name="notes" id="notes" hidden>
@@ -36,7 +50,7 @@
                         <span class="ml-2 text-white">Save</span>
                     </button>
                     <button id="btnClose" class="flex justify-center items-center ml-1  btn-danger" type="button"
-                        title="Close" onclick="btnClose()">
+                        title="Close">
                         <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24">
                             <path
@@ -52,119 +66,20 @@
                     @include('dashboard.layouts.letter-header')
                     <!-- Header end -->
                     <!-- Body start -->
-                    <div class="h-[1125px]">
-                        <div class="flex justify-center">
-                            <div class="w-[725px] mt-2">
-                                <div class="flex">
-                                    <label class="ml-1 text-sm text-black w-20">Nomor</label>
-                                    <label class="ml-1 text-sm text-black">:</label>
-                                    <label id="previewNumber" class="ml-1 text-sm text-slate-500"></label>
-                                </div>
-                                <div class="flex">
-                                    <label class="ml-1 text-sm text-black w-20">Lampiran</label>
-                                    <label class="ml-1 text-sm text-black">:</label>
-                                    <label id="previewAttachment" class="ml-1 text-sm text-black"></label>
-                                </div>
-                                <div class="flex">
-                                    <label class="ml-1 text-sm text-black w-20">Perihal</label>
-                                    <label class="ml-1 text-sm text-black">:</label>
-                                    <label id="previewSubject" class="ml-1 text-sm text-black"></label>
-                                </div>
-                                <div class="mt-4">
-                                    <label class="flex ml-1 text-sm text-black w-20">Kepada Yth</label>
-                                    <label class="flex ml-1 text-sm text-black font-semibold"
-                                        id="previewClientCompany"></label>
-                                    <label class="flex ml-1 text-sm text-black font-semibold"
-                                        id="previewClientContact"></label>
-                                    <label class="flex ml-1 text-sm text-black">Di -</label>
-                                    <label class="flex ml-6 text-sm text-black">Tempat</label>
-                                </div>
-                                <div class="flex mt-4">
-                                    <label class="ml-1 text-sm text-black w-20">Email</label>
-                                    <label class="ml-1 text-sm text-black ">:</label>
-                                    <label id="previewEmail" class="ml-1 text-sm text-black "></label>
-                                </div>
-                                <div class="flex">
-                                    <label class="ml-1 text-sm text-black w-20">No. Telp.</label>
-                                    <label class="ml-1 text-sm text-black ">:</label>
-                                    <label id="previewPhone" class="ml-1 text-sm text-black "></label>
-                                </div>
-                                <div class="flex mt-4">
-                                    <label class="ml-1 text-sm text-black">Dengan hormat,</label>
-                                </div>
-                                <div class="flex mt-2">
-                                    <textarea id="previewBodyTop" class="ml-1 w-[721px] outline-none text-sm" readonly></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- signage table start -->
-                        <div class="flex justify-center ml-2">
-                            @if ($category == 'Videotron')
-                                @include('quotations.vt-preview-table')
-                            @elseif ($category == 'Signage')
-                                @php
-                                    $dataDescription = json_decode($locations[0]->description);
-                                @endphp
-                                @if ($dataDescription->type == 'Videotron')
-                                    @include('quotations.vt-preview-table')
-                                @else
-                                    @include('quotations.bb-preview-table')
-                                @endif
-                            @else
-                                @include('quotations.bb-preview-table')
-                            @endif
-                        </div>
-                        <!-- signage table end -->
+                    @if ($category == 'Service')
+                        @if ($quotation_type == 'new')
+                            @include('quotations.new-service-body-preview');
+                        @elseif ($quotation_type == 'existing')
+                            @include('quotations.existing-service-body-preview');
+                        @endif
+                    @else
+                        @if ($quotation_type == 'new')
+                            @include('quotations.new-media-body-preview');
+                        @elseif ($quotation_type == 'extend')
+                            @include('quotations.extend-media-body-preview');
+                        @endif
+                    @endif
 
-                        <!-- quotation note start -->
-                        <div class="flex justify-center">
-                            <div class="w-[725px] mt-2">
-                                <div class="flex">
-                                    <label class="ml-1 text-sm text-black flex w-20">Catatan</label>
-                                    <label class="ml-1 text-sm text-black flex">:</label>
-                                </div>
-                                <div id="previewNotesQty"></div>
-                                <div class="flex mt-2">
-                                    <label class="ml-1 text-sm text-black flex">Sistem pembayaran :</label>
-                                </div>
-                                <div id="previewPaymentTerms"></div>
-                            </div>
-                        </div>
-                        <!-- quotation note end -->
-
-                        <div class="h-[1125px]">
-                            <div class="flex justify-center">
-                                <div class="flex mt-4">
-                                    <textarea id="previewBodyEnd" class="ml-1 w-[721px] outline-none text-sm" rows="1" readonly>
-                                    </textarea>
-                                </div>
-                            </div>
-                            <div class="flex justify-center">
-                                <div class="w-[725px] mt-4">
-                                    <label class="ml-1 text-sm text-black flex">Denpasar, {{ date('d') }}
-                                        {{ $bulan[(int) date('m')] }}
-                                        {{ date('Y') }}</label>
-                                </div>
-                            </div>
-                            <div class="flex justify-center">
-                                <div class="w-[725px]">
-                                    <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista Media</label>
-                                </div>
-                            </div>
-                            <div class="flex justify-center">
-                                <div class="w-[725px] mt-10">
-                                    <input class="ml-1 text-sm text-black flex font-semibold"
-                                        value="{{ auth()->user()->name }}" type="text">
-                                </div>
-                            </div>
-                            <div class="flex justify-center">
-                                <div class="w-[725px]">
-                                    <input class="ml-1 text-sm text-black flex"
-                                        value="{{ auth()->user()->position }}" type="text">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- Body end -->
                     <!-- Footer start -->
                     @include('dashboard.layouts.letter-footer')
@@ -174,7 +89,13 @@
         </div>
 
         <!-- View Location start -->
-        @include('quotations.locations-view')
+        @if ($category != 'Service')
+            @if ($quotation_type == 'new')
+                @include('quotations.locations-view')
+            @else
+                @include('quotations.locations-extend-view')
+            @endif
+        @endif
         <!-- View Location end -->
     </div>
 </form>

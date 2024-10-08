@@ -5,11 +5,16 @@
     <div class="flex justify-center">
         <div>
             <div class="mt-10">
-                <div class="flex w-[950px] border-b">
-                    <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi
-                        {{ $data_category->name }}</h1>
+                <div class="flex w-[1100px] border-b">
+                    @if ($data_category->name == 'Service')
+                        <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi Cetak /
+                            Pasang</h1>
+                    @else
+                        <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi
+                            {{ $data_category->name }}</h1>
+                    @endif
+
                     <div class="flex justify-end w-full">
-                        {{-- <form id="formCreate"> --}}
                         <button class="flex justify-center items-center btn-primary w-44" type="button"
                             onclick="quotationCreate()">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
@@ -23,7 +28,6 @@
                         <a id="btnCreate" hidden></a>
                         <input type="text" name="dataId" id="location_id" value="test" hidden>
                         <input type="text" name="category" id="category" value="{{ $data_category->name }}" hidden>
-                        {{-- </form> --}}
 
                         <a class="flex justify-center items-center ml-1 btn-danger"
                             href="/quotations/home/{{ $data_category->name }}">
@@ -37,6 +41,8 @@
                     </div>
                 </div>
                 <form action="/quotations/select-location/{{ $data_category->name }}">
+                    <input id="requestService" type="text" value="{{ request('serviceType') }}" hidden>
+                    <input id="requestType" type="text" value="{{ request('quotationType') }}" hidden>
                     <div class="flex mt-1 ml-2">
                         <div class="w-36">
                             <span class="text-base text-teal-900">Area</span>
@@ -89,6 +95,7 @@
                                 </select>
                             @endif
                         </div>
+
                         @if ($data_category->name == 'Signage')
                             <div class="w-36 ml-2">
                                 @php
@@ -122,6 +129,52 @@
                                 @endif
                             </div>
                         @endif
+                        @if ($data_category->name == 'Service')
+                            <div class="w-36 ml-4">
+                                <span class="text-base text-teal-900">Katagori</span>
+                                <select class="w-full border rounded-lg text-base text-teal-900 outline-none"
+                                    name="media_category_id" id="media_category_id" onchange="submit()"
+                                    value="{{ request('media_category_id') }}">
+                                    <option value="All">All</option>
+                                    @foreach ($categories as $dataCategory)
+                                        @if ($dataCategory->name != 'Videotron' && $dataCategory->name != 'Service')
+                                            @if (request('media_category_id') == $dataCategory->id)
+                                                <option value="{{ $dataCategory->id }}" selected>
+                                                    {{ $dataCategory->name }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $dataCategory->id }}">{{ $dataCategory->name }}
+                                                </option>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="ml-4">
+                                <span class="text-base text-teal-900">Jenis Penawaran</span>
+                                <div class="flex items-center">
+                                    <input id="existingRadioService" class="outline-none" type="radio"
+                                        name="serviceType" value="existing" onclick="typeServiceCheck(this)" checked>
+                                    <label class="text-sm text-teal-900 ml-2" for="existing">Dari Data Penjualan</label>
+                                    <input id="newRadioService" class="outline-none  ml-4" type="radio"
+                                        name="serviceType" value="new" onclick="typeServiceCheck(this)">
+                                    <label class="text-sm text-teal-900 ml-2" for="new">Penawaran Baru</label>
+                                </div>
+                            </div>
+                        @else
+                            <div class="ml-4">
+                                <span class="text-base text-teal-900">Jenis Penawaran</span>
+                                <div class="flex items-center">
+                                    <input id="newType" class="outline-none" type="radio" name="quotationType"
+                                        value="new" checked onclick="typeCheck(this)">
+                                    <label class="text-sm text-teal-900 ml-2" for="new">Penawaran Baru</label>
+                                    <input id="extendType" class="outline-none ml-4" type="radio" name="quotationType"
+                                        value="extend" onclick="typeCheck(this)">
+                                    <label class="text-sm text-teal-900 ml-2" for="extend">Penawaran
+                                        Perpanjangan</label>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="flex mt-2">
                         <div class="flex">
@@ -140,188 +193,706 @@
                     </div>
                 </form>
             </div>
-            <div class="w-[950px] mt-4">
-                <table class="table-auto w-full">
-                    <thead>
-                        <tr class="bg-teal-100 h-10">
-                            <th class="text-teal-700 border text-sm w-8 text-center">No</th>
-                            <th class="text-teal-700 border text-sm w-24 text-center">Kode</th>
-                            <th class="text-teal-700 border text-sm text-center">Lokasi</th>
-                            <th class="text-teal-700 border text-sm text-center w-20">Area</th>
-                            <th class="text-teal-700 border text-sm text-center w-20">Kota</th>
-                            <th class="text-teal-700 border text-sm text-center w-28">Size - V/H</th>
-                            @if ($data_category->name == 'Signage')
-                                <th class="text-teal-700 border text-sm text-center w-20">Jenis</th>
-                            @endif
-                            <th class="text-teal-700 border text-sm text-center w-12">BL/FL</th>
-                            <th class="text-teal-700 border text-sm text-center w-16">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <form action="/quotations/select-location/{{ $data_category->name }}">
-                            @foreach ($locations as $location)
+            <div class="w-[1100px] mt-4">
+                @if ($category == 'Service')
+                    <table id="newService" class="table-auto w-full" hidden>
+                        <thead>
+                            <tr class="bg-teal-100 h-10">
+                                <th class="text-teal-700 border text-sm w-8 text-center">No</th>
+                                <th class="text-teal-700 border text-sm w-24 text-center">Kode</th>
+                                <th class="text-teal-700 border text-sm text-center">Lokasi</th>
+                                <th class="text-teal-700 border text-sm text-center w-24">Area</th>
+                                <th class="text-teal-700 border text-sm text-center w-24">Kota</th>
+                                <th class="text-teal-700 border text-sm text-center w-24">Jenis</th>
+                                <th class="text-teal-700 border text-sm text-center w-28">Size - V/H</th>
+                                <th class="text-teal-700 border text-sm text-center w-12">BL/FL</th>
+                                <th class="text-teal-700 border text-sm text-center w-16">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form action="/quotations/select-location/{{ $data_category->name }}">
                                 @php
-                                    $description = json_decode($location->description);
+                                    $index = 0;
                                 @endphp
-                                <tr>
-                                    <td class="text-teal-700 border text-sm text-center">{{ $loop->iteration }}</td>
-                                    <td class="text-teal-700 border text-sm text-center">{{ $location->code }} -
-                                        {{ $location->city->code }}</td>
-                                    <td class="text-teal-700 border text-sm px-2">{{ $location->address }}</td>
-                                    <td class="text-teal-700 border text-sm text-center">{{ $location->area->area }}</td>
-                                    <td class="text-teal-700 border text-sm text-center">{{ $location->city->city }}</td>
-                                    <td class="text-teal-700 border text-sm text-center">{{ $location->media_size->size }}
-                                        -
-                                        @if ($location->orientation == 'Vertikal')
-                                            V
-                                        @elseif ($location->orientation == 'Horizontal')
-                                            H
+                                @foreach ($locations as $location)
+                                    @if ($location->media_category->name != 'Videotron')
+                                        @php
+                                            $description = json_decode($location->description);
+                                            $index++;
+                                        @endphp
+                                        @if ($location->media_category->name == 'Signage')
+                                            @if ($description->type != 'Videotron')
+                                                <tr>
+                                                    <td class="text-teal-700 border text-sm text-center">
+                                                        {{ $index }}
+                                                    </td>
+                                                    <td class="text-teal-700 border text-sm text-center">
+                                                        {{ $location->code }}
+                                                        -
+                                                        {{ $location->city->code }}</td>
+                                                    <td class="text-teal-700 border text-sm px-2">{{ $location->address }}
+                                                    </td>
+                                                    <td class="text-teal-700 border text-sm text-center">
+                                                        {{ $location->area->area }}
+                                                    </td>
+                                                    <td class="text-teal-700 border text-sm text-center">
+                                                        {{ $location->city->city }}
+                                                    </td>
+                                                    <td class="text-teal-700 border text-sm text-center">
+                                                        {{ $location->media_category->name }}
+                                                    </td>
+                                                    <td class="text-teal-700 border text-sm text-center">
+                                                        {{ $location->media_size->size }}
+                                                        -
+                                                        @if ($location->orientation == 'Vertikal')
+                                                            V
+                                                        @elseif ($location->orientation == 'Horizontal')
+                                                            H
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-teal-700 border text-sm text-center">
+                                                        @if ($location->media_category->name == 'Videotron')
+                                                            -
+                                                        @elseif ($location->media_category->name == 'Signage')
+                                                            @if ($description->type == 'Videotron')
+                                                                -
+                                                            @else
+                                                                @if ($description->lighting == 'Backlight')
+                                                                    BL
+                                                                @elseif ($description->lighting == 'Frontlight')
+                                                                    FL
+                                                                @elseif ($description->lighting == 'Nonlight')
+                                                                    NL
+                                                                @endif
+                                                            @endif
+                                                        @else
+                                                            @if ($description->lighting == 'Backlight')
+                                                                BL
+                                                            @elseif ($description->lighting == 'Frontlight')
+                                                                FL
+                                                            @elseif ($description->lighting == 'Nonlight')
+                                                                NL
+                                                            @endif
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-teal-700 border text-center text-sm">
+                                                        @if ($data_category->name == 'Signage')
+                                                            @if (request('type') == null || request('type') == 'All')
+                                                                <input id="{{ $description->type }}"
+                                                                    value="{{ $location->id }}" type="checkbox"
+                                                                    title="pilih" onclick="getLocation(this)" disabled>
+                                                            @else
+                                                                <input value="{{ $location->id }}" type="checkbox"
+                                                                    title="pilih" onclick="getLocation(this)">
+                                                            @endif
+                                                        @else
+                                                            <input value="{{ $location->id }}" type="checkbox"
+                                                                title="pilih" onclick="getLocation(this)">
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @else
+                                            <tr>
+                                                <td class="text-teal-700 border text-sm text-center">{{ $index }}
+                                                </td>
+                                                <td class="text-teal-700 border text-sm text-center">{{ $location->code }}
+                                                    -
+                                                    {{ $location->city->code }}</td>
+                                                <td class="text-teal-700 border text-sm px-2">{{ $location->address }}
+                                                </td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    {{ $location->area->area }}
+                                                </td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    {{ $location->city->city }}
+                                                </td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    {{ $location->media_category->name }}
+                                                </td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    {{ $location->media_size->size }}
+                                                    -
+                                                    @if ($location->orientation == 'Vertikal')
+                                                        V
+                                                    @elseif ($location->orientation == 'Horizontal')
+                                                        H
+                                                    @endif
+                                                </td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    @if ($location->media_category->name == 'Videotron')
+                                                        -
+                                                    @elseif ($location->media_category->name == 'Signage')
+                                                        @if ($description->type == 'Videotron')
+                                                            -
+                                                        @else
+                                                            @if ($description->lighting == 'Backlight')
+                                                                BL
+                                                            @elseif ($description->lighting == 'Frontlight')
+                                                                FL
+                                                            @elseif ($description->lighting == 'Nonlight')
+                                                                NL
+                                                            @endif
+                                                        @endif
+                                                    @else
+                                                        @if ($description->lighting == 'Backlight')
+                                                            BL
+                                                        @elseif ($description->lighting == 'Frontlight')
+                                                            FL
+                                                        @elseif ($description->lighting == 'Nonlight')
+                                                            NL
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td class="text-teal-700 border text-center text-sm">
+                                                    @if ($data_category->name == 'Signage')
+                                                        @if (request('type') == null || request('type') == 'All')
+                                                            <input id="{{ $description->type }}"
+                                                                value="{{ $location->id }}" type="checkbox"
+                                                                title="pilih" onclick="getLocation(this)" disabled>
+                                                        @else
+                                                            <input value="{{ $location->id }}" type="checkbox"
+                                                                title="pilih" onclick="getLocation(this)">
+                                                        @endif
+                                                    @else
+                                                        <input value="{{ $location->id }}" type="checkbox"
+                                                            title="pilih" onclick="getLocation(this)">
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         @endif
-                                    </td>
-                                    @if ($location->media_category->name == 'Signage')
-                                        <td class="text-teal-700 border text-sm text-center w-12">{{ $description->type }}
-                                        </td>
                                     @endif
-                                    <td class="text-teal-700 border text-sm text-center">
-                                        @if ($location->media_category->name == 'Videotron')
-                                            -
-                                        @elseif ($location->media_category->name == 'Signage')
-                                            @if ($description->type == 'Videotron')
-                                                -
-                                            @else
-                                                @if ($description->lighting == 'Backlight')
-                                                    BL
-                                                @elseif ($description->lighting == 'Frontlight')
-                                                    FL
-                                                @elseif ($description->lighting == 'Nonlight')
-                                                    NL
+                                @endforeach
+                            </form>
+                        </tbody>
+                    </table>
+                    <table id="existingService" class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-teal-100">
+                                <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
+                                <th class="text-teal-700 border text-xs w-20 text-center" rowspan="2">Kode</th>
+                                <th class="text-teal-700 border text-xs text-center" rowspan="2">Lokasi</th>
+                                <th class="text-teal-700 border text-xs text-center w-28" rowspan="2">Klien</th>
+                                <th class="text-teal-700 border text-xs text-center w-40" colspan="2">Periode Kontrak
+                                </th>
+                                <th class="text-teal-700 border text-xs text-center w-14" rowspan="2">Free Cetak</th>
+                                <th class="text-teal-700 border text-xs text-center w-14" rowspan="2">Free Pasang</th>
+                                <th class="text-teal-700 border text-xs text-center w-16" rowspan="2">Area</th>
+                                <th class="text-teal-700 border text-xs text-center w-16" rowspan="2">Kota</th>
+                                <th class="text-teal-700 border text-xs text-center w-20" rowspan="2">Size - V/H</th>
+                                <th class="text-teal-700 border text-xs text-center w-10" rowspan="2">BL/FL</th>
+                                <th class="text-teal-700 border text-xs text-center w-12" rowspan="2">Action</th>
+                            </tr>
+                            <tr class="bg-teal-100">
+                                <th class="text-teal-700 border text-xs w-20 text-center" rowspan="2">Awal</th>
+                                <th class="text-teal-700 border text-xs w-20 text-center" rowspan="2">Akhir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form action="/quotations/select-location/{{ $data_category->name }}">
+                                @php
+                                    $index = 0;
+                                @endphp
+                                @foreach ($sales as $sale)
+                                    @php
+                                        $products = json_decode($sale->quotation->products);
+                                        foreach ($products as $product) {
+                                            if ($product->code == $sale->product_code) {
+                                                $dataProduct = $product;
+                                            }
+                                        }
+                                        $client = json_decode($sale->quotation->clients);
+                                        $notes = json_decode($sale->quotation->notes);
+                                    @endphp
+                                    @if ($sale->end_at > date('Y-m-d') && $dataProduct->category == 'Signage')
+                                        @if ($description->type != 'Videotron')
+                                            @php
+                                                $freePrint = $notes->freePrint;
+                                                $freeInstall = $notes->freeInstall;
+                                                $description = json_decode($dataProduct->description);
+                                                $index++;
+                                            @endphp
+                                            <tr>
+                                                <td class="text-teal-700 border text-xs text-center">
+                                                    {{ $index }}
+                                                </td>
+                                                <td class="text-teal-700 border text-xs text-center">
+                                                    {{ $dataProduct->code }}
+                                                    -
+                                                    {{ $dataProduct->city_code }}</td>
+                                                <td class="text-teal-700 border text-xs px-2">
+                                                    {{ $dataProduct->address }}
+                                                </td>
+                                                <td class="text-teal-700 border text-xs px-2 text-center">
+                                                    {{ $client->name }}
+                                                </td>
+                                                <td class="text-teal-700 border text-xs px-2 text-center">
+                                                    {{ date('d-m-Y', strtotime($sale->start_at)) }}
+                                                </td>
+                                                <td class="text-teal-700 border text-xs px-2 text-center">
+                                                    {{ date('d-m-Y', strtotime($sale->end_at)) }}
+                                                </td>
+                                                <td class="text-teal-700 border text-xs text-center">
+                                                    {{ $dataProduct->area }}</td>
+                                                <td class="text-teal-700 border text-xs text-center">
+                                                    {{ $dataProduct->city }}</td>
+                                                <td class="text-teal-700 border text-xs text-center">
+                                                    {{ $dataProduct->size }}
+                                                    -
+                                                    @if ($dataProduct->orientation == 'Vertikal')
+                                                        V
+                                                    @elseif ($dataProduct->orientation == 'Horizontal')
+                                                        H
+                                                    @endif
+                                                </td>
+                                                @if ($dataProduct->category == 'Signage')
+                                                    <td class="text-teal-700 border text-xs text-center w-12">
+                                                        {{ $description->type }}
+                                                    </td>
                                                 @endif
-                                            @endif
-                                        @else
-                                            @if ($description->lighting == 'Backlight')
-                                                BL
-                                            @elseif ($description->lighting == 'Frontlight')
-                                                FL
-                                            @elseif ($description->lighting == 'Nonlight')
-                                                NL
-                                            @endif
+                                                <td class="text-teal-700 border text-xs text-center">
+                                                    @if ($dataProduct->category == 'Videotron')
+                                                        -
+                                                    @elseif ($dataProduct->category == 'Signage')
+                                                        @if ($description->type == 'Videotron')
+                                                            -
+                                                        @else
+                                                            @if ($description->lighting == 'Backlight')
+                                                                BL
+                                                            @elseif ($description->lighting == 'Frontlight')
+                                                                FL
+                                                            @elseif ($description->lighting == 'Nonlight')
+                                                                NL
+                                                            @endif
+                                                        @endif
+                                                    @else
+                                                        @if ($description->lighting == 'Backlight')
+                                                            BL
+                                                        @elseif ($description->lighting == 'Frontlight')
+                                                            FL
+                                                        @elseif ($description->lighting == 'Nonlight')
+                                                            NL
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td class="text-teal-700 border text-center text-xs">
+                                                    @if ($dataProduct->category == 'Signage')
+                                                        @if (request('type') == null || request('type') == 'All')
+                                                            <input id="{{ $description->type }}"
+                                                                value="{{ $sale->id }}" type="checkbox"
+                                                                title="pilih" onclick="getLocation(this)" disabled>
+                                                        @else
+                                                            <input value="{{ $sale->id }}" type="checkbox"
+                                                                title="pilih" onclick="getLocation(this)">
+                                                        @endif
+                                                    @else
+                                                        <input value="{{ $sale->id }}" type="checkbox"
+                                                            title="pilih" onclick="getLocation(this)">
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         @endif
-                                    </td>
-                                    <td class="text-teal-700 border text-center text-sm">
-                                        @if ($data_category->name == 'Signage')
-                                            @if (request('type') == null || request('type') == 'All')
-                                                <input id="{{ $description->type }}" value="{{ $location->id }}"
-                                                    type="checkbox" title="pilih" onclick="getLocation(this)" disabled>
-                                            @else
-                                                <input value="{{ $location->id }}" type="checkbox" title="pilih"
-                                                    onclick="getLocation(this)">
+                                    @elseif($sale->end_at > date('Y-m-d') && $dataProduct->category != 'Videotron')
+                                        @php
+                                            $freePrint = $notes->freePrint;
+                                            $freeInstall = $notes->freeInstall;
+                                            $description = json_decode($dataProduct->description);
+                                            $index++;
+                                        @endphp
+                                        <tr>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $index }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $dataProduct->code }}
+                                                -
+                                                {{ $dataProduct->city_code }}</td>
+                                            <td class="text-teal-700 border text-xs px-2">{{ $dataProduct->address }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs px-2 text-center">
+                                                {{ $client->name }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs px-2 text-center">
+                                                {{ date('d-m-Y', strtotime($sale->start_at)) }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs px-2 text-center">
+                                                {{ date('d-m-Y', strtotime($sale->end_at)) }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $freePrint }}</td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $freeInstall }}</td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $dataProduct->area }}</td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $dataProduct->city }}</td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $dataProduct->size }}
+                                                -
+                                                @if ($dataProduct->orientation == 'Vertikal')
+                                                    V
+                                                @elseif ($dataProduct->orientation == 'Horizontal')
+                                                    H
+                                                @endif
+                                            </td>
+                                            @if ($dataProduct->category == 'Signage')
+                                                <td class="text-teal-700 border text-xs text-center w-12">
+                                                    {{ $description->type }}
+                                                </td>
                                             @endif
-                                        @else
-                                            <input value="{{ $location->id }}" type="checkbox" title="pilih"
-                                                onclick="getLocation(this)">
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                @if ($dataProduct->category == 'Videotron')
+                                                    -
+                                                @elseif ($dataProduct->category == 'Signage')
+                                                    @if ($description->type == 'Videotron')
+                                                        -
+                                                    @else
+                                                        @if ($description->lighting == 'Backlight')
+                                                            BL
+                                                        @elseif ($description->lighting == 'Frontlight')
+                                                            FL
+                                                        @elseif ($description->lighting == 'Nonlight')
+                                                            NL
+                                                        @endif
+                                                    @endif
+                                                @else
+                                                    @if ($description->lighting == 'Backlight')
+                                                        BL
+                                                    @elseif ($description->lighting == 'Frontlight')
+                                                        FL
+                                                    @elseif ($description->lighting == 'Nonlight')
+                                                        NL
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td class="text-teal-700 border text-center text-xs">
+                                                @if ($dataProduct->category == 'Signage')
+                                                    @if (request('type') == null || request('type') == 'All')
+                                                        <input id="{{ $description->type }}" value="{{ $sale->id }}"
+                                                            type="checkbox" title="pilih" onclick="getLocation(this)"
+                                                            disabled>
+                                                    @else
+                                                        <input value="{{ $sale->id }}" type="checkbox"
+                                                            title="pilih" onclick="getLocation(this)">
+                                                    @endif
+                                                @else
+                                                    <input value="{{ $sale->id }}" type="checkbox" title="pilih"
+                                                        onclick="getLocation(this)">
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </form>
+                        </tbody>
+                    </table>
+                @else
+                    <table id="newQuotation" class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-teal-100 h-10">
+                                <th class="text-teal-700 border text-sm w-8 text-center">No</th>
+                                <th class="text-teal-700 border text-sm w-24 text-center">Kode</th>
+                                <th class="text-teal-700 border text-sm text-center">Lokasi</th>
+                                <th class="text-teal-700 border text-sm text-center w-24">Area</th>
+                                <th class="text-teal-700 border text-sm text-center w-24">Kota</th>
+                                <th class="text-teal-700 border text-sm text-center w-24">Jenis</th>
+                                <th class="text-teal-700 border text-sm text-center w-28">Size - V/H</th>
+                                @if ($data_category->name == 'Signage')
+                                    <th class="text-teal-700 border text-sm text-center w-20">Tipe</th>
+                                @endif
+                                <th class="text-teal-700 border text-sm text-center w-12">BL/FL</th>
+                                <th class="text-teal-700 border text-sm text-center w-16">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form action="/quotations/select-location/{{ $data_category->name }}">
+                                @php
+                                    $index = 0;
+                                @endphp
+                                @foreach ($locations as $location)
+                                    @if (count($location->sales) != 0)
+                                        @if ($location->sales[count($location->sales) - 1]->end_at < date('Y-m-d'))
+                                            @php
+                                                $description = json_decode($location->description);
+                                                $index++;
+                                            @endphp
+                                            <tr>
+                                                <td class="text-teal-700 border text-sm text-center">{{ $index }}
+                                                </td>
+                                                <td class="text-teal-700 border text-sm text-center">{{ $location->code }}
+                                                    -
+                                                    {{ $location->city->code }}</td>
+                                                <td class="text-teal-700 border text-sm px-2">{{ $location->address }}
+                                                </td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    {{ $location->area->area }}</td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    {{ $location->city->city }}</td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    {{ $location->media_category->name }}</td>
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    {{ $location->media_size->size }}
+                                                    -
+                                                    @if ($location->orientation == 'Vertikal')
+                                                        V
+                                                    @elseif ($location->orientation == 'Horizontal')
+                                                        H
+                                                    @endif
+                                                </td>
+                                                @if ($location->media_category->name == 'Signage')
+                                                    <td class="text-teal-700 border text-sm text-center w-12">
+                                                        {{ $description->type }}
+                                                    </td>
+                                                @endif
+                                                <td class="text-teal-700 border text-sm text-center">
+                                                    @if ($location->media_category->name == 'Videotron')
+                                                        -
+                                                    @elseif ($location->media_category->name == 'Signage')
+                                                        @if ($description->type == 'Videotron')
+                                                            -
+                                                        @else
+                                                            @if ($description->lighting == 'Backlight')
+                                                                BL
+                                                            @elseif ($description->lighting == 'Frontlight')
+                                                                FL
+                                                            @elseif ($description->lighting == 'Nonlight')
+                                                                NL
+                                                            @endif
+                                                        @endif
+                                                    @else
+                                                        @if ($description->lighting == 'Backlight')
+                                                            BL
+                                                        @elseif ($description->lighting == 'Frontlight')
+                                                            FL
+                                                        @elseif ($description->lighting == 'Nonlight')
+                                                            NL
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td class="text-teal-700 border text-center text-sm">
+                                                    @if ($data_category->name == 'Signage')
+                                                        @if (request('type') == null || request('type') == 'All')
+                                                            <input id="{{ $description->type }}"
+                                                                value="{{ $location->id }}" type="checkbox"
+                                                                title="pilih" onclick="getLocation(this)" disabled>
+                                                        @else
+                                                            <input value="{{ $location->id }}" type="checkbox"
+                                                                title="pilih" onclick="getLocation(this)">
+                                                        @endif
+                                                    @else
+                                                        <input value="{{ $location->id }}" type="checkbox"
+                                                            title="pilih" onclick="getLocation(this)">
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </form>
-                    </tbody>
-                </table>
+                                    @else
+                                        @php
+                                            $description = json_decode($location->description);
+                                            $index++;
+                                        @endphp
+                                        <tr>
+                                            <td class="text-teal-700 border text-sm text-center">{{ $index }}</td>
+                                            <td class="text-teal-700 border text-sm text-center">{{ $location->code }} -
+                                                {{ $location->city->code }}</td>
+                                            <td class="text-teal-700 border text-sm px-2">{{ $location->address }}</td>
+                                            <td class="text-teal-700 border text-sm text-center">
+                                                {{ $location->area->area }}
+                                            </td>
+                                            <td class="text-teal-700 border text-sm text-center">
+                                                {{ $location->city->city }}
+                                            </td>
+                                            <td class="text-teal-700 border text-sm text-center">
+                                                {{ $location->media_category->name }}
+                                            </td>
+                                            <td class="text-teal-700 border text-sm text-center">
+                                                {{ $location->media_size->size }}
+                                                -
+                                                @if ($location->orientation == 'Vertikal')
+                                                    V
+                                                @elseif ($location->orientation == 'Horizontal')
+                                                    H
+                                                @endif
+                                            </td>
+                                            @if ($location->media_category->name == 'Signage')
+                                                <td class="text-teal-700 border text-sm text-center w-12">
+                                                    {{ $description->type }}
+                                                </td>
+                                            @endif
+                                            <td class="text-teal-700 border text-sm text-center">
+                                                @if ($location->media_category->name == 'Videotron')
+                                                    -
+                                                @elseif ($location->media_category->name == 'Signage')
+                                                    @if ($description->type == 'Videotron')
+                                                        -
+                                                    @else
+                                                        @if ($description->lighting == 'Backlight')
+                                                            BL
+                                                        @elseif ($description->lighting == 'Frontlight')
+                                                            FL
+                                                        @elseif ($description->lighting == 'Nonlight')
+                                                            NL
+                                                        @endif
+                                                    @endif
+                                                @else
+                                                    @if ($description->lighting == 'Backlight')
+                                                        BL
+                                                    @elseif ($description->lighting == 'Frontlight')
+                                                        FL
+                                                    @elseif ($description->lighting == 'Nonlight')
+                                                        NL
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td class="text-teal-700 border text-center text-sm">
+                                                @if ($data_category->name == 'Signage')
+                                                    @if (request('type') == null || request('type') == 'All')
+                                                        <input id="{{ $description->type }}"
+                                                            value="{{ $location->id }}" type="checkbox" title="pilih"
+                                                            onclick="getLocation(this)" disabled>
+                                                    @else
+                                                        <input value="{{ $location->id }}" type="checkbox"
+                                                            title="pilih" onclick="getLocation(this)">
+                                                    @endif
+                                                @else
+                                                    <input value="{{ $location->id }}" type="checkbox" title="pilih"
+                                                        onclick="getLocation(this)">
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </form>
+                        </tbody>
+                    </table>
+                    <table id="extendQuotation" class="table-auto w-full" hidden>
+                        <thead>
+                            <tr class="bg-teal-100">
+                                <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
+                                <th class="text-teal-700 border text-xs w-20 text-center" rowspan="2">Kode</th>
+                                <th class="text-teal-700 border text-xs text-center" rowspan="2">Lokasi</th>
+                                <th class="text-teal-700 border text-xs text-center w-28" rowspan="2">Klien</th>
+                                <th class="text-teal-700 border text-xs text-center w-44" colspan="2">Periode Kontrak
+                                </th>
+                                <th class="text-teal-700 border text-xs text-center w-16" rowspan="2">Area</th>
+                                <th class="text-teal-700 border text-xs text-center w-16" rowspan="2">Kota</th>
+                                <th class="text-teal-700 border text-xs text-center w-20" rowspan="2">Size - V/H</th>
+                                @if ($data_category->name == 'Signage')
+                                    <th class="text-teal-700 border text-xs text-center w-20" rowspan="2">Tipe</th>
+                                @endif
+                                <th class="text-teal-700 border text-xs text-center w-12" rowspan="2">BL/FL</th>
+                                <th class="text-teal-700 border text-xs text-center w-14" rowspan="2">Action</th>
+                            </tr>
+                            <tr class="bg-teal-100">
+                                <th class="text-teal-700 border text-xs w-24 text-center" rowspan="2">Awal</th>
+                                <th class="text-teal-700 border text-xs w-24 text-center" rowspan="2">Akhir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form action="/quotations/select-location/{{ $data_category->name }}">
+                                @php
+                                    $index = 0;
+                                @endphp
+                                @foreach ($sales as $sale)
+                                    @if ($sale->end_at > date('Y-m-d'))
+                                        @php
+                                            $products = json_decode($sale->quotation->products);
+                                            foreach ($products as $product) {
+                                                if ($product->code == $sale->product_code) {
+                                                    $dataProduct = $product;
+                                                }
+                                            }
+                                            $client = json_decode($sale->quotation->clients);
+                                            $notes = json_decode($sale->quotation->notes);
+                                            $description = json_decode($dataProduct->description);
+                                            $index++;
+                                        @endphp
+                                        <tr>
+                                            <td class="text-teal-700 border text-xs text-center">{{ $index }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $dataProduct->code }}
+                                                -
+                                                {{ $dataProduct->city_code }}</td>
+                                            <td class="text-teal-700 border text-xs px-2">{{ $dataProduct->address }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs px-2 text-center">
+                                                {{ $client->name }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs px-2 text-center">
+                                                {{ date('d-M-Y', strtotime($sale->start_at)) }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs px-2 text-center">
+                                                {{ date('d-M-Y', strtotime($sale->end_at)) }}
+                                            </td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $dataProduct->area }}</td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $dataProduct->city }}</td>
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                {{ $dataProduct->size }}
+                                                -
+                                                @if ($dataProduct->orientation == 'Vertikal')
+                                                    V
+                                                @elseif ($dataProduct->orientation == 'Horizontal')
+                                                    H
+                                                @endif
+                                            </td>
+                                            @if ($dataProduct->category == 'Signage')
+                                                <td class="text-teal-700 border text-xs text-center w-12">
+                                                    {{ $description->type }}
+                                                </td>
+                                            @endif
+                                            <td class="text-teal-700 border text-xs text-center">
+                                                @if ($dataProduct->category == 'Videotron')
+                                                    -
+                                                @elseif ($dataProduct->category == 'Signage')
+                                                    @if ($description->type == 'Videotron')
+                                                        -
+                                                    @else
+                                                        @if ($description->lighting == 'Backlight')
+                                                            BL
+                                                        @elseif ($description->lighting == 'Frontlight')
+                                                            FL
+                                                        @elseif ($description->lighting == 'Nonlight')
+                                                            NL
+                                                        @endif
+                                                    @endif
+                                                @else
+                                                    @if ($description->lighting == 'Backlight')
+                                                        BL
+                                                    @elseif ($description->lighting == 'Frontlight')
+                                                        FL
+                                                    @elseif ($description->lighting == 'Nonlight')
+                                                        NL
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td class="text-teal-700 border text-center text-xs">
+                                                @if ($dataProduct->category == 'Signage')
+                                                    @if (request('type') == null || request('type') == 'All')
+                                                        <input id="{{ $description->type }}"
+                                                            value="{{ $sale->id }}" type="checkbox" title="pilih"
+                                                            onclick="getLocation(this)" disabled>
+                                                    @else
+                                                        <input value="{{ $sale->id }}" type="checkbox"
+                                                            title="pilih" onclick="getLocation(this)">
+                                                    @endif
+                                                @else
+                                                    <input value="{{ $sale->id }}" type="checkbox" title="pilih"
+                                                        onclick="getLocation(this)">
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </form>
+                        </tbody>
+                    </table>
+                @endif
             </div>
         </div>
     </div>
 
-    <script>
-        let locationId = [];
-        const inputs = document.getElementsByTagName('input');
-        const btnCreate = document.getElementById("btnCreate");
-        const area = document.getElementById("area");
-        const city = document.getElementById("city");
-        const dataId = document.getElementById("location_id");
-        const category = document.getElementById("category");
-        const type = document.getElementById("type");
-
-        getLocation = (sel) => {
-            if (sel.checked == true) {
-                locationId.push(sel.value);
-            } else {
-                for (let i = 0; i < locationId.length; i++) {
-                    if (locationId[i] == sel.value) {
-                        locationId.splice(i, 1);
-                    }
-                }
-            }
-
-            if (category.value == "Videotron") {
-                if (locationId.length == 1) {
-                    for (let i = 0; i < inputs.length; i++) {
-                        if (inputs[i].checked == false) {
-                            inputs[i].setAttribute('disabled', 'disabled');
-                        }
-                    }
-                } else {
-                    for (let i = 0; i < inputs.length; i++) {
-                        if (inputs[i].checked == false) {
-                            inputs[i].removeAttribute('disabled');
-                        }
-                    }
-                }
-            } else if (category.value == "Signage") {
-                if (type.value == "Videotron") {
-                    if (locationId.length == 1) {
-                        for (let i = 0; i < inputs.length; i++) {
-                            if (inputs[i].checked == false) {
-                                inputs[i].setAttribute('disabled', 'disabled');
-                            }
-                        }
-                    } else {
-                        for (let i = 0; i < inputs.length; i++) {
-                            if (inputs[i].checked == false) {
-                                inputs[i].removeAttribute('disabled');
-                            }
-                        }
-                    }
-                } else {
-                    if (locationId.length == 5) {
-                        for (let i = 0; i < inputs.length; i++) {
-                            if (inputs[i].checked == false) {
-                                inputs[i].setAttribute('disabled', 'disabled');
-                            }
-                        }
-                    } else {
-                        for (let i = 0; i < inputs.length; i++) {
-                            if (inputs[i].checked == false) {
-                                inputs[i].removeAttribute('disabled');
-                            }
-                        }
-                    }
-                }
-            } else {
-                if (locationId.length == 5) {
-                    for (let i = 0; i < inputs.length; i++) {
-                        if (inputs[i].checked == false) {
-                            inputs[i].setAttribute('disabled', 'disabled');
-                        }
-                    }
-                } else {
-                    for (let i = 0; i < inputs.length; i++) {
-                        if (inputs[i].checked == false) {
-                            inputs[i].removeAttribute('disabled');
-                        }
-                    }
-                }
-            }
-        }
-
-        quotationCreate = () => {
-            if (locationId.length == 0) {
-                alert("Silahkan pilih lokasi terlebih dahulu...!!")
-            } else {
-                let objId = JSON.stringify(locationId);
-                btnCreate.setAttribute('href', '/quotations/create-quotation/' + category.value +
-                    '/' + objId + '/' + area.value +
-                    '/' + city.value);
-                btnCreate.click();
-            }
-        }
-    </script>
+    <script src="/js/selectlocation.js"></script>
 @endsection

@@ -15,31 +15,58 @@ const btnClose = document.getElementById("btnClose");
 
 // Button Add Note Action --> start
 btnAddNote.addEventListener("click", function() {
-    if (notesQty.children.length < 10) {
-        const divNotes = document.createElement("div");
-        const inputNotes = document.createElement("textarea");
-        divNotes.classList.add("flex");
-        inputNotes.classList.add("text-area-notes");
-        inputNotes.value = "- ";
-        inputNotes.setAttribute("rows", "1");
-
-        divNotes.appendChild(inputNotes);
-
-        // notesQty.appendChild(divNotes);
-        notesQty.insertBefore(divNotes, notesQty.children[notesQty.children.length - 1]);
-        inputNotes.focus();
-    } else {
-        alert("Maksimal tambahan 3 catatan");
+    if(category.value == "Service"){
+        if (notesQty.children.length < 4) {
+            const divNotes = document.createElement("div");
+            const inputNotes = document.createElement("textarea");
+            divNotes.classList.add("flex");
+            inputNotes.classList.add("text-area-notes");
+            inputNotes.value = "- ";
+            inputNotes.setAttribute("rows", "1");
+    
+            divNotes.appendChild(inputNotes);
+    
+            // notesQty.appendChild(divNotes);
+            notesQty.insertBefore(divNotes, notesQty.children[notesQty.children.length]);
+            inputNotes.focus();
+        } else {
+            alert("Maksimal tambahan 3 catatan");
+        }
+    }else{
+        if (notesQty.children.length < 10) {
+            const divNotes = document.createElement("div");
+            const inputNotes = document.createElement("textarea");
+            divNotes.classList.add("flex");
+            inputNotes.classList.add("text-area-notes");
+            inputNotes.value = "- ";
+            inputNotes.setAttribute("rows", "1");
+    
+            divNotes.appendChild(inputNotes);
+    
+            // notesQty.appendChild(divNotes);
+            notesQty.insertBefore(divNotes, notesQty.children[notesQty.children.length - 1]);
+            inputNotes.focus();
+        } else {
+            alert("Maksimal tambahan 3 catatan");
+        }
     }
 });
 // Button Add Note Action --> end
 
 // Button Remove Last Note Action --> start
 btnDelNote.addEventListener("click", function() {
-    if (notesQty.children.length > 7) {
-        notesQty.removeChild(notesQty.children[notesQty.children.length - 2]);
-    } else {
-        alert("Tidak ada tambahan catatan yang bisa dihapus");
+    if(category.value == "Service"){
+        if (notesQty.children.length > 1) {
+            notesQty.removeChild(notesQty.children[notesQty.children.length - 1]);
+        } else {
+            alert("Tidak ada tambahan catatan yang bisa dihapus");
+        }
+    }else{
+        if (notesQty.children.length > 7) {
+            notesQty.removeChild(notesQty.children[notesQty.children.length - 2]);
+        } else {
+            alert("Tidak ada tambahan catatan yang bisa dihapus");
+        }
     }
 });
 // Button Remove Last Note Action --> end
@@ -93,20 +120,33 @@ btnDelPayment.addEventListener("click", function() {
 // Button Preview Action --> start
 btnPreview.addEventListener("click", function(){
     const category = document.getElementById("category");
-    if (paymentCheck() == true) {
-        modalPreview.classList.remove("hidden");
-        getNotes();
-        getPayments();
-        if(category.value == "Billboard"){
-            getBillboardPrice();
-        } else if(category.value == "Signage"){
-            if(document.getElementById("signageType").value == "Videotron"){
-                getVideotronPrice();
-            }else{
-                getBillboardPrice();
-            }
+    if(category.value == "Service"){
+        if(printProductCheck() == false || installPriceCheck() == false){
+            alert("Silahkan lengkapi harga yang belum diinput..!!")
         }else{
-            getVideotronPrice();
+            setPreviewTable();
+            modalPreview.classList.remove("hidden");
+            fillServiceData();
+            getNotes();
+            getPayments();
+            // fillData();
+        }
+    }else{
+        if (paymentCheck() == true) {
+            modalPreview.classList.remove("hidden");
+            getNotes();
+            getPayments();
+            if(category.value == "Billboard"){
+                getBillboardPrice();
+            } else if(category.value == "Signage"){
+                if(document.getElementById("signageType").value == "Videotron"){
+                    getVideotronPrice();
+                }else{
+                    getBillboardPrice();
+                }
+            }else{
+                getVideotronPrice();
+            }
         }
     }
 })

@@ -16,7 +16,7 @@
             <div class="flex w-[600px] items-center border-b p-1">
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]">DOKUMEN PO/SPK</h1>
                 <div class="flex justify-end">
-                    <a class="flex justify-center items-center ml-1 btn-danger" href="/sales-data/home/{{ $category }}">
+                    <a class="flex justify-center items-center ml-1 btn-danger" href="/sales/home/{{ $category }}">
                         <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24">
                             <path
@@ -93,9 +93,9 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center w-[600px]">
+            <div class="flex justify-center w-[600px] pb-10">
                 <div>
-                    <div class="relative mt-4 lg-photo-product border ">
+                    <div class="relative mt-4 w-[600px] border ">
                         <div id="prevButtonShow" class="absolute inset-y-0 left-0 w-7 h-12 m-auto">
                             <button
                                 class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
@@ -163,8 +163,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <img class="lg-photo-product" src="{{ asset('storage/' . $order->image) }}"
-                                        alt="">
+                                    <img class="w-[600px]" src="{{ asset('storage/' . $order->image) }}" alt="">
                                 </div>
                             @else
                                 <div class="divImage" hidden>
@@ -211,8 +210,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <img class="lg-photo-product" src="{{ asset('storage/' . $order->image) }}"
-                                        alt="">
+                                    <img class="w-[600px]" src="{{ asset('storage/' . $order->image) }}" alt="">
                                 </div>
                             @endif
                         @endforeach

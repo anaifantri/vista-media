@@ -1,5 +1,11 @@
 @php
-    $descriptions = json_decode($locations[0]->description);
+    // $descriptions = json_decode($products[0]->description);
+    // foreach ($leds as $led) {
+    //     if ($led->id == $descriptions->led_id) {
+    //         $dataLed = $led;
+    //     }
+    // }
+    $descriptions = json_decode($products[0]->description);
     foreach ($leds as $led) {
         if ($led->id == $descriptions->led_id) {
             $dataLed = $led;
@@ -21,15 +27,15 @@
             <tr>
                 <td class="px-4 text-sm text-black border">Lokasi</td>
                 <td class="px-4 text-sm text-black border" colspan="4">
-                    {{ $locations[0]->address }}</td>
+                    {{ $products[0]->address }}</td>
             </tr>
             <tr>
                 <td class="px-4 text-xs text-black border">Ukuran (Screen Size) - Orientasi</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $locations[0]->media_size->size }} ({{ $descriptions->screen_w }} pixel x
+                    {{ $products[0]->size }} ({{ $descriptions->screen_w }} pixel x
                     {{ $descriptions->screen_h }} pixel)
                     -
-                    {{ $locations[0]->orientation }}</td>
+                    {{ $products[0]->orientation }}</td>
             </tr>
             @if ($category == 'Signage')
                 <tr>

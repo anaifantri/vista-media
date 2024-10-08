@@ -36,15 +36,38 @@ getStatus = (sel) => {
         let dataPrice = JSON.parse(price.value);
         var titlePrice = 0;
 
-        if(category.value == "Billboard"){
-            for(let i = 0; i < dataPrice.dataTitle.length; i++){
-                if(dataPrice.dataTitle[i].checkbox == true){
-                    titlePrice++;
+        if(category.value != "Service"){
+            if(category.value == "Billboard"){
+                for(let i = 0; i < dataPrice.dataTitle.length; i++){
+                    if(dataPrice.dataTitle[i].checkbox == true){
+                        titlePrice++;
+                    }
                 }
-            }
-        } else if(category.value == "Signage"){
-            const type = document.getElementById("type");
-            if(type == "Videotron"){
+            } else if(category.value == "Signage"){
+                const type = document.getElementById("type");
+                if(type == "Videotron"){
+                    if(dataPrice.priceType[0] == true){
+                        for(let i = 0; i < dataPrice.dataSharingPrice.length; i++){
+                            if(dataPrice.dataSharingPrice[i].checkbox == true){
+                                titlePrice++;
+                            }
+                        }
+                    }
+                    if(dataPrice.priceType[1] == true){
+                        for(let i = 0; i < dataPrice.dataExclusivePrice.length; i++){
+                            if(dataPrice.dataExclusivePrice[i].checkbox == true){
+                                titlePrice++;
+                            }
+                        }
+                    }
+                }else{
+                    for(let i = 0; i < dataPrice.dataTitle.length; i++){
+                        if(dataPrice.dataTitle[i].checkbox == true){
+                            titlePrice++;
+                        }
+                    }
+                }
+            }else{
                 if(dataPrice.priceType[0] == true){
                     for(let i = 0; i < dataPrice.dataSharingPrice.length; i++){
                         if(dataPrice.dataSharingPrice[i].checkbox == true){
@@ -59,39 +82,21 @@ getStatus = (sel) => {
                         }
                     }
                 }
-            }else{
-                for(let i = 0; i < dataPrice.dataTitle.length; i++){
-                    if(dataPrice.dataTitle[i].checkbox == true){
-                        titlePrice++;
-                    }
-                }
             }
-        }else{
-            if(dataPrice.priceType[0] == true){
-                for(let i = 0; i < dataPrice.dataSharingPrice.length; i++){
-                    if(dataPrice.dataSharingPrice[i].checkbox == true){
-                        titlePrice++;
-                    }
-                }
-            }
-            if(dataPrice.priceType[1] == true){
-                for(let i = 0; i < dataPrice.dataExclusivePrice.length; i++){
-                    if(dataPrice.dataExclusivePrice[i].checkbox == true){
-                        titlePrice++;
-                    }
-                }
-            }
-        }
-        
 
-        if(titlePrice > 1){
-            btnSaveProgress.classList.add('hidden');
-            alert('Silahkan revisi penawaran, harga harus dalam 1 periode');
+            if(titlePrice > 1){
+                btnSaveProgress.classList.add('hidden');
+                alert('Silahkan revisi penawaran, harga harus dalam 1 periode');
+            }else{
+                divApproval.removeAttribute('hidden');
+                btnSaveProgress.classList.remove('hidden');
+                // selectStatus.value = sel.options[sel.selectedIndex].text;
+            }
         }else{
             divApproval.removeAttribute('hidden');
             btnSaveProgress.classList.remove('hidden');
-            // selectStatus.value = sel.options[sel.selectedIndex].text;
         }
+        
     } else {
         divApproval.setAttribute('hidden', 'hidden');
         btnSaveProgress.classList.remove('hidden');

@@ -24,17 +24,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($locations as $location)
+            @foreach ($products as $location)
                 <tr>
                     <td class="text-[0.7rem] text-teal-700 border text-center">
                         {{ $loop->iteration }}</td>
                     <td class="text-[0.7rem] text-teal-700 border text-center">
-                        {{ $location->code }}-{{ $location->city->code }}</td>
+                        {{ $location->code }}-{{ $location->city_code }}</td>
                     <td class="text-[0.7rem] text-teal-700 border">{{ $location->address }}</td>
                     <td class="text-[0.7rem] text-teal-700 border text-center">
-                        {{ $location->media_category->name }}</td>
+                        {{ $location->category }}</td>
                     <td class="text-[0.7rem] text-teal-700 border text-center">
-                        {{ $location->media_size->size }} -
+                        {{ $location->size }} -
                         @if ($location->orientation == 'Vertikal')
                             V
                         @elseif ($location->orientation == 'Horizontal')

@@ -17,8 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('vendor_id')->constrained();
             $table->foreignId('printing_product_id')->constrained();
-            $table->decimal('sale_price',12,0)->unsigned()->default(0);
-            $table->decimal('print_price',12,0)->unsigned()->default(0);
+            $table->decimal('price',12,0)->unsigned()->default(0);
             $table->timestamps();
         });
     }

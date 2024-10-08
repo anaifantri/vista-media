@@ -19,11 +19,43 @@
                     </div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="w-[280px]">
-                            <label class="text-sm text-teal-700">Nama Katagori</label>
-                            <input
-                                class="flex px-2 text-semibold w-[250px] border rounded-lg p-1 outline-none @error('name') is-invalid @enderror"
-                                type="text" name="name" placeholder="Input nama bahan"
-                                value="{{ $media_category->name }}" autofocus required>
+                            @php
+                                $dataCategories = [
+                                    'Billboard',
+                                    'Videotron',
+                                    'Signage',
+                                    'Bando',
+                                    'Baliho',
+                                    'Midiboard',
+                                    'Service',
+                                ];
+                            @endphp
+                            <div class="flex">
+                                <label class="text-sm text-teal-700">Katagori</label>
+                            </div>
+                            <div class="mt-1">
+                                <select id="name" name="name"
+                                    class="w-[250px]  text-semibold border rounded-lg px-1 outline-none
+                                        @error('name') is-invalid @enderror"
+                                    type="text" value="{{ $media_category->name }}">
+                                    @foreach ($dataCategories as $name)
+                                        @if ($media_category->name == $name)
+                                            <option value="{{ $name }}" selected>
+                                                {{ $name }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $name }}">
+                                                {{ $name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             @error('name')
                                 <div class="invalid-feedback">
                                     {{ $message }}

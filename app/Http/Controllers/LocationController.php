@@ -31,11 +31,11 @@ class LocationController extends Controller
     {
         if($category == "All"){
             $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-            $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(10)->withQueryString();
+            $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString();
         }else{
             $dataCategory = MediaCategory::where('name', $category)->get()->last();
             $media_category_id = $dataCategory->id;
-            $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->paginate(10)->withQueryString();
+            $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->paginate(15)->withQueryString();
         }
 
         $areas = Area::with('locations')->get();

@@ -199,14 +199,14 @@
                     @foreach ($price->dataExclusivePrice as $dataExclusivePrice)
                         @if ($dataExclusivePrice->checkbox == true)
                             <td class="border bg-slate-100 text-xs text-black w-28 text-center">
-                                <input id="cbExTitle" name="cbExTitle0" type="checkbox" checked
-                                    onclick="cbExclusiveCheck(this)">
+                                <input id="cbExTitle" name="cbExTitle{{ $loop->iteration - 1 }}" type="checkbox"
+                                    checked onclick="cbExclusiveCheck(this)">
                                 <input class="text-xs text-black  ml-1 w-12 outline-none bg-transparent"
                                     type="text" id="exTitle" value="{{ $dataExclusivePrice->title }}">
                             </td>
                         @else
                             <td class="border bg-slate-100 text-xs text-black w-28 text-center" hidden>
-                                <input id="cbExTitle" name="cbExTitle0" type="checkbox"
+                                <input id="cbExTitle" name="cbExTitle{{ $loop->iteration - 1 }}" type="checkbox"
                                     onclick="cbExclusiveCheck(this)">
                                 <input class="text-xs text-black  ml-1 w-12 outline-none bg-transparent"
                                     type="text" id="exTitle" value="{{ $dataExclusivePrice->title }}">

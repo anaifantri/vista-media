@@ -1,0 +1,151 @@
+let locationId = [];
+const inputs = document.getElementsByTagName('input');
+const btnCreate = document.getElementById("btnCreate");
+const area = document.getElementById("area");
+const city = document.getElementById("city");
+const dataId = document.getElementById("location_id");
+const category = document.getElementById("category");
+const type = document.getElementById("type");
+const requestService = document.getElementById("requestService");
+const requestType = document.getElementById("requestType");
+if(category.value == "Service"){
+    var getType = "existing";
+}else{
+    var getType = "new";
+}
+
+if(requestService.value){
+    getType = requestService.value;
+    if (requestService.value == "new") {
+        document.getElementById("newRadioService").checked = true;
+        document.getElementById("existingRadioService").checked = false;
+        document.getElementById("newService").removeAttribute('hidden');
+        document.getElementById("existingService").setAttribute('hidden', 'hidden');
+    } else if (requestService.value == "exisiting") {
+        document.getElementById("newRadioService").checked = false;
+        document.getElementById("existingRadioService").checked = true;
+        document.getElementById("newService").setAttribute('hidden', 'hidden');
+        document.getElementById("existingService").removeAttribute('hidden');
+    }
+}
+
+if(requestType.value){
+    if (requestType.value == "new") {
+        document.getElementById("newType").checked = true;
+        document.getElementById("extendType").checked = false;
+        document.getElementById("newQuotation").removeAttribute('hidden');
+        document.getElementById("extendQuotation").setAttribute('hidden', 'hidden');
+    } else if (requestType.value == "extend") {
+        document.getElementById("newType").checked = false;
+        document.getElementById("extendType").checked = true;
+        document.getElementById("newQuotation").setAttribute('hidden', 'hidden');
+        document.getElementById("extendQuotation").removeAttribute('hidden');
+    }
+}
+
+getLocation = (sel) => {
+    if (sel.checked == true) {
+        locationId.push(sel.value);
+    } else {
+        for (let i = 0; i < locationId.length; i++) {
+            if (locationId[i] == sel.value) {
+                locationId.splice(i, 1);
+            }
+        }
+    }
+
+    // if (category.value == "Videotron" || (category.value == "Service" && document.getElementById("existing")
+    if (category.value == "Videotron") {
+        if (locationId.length == 1) {
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].checked == false) {
+                    inputs[i].setAttribute('disabled', 'disabled');
+                }
+            }
+        } else {
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].checked == false) {
+                    inputs[i].removeAttribute('disabled');
+                }
+            }
+        }
+    } else if (category.value == "Signage") {
+        if (type.value == "Videotron") {
+            if (locationId.length == 1) {
+                for (let i = 0; i < inputs.length; i++) {
+                    if (inputs[i].checked == false) {
+                        inputs[i].setAttribute('disabled', 'disabled');
+                    }
+                }
+            } else {
+                for (let i = 0; i < inputs.length; i++) {
+                    if (inputs[i].checked == false) {
+                        inputs[i].removeAttribute('disabled');
+                    }
+                }
+            }
+        } else {
+            if (locationId.length == 5) {
+                for (let i = 0; i < inputs.length; i++) {
+                    if (inputs[i].checked == false) {
+                        inputs[i].setAttribute('disabled', 'disabled');
+                    }
+                }
+            } else {
+                for (let i = 0; i < inputs.length; i++) {
+                    if (inputs[i].checked == false) {
+                        inputs[i].removeAttribute('disabled');
+                    }
+                }
+            }
+        }
+    } else {
+        if (locationId.length == 5) {
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].checked == false) {
+                    inputs[i].setAttribute('disabled', 'disabled');
+                }
+            }
+        } else {
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].checked == false) {
+                    inputs[i].removeAttribute('disabled');
+                }
+            }
+        }
+    }
+}
+
+quotationCreate = () => {
+    if (locationId.length == 0) {
+        alert("Silahkan pilih lokasi terlebih dahulu...!!")
+    } else {
+        let objId = JSON.stringify(locationId);
+        btnCreate.setAttribute('href', '/quotations/create-quotation/' + category.value + '/' + getType +
+            '/' + objId + '/' + area.value +
+            '/' + city.value);
+        btnCreate.click();
+    }
+}
+
+typeCheck = (sel) => {
+    getType = sel.value;
+    if (sel.value == "new") {
+        document.getElementById("newQuotation").removeAttribute('hidden');
+        document.getElementById("extendQuotation").setAttribute('hidden', 'hidden');
+    } else if (sel.value == "extend") {
+        document.getElementById("newQuotation").setAttribute('hidden', 'hidden');
+        document.getElementById("extendQuotation").removeAttribute('hidden');
+    }
+}
+
+typeServiceCheck = (sel) => {
+    getType = sel.value;
+    if (sel.value == "new") {
+        document.getElementById("newService").removeAttribute('hidden');
+        document.getElementById("existingService").setAttribute('hidden', 'hidden');
+    } else if (sel.value == "existing") {
+        document.getElementById("newService").setAttribute('hidden', 'hidden');
+        document.getElementById("existingService").removeAttribute('hidden');
+    }
+}

@@ -6,6 +6,8 @@
             <div class="flex p-1 w-full border-b">
                 @if ($category == 'All')
                     <h1 class="index-h1">Daftar Surat Penawaran</h1>
+                @elseif ($category == 'Service')
+                    <h1 class="index-h1">Daftar Surat Penawaran Cetak & Pasang</h1>
                 @else
                     <h1 class="index-h1">Daftar Surat Penawaran {{ $category }}</h1>
                 @endif
@@ -20,7 +22,7 @@
                                             d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                             fill-rule="nonzero" />
                                     </svg>
-                                    <span class="mx-1 hidden sm:flex">Membuat Penawaran</span>
+                                    <span class="mx-1 hidden sm:flex">Menambah Penawaran</span>
                                 </a>
                             </div>
                         @endcanany
@@ -35,7 +37,7 @@
                                         d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                         fill-rule="nonzero" />
                                 </svg>
-                                <span class="mx-1 hidden sm:flex">Membuat Penawaran</span>
+                                <span class="mx-1 hidden sm:flex">Menambah Penawaran</span>
                             </a>
                         </div>
                     @endcanany
@@ -180,7 +182,8 @@
                             @endphp
                             <tr>
                                 <td class="text-teal-700 border text-sm text-center">{{ $number++ }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $quotation->media_category->name }}
+                                <td class="text-teal-700 border text-sm text-center">
+                                    {{ $quotation->media_category->name }}
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $quotation->number }}</td>
                                 <td class="text-teal-700 border text-sm text-center">

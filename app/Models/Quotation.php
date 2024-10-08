@@ -22,6 +22,9 @@ class Quotation extends Model
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('number', 'like', '%' . $search . '%')
                     ->orWhere('products', 'like', '%' . $search . '%')
+                    ->orWhere('clients', 'like', '%' . $search . '%')
+                    ->orWhere('created_by', 'like', '%' . $search . '%')
+                    ->orWhere('modified_by', 'like', '%' . $search . '%')
                     // ->orWhereHas('client', function($query) use ($search){
                     //     $query->where('name', 'like', '%' . $search . '%');
                     // })
@@ -72,8 +75,8 @@ class Quotation extends Model
     public function quotation_revisions(){
         return $this->hasMany(QuotationRevision::class, 'quotation_id', 'id');
     }
-    public function sales_data(){
-        return $this->hasMany(SalesData::class, 'quotation_id', 'id');
+    public function sales(){
+        return $this->hasMany(Sale::class, 'quotation_id', 'id');
     }
 
     public function quotation_statuses(){

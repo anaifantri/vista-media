@@ -1,6 +1,22 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
+    @php
+        $bulan = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+    @endphp
     <div class="flex justify-center mt-10">
         <div class="p-4 w-[350px] h-[500px] border rounded-lg">
             <div class="flex justify-center items-center">
@@ -9,45 +25,49 @@
             </div>
             <div>
                 <div class="flex justify-center mt-5 w-full">
-                    <div class="border-b w-[280px] mt-2">
+                    <div class="border-b w-[280px]">
                         <label class="text-sm text-teal-700">Nama Bahan</label>
                         <h6 class="text-base font-semibold text-teal-900">
                             {{ $printing_price->printing_product->name }}</h6>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
-                    <div class="border-b w-[280px] mt-2">
+                    <div class="border-b w-[280px]">
                         <label class="text-sm text-teal-700">Nama Vendor</label>
                         <h6 class="text-base font-semibold text-teal-900">{{ $printing_price->vendor->name }}</h6>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
-                    <div class="border-b w-[280px] mt-2">
+                    <div class="border-b w-[280px]">
                         <label class="text-sm text-teal-700">Harga Cetak</label>
                         <h6 class="text-base font-semibold text-teal-900">
                             {{ number_format($printing_price->price) }}</h6>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
-                    <div class="border-b w-[280px] mt-2">
+                    <div class="border-b w-[280px]">
                         <label class="text-sm text-teal-700">Tanggal Dibuat</label>
                         <h6 class="text-base font-semibold text-teal-900">
-                            {{ $printing_price->created_at->format('l, d-M-Y') }}
+                            {{ date('d', strtotime($printing_price->created_at)) }}
+                            {{ $bulan[(int) date('m', strtotime($printing_price->created_at))] }}
+                            {{ date('Y', strtotime($printing_price->created_at)) }}
                         </h6>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
-                    <div class="border-b w-[280px] mt-2">
+                    <div class="border-b w-[280px]">
                         <label class="text-sm text-teal-700">Tanggal Perubahan
                             Terakhir</label>
                         <h6 class="text-base font-semibold text-teal-900">
-                            {{ $printing_price->updated_at->format('l, d-M-Y') }}
+                            {{ date('d', strtotime($printing_price->updated_at)) }}
+                            {{ $bulan[(int) date('m', strtotime($printing_price->updated_at))] }}
+                            {{ date('Y', strtotime($printing_price->updated_at)) }}
                         </h6>
                     </div>
                 </div>
                 @if ($printing_price->created_at != $printing_price->updated_at)
                     <div class="flex justify-center mt-2 w-full">
-                        <div class="border-b w-[280px] mt-2">
+                        <div class="border-b w-[280px]">
                             <label class="text-sm text-teal-700">Diupdate Oleh</label>
                             <h6 class="text-base font-semibold text-teal-900">
                                 {{ $printing_price->user->name }}
@@ -56,7 +76,7 @@
                     </div>
                 @else
                     <div class="flex justify-center mt-2 w-full">
-                        <div class="border-b w-[280px] mt-2">
+                        <div class="border-b w-[280px]">
                             <label class="text-sm text-teal-700">Dibuat Oleh</label>
                             <h6 class="text-base font-semibold text-teal-900">
                                 {{ $printing_price->user->name }}

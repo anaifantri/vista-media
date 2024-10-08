@@ -16,8 +16,6 @@ const paymentTerms = document.getElementById("paymentTerms");
 
 //const preview check
 const btnPreview = document.getElementById("btnPreview");
-const createNumber = document.getElementById("createNumber");
-const labelNumber = document.getElementById("labelNumber");
 const modalPreview = document.getElementById("modalPreview");
 const btnClose = document.getElementById("btnClose");
 
@@ -207,7 +205,6 @@ function getContact(sel) {
             companyClient.contact_phone = dataContact[i]['phone'];
             createContactEmail.innerHTML = dataContact[i]['email'];
             createContactPhone.innerHTML = dataContact[i]['phone'];
-            console.log(companyClient);
         }
     }
 }
@@ -215,31 +212,58 @@ function getContact(sel) {
 
 // Button Add Note Action --> start
 btnAddNote.addEventListener("click", function() {
-    if (notesQty.children.length < 10) {
-        const divNotes = document.createElement("div");
-        const inputNotes = document.createElement("textarea");
-        divNotes.classList.add("flex");
-        inputNotes.classList.add("text-area-notes");
-        inputNotes.value = "- ";
-        inputNotes.setAttribute("rows", "1");
-
-        divNotes.appendChild(inputNotes);
-
-        // notesQty.appendChild(divNotes);
-        notesQty.insertBefore(divNotes, notesQty.children[notesQty.children.length - 1]);
-        inputNotes.focus();
-    } else {
-        alert("Maksimal tambahan 3 catatan");
+    if(category.value == "Service"){
+        if (notesQty.children.length < 4) {
+            const divNotes = document.createElement("div");
+            const inputNotes = document.createElement("textarea");
+            divNotes.classList.add("flex");
+            inputNotes.classList.add("text-area-notes");
+            inputNotes.value = "- ";
+            inputNotes.setAttribute("rows", "1");
+    
+            divNotes.appendChild(inputNotes);
+    
+            // notesQty.appendChild(divNotes);
+            notesQty.insertBefore(divNotes, notesQty.children[notesQty.children.length]);
+            inputNotes.focus();
+        } else {
+            alert("Maksimal tambahan 3 catatan");
+        }
+    }else{
+        if (notesQty.children.length < 10) {
+            const divNotes = document.createElement("div");
+            const inputNotes = document.createElement("textarea");
+            divNotes.classList.add("flex");
+            inputNotes.classList.add("text-area-notes");
+            inputNotes.value = "- ";
+            inputNotes.setAttribute("rows", "1");
+    
+            divNotes.appendChild(inputNotes);
+    
+            // notesQty.appendChild(divNotes);
+            notesQty.insertBefore(divNotes, notesQty.children[notesQty.children.length - 1]);
+            inputNotes.focus();
+        } else {
+            alert("Maksimal tambahan 3 catatan");
+        }
     }
 });
 // Button Add Note Action --> end
 
 // Button Remove Last Note Action --> start
 btnDelNote.addEventListener("click", function() {
-    if (notesQty.children.length > 7) {
-        notesQty.removeChild(notesQty.children[notesQty.children.length - 2]);
-    } else {
-        alert("Tidak ada tambahan catatan yang bisa dihapus");
+    if(category.value == "Service"){
+        if (notesQty.children.length > 1) {
+            notesQty.removeChild(notesQty.children[notesQty.children.length - 1]);
+        } else {
+            alert("Tidak ada tambahan catatan yang bisa dihapus");
+        }
+    }else{
+        if (notesQty.children.length > 7) {
+            notesQty.removeChild(notesQty.children[notesQty.children.length - 2]);
+        } else {
+            alert("Tidak ada tambahan catatan yang bisa dihapus");
+        }
     }
 });
 // Button Remove Last Note Action --> end
@@ -293,11 +317,23 @@ btnDelPayment.addEventListener("click", function() {
 // Button Preview Action --> start
 btnPreview.addEventListener("click", function(){
     const category = document.getElementById("category");
-    if(numberCheck() == true){
+    const quotationType = document.getElementById("quotationType");
+    if(quotationType.value == "new"){
         if(clientCheck() == false) {
             alert("Silahkan pilih klien dan kontak");
         } else {
-            if (paymentCheck() == true) {
+            if(category.value == "Service"){
+                if(printProductCheck() == false || installPriceCheck() == false){
+                    alert("Silahkan lengkapi harga yang belum diinput..!!")
+                }else{
+                    setPreviewTable();
+                    modalPreview.classList.remove("hidden");
+                    fillServiceData();
+                    getNotes();
+                    getPayments();
+                    fillData();
+                }
+            }else if (paymentCheck() == true) {
                 modalPreview.classList.remove("hidden");
                 getNotes();
                 getPayments();
@@ -315,7 +351,37 @@ btnPreview.addEventListener("click", function(){
                 fillData();
             }
         }
+    }else if(quotationType.value == "extend" || quotationType.value == "existing"){
+        if(category.value == "Service"){
+            if(printProductCheck() == false || installPriceCheck() == false){
+                alert("Silahkan lengkapi harga yang belum diinput..!!")
+            }else{
+                setPreviewTable();
+                modalPreview.classList.remove("hidden");
+                fillServiceData();
+                getNotes();
+                getPayments();
+                fillData();
+            }
+        }else if (paymentCheck() == true) {
+            modalPreview.classList.remove("hidden");
+            getNotes();
+            getPayments();
+            if(category.value == "Billboard"){
+                getBillboardPrice();
+            } else if(category.value == "Signage"){
+                if(category.name == "Videotron"){
+                    getVideotronPrice();
+                }else{
+                    getBillboardPrice();
+                }
+            }else{
+                getVideotronPrice();
+            }
+            fillData();
+        }
     }
+    
 })
 // Button Preview Action --> end
 
@@ -325,17 +391,6 @@ btnClose.addEventListener("click", function(){
 })
 // Button Close Action --> end
 
-// Function Number Check --> start
-numberCheck = () => {
-    const number = document.getElementById("createNumber");
-    if(number.value == ""){
-        alert('Silahkan masukkan nomor penawaran terlebih dahulu');
-        number.focus();
-    }else{
-        return true
-    }
-  }
-// Function Number Check --> end
 // Function Client Check --> start
 clientCheck = () => {
     if(clientType == ""){
@@ -387,30 +442,51 @@ paymentCheck = () => {
 
 // Function Fill Data --> start
 fillData = () => {
-    document.getElementById("previewNumber").innerHTML  = createNumber.value + labelNumber.innerText;
-    document.getElementById("number").value = createNumber.value + labelNumber.innerText;
-    document.getElementById("previewAttachment").innerHTML  = createAttachment.innerText;
-    document.getElementById("attachment").value = createAttachment.innerText;
-    document.getElementById("previewSubject").innerHTML  = createSubject.innerText;
-    document.getElementById("subject").value = createSubject.innerText;
-    document.getElementById("previewSubject").innerHTML  = createSubject.innerText;
-    if(clientType == "Perorangan"){
-        document.getElementById("clients").value = JSON.stringify(personalClient);
-        document.getElementById("previewClientContact").innerHTML = personalClient.name;
-        document.getElementById("previewEmail").innerHTML = personalClient.email;
-        document.getElementById("previewPhone").innerHTML = personalClient.phone;
-    }else if(clientType == "Perusahaan"){
-        document.getElementById("clients").value = JSON.stringify(companyClient);
-        document.getElementById("previewClientCompany").innerHTML = companyClient.company;
-        document.getElementById("previewClientContact").innerHTML = companyClient.name;
-        document.getElementById("previewEmail").innerHTML = companyClient.contact_email;
-        document.getElementById("previewPhone").innerHTML = companyClient.contact_phone;
+    const quotationType = document.getElementById("quotationType");
+    if(quotationType.value == "new"){
+        document.getElementById("previewAttachment").innerHTML  = createAttachment.innerText;
+        document.getElementById("attachment").value = createAttachment.innerText;
+        document.getElementById("previewSubject").innerHTML  = createSubject.innerText;
+        document.getElementById("subject").value = createSubject.innerText;
+        document.getElementById("previewSubject").innerHTML  = createSubject.innerText;
+        if(clientType == "Perorangan"){
+            document.getElementById("clients").value = JSON.stringify(personalClient);
+            document.getElementById("previewClientContact").innerHTML = personalClient.name;
+            document.getElementById("previewEmail").innerHTML = personalClient.email;
+            document.getElementById("previewPhone").innerHTML = personalClient.phone;
+        }else if(clientType == "Perusahaan"){
+            document.getElementById("clients").value = JSON.stringify(companyClient);
+            document.getElementById("previewClientCompany").innerHTML = companyClient.company;
+            document.getElementById("previewClientContact").innerHTML = companyClient.name;
+            document.getElementById("previewEmail").innerHTML = companyClient.contact_email;
+            document.getElementById("previewPhone").innerHTML = companyClient.contact_phone;
+        }
+        document.getElementById("previewBodyTop").value = createBodyTop.value;
+        document.getElementById("body_top").value = createBodyTop.value;
+        document.getElementById("previewBodyEnd").value = createBodyEnd.value;
+        document.getElementById("body_end").value = createBodyEnd.value;
+    }else if(quotationType.value == "extend" || quotationType.value == "existing"){
+        clientType = document.getElementById("client_type").value;
+        document.getElementById("previewAttachment").innerHTML  = createAttachment.innerText;
+        document.getElementById("attachment").value = createAttachment.innerText;
+        document.getElementById("previewSubject").innerHTML  = createSubject.innerText;
+        document.getElementById("subject").value = createSubject.innerText;
+        document.getElementById("previewSubject").innerHTML  = createSubject.innerText;
+        if(clientType == "Perorangan"){
+            document.getElementById("previewClientContact").innerHTML = createClientContact.innerHTML;
+            document.getElementById("previewEmail").innerHTML = createContactEmail.innerHTML;
+            document.getElementById("previewPhone").innerHTML = createContactPhone.innerHTML;
+        }else if(clientType == "Perusahaan"){
+            document.getElementById("previewClientCompany").innerHTML = clientCompany.innerHTML;
+            document.getElementById("previewClientContact").innerHTML = createClientContact.innerHTML;
+            document.getElementById("previewEmail").innerHTML = createContactEmail.innerHTML;
+            document.getElementById("previewPhone").innerHTML = createContactPhone.innerHTML;
+        }
+        document.getElementById("previewBodyTop").value = createBodyTop.value;
+        document.getElementById("body_top").value = createBodyTop.value;
+        document.getElementById("previewBodyEnd").value = createBodyEnd.value;
+        document.getElementById("body_end").value = createBodyEnd.value;
     }
-    document.getElementById("previewBodyTop").value = createBodyTop.value;
-    document.getElementById("body_top").value = createBodyTop.value;
-    document.getElementById("previewBodyEnd").value = createBodyEnd.value;
-    document.getElementById("body_end").value = createBodyEnd.value;
-    
 }
 // Function Fill Data --> 
 
@@ -477,30 +553,10 @@ getNotes = () => {
         labelNotes.classList.add("text-xs");
         labelNotes.classList.add("text-black");
 
-        if(category.value == "Billboard"){
-            if(freeInstall != 0 && freePrint != 0) {
-                if(i == 2 || i == 3 || i == 4){
-                    labelNotes.classList.add("ml-4");
-                }
-            }else if((freeInstall == 0 && freePrint != 0) || (freeInstall != 0 && freePrint == 0)){
-                if(i == 2 || i == 3){
-                    labelNotes.classList.add("ml-4");
-                }
-            } else if(freeInstall == 0 && freePrint == 0){
-                if(i == 2){
-                    labelNotes.classList.add("ml-4");
-                }
-            } else{
-                labelNotes.classList.add("ml-1");
-            }
-        } else if(category.value == "Signage"){
-            if(category.name == "Videotron"){
-                if(i == 2 || i == 3 ){
-                    labelNotes.classList.add("ml-4");
-                } else {
-                    labelNotes.classList.add("ml-1");
-                }
-            }else{
+        if(category.value == "Service"){
+            labelNotes.classList.add("ml-1");
+        }else{
+            if(category.value == "Billboard"){
                 if(freeInstall != 0 && freePrint != 0) {
                     if(i == 2 || i == 3 || i == 4){
                         labelNotes.classList.add("ml-4");
@@ -516,17 +572,40 @@ getNotes = () => {
                 } else{
                     labelNotes.classList.add("ml-1");
                 }
-            }
-            
-        }else{
-            if(i == 2 || i == 3 ){
-                labelNotes.classList.add("ml-4");
-            } else {
-                labelNotes.classList.add("ml-1");
+            } else if(category.value == "Signage"){
+                if(category.name == "Videotron"){
+                    if(i == 2 || i == 3 ){
+                        labelNotes.classList.add("ml-4");
+                    } else {
+                        labelNotes.classList.add("ml-1");
+                    }
+                }else{
+                    if(freeInstall != 0 && freePrint != 0) {
+                        if(i == 2 || i == 3 || i == 4){
+                            labelNotes.classList.add("ml-4");
+                        }
+                    }else if((freeInstall == 0 && freePrint != 0) || (freeInstall != 0 && freePrint == 0)){
+                        if(i == 2 || i == 3){
+                            labelNotes.classList.add("ml-4");
+                        }
+                    } else if(freeInstall == 0 && freePrint == 0){
+                        if(i == 2){
+                            labelNotes.classList.add("ml-4");
+                        }
+                    } else{
+                        labelNotes.classList.add("ml-1");
+                    }
+                }
+                
+            }else{
+                if(i == 2 || i == 3 ){
+                    labelNotes.classList.add("ml-4");
+                } else {
+                    labelNotes.classList.add("ml-1");
+                }
             }
         }
-       
-
+        
         labelNotes.innerHTML = dataNotes[i];
 
         divNotes.appendChild(labelNotes);
@@ -534,7 +613,6 @@ getNotes = () => {
     }
 
     objNotes = {dataNotes, freePrint, freeInstall};
-    console.log(objNotes);
     notes.value = JSON.stringify(objNotes);
 }
 // Function Get Note --> end
@@ -583,13 +661,13 @@ getBillboardPrice = () => {
     const cbBillboardTitle = document.querySelectorAll('[id=cbBillboardTitle]');
     const thTitle = document.querySelectorAll('[id=thTitle]');
     const billboardTitle = document.querySelectorAll('[id=billboardTitle]');
-    const billboardPriceMonth = document.querySelectorAll('[id=billboardPriceMonth]');
+    const billboardPrice0 = document.querySelectorAll('[id=billboardPrice0]');
     const tdPriceMonth = document.querySelectorAll('[id=tdPriceMonth]');
-    const billboardPriceQuarter = document.querySelectorAll('[id=billboardPriceQuarter]');
+    const billboardPrice1 = document.querySelectorAll('[id=billboardPrice1]');
     const tdPriceQuarter = document.querySelectorAll('[id=tdPriceQuarter]');
-    const billboardPriceHalf = document.querySelectorAll('[id=billboardPriceHalf]');
+    const billboardPrice2 = document.querySelectorAll('[id=billboardPrice2]');
     const tdPriceHalf = document.querySelectorAll('[id=tdPriceHalf]');
-    const billboardPriceYear = document.querySelectorAll('[id=billboardPriceYear]');
+    const billboardPrice3 = document.querySelectorAll('[id=billboardPrice3]');
     const tdPriceYear = document.querySelectorAll('[id=tdPriceYear]');
     
     let objPrice = {};
@@ -601,22 +679,22 @@ getBillboardPrice = () => {
     let dataPriceYear = [];
     var colSpan = 4;
     
-    for(let i = 0; i < billboardPriceMonth.length; i++){
+    for(let i = 0; i < billboardPrice0.length; i++){
         dataPriceMonth[i] = {
-            code : billboardPriceMonth[i].name,
-            price : Number(billboardPriceMonth[i].value)
+            code : billboardPrice0[i].name,
+            price : Number(billboardPrice0[i].value)
         }
         dataPriceQuarter[i] = {
-            code : billboardPriceQuarter[i].name,
-            price : Number(billboardPriceQuarter[i].value)
+            code : billboardPrice1[i].name,
+            price : Number(billboardPrice1[i].value)
         }
         dataPriceHalf[i] = {
-            code : billboardPriceHalf[i].name,
-            price : Number(billboardPriceHalf[i].value)
+            code : billboardPrice2[i].name,
+            price : Number(billboardPrice2[i].value)
         }
         dataPriceYear[i] = {
-            code : billboardPriceYear[i].name,
-            price : Number(billboardPriceYear[i].value)
+            code : billboardPrice3[i].name,
+            price : Number(billboardPrice3[i].value)
         }
     }
 
@@ -731,14 +809,18 @@ getVideotronPrice = () => {
 
     if(cbSharing.checked == true){
         priceType[0] = true;
+        slotQty = document.getElementById("slotQty").value;
     }else{
         priceType[0] = false;
+        slotQty = 4;
     }
 
     if(cbExclusive.checked == true){
         priceType[1] = true;
+        slotQty = 4;
     }else{
         priceType[1] = false;
+        slotQty = document.getElementById("slotQty").value;
     }
 
     objPrice = {dataSharingPrice, dataExclusivePrice, priceType, slotQty};
@@ -962,10 +1044,10 @@ cbExclusiveCheck = (sel) => {
 cbBillboardCheck = (sel) => {
     const cbBillboardTitle = document.querySelectorAll('[id=cbBillboardTitle]');
     const billboardTitle = document.querySelectorAll('[id=billboardTitle]');
-    const billboardPriceMonth = document.querySelectorAll('[id=billboardPriceMonth]');
-    const billboardPriceQuarter = document.querySelectorAll('[id=billboardPriceQuarter]');
-    const billboardPriceHalf = document.querySelectorAll('[id=billboardPriceHalf]');
-    const billboardPriceYear = document.querySelectorAll('[id=billboardPriceYear]');
+    const billboardPrice0 = document.querySelectorAll('[id=billboardPrice0]');
+    const billboardPrice1 = document.querySelectorAll('[id=billboardPrice1]');
+    const billboardPrice2 = document.querySelectorAll('[id=billboardPrice2]');
+    const billboardPrice3 = document.querySelectorAll('[id=billboardPrice3]');
 
     var index = parseInt(sel.name.replace(/[A-Za-z$-]/g, ""));
 
@@ -984,19 +1066,19 @@ cbBillboardCheck = (sel) => {
                     billboardTitle[i].removeAttribute('disabled');
                     billboardTitle[i].value = billboardTitle[i].defaultValue;
                     
-                    for(let n = 0; n < billboardPriceMonth.length; n++){
+                    for(let n = 0; n < billboardPrice0.length; n++){
                         if(index == 0){
-                            billboardPriceMonth[n].value = billboardPriceMonth[n].defaultValue;
-                            billboardPriceMonth[n].removeAttribute('disabled');
+                            billboardPrice0[n].value = billboardPrice0[n].defaultValue;
+                            billboardPrice0[n].removeAttribute('disabled');
                         }else if(index == 1){
-                            billboardPriceQuarter[n].value = billboardPriceQuarter[n].defaultValue;
-                            billboardPriceQuarter[n].removeAttribute('disabled');
+                            billboardPrice1[n].value = billboardPrice1[n].defaultValue;
+                            billboardPrice1[n].removeAttribute('disabled');
                         }else if(index == 2){
-                            billboardPriceHalf[n].value = billboardPriceHalf[n].defaultValue;
-                            billboardPriceHalf[n].removeAttribute('disabled');
+                            billboardPrice2[n].value = billboardPrice2[n].defaultValue;
+                            billboardPrice2[n].removeAttribute('disabled');
                         }else if(index == 3){
-                            billboardPriceYear[n].value = billboardPriceYear[n].defaultValue;
-                            billboardPriceYear[n].removeAttribute('disabled')
+                            billboardPrice3[n].value = billboardPrice3[n].defaultValue;
+                            billboardPrice3[n].removeAttribute('disabled')
                         }
                     }
                 }
@@ -1006,19 +1088,19 @@ cbBillboardCheck = (sel) => {
                 if(i == index){
                     billboardTitle[i].setAttribute('disabled', 'disabled');
                     billboardTitle[i].value = "";
-                    for(let n = 0; n < billboardPriceMonth.length; n++){
+                    for(let n = 0; n < billboardPrice0.length; n++){
                         if(index == 0){
-                            billboardPriceMonth[n].value = "";
-                            billboardPriceMonth[n].setAttribute('disabled', 'disabled');
+                            billboardPrice0[n].value = "";
+                            billboardPrice0[n].setAttribute('disabled', 'disabled');
                         }else if(index == 1){
-                            billboardPriceQuarter[n].value = "";
-                            billboardPriceQuarter[n].setAttribute('disabled', 'disabled');
+                            billboardPrice1[n].value = "";
+                            billboardPrice1[n].setAttribute('disabled', 'disabled');
                         }else if(index == 2){
-                            billboardPriceHalf[n].value = "";
-                            billboardPriceHalf[n].setAttribute('disabled', 'disabled');
+                            billboardPrice2[n].value = "";
+                            billboardPrice2[n].setAttribute('disabled', 'disabled');
                         }else if(index == 3){
-                            billboardPriceYear[n].value = "";
-                            billboardPriceYear[n].setAttribute('disabled', 'disabled');
+                            billboardPrice3[n].value = "";
+                            billboardPrice3[n].setAttribute('disabled', 'disabled');
                         }
                     }
                 }
@@ -1034,7 +1116,6 @@ cbBillboardCheck = (sel) => {
 // Function Input Slot Action --> start
 setSLot = (sel) => {
     const sharePrice = document.querySelectorAll('[id=sharePrice]');
-    console.log(sel.value);
     if(Number(sel.value) < 4 && Number(sel.value) > 0){
         for(let i = 0; i < sharePrice.length; i++){
             sharePrice[i].value = Number(sharePrice[i].defaultValue) * Number(sel.value);
@@ -1052,4 +1133,8 @@ setSLot = (sel) => {
     }
     
 }
+// Function Input Slot Action --> end
+
+// Function Input Slot Action --> start
+
 // Function Input Slot Action --> end

@@ -12,10 +12,18 @@
                     <div class="flex justify-center mt-4 w-full">
                         <div class="mt-1">
                             @php
-                                $dataCategories = ['Billboard', 'Videotron', 'Signage', 'Bando', 'Baliho', 'Midiboard'];
+                                $dataCategories = [
+                                    'Billboard',
+                                    'Videotron',
+                                    'Signage',
+                                    'Bando',
+                                    'Baliho',
+                                    'Midiboard',
+                                    'Service',
+                                ];
                             @endphp
                             <div class="flex">
-                                <label class="text-sm text-teal-700">Penerangan</label>
+                                <label class="text-sm text-teal-700">Katagori</label>
                             </div>
                             <div class="mt-1">
                                 <select id="name" name="name"

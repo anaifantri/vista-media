@@ -7,6 +7,8 @@ use App\Models\QuotRevisionStatus;
 use App\Models\Quotation;
 use App\Models\Company;
 use App\Models\Led;
+use App\Models\PrintingProduct;
+use App\Models\InstallationPrice;
 use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -46,6 +48,8 @@ class QuotationRevisionController extends Controller
         return view('quotation-revisions.create', [
             'quotation' => Quotation::findOrFail($id),
             'categories'=>MediaCategory::all(),
+            'printing_products'=>PrintingProduct::all(),
+            'installation_prices'=>InstallationPrice::all(),
             'leds' => Led::all(),
             'category'=>$category,
             'title' => 'Revisi Penawaran',
@@ -85,7 +89,11 @@ class QuotationRevisionController extends Controller
             $validateData['quotation_revision_id'] = $dataQuotation->id;
             $validateData['status'] = "Created";
             $validateData['updated_by'] = $request->modified_by;
-            $validateData['description'] = "Revisi surat penawaran ". $request->category ." dengan nomor ".$validateData['number']." telah dibuat dan tersimpan";
+            if($dataQuotation->quotation->media_category->name == "Service"){
+                $validateData['description'] = "Revisi surat penawaran cetak / pasang dengan nomor ".$validateData['number']." telah dibuat dan tersimpan";
+            }else{
+                $validateData['description'] = "Revisi surat penawaran ". $request->category ." dengan nomor ".$validateData['number']." telah dibuat dan tersimpan";
+            }
             
             QuotRevisionStatus::create($validateData);
                 

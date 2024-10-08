@@ -29,8 +29,8 @@ class MediaCategory extends Model
         return $this->hasMany(Quotation::class, 'media_category_id', 'id');
     }
 
-    public function sales_data(){
-        return $this->hasMany(SalesData::class, 'media_category_id', 'id');
+    public function sales(){
+        return $this->hasMany(Sale::class, 'media_category_id', 'id');
     }
 
     public function location_photos(){

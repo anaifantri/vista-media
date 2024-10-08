@@ -4,7 +4,7 @@
     <!-- Container Index Printing Prices start -->
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
-            <div class="w-[1000px]">
+            <div class="w-[800px]">
                 <div class="flex border-b">
                     <!-- Title Printing Prices start -->
                     <h1 class="index-h1"> DAFTAR HARGA CETAK</h1>
@@ -54,7 +54,7 @@
         <!-- Alert Success Create New Printing Product end -->
         <!-- View Printing Prices start -->
         <div class="flex justify-center w-full">
-            <div class="w-[1000px]">
+            <div class="w-[800px]">
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="bg-teal-100 h-10">
@@ -70,7 +70,6 @@
                             <th class="text-teal-700 border text-xs text-center w-48">Nama Bahan</th>
                             <th class="text-teal-700 border text-xs text-center">Nama Vendor</th>
                             <th class="text-teal-700 border text-xs text-center w-36">Harga Cetak</th>
-                            <th class="text-teal-700 border text-xs text-center w-36">Harga Jual</th>
                             <th class="text-teal-700 border text-xs text-center w-32">Action</th>
                         </tr>
                     </thead>
@@ -87,9 +86,7 @@
                                 <td class="px-2 text-teal-700 border text-xs text-center">
                                     {{ $printing_price->vendor->company }}</td>
                                 <td class="px-2 text-teal-700 border text-xs text-center">
-                                    {{ number_format($printing_price->print_price) }}</td>
-                                <td class="px-2 text-teal-700 border text-xs text-center">
-                                    {{ number_format($printing_price->sale_price) }}</td>
+                                    {{ number_format($printing_price->price) }}</td>
                                 <td class="text-teal-700 border text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/printing-prices/{{ $printing_price->id }}"

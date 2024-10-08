@@ -31,8 +31,8 @@ class Company extends Model
     public function quotations(){
         return $this->hasMany(Quotation::class, 'company_id', 'id');
     }
-    public function sales_data(){
-        return $this->hasMany(SalesData::class, 'company_id', 'id');
+    public function sales(){
+        return $this->hasMany(Sale::class, 'company_id', 'id');
     }
 
     public function user(){

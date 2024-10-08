@@ -68,24 +68,10 @@
                         <div class="mt-1">
                             <label class="text-sm text-teal-700">Harga Cetak</label>
                             <input
-                                class="flex px-2 text-sm in-out-spin-none font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('print_price') is-invalid @enderror"
-                                type="number" min="0" id="print_price" name="print_price"
-                                placeholder="Input harga cetak" value="{{ old('print_price') }}" required>
-                            @error('print_price')
-                                <div class="invalid-feedback w-[250px]">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="flex justify-center mt-2 w-full">
-                        <div class="mt-1">
-                            <label class="text-sm text-teal-700">Harga Jual</label>
-                            <input
-                                class="flex px-2 text-sm in-out-spin-none font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('sale_price') is-invalid @enderror"
-                                type="number" min="0" id="sale_price" name="sale_price"
-                                placeholder="Input harga cetak" value="{{ old('sale_price') }}" required>
-                            @error('sale_price')
+                                class="flex px-2 text-sm in-out-spin-none font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                type="number" min="0" id="price" name="price" placeholder="Input harga cetak"
+                                value="{{ old('price') }}" required>
+                            @error('price')
                                 <div class="invalid-feedback w-[250px]">
                                     {{ $message }}
                                 </div>

@@ -89,6 +89,10 @@ class Location extends Model
     public function location_photos(){
         return $this->hasMany(LocationPhoto::class, 'location_id', 'id');
     }
+    
+    public function sales(){
+        return $this->hasMany(Sale::class, 'location_id', 'id');
+    }
 
     public $sortable = ['code',
                         'price'

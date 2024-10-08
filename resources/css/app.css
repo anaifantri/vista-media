@@ -555,3 +555,11 @@
 .text-semibold {
     @apply text-sm font-semibold text-teal-900;
 }
+
+.td-service-center {
+    @apply text-[0.7rem] text-teal-700 border text-center;
+}
+
+.td-service-normal {
+    @apply text-[0.7rem] text-teal-700 border px-2;
+}

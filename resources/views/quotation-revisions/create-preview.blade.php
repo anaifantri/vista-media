@@ -113,19 +113,23 @@
                         </div>
                         <!-- signage table start -->
                         <div class="flex justify-center ml-2">
-                            @if ($category == 'Videotron')
-                                @include('quotation-revisions.vt-preview-table')
-                            @elseif ($category == 'Signage')
-                                @php
-                                    $dataDescription = json_decode($products[0]->description);
-                                @endphp
-                                @if ($dataDescription->type == 'Videotron')
+                            @if ($category == 'Service')
+                                @include('quotation-revisions.preview-service-table')
+                            @else
+                                @if ($category == 'Videotron')
                                     @include('quotation-revisions.vt-preview-table')
+                                @elseif ($category == 'Signage')
+                                    @php
+                                        $dataDescription = json_decode($products[0]->description);
+                                    @endphp
+                                    @if ($dataDescription->type == 'Videotron')
+                                        @include('quotation-revisions.vt-preview-table')
+                                    @else
+                                        @include('quotation-revisions.bb-preview-table')
+                                    @endif
                                 @else
                                     @include('quotation-revisions.bb-preview-table')
                                 @endif
-                            @else
-                                @include('quotation-revisions.bb-preview-table')
                             @endif
                         </div>
                         <!-- signage table end -->

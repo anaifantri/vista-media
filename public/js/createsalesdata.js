@@ -21,6 +21,7 @@ const ppnYes = document.querySelectorAll('[id=ppnYes]');
 const tBodyCreate = document.querySelectorAll('[id=tBodyCreate]');
 const tBodyPreview = document.querySelectorAll('[id=tBodyPreview]');
 
+const category = document.getElementById("category");
 const salesData = document.getElementById("salesData");
 let objSales = JSON.parse(salesData.value);
 
@@ -45,29 +46,32 @@ function fillPreviewLabel(){
 }
 //Fill price --> end
 //Fill price --> start
-for(let i = 0; i < objSales.length; i++){
-    if(ppnYes[i].checked == true){
-        inputPpn[i].value = 11;
-        inputPph[i].value = 2;
-        fillTotal(Number(priceValue[i].innerHTML),dppValue[i].value, inputPpn[i].value, inputPph[i].value, i);
-        for(let n = 0; n < tBodyCreate[i].rows.length; n++){
-            if(n > 1){
-                tBodyCreate[i].rows[n].removeAttribute('hidden');
-                tBodyPreview[i].rows[n-1].removeAttribute('hidden');
+if(category.value != "Service"){
+    for(let i = 0; i < objSales.length; i++){
+        if(ppnYes[i].checked == true){
+            inputPpn[i].value = 11;
+            inputPph[i].value = 2;
+            fillTotal(Number(priceValue[i].innerHTML),dppValue[i].value, inputPpn[i].value, inputPph[i].value, i);
+            for(let n = 0; n < tBodyCreate[i].rows.length; n++){
+                if(n > 1){
+                    tBodyCreate[i].rows[n].removeAttribute('hidden');
+                    tBodyPreview[i].rows[n-1].removeAttribute('hidden');
+                }
+            }
+        }else{
+            for(let n = 0; n < tBodyCreate[i].rows.length; n++){
+                if(n > 1){
+                    tBodyCreate[i].rows[n].setAttribute('hidden', 'hidden');
+                    tBodyPreview[i].rows[n-1].setAttribute('hidden', 'hidden');
+                    inputPph[sel.id].value = null;
+                    inputPpn[sel.id].value = null;
+                    dppValue[sel.id].value = null;
+                }
             }
         }
-    }else{
-        for(let n = 0; n < tBodyCreate[i].rows.length; n++){
-            if(n > 1){
-                tBodyCreate[i].rows[n].setAttribute('hidden', 'hidden');
-                tBodyPreview[i].rows[n-1].setAttribute('hidden', 'hidden');
-                inputPph[sel.id].value = null;
-                inputPpn[sel.id].value = null;
-                dppValue[sel.id].value = null;
-            }
-        }
+        
     }
-    
+
 }
 
 function fillTotal(price, dpp, ppn, pph, index){
@@ -111,20 +115,34 @@ getDpp = (sel) =>{
 
 //Btn Preview & close Action --> start
 btnPreviewAction = () => {    
-    if(getPeriode() == true && ppnYesCheck() == true){
+    if(category.value == "Service"){
         document.getElementById("modalPreview").classList.remove('hidden');
         for(let i = 0; i < objSales.length; i++){
             objSales[i].dpp = dppValue[i].value;
-            objSales[i].start_at = start[i].value;
-            objSales[i].end_at = end[i].value;
             objSales[i].note = note[i].value;
-            objSales[i].duration = thTitle[i].innerText;
+            objSales[i].duration = "1";
             objSales[i].price = Number(priceValue[i].innerText);
             objSales[i].ppn = inputPpn[i].value;
             objSales[i].pph = inputPph[i].value;
         }
         salesData.value = JSON.stringify(objSales);
         fillPreviewLabel();
+    }else{
+        if(getPeriode() == true && ppnYesCheck() == true){
+            document.getElementById("modalPreview").classList.remove('hidden');
+            for(let i = 0; i < objSales.length; i++){
+                objSales[i].dpp = dppValue[i].value;
+                objSales[i].start_at = start[i].value;
+                objSales[i].end_at = end[i].value;
+                objSales[i].note = note[i].value;
+                objSales[i].duration = thTitle[i].innerText;
+                objSales[i].price = Number(priceValue[i].innerText);
+                objSales[i].ppn = inputPpn[i].value;
+                objSales[i].pph = inputPph[i].value;
+            }
+            salesData.value = JSON.stringify(objSales);
+            fillPreviewLabel();
+        }
     }
 }
 

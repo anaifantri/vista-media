@@ -6,6 +6,7 @@ use App\Models\InstallationPrice;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\MediaCategory;
 
 class InstallationPriceController extends Controller
 {
@@ -14,9 +15,10 @@ class InstallationPriceController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('dashboard.media.installation-prices.index', [
+        return response()-> view ('installation-prices.index', [
             'installation_prices'=>InstallationPrice::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Harga Pasang'
+            'title' => 'Daftar Harga Pasang',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -26,8 +28,9 @@ class InstallationPriceController extends Controller
     public function create(): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            return response()-> view ('dashboard.media.installation-prices.create', [
-                'title' => 'Menambah Harga Pasang'
+            return response()-> view ('installation-prices.create', [
+                'title' => 'Menambah Harga Pasang',
+                'categories' => MediaCategory::all()
             ]);
         } else {
             abort(403);
@@ -43,14 +46,7 @@ class InstallationPriceController extends Controller
             if ($request->type == 'pilih'){
                 return back()->withErrors(['type' => ['Silahkan pilih tipe harga pasang']])->withInput();
             }
-            
-            $validateData = $request->validate([
-                'type' => 'required|unique:installation_prices',
-                'price' => 'required'
-            ]);
-
             $dataInstallationPrices = InstallationPrice::all()->last();
-            // dd($dataInstallationPrices);
             if($dataInstallationPrices){
                 $lastCode = (int)substr($dataInstallationPrices->code,3,3);
                 $newCode = $lastCode + 1;
@@ -60,17 +56,22 @@ class InstallationPriceController extends Controller
             
 
             if($newCode < 10 ){
-               $code = 'HP-00'.$newCode;
+                $code = 'HP-00'.$newCode;
             } else {
                 $code = 'HP-0'.$newCode;
             }
             
-            $validateData['user_id'] = auth()->user()->id;
-            $validateData['code'] = $code;
+            $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
+            $validateData = $request->validate([
+                'code' => 'required|unique:installation_prices',
+                'user_id' => 'required',
+                'type' => 'required|unique:installation_prices',
+                'price' => 'required'
+            ]);
 
             InstallationPrice::create($validateData);
     
-            return redirect('/dashboard/media/installation-prices')->with('success','Harga pemasangan dengan tipe ' . $request->type . ' berhasil ditambahkan');
+            return redirect('/installation-prices')->with('success','Harga pemasangan dengan tipe ' . $request->type . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -81,9 +82,10 @@ class InstallationPriceController extends Controller
      */
     public function show(InstallationPrice $installationPrice): Response
     {
-        return response()->view('dashboard.media.installation-prices.show', [
+        return response()->view('installation-prices.show', [
             'installation_price' => $installationPrice,
-            'title' => 'Detail Harga Pasang'
+            'title' => 'Detail Harga Pasang',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -92,9 +94,10 @@ class InstallationPriceController extends Controller
      */
     public function edit(InstallationPrice $installationPrice): Response
     {
-        return response()->view('dashboard.media.installation-prices.edit', [
+        return response()->view('installation-prices.edit', [
             'installation_price' => $installationPrice,
-            'title' => 'Edit Harga Pasang'
+            'title' => 'Edit Harga Pasang',
+            'categories' => MediaCategory::all()
         ]);
     }
 
@@ -103,18 +106,23 @@ class InstallationPriceController extends Controller
      */
     public function update(Request $request, InstallationPrice $installationPrice): RedirectResponse
     {
+        $request->request->add(['user_id' => auth()->user()->id]);
         $rules = [
-            'type' => 'required|unique:installation_prices',
+            'user_id' => 'required',
             'price' => 'required'
         ];
+        if($request->type != $installationPrice->type ){
+            $rules = [
+                'type' => 'required|unique:installation_prices'
+            ];
+        }
 
         $validateData = $request->validate($rules);
-        $validateData['user_id'] = auth()->user()->id;
 
         InstallationPrice::where('id', $installationPrice->id)
                 ->update($validateData);
 
-        return redirect('/dashboard/media/installation-prices')->with('success','Harga pasang dengan type '. $installationPrice->type .' berhasil di update');
+        return redirect('/installation-prices')->with('success','Harga pasang dengan type '. $installationPrice->type .' berhasil di update');
     }
 
     /**
@@ -126,7 +134,7 @@ class InstallationPriceController extends Controller
             
             InstallationPrice::destroy($installationPrice->id);
 
-            return redirect('/dashboard/media/installation-prices')->with('success','Harga pasang dengan tipe ' . $installationPrice->type . ' berhasil dihapus');
+            return redirect('/installation-prices')->with('success','Harga pasang dengan tipe ' . $installationPrice->type . ' berhasil dihapus');
         } else {
             abort(403);
         }

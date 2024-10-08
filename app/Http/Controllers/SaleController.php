@@ -3,35 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
-use App\Models\User;
-use App\Models\SaleCategory;
-use App\Models\BillboardQuotation;
-use App\Models\BillboardQuotRevision;
-use App\Models\BillboardQuotStatus;
-use App\Models\PrintInstalQuotation;
-use App\Models\PrintInstallStatus;
-use App\Models\PrintInstallSale;
-use App\Models\ClientApproval;
-use App\Models\ClientOrder;
-use App\Models\ClientAgreement;
-use App\Models\Client;
-use App\Models\Contact;
-use App\Models\Billboard;
-use App\Models\BillboardCategory;
+use App\Models\Company;
+use App\Models\Quotation;
+use App\Models\Location;
 use App\Models\Area;
 use App\Models\City;
-use App\Models\Size;
-use App\Models\WOPrint;
-use App\Models\WOInstall;
-use App\Models\PrintingProduct;
-use App\Models\InstallationPrice;
-use App\Models\BillboardPhoto;
-use App\Models\Company;
+use App\Models\MediaSize;
+use App\Models\MediaCategory;
+use App\Models\QuotationOrder;
+use App\Models\QuotationStatus;
+use App\Models\QuotationApproval;
+use App\Models\QuotationRevision;
+use App\Models\QuotationAgreement;
+use App\Models\QuotRevisionStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class SaleController extends Controller
 {
@@ -40,86 +29,176 @@ class SaleController extends Controller
      */
     public function index(): Response
     {
-        $clients = Client::with('sales')->get();
-        $contacts = Contact::with('sales')->get();
-        $billboards = Billboard::with('sales')->get();
+        //
+    }
+
+    public function preview(String $category, String $id): View
+    { 
+        $quotation = Quotation::findOrFail($id);
+        $revision = QuotationRevision::where('quotation_id', $id)->get()->last();
+        if($revision){
+            $number = $revision->number;
+            $notes = json_decode($revision->notes);
+            $created_at = $revision->created_at;
+            $products = json_decode($revision->products);
+            $payment_terms = json_decode($revision->payment_terms);
+            $price = json_decode($revision->price);
+            $dataApprovals = QuotationApproval::where('quotation_id', $id)->get();
+            $dataAgreements = QuotationAgreement::where('quotation_id', $id)->get();
+            $dataOrders = QuotationOrder::where('quotation_id', $id)->get();
+        } else{
+            $number = $quotation->number;
+            $notes = json_decode($quotation->notes);
+            $created_at = $quotation->created_at;
+            $products = json_decode($quotation->products);
+            $payment_terms = json_decode($quotation->payment_terms);
+            $price = json_decode($quotation->price);
+            $lastQuotationStatus = QuotationStatus::where('quotation_id', $id)->get()->last();
+            $dataApprovals = QuotationApproval::where('quotation_id', $id)->get();
+            $dataAgreements = QuotationAgreement::where('quotation_id', $id)->get();
+            $dataOrders = QuotationOrder::where('quotation_id', $id)->get();
+        }
+        $clients = json_decode($quotation->clients);
+        $media_categories = MediaCategory::with('sales')->get();
+        $sales = Sale::where('quotation_id', $id)->get();
+        return view('sales.preview', [
+            'quotation'=>$quotation,
+            'sales'=>$sales,
+            'number'=>$number,
+            'notes'=>$notes,
+            'created_at'=>$created_at,
+            'products'=>$products,
+            'clients'=>$clients,
+            'price'=>$price,
+            'payment_terms'=>$payment_terms,
+            'quotation_approvals'=>$dataApprovals,
+            'quotation_agreements'=>$dataAgreements,
+            'quotation_orders'=>$dataOrders,
+            'category'=>$category,
+            'categories'=>MediaCategory::all(),
+            'title' => 'Data Penjualan'.$category,
+            compact('media_categories')
+        ]);
+    }
+
+    public function report(String $category, Request $request): View
+    {
+        if($category == "All"){
+            $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
+            $sales = Sale::filter(request('search'))->sortable()->category()->paginate(10)->withQueryString();
+            $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(10)->withQueryString();
+        }else{
+            $dataCategory = MediaCategory::where('name', $category)->get()->last();
+            $media_category_id = $dataCategory->id;
+            $sales = Sale::where('media_category_id', $dataCategory->id)->filter(request('search'))->sortable()->paginate(10)->withQueryString();
+            $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->paginate(10)->withQueryString();
+        }
+
+        $media_categories = MediaCategory::with('sales')->get();
+        $areas = Area::with('locations')->get();
+        $cities = City::with('locations')->get();
+        $media_sizes = MediaSize::with('locations')->get();
+        $location_categories = MediaCategory::with('locations')->get();
         $companies = Company::with('sales')->get();
-        $billboard_quotations = BillboardQuotation::with('sales');
-        $billboard_quot_revisions = BillboardQuotRevision::with('sales');
-        $users = User::with('sales')->get();
-        return response()->view('dashboard.marketing.sales.index', [
-            'sales' => Sale::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+        $quotations = Quotation::with('sales')->get();
+        return view ('sales.reports', [
+            'sales'=>$sales,
+            'locations'=>$dataLocations,
+            'categories'=>MediaCategory::all(),
+            'areas'=>Area::all(),
+            'data_category'=>$dataCategory,
+            'category'=>$category,
             'title' => 'Daftar Penjualan',
-            'client_agreements' => ClientAgreement::all(),
-            'client_orders' => ClientOrder::all(),
-            compact('clients', 'billboards', 'companies', 'billboard_quotations', 'billboard_quot_revisions', 'users', 'contacts')
+            compact('media_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes')
         ]);
     }
 
-    public function reports(): View
+    public function home(String $category, Request $request): View
     {
-        $areas = Area::with('billboards')->get();
-        $cities = City::with('billboards')->get();
-        $sizes = Size::with('billboards')->get();
-        $billboard_categories = BillboardCategory::with('billboards')->get();
-        $clients = Client::with('sales')->get();
-        $contacts = Contact::with('sales')->get();
-        $billboards = Billboard::with('sales')->get();
+        if($category == "All"){
+            $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
+            $sales = Sale::filter(request('search'))->sortable()->category()->paginate(10)->withQueryString();
+        }else{
+            $dataCategory = MediaCategory::where('name', $category)->get()->last();
+            $media_category_id = $dataCategory->id;
+            $sales = Sale::where('media_category_id', $dataCategory->id)->filter(request('search'))->sortable()->paginate(10)->withQueryString();
+        }
+
+        $media_categories = MediaCategory::with('sales')->get();
         $companies = Company::with('sales')->get();
-        $billboard_quotations = BillboardQuotation::with('sales');
-        $billboard_quot_revisions = BillboardQuotRevision::with('sales');
-        $users = User::with('sales')->get();
-        return view('dashboard.marketing.sales.reports', [
-            'sales' => Sale::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
-            'billboards'=>Billboard::filter(request('search'))->area()->city()->condition()->sortable()->get(),
+        $quotations = Quotation::with('sales')->get();
+        return view ('sales.index', [
+            'sales'=>$sales,
+            'categories'=>MediaCategory::all(),
+            'data_category'=>$dataCategory,
+            'category'=>$category,
             'title' => 'Daftar Penjualan',
-            'client_agreements' => ClientAgreement::all(),
-            'client_orders' => ClientOrder::all(),
-            compact('clients', 'billboards', 'companies', 'billboard_quotations', 'billboard_quot_revisions', 'users', 'contacts', 'areas', 'cities', 'sizes', 'billboard_categories')
+            compact('media_categories', 'companies','quotations')
         ]);
     }
 
-    public function showSale(){
-        $dataSale = Sale::all();
-        return response()->json(['dataSale'=> $dataSale]);
+    public function selectQuotation(String $category): View
+    {
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+            $mediaCategory = MediaCategory::where('name', $category)->firstOrFail();
+            $media_categories = MediaCategory::with('quotations')->get();
+            $companies = Company::with('quotations')->get();
+            $quotation_revisions = QuotationRevision::with('quotation')->get();
+            $quotation_statuses = QuotationStatus::with('quotation')->get();
+            $quot_revision_statuses = QuotRevisionStatus::with('quotation')->get();
+            $sales = Sale::with('quotation')->get();
+            return view ('sales.select-quotation', [
+                'categories'=>MediaCategory::all(),
+                'quotations'=>Quotation::where('media_category_id', $mediaCategory->id)->filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+                'title' => 'Pilih Penawaran',
+                'data_category' => $mediaCategory,
+                compact('media_categories', 'companies', 'quotation_statuses', 'quotation_revisions', 'quot_revision_statuses', 'sales')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
-    public function preview(): View
-    {
-        $clients = Client::with('sales')->get();
-        $contacts = Contact::with('sales')->get();
-        $billboards = Billboard::with('sales')->get();
-        $companies = Company::with('sales')->get();
-        $billboard_quotations = BillboardQuotation::with('sales');
-        $billboard_quot_revisions = BillboardQuotRevision::with('sales');
-        $users = User::with('sales')->get();
-
-        return view('dashboard.marketing.sales.preview', [
-            'sales' => Sale::all(),
-            'title' => 'Data Penjualan',
-            'client_agreements' => ClientAgreement::all(),
-            'client_orders' => ClientOrder::all(),
-            compact('clients', 'billboards', 'companies', 'billboard_quotations', 'billboard_quot_revisions', 'users', 'contacts')
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
-            return response()-> view ('dashboard.marketing.sales.create', [
-                'sales'=>Sale::all(),
-                'sale_categories'=>SaleCategory::all(),
-                'billboard_quotations'=>BillboardQuotation::all(),
-                'billboard_quot_revisions'=>BillboardQuotRevision::all(),
-                'billboard_quot_statuses'=>BillboardQuotStatus::all(),
-                'print_instal_quotations'=>PrintInstalQuotation::all(),
-                'print_install_statuses'=>PrintInstallStatus::all(),
-                'print_install_sales'=>PrintInstallSale::all(),
-                'client_approval'=>ClientApproval::all(),
-                'title' => 'Input Data Penjualan'
+    public function createSales(String $category, String $quotationId){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing' ){
+            $quotation = Quotation::findOrFail($quotationId);
+            $revision = QuotationRevision::where('quotation_id', $quotationId)->get()->last();
+            if($revision){
+                $number = $revision->number;
+                $notes = json_decode($revision->notes);
+                $created_at = $revision->created_at;
+                $products = json_decode($revision->products);
+                $payment_terms = json_decode($revision->payment_terms);
+                $price = json_decode($revision->price);
+                $lastRevisionStatus = QuotRevisionStatus::where('quotation_revision_id', $revision->id)->get()->last();
+                $dataApprovals = QuotationApproval::where('quotation_id', $revision->id)->get();
+            } else{
+                $number = $quotation->number;
+                $notes = json_decode($quotation->notes);
+                $created_at = $quotation->created_at;
+                $products = json_decode($quotation->products);
+                $payment_terms = json_decode($quotation->payment_terms);
+                $price = json_decode($quotation->price);
+                $lastQuotationStatus = QuotationStatus::where('quotation_id', $quotationId)->get()->last();
+                $dataApprovals = QuotationApproval::where('quotation_id', $quotationId)->get();
+            }
+            $clients = json_decode($quotation->clients);
+            $mediaCategory = MediaCategory::where('name', $category)->firstOrFail();
+            
+            return response()-> view ('sales.create', [
+                'quotation'=>$quotation,
+                'number'=>$number,
+                'notes'=>$notes,
+                'created_at'=>$created_at,
+                'products'=>$products,
+                'clients'=>$clients,
+                'price'=>$price,
+                'payment_terms'=>$payment_terms,
+                'data_approvals'=>$dataApprovals,
+                'category'=>$category,
+                'data_category' => $mediaCategory,
+                'categories'=>MediaCategory::all(),
+                'title' => 'Membuat Penjualan'.$category
             ]);
         } else {
             abort(403);
@@ -127,143 +206,82 @@ class SaleController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): Response
+    {
+        //
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
-            
-            $salesData = json_decode($request->sales_value);
-            $sales = [];
-            $quotRevisonId = "";
-            $quotationId = "";
-            $saleStartAt = "";
-            $saleEndAt = "";
-
-            foreach($salesData->sales as $saleData){
-                if($saleData->billboard_quot_revision_id == ""){
-                    $quotRevisonId = null;
-                } else {
-                    $quotRevisonId = $saleData->billboard_quot_revision_id;
-                }
-            
-                if($saleData->billboard_quotation_id == ""){
-                    $quotationId = null;
-                } else {
-                    $quotationId = $saleData->billboard_quotation_id;
-                }
-
-                if($saleData->start_at == ""){
-                    $saleStartAt = null;
-                } else {
-                    $saleStartAt = $saleData->start_at;
-                }
-                
-                if($saleData->end_at == ""){
-                    $saleEndAt = null;
-                } else {
-                    $saleEndAt = $saleData->end_at;
-                }
-
-                $lastSale = Sale::all()->last();
-                $number = 0;
-                $monthRomawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-    
-                $month = $monthRomawi[(int)date('m')];
-                $year = date('y');
-    
-                if($lastSale){
-                    $lastNumber = (int)substr($lastSale->number,0,4);
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing' ){
+            $sales = json_decode($request->salesData);
+            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            foreach($sales as $sale){
+                // Set number --> start
+                $lastSales = Sale::all()->last();
+                if($lastSales){
+                    $lastNumber = (int)substr($lastSales->number,0,4);
                     $newNumber = $lastNumber + 1;
                 } else {
                     $newNumber = 1;
                 }
                 
-                if($newNumber < 10 ){
-                   $number = '000'.$newNumber.'/APP/PJ/VM/'.$month.'-'.$year;
-                } else if($newNumber < 100 ) {
-                    $number = '00'.$newNumber.'/APP/PJ/VM/'.$month.'-'.$year;
-                } else if($newNumber < 1000 ) {
-                    $number = '0'.$newNumber.'/APP/PJ/VM/'.$month.'-'.$year;
+                if($newNumber > 0 && $newNumber < 10){
+                    $number = '000'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'. date('Y');
+                }else if($newNumber > 10 && $newNumber < 100 ){
+                    $number = '00'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')]- date('Y');
+                }else if($newNumber > 100 && $newNumber < 1000 ){
+                    $number = '0'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'. date('Y');
                 } else {
-                    $number = $newNumber.'/APP/PJ/VM/'.$month.'-'.$year;
+                    $number = $newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'. date('Y');
                 }
-    
-                // $validateData['number'] = $number;     
-
-                $sales[] = [
-                    'number' => $number,
-                    'date' => $saleData->date,
-                    'user_id' => auth()->user()->id,
-                    'company_id' => $saleData->company_id,
-                    'client_approvals' => $saleData->client_approvals,
-                    'client_orders' => $saleData->client_orders,
-                    'client_agreements' => $saleData->client_agreements,
-                    'client_id' => $saleData->client_id,
-                    'client_company' => $saleData->client_company,
-                    'client_name' => $saleData->client_name,
-                    'client_address' => $saleData->client_address,
-                    'contact_id' => $saleData->contact_id,
-                    'contact_name' => $saleData->contact_name,
-                    'contact_email' => $saleData->contact_email,
-                    'contact_phone' => $saleData->contact_phone,
-                    'billboard_id' => $saleData->billboard_id,
-                    'billboard_code' => $saleData->billboard_code,
-                    'billboard_address' => $saleData->billboard_address,
-                    'billboard_category' => $saleData->billboard_category,
-                    'billboard_lighting' => $saleData->billboard_lighting,
-                    'billboard_size' => $saleData->billboard_size,
-                    'billboard_orientation' => $saleData->billboard_orientation,
-                    'billboard_photo' => $saleData->billboard_photo,
-                    'quot_number' => $saleData->quot_number,
-                    'quot_date' => $saleData->quot_date,
-                    'price' => $saleData->price,
-                    'dpp' => $saleData->dpp,
-                    'category' => $saleData->category,
-                    'duration' => $saleData->duration,
-                    'terms_of_payment' => $saleData->terms_of_payment,
-                    'free_instalation' => $saleData->free_instalation,
-                    'free_print' => $saleData->free_print,
-                    'billboard_quotation_id' => $quotationId,
-                    'billboard_quot_revision_id' => $quotRevisonId,
-                    'start_at' => $saleStartAt,
-                    'end_at' => $saleEndAt
-                    
-                ];
+                // Set number --> end
+                
                 $validateData['number'] = $number;
-                $validateData['user_id'] = auth()->user()->id;
-                $validateData['company_id'] = $saleData->company_id;
-                $validateData['client_id'] = $saleData->client_id;
-                $validateData['contact_id'] = $saleData->contact_id;
-                $validateData['billboard_id'] = $saleData->billboard_id;
-                $validateData['price'] = $saleData->price;
-                $validateData['dpp'] = $saleData->dpp;
-                $validateData['category'] = $saleData->category;
-                $validateData['duration'] = $saleData->duration;
-                $validateData['terms_of_payment'] = $saleData->terms_of_payment;
-                $validateData['free_instalation'] = $saleData->free_instalation;
-                $validateData['free_print'] = $saleData->free_print;
-                $validateData['billboard_quotation_id'] = $quotationId;
-                $validateData['billboard_quot_revision_id'] = $quotRevisonId;
-                $validateData['start_at'] = $saleStartAt;
-                $validateData['end_at'] = $saleEndAt;
+                $validateData['quotation_id'] = $sale->quotation_id;
+                $validateData['location_id'] = $sale->location_id;
+                $validateData['company_id'] = $sale->company_id;
+                $validateData['media_category_id'] = $sale->media_category_id;
+                $validateData['product_code'] = $sale->product_code;
+                if($sale->dpp){
+                    $validateData['dpp'] = $sale->dpp;
+                }
+                if($sale->ppn){
+                    $validateData['ppn'] = $sale->ppn;
+                }
+                if($sale->pph){
+                    $validateData['pph'] = $sale->pph;
+                }
+                $validateData['note'] = $sale->note;
+                $validateData['price'] = $sale->price;
+                $validateData['duration'] = $sale->duration;
+                if($sale->start_at){
+                    $validateData['start_at'] = date('Y-m-d',strtotime($sale->start_at));
+                }
+                if($sale->end_at){
+                    $validateData['end_at'] = date('Y-m-d',strtotime($sale->end_at));
+                }
+                $validateData['created_by'] = json_encode($sale->created_by);
+
                 Sale::create($validateData);
             }
-            // Sale::create($sales);
 
             if($request->file('document_po')){
                 $images = $request->file('document_po');
                 foreach($images as $image){
                     $documentPO = [];
                     $documentPO = [
-                        'billboard_quotation_id' => $quotationId,
-                        'billboard_quot_revision_id' => $quotRevisonId,
-                        'name' => $request->order_name,
+                        'quotation_id' => $validateData['quotation_id'],
                         'number' => $request->order_number,
-                        'order_date' => $request->order_date,
-                        'order_image' => $image->store('order-images')
+                        'date' => $request->order_date,
+                        'image' => $image->store('order-images')
                     ];
-                    ClientOrder::create($documentPO);
+                    QuotationOrder::create($documentPO);
                 }
             }
 
@@ -272,33 +290,16 @@ class SaleController extends Controller
                 foreach($images as $image){
                     $documentAgreement = [];
                     $documentAgreement = [
-                        'billboard_quotation_id' => $quotationId,
-                        'billboard_quot_revision_id' => $quotRevisonId,
+                        'quotation_id' => $validateData['quotation_id'],
                         'number' => $request->agreement_number,
                         'date' => $request->agreement_date,
-                        'agreement_image' => $image->store('agreement-images')
+                        'image' => $image->store('agreement-images')
                     ];
-                    ClientAgreement::create($documentAgreement);
+                    QuotationAgreement::create($documentAgreement);
                 }
             }
-
-            $saleAll = Sale::all();
-            $salesId = [];
-            $salesNumber = [];
-            $i = 0;
-            foreach($sales as $sale){
-                $saleNumber[$i] = $sale['number'];
-
-                foreach($saleAll as $data){
-                    if($data->number == $saleNumber[$i]){
-                        $salesId[$i] = $data->id;
-                    }
-                }
-
-                $i = $i + 1;
-            }
-
-            return redirect('/sales/preview/')->with('success','Data penjualan berhasil ditambahkan')->with(['sales_store' => $sales, 'sales_id' => $salesId]);
+                
+            return redirect('/sales/preview/'.$request->category.'/'.$validateData['quotation_id'])->with('success', 'Data penjualan berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -309,27 +310,51 @@ class SaleController extends Controller
      */
     public function show(Sale $sale): Response
     {
-        $clients = Client::with('sales')->get();
-        $contacts = Contact::with('sales')->get();
-        $billboards = Billboard::with('sales')->get();
-        $companies = Company::with('sales')->get();
-        $billboard_quotations = BillboardQuotation::with('sales');
-        $billboard_quot_revisions = BillboardQuotRevision::with('sales');
-        $users = User::with('sales')->get();
-
-        return response()->view('dashboard.marketing.sales.show', [
-            'sale' => $sale,
-            'title' => 'Detail Penjualan',
-            'client_agreements' => ClientAgreement::all(),
-            'client_orders' => ClientOrder::all(),
-            'contacts' => Contact::all(),
-            'client_approvals' => ClientApproval::all(),
-            'billboard_photos' => BillboardPhoto::all(),
-            'w_o_installs' => WOInstall::all(),
-            'w_o_prints' => WOPrint::all(),
-            'printing_products'=>PrintingProduct::all(),
-            'installation_prices'=>InstallationPrice::all(),
-            compact('clients', 'billboards', 'companies', 'billboard_quotations', 'billboard_quot_revisions', 'users', 'contacts')
+        $quotation = Quotation::findOrFail($sale->quotation->id);
+        $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
+        if($revision){
+            $number = $revision->number;
+            $notes = json_decode($revision->notes);
+            $created_at = $revision->created_at;
+            $category = $quotation->media_category->name;
+            $products = json_decode($revision->products);
+            $payment_terms = json_decode($revision->payment_terms);
+            $price = json_decode($revision->price);
+            $dataApprovals = QuotationApproval::where('quotation_id', $sale->quotation->id)->get();
+            $dataAgreements = QuotationAgreement::where('quotation_id', $sale->quotation->id)->get();
+            $dataOrders = QuotationOrder::where('quotation_id', $sale->quotation->id)->get();
+        } else{
+            $number = $quotation->number;
+            $notes = json_decode($quotation->notes);
+            $created_at = $quotation->created_at;
+            $category = $quotation->media_category->name;
+            $products = json_decode($quotation->products);
+            $payment_terms = json_decode($quotation->payment_terms);
+            $price = json_decode($quotation->price);
+            $lastQuotationStatus = QuotationStatus::where('quotation_id', $sale->quotation->id)->get()->last();
+            $dataApprovals = QuotationApproval::where('quotation_id', $sale->quotation->id)->get();
+            $dataAgreements = QuotationAgreement::where('quotation_id', $sale->quotation->id)->get();
+            $dataOrders = QuotationOrder::where('quotation_id', $sale->quotation->id)->get();
+        }
+        $clients = json_decode($quotation->clients);
+        $media_categories = MediaCategory::with('sales')->get();
+        return response()->view('sales.show', [
+            'sales'=>$sale,
+            'quotation'=>$quotation,
+            'number'=>$number,
+            'notes'=>$notes,
+            'created_at'=>$created_at,
+            'products'=>$products,
+            'clients'=>$clients,
+            'price'=>$price,
+            'payment_terms'=>$payment_terms,
+            'quotation_approvals'=>$dataApprovals,
+            'quotation_agreements'=>$dataAgreements,
+            'quotation_orders'=>$dataOrders,
+            'category'=>$category,
+            'categories'=>MediaCategory::all(),
+            'title' => 'Data Penjualan'.$category,
+            compact('media_categories')
         ]);
     }
 
@@ -347,17 +372,20 @@ class SaleController extends Controller
     public function update(Request $request, Sale $sale): RedirectResponse
     {
         if($request->start_at && $request->end_at){
-            $validateData['start_at'] = $request->start_at;
-            $validateData['end_at'] = $request->end_at;
+            if($request->start_at > $request->end_at){
+                return redirect('/sales/home/'.$request->category)->with('failed','Awal > Akhir')->with('id', $request->sales_id);
+            }else{
+                $validateData['start_at'] = $request->start_at;
+                $validateData['end_at'] = $request->end_at;
 
-            Sale::where('id', $sale->id)
-                ->update($validateData);
-
-            return redirect('/dashboard/marketing/sales/')->with('success','Data Penjualan '. $sale->number . ' berhasil di update');
+                Sale::where('id', $request->sales_id)
+                    ->update($validateData);
+            }
+            
+            return redirect('/sales/home/'.$request->category)->with('success','Tanggal kontrak berhasil diupdate')->with('id', $request->sales_id);
         }else{
-            return redirect('/dashboard/marketing/sales/')->with('failed','Data Penjualan '. $sale->number . ' gagal diupdate, ada data update yang belum diinput');
+            return redirect('/sales/home/'.$request->category)->with('failed','Tanggal belum diinput')->with('id', $request->sales_id);
         }
-        
     }
 
     /**

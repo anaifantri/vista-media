@@ -94,8 +94,7 @@ class PrintingPriceController extends Controller
                 'user_id' => 'required',
                 'vendor_id' => 'required',
                 'printing_product_id' => 'required',
-                'print_price' => 'required',
-                'sale_price' => 'required'
+                'price' => 'required'
             ]);
             
             PrintingPrice::create($validateData);
@@ -145,8 +144,7 @@ class PrintingPriceController extends Controller
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
-                'print_price' => 'required',
-                'sale_price' => 'required'
+                'price' => 'required'
             ];
             
             $validateData = $request->validate($rules);
@@ -154,7 +152,7 @@ class PrintingPriceController extends Controller
             PrintingPrice::where('id', $printingPrice->id)
                 ->update($validateData);
         
-            return redirect('/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->coe . ' berhasil dirubah');
+            return redirect('/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->code . ' berhasil dirubah');
         } else {
             abort(403);
         }

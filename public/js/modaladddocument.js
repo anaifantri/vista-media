@@ -21,6 +21,7 @@ let fileLength = 0;
 btnImages = (sel, choose, label) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     const btnClear = document.getElementById("btnClear");
+    const btnSubmit = document.getElementById("btnSubmit");
     const btnChooseImages = document.getElementById("btnChooseImages");
     const documentNumber = document.getElementById("documentNumber");
     const documentDate = document.getElementById("documentDate");
@@ -78,6 +79,7 @@ btnImages = (sel, choose, label) => {
 
     btnChooseImages.setAttribute('onclick', 'document.getElementById("'+inputId+'").click()');
     btnClear.setAttribute('onclick', 'btnClearAction(document.querySelectorAll("[id='+labelId+']"), document.getElementById("'+inputId+'"))');
+    btnSubmit.setAttribute('onclick', 'btnSubmitAction('+sel.id+')');
 
     imagePreview(choose, label);
 }
@@ -232,20 +234,27 @@ btnClearAction = (label, inputFile) =>{
 //clear button action --> end
 
 //submit button action --> start
-btnSubmitAction = () =>{
+btnSubmitAction = (sel) =>{
     index = 0;
     if (fileLength == 0) {
         alert("Dokumen belum dipilih")
-    }else if (inputNumber.value == "") {
-        alert("Nomor belum diinput")
-    }else if (inputDate.value == "") {
-        alert("Tanggal belum diinput")
-    } else {
+    }else if(sel.id == "approval"){
         prevButton.setAttribute('hidden', 'hidden');
         nextButton.setAttribute('hidden', 'hidden');
         modalImages.classList.add("hidden");
         modalImages.classList.remove("flex");
-    }
+    }else{
+        if (inputNumber.value == "") {
+            alert("Nomor belum diinput")
+        }else if (inputDate.value == "") {
+            alert("Tanggal belum diinput")
+        } else {
+            prevButton.setAttribute('hidden', 'hidden');
+            nextButton.setAttribute('hidden', 'hidden');
+            modalImages.classList.add("hidden");
+            modalImages.classList.remove("flex");
+        }
+    } 
 }
 //submit button action --> end
 

@@ -77,6 +77,7 @@
                             </th>
                             <th class="text-teal-700 border text-xs text-center w-20">Type</th>
                             <th class="text-teal-700 border text-xs text-center">Deskripsi</th>
+                            <th class="text-teal-700 border text-xs text-center w-28">Harga (Rp.)</th>
                             <th class="text-teal-700 border text-xs text-center w-24">Action</th>
                         </tr>
                     </thead>
@@ -91,6 +92,8 @@
                                 <td class="text-teal-700 border text-xs text-center">{{ $printing_product->name }}</td>
                                 <td class="text-teal-700 border text-xs text-center">{{ $printing_product->type }}</td>
                                 <td class="px-2 text-teal-700 border text-xs">{{ $printing_product->description }}</td>
+                                <td class="text-teal-700 border text-xs text-center">
+                                    {{ number_format($printing_product->price) }}</td>
                                 <td class="text-teal-700 border text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/printing-products/{{ $printing_product->id }}"

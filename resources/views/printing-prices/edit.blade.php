@@ -16,7 +16,7 @@
                             <input type="text" id="printing_product_id" name="printing_product_id"
                                 value="{{ $printing_price->printing_product_id }}" hidden>
                             <input
-                                class="flex px-2 text-sm font-semibold text-gray-400 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-slate-600 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                 type="text" value="{{ $printing_price->printing_product->name }}" readonly>
                             @error('printing_product_id')
                                 <div class="invalid-feedback">
@@ -31,7 +31,7 @@
                             <input type="text" id="vendor_id" name="vendor_id" value="{{ $printing_price->vendor_id }}"
                                 hidden>
                             <input
-                                class="flex px-2 text-sm font-semibold text-gray-400 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-slate-600 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                 type="text" value="{{ $printing_price->vendor->name }}" readonly>
                             @error('vendor_id')
                                 <div class="invalid-feedback">
@@ -44,24 +44,10 @@
                         <div class="mt-1">
                             <label class="text-sm text-teal-700">Harga Cetak</label>
                             <input
-                                class="flex px-2 text-semibold w-[250px] border rounded-lg p-1 outline-none @error('print_price') is-invalid @enderror"
-                                type="number" id="print_price" name="print_price" placeholder="Input harga cetak"
-                                value="{{ $printing_price->print_price }}" required>
-                            @error('print_price')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="flex justify-center mt-2 w-full">
-                        <div class="mt-1">
-                            <label class="text-sm text-teal-700">Harga Cetak</label>
-                            <input
-                                class="flex px-2 text-semibold w-[250px] border rounded-lg p-1 outline-none @error('sale_price') is-invalid @enderror"
-                                type="number" id="sale_price" name="sale_price" placeholder="Input harga cetak"
-                                value="{{ $printing_price->sale_price }}" required>
-                            @error('sale_price')
+                                class="flex px-2 text-semibold w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                type="number" min="0" id="price" name="price" placeholder="Input harga cetak"
+                                value="{{ $printing_price->price }}" required>
+                            @error('price')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -69,8 +55,7 @@
                         </div>
                     </div>
                     <div class="flex justify-center mt-5">
-                        <button class="flex items-center justify-center btn-primary mx-1" type="submit" id="btnSubmit"
-                            name="btnSubmit">
+                        <button class="flex items-center justify-center btn-primary mx-1" type="submit" id="btnSubmit">
                             <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <path

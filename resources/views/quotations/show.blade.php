@@ -3,6 +3,11 @@
 @section('container')
     <!-- Show Quotatin start -->
     <?php
+    if ($last_revision_status) {
+        $quotStatus = $last_revision_status->status;
+    } else {
+        $quotStatus = $last_status->status;
+    }
     $products = json_decode($quotation->products);
     $category = $quotation->media_category->name;
     $client = json_decode($quotation->clients);
@@ -120,7 +125,7 @@
                             ?>
                             <input type="text" name="quotation_id" value="{{ $quotation->id }}" hidden>
                             <input type="text" name="updated_by" value="{{ json_encode($updated_by) }}" hidden>
-                            @if ($last_statuses->status == 'Deal' || $last_statuses->status == 'Closed' || count($data_revisions) != 0)
+                            @if ($last_status->status == 'Deal' || $last_status->status == 'Closed' || count($data_revisions) != 0)
                                 <div class="mt-1" hidden>
                                     <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
                                     <input type="text" id="cbUpdateValue" name="cb-update-value"
@@ -141,7 +146,7 @@
                                     <select id="status" name="status"
                                         class="flex w-36 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('status') is-invalid @enderror"
                                         type="text" value="{{ old('status') }}" onchange="getStatus(this)">
-                                        @if ($last_statuses->status == 'Created')
+                                        @if ($last_status->status == 'Created')
                                             @for ($i = 0; $i < count($status); $i++)
                                                 @if ($i == 1 || $i == 4)
                                                     @if (old('status') == $status[$i])
@@ -152,7 +157,7 @@
                                                     @endif
                                                 @endif
                                             @endfor
-                                        @elseif ($last_statuses->status == 'Sent' || $last_statuses->status == 'Follow Up')
+                                        @elseif ($last_status->status == 'Sent' || $last_status->status == 'Follow Up')
                                             @for ($i = 0; $i < count($status); $i++)
                                                 @if ($i == 2 || $i == 3 || $i == 4)
                                                     @if (old('status') == $status[$i])
@@ -244,8 +249,8 @@
                                 </svg>
                                 <span class="ml-2 text-white">Create PDF</span>
                             </button>
-                            @if ($last_statuses->status != 'Deal' && $last_statuses->status != 'Closed')
-                                <a class="flex justify-center items-center ml-1 btn-warning"
+                            @if ($quotStatus == 'Deal' || $quotStatus == 'Closed')
+                                <a class="hidden justify-center items-center ml-1 btn-warning"
                                     href="/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
                                     <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -257,7 +262,7 @@
                                     <span class="ml-1 text-sm">Revisi</span>
                                 </a>
                             @else
-                                <a class="hidden justify-center items-center ml-1 btn-warning"
+                                <a class="flex justify-center items-center ml-1 btn-warning"
                                     href="/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
                                     <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -348,15 +353,19 @@
                                 <!-- table start -->
                                 <div class="ml-2">
                                     <div class="flex justify-center">
-                                        @if ($quotation->media_category->name == 'Billboard')
-                                            @include('quotations.bb-show-table')
-                                        @elseif($quotation->media_category->name == 'Videotron')
-                                            @include('quotations.vt-show-table')
-                                        @elseif($quotation->media_category->name == 'Signage')
-                                            @if ($dataDescription->type == 'Videotron')
-                                                @include('quotations.vt-show-table')
-                                            @else
+                                        @if ($quotation->media_category->name == 'Service')
+                                            @include('quotations.service-show-table')
+                                        @else
+                                            @if ($quotation->media_category->name == 'Billboard')
                                                 @include('quotations.bb-show-table')
+                                            @elseif($quotation->media_category->name == 'Videotron')
+                                                @include('quotations.vt-show-table')
+                                            @elseif($quotation->media_category->name == 'Signage')
+                                                @if ($dataDescription->type == 'Videotron')
+                                                    @include('quotations.vt-show-table')
+                                                @else
+                                                    @include('quotations.bb-show-table')
+                                                @endif
                                             @endif
                                         @endif
                                     </div>
@@ -372,45 +381,11 @@
                                         </div>
                                         <div>
                                             @foreach ($notes->dataNotes as $note)
-                                                @if ($quotation->media_category->name == 'Billboard')
-                                                    @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
-                                                        @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
-                                                            <label
-                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                        @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                        @endif
-                                                    @elseif (($notes->freePrint == 0 && $notes->freeInstall != 0) || ($notes->freePrint != 0 && $notes->freeInstall == 0))
-                                                        @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                            <label
-                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                        @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                        @endif
-                                                    @elseif ($notes->freePrint == 0 && $notes->freeInstall == 0)
-                                                        @if ($loop->iteration == 3)
-                                                            <label
-                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                        @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                        @endif
-                                                    @else
-                                                        <label
-                                                            class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                    @endif
-                                                @elseif ($quotation->media_category->name == 'Signage')
-                                                    @if ($dataDescription->type == 'Videotron')
-                                                        @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                            <label
-                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                        @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                        @endif
-                                                    @else
+                                                @if ($quotation->media_category->name == 'Service')
+                                                    <label
+                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                @else
+                                                    @if ($quotation->media_category->name == 'Billboard')
                                                         @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
                                                             @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
                                                                 <label
@@ -439,14 +414,53 @@
                                                             <label
                                                                 class="ml-1 text-sm text-black flex">{{ $note }}</label>
                                                         @endif
-                                                    @endif
-                                                @else
-                                                    @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                        <label
-                                                            class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                    @elseif ($quotation->media_category->name == 'Signage')
+                                                        @if ($dataDescription->type == 'Videotron')
+                                                            @if ($loop->iteration == 3 || $loop->iteration == 4)
+                                                                <label
+                                                                    class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                            @else
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                            @endif
+                                                        @else
+                                                            @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
+                                                                @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
+                                                                    <label
+                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                                @else
+                                                                    <label
+                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                                @endif
+                                                            @elseif (($notes->freePrint == 0 && $notes->freeInstall != 0) || ($notes->freePrint != 0 && $notes->freeInstall == 0))
+                                                                @if ($loop->iteration == 3 || $loop->iteration == 4)
+                                                                    <label
+                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                                @else
+                                                                    <label
+                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                                @endif
+                                                            @elseif ($notes->freePrint == 0 && $notes->freeInstall == 0)
+                                                                @if ($loop->iteration == 3)
+                                                                    <label
+                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                                @else
+                                                                    <label
+                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                                @endif
+                                                            @else
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                            @endif
+                                                        @endif
                                                     @else
-                                                        <label
-                                                            class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                        @if ($loop->iteration == 3 || $loop->iteration == 4)
+                                                            <label
+                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                        @else
+                                                            <label
+                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                        @endif
                                                     @endif
                                                 @endif
                                             @endforeach
@@ -510,169 +524,173 @@
                         </div>
                     </div>
                     <!-- View Location start -->
-                    @foreach ($products as $product)
-                        @php
-                            $description = json_decode($product->description);
-                            $sectors = json_decode($product->sector);
+                    @if ($quotation->media_category->name != 'Service')
+                        @foreach ($products as $product)
+                            @php
+                                $description = json_decode($product->description);
+                                $sectors = json_decode($product->sector);
 
-                            if ($product->category == 'Signage') {
-                                $mapsLink =
-                                    'https://maps.googleapis.com/maps/api/staticmap?center=' .
-                                    $description->lat[0] .
-                                    ',' .
-                                    $description->lng[0] .
-                                    '&zoom=17&size=480x355&maptype=terrain';
-                                $mapsMarkers = '';
-                                $googleKey = '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
-                                for ($i = 0; $i < count($description->lat); $i++) {
-                                    $mapsMarkers =
-                                        $mapsMarkers .
-                                        '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
-                                        $description->lat[$i] .
+                                if ($product->category == 'Signage') {
+                                    $mapsLink =
+                                        'https://maps.googleapis.com/maps/api/staticmap?center=' .
+                                        $description->lat[0] .
                                         ',' .
-                                        $description->lng[$i];
+                                        $description->lng[0] .
+                                        '&zoom=17&size=480x355&maptype=terrain';
+                                    $mapsMarkers = '';
+                                    $googleKey = '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                                    for ($i = 0; $i < count($description->lat); $i++) {
+                                        $mapsMarkers =
+                                            $mapsMarkers .
+                                            '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                                            $description->lat[$i] .
+                                            ',' .
+                                            $description->lng[$i];
+                                    }
+                                    $src = $mapsLink . $mapsMarkers . $googleKey;
+                                } else {
+                                    $src =
+                                        'https://maps.googleapis.com/maps/api/staticmap?center=' .
+                                        $description->lat .
+                                        ',' .
+                                        $description->lng .
+                                        '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                                        $description->lat .
+                                        ',' .
+                                        $description->lng .
+                                        '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                                 }
-                                $src = $mapsLink . $mapsMarkers . $googleKey;
-                            } else {
-                                $src =
-                                    'https://maps.googleapis.com/maps/api/staticmap?center=' .
-                                    $description->lat .
-                                    ',' .
-                                    $description->lng .
-                                    '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
-                                    $description->lat .
-                                    ',' .
-                                    $description->lng .
-                                    '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
-                            }
-                        @endphp
-                        <div class="flex justify-center w-full">
-                            <div class="w-[950px] h-[1345px] mt-1 bg-white">
-                                <!-- Header start -->
-                                @include('dashboard.layouts.letter-header')
-                                <!-- Header end -->
-                                <!-- Body start -->
-                                <div class="h-[1125px]">
-                                    <div class="flex w-full h-[50px] justify-center items-center mt-1">
-                                        <div
-                                            class="flex w-[800px] h-[50px] justify-start items-center bg-slate-50 border rounded-t-xl">
-                                            <span
-                                                class="flex justify-end items-center w-20 h-[42px] text-lg text-red-700 font-bold">{{ $product->code }}</span>
-                                            <span
-                                                class="flex justify-start items-center w-20 h-[42px] text-lg font-bold ml-1">
-                                                -
-                                                {{ $product->city_code }}
-                                            </span>
-                                            <img class="h-10" src="/img/code-line.png" alt="">
-                                            <span
-                                                class="flex items-center w-[575px] h-[42px] text-base font-semibold">{{ $product->address }}
-                                                | {{ strtoupper($product->area) }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex w-full h-[570px] justify-center mt-2">
-                                        <div
-                                            class="flex w-[800px] h-[570px] justify-center items-center bg-slate-50 border rounded-b-xl">
-                                            <img class="m-auto w-[770px] h-[540px]"
-                                                src="{{ asset('storage/' . $product->location_photo) }}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="flex w-full justify-center mt-4 h-[470px] bg-white">
-                                        <div class="w-[544px] h-[470px] bg-white justify-center">
+                            @endphp
+                            <div class="flex justify-center w-full">
+                                <div class="w-[950px] h-[1345px] mt-1 bg-white">
+                                    <!-- Header start -->
+                                    @include('dashboard.layouts.letter-header')
+                                    <!-- Header end -->
+                                    <!-- Body start -->
+                                    <div class="h-[1125px]">
+                                        <div class="flex w-full h-[50px] justify-center items-center mt-1">
                                             <div
-                                                class="flex w-[544px] h-10 bg-slate-50 items-center border justify-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
-                                                Google Maps Koordinat :
-                                                @if ($quotation->media_category->name == 'Signage')
-                                                    {{ number_format($description->lat[0], 7) . ', ' . number_format($description->lng[0], 7) }}
-                                                @else
-                                                    {{ number_format($description->lat, 7) . ', ' . number_format($description->lng, 7) }}
-                                                @endif
+                                                class="flex w-[800px] h-[50px] justify-start items-center bg-slate-50 border rounded-t-xl">
+                                                <span
+                                                    class="flex justify-end items-center w-20 h-[42px] text-lg text-red-700 font-bold">{{ $product->code }}</span>
+                                                <span
+                                                    class="flex justify-start items-center w-20 h-[42px] text-lg font-bold ml-1">
+                                                    -
+                                                    {{ $product->city_code }}
+                                                </span>
+                                                <img class="h-10" src="/img/code-line.png" alt="">
+                                                <span
+                                                    class="flex items-center w-[575px] h-[42px] text-base font-semibold">{{ $product->address }}
+                                                    | {{ strtoupper($product->area) }}</span>
                                             </div>
-                                            <div class="flex relative w-[544px] h-[430px] mt-1 rounded-b-lg">
-                                                <div class="flex absolute w-[100px] mt-[325px] ml-1">
+                                        </div>
+                                        <div class="flex w-full h-[570px] justify-center mt-2">
+                                            <div
+                                                class="flex w-[800px] h-[570px] justify-center items-center bg-slate-50 border rounded-b-xl">
+                                                <img class="m-auto w-[770px] h-[540px]"
+                                                    src="{{ asset('storage/' . $product->location_photo) }}"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                        <div class="flex w-full justify-center mt-4 h-[470px] bg-white">
+                                            <div class="w-[544px] h-[470px] bg-white justify-center">
+                                                <div
+                                                    class="flex w-[544px] h-10 bg-slate-50 items-center border justify-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
+                                                    Google Maps Koordinat :
                                                     @if ($quotation->media_category->name == 'Signage')
-                                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $description->lat[0] . ',' . $description->lng[0] . '/@' . $description->lat[0] . ',' . $description->lng[0] . ',16z') }}
+                                                        {{ number_format($description->lat[0], 7) . ', ' . number_format($description->lng[0], 7) }}
                                                     @else
-                                                        {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $description->lat . ',' . $description->lng . '/@' . $description->lat . ',' . $description->lng . ',16z') }}
+                                                        {{ number_format($description->lat, 7) . ', ' . number_format($description->lng, 7) }}
                                                     @endif
                                                 </div>
-                                                <img class="w-[544px] h-[430px] border rounded-b-xl" id="myImage"
-                                                    name="myImage" src="{{ $src }}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="w-[256px] h-[470px] bg-white justify-center ml-1">
-                                            <div
-                                                class="flex p-1 items-center justify-center w-[256px] h-10 bg-slate-50 border rounded-t-lg text-sm font-bold font-mono text-teal-900">
-                                                Deskripsi Lokasi
-                                            </div>
-                                            @if (
-                                                $quotation->media_category->name == 'Billboard' ||
-                                                    $quotation->media_category->name == 'Bando' ||
-                                                    $quotation->media_category->name == 'Baliho' ||
-                                                    $quotation->media_category->name == 'Midiboard')
-                                                @include('quotations.bb-description-show')
-                                            @elseif ($quotation->media_category->name == 'Videotron')
-                                                @include('quotations.vt-description-show')
-                                            @elseif ($quotation->media_category->name == 'Signage')
-                                                @include('quotations.sn-description-show')
-                                            @endif
-                                            <div
-                                                class="flex w-[256px] h-10 p-1 bg-slate-50 mt-1 border justify-center items-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
-                                                Informasi Area
-                                            </div>
-                                            <div class="w-[256px] h-[212px] border bg-slate-50 mt-1 rounded-b-lg">
-                                                <div class="flex">
-                                                    <span class="w-[100px] text-xs font-mono text-teal-900 ml-2">Type
-                                                        Jalan</span>
-                                                    <span class="w-[120px] text-xs font-mono text-teal-900">:
-                                                        {{ $product->road_segment }}
-                                                    </span>
+                                                <div class="flex relative w-[544px] h-[430px] mt-1 rounded-b-lg">
+                                                    <div class="flex absolute w-[100px] mt-[325px] ml-1">
+                                                        @if ($quotation->media_category->name == 'Signage')
+                                                            {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $description->lat[0] . ',' . $description->lng[0] . '/@' . $description->lat[0] . ',' . $description->lng[0] . ',16z') }}
+                                                        @else
+                                                            {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $description->lat . ',' . $description->lng . '/@' . $description->lat . ',' . $description->lng . ',16z') }}
+                                                        @endif
+                                                    </div>
+                                                    <img class="w-[544px] h-[430px] border rounded-b-xl" id="myImage"
+                                                        name="myImage" src="{{ $src }}" alt="">
                                                 </div>
-                                                <div class="flex">
-                                                    <span class="w-[100px] text-xs font-mono text-teal-900 ml-2">Jarak
-                                                        Pandang</span>
-                                                    <span class="w-[120px] text-xs font-mono text-teal-900">:
-                                                        {{ $product->max_distance }}
-                                                    </span>
+                                            </div>
+                                            <div class="w-[256px] h-[470px] bg-white justify-center ml-1">
+                                                <div
+                                                    class="flex p-1 items-center justify-center w-[256px] h-10 bg-slate-50 border rounded-t-lg text-sm font-bold font-mono text-teal-900">
+                                                    Deskripsi Lokasi
                                                 </div>
-                                                <div class="flex">
-                                                    <span
-                                                        class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kecepatan
-                                                        Kend.</span>
-                                                    <span class="w-[120px] text-xs font-mono font-thin text-teal-900">:
-                                                        {{ $product->speed_average }}
-                                                    </span>
+                                                @if (
+                                                    $quotation->media_category->name == 'Billboard' ||
+                                                        $quotation->media_category->name == 'Bando' ||
+                                                        $quotation->media_category->name == 'Baliho' ||
+                                                        $quotation->media_category->name == 'Midiboard')
+                                                    @include('quotations.bb-description-show')
+                                                @elseif ($quotation->media_category->name == 'Videotron')
+                                                    @include('quotations.vt-description-show')
+                                                @elseif ($quotation->media_category->name == 'Signage')
+                                                    @include('quotations.sn-description-show')
+                                                @endif
+                                                <div
+                                                    class="flex w-[256px] h-10 p-1 bg-slate-50 mt-1 border justify-center items-center rounded-t-lg text-sm font-bold font-mono text-teal-900">
+                                                    Informasi Area
                                                 </div>
-                                                <div class="flex">
-                                                    <div>
-                                                        <span
-                                                            class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
-                                                        </span>
-                                                        <span class="w-[100px] flex mt-[40px] ml-2">
-                                                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/quotations/preview/' . $quotation->media_category->name . '/' . $product->id) }}
+                                                <div class="w-[256px] h-[212px] border bg-slate-50 mt-1 rounded-b-lg">
+                                                    <div class="flex">
+                                                        <span class="w-[100px] text-xs font-mono text-teal-900 ml-2">Type
+                                                            Jalan</span>
+                                                        <span class="w-[120px] text-xs font-mono text-teal-900">:
+                                                            {{ $product->road_segment }}
                                                         </span>
                                                     </div>
-                                                    <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
-                                                        <div>:</div>
+                                                    <div class="flex">
+                                                        <span class="w-[100px] text-xs font-mono text-teal-900 ml-2">Jarak
+                                                            Pandang</span>
+                                                        <span class="w-[120px] text-xs font-mono text-teal-900">:
+                                                            {{ $product->max_distance }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex">
+                                                        <span
+                                                            class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kecepatan
+                                                            Kend.</span>
+                                                        <span class="w-[120px] text-xs font-mono font-thin text-teal-900">:
+                                                            {{ $product->speed_average }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex">
                                                         <div>
-                                                            @foreach ($sectors->dataSector as $sector)
-                                                                <div>
-                                                                    - {{ $sector }}
-                                                                </div>
-                                                            @endforeach
+                                                            <span
+                                                                class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
+                                                            </span>
+                                                            <span class="w-[100px] flex mt-[40px] ml-2">
+                                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/quotations/preview/' . $quotation->media_category->name . '/' . $product->id) }}
+                                                            </span>
                                                         </div>
-                                                    </span>
+                                                        <span
+                                                            class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
+                                                            <div>:</div>
+                                                            <div>
+                                                                @foreach ($sectors->dataSector as $sector)
+                                                                    <div>
+                                                                        - {{ $sector }}
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Body start -->
+                                    <!-- Footer start -->
+                                    @include('dashboard.layouts.letter-footer')
+                                    <!-- Footer end -->
                                 </div>
-                                <!-- Body start -->
-                                <!-- Footer start -->
-                                @include('dashboard.layouts.letter-footer')
-                                <!-- Footer end -->
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                     <!-- View Location end -->
                 </div>
             </div>

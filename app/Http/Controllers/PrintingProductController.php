@@ -78,6 +78,7 @@ class PrintingProductController extends Controller
                 'name' => 'required|unique:printing_products',
                 'user_id' => 'required',
                 'type' => 'required',
+                'price' => 'required',
                 'description' => 'nullable'
             ]);
             
@@ -127,6 +128,7 @@ class PrintingProductController extends Controller
             $rules = [
                 'user_id' => 'required',
                 'type' => 'required',
+                'price' => 'required',
                 'description' => 'nullable'
             ];
             if ($request->name != $printingProduct->name) {
