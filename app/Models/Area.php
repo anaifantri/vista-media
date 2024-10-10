@@ -20,15 +20,6 @@ class Area extends Model
     public function locations(){
         return $this->hasMany(Location::class, 'area_id', 'id');
     }
-    public function billboards(){
-        return $this->hasMany(Billboard::class, 'area_id', 'id');
-    }
-    public function videotrons(){
-        return $this->hasMany(Videotron::class, 'area_id', 'id');
-    }
-    public function signages(){
-        return $this->hasMany(Signage::class, 'area_id', 'id');
-    }
 
     public function cities(){
         return $this->hasMany(City::class, 'area_id', 'id');
@@ -36,6 +27,15 @@ class Area extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function($area){
+            $area->cities()->get()->each->delete();
+            $area->locations()->get()->each->delete();
+        });
     }
 
     public $sortable = ['area_code',

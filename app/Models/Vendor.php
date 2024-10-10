@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Led;
-use App\Models\Product;
-use App\Models\VendorContact;
 use Kyslik\ColumnSortable\Sortable;
 
 class Vendor extends Model
@@ -42,6 +39,16 @@ class Vendor extends Model
 
     public function printing_prices(){
         return $this->hasMany(PrintingPrice::class, 'vendor_id', 'id');
+    }
+
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function($vendor){
+            $vendor->leds()->get()->each->delete();
+            $vendor->vendor_contacts()->get()->each->delete();
+            $vendor->printing_prices()->get()->each->delete();
+        });
     }
 
     public $sortable = ['code','name','company'];

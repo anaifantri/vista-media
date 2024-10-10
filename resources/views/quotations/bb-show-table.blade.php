@@ -22,19 +22,22 @@
                 </th>
                 <th class="text-[0.7rem] text-teal-700 border" rowspan="2">Lokasi
                 </th>
-                <th class="text-[0.7rem] text-teal-700 border w-28" rowspan="2">Size - Side - V/H
-                </th>
+                <th class="text-[0.7rem] text-teal-700 border" colspan="3">Deskripsi</th>
                 <th class="text-[0.7rem] text-teal-700 border" colspan="{{ $cbTitle }}">Harga
                     (Rp.)
                 </th>
             </tr>
             <tr>
+                <th class="text-[0.7rem] text-teal-700 border w-10" rowspan="2">BL/FL</th>
+                <th class="text-[0.7rem] text-teal-700 border w-8" rowspan="2">Side</th>
+                <th class="text-[0.7rem] text-teal-700 border w-20" rowspan="2">Size - V/H
+                </th>
                 @foreach ($price->dataTitle as $title)
                     @if ($title->checkbox == true)
-                        <th class="text-[0.7rem] text-teal-700 border w-[90px]">
+                        <th class="text-[0.7rem] text-teal-700 border w-[85px]">
                             {{ $title->title }}</th>
                     @else
-                        <th class="text-[0.7rem] text-teal-700 border w-[90px]" hidden>
+                        <th class="text-[0.7rem] text-teal-700 border w-[85px]" hidden>
                             {{ $title->title }}</th>
                     @endif
                 @endforeach
@@ -44,6 +47,7 @@
             @foreach ($products as $product)
                 <?php
                 $row = $loop->iteration - 1;
+                $description = json_decode($product->description);
                 ?>
                 <tr>
                     <td class="text-[0.7rem] text-teal-700 border text-center">
@@ -54,7 +58,16 @@
                         {{ $product->address }}
                     </td>
                     <td class="text-[0.7rem] text-teal-700 border text-center">
-                        {{ $product->size }} x {{ $product->side }} -
+                        @if ($description->lighting == 'Backlight')
+                            BL
+                        @elseif ($description->lighting == 'Frontlight')
+                            FL
+                        @endif
+                    </td>
+                    <td class="text-[0.7rem] text-teal-700 border text-center">
+                        {{ (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) }}</td>
+                    <td class="text-[0.7rem] text-teal-700 border text-center">
+                        {{ $product->size }} -
                         @if ($product->orientation == 'Vertikal')
                             V
                         @elseif ($product->orientation == 'Horizontal')

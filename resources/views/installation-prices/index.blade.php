@@ -154,7 +154,8 @@
             </div>
         </div>
         <div class="flex justify-center text-teal-900">
-            {{ $installation_prices->links() }}
+            {{-- {{ $installation_prices->links() }} --}}
+            {!! $installation_prices->appends(Request::query())->render('dashboard.layouts.pagination') !!}
         </div>
     </div>
     <!-- View Table end -->

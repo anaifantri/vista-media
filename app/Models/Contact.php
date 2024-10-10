@@ -16,24 +16,4 @@ class Contact extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-
-    public function quotations(){
-        return $this->hasMany(Quotation::class, 'contact_id', 'id');
-    }
-
-    public function billboard_quotations(){
-        return $this->hasMany(BillboardQuotation::class, 'contact_id', 'id');
-    }
-
-    public function print_instal_quotations(){
-        return $this->hasMany(PrintInstalQuotation::class, 'contact_id', 'id');
-    }
-
-    public function sales(){
-        return $this->hasMany(Sale::class, 'contact_id', 'id');
-    }
-
-    public function print_install_sales(){
-        return $this->hasMany(PrintInstallSale::class, 'contact_id', 'id');
-    }
 }

@@ -151,5 +151,7 @@
     <!-- Modal Preview end -->
     <!-- Quotation end -->
     <script src="/js/createquotation.js"></script>
-    <script src="/js/servicetable.js"></script>
+    @if ($category == 'Service')
+        <script src="/js/servicetable.js"></script>
+    @endif
 @endsection

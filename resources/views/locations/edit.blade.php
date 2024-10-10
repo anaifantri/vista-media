@@ -9,7 +9,7 @@
         $modified_by->name = auth()->user()->name;
         $modified_by->position = auth()->user()->position;
         $bulan = [
-            'Januari',
+            1 => 'Januari',
             'Februari',
             'Maret',
             'April',

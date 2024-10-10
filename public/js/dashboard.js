@@ -63,10 +63,18 @@ var mainHeader = document.getElementById("main-header");
 
 mainWrapper.addEventListener('click', function () {
     hideMenu();
+    profileChildrendHide();
+    navBarChildHidden();
 }, false);
 
 mainHeader.addEventListener('click', function () {
     hideMenu();
+    profileChildrendHide();
+    navBarChildHidden();
+}, false);
+
+document.getElementById("nav-menu").addEventListener('click', function () {
+    navBarChildHidden();
 }, false);
 
 function hideMenu() {
@@ -98,24 +106,36 @@ const profile = document.querySelector('#profile');
 const profileChild = document.querySelector('#profileChild');
 const profileArrow = document.querySelector('#profileArrow');
 
-profile.addEventListener('click', function () {
-    profile.classList.toggle('group');
+profileAction = (e,sel) => {
+    e.stopPropagation();
+    sel.classList.toggle('group');
     profileArrow.classList.toggle('rotate-180');
     profileChild.classList.toggle('hidden');
     profileChild.classList.toggle('flex');
-});
+};
 
-// Navbar - Setting
-const setting = document.querySelector('#setting');
-const settingChild = document.querySelector('#settingChild');
-const settingArrow = document.querySelector('#settingArrow');
+profileChildrendHide = () =>{
+    profileArrow.classList.remove('rotate-180');
+    profileChild.classList.add('hidden');
+}
 
-setting.addEventListener('click', function () {
-    setting.classList.toggle('group');
-    settingArrow.classList.toggle('rotate-180');
-    settingChild.classList.toggle('flex');
-    settingChild.classList.toggle('hidden');
-});
+navBarChildHidden = () =>{
+    if(document.getElementById("saleNav")){
+        document.getElementById("saleChild").classList.add('hidden');
+        document.getElementById("saleNav").classList.add('group');
+        document.getElementById("saleArrow").classList.remove('rotate-180');
+        document.getElementById("quotationNav").classList.add('group');
+        document.getElementById("quotationChild").classList.add('hidden');
+        document.getElementById("quotationArrow").classList.remove('rotate-180');
+    } else if(document.getElementById("mediaNav")){
+        document.getElementById("mediaChild").classList.add('hidden');
+        document.getElementById("mediaNav").classList.add('group');
+        document.getElementById("mediaArrow").classList.remove('rotate-180');
+        document.getElementById("legalNav").classList.add('group');
+        document.getElementById("legalChild").classList.add('hidden');
+        document.getElementById("legalArrow").classList.remove('rotate-180');
+    }
+}
 
 // Sidebar dropdown
 function showHideDropdown(sel) {
@@ -124,14 +144,43 @@ function showHideDropdown(sel) {
     sel.children[1].classList.toggle('hidden');
 }
 
+// header dropdown
+function headerDropdown(e, sel) {
+    e.stopPropagation();
+    sel.classList.toggle('group');
+    sel.children[0].children[2].classList.toggle('rotate-180');
+    sel.children[1].classList.toggle('hidden');
+    if(document.getElementById("saleNav")){
+        if(sel.id == "quotationNav"){
+            document.getElementById("saleNav").classList.add('group');
+            document.getElementById("saleChild").classList.add('hidden');
+            document.getElementById("saleArrow").classList.remove('rotate-180');
+        }else if(sel.id == "saleNav"){
+            document.getElementById("quotationNav").classList.add('group');
+            document.getElementById("quotationChild").classList.add('hidden');
+            document.getElementById("quotationArrow").classList.remove('rotate-180');
+        }
+    } else if(document.getElementById("mediaNav")){
+        if(sel.id == "mediaNav"){
+            document.getElementById("legalNav").classList.add('group');
+            document.getElementById("legalChild").classList.add('hidden');
+            document.getElementById("legalArrow").classList.remove('rotate-180');
+        }else if(sel.id == "legalNav"){
+            document.getElementById("mediaNav").classList.add('group');
+            document.getElementById("mediaChild").classList.add('hidden');
+            document.getElementById("mediaArrow").classList.remove('rotate-180');
+        }
+    }
+}
+
 // Media OOH
-liMedia.addEventListener('click', function () {
-    showHideDropdown();
-});
+// liMedia.addEventListener('click', function () {
+//     showHideDropdown();
+// });
 // Marketing
-liMarketing.addEventListener('click', function () {
-    showHideDropdown();
-});
+// liMarketing.addEventListener('click', function () {
+//     showHideDropdown();
+// });
 
 function childMenu(e, sel) {
     e.stopPropagation();
@@ -141,16 +190,16 @@ function childMenu(e, sel) {
 }
 
 //Accounting
-liAccounting.addEventListener('click', function () {
-    showHideDropdown();
-});
+// liAccounting.addEventListener('click', function () {
+//     showHideDropdown();
+// });
 
 //Workshop
-liWorkshop.addEventListener('click', function () {
-    showHideDropdown();
-});
+// liWorkshop.addEventListener('click', function () {
+//     showHideDropdown();
+// });
 
 //User
-liUser.addEventListener('click', function () {
-    showHideDropdown();
-});
+// liUser.addEventListener('click', function () {
+//     showHideDropdown();
+// });

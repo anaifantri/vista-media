@@ -262,7 +262,7 @@
                 </table>
             </div>
             <div class="flex justify-center text-teal-900">
-                {!! $quotations->appends(Request::query())->render() !!}
+                {!! $quotations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>
     </div>

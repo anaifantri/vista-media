@@ -167,7 +167,8 @@
             </div>
         </div>
         <div class="flex justify-center text-teal-900">
-            {{ $users->links() }}
+            {{-- {{ $users->links() }} --}}
+            {!! $users->appends(Request::query())->render('dashboard.layouts.pagination') !!}
         </div>
     </div>
 @endsection

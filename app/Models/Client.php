@@ -21,7 +21,7 @@ class Client extends Model
                     }));
     }
 
-    public function contact(){
+    public function contacts(){
         return $this->hasMany(Contact::class, 'client_id', 'id');
     }
 
@@ -37,28 +37,18 @@ class Client extends Model
         return $this->hasMany(Quotation::class, 'client_id', 'id');
     }
 
-    public function billboard_quotations(){
-        return $this->hasMany(BillboardQuotation::class, 'client_id', 'id');
-    }
-
-    public function videotron_quotations(){
-        return $this->hasMany(VideotronQuotation::class, 'client_id', 'id');
-    }
-
-    public function signage_quotations(){
-        return $this->hasMany(SignageQuotation::class, 'client_id', 'id');
-    }
-
     public function sales(){
         return $this->hasMany(Sale::class, 'client_id', 'id');
     }
 
-    public function print_instal_quotations(){
-        return $this->hasMany(PrintInstalQuotation::class, 'client_id', 'id');
-    }
+    public static function boot(){
+        parent::boot();
 
-    public function print_install_sales(){
-        return $this->hasMany(PrintInstallSale::class, 'client_id', 'id');
+        static::deleting(function($client){
+            $client->contacts()->get()->each->delete();
+            $client->quotations()->get()->each->delete();
+            $client->sales()->get()->each->delete();
+        });
     }
 
     public $sortable = ['code','name','company'];

@@ -130,6 +130,7 @@ class AreaController extends Controller
     public function destroy(Area $area): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            
             Area::destroy($area->id);
 
             return redirect('/area')->with('success','Area dengan nama '. $area->area .' berhasil dihapus');

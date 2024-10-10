@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\BillboardPhoto;
-use App\Models\BillboardQuotation;
-use App\Models\Sale;
 use Kyslik\ColumnSortable\Sortable;
 
 class Company extends Model
@@ -39,12 +36,15 @@ class Company extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function print_install_sales(){
-        return $this->hasMany(PrintInstallSale::class, 'company_id', 'id');
-    }
+    public static function boot(){
+        parent::boot();
 
-    public function print_instal_quotations(){
-        return $this->hasMany(PrintInstalQuotation::class, 'company_id', 'id');
+        static::deleting(function($company){
+            $company->locations()->get()->each->delete();
+            $company->location_photos()->get()->each->delete();
+            $company->quotations()->get()->each->delete();
+            $company->sales()->get()->each->delete();
+        });
     }
 
     public $sortable = ['name','code'];

@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Carbon\Carbon;
 
 class QuotationController extends Controller
 {
@@ -157,7 +158,7 @@ class QuotationController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing' ){
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             // Set number --> start
-            $lastQuotation = Quotation::all()->last();
+            $lastQuotation = Quotation::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
             if($lastQuotation){
                 $lastNumber = (int)substr($lastQuotation->number,0,4);
                 $newNumber = $lastNumber + 1;

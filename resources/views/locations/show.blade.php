@@ -40,7 +40,7 @@
         }
 
         $bulan = [
-            'Januari',
+            1 => 'Januari',
             'Februari',
             'Maret',
             'April',
@@ -64,7 +64,7 @@
             <div class="flex w-[1140px] items-center border-b">
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]"> DETAIL LOKASI
                     {{ strtoupper($category) }}</h1>
-                <div class="flex justify-end">
+                <div class="flex w-full p-1 justify-end">
                     <a class="flex justify-center items-center ml-1 btn-primary" href="/locations/home/{{ $category }}">
                         <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24">

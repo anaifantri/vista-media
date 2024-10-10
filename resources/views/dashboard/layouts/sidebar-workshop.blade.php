@@ -21,7 +21,7 @@
         <!-- Workshop Child Start -->
         <ul id="workshopChild" name="workshopChild" class="hidden">
             <li id="monitoring" name="monitoring" class="group" onclick="childMenu(event,this)">
-                <a class="nav-a ml-2 border-t-[1px]" href="#">
+                <a class="nav-a ml-2 border-b-[1px]" href="#">
                     <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path
                             d="M7 10h-4.083l1.271-1.396.812.396.676-.862 1.324 1.862zm.88 3h-7.88v-8h9.204c.739 1.612 2.024 1.696 3.796 2.509v4.648c-1.638-.182-3.985-.26-5.12.843zm.12-6h-6v4h6v-4zm9.17-1.833c-.806-1.165-5.031-1.924-6.742-2.167-.169.727.111 1.643.859 2.076.729.422 2.847 1.078 3.473 1.702.812.808 2.026 4.668.028 7.282-2.076-.589-4.24-.527-5.415-.048-1.153.47-1.013 1.908.189 2.045 3.42.39 7.587 1.161 10.322 4.943 0 0 1.821-1.885 4.115-4.426-3.668-3.053-4.198-7.606-6.829-11.407zm-13.92 2.833c-.138 0-.25.112-.25.25s.112.25.25.25c.139 0 .25-.112.25-.25s-.111-.25-.25-.25z" />
@@ -37,7 +37,7 @@
                 </a>
                 <ul id="monitoringChild" name="monitoringChild" class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-t-[1px]" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path d="M10 9h-6l8-9 8 9h-6v11h-4v-11zm11 11v2h-18v-2h-2v4h22v-4h-2z" />
@@ -77,7 +77,7 @@
                 </a>
                 <ul id="gambarChild" name="gambarChild" class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-t-[1px]" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path d="M10 9h-6l8-9 8 9h-6v11h-4v-11zm11 11v2h-18v-2h-2v4h22v-4h-2z" />

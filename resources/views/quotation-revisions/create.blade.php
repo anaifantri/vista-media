@@ -365,5 +365,7 @@
 
     <!-- Quotation Revision end -->
     <script src="/js/createquotrevision.js"></script>
-    <script src="/js/servicerevisiontable.js"></script>
+    @if ($category == 'Service')
+        <script src="/js/servicerevisiontable.js"></script>
+    @endif
 @endsection

@@ -25,5 +25,13 @@ class ClientCategory extends Model
         return $this->belongsTo(User::class);
     }
 
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function($company){
+            $company->clients()->get()->each->delete();
+        });
+    }
+
     public $sortable = ['name', 'code'];
 }

@@ -141,7 +141,8 @@
             </div>
         </div>
         <div class="flex justify-center text-teal-900">
-            {{ $leds->links() }}
+            {{-- {{ $leds->links() }} --}}
+            {!! $leds->appends(Request::query())->render('dashboard.layouts.pagination') !!}
         </div>
     </div>
 @endsection

@@ -25,16 +25,6 @@ class City extends Model
     public function locations(){
         return $this->hasMany(Location::class, 'city_id', 'id');
     }
-    public function billboards(){
-        return $this->hasMany(Billboard::class, 'city_id', 'id');
-    }
-
-    public function videotrons(){
-        return $this->hasMany(Videotron::class, 'city_id', 'id');
-    }
-    public function signages(){
-        return $this->hasMany(Signage::class, 'city_id', 'id');
-    }
 
     public function area(){
         return $this->belongsTo(Area::class);
@@ -42,6 +32,14 @@ class City extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function($city){
+            $city->locations()->get()->each->delete();
+        });
     }
 
     public $sortable = ['city'];

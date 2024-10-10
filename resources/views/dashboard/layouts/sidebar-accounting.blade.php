@@ -22,7 +22,7 @@
         <ul id="accountingChild" name="accountingChild" class="hidden">
             <!-- Penagihan Start -->
             <li id="penagihan" name="penagihan" class="group" onclick="childMenu(event,this)">
-                <a class="nav-a ml-2 border-t-[1px]" href="#">
+                <a class="nav-a ml-2 border-b-[1px]" href="#">
                     <svg class="child-nav-svg" role="img" fill="#000000" viewBox="0 0 32 32"
                         xmlns="http://www.w3.org/2000/svg">
                         <g data-name="18. Bill" id="_18._Bill">
@@ -47,7 +47,7 @@
                 <ul id="penagihanChild" name="penagihanChild" class="hidden">
                     <!-- Invoice Start -->
                     <li class="group">
-                        <a class="nav-a ml-5 border-t-[1px]" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path
@@ -58,7 +58,7 @@
                     <!-- Invoice End -->
                     <!-- Kwitansi Start -->
                     <li class="group">
-                        <a class="nav-a ml-5" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path
@@ -90,7 +90,7 @@
             <!-- Penagihan End -->
             <!-- Faktur PPn start -->
             <li id="ppn" name="ppn" class="group" onclick="childMenu(event,this)">
-                <a class="nav-a ml-2" href="#">
+                <a class="nav-a ml-2 border-b-[1px]" href="#">
                     <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"fill-rule="evenodd" clip-rule="evenodd">
                         <path
@@ -107,7 +107,7 @@
                 <!-- Child Faktur PPn start -->
                 <ul id="ppnChild" name="ppnChild" class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-t-[1px]" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path d="M10 9h-6l8-9 8 9h-6v11h-4v-11zm11 11v2h-18v-2h-2v4h22v-4h-2z" />
@@ -116,7 +116,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path
@@ -161,7 +161,7 @@
                 <!-- Child Faktur PPh start -->
                 <ul id="pphChild" name="pphChild" class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-t-[1px]" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path d="M10 9h-6l8-9 8 9h-6v11h-4v-11zm11 11v2h-18v-2h-2v4h22v-4h-2z" />
@@ -170,7 +170,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path

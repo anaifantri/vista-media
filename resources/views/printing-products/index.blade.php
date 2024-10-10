@@ -143,7 +143,8 @@
             </div>
         </div>
         <div class="flex justify-center text-teal-900">
-            {{ $printing_products->links() }}
+            {{-- {{ $printing_products->links() }} --}}
+            {!! $printing_products->appends(Request::query())->render('dashboard.layouts.pagination') !!}
         </div>
     </div>
     <!-- View Printing Prices end -->

@@ -23,7 +23,7 @@
         <ul class="hidden" id="mediaChild" name="mediaChild">
             <!-- Data Lokasi Start -->
             <li class="group" onclick="childMenu(event,this)">
-                <a class="nav-a ml-2" href="#">
+                <a class="nav-a ml-2 border-b-[1px]" href="#">
                     <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path
                             d="M12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm10.881-2.501c0-1.492-.739-2.83-1.902-3.748l.741-.752c1.395 1.101 2.28 2.706 2.28 4.5s-.885 3.4-2.28 4.501l-.741-.753c1.163-.917 1.902-2.256 1.902-3.748zm-3.381 2.249l.74.751c.931-.733 1.521-1.804 1.521-3 0-1.195-.59-2.267-1.521-3l-.74.751c.697.551 1.141 1.354 1.141 2.249s-.444 1.699-1.141 2.249zm-16.479 1.499l-.741.753c-1.395-1.101-2.28-2.707-2.28-4.501s.885-3.399 2.28-4.5l.741.752c-1.163.918-1.902 2.256-1.902 3.748s.739 2.831 1.902 3.748zm.338-3.748c0-.896.443-1.698 1.141-2.249l-.74-.751c-.931.733-1.521 1.805-1.521 3 0 1.196.59 2.267 1.521 3l.74-.751c-.697-.55-1.141-1.353-1.141-2.249zm16.641 14.501c0 2.209-3.581 4-8 4s-8-1.791-8-4c0-1.602 1.888-2.98 4.608-3.619l1.154 1.824c-.401.068-.806.135-1.178.242-3.312.949-3.453 2.109-.021 3.102 2.088.603 4.777.605 6.874-.001 3.619-1.047 3.164-2.275-.268-3.167-.296-.077-.621-.118-.936-.171l1.156-1.828c2.723.638 4.611 2.016 4.611 3.618z" />
@@ -40,7 +40,7 @@
                 <!-- Child Data Lokasi Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5" href="/locations/home/All">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/locations/home/All">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -51,17 +51,19 @@
                         </a>
                     </li>
                     @foreach ($categories as $category)
-                        <li class="group">
-                            <a class="nav-a ml-5" href="/locations/home/{{ $category->name }}">
-                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                </svg>
-                                <span class="flex w-40"> {{ $category->name }} </span>
-                            </a>
-                        </li>
+                        @if ($category->name != 'Service')
+                            <li class="group">
+                                <a class="nav-a ml-5 border-b-[1px]" href="/locations/home/{{ $category->name }}">
+                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                    </svg>
+                                    <span class="flex w-40"> {{ $category->name }} </span>
+                                </a>
+                            </li>
+                        @endif
                     @endforeach
                 </ul>
                 <!-- Child Data Lokasi End -->
@@ -70,7 +72,7 @@
 
             <!-- Area Start -->
             <li class="group" onclick="childMenu(event,this)">
-                <a class="nav-a ml-2" href="#">
+                <a class="nav-a ml-2 border-b-[1px]" href="#">
                     <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path
                             d="M18.305 20.418c-.992.615-2.16.97-3.411.97-3.588 0-6.5-2.919-6.5-6.514s2.912-6.513 6.5-6.513c3.587 0 6.5 2.918 6.5 6.513 0 1.254-.354 2.425-.967 3.419l3.573 3.58-2.121 2.126-3.574-3.581zm-8.904-.436c-3.216-.19-6.025-1.903-7.716-4.427l4.349-2.511c.38.493.849.914 1.383 1.237-.015.197-.023.396-.023.596 0 1.972.762 3.766 2.007 5.105zm5.493-9.592c2.484 0 4.5 2.02 4.5 4.509 0 2.489-2.016 4.509-4.5 4.509s-4.5-2.02-4.5-4.509c0-2.489 2.016-4.509 4.5-4.509zm-1.5 6.989h-1v-2.004h1v2.004zm2 0h-1v-3.006h1v3.006zm2 0h-1v-4.96h1v4.96zm-7.894-17.367v5.013c-2.525.251-4.5 2.384-4.5 4.975 0 .787.182 1.531.507 2.194l-4.336 2.503c-.747-1.401-1.171-3-1.171-4.697 0-5.351 4.213-9.727 9.5-9.988zm4.772 7.391c-.796-1.306-2.174-2.219-3.772-2.378v-5.013c5.077.251 9.164 4.296 9.48 9.356-1.337-1.236-3.124-1.991-5.086-1.991-.209 0-.417.009-.622.026z" />
@@ -87,7 +89,7 @@
                 <!-- Child Area Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5" href="/area">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/area">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +100,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="/cities">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/cities">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +117,7 @@
 
             <!-- Media Legality Start -->
             <li class="group" onclick="childMenu(event,this)">
-                <a class="nav-a ml-2" href="#">
+                <a class="nav-a ml-2 border-b-[1px]" href="#">
                     <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
                         <path
@@ -133,7 +135,7 @@
                 <!-- Child Media Legality Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -144,7 +146,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -155,7 +157,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="#">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -172,7 +174,7 @@
 
             <!-- Setting Start -->
             <li class="group" onclick="childMenu(event,this)">
-                <a class="nav-a ml-2" href="#">
+                <a class="nav-a ml-2 border-b-[1px]" href="#">
                     <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
                         <path
@@ -190,7 +192,7 @@
                 <!-- Child Setting Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5" href="/companies">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/companies">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -201,7 +203,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="/media-categories">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media-categories">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -212,7 +214,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="/media-sizes">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media-sizes">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -223,7 +225,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="/leds">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/leds">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">

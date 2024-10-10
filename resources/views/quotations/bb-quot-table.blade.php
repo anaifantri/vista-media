@@ -15,9 +15,9 @@
                 </th>
             </tr>
             <tr>
-                <th class="text-[0.7rem] text-teal-700 border w-14">Jenis</th>
                 <th class="text-[0.7rem] text-teal-700 border w-10">BL/FL</th>
-                <th class="text-[0.7rem] text-teal-700 border w-28">Size - V/H</th>
+                <th class="text-[0.7rem] text-teal-700 border w-8">Side</th>
+                <th class="text-[0.7rem] text-teal-700 border w-20">Size - V/H</th>
                 <th class="border w-[64px]">
                     <div class="flex w-[64px] justify-center items-center">
                         <input id="cbBillboardTitle" name="cbBillboardTitle0" type="checkbox"
@@ -68,8 +68,6 @@
                         {{ $location->code }}-{{ $location->city->code }}</td>
                     <td class="text-[0.7rem] text-teal-700 border px-1">{{ $location->address }}</td>
                     <td class="text-[0.7rem] text-teal-700 border text-center">
-                        {{ $location->media_category->name }}</td>
-                    <td class="text-[0.7rem] text-teal-700 border text-center">
                         @if ($description->lighting == 'Backlight')
                             BL
                         @elseif ($description->lighting == 'Frontlight')
@@ -77,7 +75,10 @@
                         @endif
                     </td>
                     <td class="text-[0.7rem] text-teal-700 border text-center">
-                        {{ $location->media_size->size }} x {{ $location->side }} -
+                        {{ (int) filter_var($location->side, FILTER_SANITIZE_NUMBER_INT) }}
+                    </td>
+                    <td class="text-[0.7rem] text-teal-700 border text-center">
+                        {{ $location->media_size->size }} -
                         @if ($location->orientation == 'Vertikal')
                             V
                         @elseif ($location->orientation == 'Horizontal')

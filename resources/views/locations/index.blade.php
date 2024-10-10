@@ -1,8 +1,8 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="xl:flex xl:justify-center">
-        <div class="mt-10 z-0 mb-8">
+    <div class="flex justify-center p-10">
+        <div class="z-0 mb-8">
             <div class="flex p-1 w-full border-b">
                 @if ($category == 'All')
                     <h1 class="index-h1">Daftar Lokasi Media</h1>
@@ -267,21 +267,47 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            <form action="/locations/{{ $location->id }}" method="post" class="hidden">
-                                                @method('delete')
-                                                @csrf
-                                                <button
-                                                    class="index-link text-white w-7 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
-                                                    onclick="return confirm('Apakah anda yakin ingin menghapus {{ $location->media_category->name }} dengan kode {{ $location->code }} ?')">
-                                                    <svg class="fill-current w-[18px]" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                                            fill-rule="nonzero" />
-                                                    </svg>
-                                                </button>
-                                            </form>
+                                            @can('isAdmin')
+                                                <form action="/locations/{{ $location->id }}" method="post"
+                                                    class="d-inline m-1">
+                                                    @method('delete')
+                                                    @csrf
+                                                    @if ($location->location_photos()->exists() && $location->sales()->exists())
+                                                        <button
+                                                            class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                                            onclick="return confirm('Berelasi dengan {{ count($location->location_photos) }} data pada tabel data foto lokasi dan {{ count($location->sales) }} data pada tabel data penjualan, apakah anda yakin ingin menghapus lokasi dengan kode {{ $location->code }} sekaligus menghapus data-data yang berelasi?')">
+                                                            <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                                width="24" height="24" viewBox="0 0 24 24">
+                                                                <title>DELETE</title>
+                                                                <path
+                                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                            </svg>
+                                                        </button>
+                                                    @elseif ($location->location_photos()->exists())
+                                                        <button
+                                                            class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                                            onclick="return confirm('Berelasi dengan {{ count($location->location_photos) }} data pada tabel data foto lokasi, apakah anda yakin ingin menghapus lokasi dengan kode {{ $location->code }} sekaligus menghapus data-data yang berelasi?')">
+                                                            <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                                width="24" height="24" viewBox="0 0 24 24">
+                                                                <title>DELETE</title>
+                                                                <path
+                                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                            </svg>
+                                                        </button>
+                                                    @else
+                                                        <button
+                                                            class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                                            onclick="return confirm('Apakah anda yakin ingin menghapus lokasi dengan kode {{ $location->code }} ?')">
+                                                            <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                                width="24" height="24" viewBox="0 0 24 24">
+                                                                <title>DELETE</title>
+                                                                <path
+                                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                            </svg>
+                                                        </button>
+                                                    @endif
+                                                </form>
+                                            @endcan
                                         @endcanany
                                     </div>
                                 </td>
@@ -290,8 +316,8 @@
                     </tbody>
                 </table>
             </div>
-            <div class="flex justify-center text-teal-900">
-                {!! $locations->appends(Request::query())->render() !!}
+            <div class="flex justify-center text-teal-900 mt-2">
+                {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>
     </div>

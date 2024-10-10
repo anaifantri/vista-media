@@ -41,5 +41,17 @@ class MediaCategory extends Model
         return $this->belongsTo(User::class);
     }
 
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function($media_category){
+            $media_category->locations()->get()->each->delete();
+            $media_category->location_photos()->get()->each->delete();
+            $media_category->quotations()->get()->each->delete();
+            $media_category->sales()->get()->each->delete();
+            $media_category->media_sizess()->get()->each->delete();
+        });
+    }
+
     public $sortable = ['name', 'code'];
 }

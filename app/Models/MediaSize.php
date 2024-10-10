@@ -28,5 +28,13 @@ class MediaSize extends Model
         return $this->hasMany(Location::class, 'media_size_id', 'id');
     }
 
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function($media_size){
+            $media_size->locations()->get()->each->delete();
+        });
+    }
+
     public $sortable = ['code', 'size'];
 }
