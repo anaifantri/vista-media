@@ -200,18 +200,18 @@ showModalUpdate = (sel) => {
 
 deletePhoto = (sel) => {
     if(confirm("Anda yakin ingin menghapus foto?")) {
-        document.getElementById("formDelete").action = "/location-photos/"+ sel.id;
+        document.getElementById("formDelete").action = "/media/location-photos/"+ sel.id;
         document.getElementById("formDelete").submit();
     }
 }
 
 updateDefault = (sel) => {
-    document.getElementById("formDefault").action = "/location-photos/"+ sel.id;
+    document.getElementById("formDefault").action = "/media/location-photos/"+ sel.id;
     document.getElementById("formDefault").submit();
 }
 
 actionSubmit = (sel) => {
-    document.getElementById("formUpdate").action = "/location-photos/"+ sel.name;
+    document.getElementById("formUpdate").action = "/media/location-photos/"+ sel.name;
     document.getElementById("formUpdate").submit();
 };
 

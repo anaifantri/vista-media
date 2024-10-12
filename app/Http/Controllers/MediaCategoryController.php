@@ -69,7 +69,7 @@ class MediaCategoryController extends Controller
             
             MediaCategory::create($validateData);
     
-            return redirect('/media-categories')->with('success','Katagori media dengan nama '. $request->name . ' berhasil ditambahkan');
+            return redirect('/media/media-categories')->with('success','Katagori media dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -124,7 +124,7 @@ class MediaCategoryController extends Controller
             MediaCategory::where('id', $mediaCategory->id)
                 ->update($validateData);
         
-            return redirect('/media-categories')->with('success','Katagori media dengan nama '. $mediaCategory->name . ' berhasil diupdate');
+            return redirect('/media/media-categories')->with('success','Katagori media dengan nama '. $mediaCategory->name . ' berhasil diupdate');
         } else {
             abort(403);
         }
@@ -138,7 +138,7 @@ class MediaCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             MediaCategory::destroy($mediaCategory->id);
 
-            return redirect('/media-categories')->with('success','Katagori media dengan nama '. $mediaCategory->name .' berhasil dihapus');
+            return redirect('/media/media-categories')->with('success','Katagori media dengan nama '. $mediaCategory->name .' berhasil dihapus');
         } else {
             abort(403);
         }

@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/client-categories" enctype="multipart/form-data">
+    <form method="post" action="/marketing/client-categories" enctype="multipart/form-data">
         @csrf
         <div class="flex justify-center mt-10">
             <div class="p-4 w-[350px] h-[500px] border rounded-lg">
@@ -47,7 +47,7 @@
                                 </svg>
                                 <span class="mx-2"> Save </span>
                             </button>
-                            <a href="/client-categories" class="flex items-center justify-center btn-danger mx-1">
+                            <a href="/marketing/client-categories" class="flex items-center justify-center btn-danger mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">

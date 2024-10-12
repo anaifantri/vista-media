@@ -7,7 +7,7 @@
                 <div class="flex border-b">
                     <h1 class="index-h1"> Daftar Produk LED</h1>
                     <div class="flex">
-                        <a href="/leds/create" class="index-link btn-primary">
+                        <a href="/media/leds/create" class="index-link btn-primary">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -18,7 +18,7 @@
                         </a>
                     </div>
                 </div>
-                <form class="flex mt-2" action="/leds/">
+                <form class="flex mt-2" action="/media/leds/">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
@@ -97,7 +97,7 @@
                                 <td class="text-teal-700 border text-sm text-center">{{ $led->refresh_rate }}</td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/leds/{{ $led->id }}"
+                                        <a href="/media/leds/{{ $led->id }}"
                                             class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -107,7 +107,7 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        <a href="/leds/{{ $led->id }}/edit"
+                                        <a href="/media/leds/{{ $led->id }}/edit"
                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -117,7 +117,8 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        <form action="/leds/{{ $led->id }}" method="post" class="d-inline my-1">
+                                        <form action="/media/leds/{{ $led->id }}" method="post"
+                                            class="d-inline my-1">
                                             @method('delete')
                                             @csrf
                                             <button

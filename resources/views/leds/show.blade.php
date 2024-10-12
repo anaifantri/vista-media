@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/leds" enctype="multipart/form-data">
+    <form method="post" action="/media/leds" enctype="multipart/form-data">
         @csrf
         <div class="mt-10">
             <!-- Show Title start -->
@@ -10,7 +10,7 @@
                     <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[650px]">DATA LED
                         {{ strtoupper($led->name) }} </h1>
                     <div class="flex w-full justify-end items-center p-1">
-                        <a href="/leds" class="flex items-center justify-center btn-primary mx-1">
+                        <a href="/media/leds" class="flex items-center justify-center btn-primary mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -19,7 +19,8 @@
                             </svg>
                             <span class="mx-1"> Back </span>
                         </a>
-                        <a href="/leds/{{ $led->id }}/edit" class="flex items-center justify-center btn-warning mx-1">
+                        <a href="/media/leds/{{ $led->id }}/edit"
+                            class="flex items-center justify-center btn-warning mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -28,7 +29,7 @@
                             </svg>
                             <span class="mx-1"> Edit </span>
                         </a>
-                        <form action="/leds/{{ $led->id }}" method="post" class="d-inline">
+                        <form action="/media/leds/{{ $led->id }}" method="post" class="d-inline">
                             @method('delete')
                             @csrf
                             <button class="flex items-center justify-center btn-danger mx-1"

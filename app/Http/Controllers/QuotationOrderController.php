@@ -66,7 +66,7 @@ class QuotationOrderController extends Controller
                 }
             }
 
-            return redirect('/quotation-orders/show-orders/'.$request->quotation_id)->with('success', count($request->document_order).' Dokumen PO/SPK berhasil ditambahkan');
+            return redirect('/marketing/quotation-orders/show-orders/'.$request->quotation_id)->with('success', count($request->document_order).' Dokumen PO/SPK berhasil ditambahkan');
         } else {
             abort(403);
         }

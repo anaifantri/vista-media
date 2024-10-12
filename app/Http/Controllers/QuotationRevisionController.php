@@ -97,7 +97,7 @@ class QuotationRevisionController extends Controller
             
             QuotRevisionStatus::create($validateData);
                 
-            return redirect('/quotation-revisions/preview/'.$request->category.'/'.$dataQuotation->id)->with('success', 'Revisi penawaran dengan nomor '. $validateData['number'] . ' berhasil dibuat');
+            return redirect('/marketing/quotation-revisions/preview/'.$request->category.'/'.$dataQuotation->id)->with('success', 'Revisi penawaran dengan nomor '. $validateData['number'] . ' berhasil dibuat');
         } else {
             abort(403);
         }

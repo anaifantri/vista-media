@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('quotations', function (Blueprint $table) {
-            $table->dropForeign(['location_id']);
-            $table->dropColumn('location_id');
+        Schema::create('land_documents', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('land_agreement_id')->constrained();
+            $table->string('image');
+            $table->timestamps();
         });
     }
 
@@ -22,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('quotations', function (Blueprint $table) {
-            // $table->foreignId('location_id')->constrained();
-        });
+        Schema::dropIfExists('land_documents');
     }
 };

@@ -1,5 +1,5 @@
 <!-- Create Sales preview start -->
-<form action="/sales" method="post" enctype="multipart/form-data">
+<form action="/marketing/sales" method="post" enctype="multipart/form-data">
     @csrf
     <div id="modalPreview" class="absolute justify-center top-0 w-full h-[full] bg-black bg-opacity-90 z-20 p-10 hidden">
         <div class="flex w-full justify-center">

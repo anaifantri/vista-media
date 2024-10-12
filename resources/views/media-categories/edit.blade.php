@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/media-categories/{{ $media_category->id }}" enctype="multipart/form-data">
+    <form method="post" action="/media/media-categories/{{ $media_category->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
         <div class="flex justify-center mt-10">
@@ -86,7 +86,7 @@
                             </svg>
                             <span class="mx-2"> Update </span>
                         </button>
-                        <a href="/media-categories" class="flex items-center justify-center btn-danger mx-1">
+                        <a href="/media/media-categories" class="flex items-center justify-center btn-danger mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path

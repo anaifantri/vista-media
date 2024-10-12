@@ -66,5 +66,13 @@ class Sale extends Model
         return $this->belongsTo(MediaCategory::class);
     }
 
+    public function install_order(){
+        return $this->hasOne(InstallOrder::class, 'sale_id', 'id');
+    }
+
+    public function print_order(){
+        return $this->hasOne(PrintOrder::class, 'sale_id', 'id');
+    }
+
     public $sortable = ['number'];
 }

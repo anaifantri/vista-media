@@ -48,7 +48,7 @@
             </svg>
             <span class="ml-2 text-white">Save PDF</span>
         </button>
-        <a class="flex justify-center items-center ml-1 btn-danger" href="/locations/home/{{ $category }}">
+        <a class="flex justify-center items-center ml-1 btn-danger" href="/media/locations/home/{{ $category }}">
             <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24">
                 <path

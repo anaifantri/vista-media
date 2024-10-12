@@ -71,7 +71,7 @@
                             </h6>
                         </div>
                         <div class="flex mt-1">
-                            <a href="/vendors" class="flex items-center justify-center btn-primary mx-1">
+                            <a href="/marketing/vendors" class="flex items-center justify-center btn-primary mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +81,7 @@
                                 </svg>
                                 <span class="mx-1"> Back </span>
                             </a>
-                            <a href="/vendors/{{ $vendor->id }}/edit"
+                            <a href="/marketing/vendors/{{ $vendor->id }}/edit"
                                 class="flex items-center justify-center btn-warning mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -92,7 +92,7 @@
                                 </svg>
                                 <span class="mx-1"> Edit </span>
                             </a>
-                            <form action="/vendors/{{ $vendor->id }}" method="post" class="d-inline">
+                            <form action="/marketing/vendors/{{ $vendor->id }}" method="post" class="d-inline">
                                 @method('delete')
                                 @csrf
                                 @if ($vendor->vendor_contacts()->exists() || $vendor->leds()->exists() || $vendor->printing_prices()->exists())

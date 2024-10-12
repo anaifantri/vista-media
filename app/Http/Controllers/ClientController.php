@@ -102,7 +102,7 @@ class ClientController extends Controller
         
         Client::create($validateData);
         
-        return redirect('/clients')->with('success','Data klien baru dengan nama '. $request->name . ' berhasil ditambahkan');
+        return redirect('/marketing/clients')->with('success','Data klien baru dengan nama '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -183,7 +183,7 @@ class ClientController extends Controller
         Client::where('id', $client->id)
                 ->update($validateData);
 
-        return redirect('/clients/')->with('success','Klien '. $request->name . ' berhasil di update');
+        return redirect('/marketing/clients/')->with('success','Klien '. $request->name . ' berhasil di update');
     }
 
     /**
@@ -197,6 +197,6 @@ class ClientController extends Controller
 
         Client::destroy($client->id);
 
-        return redirect('/clients')->with('success','Klien ' . $client->name . ' berhasil dihapus');
+        return redirect('/marketing/clients')->with('success','Klien ' . $client->name . ' berhasil dihapus');
     }
 }

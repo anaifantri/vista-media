@@ -300,7 +300,7 @@ class SaleController extends Controller
                 }
             }
                 
-            return redirect('/sales/preview/'.$request->category.'/'.$validateData['quotation_id'])->with('success', 'Data penjualan berhasil ditambahkan');
+            return redirect('/marketing/sales/preview/'.$request->category.'/'.$validateData['quotation_id'])->with('success', 'Data penjualan berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -374,7 +374,7 @@ class SaleController extends Controller
     {
         if($request->start_at && $request->end_at){
             if($request->start_at > $request->end_at){
-                return redirect('/sales/home/'.$request->category)->with('failed','Awal > Akhir')->with('id', $request->sales_id);
+                return redirect('/marketing/sales/home/'.$request->category)->with('failed','Awal > Akhir')->with('id', $request->sales_id);
             }else{
                 $validateData['start_at'] = $request->start_at;
                 $validateData['end_at'] = $request->end_at;
@@ -383,9 +383,9 @@ class SaleController extends Controller
                     ->update($validateData);
             }
             
-            return redirect('/sales/home/'.$request->category)->with('success','Tanggal kontrak berhasil diupdate')->with('id', $request->sales_id);
+            return redirect('/marketing/sales/home/'.$request->category)->with('success','Tanggal kontrak berhasil diupdate')->with('id', $request->sales_id);
         }else{
-            return redirect('/sales/home/'.$request->category)->with('failed','Tanggal belum diinput')->with('id', $request->sales_id);
+            return redirect('/marketing/sales/home/'.$request->category)->with('failed','Tanggal belum diinput')->with('id', $request->sales_id);
         }
     }
 

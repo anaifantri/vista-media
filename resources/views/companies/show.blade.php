@@ -13,7 +13,7 @@
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[800px]">DATA PERUSAHAAN
                     {{ strtoupper($company->name) }} </h1>
                 <div class="flex w-full justify-end items-center">
-                    <a href="/companies" class="flex items-center justify-center btn-primary mx-1">
+                    <a href="/media/companies" class="flex items-center justify-center btn-primary mx-1">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -23,7 +23,8 @@
                         <span class="mx-1"> Back</span>
                     </a>
                     @can('isAdmin')
-                        <a href="/companies/{{ $company->id }}/edit" class="flex items-center justify-center btn-warning mx-1">
+                        <a href="/media/companies/{{ $company->id }}/edit"
+                            class="flex items-center justify-center btn-warning mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -32,7 +33,7 @@
                             </svg>
                             <span class="mx-1"> Edit </span>
                         </a>
-                        <form action="/companies/{{ $company->id }}" method="post" class="d-inline mt-4">
+                        <form action="/media/companies/{{ $company->id }}" method="post" class="d-inline mt-4">
                             @method('delete')
                             @csrf
                             @if (

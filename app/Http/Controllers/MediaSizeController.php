@@ -93,7 +93,7 @@ class MediaSizeController extends Controller
 
             MediaSize::create($validateData);
     
-            return redirect('/media-sizes')->with('success','Ukuran '. $request->size . ' berhasil ditambahkan');
+            return redirect('/media/media-sizes')->with('success','Ukuran '. $request->size . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -161,7 +161,7 @@ class MediaSizeController extends Controller
             MediaSize::where('id', $mediaSize->id)
                 ->update($validateData);
     
-            return redirect('media-sizes')->with('success','Ukuran '. $mediaSize->size . ' berhasil diupdate');
+            return redirect('/media/media-sizes')->with('success','Ukuran '. $mediaSize->size . ' berhasil diupdate');
         } else {
             abort(403);
         }

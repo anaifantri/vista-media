@@ -12,7 +12,7 @@
                     <!-- Button Create start -->
                     @canany(['isAdmin', 'isMedia'])
                         <div class="flex">
-                            <a href="/vendor-categories/create" class="index-link btn-primary">
+                            <a href="/marketing/vendor-categories/create" class="index-link btn-primary">
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -25,7 +25,7 @@
                     @endcanany
                 </div>
                 <!-- Button Create end -->
-                <form class="mt-2" action="/vendor-categories/">
+                <form class="mt-2" action="/marketing/vendor-categories/">
                     <!-- Form search start -->
                     <div class="flex">
                         <input id="search" name="search"
@@ -94,7 +94,7 @@
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/vendor-categories/{{ $vendor_category->id }}"
+                                        <a href="/marketing/vendor-categories/{{ $vendor_category->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
                                             <svg class="w-5 fill-current" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -105,7 +105,7 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        <a href="/vendor-categories/{{ $vendor_category->id }}/edit"
+                                        <a href="/marketing/vendor-categories/{{ $vendor_category->id }}/edit"
                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -116,8 +116,8 @@
                                             </svg>
                                         </a>
                                         @can('isAdmin')
-                                            <form action="/vendor-categories/{{ $vendor_category->id }}" method="post"
-                                                class="d-inline my-1">
+                                            <form action="/marketing/vendor-categories/{{ $vendor_category->id }}"
+                                                method="post" class="d-inline my-1">
                                                 @method('delete')
                                                 @csrf
                                                 @if ($vendor_category->vendors()->exists())

@@ -1,6 +1,6 @@
 <div class="div-nav-a">
-    <a class="nav-a" href="/dashboard/media/billboards">
-        <svg class="nav-svg transition duration-300 ease-in-out {{ Request::is('dashboard/media*') ? 'active' : '' }}"
+    <a class="nav-a" href="/media">
+        <svg class="nav-svg transition duration-300 ease-in-out {{ Request::is('media*') ? 'active' : '' }}"
             role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>DATA MEDIA</title>
             <path
@@ -9,7 +9,7 @@
     </a>
 
     <li class="group hidden" id="liMedia" name="liMedia" onclick="showHideDropdown(this)">
-        <a href="#" class="nav-a mx-2 {{ Request::is('dashboard/media*') ? 'active' : '' }}">
+        <a href="#" class="nav-a mx-2 {{ Request::is('media*') ? 'active' : '' }}">
             <span class="flex w-40"> DATA MEDIA </span>
             <svg id="mediaArrow" name="mediaArrow" class="svg-arrow rotate-180 transition duration-300 ease-in-out"
                 role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@
                 <!-- Child Data Lokasi Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/locations/home/All">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/locations/home/All">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +53,7 @@
                     @foreach ($categories as $category)
                         @if ($category->name != 'Service')
                             <li class="group">
-                                <a class="nav-a ml-5 border-b-[1px]" href="/locations/home/{{ $category->name }}">
+                                <a class="nav-a ml-5 border-b-[1px]" href="/media/locations/home/{{ $category->name }}">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +89,7 @@
                 <!-- Child Area Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/area">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/area">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +100,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/cities">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/cities">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -135,7 +135,7 @@
                 <!-- Child Media Legality Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/licensing-categories">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -146,7 +146,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/lisences">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -157,7 +157,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="#">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/land-agreements">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -192,7 +192,7 @@
                 <!-- Child Setting Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/companies">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/companies">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -203,7 +203,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/media-categories">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/media-categories">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -214,7 +214,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/media-sizes">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/media-sizes">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -225,7 +225,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/leds">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/media/leds">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">

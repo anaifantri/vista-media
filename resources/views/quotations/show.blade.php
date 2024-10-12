@@ -89,7 +89,7 @@
                                         <div class="overflow-y-auto h-16">
                                             @foreach ($quotation->quotation_revisions as $quotation_revision)
                                                 <a class="flex"
-                                                    href="/quotation-revisions/{{ $quotation_revision->id }}">
+                                                    href="/marketing/quotation-revisions/{{ $quotation_revision->id }}">
                                                     <span
                                                         class="text-teal-900 hover:text-emerald-500 text-sm">{{ $loop->iteration }}.
                                                         {{ $quotation_revision->number }}</span>
@@ -114,7 +114,8 @@
                                 <label class="flex justify-center w-80">{{ session('success') }}</label>
                             </div>
                         @endif
-                        <form class="" action="/quotation-statuses" method="post" enctype="multipart/form-data">
+                        <form class="" action="/marketing/quotation-statuses" method="post"
+                            enctype="multipart/form-data">
                             @csrf
 
                             <?php
@@ -230,7 +231,7 @@
                         </form>
                         <div class="flex justify-start mt-2">
                             <a class="flex justify-center items-center ml-1 btn-success"
-                                href="/quotations/home/{{ $quotation->media_category->name }}">
+                                href="/marketing/quotations/home/{{ $quotation->media_category->name }}">
                                 <svg class="fill-current w-4 ml-1" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -251,7 +252,7 @@
                             </button>
                             @if ($quotStatus == 'Deal' || $quotStatus == 'Closed')
                                 <a class="hidden justify-center items-center ml-1 btn-warning"
-                                    href="/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
+                                    href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
                                     <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -263,7 +264,7 @@
                                 </a>
                             @else
                                 <a class="flex justify-center items-center ml-1 btn-warning"
-                                    href="/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
+                                    href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
                                     <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -664,7 +665,7 @@
                                                                 class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                             </span>
                                                             <span class="w-[100px] flex mt-[40px] ml-2">
-                                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/quotations/preview/' . $quotation->media_category->name . '/' . $product->id) }}
+                                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/marketing/quotations/preview/' . $quotation->media_category->name . '/' . $product->id) }}
                                                             </span>
                                                         </div>
                                                         <span

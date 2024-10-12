@@ -94,6 +94,13 @@ class Location extends Model
         return $this->hasMany(Sale::class, 'location_id', 'id');
     }
 
+    public function land_agreements(){
+        return $this->hasMany(LandAgreement::class, 'location_id', 'id');
+    }
+    public function licenses(){
+        return $this->hasMany(License::class, 'location_id', 'id');
+    }
+
     public static function boot(){
         parent::boot();
 

@@ -245,7 +245,7 @@ class LocationController extends Controller
 
             LocationPhoto::create($validateData);
                 
-            return redirect('/locations/preview/'.$dataLocation->media_category->name.'/'.$dataLocation->id)->with('success',$dataLocation->media_category->name. ' dengan kode '. $validateData['code'] . ' berhasil ditambahkan');
+            return redirect('/media/locations/preview/'.$dataLocation->media_category->name.'/'.$dataLocation->id)->with('success',$dataLocation->media_category->name. ' dengan kode '. $validateData['code'] . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -399,7 +399,7 @@ class LocationController extends Controller
             Location::where('id', $location->id)
                     ->update($validateData);
                 
-            return redirect('/locations/preview/'.$location->media_category->name.'/'.$location->id)->with('success',$location->media_category->name. ' dengan kode '. $location->code . ' berhasil diupdate');
+            return redirect('/media/locations/preview/'.$location->media_category->name.'/'.$location->id)->with('success',$location->media_category->name. ' dengan kode '. $location->code . ' berhasil diupdate');
         } else {
             abort(403);
         }

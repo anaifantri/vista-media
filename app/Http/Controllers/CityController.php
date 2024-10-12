@@ -72,7 +72,7 @@ class CityController extends Controller
             City::create($validateData);
     
             $city = $request->input('city');
-            return redirect('/cities')->with('success','Data kota dengan nama '. $city . ' berhasil ditambahkan');
+            return redirect('/media/cities')->with('success','Data kota dengan nama '. $city . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -134,7 +134,7 @@ class CityController extends Controller
         City::where('id', $city->id)
                 ->update($validateData);
 
-        return redirect('/cities')->with('success','Data kota dengan nama '.$city->city.' berhasil diupdate');
+        return redirect('/media/cities')->with('success','Data kota dengan nama '.$city->city.' berhasil diupdate');
     }
 
     /**
@@ -145,7 +145,7 @@ class CityController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             City::destroy($city->id);
 
-            return redirect('/cities')->with('success','Kota '. $city->city .' berhasil dihapus');
+            return redirect('/media/cities')->with('success','Kota '. $city->city .' berhasil dihapus');
         } else {
             abort(403);
         }

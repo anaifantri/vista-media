@@ -102,7 +102,7 @@
                     <span class="ml-2 text-white">Preview</span>
                 </button>
                 <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
-                    href="/sales/select-quotation/{{ $category }}">
+                    href="/marketing/sales/select-quotation/{{ $category }}">
                     <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" viewBox="0 0 24 24">
                         <path

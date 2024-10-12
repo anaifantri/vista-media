@@ -8,7 +8,7 @@
         </svg>
     </a>
     <li id="liWorkshop" name="liWorkshop" class="group hidden" onclick="showHideDropdown(this)">
-        <a href="#" class="nav-a mx-2 {{ Request::is('dashboard/workshop*') ? 'active' : '' }}">
+        <a href="#" class="nav-a mx-2 {{ Request::is('workshop*') ? 'active' : '' }}">
             <span class="flex w-40"> DATA PRODUKSI </span>
             <svg id="workshopArrow" name="workshopArrow"
                 class="svg-arrow rotate-180 transition duration-300 ease-in-out" role="img" viewBox="0 0 24 24"

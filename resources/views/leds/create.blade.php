@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/leds" enctype="multipart/form-data">
+    <form method="post" action="/media/leds" enctype="multipart/form-data">
         @csrf
         <div class="mt-10">
             <!-- Show Title start -->
@@ -18,7 +18,7 @@
                             </svg>
                             <span class="mx-2"> Save </span>
                         </button>
-                        <a href="/leds" class="flex items-center justify-center btn-danger mx-1">
+                        <a href="/media/leds" class="flex items-center justify-center btn-danger mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path

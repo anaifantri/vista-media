@@ -99,7 +99,7 @@ class PrintingPriceController extends Controller
             
             PrintingPrice::create($validateData);
     
-            return redirect('/printing-prices')->with('success','Harga cetak dengan kode '. $code . ' berhasil ditambahkan');
+            return redirect('/marketing/printing-prices')->with('success','Harga cetak dengan kode '. $code . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -152,7 +152,7 @@ class PrintingPriceController extends Controller
             PrintingPrice::where('id', $printingPrice->id)
                 ->update($validateData);
         
-            return redirect('/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->code . ' berhasil dirubah');
+            return redirect('/marketing/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->code . ' berhasil dirubah');
         } else {
             abort(403);
         }
@@ -166,7 +166,7 @@ class PrintingPriceController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             PrintingPrice::destroy($printingPrice->id);
 
-            return redirect('/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->code .' berhasil dihapus');
+            return redirect('/marketing/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->code .' berhasil dihapus');
         } else {
             abort(403);
         }

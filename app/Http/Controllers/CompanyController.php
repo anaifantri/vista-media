@@ -77,7 +77,7 @@ class CompanyController extends Controller
         
         Company::create($validateData);
         
-        return redirect('/companies')->with('success','Data perusahaan baru dengan nama  '. $request->name . ' berhasil ditambahkan');
+        return redirect('/media/companies')->with('success','Data perusahaan baru dengan nama  '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -145,7 +145,7 @@ class CompanyController extends Controller
         Company::where('id', $company->id)
                 ->update($validateData);
 
-        return redirect('/companies')->with('success','Data perusahaan dengan nama '. $request->name . ' berhasil dirubah');
+        return redirect('/media/companies')->with('success','Data perusahaan dengan nama '. $request->name . ' berhasil dirubah');
     }
 
     /**
@@ -160,7 +160,7 @@ class CompanyController extends Controller
             }
             Company::destroy($company->id);
 
-            return redirect('/companies')->with('success','Data perusahaan dengan nama '. $company->name .' berhasil dihapus');
+            return redirect('/media/companies')->with('success','Data perusahaan dengan nama '. $company->name .' berhasil dihapus');
         } else {
             abort(403);
         }

@@ -74,7 +74,7 @@ class VendorCategoryController extends Controller
             
             VendorCategory::create($validateData);
     
-            return redirect('/vendor-categories')->with('success','Katagori vendor dengan nama '. $request->name . ' berhasil ditambahkan');
+            return redirect('/mrketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -129,7 +129,7 @@ class VendorCategoryController extends Controller
             VendorCategory::where('id', $vendorCategory->id)
                 ->update($validateData);
         
-            return redirect('/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name . ' berhasil dirubah');
+            return redirect('/mrketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name . ' berhasil dirubah');
         } else {
             abort(403);
         }
@@ -143,7 +143,7 @@ class VendorCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             VendorCategory::destroy($vendorCategory->id);
 
-            return redirect('/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name .' berhasil dihapus');
+            return redirect('/mrketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name .' berhasil dihapus');
         } else {
             abort(403);
         }

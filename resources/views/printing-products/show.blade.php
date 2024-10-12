@@ -69,7 +69,7 @@
                 </div>
             @endif
             <div class="flex mt-2">
-                <a href="/printing-products" class="flex items-center justify-center btn-primary mx-1">
+                <a href="/marketing/printing-products" class="flex items-center justify-center btn-primary mx-1">
                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                         stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -78,7 +78,7 @@
                     </svg>
                     <span class="mx-1"> Back </span>
                 </a>
-                <a href="/printing-products/{{ $printing_product->id }}/edit"
+                <a href="/marketing/printing-products/{{ $printing_product->id }}/edit"
                     class="flex items-center justify-center btn-warning mx-1">
                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                         stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -88,7 +88,7 @@
                     </svg>
                     <span class="mx-1"> Edit </span>
                 </a>
-                <form action="/printing-products/{{ $printing_product->id }}" method="post" class="d-inline">
+                <form action="/marketing/printing-products/{{ $printing_product->id }}" method="post" class="d-inline">
                     @method('delete')
                     @csrf
                     <button class="flex items-center justify-center btn-danger mx-1"

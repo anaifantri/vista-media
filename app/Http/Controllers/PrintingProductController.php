@@ -84,7 +84,7 @@ class PrintingProductController extends Controller
             
             PrintingProduct::create($validateData);
     
-            return redirect('/printing-products')->with('success','Bahan cetak dengan nama '. $request->name . ' berhasil ditambahkan');
+            return redirect('/marketing/printing-products')->with('success','Bahan cetak dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -139,7 +139,7 @@ class PrintingProductController extends Controller
             PrintingProduct::where('id', $printingProduct->id)
                 ->update($validateData);
         
-            return redirect('/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name . ' berhasil dirubah');
+            return redirect('/marketing/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name . ' berhasil dirubah');
         } else {
             abort(403);
         }
@@ -153,7 +153,7 @@ class PrintingProductController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             PrintingProduct::destroy($printingProduct->id);
 
-            return redirect('/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name .' berhasil dihapus');
+            return redirect('/marketing/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name .' berhasil dihapus');
         } else {
             abort(403);
         }

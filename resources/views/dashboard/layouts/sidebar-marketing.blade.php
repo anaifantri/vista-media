@@ -1,5 +1,5 @@
 <div class="div-nav-a">
-    <a class="nav-a {{ Request::is('dashboard/marketing*') ? 'active' : '' }}" href="">
+    <a class="nav-a {{ Request::is('marketing*') ? 'active' : '' }}" href="">
         <svg role="img" class="nav-svg transition duration-300 ease-in-out" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <title>PEMASARAN</title>
@@ -9,7 +9,7 @@
     </a>
 
     <li class="group hidden" id="liMarketing" name="liMarketing" onclick="showHideDropdown(this)">
-        <a href="#" class="nav-a mx-2 {{ Request::is('dashboard/marketing*') ? 'active' : '' }}">
+        <a href="#" class="nav-a mx-2 {{ Request::is('marketing*') ? 'active' : '' }}">
             <span class="flex w-40"> DATA PEMASARAN </span>
             <svg id="marketingArrow" name="marketingArrow"
                 class="svg-arrow rotate-180 transition duration-300 ease-in-out" role="img" viewBox="0 0 24 24"
@@ -40,7 +40,7 @@
                 <!-- Child Vendor Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/vendor-categories">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/marketing/vendor-categories">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +51,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/vendors">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/marketing/vendors">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -85,7 +85,7 @@
                 <!-- Child Clients Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/client-categories">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/marketing/client-categories">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -96,7 +96,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/clients">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/marketing/clients">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -132,7 +132,7 @@
                 <!-- Child Penawaran Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/quotations/home/All">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/marketing/quotations/home/All">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +145,8 @@
                     @foreach ($categories as $category)
                         @if ($category->name == 'Service')
                             <li class="group">
-                                <a class="nav-a ml-5 border-b-[1px]" href="/quotations/home/{{ $category->name }}">
+                                <a class="nav-a ml-5 border-b-[1px]"
+                                    href="/marketing/quotations/home/{{ $category->name }}">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -157,7 +158,8 @@
                             </li>
                         @else
                             <li class="group">
-                                <a class="nav-a ml-5 border-b-[1px]" href="/quotations/home/{{ $category->name }}">
+                                <a class="nav-a ml-5 border-b-[1px]"
+                                    href="/marketing/quotations/home/{{ $category->name }}">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -194,7 +196,7 @@
                 <!-- Penjualan Child Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5 border-b-[1px]" href="/sales/home/All">
+                        <a class="nav-a ml-5 border-b-[1px]" href="/marketing/sales/home/All">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -207,7 +209,8 @@
                     @foreach ($categories as $category)
                         @if ($category->name == 'Service')
                             <li class="group">
-                                <a class="nav-a ml-5 border-b-[1px]" href="/sales/home/{{ $category->name }}">
+                                <a class="nav-a ml-5 border-b-[1px]"
+                                    href="/marketing/sales/home/{{ $category->name }}">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -219,7 +222,7 @@
                             </li>
                         @else
                             <li class="group">
-                                <a class="nav-a ml-5" href="/sales/home/{{ $category->name }}">
+                                <a class="nav-a ml-5" href="/marketing/sales/home/{{ $category->name }}">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -258,7 +261,7 @@
                 <!-- Penggantian Materi Child Start -->
                 <ul class="hidden" id="materiChild" name="materiChild">
                     <li class="group">
-                        <a class="nav-a ml-5" href="#">
+                        <a class="nav-a ml-5" href="/marketing/print-orders">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path
@@ -268,7 +271,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="#">
+                        <a class="nav-a ml-5" href="/marketing/install-orders">
                             <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24">
                                 <path
@@ -303,7 +306,7 @@
                 <!-- Quotation Reports Child Start -->
                 <ul class="hidden" id="quotReportChild" name="quotReportChild">
                     <li class="group">
-                        <a class="nav-a ml-5" href="/sales/home/All">
+                        <a class="nav-a ml-5" href="/marketing/sales/home/All">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -315,7 +318,7 @@
                     </li>
                     @foreach ($categories as $category)
                         <li class="group">
-                            <a class="nav-a ml-5" href="/sales/home/{{ $category->name }}">
+                            <a class="nav-a ml-5" href="/marketing/sales/home/{{ $category->name }}">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -352,7 +355,7 @@
                 <!-- Sales Reports Child Start -->
                 <ul class="hidden" id="saleReportChild" name="saleReportChild">
                     <li class="group">
-                        <a class="nav-a ml-5" href="/sales/report/All">
+                        <a class="nav-a ml-5" href="/marketing/sales/report/All">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -364,7 +367,7 @@
                     </li>
                     @foreach ($categories as $category)
                         <li class="group">
-                            <a class="nav-a ml-5" href="/sales/report/{{ $category->name }}">
+                            <a class="nav-a ml-5" href="/marketing/sales/report/{{ $category->name }}">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -411,7 +414,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="/sales/reports/">
+                        <a class="nav-a ml-5" href="#">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -446,7 +449,7 @@
                 <!-- Child Setting Start -->
                 <ul class="hidden">
                     <li class="group">
-                        <a class="nav-a ml-5" href="/printing-products">
+                        <a class="nav-a ml-5" href="/marketing/printing-products">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -457,7 +460,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="/printing-prices">
+                        <a class="nav-a ml-5" href="/marketing/printing-prices">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -468,7 +471,7 @@
                         </a>
                     </li>
                     <li class="group">
-                        <a class="nav-a ml-5" href="/installation-prices">
+                        <a class="nav-a ml-5" href="/marketing/installation-prices">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">

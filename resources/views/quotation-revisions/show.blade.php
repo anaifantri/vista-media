@@ -92,7 +92,8 @@
                                 <label class="flex justify-center w-80">{{ session('success') }}</label>
                             </div>
                         @endif
-                        <form class="" action="/quot-revision-statuses" method="post" enctype="multipart/form-data">
+                        <form class="" action="/marketing/quot-revision-statuses" method="post"
+                            enctype="multipart/form-data">
                             @csrf
 
                             <?php

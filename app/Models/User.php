@@ -102,24 +102,11 @@ class User extends Authenticatable
     public function installation_prices(){
         return $this->hasMany(InstallationPrice::class, 'user_id', 'id');
     }
-    public function print_instal_quotations(){
-        return $this->hasMany(PrintInstalQuotation::class, 'user_id', 'id');
+    public function land_agreements(){
+        return $this->hasMany(LandAgreement::class, 'user_id', 'id');
     }
-
-    public function print_install_sales(){
-        return $this->hasMany(PrintInstallSale::class, 'user_id', 'id');
-    }
-
-    public function print_instal_statuses(){
-        return $this->hasMany(PrintInstalStatus::class, 'user_id', 'id');
-    }
-
-    public function w_o_prints(){
-        return $this->hasMany(WOPrint::class, 'user_id', 'id');
-    }
-
-    public function w_o_installs(){
-        return $this->hasMany(WOInstall::class, 'user_id', 'id');
+    public function licenses(){
+        return $this->hasMany(License::class, 'user_id', 'id');
     }
 
     public $sortable = ['name', 'username'];

@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('printing_products', function (Blueprint $table) {
-            $table->decimal('price',12,0)->unsigned()->default(0);
+        Schema::create('license_documents', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('license_id')->constrained();
+            $table->string('image');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('printing_products', function (Blueprint $table) {
-            $table->dropColumn('price');
-        });
+        Schema::dropIfExists('license_documents');
     }
 };

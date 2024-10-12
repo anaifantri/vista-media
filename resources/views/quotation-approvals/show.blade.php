@@ -16,7 +16,8 @@
             <div class="flex w-[600px] items-center border-b p-1">
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]">DOKUMEN PERSETUJUAN</h1>
                 <div class="flex justify-end">
-                    <a class="flex justify-center items-center ml-1 btn-danger" href="/sales/home/{{ $category }}">
+                    <a class="flex justify-center items-center ml-1 btn-danger"
+                        href="/marketing/sales/home/{{ $category }}">
                         <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24">
                             <path

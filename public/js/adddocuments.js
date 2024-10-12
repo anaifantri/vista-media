@@ -238,15 +238,15 @@ btnSubmitAction = (sel) =>{
                 alert("Tanggal belum diinput")
             }else {
                 if(sel == "agreement"){
-                    document.getElementById("formAdd").action = "/quotation-agreements";
+                    document.getElementById("formAdd").action = "/marketing/quotation-agreements";
                     document.getElementById("formAdd").submit();
                 }else if(sel == "order"){
-                    document.getElementById("formAdd").action = "/quotation-orders";
+                    document.getElementById("formAdd").action = "/marketing/quotation-orders";
                     document.getElementById("formAdd").submit();
                 }
             }
         } else {
-            document.getElementById("formAdd").action = "/quotation-approvals";
+            document.getElementById("formAdd").action = "/marketing/quotation-approvals";
             document.getElementById("formAdd").submit();
         }
     }

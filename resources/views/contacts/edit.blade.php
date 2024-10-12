@@ -10,7 +10,7 @@
                     Kontak Person
                 </h4>
             </div>
-            <form class="flex" method="post" action="/contacts/{{ $contact->id }}" enctype="multipart/form-data">
+            <form class="flex" method="post" action="/marketing/contacts/{{ $contact->id }}" enctype="multipart/form-data">
                 @method('put')
                 @csrf
                 <div class="flex justify-center w-[290px] bg-white p-1 mt-12">

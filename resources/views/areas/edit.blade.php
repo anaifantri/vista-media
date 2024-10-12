@@ -3,7 +3,7 @@
 @section('container')
     <!-- Edit Area start -->
     <!-- Form Edit Area start -->
-    <form action="/area/{{ $area->id }}" method="post" class="d-inline">
+    <form action="/media/area/{{ $area->id }}" method="post" class="d-inline">
         @method('put')
         @csrf
         <div class="mt-10">
@@ -21,7 +21,7 @@
                             </svg>
                             <label class="mx-1">Save</label>
                         </button>
-                        <a class="flex justify-center items-center mx-1 btn-danger" href="/area">
+                        <a class="flex justify-center items-center mx-1 btn-danger" href="/media/area">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path

@@ -132,7 +132,7 @@ class LedController extends Controller
             
             Led::create($validateData);
     
-            return redirect('/leds')->with('success','Produk dengan nama '. $request->name . ' berhasil ditambahkan');
+            return redirect('/media/leds')->with('success','Produk dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -212,7 +212,7 @@ class LedController extends Controller
             Led::where('id', $led->id)
                 ->update($validateData);
         
-            return redirect('/leds')->with('success','Produk LED dengan nama '. $led->name . ' berhasil dirubah');
+            return redirect('/media/leds')->with('success','Produk LED dengan nama '. $led->name . ' berhasil dirubah');
             
         } else {
             abort(403);
@@ -227,7 +227,7 @@ class LedController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             Led::destroy($led->id);
 
-            return redirect('/leds')->with('success','Produk LED dengan nama'. $led->name .' berhasil dihapus');
+            return redirect('/media/leds')->with('success','Produk LED dengan nama'. $led->name .' berhasil dihapus');
         } else {
             abort(403);
         }

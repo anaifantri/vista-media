@@ -7,7 +7,7 @@
                 <div class="flex border-b">
                     <h1 class="index-h1"> Daftar Perusahaan</h1>
                     <div class="flex">
-                        <a href="/companies/create" class="index-link btn-primary">
+                        <a href="/media/companies/create" class="index-link btn-primary">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -18,7 +18,7 @@
                         </a>
                     </div>
                 </div>
-                <form class="flex mt-2" action="/companies/">
+                <form class="flex mt-2" action="/media/companies/">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
@@ -91,7 +91,7 @@
                                 <td class="text-teal-700 p-1 border text-sm text-center">{{ $company->mobile_phone }}</td>
                                 <td class="text-teal-700 p-1 border text-sm text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/companies/{{ $company->id }}"
+                                        <a href="/media/companies/{{ $company->id }}"
                                             class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -101,7 +101,7 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        <a href="/companies/{{ $company->id }}/edit"
+                                        <a href="/media/companies/{{ $company->id }}/edit"
                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md ml-1">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -111,7 +111,8 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        <form action="/companies/{{ $company->id }}" method="post" class="d-inline m-1">
+                                        <form action="/media/companies/{{ $company->id }}" method="post"
+                                            class="d-inline m-1">
                                             @method('delete')
                                             @csrf
                                             @if (

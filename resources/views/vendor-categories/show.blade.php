@@ -63,7 +63,7 @@
                 @endif
                 <div class="flex justify-center mt-4 w-full">
                     <div class="flex mt-2">
-                        <a href="/vendor-categories" class="flex items-center justify-center btn-primary mx-1">
+                        <a href="/marketing/vendor-categories" class="flex items-center justify-center btn-primary mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -72,7 +72,7 @@
                             </svg>
                             <span class="mx-1"> Back </span>
                         </a>
-                        <a href="/vendor-categories/{{ $vendor_category->id }}/edit"
+                        <a href="/marketing/vendor-categories/{{ $vendor_category->id }}/edit"
                             class="flex items-center justify-center btn-warning mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +82,8 @@
                             </svg>
                             <span class="mx-1"> Edit </span>
                         </a>
-                        <form action="/vendor-categories/{{ $vendor_category->id }}" method="post" class="d-inline">
+                        <form action="/marketing/vendor-categories/{{ $vendor_category->id }}" method="post"
+                            class="d-inline">
                             @method('delete')
                             @csrf
                             @if ($vendor_category->vendors()->exists())

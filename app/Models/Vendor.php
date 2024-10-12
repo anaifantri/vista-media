@@ -11,6 +11,12 @@ class Vendor extends Model
     use Sortable;
     protected $guarded = ['id'];
 
+    public function scopePrint($query){
+        return $query->whereHas('vendor_category', function($query){
+            $query->where('name', 'like', '%Printing%');
+        });
+    }
+
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('name', 'like', '%' . $search . '%')

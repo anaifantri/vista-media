@@ -12,7 +12,7 @@
         </ul>
         <ul id="quotationNav" class="relative group transition duration-300 ease-in-out"
             onclick="headerDropdown(event, this)">
-            <a class="right-nav w-40  p-1 h-6 text-white {{ Request::is('dashboard/media/billboards*') ? 'active' : '' }}"
+            <a class="right-nav w-40  p-1 h-6 text-white {{ Request::is('marketing/quotations*') ? 'active' : '' }}"
                 href="#">
                 <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                     viewBox="0 0 24 24">
@@ -32,7 +32,8 @@
                 <!-- Child Penawaran Start -->
                 <ul>
                     <li class="group">
-                        <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]" href="/quotations/home/All">
+                        <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                            href="/marketing/quotations/home/All">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -43,10 +44,23 @@
                         </a>
                     </li>
                     @foreach ($categories as $category)
-                        @if ($category->name != 'Service')
+                        @if ($category->name == 'Service')
                             <li class="group">
                                 <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                                    href="/quotations/home/{{ $category->name }}">
+                                    href="/marketing/quotations/home/{{ $category->name }}">
+                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                    </svg>
+                                    <span class="flex font-semibold"> Cetak & Pasang </span>
+                                </a>
+                            </li>
+                        @else
+                            <li class="group">
+                                <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                    href="/marketing/quotations/home/{{ $category->name }}">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +78,7 @@
         </ul>
         <ul id="saleNav" class="relative group transition duration-300 ease-in-out"
             onclick="headerDropdown(event, this)">
-            <a class="right-nav w-40 p-1 h-6 text-white {{ Request::is('dashboard/media/billboards*') ? 'active' : '' }}"
+            <a class="right-nav w-40 p-1 h-6 text-white {{ Request::is('marketing/sales*') ? 'active' : '' }}"
                 href="#">
                 <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                     viewBox="0 0 24 24">
@@ -84,7 +98,8 @@
                 <!-- Child Penawaran Start -->
                 <ul>
                     <li class="group">
-                        <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]" href="/quotations/home/All">
+                        <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                            href="/marketing/sales/home/All">
                             <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -98,10 +113,10 @@
                         @if ($category->name == 'Service')
                             <li class="group">
                                 <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                                    href="/quotations/home/{{ $category->name }}">
-                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                    href="/marketing/sales/home/{{ $category->name }}">
+                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
                                     </svg>
@@ -111,7 +126,7 @@
                         @else
                             <li class="group">
                                 <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                                    href="/quotations/home/{{ $category->name }}">
+                                    href="/marketing/sales/home/{{ $category->name }}">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                         fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -128,8 +143,7 @@
             </li>
         </ul>
         <ul class="flex group w-max  p-1 h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-white {{ Request::is('dashboard/media/signages*') ? 'active' : '' }}"
-                href="#">
+            <a class="right-nav text-white {{ Request::is('marketing/clients*') ? 'active' : '' }}" href="#">
                 <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                     viewBox="0 0 24 24">
                     <path
@@ -139,8 +153,8 @@
             </a>
         </ul>
         <ul class="flex group w-max  ml-4 h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-white {{ Request::is('dashboard/media/signages*') ? 'active' : '' }}"
-                href="#">
+            <a class="right-nav text-white {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
+                href="/print-orders">
                 <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                     viewBox="0 0 24 24">
                     <path
@@ -150,8 +164,8 @@
             </a>
         </ul>
         <ul id="setting" name="setting" class="flex group w-max transition duration-300 ease-in-out">
-            <a class="right-nav w-max p-2 h-6 text-white {{ Request::is('dashboard/media/area*') ? 'active' : '' }} {{ Request::is('dashboard/media/cities*') ? 'active' : '' }} {{ Request::is('dashboard/media/sizes*') ? 'active' : '' }} {{ Request::is('dashboard/users/users*') ? 'active' : '' }}"
-                href="#">
+            <a class="right-nav w-max p-2 h-6 text-white {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
+                href="install-orders">
                 <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         d="M9 3h6v2h-6v-2zm3 15l7-8h-4v-4h-6v4h-4l7 8zm3-16v-2h-6v2h6zm3.213-.246l-1.213 1.599c2.984 1.732 5 4.955 5 8.647 0 5.514-4.486 10-10 10s-10-4.486-10-10c0-3.692 2.016-6.915 5-8.647l-1.213-1.599c-3.465 2.103-5.787 5.897-5.787 10.246 0 6.627 5.373 12 12 12s12-5.373 12-12c0-4.349-2.322-8.143-5.787-10.246z" />

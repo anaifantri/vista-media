@@ -3,7 +3,7 @@
 @section('container')
     <div class="flex justify-center mt-10">
         <div class="md:flex">
-            <form class="md:flex" method="post" action="/vendors/{{ $vendor->id }}" enctype="multipart/form-data">
+            <form class="md:flex" method="post" action="/marketing/vendors/{{ $vendor->id }}" enctype="multipart/form-data">
                 @method('put')
                 @csrf
                 <div class="flex justify-center items-center w-60 md:w-72">
@@ -116,7 +116,7 @@
                                     </svg>
                                     <span class="mx-1"> Update </span>
                                 </button>
-                                <a href="/vendors" class="flex items-center justify-center btn-danger mx-1">
+                                <a href="/marketing/vendors" class="flex items-center justify-center btn-danger mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">

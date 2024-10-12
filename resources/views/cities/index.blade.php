@@ -12,7 +12,7 @@
                     <!-- Button Create New City start -->
                     @canany(['isAdmin', 'isMedia'])
                         <div class="flex border-b">
-                            <a href="/cities/create" class="index-link btn-primary"><span></span>
+                            <a href="/media/cities/create" class="index-link btn-primary"><span></span>
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -26,7 +26,7 @@
                 </div>
                 <!-- Button Create New City end -->
                 <!-- Alert Success Create New City start -->
-                <form class="flex mt-2" action="/cities/">
+                <form class="flex mt-2" action="/media/cities/">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
@@ -92,7 +92,7 @@
                                 <td class="text-teal-700 border text-sm text-center">{{ $city->user->name }}</td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/cities/{{ $city->id }}"
+                                        <a href="/media/cities/{{ $city->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
                                             <svg class="w-5 fill-current" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -104,7 +104,7 @@
                                             </svg>
                                         </a>
                                         @canany(['isAdmin', 'isMedia'])
-                                            <a href="/cities/{{ $city->id }}/edit"
+                                            <a href="/media/cities/{{ $city->id }}/edit"
                                                 class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -114,7 +114,8 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            <form action="/cities/{{ $city->id }}" method="post" class="d-inline my-1">
+                                            <form action="/media/cities/{{ $city->id }}" method="post"
+                                                class="d-inline my-1">
                                                 @method('delete')
                                                 @csrf
                                                 @if ($city->locations()->exists())

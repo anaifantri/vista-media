@@ -70,7 +70,7 @@ class QuotationCategoryController extends Controller
         
         QuotationCategory::create($validateData);
 
-        return redirect('/quotation-categories')->with('success','Katagori pemasaran dengan nama '. $request->name . ' berhasil ditambahkan');
+        return redirect('/marketing/quotation-categories')->with('success','Katagori pemasaran dengan nama '. $request->name . ' berhasil ditambahkan');
     } else {
         abort(403);
     }
@@ -125,7 +125,7 @@ class QuotationCategoryController extends Controller
             QuotationCategory::where('id', $quotationCategory->id)
                 ->update($validateData);
         
-            return redirect('/quotation-categories')->with('success','Katagori pemasaran dengan nama '. $quotationCategory->name . ' berhasil diupdate');
+            return redirect('/marketing/quotation-categories')->with('success','Katagori pemasaran dengan nama '. $quotationCategory->name . ' berhasil diupdate');
         } else {
             abort(403);
         }
@@ -139,7 +139,7 @@ class QuotationCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             QuotationCategory::destroy($quotationCategory->id);
 
-            return redirect('/quotation-categories')->with('success','Katagori peamasaran dengan nama '. $quotationCategory->name .' berhasil dihapus');
+            return redirect('/marketing/quotation-categories')->with('success','Katagori peamasaran dengan nama '. $quotationCategory->name .' berhasil dihapus');
         } else {
             abort(403);
         }

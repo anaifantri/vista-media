@@ -1,11 +1,11 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form class="md:flex" method="post" action="/users/{{ $user->id }}" enctype="multipart/form-data">
+    <form method="post" action="/users/{{ $user->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center">
-            <div class="mt-10">
+        <div class="flex justify-center p-10">
+            <div>
                 <!-- Show Title start -->
                 <div class="flex w-[1140px] items-center border-b">
                     <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]">MERUBAH DATA PENGGUNA </h1>

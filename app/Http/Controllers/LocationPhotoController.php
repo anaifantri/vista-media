@@ -59,7 +59,7 @@ class LocationPhotoController extends Controller
 
         LocationPhoto::create($validateData);
 
-        return redirect('/locations/'.$request->location_id.'/edit')->with('success','Foto Lokasi berhasil ditambahkan');
+        return redirect('/media/locations/'.$request->location_id.'/edit')->with('success','Foto Lokasi berhasil ditambahkan');
     } else {
         abort(403);
     }
@@ -95,7 +95,7 @@ class LocationPhotoController extends Controller
 
                 LocationPhoto::where('id', $locationPhoto->id)->update($validateData);
 
-                return redirect('/locations/'.$locationPhoto->location_id.'/edit')->with('success','Foto telah dirubah menjadi aktif');
+                return redirect('/media/locations/'.$locationPhoto->location_id.'/edit')->with('success','Foto telah dirubah menjadi aktif');
             } else {
                 if($request->file('update_photo')){
                     if($request->update_default == "Yes"){
@@ -127,7 +127,7 @@ class LocationPhotoController extends Controller
 
                 LocationPhoto::where('id', $locationPhoto->id)->update($validateData);
 
-                return redirect('/locations/'.$locationPhoto->location_id.'/edit')->with('success','Foto Lokasi berhasil diganti');
+                return redirect('/media/locations/'.$locationPhoto->location_id.'/edit')->with('success','Foto Lokasi berhasil diganti');
             }
         } else {
             abort(403);
@@ -142,7 +142,7 @@ class LocationPhotoController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
             Storage::delete($locationPhoto->photo);
             LocationPhoto::destroy($locationPhoto->id);
-            return redirect('/locations/'.$locationPhoto->location_id.'/edit')->with('success','Foto Lokasi berhasil dihapus');
+            return redirect('/media/locations/'.$locationPhoto->location_id.'/edit')->with('success','Foto Lokasi berhasil dihapus');
         } else {
             abort(403);
         }

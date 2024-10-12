@@ -31,7 +31,7 @@
                     <span class="ml-2 text-white">Preview</span>
                 </button>
                 <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
-                    href="/quotations/{{ $quotation->id }}">
+                    href="/marketing/quotations/{{ $quotation->id }}">
                     <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" viewBox="0 0 24 24">
                         <path
@@ -330,7 +330,7 @@
                                                     class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                 </span>
                                                 <span class="w-[100px] flex mt-[40px] ml-2">
-                                                    {{ QrCode::size(100)->generate('https://vistamedia.co.id/quotations/preview/' . $category . '/' . $product->id) }}
+                                                    {{ QrCode::size(100)->generate('https://vistamedia.co.id/marketing/quotations/preview/' . $category . '/' . $product->id) }}
                                                 </span>
                                             </div>
                                             <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">

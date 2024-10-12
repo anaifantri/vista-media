@@ -30,7 +30,8 @@
                         @if (request('media_category_id') != '' && request('media_category_id') != 'All')
                             @canany(['isAdmin', 'isMarketing'])
                                 <div>
-                                    <a href="/sales/select-quotation/{{ $data_category->name }}" class="index-link btn-primary">
+                                    <a href="/marketing/sales/select-quotation/{{ $data_category->name }}"
+                                        class="index-link btn-primary">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -46,7 +47,7 @@
                     @else
                         @canany(['isAdmin', 'isMarketing'])
                             <div>
-                                <a href="/sales/select-quotation/{{ $category }}" class="index-link btn-primary">
+                                <a href="/marketing/sales/select-quotation/{{ $category }}" class="index-link btn-primary">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +61,7 @@
                         @endcanany
                     @endif
                 </div>
-                <form action="/sales/home/{{ $category }}">
+                <form action="/marketing/sales/home/{{ $category }}">
                     <div class="flex items-center mt-1">
                         @if ($category == 'All')
                             <div>
@@ -328,7 +329,7 @@
                                                 <label class="ml-1">:</label>
                                                 <label class="ml-2">{{ $sale->duration }}</label>
                                             </div>
-                                            <form class="flex items-center" action="/sales/{{ $sale->id }}"
+                                            <form class="flex items-center" action="/marketing/sales/{{ $sale->id }}"
                                                 method="post" enctype="multipart/form-data">
                                                 @method('put')
                                                 @csrf
@@ -562,7 +563,7 @@
                                 </td>
                                 <td class="text-teal-700 border text-[0.65rem] text-center align-center">
                                     <div class="flex justify-center">
-                                        <a href="/sales/{{ $sale->id }}"
+                                        <a href="/marketing/sales/{{ $sale->id }}"
                                             class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1"
                                             title="Show">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"

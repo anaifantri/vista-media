@@ -28,8 +28,24 @@ class Company extends Model
     public function quotations(){
         return $this->hasMany(Quotation::class, 'company_id', 'id');
     }
+
     public function sales(){
         return $this->hasMany(Sale::class, 'company_id', 'id');
+    }
+
+    public function print_orders(){
+        return $this->hasMany(PrintOrder::class, 'company_id', 'id');
+    }
+
+    public function install_orders(){
+        return $this->hasMany(InstallOrder::class, 'company_id', 'id');
+    }
+
+    public function land_agreements(){
+        return $this->hasMany(LandAgreement::class, 'company_id', 'id');
+    }
+    public function licenses(){
+        return $this->hasMany(License::class, 'company_id', 'id');
     }
 
     public function user(){
@@ -44,6 +60,8 @@ class Company extends Model
             $company->location_photos()->get()->each->delete();
             $company->quotations()->get()->each->delete();
             $company->sales()->get()->each->delete();
+            $company->print_orders()->get()->each->delete();
+            $company->install_orders()->get()->each->delete();
         });
     }
 

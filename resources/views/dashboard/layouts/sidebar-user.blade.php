@@ -1,7 +1,7 @@
 <div class="div-nav-a">
-    <a class="nav-a" href="/dashboard/users/users">
+    <a class="nav-a" href="/users">
         <svg role="img"
-            class="nav-svg transition duration-300 ease-in-out {{ Request::is('dashboard/users*') ? 'active' : '' }}"
+            class="nav-svg transition duration-300 ease-in-out {{ Request::is('users*') ? 'active' : '' }}"
             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>USER</title>
             <path
@@ -9,7 +9,7 @@
         </svg>
     </a>
     <li id="liUser" name="liUser" class="group hidden" onclick="showHideDropdown(this)">
-        <a href="#" class="nav-a mx-2 {{ Request::is('dashboard/users/users*') ? 'active' : '' }}">
+        <a href="#" class="nav-a mx-2 {{ Request::is('users*') ? 'active' : '' }}">
             <span class="flex w-40"> DATA PENGGUNA </span>
             <svg id="userArrow" name="userArrow" class="svg-arrow rotate-180 transition duration-300 ease-in-out"
                 role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

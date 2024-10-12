@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/companies" enctype="multipart/form-data">
+    <form method="post" action="/media/companies" enctype="multipart/form-data">
         @csrf
         <div class="flex justify-center w-full ">
             <div class="mt-10">
@@ -18,7 +18,7 @@
                             </svg>
                             <label class="mx-1">Save</label>
                         </button>
-                        <a class="flex justify-center items-center mx-1 btn-danger" href="/companies">
+                        <a class="flex justify-center items-center mx-1 btn-danger" href="/media/companies">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path

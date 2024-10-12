@@ -81,10 +81,15 @@ function hideMenu() {
     hamburger.classList.remove('hamburger-active');
     liDashboard.classList.add('hidden');
     liMedia.classList.add('hidden');
+    liMedia.classList.add('group');
     liMarketing.classList.add('hidden');
+    liMarketing.classList.add('group');
     liAccounting.classList.add('hidden');
+    liAccounting.classList.add('group');
     liWorkshop.classList.add('hidden');
+    liWorkshop.classList.add('group');
     liUser.classList.add('hidden');
+    liUser.classList.add('group');
     liLogout.classList.add('hidden');
     menu.classList.add('hidden');
     menu.classList.remove('flex');
@@ -93,11 +98,11 @@ function hideMenu() {
     accountingChild.classList.add('hidden');
     workshopChild.classList.add('hidden');
     userChild.classList.add('hidden');
-    mediaArrow.classList.add('rotate-180');
-    marketingArrow.classList.add('rotate-180');
-    accountingArrow.classList.add('rotate-180');
-    workshopArrow.classList.add('rotate-180');
-    userArrow.classList.add('rotate-180');
+    mediaArrow.classList.remove('rotate-180');
+    marketingArrow.classList.remove('rotate-180');
+    accountingArrow.classList.remove('rotate-180');
+    workshopArrow.classList.remove('rotate-180');
+    userArrow.classList.remove('rotate-180');
 }
 
 
@@ -128,11 +133,11 @@ navBarChildHidden = () =>{
         document.getElementById("quotationChild").classList.add('hidden');
         document.getElementById("quotationArrow").classList.remove('rotate-180');
     } else if(document.getElementById("mediaNav")){
-        document.getElementById("mediaChild").classList.add('hidden');
+        document.getElementById("mediaChildNav").classList.add('hidden');
         document.getElementById("mediaNav").classList.add('group');
-        document.getElementById("mediaArrow").classList.remove('rotate-180');
+        document.getElementById("mediaArrowNav").classList.remove('rotate-180');
         document.getElementById("legalNav").classList.add('group');
-        document.getElementById("legalChild").classList.add('hidden');
+        document.getElementById("legalChildNav").classList.add('hidden');
         document.getElementById("legalArrow").classList.remove('rotate-180');
     }
 }
@@ -163,12 +168,12 @@ function headerDropdown(e, sel) {
     } else if(document.getElementById("mediaNav")){
         if(sel.id == "mediaNav"){
             document.getElementById("legalNav").classList.add('group');
-            document.getElementById("legalChild").classList.add('hidden');
+            document.getElementById("legalChildNav").classList.add('hidden');
             document.getElementById("legalArrow").classList.remove('rotate-180');
         }else if(sel.id == "legalNav"){
             document.getElementById("mediaNav").classList.add('group');
-            document.getElementById("mediaChild").classList.add('hidden');
-            document.getElementById("mediaArrow").classList.remove('rotate-180');
+            document.getElementById("mediaChildNav").classList.add('hidden');
+            document.getElementById("mediaArrowNav").classList.remove('rotate-180');
         }
     }
 }

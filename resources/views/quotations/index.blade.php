@@ -15,7 +15,8 @@
                     @if (request('media_category_id') != '' && request('media_category_id') != 'All')
                         @canany(['isAdmin', 'isMarketing'])
                             <div>
-                                <a href="/quotations/select-location/{{ $data_category->name }}" class="index-link btn-primary">
+                                <a href="/marketing/quotations/select-location/{{ $data_category->name }}"
+                                    class="index-link btn-primary">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                         stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -30,7 +31,7 @@
                 @else
                     @canany(['isAdmin', 'isMarketing'])
                         <div>
-                            <a href="/quotations/select-location/{{ $category }}" class="index-link btn-primary">
+                            <a href="/marketing/quotations/select-location/{{ $category }}" class="index-link btn-primary">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -44,7 +45,7 @@
                 @endif
             </div>
             <div>
-                <form action="/quotations/home/{{ $category }}">
+                <form action="/marketing/quotations/home/{{ $category }}">
                     <div class="flex mt-1 ml-2">
                         {{-- <div class="w-36">
                             <span class="text-base text-teal-900">Area</span>
@@ -217,7 +218,7 @@
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/quotations/{{ $quotation->id }}"
+                                        <a href="/marketing/quotations/{{ $quotation->id }}"
                                             class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                             <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -228,7 +229,7 @@
                                             </svg>
                                         </a>
                                         @canany(['isAdmin', 'isMarketing'])
-                                            <a href="/quotations/{{ $quotation->id }}/edit"
+                                            <a href="/marketing/quotations/{{ $quotation->id }}/edit"
                                                 class="hidden text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
                                                 <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -238,7 +239,8 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            <form action="/quotations/{{ $quotation->id }}" method="post" class="hidden">
+                                            <form action="/marketing/quotations/{{ $quotation->id }}" method="post"
+                                                class="hidden">
                                                 @method('delete')
                                                 @csrf
                                                 <button

@@ -1,7 +1,7 @@
 @php
     $dataDescription = json_decode($locations[0]->description);
 @endphp
-<form class="flex justify-center" action="/quotations" method="post" enctype="multipart/form-data">
+<form class="flex justify-center" action="/marketing/quotations" method="post" enctype="multipart/form-data">
     @csrf
     <input type="text" name="company_id" id="company_id" value="1" hidden>
     <input type="text" name="media_category_id" id="media_category_id" value="{{ $data_category->id }}" hidden>

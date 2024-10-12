@@ -66,7 +66,7 @@ class AreaController extends Controller
 
             Area::create($validateData);
     
-            return redirect('/area')->with('success','Area dengan nama '. $request->area . ' berhasil ditambahkan');
+            return redirect('/media/area')->with('success','Area dengan nama '. $request->area . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -121,7 +121,7 @@ class AreaController extends Controller
         Area::where('id', $area->id)
                 ->update($validateData);
 
-        return redirect('/area')->with('success','Data area dengan nama '.$area->area.' berhasil diupdate');
+        return redirect('/media/area')->with('success','Data area dengan nama '.$area->area.' berhasil diupdate');
     }
 
     /**
@@ -133,7 +133,7 @@ class AreaController extends Controller
             
             Area::destroy($area->id);
 
-            return redirect('/area')->with('success','Area dengan nama '. $area->area .' berhasil dihapus');
+            return redirect('/media/area')->with('success','Area dengan nama '. $area->area .' berhasil dihapus');
         } else {
             abort(403);
         }

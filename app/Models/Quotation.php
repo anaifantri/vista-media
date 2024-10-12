@@ -25,27 +25,6 @@ class Quotation extends Model
                     ->orWhere('clients', 'like', '%' . $search . '%')
                     ->orWhere('created_by', 'like', '%' . $search . '%')
                     ->orWhere('modified_by', 'like', '%' . $search . '%')
-                    // ->orWhereHas('client', function($query) use ($search){
-                    //     $query->where('name', 'like', '%' . $search . '%');
-                    // })
-                    // ->orWhereHas('contact', function($query) use ($search){
-                    //     $query->where('name', 'like', '%' . $search . '%');
-                    // })
-                    // ->orWhereHas('quotation_category', function($query) use ($search){
-                    //     $query->where('', 'name', '%' . $search . '%');
-                    // })
-                    // ->orWhereHas('product', function($query) use ($search){
-                    //     $query->where('', 'code', '%' . $search . '%');
-                    //     $query->where('', 'address', '%' . $search . '%');
-                    // })
-                    // ->orWhereHas('videotron', function($query) use ($search){
-                    //     $query->where('', 'code', '%' . $search . '%');
-                    //     $query->where('', 'address', '%' . $search . '%');
-                    // })
-                    // ->orWhereHas('signage', function($query) use ($search){
-                    //     $query->where('', 'code', '%' . $search . '%');
-                    //     $query->where('', 'address', '%' . $search . '%');
-                    // })
                 );
     }
 

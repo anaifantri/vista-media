@@ -57,7 +57,7 @@ class VendorContactController extends Controller
 
         VendorContact::create($validateData);
 
-        return redirect('/vendors/'. $request->vendor_id)->with('success','Kontak baru dengan nama '. $request->name . ' berhasil ditambahkan');
+        return redirect('/marketing/vendors/'. $request->vendor_id)->with('success','Kontak baru dengan nama '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -116,7 +116,7 @@ class VendorContactController extends Controller
         VendorContact::where('id', $vendorContact->id)
                 ->update($validateData);
 
-        return redirect('/vendors/'. $request->vendor_id)->with('success','Kontak person dengan nama '. $request->name . ' berhasil dirubah');
+        return redirect('/marketing/vendors/'. $request->vendor_id)->with('success','Kontak person dengan nama '. $request->name . ' berhasil dirubah');
     }
 
     /**
@@ -130,6 +130,6 @@ class VendorContactController extends Controller
 
         VendorContact::destroy($vendorContact->id);
         
-        return redirect('/vendors/'. $vendorContact->vendor_id)->with('success','Kontak person dengan nama ' . $vendorContact->name . ' berhasil dihapus');
+        return redirect('/marketing/vendors/'. $vendorContact->vendor_id)->with('success','Kontak person dengan nama ' . $vendorContact->name . ' berhasil dihapus');
     }
 }

@@ -77,7 +77,7 @@
                             </h6>
                         </div>
                         <div class="flex mt-1">
-                            <a href="/clients" class="flex items-center justify-center btn-primary mx-1">
+                            <a href="/marketing/clients" class="flex items-center justify-center btn-primary mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +87,7 @@
                                 </svg>
                                 <span class="mx-1"> Back </span>
                             </a>
-                            <a href="/clients/{{ $client->id }}/edit"
+                            <a href="/marketing/clients/{{ $client->id }}/edit"
                                 class="flex items-center justify-center btn-warning mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -98,7 +98,7 @@
                                 </svg>
                                 <span class="mx-1"> Edit </span>
                             </a>
-                            <form action="/clients/{{ $client->id }}" method="post" class="d-inline">
+                            <form action="/marketing/clients/{{ $client->id }}" method="post" class="d-inline">
                                 @method('delete')
                                 @csrf
                                 @if ($client->contacts()->exists() || $client->quotations()->exists() || $client->sales()->exists())

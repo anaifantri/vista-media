@@ -64,7 +64,7 @@ class QuotationStatusController extends Controller
                 }
             }
 
-            return redirect('/quotations/'.$validateData['quotation_id'])->with('success','Progress surat penawaran telah di update');
+            return redirect('/marketing/quotations/'.$validateData['quotation_id'])->with('success','Progress surat penawaran telah di update');
             
         } else {
             abort(403);

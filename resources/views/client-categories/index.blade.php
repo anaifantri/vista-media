@@ -12,7 +12,7 @@
                     <!-- Button Create New Media Category start -->
                     @canany(['isAdmin', 'isMedia'])
                         <div class="flex">
-                            <a href="/client-categories/create" class="index-link btn-primary"><span></span>
+                            <a href="/marketing/client-categories/create" class="index-link btn-primary"><span></span>
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -26,7 +26,7 @@
                 </div>
                 <!-- Button Create New Media Category end -->
                 <!-- Alert Success Create New Media Category start -->
-                <form class="mt-2" action="/client-categories/">
+                <form class="mt-2" action="/marketing/client-categories/">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
@@ -92,7 +92,7 @@
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/client-categories/{{ $category->id }}"
+                                        <a href="/marketing/client-categories/{{ $category->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
                                             <svg class="w-5 fill-current" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -103,7 +103,7 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        <a href="/client-categories/{{ $category->id }}/edit"
+                                        <a href="/marketing/client-categories/{{ $category->id }}/edit"
                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -114,7 +114,7 @@
                                             </svg>
                                         </a>
                                         @can('isAdmin')
-                                            <form action="/client-categories/{{ $category->id }}" method="post"
+                                            <form action="/marketing/client-categories/{{ $category->id }}" method="post"
                                                 class="d-inline my-1">
                                                 @method('delete')
                                                 @csrf

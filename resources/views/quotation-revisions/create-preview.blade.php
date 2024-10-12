@@ -1,7 +1,7 @@
 @php
     $dataDescription = json_decode($products[0]->description);
 @endphp
-<form class="flex justify-center" action="/quotation-revisions" method="post" enctype="multipart/form-data">
+<form class="flex justify-center" action="/marketing/quotation-revisions" method="post" enctype="multipart/form-data">
     @csrf
     <input type="text" name="number" id="number"
         value="{{ $number }}_Rev{{ count($quotation->quotation_revisions) + 1 }}/SPH/VM/{{ $romawi[(int) date('m')] }}-{{ date('Y') }}"

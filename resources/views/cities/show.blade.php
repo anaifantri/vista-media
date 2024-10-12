@@ -9,7 +9,7 @@
                 <h1 class="index-h1 w-[500px]">DATA KOTA {{ strtoupper($city->city) }}</h1>
                 <!-- Title Area end -->
                 <div class="flex w-full justify-end items-center">
-                    <a class="flex justify-center items-center mx-1 btn-primary" href="/cities">
+                    <a class="flex justify-center items-center mx-1 btn-primary" href="/media/cities">
                         <svg class="fill-current w-6" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -19,7 +19,8 @@
                         <span class="mx-1">Back</span>
                     </a>
                     @canany(['isAdmin', 'isMedia'])
-                        <a href="/cities/{{ $city->id }}/edit" class="flex items-center justify-center btn-warning mx-1">
+                        <a href="/media/cities/{{ $city->id }}/edit"
+                            class="flex items-center justify-center btn-warning mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -28,7 +29,7 @@
                             </svg>
                             <span class="mx-1"> Edit </span>
                         </a>
-                        <form action="/cities/{{ $city->id }}" method="post" class="d-inline m-1">
+                        <form action="/media/cities/{{ $city->id }}" method="post" class="d-inline m-1">
                             @method('delete')
                             @csrf
                             @if ($city->locations()->exists())

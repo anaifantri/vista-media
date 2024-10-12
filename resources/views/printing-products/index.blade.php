@@ -12,7 +12,7 @@
                     <!-- Button Create New Printing Products start -->
                     @canany(['isAdmin', 'isMedia'])
                         <div class="flex">
-                            <a href="/printing-products/create" class="index-link btn-primary"><span></span>
+                            <a href="/marketing/printing-products/create" class="index-link btn-primary"><span></span>
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -26,7 +26,7 @@
                 </div>
                 <!-- Button Create New Printing Product end -->
                 <!-- Alert Success Create New Printing Product start -->
-                <form class="mt-2" action="/printing-products/">
+                <form class="mt-2" action="/marketing/printing-products/">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
@@ -96,7 +96,7 @@
                                     {{ number_format($printing_product->price) }}</td>
                                 <td class="text-teal-700 border text-xs text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/printing-products/{{ $printing_product->id }}"
+                                        <a href="/marketing/printing-products/{{ $printing_product->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
                                             <svg class="w-5 fill-current" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -107,7 +107,7 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        <a href="/printing-products/{{ $printing_product->id }}/edit"
+                                        <a href="/marketing/printing-products/{{ $printing_product->id }}/edit"
                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -118,8 +118,8 @@
                                             </svg>
                                         </a>
                                         @can('isAdmin')
-                                            <form action="/printing-products/{{ $printing_product->id }}" method="post"
-                                                class="d-inline m-1">
+                                            <form action="/marketing/printing-products/{{ $printing_product->id }}"
+                                                method="post" class="d-inline m-1">
                                                 @method('delete')
                                                 @csrf
                                                 <button

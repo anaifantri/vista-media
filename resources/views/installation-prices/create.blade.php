@@ -2,7 +2,7 @@
 
 @section('container')
     <div class="flex justify-center mt-10">
-        <form class="md:flex" method="post" action="/installation-prices" enctype="multipart/form-data">
+        <form class="md:flex" method="post" action="/marketing/installation-prices" enctype="multipart/form-data">
             @csrf
             <div class="flex w-[300px] h-max p-4 border rounded-lg justify-center">
                 <div class="p-3 w-full">
@@ -64,7 +64,8 @@
                                     </svg>
                                     <span class="mx-2"> Save </span>
                                 </button>
-                                <a href="/installation-prices" class="flex items-center justify-center btn-danger mx-1">
+                                <a href="/marketing/installation-prices"
+                                    class="flex items-center justify-center btn-danger mx-1">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">

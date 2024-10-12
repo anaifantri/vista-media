@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/clients" enctype="multipart/form-data">
+    <form method="post" action="/marketing/clients" enctype="multipart/form-data">
         @csrf
         <div class="flex justify-center mt-10">
             @if (request('clientType') == 'Perorangan' || old('type') == 'Perorangan')
@@ -147,7 +147,7 @@
                                 </svg>
                                 <span class="mx-2"> Save </span>
                             </button>
-                            <a href="/clients" class="flex items-center justify-center btn-danger mx-1">
+                            <a href="/marketing/clients" class="flex items-center justify-center btn-danger mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -255,7 +255,7 @@
                                 </svg>
                                 <span class="mx-2"> Save </span>
                             </button>
-                            <a href="/clients" class="flex items-center justify-center btn-danger mx-1">
+                            <a href="/marketing/clients" class="flex items-center justify-center btn-danger mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -271,7 +271,7 @@
             </div>
         </div>
     </form>
-    <form id="formType" action="/clients/create">
+    <form id="formType" action="/marketing/clients/create">
         <input id="clientType" name="clientType" type="text" hidden>
     </form>
 

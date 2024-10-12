@@ -64,7 +64,7 @@ class QuotationApprovalController extends Controller
                 }
             }
 
-            return redirect('/quotation-approvals/show-approvals/'.$request->quotation_id)->with('success', count($request->document_approval).' Dokumen persetujuan berhasil ditambahkan');
+            return redirect('/marekting/quotation-approvals/show-approvals/'.$request->quotation_id)->with('success', count($request->document_approval).' Dokumen persetujuan berhasil ditambahkan');
         } else {
             abort(403);
         }

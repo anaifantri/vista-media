@@ -13,7 +13,8 @@
                     @if (request('media_category_id') != '' && request('media_category_id') != 'All')
                         @canany(['isAdmin', 'isMedia', 'isMarketing'])
                             <div>
-                                <a href="/locations/create-location/{{ $data_categories->name }}" class="index-link btn-primary">
+                                <a href="/media/locations/create-location/{{ $data_categories->name }}"
+                                    class="index-link btn-primary">
                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                         stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -28,7 +29,7 @@
                 @else
                     @canany(['isAdmin', 'isMedia', 'isMarketing'])
                         <div>
-                            <a href="/locations/create-location/{{ $category }}" class="index-link btn-primary">
+                            <a href="/media/locations/create-location/{{ $category }}" class="index-link btn-primary">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -42,7 +43,7 @@
                 @endif
             </div>
             <div>
-                <form action="/locations/home/{{ $category }}">
+                <form action="/media/locations/home/{{ $category }}">
                     <div class="flex mt-1 ml-2">
                         <div class="w-36">
                             <span class="text-base text-teal-900">Area</span>
@@ -246,7 +247,7 @@
                                 </td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/locations/{{ $location->id }}"
+                                        <a href="/media/locations/{{ $location->id }}"
                                             class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                             <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -257,7 +258,7 @@
                                             </svg>
                                         </a>
                                         @canany(['isAdmin', 'isMedia', 'isMarketing'])
-                                            <a href="/locations/{{ $location->id }}/edit"
+                                            <a href="/media/locations/{{ $location->id }}/edit"
                                                 class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
                                                 <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -268,7 +269,7 @@
                                                 </svg>
                                             </a>
                                             @can('isAdmin')
-                                                <form action="/locations/{{ $location->id }}" method="post"
+                                                <form action="/media/locations/{{ $location->id }}" method="post"
                                                     class="d-inline m-1">
                                                     @method('delete')
                                                     @csrf

@@ -89,7 +89,7 @@ class VendorController extends Controller
             
             Vendor::create($validateData);
             
-            return redirect('/vendors')->with('success','Vendor baru dengan nama '. $request->name . ' berhasil ditambahkan');
+            return redirect('/marketing/vendors')->with('success','Vendor baru dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -159,7 +159,7 @@ class VendorController extends Controller
             Vendor::where('id', $vendor->id)
                     ->update($validateData);
 
-            return redirect('/vendors')->with('success','Vendor dengan nama '. $request->name . ' berhasil dirubah');
+            return redirect('/marketing/vendors')->with('success','Vendor dengan nama '. $request->name . ' berhasil dirubah');
         } else {
             abort(403);
         }
@@ -173,7 +173,7 @@ class VendorController extends Controller
         if(auth()->user()->level === 'Administrator'){
             Vendor::destroy($vendor->id);
 
-            return redirect('/vendors')->with('success','Data vendor dengan nama '. $vendor->name .' berhasil dihapus');
+            return redirect('/marketing/vendors')->with('success','Data vendor dengan nama '. $vendor->name .' berhasil dihapus');
         } else {
             abort(403);
         }

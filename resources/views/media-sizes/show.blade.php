@@ -48,7 +48,7 @@
                     </div>
                 @endif
                 <div class="flex mt-2">
-                    <a href="/media-sizes" class="flex items-center justify-center btn-primary mx-1">
+                    <a href="/media/media-sizes" class="flex items-center justify-center btn-primary mx-1">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -57,7 +57,7 @@
                         </svg>
                         <span class="mx-1"> Back </span>
                     </a>
-                    <a href="/media-sizes/{{ $media_size->id }}/edit"
+                    <a href="/media/media-sizes/{{ $media_size->id }}/edit"
                         class="flex items-center justify-center btn-warning mx-1">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +67,7 @@
                         </svg>
                         <span class="mx-1"> Edit </span>
                     </a>
-                    <form action="/media-sizes/{{ $media_size->id }}" method="post" class="d-inline">
+                    <form action="/media/media-sizes/{{ $media_size->id }}" method="post" class="d-inline">
                         @method('delete')
                         @csrf
                         @if ($size->locations()->exists())

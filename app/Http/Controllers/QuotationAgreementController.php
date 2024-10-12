@@ -66,7 +66,7 @@ class QuotationAgreementController extends Controller
                 }
             }
 
-            return redirect('/quotation-agreements/show-agreements/'.$request->quotation_id)->with('success', count($request->document_agreement).' Dokumen Perjanjian berhasil ditambahkan');
+            return redirect('/marketing/quotation-agreements/show-agreements/'.$request->quotation_id)->with('success', count($request->document_agreement).' Dokumen Perjanjian berhasil ditambahkan');
         } else {
             abort(403);
         }
