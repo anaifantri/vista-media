@@ -40,7 +40,7 @@
                         </a>
                     </div>
                 </div>
-                <form action="/quotations/select-location/{{ $data_category->name }}">
+                <form action="/marketing/quotations/select-location/{{ $data_category->name }}">
                     <input id="requestService" type="text" value="{{ request('serviceType') }}" hidden>
                     <input id="requestType" type="text" value="{{ request('quotationType') }}" hidden>
                     <div class="flex mt-1 ml-2">
@@ -210,7 +210,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form action="/quotations/select-location/{{ $data_category->name }}">
+                            <form action="/marketing/quotations/select-location/{{ $data_category->name }}">
                                 @php
                                     $index = 0;
                                 @endphp
@@ -389,7 +389,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form action="/quotations/select-location/{{ $data_category->name }}">
+                            <form action="/marketing/quotations/select-location/{{ $data_category->name }}">
                                 @php
                                     $index = 0;
                                 @endphp
@@ -605,7 +605,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form action="/quotations/select-location/{{ $data_category->name }}">
+                            <form action="/marketing/quotations/select-location/{{ $data_category->name }}">
                                 @php
                                     $index = 0;
                                 @endphp
@@ -789,7 +789,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form action="/quotations/select-location/{{ $data_category->name }}">
+                            <form action="/marketing/quotations/select-location/{{ $data_category->name }}">
                                 @php
                                     $index = 0;
                                 @endphp

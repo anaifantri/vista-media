@@ -46,7 +46,7 @@
             </div>
             @include('dashboard.layouts.select-distance')
             @include('dashboard.layouts.select-sector')
-            @canany(['isAdmin', 'isMarketing'])
+            @canany(['isAdmin', 'isMarketing', 'isMedia'])
                 <div id="price" name="price" class="mt-1">
                     <label class="text-sm text-teal-700">Harga</label>
                     <input

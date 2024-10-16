@@ -41,7 +41,7 @@ class PrintingPriceController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             return response()-> view ('printing-prices.create', [
                 'printing_products'=>PrintingProduct::all(),
                 'vendors'=>Vendor::all(),
@@ -58,7 +58,7 @@ class PrintingPriceController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             if ($request->printing_product_id == 'pilih'){
                 return back()->withErrors(['printing_product_id' => ['Silahkan pilih bahan']])->withInput();
             }
@@ -122,7 +122,7 @@ class PrintingPriceController extends Controller
      */
     public function edit(PrintingPrice $printingPrice): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             return response()->view('printing-prices.edit', [
                 'printing_price' => $printingPrice,
                 'printing_products'=>PrintingProduct::all(),
@@ -140,7 +140,7 @@ class PrintingPriceController extends Controller
      */
     public function update(Request $request, PrintingPrice $printingPrice): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -163,7 +163,7 @@ class PrintingPriceController extends Controller
      */
     public function destroy(PrintingPrice $printingPrice): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             PrintingPrice::destroy($printingPrice->id);
 
             return redirect('/marketing/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->code .' berhasil dihapus');

@@ -31,6 +31,9 @@ class PrintOrder extends Model
     public function sale(){
         return $this->belongsTo(Sale::class);
     }
+    public function location(){
+        return $this->belongsTo(Location::class);
+    }
 
     public $sortable = ['number'];
 }

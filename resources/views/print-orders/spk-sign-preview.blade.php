@@ -9,7 +9,11 @@
                 </tr>
                 <tr>
                     <th class="text-teal-900 font-semibold text-sm border">PT. Vista Media,</th>
-                    <th id="vendorSign" class="text-teal-900 font-semibold text-sm border"></th>
+                    <th id="vendorSignPreview" class="text-teal-900 font-semibold text-sm border">
+                        @if ($vendor != null)
+                            {{ $vendor->company }}
+                        @endif
+                    </th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -21,7 +25,6 @@
                     <td></td>
                     <td></td>
                 </tr>
-
             </tbody>
         </table>
     </div>

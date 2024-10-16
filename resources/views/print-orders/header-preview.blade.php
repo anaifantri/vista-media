@@ -12,30 +12,18 @@
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">Nama Vendor</label>
                     <label class="flex text-xs">:</label>
-                    @if ($vendor != null)
-                        <label class="flex text-xs ml-1 w-60">{{ $vendor->company }}</label>
-                    @else
-                        <label class="flex text-xs ml-1 w-60"></label>
-                    @endif
+                    <label class="flex text-xs px-1 w-60 border-b">{{ $product->vendor_company }}</label>
                 </div>
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">Alamat</label>
                     <label class="flex text-xs">:</label>
-                    @if ($vendor != null)
-                        <textarea class="flex text-xs ml-1 w-60 border rounded-sm outline-none p-1" rows="2" readonly>{{ $vendor->address }}
-                    </textarea>
-                    @else
-                        <textarea class="flex text-xs ml-1 w-60 border rounded-sm outline-none p-1" rows="2" readonly></textarea>
-                    @endif
+                    <label
+                        class="flex text-xs ml-1 w-60 border rounded-sm h-12 p-1">{{ $product->vendor_address }}</label>
                 </div>
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">No. Telp</label>
                     <label class="flex text-xs">:</label>
-                    @if ($vendor != null)
-                        <label class="flex text-xs ml-1 w-60">{{ $vendor->phone }}</label>
-                    @else
-                        <label class="flex text-xs ml-1 w-60"></label>
-                    @endif
+                    <label class="flex text-xs ml-1 w-60 border-b px-1">{{ $product->vendor_phone }}</label>
                 </div>
             </div>
         </div>

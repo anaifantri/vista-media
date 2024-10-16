@@ -4,13 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PrintingProduct;
 use Kyslik\ColumnSortable\Sortable;
 
 class PrintingPrice extends Model
 {
     use Sortable;
     protected $guarded = ['id'];
+
+    public function scopeVendor($query){
+        if (request('vendorId') != 'pilih') {
+            return $query->where('vendor_id', 'like', '%' . request('vendorId') . '%');
+        }
+    }
+
+    public function scopeProduct($query){
+        if (request('productType')) {
+            return $query->whereHas('printing_product', function($query){
+                $query->where('type', 'like', '%' . request('productType') . '%');
+            });
+        }
+    }
 
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 

@@ -156,7 +156,6 @@ class QuotationController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing' ){
-            dd($request);
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             // Set number --> start
             $lastQuotation = Quotation::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();

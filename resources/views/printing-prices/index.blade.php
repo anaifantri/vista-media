@@ -10,7 +10,7 @@
                     <h1 class="index-h1"> DAFTAR HARGA CETAK</h1>
                     <!-- Title Printing Prices end -->
                     <!-- Button Create New Printing Prices start -->
-                    @canany(['isAdmin', 'isMedia'])
+                    @canany(['isAdmin', 'isMarketing'])
                         <div class="flex">
                             <a href="/marketing/printing-prices/create" class="index-link btn-primary"><span></span>
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"

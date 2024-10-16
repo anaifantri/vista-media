@@ -41,6 +41,27 @@ class Location extends Model
             return $query->where('condition', 'like', '%' . request('condition') . '%');
         }
     }
+
+    public function scopePrint($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '!=', 'Videotron');
+                    })
+                    ->whereHas('media_category', function($query){
+                                    $query->where('name', '!=', 'Service');
+                    })
+                    ->whereHas('media_category', function($query){
+                                    $query->where('name', '=', 'Billboard');
+                    })
+                    ->whereDoesntHave('sales')
+                    ->orWhereHas('sales', function($query){
+                        $query->where('end_at', '<', date('Y-m-d'));
+                    })
+                    ->orWhereHas('media_category', function($query){
+                                    $query->where('name', '=', 'Signage');
+                    })
+                    ->orWhere('description->type', '=', 'Neon Box')
+                    ->orWhere('description->type', '=', 'Papan');
+    }
     
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
@@ -97,6 +118,11 @@ class Location extends Model
     public function land_agreements(){
         return $this->hasMany(LandAgreement::class, 'location_id', 'id');
     }
+
+    public function print_orders(){
+        return $this->hasMany(PrintOrder::class, 'location_id', 'id');
+    }
+
     public function licenses(){
         return $this->hasMany(License::class, 'location_id', 'id');
     }

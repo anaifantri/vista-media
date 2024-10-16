@@ -17,16 +17,35 @@ class Sale extends Model
         }
     }
 
-    public function scopeArea($query, $filter){
+    public function scopeArea($query){
         if (request('area') != 'All') {
-            $query->when($filter ?? false, fn($query, $area) => 
-                $query->whereHas('location', function($query) use ($area){
-                        $query->whereHas('area', function($query) use ($area){
-                            $query->where('area_id', 'like', '%' . $area . '%');
+                $query->whereHas('location', function($query){
+                        $query->whereHas('area', function($query){
+                            $query->where('area_id', 'like', '%' . request('area') . '%');
                         });
-                    })
-                );
+                    });
         }
+    }
+
+    public function scopeCity($query){
+        if (request('city') != 'All') {
+                $query->whereHas('location', function($query){
+                        $query->whereHas('city', function($query){
+                            $query->where('city_id', 'like', '%' . request('city') . '%');
+                        });
+                    });
+        }
+    }
+
+    public function scopePrint($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '==', 'Service');
+                    });
+    }
+    public function scopeFree($query){
+        return $query->whereHas('quotation', function($query){
+                    $query->where('notes->freePrint', '>', 0);
+                });
     }
 
     public function scopeFilter($query, $filter){
@@ -72,6 +91,10 @@ class Sale extends Model
 
     public function print_order(){
         return $this->hasOne(PrintOrder::class, 'sale_id', 'id');
+    }
+
+    public function print_orders(){
+        return $this->hasMany(PrintOrder::class, 'sale_id', 'id');
     }
 
     public $sortable = ['number'];

@@ -738,6 +738,10 @@ video {
   margin-left: 0.5rem;
 }
 
+.ml-20 {
+  margin-left: 5rem;
+}
+
 .ml-28 {
   margin-left: 7rem;
 }
@@ -992,6 +996,10 @@ video {
 
 .h-\[30px\] {
   height: 30px;
+}
+
+.h-\[310px\] {
+  height: 310px;
 }
 
 .h-\[330px\] {
@@ -1269,6 +1277,10 @@ video {
 
 .w-\[170px\] {
   width: 170px;
+}
+
+.w-\[175px\] {
+  width: 175px;
 }
 
 .w-\[180px\] {
@@ -2172,6 +2184,10 @@ video {
 
 .align-top {
   vertical-align: top;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 .font-mono {

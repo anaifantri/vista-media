@@ -1,27 +1,10 @@
-@php
-    $bulan = [
-        1 => 'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Agustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember',
-    ];
-    $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
-@endphp
-<div class="h-[330px] mt-5">
+<div class="h-[310px] mt-4">
     <div class="flex w-full items-center px-10">
         <div class="w-[950px]">
             <label class="flex text-md font-semibold justify-center w-full mt-2"><u>SPK CETAK GAMBAR</u></label>
             <label class="flex text-md text-slate-500 justify-center w-full">Nomor : penomoroan otomatis </label>
-            <div class="flex justify-center w-full mt-4">
-                <div class="w-[500px] border p-3">
+            <div class="flex justify-center w-full mt-2">
+                <div class="w-[500px] border p-2">
                     <div class="flex">
                         <div class="w-[240px] border rounded-md p-1">
                             <div class="flex mt-1">
@@ -34,89 +17,93 @@
                             <div class="flex mt-1">
                                 <label class="flex text-sm text-teal-900 w-24">Design</label>
                                 <label class="flex text-sm text-teal-900">:</label>
-                                <input type="text"
+                                <input id="copyDesign" type="text" placeholder="Terisi Otomatis"
                                     class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
                                     readonly>
                             </div>
                             <div class="flex mt-1">
                                 <label class="flex text-sm text-teal-900 w-24">Ukuran</label>
                                 <label class="flex text-sm text-teal-900">:</label>
-                                <input type="text"
+                                <input type="text" value="{{ $size }}"
                                     class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
                                     readonly>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-teal-900">Bahan</label>
-                                <label class="flex text-sm text-teal-900 ml-4">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
-                                    readonly>
-                            </div>
-                            <div class="flex mt-1">
-                                <label class="flex text-sm text-teal-900 w-24">Jumlah</label>
+                                <label class="flex text-sm text-teal-900 w-24">Status</label>
                                 <label class="flex text-sm text-teal-900">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
-                                    readonly>
+                                @if ($orderType == 'sale')
+                                    <input type="text" value="Free ke {{ $usedPrint + 1 }} dari {{ $freePrint }}"
+                                        class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
+                                        readonly>
+                                @else
+                                    <input type="text" value="Free"
+                                        class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
+                                        readonly>
+                                @endif
                             </div>
+                            @if ($side == 2)
+                                <div class="flex mt-1">
+                                    <input id="cbRightCopy" class="outline-none" type="checkbox"
+                                        onclick="cbRightAction(this)" checked disabled>
+                                    <label class="flex ml-1 text-sm text-teal-900 w-16">Kanan</label>
+                                    <input id="cbLeftCopy" class="ml-2 outline-none" type="checkbox"
+                                        onclick="cbLeftAction(this)" checked disabled>
+                                    <label class="flex ml-1 text-sm text-teal-900 w-16">Kiri</label>
+                                </div>
+                            @endif
                         </div>
                         <div class="w-[240px] border rounded-md p-1 ml-1">
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-teal-900 w-24">No. Penjualan</label>
+                                <label class="flex text-sm text-teal-900 w-14">Bahan</label>
                                 <label class="flex text-sm text-teal-900">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1 w-28"
+                                <input id="copyProduct" type="text" placeholder="Terisi Otomatis"
+                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
                                     readonly>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-teal-900 w-24">Tgl. Penjualan</label>
+                                <label class="flex text-sm text-teal-900 w-14">Harga</label>
                                 <label class="flex text-sm text-teal-900">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1 w-28"
-                                    value="{{ $spkDate }}" readonly>
-                            </div>
-                            <div class="flex mt-1">
-                                <label class="flex text-sm text-teal-900 w-24">No. Penawaran</label>
-                                <label class="flex text-sm text-teal-900">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1 w-28"
+                                <input id="copyPrice" type="number" placeholder="Terisi Otomatis"
+                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
                                     readonly>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-teal-900 w-24">Tgl. Penawaran</label>
+                                <label class="flex text-sm text-teal-900 w-14">Jumlah</label>
                                 <label class="flex text-sm text-teal-900">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1 w-28"
-                                    value="{{ $spkDate }}" readonly>
+                                <input id="qtyCopy" type="number" value="{{ $qty }}"
+                                    placeholder="Terisi Otomatis"
+                                    class="flex ml-2 text-sm w-8 text-teal-900 border rounded-sm outline-none px-1"
+                                    readonly>
+                                <label class="flex ml-2 text-sm text-teal-900">Lembar</label>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-teal-900 w-12">Status</label>
+                                <label class="flex text-sm text-teal-900 w-14">Total</label>
                                 <label class="flex text-sm text-teal-900">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1 w-40"
-                                    value="Free ke 12 dari 12" readonly>
+                                <input id="totalCopy" type="number" placeholder="Terisi Otomatis"
+                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
+                                    readonly>
                             </div>
                         </div>
                     </div>
                     <div class="flex mt-1">
                         <label class="flex text-sm text-teal-900 w-24">Finishing</label>
                         <label class="flex text-sm text-teal-900">:</label>
-                        <input type="text"
+                        <input id="copyFinishing" type="text" placeholder="Terisi Otomatis"
                             class="flex w-[370px] ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
                             readonly>
                     </div>
                     <div class="flex mt-1">
                         <label class="flex text-sm text-teal-900 w-24">Catatan</label>
                         <label class="flex text-sm text-teal-900">:</label>
-                        <textarea class="flex w-[370px] ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1" rows="3" readonly></textarea>
+                        <textarea id="copyNotes" class="flex w-[370px] ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
+                            rows="3" placeholder="Terisi Otomatis" readonly></textarea>
                     </div>
                 </div>
                 <div class="w-[280px] border ml-2 p-1">
-                    <input class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full"
-                        type="file" onchange="previewImage(this)">
+                    <label class="flex text-sm text-teal-900 w-full px-1 justify-center font-semibold">Design</label>
                     <div class="flex justify-center items-center border mt-3 p-1">
-                        <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[200px]"
-                            src="/img/photo_profile.png">
+                        <img class="m-auto img-preview-copy flex items-center justify-center max-w-[260px] max-h-[200px]"
+                            src="/img/product-image.png">
                     </div>
                 </div>
             </div>

@@ -340,7 +340,7 @@
                                         <div class="flex justify-center mt-2">
                                             <div class="sale-detail">
                                                 <img class="img-location-sale"
-                                                    src="{{ asset('storage/' . $product->location_photo) }}">
+                                                    src="{{ asset('storage/' . $products[$loop->iteration - 1]->location_photo) }}">
                                             </div>
                                             <div class="qr-code-sale ml-4">
 

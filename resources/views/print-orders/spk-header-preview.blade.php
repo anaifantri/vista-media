@@ -12,29 +12,29 @@
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">Nama Vendor</label>
                     <label class="flex text-xs">:</label>
-                    @if ($vendor != null)
-                        <label class="flex text-xs ml-1 w-60">{{ $vendor->company }}</label>
-                    @else
-                        <label class="flex text-xs ml-1 w-60"></label>
-                    @endif
+                    <label class="flex text-xs px-1 w-60 border-b">
+                        @if ($vendor != null)
+                            {{ $vendor->company }}
+                        @endif
+                    </label>
                 </div>
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">Alamat</label>
                     <label class="flex text-xs">:</label>
                     @if ($vendor != null)
-                        <textarea class="flex text-xs ml-1 w-60 border rounded-sm outline-none p-1" rows="2" readonly>{{ $vendor->address }}
-                    </textarea>
+                        <label class="flex text-xs ml-1 w-60 border rounded-sm h-12 p-1">{{ $vendor->address }}
+                        </label>
                     @else
-                        <textarea class="flex text-xs ml-1 w-60 border rounded-sm outline-none p-1" rows="2" readonly></textarea>
+                        <label class="flex text-xs ml-1 border rounded-sm h-12 w-60 p-1"></label>
                     @endif
                 </div>
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">No. Telp</label>
                     <label class="flex text-xs">:</label>
                     @if ($vendor != null)
-                        <label class="flex text-xs ml-1 w-60">{{ $vendor->phone }}</label>
+                        <label class="flex text-xs ml-1 w-60 border-b px-1">{{ $vendor->phone }}</label>
                     @else
-                        <label class="flex text-xs ml-1 w-60"></label>
+                        <label class="flex text-xs ml-1 w-60 border-b px-1"></label>
                     @endif
                 </div>
             </div>

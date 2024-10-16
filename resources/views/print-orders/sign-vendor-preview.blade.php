@@ -9,19 +9,19 @@
                 </tr>
                 <tr>
                     <th class="text-teal-900 font-semibold text-sm border">PT. Vista Media,</th>
-                    <th id="vendorSign" class="text-teal-900 font-semibold text-sm border"></th>
+                    <th id="vendorSignPreview" class="text-teal-900 font-semibold text-sm border">
+                        {{ $product->vendor_company }}</th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="td-sign">(<u>{{ auth()->user()->name }})</u></td>
+                    <td class="td-sign">(<u>{{ $created_by->name }}</u>)</td>
                     <td class="td-sign">(___________________________)</td>
                     <td></td>
                     <td></td>
                 </tr>
-
             </tbody>
         </table>
     </div>

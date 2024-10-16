@@ -34,7 +34,7 @@ class PrintingProductController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             return response()-> view ('printing-products.create', [
                 'title' => 'Menambahkan Data Bahan Cetak',
                 'categories' => MediaCategory::all()
@@ -49,7 +49,7 @@ class PrintingProductController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
         
             if ($request->type == 'pilih'){
                 return back()->withErrors(['type' => ['Silahkan pilih type bahan']])->withInput();
@@ -107,7 +107,7 @@ class PrintingProductController extends Controller
      */
     public function edit(PrintingProduct $printingProduct): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             return response()->view('printing-products.edit', [
                 'printing_product' => $printingProduct,
                 'title' => 'Edit Data Bahan Cetak',
@@ -123,7 +123,7 @@ class PrintingProductController extends Controller
      */
     public function update(Request $request, PrintingProduct $printingProduct): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -150,7 +150,7 @@ class PrintingProductController extends Controller
      */
     public function destroy(PrintingProduct $printingProduct): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             PrintingProduct::destroy($printingProduct->id);
 
             return redirect('/marketing/printing-products')->with('success','Bahan cetak dengan nama '. $printingProduct->name .' berhasil dihapus');

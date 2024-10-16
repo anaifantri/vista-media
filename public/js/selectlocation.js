@@ -121,7 +121,7 @@ quotationCreate = () => {
         alert("Silahkan pilih lokasi terlebih dahulu...!!")
     } else {
         let objId = JSON.stringify(locationId);
-        btnCreate.setAttribute('href', '/quotations/create-quotation/' + category.value + '/' + getType +
+        btnCreate.setAttribute('href', '/marketing/quotations/create-quotation/' + category.value + '/' + getType +
             '/' + objId + '/' + area.value +
             '/' + city.value);
         btnCreate.click();

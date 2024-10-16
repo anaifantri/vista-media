@@ -224,7 +224,7 @@ class SaleController extends Controller
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             foreach($sales as $sale){
                 // Set number --> start
-                $lastSales = Sale::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
+                $lastSales = Sale::where('company_id', $sale->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
                 if($lastSales){
                     $lastNumber = (int)substr($lastSales->number,0,4);
                     $newNumber = $lastNumber + 1;

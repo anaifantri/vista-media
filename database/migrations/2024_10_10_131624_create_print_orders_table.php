@@ -17,11 +17,12 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained();
             $table->foreignId('vendor_id')->constrained();
             $table->foreignId('sale_id')->nullable()->constrained();
+            $table->foreignId('location_id')->constrained();
             $table->string('design');
             $table->string('theme');
-            $table->date('print_at');
+            $table->string('notes')->nullable();
+            $table->decimal('price',12,0)->unsigned()->default(0);
             $table->json('product');
-            $table->json('notes');
             $table->json('created_by');
             $table->json('updated_by');
             $table->timestamps();

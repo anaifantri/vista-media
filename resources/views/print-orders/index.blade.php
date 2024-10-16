@@ -1,13 +1,16 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
+    <?php
+    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    ?>
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
             <div class="w-[1200px] p-2">
                 <div class="flex border-b">
                     <h1 class="index-h1">Daftar SPK Cetak</h1>
                     <div class="flex">
-                        <a href="/marketing/print-orders/create" class="index-link btn-primary">
+                        <a href="/print-orders/select-locations" class="index-link btn-primary">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -18,7 +21,7 @@
                         </a>
                     </div>
                 </div>
-                <form class="flex mt-2" action="/marketing/print-orders/">
+                <form class="flex mt-2" action="/marketing/print-orders">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
@@ -49,8 +52,8 @@
                     <thead>
                         <tr class="bg-teal-100 h-10">
                             <th class="text-teal-700 border text-sm w-8 text-center">No.</th>
-                            <th class="text-teal-700 border text-sm text-center w-48">
-                                <button class="flex justify-center items-center w-48">@sortablelink('number', 'Nomor SPK')
+                            <th class="text-teal-700 border text-sm text-center w-40">
+                                <button class="flex justify-center items-center w-40">@sortablelink('number', 'Nomor SPK')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
@@ -58,9 +61,14 @@
                                 </button>
                             </th>
                             <th class="text-teal-700 border text-sm text-center">Nama Vendor</th>
-                            <th class="text-teal-700 border text-sm text-center w-28">Tgl. Cetak</th>
-                            <th class="text-teal-700 border text-sm text-center w-80">Tema/Design</th>
-                            <th class="text-teal-700 border text-sm text-center w-28">Status</th>
+                            <th class="text-teal-700 border text-sm text-center w-32">Tgl. Cetak</th>
+                            <th class="text-teal-700 border text-sm text-center">Tema/Design</th>
+                            <th class="text-teal-700 border text-sm text-center w-16">Jenis</th>
+                            <th class="text-teal-700 border text-sm text-center w-24">Bahan</th>
+                            <th class="text-teal-700 border text-sm text-center w-20">Ukuran</th>
+                            <th class="text-teal-700 border text-sm text-center w-10">Qty</th>
+                            <th class="text-teal-700 border text-sm text-center w-16">Harga</th>
+                            <th class="text-teal-700 border text-sm text-center w-20">Total</th>
                             <th class="text-teal-700 border text-sm text-center w-28">Action</th>
                         </tr>
                     </thead>
@@ -69,13 +77,29 @@
                             $number = 1 + ($print_orders->currentPage() - 1) * $print_orders->perPage();
                         @endphp
                         @foreach ($print_orders as $order)
+                            @php
+                                $product = json_decode($order->product);
+                                $created_by = json_decode($order->created_by);
+                                $notes = json_decode($order->notes);
+                            @endphp
                             <tr>
                                 <td class="text-teal-700 p-1 border text-sm  text-center">{{ $number++ }}</td>
                                 <td class="text-teal-700 p-1 border text-sm text-center">{{ $order->number }}</td>
-                                <td class="text-teal-700 p-1 border text-sm text-center">{{ $order->vendor->name }}</td>
-                                <td class="text-teal-700 p-1 border text-sm text-center">{{ $order->print_at }}</td>
-                                <td class="text-teal-700 p-1 border text-sm text-center"></td>
-                                <td class="text-teal-700 p-1 border text-sm text-center"></td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">{{ $product->vendor_company }}</td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">
+                                    {{ date('d', strtotime($order->created_at)) }}
+                                    {{ $bulan[(int) date('m', strtotime($order->created_at))] }}
+                                    {{ date('Y', strtotime($order->created_at)) }}</td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">{{ $order->theme }}</td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">{{ $product->product_type }}</td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">{{ $product->product_name }}</td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">{{ $product->location_size }}</td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">{{ $product->location_side }}</td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">
+                                    {{ number_format($product->product_price) }}
+                                </td>
+                                <td class="text-teal-700 p-1 border text-sm text-center">{{ number_format($order->price) }}
+                                </td>
                                 <td class="text-teal-700 p-1 border text-sm text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/marketing/print-orders/{{ $order->id }}"

@@ -1,77 +1,116 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/marketing/print-orders" enctype="multipart/form-data">
-        @csrf
-        <div class="flex justify-center w-full bg-black">
-            <div class="mt-10">
-                <div class="flex items-center w-[950px] border-b px-2">
-                    <!-- Title Area start -->
-                    <h1 class="index-h1 w-[500px]"> MENAMBAHKAN DATA SPK CETAK</h1>
-                    <!-- Title Area end -->
-                    <div class="flex w-full justify-end items-center p-1">
-                        <button id="btnPreview" class="flex justify-center items-center mx-1 btn-primary" title="Preview"
-                            type="button">
-                            <svg class="fill-current w-5 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24">
-                                <path
-                                    d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z" />
-                            </svg>
-                            <span class="ml-2 text-white">Preview</span>
-                        </button>
-                        <a class="flex justify-center items-center mx-1 btn-danger" href="/marketing/print-orders">
-                            <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                height="24" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                            </svg>
-                            <label class="mx-1">Cancel</label>
-                        </a>
-                    </div>
+    @php
+        $bulan = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+        $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
+        if ($orderType == 'sale') {
+            $location_id = $product->id;
+            $code = $product->code;
+            $cityCode = $product->city_code;
+            $side = $product->side;
+            $size = $product->size;
+            $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT);
+            $width = $product->width;
+            $height = $product->height;
+        } elseif ($orderType == 'location') {
+            $location_id = $location->id;
+            $code = $location->code;
+            $cityCode = $location->city->code;
+            $side = $location->side;
+            $size = $location->media_size->size;
+            $qty = (int) filter_var($location->side, FILTER_SANITIZE_NUMBER_INT);
+            $width = $location->media_size->width;
+            $height = $location->media_size->height;
+            $description = json_decode($location->description);
+            $productType = $description->lighting;
+        }
+        $created_by = new stdClass();
+        $created_by->id = auth()->user()->id;
+        $created_by->name = auth()->user()->name;
+        $created_by->position = auth()->user()->position;
+    @endphp
+    <div class="flex justify-center w-full bg-black">
+        <div class="mt-10">
+            <div class="flex items-center w-[950px] border-b px-2">
+                <!-- Title Area start -->
+                <h1 class="index-h1 w-[500px]"> MENAMBAHKAN DATA SPK CETAK</h1>
+                <!-- Title Area end -->
+                <div class="flex w-full justify-end items-center p-1">
+                    <button id="btnPreview" class="flex justify-center items-center mx-1 btn-primary" title="Preview"
+                        type="button" onclick="btnPreviewAction()">
+                        <svg class="fill-current w-5 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" viewBox="0 0 24 24">
+                            <path
+                                d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z" />
+                        </svg>
+                        <span class="ml-2 text-white">Preview</span>
+                    </button>
+                    <a class="flex justify-center items-center mx-1 btn-danger" href="/print-orders/select-locations">
+                        <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                        </svg>
+                        <label class="mx-1">Cancel</label>
+                    </a>
                 </div>
-                <div class="flex justify-center w-full">
-                    <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
-                        <!-- SPK Header start-->
-                        @include('print-orders.spk-header')
-                        <!-- SPK Header end-->
+            </div>
+            <div class="flex justify-center w-full">
+                <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
+                    <!-- SPK Header start-->
+                    @include('print-orders.spk-header')
+                    <!-- SPK Header end-->
 
-                        <!-- SPK Body start-->
-                        @include('print-orders.spk-body')
-                        <!-- SPK Body end-->
+                    <!-- SPK Body start-->
+                    @include('print-orders.spk-body')
+                    <!-- SPK Body end-->
 
-                        <!-- SPK Sign start-->
-                        @include('print-orders.spk-sign')
-                        <!-- SPK Sign end-->
+                    <!-- SPK Sign start-->
+                    @include('print-orders.spk-sign')
+                    <!-- SPK Sign end-->
 
-                        <div class="flex w-full justify-center items-center pt-4">
-                            <div class="border-t h-2 border-slate-500 border-dashed w-full mt-2">
-                            </div>
-                            <svg class="fill-slate-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M14.686 13.646l-6.597 3.181c-1.438.692-2.755-1.124-2.755-1.124l6.813-3.287 2.539 1.23zm6.168 5.354c-.533 0-1.083-.119-1.605-.373-1.511-.731-2.296-2.333-1.943-3.774.203-.822-.23-.934-.891-1.253l-11.036-5.341s1.322-1.812 2.759-1.117c.881.427 4.423 2.136 7.477 3.617l.766-.368c.662-.319 1.094-.43.895-1.252-.351-1.442.439-3.043 1.952-3.77.521-.251 1.068-.369 1.596-.369 1.799 0 3.147 1.32 3.147 2.956 0 1.23-.766 2.454-2.032 3.091-1.266.634-2.15.14-3.406.75l-.394.19.431.21c1.254.614 2.142.122 3.404.759 1.262.638 2.026 1.861 2.026 3.088 0 1.64-1.352 2.956-3.146 2.956zm-1.987-9.967c.381.795 1.459 1.072 2.406.617.945-.455 1.405-1.472 1.027-2.267-.381-.796-1.46-1.073-2.406-.618-.946.455-1.408 1.472-1.027 2.268zm-2.834 2.819c0-.322-.261-.583-.583-.583-.321 0-.583.261-.583.583s.262.583.583.583c.322.001.583-.261.583-.583zm5.272 2.499c-.945-.457-2.025-.183-2.408.611-.381.795.078 1.814 1.022 2.271.945.458 2.024.184 2.406-.611.382-.795-.075-1.814-1.02-2.271zm-18.305-3.351h-3v2h3v-2zm4 0h-3v2h3v-2z" />
-                            </svg>
+                    <div class="flex w-full justify-center items-center pt-2">
+                        <div class="border-t h-2 border-slate-500 border-dashed w-full">
                         </div>
-
-                        <!-- SPK Header start-->
-                        @include('print-orders.spk-header-copy')
-                        <!-- SPK Header end-->
-
-                        <!-- SPK Body start-->
-                        @include('print-orders.spk-body-copy')
-                        <!-- SPK Body end-->
-
-                        <!-- SPK Sign start-->
-                        @include('print-orders.spk-sign')
-                        <!-- SPK Sign end-->
+                        <svg class="fill-slate-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M14.686 13.646l-6.597 3.181c-1.438.692-2.755-1.124-2.755-1.124l6.813-3.287 2.539 1.23zm6.168 5.354c-.533 0-1.083-.119-1.605-.373-1.511-.731-2.296-2.333-1.943-3.774.203-.822-.23-.934-.891-1.253l-11.036-5.341s1.322-1.812 2.759-1.117c.881.427 4.423 2.136 7.477 3.617l.766-.368c.662-.319 1.094-.43.895-1.252-.351-1.442.439-3.043 1.952-3.77.521-.251 1.068-.369 1.596-.369 1.799 0 3.147 1.32 3.147 2.956 0 1.23-.766 2.454-2.032 3.091-1.266.634-2.15.14-3.406.75l-.394.19.431.21c1.254.614 2.142.122 3.404.759 1.262.638 2.026 1.861 2.026 3.088 0 1.64-1.352 2.956-3.146 2.956zm-1.987-9.967c.381.795 1.459 1.072 2.406.617.945-.455 1.405-1.472 1.027-2.267-.381-.796-1.46-1.073-2.406-.618-.946.455-1.408 1.472-1.027 2.268zm-2.834 2.819c0-.322-.261-.583-.583-.583-.321 0-.583.261-.583.583s.262.583.583.583c.322.001.583-.261.583-.583zm5.272 2.499c-.945-.457-2.025-.183-2.408.611-.381.795.078 1.814 1.022 2.271.945.458 2.024.184 2.406-.611.382-.795-.075-1.814-1.02-2.271zm-18.305-3.351h-3v2h3v-2zm4 0h-3v2h3v-2z" />
+                        </svg>
                     </div>
+
+                    <!-- SPK Header start-->
+                    @include('print-orders.spk-header-copy')
+                    <!-- SPK Header end-->
+
+                    <!-- SPK Body start-->
+                    @include('print-orders.spk-body-copy')
+                    <!-- SPK Body end-->
+
+                    <!-- SPK Sign start-->
+                    @include('print-orders.spk-sign-copy')
+                    <!-- SPK Sign end-->
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+    @include('print-orders.create-preview')
 
     <!-- Script Preview Image start-->
-    <script src="/js/previewimage.js"></script>
     <script src="/js/createprintorders.js"></script>
     <!-- Script Preview Image end-->
 @endsection

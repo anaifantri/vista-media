@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PrintingPrice;
-use App\Models\User;
 use Kyslik\ColumnSortable\Sortable;
 
 class PrintingProduct extends Model
