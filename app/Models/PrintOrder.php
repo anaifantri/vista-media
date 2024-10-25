@@ -35,5 +35,9 @@ class PrintOrder extends Model
         return $this->belongsTo(Location::class);
     }
 
+    public function install_order(){
+        return $this->hasOne(InstallOrder::class, 'print_order_id', 'id');
+    }
+
     public $sortable = ['number'];
 }

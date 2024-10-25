@@ -30,6 +30,12 @@ class InstallOrder extends Model
     public function sale(){
         return $this->belongsTo(Sale::class);
     }
+    public function location(){
+        return $this->belongsTo(Location::class);
+    }
+    public function print_order(){
+        return $this->belongsTo(PrintOrder::class);
+    }
 
     public $sortable = ['number'];
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\User;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,8 +18,7 @@ class CompanyController extends Controller
     {
         return response()-> view ('companies.index', [
             'companies'=>Company::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Perusahaan',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Perusahaan'
         ]);
     }
 
@@ -31,8 +29,7 @@ class CompanyController extends Controller
     {
         return response()->view('companies.create', [
             'companies'=>Company::all(),
-            'title' => 'Tambah Perusahaan',
-            'categories' => MediaCategory::all()
+            'title' => 'Tambah Perusahaan'
         ]);
     }
 
@@ -87,8 +84,7 @@ class CompanyController extends Controller
     {
         return response()->view('companies.show', [
             'company' => $company,
-            'title' => 'Detail Perusahaan'.$company->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Detail Perusahaan'.$company->name
         ]);
     }
 
@@ -99,8 +95,7 @@ class CompanyController extends Controller
     {
         return response()->view('companies.edit', [
             'company' => $company,
-            'title' => 'Merubah Data Perusahaan'.$company->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Merubah Data Perusahaan'.$company->name
         ]);
     }
 

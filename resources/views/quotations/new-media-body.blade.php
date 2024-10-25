@@ -24,7 +24,7 @@
                     Media
                     Reklame {{ $category }}</label>
             </div>
-            <div class="flex mt-4">
+            <div class="flex mt-2">
                 <div class="flex">
                     <label class="ml-1 text-sm text-teal-700 flex w-12">Klien</label>
                     <label class="ml-1 text-sm text-teal-700 flex">:</label>
@@ -74,7 +74,7 @@
                     </select>
                 </div>
             </div>
-            <div class="flex mt-4">
+            <div class="flex mt-2">
                 <div>
                     <label class="ml-1 text-sm text-black flex w-20">Kepada Yth</label>
                     <label id="clientCompany" class="ml-1 text-sm text-black font-semibold flex">-</label>
@@ -164,7 +164,7 @@
             </div>
         </div>
         <div class="flex justify-center">
-            <div class="w-[725px] mt-10">
+            <div class="w-[725px] mt-6">
                 <label id="salesUser"
                     class="ml-1 text-sm text-black flex font-semibold">{{ auth()->user()->name }}</label>
             </div>

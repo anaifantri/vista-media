@@ -32,11 +32,12 @@
                                 <label class="flex text-sm text-teal-900 w-24">Status</label>
                                 <label class="flex text-sm text-teal-900">:</label>
                                 @if ($orderType == 'sale')
-                                    <input type="text" value="Free ke {{ $usedPrint + 1 }} dari {{ $freePrint }}"
+                                    <input id="orderStatus" type="text"
+                                        value="Free ke {{ $usedPrint + 1 }} dari {{ $freePrint }}"
                                         class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
                                         readonly>
                                 @else
-                                    <input type="text" value="Free"
+                                    <input id="orderStatus" type="text" value="Free"
                                         class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
                                         readonly>
                                 @endif

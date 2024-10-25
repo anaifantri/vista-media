@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\User;
-use App\Models\MediaCategory;
 use App\Models\ClientCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,7 +24,6 @@ class ClientController extends Controller
         return response()->view('clients.index', [
             'clients' => Client::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
             'title' => 'Daftar Klien',
-            'categories' => MediaCategory::all(),
             compact('users', 'client_categories')
         ]);
     }
@@ -43,7 +41,6 @@ class ClientController extends Controller
     {
         return response()->view('clients.create', [
             'title' => 'Tambah Data Klien',
-            'categories' => MediaCategory::all(),
             'client_categories'=>ClientCategory::all()
         ]);
     }
@@ -113,7 +110,6 @@ class ClientController extends Controller
         return response()->view('clients.show', [
             'client' => $client,
             'contacts' => Contact::all(),
-            'categories' => MediaCategory::all(),
             'title' => 'Detail Klien'
         ]);
     }
@@ -126,7 +122,6 @@ class ClientController extends Controller
         return response()->view('clients.edit', [
             'client' => $client,
             'client_categories'=>ClientCategory::all(),
-            'categories' => MediaCategory::all(),
             'title' => 'Merubah Data Klien'
         ]);
     }

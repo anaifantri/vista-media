@@ -135,10 +135,10 @@
                                             class="d-inline my-1">
                                             @method('delete')
                                             @csrf
-                                            @if ($client->contacts()->exists() || $client->quotations()->exists() || $client->sales()->exists())
+                                            @if ($client->contacts()->exists())
                                                 <button
                                                     class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                    onclick="return confirm('Berelasi dengan data kontak, data penawaran dan data penjualan, apakah anda yakin ingin menghapus data klien dengan nama {{ $client->name }} sekaligus menghapus data-data yang berelasi?')">
+                                                    onclick="return confirm('Berelasi dengan data kontak, apakah anda yakin ingin menghapus data klien dengan nama {{ $client->name }} sekaligus menghapus data-data yang berelasi?')">
                                                     <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                                         width="24" height="24" viewBox="0 0 24 24">
                                                         <title>DELETE</title>

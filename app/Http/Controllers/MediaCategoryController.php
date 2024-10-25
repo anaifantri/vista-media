@@ -16,8 +16,7 @@ class MediaCategoryController extends Controller
     {
         return response()-> view ('media-categories.index', [
             'media_categories'=>MediaCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Media',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Katagori Media'
         ]);
     }
 
@@ -28,8 +27,7 @@ class MediaCategoryController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('media-categories.create', [
-                'title' => 'Menambahkan Katagori Media',
-                'categories' => MediaCategory::all()
+                'title' => 'Menambahkan Katagori Media'
             ]);
         } else {
             abort(403);
@@ -42,20 +40,20 @@ class MediaCategoryController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            // Set code --> start
-            $dataCategory = MediaCategory::all()->last();
-            if($dataCategory){
-                $lastCode = (int)substr($dataCategory->code,3,3);
-                $newCode = $lastCode + 1;
-            } else {
-                $newCode = 1;
-            }
-            
-    
-            if($newCode < 10 ){
-                $code = 'MC-00'.$newCode;
-            } else {
-                $code = 'MC-0'.$newCode;
+            if($request->name == "Billboard"){
+                $code = "BB";
+            }elseif($request->name == "Videotron"){
+                $code = "VT";
+            }elseif($request->name == "Signage"){
+                $code = "SN";
+            }elseif($request->name == "Bando"){
+                $code = "BD";
+            }elseif($request->name == "Baliho"){
+                $code = "BLH";
+            }elseif($request->name == "Midiboard"){
+                $code = "MB";
+            }elseif($request->name == "Service"){
+                $code = "SV";
             }
             // Set code --> end
 
@@ -82,8 +80,7 @@ class MediaCategoryController extends Controller
     {
         return response()-> view ('media-categories.show', [
             'media_category' => $mediaCategory,
-            'title' => 'Detail Katagori Media' . $mediaCategory->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Detail Katagori Media' . $mediaCategory->name
         ]);
     }
 
@@ -95,8 +92,7 @@ class MediaCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()->view('media-categories.edit', [
                 'media_category' => $mediaCategory,
-                'title' => 'Edit Katagori Media',
-                'categories' => MediaCategory::all()
+                'title' => 'Edit Katagori Media'
             ]);
         } else {
             abort(403);
@@ -116,7 +112,24 @@ class MediaCategoryController extends Controller
             ];
             
             if ($request->name != $mediaCategory->name) {
+                if($request->name == "Billboard"){
+                    $code = "BB";
+                }elseif($request->name == "Videotron"){
+                    $code = "VT";
+                }elseif($request->name == "Signage"){
+                    $code = "SN";
+                }elseif($request->name == "Bando"){
+                    $code = "BD";
+                }elseif($request->name == "Baliho"){
+                    $code = "BLH";
+                }elseif($request->name == "Midiboard"){
+                    $code = "MB";
+                }elseif($request->name == "Service"){
+                    $code = "SV";
+                }
                 $rules['name'] = 'required|unique:media_categories';
+                $rules['code'] = 'required|unique:media_categories';
+                $request->request->add(['code' => $code]);
             } 
 
             $validateData = $request->validate($rules);

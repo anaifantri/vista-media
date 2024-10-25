@@ -16,12 +16,14 @@ return new class extends Migration
             $table->string('number')->unique();
             $table->foreignId('company_id')->constrained();
             $table->foreignId('sale_id')->nullable()->constrained();
+            $table->foreignId('print_order_id')->nullable()->constrained();
             $table->foreignId('location_id')->constrained();
             $table->string('design');
             $table->string('theme');
             $table->date('install_at');
             $table->string('type');
             $table->string('notes')->nullable();
+            $table->json('product');
             $table->json('created_by');
             $table->json('updated_by');
             $table->timestamps();

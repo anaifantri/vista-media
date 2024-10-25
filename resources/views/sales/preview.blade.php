@@ -26,7 +26,8 @@
                 }
             }
         } elseif ($category == 'Signage') {
-            $description = json_decode($products[0]->description);
+            $product = json_decode($sales[0]->product);
+            $description = json_decode($product->description);
             if ($description->type == 'Videotron') {
                 for ($i = 0; $i < count($notes->dataNotes); $i++) {
                     if ($i == 2) {
@@ -95,6 +96,10 @@
             </div>
             <!-- Title Show Quotatin end -->
             @foreach ($sales as $sale)
+                @php
+                    $product = json_decode($sale->product);
+                    $description = json_decode($product->description);
+                @endphp
                 <div id="pdfPreview">
                     <div class="flex justify-center w-full">
                         <div>
@@ -340,7 +345,7 @@
                                         <div class="flex justify-center mt-2">
                                             <div class="sale-detail">
                                                 <img class="img-location-sale"
-                                                    src="{{ asset('storage/' . $products[$loop->iteration - 1]->location_photo) }}">
+                                                    src="{{ asset('storage/' . $product->photo) }}">
                                             </div>
                                             <div class="qr-code-sale ml-4">
 

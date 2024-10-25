@@ -46,8 +46,6 @@ class Client extends Model
 
         static::deleting(function($client){
             $client->contacts()->get()->each->delete();
-            $client->quotations()->get()->each->delete();
-            $client->sales()->get()->each->delete();
         });
     }
 

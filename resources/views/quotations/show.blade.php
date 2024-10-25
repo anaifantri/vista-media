@@ -28,81 +28,132 @@
     @if ($quotation->media_category->name == 'Signage')
         <input type="text" id="type" value="{{ $dataDescription->type }}" hidden>
     @endif
-    <div class="flex justify-center p-10">
+    <div class="flex justify-center p-10 bg-stone-900">
         <div class="w-[1200px]">
             <!-- Title Show Quotatin start -->
             <div class="flex border-b">
-                <h1 class="text-xl text-cyan-800 font-bold tracking-wider">DETAIL PENAWAWARAN</h1>
+                <h1 class="text-xl text-teal-50 font-bold w-[700px] tracking-wider px-2">DETAIL PENAWAWARAN NOMOR :
+                    {{ substr($quotation->number, 0, 4) }}</h1>
+                <div class="flex justify-end p-1 w-full">
+                    <a class="flex justify-center items-center ml-1 btn-success"
+                        href="/marketing/quotations/home/{{ $quotation->media_category->name }}">
+                        <svg class="fill-current w-4 ml-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
+                                fill-rule="nonzero" />
+                        </svg>
+                        <span class="ml-1 text-sm">Back</span>
+                    </a>
+                    <button id="btnCreatePdf" class="flex justify-center items-center ml-1 btn-primary" type="button">
+                        <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" viewBox="0 0 24 24">
+                            <path
+                                d="M12.819 14.427c.064.267.077.679-.021.948-.128.351-.381.528-.754.528h-.637v-2.12h.496c.474 0 .803.173.916.644zm3.091-8.65c2.047-.479 4.805.279 6.09 1.179-1.494-1.997-5.23-5.708-7.432-6.882 1.157 1.168 1.563 4.235 1.342 5.703zm-7.457 7.955h-.546v.943h.546c.235 0 .467-.027.576-.227.067-.123.067-.366 0-.489-.109-.198-.341-.227-.576-.227zm13.547-2.732v13h-20v-24h8.409c4.858 0 3.334 8 3.334 8 3.011-.745 8.257-.42 8.257 3zm-12.108 2.761c-.16-.484-.606-.761-1.224-.761h-1.668v3.686h.907v-1.277h.761c.619 0 1.064-.277 1.224-.763.094-.292.094-.597 0-.885zm3.407-.303c-.297-.299-.711-.458-1.199-.458h-1.599v3.686h1.599c.537 0 .961-.181 1.262-.535.554-.659.586-2.035-.063-2.693zm3.701-.458h-2.628v3.686h.907v-1.472h1.49v-.732h-1.49v-.698h1.721v-.784z" />
+                        </svg>
+                        <span class="ml-2 text-white">Create PDF</span>
+                    </button>
+                    @if ($quotStatus == 'Deal' || $quotStatus == 'Closed')
+                        <a class="hidden justify-center items-center ml-1 btn-warning"
+                            href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
+                            <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="ml-1 text-sm">Revisi</span>
+                        </a>
+                    @else
+                        <a class="flex justify-center items-center ml-1 btn-warning"
+                            href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
+                            <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="ml-1 text-sm">Revisi</span>
+                        </a>
+                    @endif
+                </div>
             </div>
             <!-- Title Show Quotatin end -->
             <div class="flex">
                 <div class="flex justify-center mx-1">
                     <div>
-                        <div class="mt-1">
-                            <div class="mt-1 w-80 h-max border rounded-lg py-1 px-2">
-                                <div class="mt-1">
-                                    <label class="text-sm text-teal-700 font-semibold">Progres Penawaran</label>
-                                </div>
-                                <div class="overflow-y-auto h-[300px] bg-teal-50 border rounded-lg p-2 mt-1">
-                                    @foreach ($quotation->quotation_statuses as $quotation_status)
+                        <div class="mt-1 w-60 h-max py-1 px-2">
+                            <div class="mt-1">
+                                <label class="text-sm text-teal-50 font-semibold">Progress Penawaran</label>
+                            </div>
+                            <div
+                                class="flex justify-center overflow-y-auto w-56 h-[300px] bg-teal-50 border rounded-lg p-1 mt-1">
+                                <div>
+                                    @php
+                                        $index = count($quotation_statuses);
+                                    @endphp
+                                    @foreach ($quotation_statuses as $quotation_status)
                                         <?php
                                         $updated_by = json_decode($quotation_status->updated_by);
                                         ?>
-                                        <div class="border-b">
-                                            <div class="flex ml-[14px] text-sm text-teal-900 font-semibold">
-                                                {{ $loop->iteration }}.
+                                        <div class="border rounded-md mt-2 w-48 p-2 bg-amber-100 bg-opacity-50">
+                                            <div
+                                                class="flex text-sm w-44 justify-center text-teal-900 border-b font-semibold">
+                                                UPDATE KE -
+                                                {{ $index }}.
                                             </div>
-                                            <div class="flex ml-[14px]">
-                                                <label class="flex w-28 text-sm text-teal-900">Diupdate oleh</label>
-                                                <label class="flex w-2 text-sm text-teal-900">: </label>
+                                            <div class="mt-1">
+                                                <label class="flex text-sm text-teal-900">Diupdate oleh :</label>
                                                 <label
-                                                    class="flex ml-2 w-44 text-sm text-teal-900">{{ $updated_by->name }}</label>
+                                                    class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ $updated_by->name }}</label>
                                             </div>
-                                            <div class="flex ml-[14px]">
-                                                <label class="flex w-28 text-sm text-teal-900">Status</label>
-                                                <label class="flex w-2 text-sm text-teal-900">: </label>
+                                            <div class="mt-1">
+                                                <label class="flex text-sm text-teal-900">Status :</label>
                                                 <label
-                                                    class="flex ml-2 w-44 text-sm text-teal-900">{{ $quotation_status->status }}</label>
+                                                    class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ $quotation_status->status }}</label>
                                             </div>
-                                            <div class="flex ml-[14px]">
-                                                <label class="flex w-28 text-sm text-teal-900">Tanggal</label>
-                                                <label class="flex w-2 text-sm text-teal-900">: </label>
+                                            <div class="mt-1">
+                                                <label class="flex text-sm text-teal-900">Tanggal :</label>
                                                 <label
-                                                    class="flex ml-2 w-44 text-sm text-teal-900">{{ date('d', strtotime($quotation->created_at)) }}
-                                                    {{ $bulan[(int) date('m', strtotime($quotation->created_at))] }}
-                                                    {{ date('Y', strtotime($quotation->created_at)) }}</label>
+                                                    class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ date('d', strtotime($quotation_status->created_at)) }}
+                                                    {{ $bulan[(int) date('m', strtotime($quotation_status->created_at))] }}
+                                                    {{ date('Y', strtotime($quotation_status->created_at)) }}</label>
                                             </div>
-                                            <div class="flex mb-3 ml-[14px]">
-                                                <label class="flex w-28 text-sm text-teal-900">Keterangan</label>
-                                                <label class="flex w-2 text-sm text-teal-900">: </label>
-                                                <label class="flex ml-2 w-44 text-sm text-teal-900">
+                                            <div class="mt-1">
+                                                <label class="flex text-sm text-teal-900">Keterangan :</label>
+                                                <label class="flex w-44 font-semibold border-b text-sm text-teal-900">
                                                     {{ $quotation_status->description }}</label>
                                             </div>
                                         </div>
+                                        @php
+                                            $index--;
+                                        @endphp
                                     @endforeach
                                 </div>
-                                @if (count($quotation->quotation_revisions) != 0)
-                                    <div class="mt-1">
-                                        <label class="text-sm text-teal-700 font-semibold">Daftar Revisi</label>
-                                    </div>
-                                    <div class="mt-1 bg-teal-50 border rounded-lg p-2">
-                                        <div class="overflow-y-auto h-16">
-                                            @foreach ($quotation->quotation_revisions as $quotation_revision)
-                                                <a class="flex"
-                                                    href="/marketing/quotation-revisions/{{ $quotation_revision->id }}">
-                                                    <span
-                                                        class="text-teal-900 hover:text-emerald-500 text-sm">{{ $loop->iteration }}.
-                                                        {{ $quotation_revision->number }}</span>
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
+                            @if (count($quotation->quotation_revisions) != 0)
+                                <div class="mt-1">
+                                    <label class="text-sm text-teal-50 font-semibold">Daftar Revisi</label>
+                                </div>
+                                <div class="mt-1 bg-teal-50 border rounded-lg p-2">
+                                    <div class="overflow-y-auto h-16">
+                                        @foreach ($quotation->quotation_revisions as $quotation_revision)
+                                            <a class="flex"
+                                                href="/marketing/quotation-revisions/{{ $quotation_revision->id }}">
+                                                <span
+                                                    class="text-teal-900 hover:text-emerald-500 text-sm">{{ $loop->iteration }}.
+                                                    {{ $quotation_revision->number }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         @if (session()->has('success'))
                             <div
-                                class="text-teal-900 text-sm rounded-lg border border-white bg-opacity-60 bg-teal-200 drop-shadow-xl shadow-inner p-2 w-80">
+                                class="text-amber-400 text-sm rounded-lg border border-amber-400 bg-opacity-60 bg-stone-900 drop-shadow-xl shadow-inner p-1 w-60">
                                 <div class="flex justify-center">
                                     <svg class="flex fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
@@ -111,7 +162,7 @@
                                     </svg>
                                     <span class="flex font-semibold mx-1">Success!</span>
                                 </div>
-                                <label class="flex justify-center w-80">{{ session('success') }}</label>
+                                <label class="flex text-center w-56">{{ session('success') }}</label>
                             </div>
                         @endif
                         <form class="" action="/marketing/quotation-statuses" method="post"
@@ -131,19 +182,19 @@
                                     <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
                                     <input type="text" id="cbUpdateValue" name="cb-update-value"
                                         value="{{ old('cb-update-value') }}" hidden>
-                                    <label class="text-sm font-semibold text-teal-900"> Update Progress</label>
+                                    <label class="text-sm font-semibold text-teal-50"> Update Progress</label>
                                 </div>
                             @else
                                 <div class="mt-1">
                                     <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
                                     <input type="text" id="cbUpdateValue" name="cb-update-value"
                                         value="{{ old('cb-update-value') }}" hidden>
-                                    <label class="text-sm font-semibold text-teal-900">Update Progress</label>
+                                    <label class="text-sm font-semibold text-teal-50">Update Progress</label>
                                 </div>
                             @endif
                             <div id="divProgress" hidden>
                                 <div class="mt-1">
-                                    <label class="text-sm text-teal-700">Status</label>
+                                    <label class="text-sm text-teal-50">Status</label>
                                     <select id="status" name="status"
                                         class="flex w-36 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('status') is-invalid @enderror"
                                         type="text" value="{{ old('status') }}" onchange="getStatus(this)">
@@ -154,7 +205,8 @@
                                                         <option value="{{ $status[$i] }}" selected> {{ $status[$i] }}
                                                         </option>
                                                     @else
-                                                        <option value="{{ $status[$i] }}"> {{ $status[$i] }} </option>
+                                                        <option value="{{ $status[$i] }}"> {{ $status[$i] }}
+                                                        </option>
                                                     @endif
                                                 @endif
                                             @endfor
@@ -165,7 +217,8 @@
                                                         <option value="{{ $status[$i] }}" selected> {{ $status[$i] }}
                                                         </option>
                                                     @else
-                                                        <option value="{{ $status[$i] }}"> {{ $status[$i] }} </option>
+                                                        <option value="{{ $status[$i] }}"> {{ $status[$i] }}
+                                                        </option>
                                                     @endif
                                                 @endif
                                             @endfor
@@ -178,14 +231,14 @@
                                     @enderror
                                 </div>
                                 <div id="divApproval" class="mt-1" hidden>
-                                    <label class="text-sm text-teal-700">Document Approval</label>
+                                    <label class="text-sm text-teal-50">Document Approval</label>
                                     <div class="flex items-center">
                                         <input class="hidden" id="documentApproval" name="document_approval[]"
                                             type="file" accept="image/png, image/jpg, image/jpeg"
                                             onchange="imagePreview(this, document.querySelectorAll('[id=labelDocumentApproval]'))"
                                             multiple>
                                         <label id="labelDocumentApproval"
-                                            class="flex text-sm text-teal-700 border border-teal-700 rounded-lg px-2 w-40">0
+                                            class="flex text-sm text-teal-700 border bg-white border-teal-700 rounded-lg px-2 w-32">0
                                             images selected</label>
                                         <button id="approval" type="button"
                                             class="flex justify-center items-center ml-2 px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
@@ -205,9 +258,9 @@
                                     @enderror
                                 </div>
                                 <div class="mt-1">
-                                    <label class="text-sm text-teal-700">Keterangan</label>
+                                    <label class="text-sm text-teal-50">Keterangan</label>
                                     <textarea
-                                        class="flex w-80 text-sm text-left font-semibold text-teal-900 border rounded-lg p-2 outline-none @error('description') is-invalid @enderror"
+                                        class="flex w-56 text-sm text-left font-semibold text-teal-900 border rounded-lg p-2 outline-none @error('description') is-invalid @enderror"
                                         id="description" name="description" rows="4" cols="">{{ old('description') }}</textarea>
                                     @error('description')
                                         <div class="invalid-feedback">
@@ -229,53 +282,6 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="flex justify-start mt-2">
-                            <a class="flex justify-center items-center ml-1 btn-success"
-                                href="/marketing/quotations/home/{{ $quotation->media_category->name }}">
-                                <svg class="fill-current w-4 ml-1" clip-rule="evenodd" fill-rule="evenodd"
-                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
-                                        fill-rule="nonzero" />
-                                </svg>
-                                <span class="ml-1 text-sm">Back</span>
-                            </a>
-                            <button id="btnCreatePdf" class="flex justify-center items-center ml-1 btn-success"
-                                type="button">
-                                <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12.819 14.427c.064.267.077.679-.021.948-.128.351-.381.528-.754.528h-.637v-2.12h.496c.474 0 .803.173.916.644zm3.091-8.65c2.047-.479 4.805.279 6.09 1.179-1.494-1.997-5.23-5.708-7.432-6.882 1.157 1.168 1.563 4.235 1.342 5.703zm-7.457 7.955h-.546v.943h.546c.235 0 .467-.027.576-.227.067-.123.067-.366 0-.489-.109-.198-.341-.227-.576-.227zm13.547-2.732v13h-20v-24h8.409c4.858 0 3.334 8 3.334 8 3.011-.745 8.257-.42 8.257 3zm-12.108 2.761c-.16-.484-.606-.761-1.224-.761h-1.668v3.686h.907v-1.277h.761c.619 0 1.064-.277 1.224-.763.094-.292.094-.597 0-.885zm3.407-.303c-.297-.299-.711-.458-1.199-.458h-1.599v3.686h1.599c.537 0 .961-.181 1.262-.535.554-.659.586-2.035-.063-2.693zm3.701-.458h-2.628v3.686h.907v-1.472h1.49v-.732h-1.49v-.698h1.721v-.784z" />
-                                </svg>
-                                <span class="ml-2 text-white">Create PDF</span>
-                            </button>
-                            @if ($quotStatus == 'Deal' || $quotStatus == 'Closed')
-                                <a class="hidden justify-center items-center ml-1 btn-warning"
-                                    href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
-                                    <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="ml-1 text-sm">Revisi</span>
-                                </a>
-                            @else
-                                <a class="flex justify-center items-center ml-1 btn-warning"
-                                    href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
-                                    <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="ml-1 text-sm">Revisi</span>
-                                </a>
-                            @endif
-                        </div>
                     </div>
                 </div>
                 <div id="pdfPreview">
@@ -589,8 +595,7 @@
                                             <div
                                                 class="flex w-[800px] h-[570px] justify-center items-center bg-slate-50 border rounded-b-xl">
                                                 <img class="m-auto w-[770px] h-[540px]"
-                                                    src="{{ asset('storage/' . $product->location_photo) }}"
-                                                    alt="">
+                                                    src="{{ asset('storage/' . $product->photo) }}" alt="">
                                             </div>
                                         </div>
                                         <div class="flex w-full justify-center mt-4 h-[470px] bg-white">

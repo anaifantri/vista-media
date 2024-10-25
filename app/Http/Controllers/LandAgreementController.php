@@ -31,7 +31,6 @@ class LandAgreementController extends Controller
             'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
             'areas'=>Area::all(),
             'cities'=>City::all(),
-            'categories'=>MediaCategory::all(),
             'title' => 'Daftar Perjanjian Sewa',
             compact('areas', 'cities', 'media_sizes', 'media_categories', 'land_agreements')
         ]);

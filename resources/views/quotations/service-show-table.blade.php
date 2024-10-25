@@ -174,7 +174,8 @@
             </tr>
             @if ($price->objServicePpn->status == true)
                 <tr>
-                    <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="7">PPN</td>
+                    <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="7">PPN
+                        {{ $price->objServicePpn->value }}%</td>
                     <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">
                         @php
                             $servicePpn = ($price->objServicePpn->value / 100) * $subTotal;

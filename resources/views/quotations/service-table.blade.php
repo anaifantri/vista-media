@@ -12,12 +12,12 @@
                 <th class="text-[0.7rem] text-teal-700 border w-6" rowspan="2">No</th>
                 <th class="text-[0.7rem] text-teal-700 border" rowspan="2">Lokasi
                 </th>
-                <th class="text-[0.7rem] text-teal-700 border" colspan="6">Deskripsi</th>
+                <th class="text-[0.7rem] text-teal-700 border" colspan="5">Deskripsi</th>
             </tr>
             <tr class="bg-teal-50">
                 <th class="text-[0.7rem] text-teal-700 border w-16">Jenis</th>
                 <th class="text-[0.7rem] text-teal-700 border w-28">Bahan</th>
-                <th class="text-[0.7rem] text-teal-700 border w-8">side</th>
+                <th class="text-[0.7rem] text-teal-700 border w-8" hidden>side</th>
                 <th class="text-[0.7rem] text-teal-700 border w-10">L (m2)</th>
                 <th class="text-[0.7rem] text-teal-700 border w-14">Harga</th>
                 <th class="text-[0.7rem] text-teal-700 border w-16">Total</th>
@@ -27,6 +27,7 @@
             @php
                 $subTotal = 0;
             @endphp
+            <input type="text" id="locationQty" value="{{ count($products) }}" hidden>
             @foreach ($products as $location)
                 @php
                     $description = json_decode($location->description);
@@ -102,7 +103,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td class="text-[0.7rem] text-teal-700 border text-center px-1" rowspan="2">
+                        <td class="text-[0.7rem] text-teal-700 border text-center px-1" rowspan="2" hidden>
                             <input id="locationSide"
                                 class="flex px-1 text-[0.7rem] text-teal-700 w-6 text-center outline-none in-out-spin-none"
                                 type="number" min="0" value="{{ (int) $location->side }}" readonly>
@@ -227,7 +228,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td class="text-[0.7rem] text-teal-700 border text-center px-1" rowspan="2">
+                        <td class="text-[0.7rem] text-teal-700 border text-center px-1" rowspan="2" hidden>
                             <input id="locationSide"
                                 class="flex px-1 text-[0.7rem] text-teal-700 w-6 text-center outline-none in-out-spin-none"
                                 type="number" min="0" value="{{ (int) $location->side }}" readonly>
@@ -282,13 +283,13 @@
                 @endif
             @endforeach
             <tr>
-                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="7">Sub Total
+                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="6">Sub Total
                 </td>
                 <td id="subTotal" class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">
                     {{ $subTotal }}</td>
             </tr>
             <tr>
-                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="7">
+                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="6">
                     <div class="flex items-center justify-end">
                         <input class="outline-none" type="checkbox" id="cbPpn" checked
                             onclick="cbPpnAction(this)">
@@ -306,7 +307,7 @@
                     {{ $ppnValue }}</td>
             </tr>
             <tr>
-                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="7">Grand
+                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="6">Grand
                     Total
                 </td>
                 <td id="serviceGrandTotal" class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">

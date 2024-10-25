@@ -13,11 +13,14 @@ use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Location;
 use App\Models\PrintingProduct;
+use App\Models\PrintOrder;
+use App\Models\InstallOrder;
 use App\Models\InstallationPrice;
 use App\Models\Led;
 use App\Models\LocationPhoto;
 use App\Models\Company;
 use App\Models\MediaCategory;
+use App\Models\MediaSize;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -53,7 +56,6 @@ class QuotationController extends Controller
         $quot_revision_statuses = QuotRevisionStatus::with('quotation')->get();
         return view ('quotations.index', [
             'quotations'=>$dataQuotations,
-            'categories'=>MediaCategory::all(),
             'data_category'=>$dataCategory,
             'category'=>$category,
             'title' => 'Daftar Penawaran',
@@ -68,36 +70,108 @@ class QuotationController extends Controller
             'quotation' => Quotation::findOrFail($id),
             'title' => 'Detail Penawaran',
             'category'=>$category,
-            'categories' => MediaCategory::all(),
             'leds' => Led::all(),
             compact('media_categories')
         ]);
     }
 
-    public function selectLocation(String $category): View
+    public function selectLocation(String $category, Request $request): View
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
-            $mediaCategory = MediaCategory::where('name', $category)->firstOrFail();
+            $sales = collect([]);
+            $dataLocations = collect([]);
+            $clients = [];
+            $usedPrints = [];
+            $usedInstalls = [];
+            $freePrints = [];
+            $freeInstalls = [];
             if($category == "Service"){
-                $dataLocations = Location::filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
-                $dataSales = Sale::filter(request('search'))->area(request('area'))->sortable()->paginate(15)->withQueryString();
+                if($request->serviceType){
+                    if($request->serviceType == "new"){
+                        $dataLocations = Location::print()->filter(request('search'))->area()->city()->sortable()->paginate(15)->withQueryString();
+                    }else if($request->serviceType == "existing"){
+                        $dataSales = Sale::filter(request('search'))->service()->area()->city()->sortable()->paginate(15)->withQueryString();
+                        $sales = $dataSales;
+                        foreach ($dataSales as $sale) {
+                            $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
+                            if($revision){
+                                $notes = json_decode($revision->notes);
+                                $freePrint = $notes->freePrint;
+                                $freeInstall = $notes->freeInstall;
+                                $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
+                                $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
+                            }else{
+                                $notes = json_decode($sale->quotation->notes);
+                                $freePrint = $notes->freePrint;
+                                $freeInstall = $notes->freeInstall;
+                                $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
+                                $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
+                            }
+
+                            if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
+                                $dataLocations->push(json_decode($sale->product));
+                                array_push($clients,json_decode($sale->quotation->clients));
+                                array_push($freePrints, $freePrint);
+                                array_push($usedPrints, count($dataPrints));
+                            }
+                        }
+                    }
+                }else{
+                    $dataSales = Sale::filter(request('search'))->service()->area()->city()->sortable()->paginate(15)->withQueryString();
+                    $sales = $dataSales;
+                    foreach ($dataSales as $sale) {
+                        $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
+                        if($revision){
+                            $notes = json_decode($revision->notes);
+                            $freePrint = $notes->freePrint;
+                            $freeInstall = $notes->freeInstall;
+                            $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
+                            $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
+                        }else{
+                            $notes = json_decode($sale->quotation->notes);
+                            $freePrint = $notes->freePrint;
+                            $freeInstall = $notes->freeInstall;
+                            $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
+                            $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
+                        }
+
+                        if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
+                            $dataLocations->push(json_decode($sale->product));
+                            array_push($clients,json_decode($sale->quotation->clients));
+                            array_push($freePrints, $freePrint);
+                            array_push($usedPrints, count($dataPrints));
+                        }
+                    }
+                }
             }else{
-                $dataLocations = Location::where('media_category_id', $mediaCategory->id)->filter(request('search'))->area()->city()->type()->sortable()->paginate(10)->withQueryString();
-                $dataSales = Sale::where('media_category_id', $mediaCategory->id)->filter(request('search'))->area(request('area'))->sortable()->paginate(15)->withQueryString();
+                if($request->quotationType){
+                    if($request->quotationType == "new"){
+                        $dataLocations = Location::categoryName($category)->quotationNew()->filter(request('search'))->area()->city()->type()->sortable()->paginate(15)->withQueryString();
+                    }else if($request->quotationType == "extend"){
+                        $dataLocations = Location::categoryName($category)->quotationExtend()->filter(request('search'))->area()->city()->type()->sortable()->paginate(15)->withQueryString();
+                        foreach ($dataLocations as $location) {
+                            $salesData = Sale::where('location_id', $location->id)->get()->last();
+                            $sales->push($salesData);
+                            array_push($clients, json_decode($salesData->quotation->clients));
+                        }
+                    }
+                }else{
+                    $dataLocations = Location::categoryName($category)->quotationNew()->sortable()->paginate(15)->withQueryString();
+                }
             }
             $media_categories = MediaCategory::with('locations')->get();
-            $sales = Sale::with('location')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            // $sales = Sale::with('location')->get();
             $quotations = Quotation::with('sales')->get();
             return view ('quotations.select-location', [
-                'categories'=>MediaCategory::all(),
                 'areas' => Area::all(),
                 'cities' => City::all(),
                 'locations'=>$dataLocations,
-                'sales'=>$dataSales,
+                'clients'=>$clients,
+                'sales'=>$sales,
                 'category' => $category,
                 'title' => 'Pilih Lokasi Penawaran',
-                'data_category' => $mediaCategory,
-                compact('sales', 'quotations', 'media_categories')
+                compact('quotations', 'media_categories', 'media_sizes')
             ]);
         } else {
             abort(403);
@@ -119,7 +193,6 @@ class QuotationController extends Controller
             $printing_products = PrintingProduct::with('printing_prices')->get();
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
-
             return response()-> view ('quotations.create', [
                 'locations'=>$dataQuotations,
                 'quotation_type'=>$type,
@@ -132,8 +205,7 @@ class QuotationController extends Controller
                 'city'=>$city,
                 'category'=>$category,
                 'data_category' => $mediaCategory,
-                'categories'=>MediaCategory::all(),
-                'locationPhotos' => LocationPhoto::whereIn('location_id', $dataId)->get(),
+                'location_photos' => LocationPhoto::whereIn('location_id', $dataId)->where('set_default', true)->get(),
                 'title' => 'Membuat Penawaran'.$category,
                 compact('areas', 'cities', 'sales', 'quotations', 'quotation_revisions','printing_products')
             ]);
@@ -168,9 +240,9 @@ class QuotationController extends Controller
             
             if($newNumber > 0 && $newNumber < 10){
                 $number = '000'.$newNumber.'/SPH/VM/'.$romawi[(int) date('m')].'-'. date('Y');
-            }else if($newNumber > 10 && $newNumber < 100 ){
-                $number = '00'.$newNumber.'/SPH/VM/'.$romawi[(int) date('m')]- date('Y');
-            }else if($newNumber > 100 && $newNumber < 1000 ){
+            }else if($newNumber >= 10 && $newNumber < 100 ){
+                $number = '00'.$newNumber.'/SPH/VM/'.$romawi[(int) date('m')].'-'. date('Y');
+            }else if($newNumber >= 100 && $newNumber < 1000 ){
                 $number = '0'.$newNumber.'/SPH/VM/'.$romawi[(int) date('m')].'-'. date('Y');
             } else {
                 $number = $newNumber.'/SPH/VM/'.$romawi[(int) date('m')].'-'. date('Y');
@@ -193,7 +265,7 @@ class QuotationController extends Controller
                 'created_by' => 'required',
                 'modified_by' => 'required'
             ]);
-
+            // dd($validateData);
             Quotation::create($validateData);
 
             $dataQuotation = Quotation::where('number', $validateData['number'])->firstOrFail();
@@ -221,7 +293,7 @@ class QuotationController extends Controller
      */
     public function show(Quotation $quotation): Response
     {
-        $quotation_statuses = Quotation::with('quotation_statuses');
+        $quotation_statuses = QuotationStatus::where('quotation_id', $quotation->id)->orderBy("created_at", "desc")->get();
         $companies = Company::with('quotations')->get();
         $media_categories = MediaCategory::with('quotations')->get();
         $quotation_revisions = Quotation::with('quotation_revisions');
@@ -229,13 +301,13 @@ class QuotationController extends Controller
 
         return response()->view('quotations.show', [
             'quotation' => $quotation,
+            'quotation_statuses' => $quotation_statuses,
             'last_revision_status' => QuotRevisionStatus::where('quotation_id', $quotation->id)->get()->last(),
             'title' => 'Data Penawaran',
-            'categories'=>MediaCategory::all(),
             'data_revisions' => $dataRevisions,
             'leds' => Led::all(),
             'last_status' => QuotationStatus::where('quotation_id', $quotation->id)->get()->last(),
-            compact('companies', 'quotation_statuses', 'media_categories', 'quotation_revisions')
+            compact('companies', 'media_categories', 'quotation_revisions')
         ]);
     }
 

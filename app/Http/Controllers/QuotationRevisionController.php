@@ -33,7 +33,6 @@ class QuotationRevisionController extends Controller
             'quotation_revision' => QuotationRevision::findOrFail($id),
             'title' => 'Detail Revisi Penawaran',
             'category'=>$category,
-            'categories' => MediaCategory::all(),
             'leds' => Led::all(),
             compact('quotation')
         ]);
@@ -47,7 +46,6 @@ class QuotationRevisionController extends Controller
 
         return view('quotation-revisions.create', [
             'quotation' => Quotation::findOrFail($id),
-            'categories'=>MediaCategory::all(),
             'printing_products'=>PrintingProduct::all(),
             'installation_prices'=>InstallationPrice::all(),
             'leds' => Led::all(),
@@ -108,18 +106,18 @@ class QuotationRevisionController extends Controller
      */
     public function show(QuotationRevision $quotationRevision): Response
     {
-        $quot_revision_statuses = QuotationRevision::with('quot_revision_statuses');
+        $quot_revision_statuses = QuotRevisionStatus::where('quotation_revision_id', $quotationRevision->id)->orderBy("created_at", "desc")->get();
         $quotation = Quotation::with('quotation_revisions')->get();
         $lastRevision = QuotationRevision::where('quotation_id', $quotationRevision->quotation_id)->get()->last();
 
         return response()->view('quotation-revisions.show', [
             'quotation_revision' => $quotationRevision,
+            'quot_revision_statuses' => $quot_revision_statuses,
             'last_revision' => $lastRevision,
             'title' => 'Data Revisi Penawaran',
-            'categories'=>MediaCategory::all(),
             'leds' => Led::all(),
             'last_statuses' => QuotRevisionStatus::where('quotation_revision_id', $quotationRevision->id)->get()->last(),
-            compact('quot_revision_statuses', 'quotation')
+            compact('quotation')
         ]);
     }
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\PrintOrder;
-use App\Models\MediaCategory;
 use App\Models\MediaSize;
 use App\Models\Sale;
 use App\Models\Company;
@@ -33,9 +32,17 @@ class PrintOrderController extends Controller
         return response()-> view ('print-orders.index', [
             'print_orders'=>PrintOrder::filter(request('search'))->sortable()->orderBy("number", "asc")->paginate(10)->withQueryString(),
             'title' => 'Daftar SPK Cetak',
-            'categories' => MediaCategory::all(),
             compact('sale')
         ]);
+    }
+
+    public function getPrintingPrices(String $vendorId, String $productType){
+        $printingPrices = PrintingPrice::where('vendor_id', $vendorId)->whereHas('printing_product', function($query) use ($productType){
+            $query->where('type', $productType);
+        })->get();
+        $printingProducts = PrintingProduct::where('type', $productType)->get();
+
+        return response()->json(['printingPrices'=> $printingPrices, 'printingProducts'=>$printingProducts]);
     }
 
     public function preview(String $id): View
@@ -46,7 +53,6 @@ class PrintOrderController extends Controller
         return view('print-orders.preview', [
             'print_orders' => PrintOrder::findOrFail($id),
             'title' => 'Preview SPK Cetak',
-            'categories' => MediaCategory::all(),
             compact('companies', 'locations', 'sales')
         ]);
     }
@@ -59,7 +65,6 @@ class PrintOrderController extends Controller
                     $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
                     return view ('print-orders.select-location', [
                         'locations'=>$locations,
-                        'categories'=>MediaCategory::all(),
                         'areas' => Area::all(),
                         'cities' => City::all(),
                         'title' => 'Pilih Lokasi',
@@ -68,7 +73,6 @@ class PrintOrderController extends Controller
                     $locations = Sale::print()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
                     return view ('print-orders.select-location', [
                         'locations'=>$locations,
-                        'categories'=>MediaCategory::all(),
                         'areas' => Area::all(),
                         'cities' => City::all(),
                         'title' => 'Pilih Lokasi',
@@ -102,7 +106,6 @@ class PrintOrderController extends Controller
                         'clients'=>$clients,
                         'freePrints'=>$freePrints,
                         'usedPrints'=>$usedPrints,
-                        'categories'=>MediaCategory::all(),
                         'areas' => Area::all(),
                         'cities' => City::all(),
                         'title' => 'Pilih Lokasi',
@@ -114,7 +117,6 @@ class PrintOrderController extends Controller
                 $areas = Area::with('locations')->get();
                 return view ('print-orders.select-location', [
                     'locations'=>$locations,
-                    'categories'=>MediaCategory::all(),
                     'areas' => Area::all(),
                     'cities' => City::all(),
                     'title' => 'Pilih Lokasi',
@@ -179,7 +181,6 @@ class PrintOrderController extends Controller
                 'dataId'=>$dataId,
                 'orderType'=>$orderType,
                 'productType'=>$productType,
-                'categories' => MediaCategory::all(),
                 compact('quotations', 'media_categories', 'printing_products')
             ]);
         }else if($orderType == "location"){
@@ -209,7 +210,6 @@ class PrintOrderController extends Controller
                 'printing_prices' => $printing_prices,
                 'orderType'=>$orderType,
                 'dataId'=>$dataId,
-                'categories' => MediaCategory::all(),
                 compact('areas', 'media_categories', 'cities', 'media_sizes')
             ]);
         }
@@ -223,8 +223,7 @@ class PrintOrderController extends Controller
         $vendors = Vendor::print()->get();
         return response()->view('print-orders.create', [
             'title' => 'Tambah SPK Cetak Gambar',
-            'vendors' => $vendors,
-            'categories' => MediaCategory::all()
+            'vendors' => $vendors
         ]);
     }
 
@@ -256,11 +255,12 @@ class PrintOrderController extends Controller
             // Set number --> end
 
             $request->request->add(['number' => $number]);
+            // dd($request);
             $validateData = $request->validate([
                 'number' => 'required|unique:print_orders',
                 'company_id' => 'required',
                 'vendor_id' => 'required',
-                'sale_id' => 'required',
+                'sale_id' => 'nullable',
                 'location_id' => 'required',
                 'theme' => 'required',
                 'notes' => 'required',
@@ -290,7 +290,14 @@ class PrintOrderController extends Controller
      */
     public function show(PrintOrder $printOrder): Response
     {
-        //
+        $locations = Location::with('print_orders')->get();
+        $sales = Sale::with('print_orders')->get();
+        $companies = Company::with('print_orders')->get();
+        return response()-> view ('print-orders.show', [
+            'print_orders' => $printOrder,
+            'title' => 'Data SPK Cetak',
+            compact('companies', 'locations', 'sales')
+        ]);
     }
 
     /**
@@ -298,7 +305,25 @@ class PrintOrderController extends Controller
      */
     public function edit(PrintOrder $printOrder): Response
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+            $product = json_decode($printOrder->product);
+            $locations = Location::with('print_orders')->get();
+            $sales = Sale::with('print_orders')->get();
+            $companies = Company::with('print_orders')->get();
+            $vendors = Vendor::print()->get();
+            $printing_prices = PrintingPrice::where('vendor_id', $product->product_id)->whereHas('printing_product', function($query)use ($product){
+                $query->where('type', $product->product_type);
+            })->get();
+            return response()-> view ('print-orders.edit', [
+                'print_orders' => $printOrder,
+                'vendors'=>$vendors,
+                'printing_prices' => $printing_prices,
+                'title' => 'Edit Data SPK Cetak',
+                compact('companies', 'locations', 'sales')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -306,7 +331,32 @@ class PrintOrderController extends Controller
      */
     public function update(Request $request, PrintOrder $printOrder): RedirectResponse
     {
-        //
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+            $rules = [
+                'vendor_id' => 'required',
+                'theme' => 'required',
+                'product' => 'required',
+                'price' => 'required',
+                'updated_by' => 'required',
+                'notes' => 'nullable'
+            ];
+
+            $validateData = $request->validate($rules);
+                
+            if($request->file('design')){
+                if($request->oldDesign){
+                    Storage::delete($request->oldDesign);
+                }
+                $validateData['design'] = $request->file('design')->store('print-designs');
+            }
+            
+            PrintOrder::where('id', $printOrder->id)
+                ->update($validateData);
+    
+            return redirect('/marketing/print-orders/preview/'.$printOrder->id)->with('success','SPK Cetak dengan nomor '. $printOrder->number . ' berhasil diedit');
+        } else {
+            abort(403);
+        }
     }
 
     /**

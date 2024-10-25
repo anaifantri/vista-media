@@ -72,6 +72,8 @@
             'November',
             'Desember',
         ];
+        $product = json_decode($sales->product);
+        $description = json_decode($product->description);
     @endphp
     <!-- Show Sales Data start -->
     <div class="flex justify-center bg-gray-800 p-10">
@@ -81,7 +83,8 @@
                     <h1 class="text-xl text-white font-bold tracking-wider">DETAIL DATA PENJUALAN</h1>
                 </div>
                 <div class="flex justify-end w-[660px]">
-                    <a class="flex justify-center items-center ml-1 btn-success" href="/sales/home/{{ $category }}">
+                    <a class="flex justify-center items-center ml-1 btn-success"
+                        href="/marketing/sales/home/{{ $category }}">
                         <svg class="fill-current w-4 ml-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -344,7 +347,7 @@
                                     <div class="flex justify-center mt-2">
                                         <div class="sale-detail">
                                             <img class="img-location-sale"
-                                                src="{{ asset('storage/' . $product->location_photo) }}">
+                                                src="{{ asset('storage/' . $product->photo) }}">
                                         </div>
                                         <div class="qr-code-sale ml-4">
 

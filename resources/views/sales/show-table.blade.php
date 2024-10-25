@@ -6,13 +6,23 @@
             </th>
             <th class="text-xs text-teal-700 border" rowspan="2">Lokasi
             </th>
-            <th class="text-xs text-teal-700 border w-48" colspan="2">
-                Deskripsi
-            </th>
+            @if ($category == 'Signage')
+                <th class="text-[0.7rem] text-teal-700 border" colspan="4">Deskripsi</th>
+            @else
+                <th class="text-[0.7rem] text-teal-700 border" colspan="3">Deskripsi</th>
+            @endif
             <th class="text-xs text-teal-700 border w-24">Harga (Rp.)</th>
         </tr>
         <tr>
-            <th class="text-xs text-teal-700 border w-16">Jenis</th>
+            @if ($category == 'Signage')
+                <th class="text-[0.7rem] text-teal-700 border w-16" rowspan="2">Bentuk</th>
+            @else
+                <th class="text-[0.7rem] text-teal-700 border w-10" rowspan="2">BL/FL</th>
+            @endif
+            @if ($category == 'Signage')
+                <th class="text-[0.7rem] text-teal-700 border w-6" rowspan="2">Qty</th>
+            @endif
+            <th class="text-[0.7rem] text-teal-700 border w-8" rowspan="2">Side</th>
             <th class="text-xs text-teal-700 border w-32">Size - V/H</th>
             <th class="text-xs text-teal-700 border w-24">
                 @if ($category == 'Billboard')
@@ -76,23 +86,33 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($products as $data)
-            @if ($data->code == $sales->product_code)
-                @php
-                    $product = $data;
-                @endphp
-            @endif
-        @endforeach
         <tr>
             <td class="text-xs text-teal-700 border text-center">
                 {{ $product->code }}-{{ $product->city_code }}</td>
             <td class="text-xs text-teal-700 border px-2">
                 {{ $product->address }}
             </td>
+            @if ($category == 'Signage')
+                <td class="text-[0.7rem] text-teal-700 border text-center">{{ $description->type }}</td>
+            @else
+                <td class="text-[0.7rem] text-teal-700 border text-center">
+                    @if ($description->lighting == 'Backlight')
+                        BL
+                    @elseif ($description->lighting == 'Frontlight')
+                        FL
+                    @endif
+                </td>
+            @endif
+            @if ($category == 'Signage')
+                <td class="text-[0.7rem] text-teal-700 border text-center">
+                    {{ $description->qty }}
+                </td>
+            @endif
+            <td class="text-[0.7rem] text-teal-700 border text-center">
+                {{ (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) }}
+            </td>
             <td class="text-xs text-teal-700 border text-center">
-                {{ $product->category }}</td>
-            <td class="text-xs text-teal-700 border text-center">
-                {{ $product->size }} - {{ $product->side }} -
+                {{ $product->size }} -
                 @if ($product->orientation == 'Vertikal')
                     V
                 @elseif ($product->orientation == 'Horizontal')
@@ -171,27 +191,48 @@
         </tr>
         @if ($sales->dpp)
             <tr>
-                <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">DPP</td>
+                @if ($category == 'Signage')
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">DPP</td>
+                @else
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="5">DPP</td>
+                @endif
                 <td class="text-xs text-teal-700 border text-right px-2">
                     {{ number_format($sales->dpp) }}</td>
             </tr>
             <tr>
-                <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">(A) PPN (11%)</td>
+                @if ($category == 'Signage')
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">(A) PPN
+                        {{ $sales->ppn }}%</td>
+                @else
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="5">(A) PPN
+                        {{ $sales->ppn }}%</td>
+                @endif
                 <td class="text-xs text-teal-700 border text-right px-2">
-                    {{ number_format($sales->dpp * 0.11) }}
+                    {{ number_format($sales->dpp * ($sales->ppn / 100)) }}
                 </td>
             </tr>
             <tr>
-                <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">(B) PPh (2%)</td>
+                @if ($category == 'Signage')
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">(B) PPh
+                        {{ $sales->pph }}%</td>
+                @else
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="5">(B) PPh
+                        {{ $sales->pph }}%</td>
+                @endif
                 <td class="text-xs text-teal-700 border text-right px-2">
-                    {{ number_format($sales->dpp * 0.02) }}
+                    {{ number_format($sales->dpp * ($sales->pph / 100)) }}
                 </td>
             </tr>
             <tr>
-                <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">TOTAL (Harga + A -
-                    B)</td>
+                @if ($category == 'Signage')
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">TOTAL (Harga +
+                        A - B)</td>
+                @else
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="5">TOTAL (Harga +
+                        A - B)</td>
+                @endif
                 <td class="text-xs text-teal-700 border text-right px-2">
-                    {{ number_format($getPrice + $sales->dpp * 0.11 - $sales->dpp * 0.02) }}
+                    {{ number_format($getPrice + $sales->dpp * ($sales->ppn / 100) - $sales->dpp * ($sales->pph / 100)) }}
                 </td>
             </tr>
         @endif

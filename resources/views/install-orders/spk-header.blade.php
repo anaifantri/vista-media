@@ -1,4 +1,4 @@
-<div class="h-28">
+<div class="h-24">
     <div class="flex w-full items-center px-10 pt-8 border-b pb-2">
         <img class="w-[72px]" src="/img/logo-vm.png" alt="">
         <div class="ml-4 w-[500px]">

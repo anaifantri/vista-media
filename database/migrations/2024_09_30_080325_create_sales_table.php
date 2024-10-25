@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('media_category_id')->constrained();
             $table->foreignId('quotation_id')->constrained();
             $table->foreignId('location_id')->constrained();
-            $table->string('product_code');
+            $table->json('product');
             $table->string('note');
             $table->string('duration')->nullable();
             $table->double('dpp')->nullable();

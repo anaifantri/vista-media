@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,8 +19,7 @@ class UserController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Owner' ){
             return response()->view('users.index', [
                 'users' => User::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
-                'title' => 'Daftar User',
-                'categories' => MediaCategory::all()
+                'title' => 'Daftar User'
             ]);
         } else {
             abort(403);
@@ -36,8 +34,7 @@ class UserController extends Controller
         $this->authorize('isAdmin');
 
         return response()->view('users.create', [
-            'title' => 'Menambah Data Pengguna',
-            'categories' => MediaCategory::all()
+            'title' => 'Menambah Data Pengguna'
         ]);
     }
 
@@ -99,14 +96,12 @@ class UserController extends Controller
         if($user->id === auth()->user()->id){
             return response()->view('users.show', [
                 'user' => $user,
-                'title' => 'Detail User',
-                'categories' => MediaCategory::all()
+                'title' => 'Detail User'
             ]);
         } else if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Owner' ){
             return response()->view('users.show', [
                 'user' => $user,
-                'title' => 'Detail User',
-                'categories' => MediaCategory::all()
+                'title' => 'Detail User'
             ]);
         } else {
             abort(401);
@@ -120,16 +115,14 @@ class UserController extends Controller
         if($user->id === auth()->user()->id){
             return response()->view('users.edit', [
                 'user' => $user,
-                'title' => 'Edit User',
-                'categories' => MediaCategory::all()
+                'title' => 'Edit User'
             ]);
         } else {
             $this->authorize('isAdmin');
             
             return response()->view('users.edit', [
                 'user' => $user,
-                'title' => 'Edit User',
-                'categories' => MediaCategory::all()
+                'title' => 'Edit User'
             ]);
         }
     }

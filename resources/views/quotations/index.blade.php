@@ -178,7 +178,12 @@
                         @endphp
                         @foreach ($quotations as $quotation)
                             @php
-                                $products = json_decode($quotation->products);
+                                if (count($quotation->quotation_revisions) != 0) {
+                                    $revision = $quotation->quotation_revisions->last();
+                                    $products = json_decode($revision->products);
+                                } else {
+                                    $products = json_decode($quotation->products);
+                                }
                                 $clients = json_decode($quotation->clients);
                             @endphp
                             <tr>

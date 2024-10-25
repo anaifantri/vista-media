@@ -72,6 +72,9 @@ class User extends Authenticatable
     public function client_categories(){
         return $this->hasMany(ClientCategory::class, 'user_id', 'id');
     }
+    public function client_groups(){
+        return $this->hasMany(ClientGroup::class, 'user_id', 'id');
+    }
     public function contacts(){
         return $this->hasMany(Contact::class, 'user_id', 'id');
     }

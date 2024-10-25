@@ -6,7 +6,6 @@ use App\Models\PrintingPrice;
 use App\Models\PrintingProduct;
 use App\Models\Vendor;
 use App\Models\User;
-use App\Models\MediaCategory;
 use App\Models\VendorCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,7 +24,6 @@ class PrintingPriceController extends Controller
         return response()-> view ('printing-prices.index', [
             'printing_prices'=>PrintingPrice::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
             'title' => 'Daftar Harga Cetak',
-            'categories' => MediaCategory::all(),
             compact('vendors', 'printing_products')
         ]);
     }
@@ -45,7 +43,6 @@ class PrintingPriceController extends Controller
             return response()-> view ('printing-prices.create', [
                 'printing_products'=>PrintingProduct::all(),
                 'vendors'=>Vendor::all(),
-                'categories' => MediaCategory::all(),
                 'title' => 'Create Printing Price'
             ]);
         } else {
@@ -112,7 +109,6 @@ class PrintingPriceController extends Controller
     {
         return response()-> view ('printing-prices.show', [
             'printing_price' => $printingPrice,
-            'categories' => MediaCategory::all(),
             'title' => 'Detail Harga Cetak '
         ]);
     }
@@ -127,7 +123,6 @@ class PrintingPriceController extends Controller
                 'printing_price' => $printingPrice,
                 'printing_products'=>PrintingProduct::all(),
                 'vendors'=>Vendor::all(),
-                'categories' => MediaCategory::all(),
                 'title' => 'Edit Harga Cetak'
             ]);
         } else {

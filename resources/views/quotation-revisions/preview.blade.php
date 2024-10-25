@@ -356,7 +356,7 @@
                                         <div
                                             class="flex w-[800px] h-[570px] justify-center items-center bg-slate-50 border rounded-b-xl">
                                             <img class="m-auto w-[770px] h-[540px]"
-                                                src="{{ asset('storage/' . $product->location_photo) }}" alt="">
+                                                src="{{ asset('storage/' . $product->photo) }}" alt="">
                                         </div>
                                     </div>
                                     <div class="flex w-full justify-center mt-4 h-[470px] bg-white">

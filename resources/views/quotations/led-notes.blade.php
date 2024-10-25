@@ -7,8 +7,8 @@
         </div>
         <div id="notesQty">
             <div class="flex">
-                <input class="ml-1 text-sm text-black outline-none w-full"
-                    value="- Biaya di atas belum termasuk PPN dan tidak termasuk desain materi iklan">
+                <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
+                    value="- Harga di atas belum termasuk PPN">
             </div>
             <div class="flex">
                 <input class="ml-1 text-sm text-black outline-none w-full" value="- Harga tersebut termasuk :"

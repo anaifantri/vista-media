@@ -27,7 +27,7 @@
                                 <input id="size" type="text" value="{{ $size }}"
                                     class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1">
                             </div>
-                            @if ($side == 2)
+                            @if ($qty == 2)
                                 <div class="flex mt-1">
                                     <input id="cbRight" class="outline-none" type="checkbox"
                                         onclick="cbRightAction(this)" checked>

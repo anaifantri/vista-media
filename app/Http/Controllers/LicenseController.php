@@ -29,7 +29,6 @@ class LicenseController extends Controller
             'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
             'areas'=>Area::all(),
             'cities'=>City::all(),
-            'categories'=>MediaCategory::all(),
             'title' => 'Daftar Data Perizinan',
             compact('areas', 'cities', 'media_sizes', 'media_categories', 'licenses')
         ]);

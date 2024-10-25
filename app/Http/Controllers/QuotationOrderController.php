@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\QuotationOrder;
 use App\Models\Quotation;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,8 +29,7 @@ class QuotationOrderController extends Controller
                 'quotation_orders' => $dataOrders,
                 'quotation' => $quotation,
                 'category' => $category,
-                'title' => 'Dokumen PO/SPK',
-                'categories' => MediaCategory::all()
+                'title' => 'Dokumen PO/SPK'
             ]);
         } else {
             abort(403);

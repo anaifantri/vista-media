@@ -6,14 +6,16 @@
             </th>
             <th class="text-xs text-teal-700 border" rowspan="2">Lokasi
             </th>
-            <th class="text-xs text-teal-700 border w-48" colspan="2">
+            <th class="text-xs text-teal-700 border w-48" colspan="4">
                 Deskripsi
             </th>
             <th class="text-xs text-teal-700 border w-24">Harga (Rp.)</th>
         </tr>
         <tr>
-            <th class="text-xs text-teal-700 border w-16">Jenis</th>
-            <th class="text-xs text-teal-700 border w-32">Size - V/H</th>
+            <th class="text-xs text-teal-700 border w-12">Jenis</th>
+            <th class="text-xs text-teal-700 border w-8">FL/BL</th>
+            <th class="text-xs text-teal-700 border w-8">Side</th>
+            <th class="text-xs text-teal-700 border w-20">Size - V/H</th>
             <th id="thTitle" class="text-xs text-teal-700 border w-24">
                 @if ($category == 'Billboard')
                     @foreach ($price->dataTitle as $dataTitle)
@@ -83,9 +85,46 @@
                 {{ $product->address }}
             </td>
             <td class="text-xs text-teal-700 border text-center">
-                {{ $product->category }}</td>
+                @if ($product->category == 'Billboard')
+                    BB
+                @elseif($product->category == 'Videotron')
+                    VT
+                @elseif($product->category == 'Signage')
+                    SN
+                @endif
+            </td>
+            @if ($product->category == 'Videotron')
+                <td class="text-xs text-teal-700 border text-center">-</td>
+            @elseif ($product->category == 'Signage')
+                @if ($description->type == 'Videotron')
+                    <td class="text-xs text-teal-700 border text-center">-</td>
+                @else
+                    <td class="text-xs text-teal-700 border text-center">
+                        @if ($description->lighting == 'Backlight')
+                            BL
+                        @elseif ($description->lighting == 'Frontlight')
+                            FL
+                        @elseif ($description->lighting == 'Nonlight')
+                            -
+                        @endif
+                    </td>
+                @endif
+            @elseif ($product->category == 'Signage')
+                <td class="text-xs text-teal-700 border text-center">
+                    @if ($description->lighting == 'Backlight')
+                        BL
+                    @elseif ($description->lighting == 'Frontlight')
+                        FL
+                    @elseif ($description->lighting == 'Nonlight')
+                        -
+                    @endif
+                </td>
+            @endif
             <td class="text-xs text-teal-700 border text-center">
-                {{ $product->size }} - {{ $product->side }} -
+                {{ filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) }}
+            </td>
+            <td class="text-xs text-teal-700 border text-center">
+                {{ $product->size }} -
                 @if ($product->orientation == 'Vertikal')
                     V
                 @elseif ($product->orientation == 'Horizontal')
@@ -165,7 +204,7 @@
             </td>
         </tr>
         <tr>
-            <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">
+            <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">
                 <div class="flex items-center justify-end">
                     <label> Apakah menggunakan PPN dan PPh? </label>
                 </div>
@@ -182,7 +221,7 @@
             </td>
         </tr>
         <tr>
-            <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">
+            <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">
                 <div class="flex items-center justify-end">
                     <label> Apakah DPP sama dengan harga? </label>
                     <input id="{{ $loop->iteration - 1 }}" class="ml-2" type="radio"
@@ -195,55 +234,70 @@
             </td>
             <td class="text-xs text-teal-700 border text-right px-2">
                 <div>
+                    @php
+                        $salesData[$loop->iteration - 1]->dpp = $getPrice;
+                        $salesData[$loop->iteration - 1]->price = $getPrice;
+                        $ppn = ($salesData[$loop->iteration - 1]->ppn / 100) * $getPrice;
+                        $pph = ($salesData[$loop->iteration - 1]->pph / 100) * $getPrice;
+                        $total = $getPrice + $ppn - $pph;
+                    @endphp
                     <input id="dppValue" name="{{ $loop->iteration - 1 }}"
                         class="text-right text-xs outline-none text-teal-700 font-semibold in-out-spin-none w-20"
-                        type="number" min="0" value="{{ $getPrice }}" readonly onkeyup="getDpp(this)">
+                        type="number" min="0" value="{{ $salesData[$loop->iteration - 1]->dpp }}" readonly
+                        onkeyup="getDpp(this)" required>
                 </div>
             </td>
         </tr>
         <tr>
-            <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">
+            <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">
                 <div class="flex w-full justify-end">
                     <label class="text-xs text-teal-700">(A) PPN </label>
                     <input id="inputPpn" name="ppn{{ $loop->iteration - 1 }}"
+                        value="{{ $salesData[$loop->iteration - 1]->ppn }}"
                         class="text-xs border rounded-md text-teal-700 outline-none in-out-spin-none w-8 px-1 ml-2"
-                        type="number" min="0" max="100" onkeyup="setPpn(this)">
+                        type="number" min="0" max="100" onkeyup="setPpn(this)" required>
                     <label class="text-xs text-teal-700 ml-2"> %</label>
                 </div>
             </td>
             <td id="ppnValue" class="text-xs text-teal-700 border text-right px-2">
+                {{ $ppn }}
             </td>
         </tr>
         <tr>
-            <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">
+            <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">
                 <div class="flex w-full justify-end">
                     <label class="text-xs text-teal-700">(B) PPh </label>
                     <input id="inputPph" name="pph{{ $loop->iteration - 1 }}"
+                        value="{{ $salesData[$loop->iteration - 1]->pph }}"
                         class="text-xs border rounded-md text-teal-700 outline-none in-out-spin-none w-8 px-1 ml-2"
-                        type="number" min="0" max="100" onkeyup="setPph(this)">
+                        type="number" min="0" max="100" onkeyup="setPph(this)" required>
                     <label class="text-xs text-teal-700 ml-2"> %</label>
                 </div>
             </td>
             <td id="pphValue" class="text-xs text-teal-700 border text-right px-2">
+                {{ $pph }}
             </td>
         </tr>
         <tr>
             @if ($category == 'Billboard')
-                <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">TOTAL (Harga + A -
+                <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">TOTAL (Harga + A
+                    -
                     B)</td>
             @elseif ($category == 'Signage')
                 @if ($description->type == 'Videotron')
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">
                         {{ $thTitle }} (Harga + A - B)</td>
                 @else
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">TOTAL (Harga +
+                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">TOTAL (Harga
+                        +
                         A - B)</td>
                 @endif
             @else
-                <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="4">
+                <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">
                     {{ $thTitle }} (Harga + A - B)</td>
             @endif
             <td id="totalValue" class="text-xs text-teal-700 border text-right px-2">
+                {{ $total }}
             </td>
         </tr>
     </tbody>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\VendorContact;
-use App\Models\MediaCategory;
 use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -77,7 +76,6 @@ class VendorContactController extends Controller
         return response()->view('vendor-contacts.edit', [
             'contact' => $vendorContact,
             'title' => 'Edit Kontak Vendor',
-            'categories' => MediaCategory::all(),
             compact('vendors')
         ]);
     }

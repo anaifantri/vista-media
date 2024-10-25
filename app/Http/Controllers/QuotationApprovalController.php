@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\QuotationApproval;
 use App\Models\Quotation;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,8 +29,7 @@ class QuotationApprovalController extends Controller
                 'quotation_approvals' => $dataApprovals,
                 'quotation' => $quotation,
                 'category' => $category,
-                'title' => 'Dokumen Approval',
-                'categories' => MediaCategory::all()
+                'title' => 'Dokumen Approval'
             ]);
         } else {
             abort(403);

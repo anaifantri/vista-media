@@ -5,124 +5,146 @@ const city = document.getElementById("city");
 let latitude = document.getElementById("lat").textContent;
 let longitude = document.getElementById("lng").textContent;
 let zoomMaps = document.getElementById("zoom").textContent;
-let objSales = {};
-let dataSales = [];
-let objClients = {};
-let dataClients = [];
+let dataSales = {};
+let dataLocations = {};
 
 let myLatLng = {
     lat: Number(latitude),
     lng: Number(longitude)
 };
 
+let posisi = { lat: Number(latitude), lng: Number(longitude) };
+let description = {};
+
 // Get Sales Data --> start
-const xhrSale = new XMLHttpRequest();
-const methodSale = "GET";
-const urlSale = "/showSale";
+function getSales() {
+    return fetch('/get-sales/'+city.value+'/city')
+      .then(status)
+      .then(json);
+  }
 
-xhrSale.open(methodSale, urlSale, true);
-xhrSale.send();
-
-xhrSale.onreadystatechange = () => {
-    // In local files, status is 0 upon success in Mozilla Firefox
-    if (xhrSale.readyState === XMLHttpRequest.DONE) {
-        const status = xhrSale.status;
-        if (status === 0 || (status >= 200 && status < 400)) {
-            // The request has been completed successfully
-
-            objSales = JSON.parse(xhrSale.responseText);
-            dataSales = objSales.dataSale;
-        }
+function status(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return Promise.resolve(response)
+    } else {
+      return Promise.reject(new Error(response.statusText))
     }
-}
+  }
+  
+  function json(response) {
+    return response.json()
+  }
 // Get Sales Data --> end
 
-// Get Clients Data --> start
-const xhrClient = new XMLHttpRequest();
-const methodClient = "GET";
-const urlClient = "/showClient";
-
-xhrClient.open(methodClient, urlClient, true);
-xhrClient.send();
-
-xhrClient.onreadystatechange = () => {
-    // In local files, status is 0 upon success in Mozilla Firefox
-    if (xhrClient.readyState === XMLHttpRequest.DONE) {
-        const status = xhrClient.status;
-        if (status === 0 || (status >= 200 && status < 400)) {
-            // The request has been completed successfully
-
-            objClients = JSON.parse(xhrClient.responseText);
-            dataClients = objClients.dataClient;
-        }
-    }
+// Get Locations --> start
+getLocations = () =>{
+    return fetch('/get-locations/'+city.value+'/city')
+      .then(status)
+      .then(json);
 }
-// Get Clients Data --> end
+// Get Locations --> end
+
+// Show Add & Marker--> start
+showMarker();
+function showMarker(){
+    getLocations()
+    .then(function(data) {
+      dataLocations = data.locations;
+      getSales()
+      .then(function(data) {
+          dataSales = data.sales;
+          for (let i = 0; i < dataLocations.length; i++) {
+            var saleStatus = false;
+            description = JSON.parse(dataLocations[i].description);
+            posisi = { lat: Number(description.lat), lng: Number(description.lng) };
+            for(let j = 0; j < dataSales.length; j++){
+                if(dataSales[j].location_id == dataLocations[i].id){
+                    saleStatus = true;
+                }
+            }
+            if(saleStatus == true){
+                console.log(dataLocations[i].code);
+                addMarker(posisi, title = "Kode : " + dataLocations[i].code + " \nLokasi : " + dataLocations[i].address, icon = "/img/marker-red.png", id = dataLocations[i].id);
+            }else{
+                addMarker(posisi, title = "Kode : " + dataLocations[i].code + " \nLokasi : " + dataLocations[i].address, icon = "/img/marker-green.png", id = dataLocations[i].id);
+            }
+          }
+      })
+      .catch(function(error) {
+        console.log('Request failed', error);
+      });
+    })
+    .catch(function(error) {
+      console.log('Request failed', error);
+    });    
+
+}
+// Show Add & Marker--> end
 
 // Get Billboard Data & Add Marker --> start
-setTimeout(getBillboardData, 100);
-function getBillboardData() {
-    const xhrBillboard = new XMLHttpRequest();
-    const methodBillboard = "GET";
-    const urlBillboard = "/showBillboard";
+// setTimeout(getBillboardData, 100);
+// function getBillboardData() {
+//     const xhrBillboard = new XMLHttpRequest();
+//     const methodBillboard = "GET";
+//     const urlBillboard = "/showBillboard";
 
-    xhrBillboard.open(methodBillboard, urlBillboard, true);
-    xhrBillboard.send();
+//     xhrBillboard.open(methodBillboard, urlBillboard, true);
+//     xhrBillboard.send();
 
-    xhrBillboard.onreadystatechange = () => {
-        // In local files, status is 0 upon success in Mozilla Firefox
-        if (xhrBillboard.readyState === XMLHttpRequest.DONE) {
-            const status = xhrBillboard.status;
-            if (status === 0 || (status >= 200 && status < 400)) {
-                // The request has been completed successfully
+//     xhrBillboard.onreadystatechange = () => {
+//         // In local files, status is 0 upon success in Mozilla Firefox
+//         if (xhrBillboard.readyState === XMLHttpRequest.DONE) {
+//             const status = xhrBillboard.status;
+//             if (status === 0 || (status >= 200 && status < 400)) {
+//                 // The request has been completed successfully
 
-                var obj = JSON.parse(xhrBillboard.responseText);
-                const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                var start_contract = new Date();
-                let startMonth = month[start_contract.getMonth()];
-                var end_contract = new Date();
-                let endMonth = month[end_contract.getMonth()];
-                let price = 0;
-                let hasClient = false;
-                let client = '';
+//                 var obj = JSON.parse(xhrBillboard.responseText);
+//                 const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+//                 var start_contract = new Date();
+//                 let startMonth = month[start_contract.getMonth()];
+//                 var end_contract = new Date();
+//                 let endMonth = month[end_contract.getMonth()];
+//                 let price = 0;
+//                 let hasClient = false;
+//                 let client = '';
 
-                for (i = 0; i < obj.dataBillboard.length; i++) {
-                    if (obj.dataBillboard[i].city_id == city.value) {
-                        posisi = { lat: Number(obj.dataBillboard[i].lat), lng: Number(obj.dataBillboard[i].lng) };
-                        hasClient = false;
-                        for (j = 0; j < dataSales.length; j++) {
-                            var endAt = new Date(dataSales[j].end_at);
-                            if (dataSales[j].billboard_id == obj.dataBillboard[i].id && endAt > new Date()) {
-                                start_contract = new Date(dataSales[j].start_at);
-                                end_contract = new Date(dataSales[j].end_at);
-                                startMonth = month[start_contract.getMonth()];
-                                endMonth = month[end_contract.getMonth()];
+//                 for (i = 0; i < obj.dataBillboard.length; i++) {
+//                     if (obj.dataBillboard[i].city_id == city.value) {
+//                         posisi = { lat: Number(obj.dataBillboard[i].lat), lng: Number(obj.dataBillboard[i].lng) };
+//                         hasClient = false;
+//                         for (j = 0; j < dataSales.length; j++) {
+//                             var endAt = new Date(dataSales[j].end_at);
+//                             if (dataSales[j].billboard_id == obj.dataBillboard[i].id && endAt > new Date()) {
+//                                 start_contract = new Date(dataSales[j].start_at);
+//                                 end_contract = new Date(dataSales[j].end_at);
+//                                 startMonth = month[start_contract.getMonth()];
+//                                 endMonth = month[end_contract.getMonth()];
 
-                                price = dataSales[j].price;
-                                hasClient = true;
+//                                 price = dataSales[j].price;
+//                                 hasClient = true;
 
-                                for (k = 0; k < dataClients.length; k++) {
-                                    if (dataClients[k].id == dataSales[j].client_id) {
-                                        client = dataClients[k].name;
-                                    }
-                                }
-                            }
-                        }
+//                                 for (k = 0; k < dataClients.length; k++) {
+//                                     if (dataClients[k].id == dataSales[j].client_id) {
+//                                         client = dataClients[k].name;
+//                                     }
+//                                 }
+//                             }
+//                         }
 
-                        if (hasClient == true) {
-                            var priceFormat = price.toLocaleString();
-                            addMarker(posisi, title = "Kode : " + obj.dataBillboard[i].code + " \nLokasi : " + obj.dataBillboard[i].address + " \nKlien : " + client + " \nHarga : Rp. " + priceFormat + ",- \nAwal Kontrak : " + start_contract.getDate() + "-" + startMonth + "-" + start_contract.getFullYear() + " \nAkhir Kontrak : " + end_contract.getDate() + "-" + endMonth + "-" + end_contract.getFullYear(), icon = "/img/marker-red.png", id = obj.dataBillboard[i].id);
-                        } else {
-                            addMarker(posisi, title = "Kode : " + obj.dataBillboard[i].code + " \nLokasi : " + obj.dataBillboard[i].address, icon = "/img/marker-green.png", id = obj.dataBillboard[i].id);
-                        }
-                    }
-                }
-            } else {
-                // Oh no! There has been an error with the request!
-            }
-        }
-    };
-};
+//                         if (hasClient == true) {
+//                             var priceFormat = price.toLocaleString();
+//                             addMarker(posisi, title = "Kode : " + obj.dataBillboard[i].code + " \nLokasi : " + obj.dataBillboard[i].address + " \nKlien : " + client + " \nHarga : Rp. " + priceFormat + ",- \nAwal Kontrak : " + start_contract.getDate() + "-" + startMonth + "-" + start_contract.getFullYear() + " \nAkhir Kontrak : " + end_contract.getDate() + "-" + endMonth + "-" + end_contract.getFullYear(), icon = "/img/marker-red.png", id = obj.dataBillboard[i].id);
+//                         } else {
+//                             addMarker(posisi, title = "Kode : " + obj.dataBillboard[i].code + " \nLokasi : " + obj.dataBillboard[i].address, icon = "/img/marker-green.png", id = obj.dataBillboard[i].id);
+//                         }
+//                     }
+//                 }
+//             } else {
+//                 // Oh no! There has been an error with the request!
+//             }
+//         }
+//     };
+// };
 // Get Billboard Data & Add Marker --> end
 
 // Init Map --> start
@@ -148,10 +170,7 @@ function addMarker(position, title, icon, id) {
     markers.push(marker);
 
     marker.addListener("click", () => {
-        // infoWindow.close();
-        // infoWindow.setContent(marker.getTitle());
-        // infoWindow.open(marker.getMap(), marker);
-        window.open("http://vistamedia.co.id/dashboard/media/billboards/" + marker.get("id"));
+        window.open("http://vistamedia.co.id/media/locations/" + marker.get("id"));
     });
 };
 
@@ -161,13 +180,5 @@ function setMapOnAll(map) {
         markers[i].setMap(map);
     }
 };
-
-// Deletes all markers in the array by removing references to them.
-function deleteMarkers() {
-    setMapOnAll(null);
-    markers = [];
-};
-
-// initMap();
 
 // Google maps --> end

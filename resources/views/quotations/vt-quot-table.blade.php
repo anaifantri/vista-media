@@ -10,68 +10,51 @@
     <table class="table-auto mt-2">
         <thead>
             <tr>
-                <th class="text-sm text-black border w-52">Deskripsi
+                <th class="text-sm text-black border w-60">Deskripsi
                 </th>
-                <th class="text-sm text-black border w-[512px]" colspan="4">
+                <th class="text-sm text-black border w-[472px]" colspan="4">
                     Spesifikasi
                 </th>
             </tr>
         </thead>
-        <tbody id="videotronTBody">
+        <tbody id="tableTBody">
             <tr>
-                <td class="px-4 text-sm text-black border">Kode Lokasi</td>
-                <td class="px-4 text-sm text-black border" colspan="4">
-                    {{ $locations[0]->code }}-{{ $locations[0]->city_code }}</td>
+                <td class="px-2 text-xs text-black border">Kode | Lokasi</td>
+                <td class="px-2 text-xs text-black border font-semibold" colspan="4">
+                    {{ $locations[0]->code }} - {{ $locations[0]->city->code }} | {{ $locations[0]->address }}</td>
             </tr>
             <tr>
-                <td class="px-4 text-sm text-black border">Lokasi</td>
-                <td class="px-4 text-sm text-black border" colspan="4">
-                    {{ $locations[0]->address }}</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Ukuran (Screen Size) - Orientasi</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $locations[0]->media_size->size }} ({{ $descriptions->screen_w }} pixel x
-                    {{ $descriptions->screen_h }} pixel)
+                <td class="px-2 text-xs text-black border">Ukuran (Screen Size) - Orientasi</td>
+                <td class="px-2 text-xs text-black border font-semibold" colspan="4">
+                    {{ $locations[0]->media_size->size }} ({{ number_format($descriptions->screen_w) }} pixel x
+                    {{ number_format($descriptions->screen_h) }} pixel)
                     -
                     {{ $locations[0]->orientation }}</td>
             </tr>
             @if ($category == 'Signage')
                 <tr>
-                    <td class="px-4 text-xs text-black border">Jumlah Signage</td>
-                    <td class="px-4 text-xs text-black border" colspan="4">
+                    <td class="px-2 text-xs text-black border">Jumlah Signage</td>
+                    <td class="px-2 text-xs text-black border font-semibold" colspan="4">
                         {{ $descriptions->qty }} unit
                     </td>
                 </tr>
             @endif
             <tr>
-                <td class="px-4 text-xs text-black border">Ukuran Pixel - Konfigurasi Pixel</td>
-                <td class="px-4 text-xs text-black border" colspan="4">P
-                    {{ $led->pixel_pitch }} -
-                    {{ $led->pixel_config }}</td>
+                <td class="px-2 text-xs text-black border">Ukuran - Konfigurasi - Kerapatan Pixel</td>
+                <td class="px-2 text-xs text-black border font-semibold" colspan="4">P{{ $led->pixel_pitch }} -
+                    {{ $led->pixel_config }} - {{ number_format($led->pixel_density) }} pixel / m2</td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border">Kerapatan Pixel</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->pixel_density }}
+                <td class="px-2 text-xs text-black border">Jarak Pandang - Sudut Pandang Terbaik</td>
+                <td class="px-2 text-xs text-black border font-semibold" colspan="4">
+                    {{ $led->optimal_distance }} - {{ $led->vertical_angle }}(V)/{{ $led->horizontal_angle }}(H)
                 </td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border">Jarak Pandang Terbaik</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->optimal_distance }}
-                </td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Sudut Pandang Terbaik</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->vertical_angle }}(H)
-                    {{ $led->horizontal_angle }}(H)</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Refresh Rate</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->refresh_rate }}
+                <td class="px-2 text-xs text-black border">Refresh Rate - Durasi Video - Jumlah Slot</td>
+                <td class="px-2 text-xs text-black border font-semibold" colspan="4">
+                    {{ $led->refresh_rate }} Hz - {{ $descriptions->duration }} detik -
+                    {{ $descriptions->slots }} slot
                 </td>
             </tr>
             <tr>
@@ -81,35 +64,19 @@
                 $duration_hours = (int) $end[0] - (int) $start[0];
                 $duration_second = $duration_hours * 60 * 60;
                 ?>
-                <td class="px-4 text-xs text-black border">Waktu Tayang</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
+                <td class="px-2 text-xs text-black border">Waktu Tayang - Jumlah Spot</td>
+                <td class="px-2 text-xs text-black border font-semibold" colspan="4">
                     {{ date('H:i', strtotime($descriptions->start_at)) }} s.d
                     {{ date('H:i', strtotime($descriptions->end_at)) }}
-                    ({{ $duration_hours }} jam per hari)</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Durasi Video</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $descriptions->duration }} detik /
-                    slot</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Jumlah Slot</td>
-                <td class="px-4 text-xs text-black border" colspan="4">{{ $descriptions->slots }}
-                    slot</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Jumlah Spot</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
+                    ({{ $duration_hours }} jam per hari) -
                     {{ $duration_second / $descriptions->duration / $descriptions->slots }} spot / slot /
-                    hari
-                </td>
+                    hari</td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border" rowspan="2">
+                <td class="px-2 text-xs text-black border" rowspan="2">
                     <div class="flex items-center">
                         <input id="cbSharing" type="checkbox" onclick="sharingPrice(this)" checked>
-                        <span class="flex ml-2">Harga Sharing </span>
+                        <span class="flex ml-2">Harga Sharing untuk </span>
                         <input id="slotQty"
                             class="text-xs in-out-spin-none text-black w-7 text-center border rounded-md ml-2 outline-none bg-transparent"
                             type="number" min="1" max="3" value="1" onkeyup="setSLot(this)">
@@ -182,10 +149,10 @@
                 </td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border" rowspan="2">
+                <td class="px-2 text-xs text-black border" rowspan="2">
                     <div class="flex items-center">
                         <input id="cbExclusive" type="checkbox" onclick="exclusivePrice(this)" checked>
-                        <span class="flex ml-2">Harga eksklusif (4 slot)</span>
+                        <span class="flex ml-2">Harga eksklusif</span>
                     </div>
                 </td>
                 <td class="border bg-slate-100">
@@ -249,6 +216,42 @@
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
                             type="number" min="0" value="{{ $locations[0]->price }}">
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="border px-2 text-right text-xs text-teal-700 font-semibold">
+                    Include PPN..?
+                </td>
+                <td class="border px-2 tex-center text-xs text-teal-700 font-semibold" colspan="4">
+                    <div class="flex items-center">
+                        <input id="ppnYes" class="ml-2" type="radio" name="ppnCheck" value="yes"
+                            onclick="ppnCheckAction(this)">
+                        <label class="ml-1"> Ya </label>
+                        <input id="ppnNo" class="ml-2" type="radio" name="ppnCheck" value="no"
+                            onclick="ppnCheckAction(this)" checked>
+                        <label class="ml-1"> Tidak </label>
+                    </div>
+                </td>
+            </tr>
+            <tr hidden>
+                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">
+                    <div class="flex items-center justify-end">
+                        <label class="text-[0.7rem] text-teal-700 ml-1" for="cbPpn">PPN</label>
+                        <input id="ppnValue"
+                            class="text-xs text-center border rounded-md text-teal-700 outline-none in-out-spin-none w-8 px-1 ml-2"
+                            type="number" min="0" max="100" value="11" onkeyup="setPpn(this)">
+                        <label class="text-xs text-teal-700 ml-2">% * DPP</label>
+                        <input id="dppValue"
+                            class="text-right text-[0.7rem] outline-none text-teal-700 font-semibold in-out-spin-none w-20 border ml-2 pr-1"
+                            type="number" min="0" onkeyup="getDpp(this)" required>
+                    </div>
+                </td>
+                <td id="ppnNominal" class="text-[0.7rem] text-teal-700 border font-semibold px-2" colspan="4">
+                </td>
+            </tr>
+            <tr hidden>
+                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">Grand Total</td>
+                <td id="grandTotal" class="text-[0.7rem] text-teal-700 border font-semibold px-2" colspan="4">
                 </td>
             </tr>
         </tbody>

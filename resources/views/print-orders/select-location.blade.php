@@ -132,6 +132,10 @@
                                     </select>
                                 @endif
                             @else
+                                <select id="city" class="w-full border rounded-lg text-sm text-teal-900 outline-none"
+                                    name="city" onchange="submit()" disabled>
+                                    <option value="All">All</option>
+                                </select>
                             @endif
                         </div>
                         <div class="ml-2 w-36">

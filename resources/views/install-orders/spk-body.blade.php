@@ -1,79 +1,114 @@
-@php
-    $bulan = [
-        1 => 'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Agustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember',
-    ];
-    $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
-@endphp
-<div class="h-[330px] mt-5">
+<div class="h-[520px] mt-4">
     <div class="flex w-full items-center px-10">
         <div class="w-[950px]">
-            <label class="flex text-md font-semibold justify-center w-full mt-2"><u>SPK CETAK GAMBAR</u></label>
+            <label class="flex text-md font-semibold justify-center w-full mt-6"><u>SPK PEMASANGAN GAMBAR</u></label>
             <label class="flex text-md text-slate-500 justify-center w-full">Nomor : penomoroan otomatis </label>
-            <div class="flex justify-center w-full mt-4">
-                <div class="w-[500px] border p-3">
-                    <div class="flex mt-1">
-                        <label class="flex text-sm text-teal-900 w-28">Tgl. SPK</label>
-                        <label class="flex text-sm text-teal-900">:</label>
-                        <input type="text"
-                            class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
-                            value="{{ $spkDate }}" readonly>
+            <div class="flex justify-center w-full">
+                <div class="w-[500px] border p-2">
+                    <div class="flex">
+                        <div class="w-[240px] border rounded-md p-1">
+                            <div class="flex mt-1">
+                                <label class="flex text-sm text-teal-900 w-24">Tgl. SPK</label>
+                                <label class="flex text-sm text-teal-900">:</label>
+                                <input type="text"
+                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
+                                    value="{{ $spkDate }}" readonly>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="flex text-sm text-teal-900 w-24">Design</label>
+                                <label class="flex text-sm text-teal-900">:</label>
+                                <input id="theme" type="text" name="theme" placeholder="Input Tema Design"
+                                    value="{{ old('theme') }}"
+                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1 @error('area') is-invalid @enderror"
+                                    required>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="flex text-sm text-teal-900 w-24">Ukuran</label>
+                                <label class="flex text-sm text-teal-900">:</label>
+                                <input id="size" type="text" value="{{ $size }}"
+                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1">
+                            </div>
+                        </div>
+                        <div class="w-[240px] border rounded-md p-1 ml-1">
+                            <div class="flex mt-1">
+                                <label class="flex text-sm text-teal-900 w-14">Tipe</label>
+                                <label class="flex text-sm text-teal-900">:</label>
+                                <label
+                                    class="flex ml-1 text-sm text-teal-900 border rounded-sm w-[165px] px-1">{{ $productType }}</label>
+                            </div>
+                            <div class="flex mt-1">
+                                <input id="sizeWidth" type="number" value="{{ $width }}" hidden>
+                                <input id="sizeHeight" type="number" value="{{ $height }}" hidden>
+                                <label class="flex text-sm text-teal-900 w-14">Jumlah</label>
+                                <label class="flex text-sm text-teal-900">:</label>
+                                <input id="qty" type="number" value="{{ $qty }}"
+                                    class="flex w-8 ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1"
+                                    readonly>
+                                <label class="flex ml-2 text-sm text-teal-900">lembar</label>
+                            </div>
+                            <div class="flex mt-1 items-center">
+                                <label class="flex text-sm text-teal-900 w-20">SPK Cetak</label>
+                                <label class="flex text-sm text-teal-900">:</label>
+                                <input class="ml-2 outline-none flex" type="radio" value="yes" name="printOrder"
+                                    onclick="printOrderRadio(this)" checked>
+                                <label class="flex text-sm text-teal-900 ml-1">ada</label>
+                                <input class="ml-4 outline-none flex" type="radio" value="no" name="printOrder"
+                                    onclick="printOrderRadio(this)">
+                                <label class="flex text-sm text-teal-900 ml-1">tidak</label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="flex text-sm text-teal-900 w-14">Bahan</label>
+                                <label class="flex text-sm text-teal-900">:</label>
+                                <select id="selectPrint" title="Pilih SPK Cetak"
+                                    class="ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1 w-[165px]">
+                                    <option class="text-semibold" value="pilih">-- pilih --</option>
+                                    @foreach ($print_orders as $print_order)
+                                        <option class="text-semibold" value="{{ $print_order->id }}">
+                                            {{ $print_order->number }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @if ($side == 2)
+                                <div class="flex mt-1">
+                                    <input id="cbRight" class="outline-none" type="checkbox"
+                                        onclick="cbRightAction(this)" checked>
+                                    <label class="flex ml-1 text-sm text-teal-900 w-16">Kanan</label>
+                                    <input id="cbLeft" class="ml-2 outline-none" type="checkbox"
+                                        onclick="cbLeftAction(this)" checked>
+                                    <label class="flex ml-1 text-sm text-teal-900 w-16">Kiri</label>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                     <div class="flex mt-1">
-                        <label class="flex text-sm text-teal-900 w-28">Design/Tema</label>
+                        <label class="flex text-sm text-teal-900 w-14">Catatan</label>
                         <label class="flex text-sm text-teal-900">:</label>
-                        <input type="text"
-                            class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1">
+                        <textarea placeholder="Input Catatan"
+                            class="flex w-[425px] ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1" rows="3"
+                            onkeyup="getNotes(this)"></textarea>
                     </div>
-                    <div class="flex mt-1">
-                        <label class="flex text-sm text-teal-900 w-28">Ukuran</label>
-                        <label class="flex text-sm text-teal-900">:</label>
-                        <input type="text"
-                            class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1">
-                    </div>
-                    <div class="flex mt-1">
-                        <label class="flex text-sm text-teal-900 w-28">Type</label>
-                        <label class="flex text-sm text-teal-900">:</label>
-                        <select
-                            class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1 w-[170px]"></select>
-                    </div>
-                    <div class="flex mt-1">
-                        <label class="flex text-sm text-teal-900 w-28">Jumlah</label>
-                        <label class="flex text-sm text-teal-900">:</label>
-                        <input type="text"
-                            class="flex ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1">
-                    </div>
-                    <div class="flex mt-1">
-                        <label class="flex text-sm text-teal-900 w-28">Finishing</label>
-                        <label class="flex text-sm text-teal-900">:</label>
-                        <input type="text"
-                            class="flex w-[350px] ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1">
-                    </div>
-                    <div class="flex mt-1">
-                        <label class="flex text-sm text-teal-900 w-28">Catatan</label>
-                        <label class="flex text-sm text-teal-900">:</label>
-                        <textarea class="flex w-[350px] ml-1 text-sm text-teal-900 border rounded-sm outline-none px-1" rows="3"></textarea>
-                    </div>
+                    <!-- SPK Sign start-->
+                    @include('install-orders.spk-location')
+                    <!-- SPK Sign end-->
                 </div>
                 <div class="w-[280px] border ml-2 p-1">
-                    <input class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full"
+                    <label class="flex text-sm text-teal-900 justify-center w-full px-1 font-semibold">Pilih
+                        Design</label>
+                    <input id="design"
+                        class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full"
                         type="file" onchange="previewImage(this)">
                     <div class="flex justify-center items-center border mt-3 p-1">
-                        <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[200px]"
-                            src="/img/photo_profile.png">
+                        <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
+                            src="/img/product-image.png">
                     </div>
+                    <!-- SPK Sign start-->
+                    @include('install-orders.spk-sign')
+                    <!-- SPK Sign end-->
                 </div>
             </div>
         </div>
+    </div>
+    <div class="text-slate-500 text-xs ml-20 mt-2">
+        <i>* Lembar untuk Tim Produksi</i>
     </div>
 </div>

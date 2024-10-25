@@ -1,8 +1,6 @@
 const locationQty = document.getElementById("locationQty");
-const printPrice = document.querySelectorAll('[id=printPrice]');
 const installPrice = document.querySelectorAll('[id=installPrice]');
 const installTotal = document.querySelectorAll('[id=installTotal]');
-const printTotal = document.querySelectorAll('[id=printTotal]');
 const selectPrint = document.querySelectorAll('[id=selectPrint]');
 const locationCode = document.querySelectorAll('[id=locationCode]');
 const locationSide = document.querySelectorAll('[id=locationSide]');
@@ -11,17 +9,10 @@ const locationHeight = document.querySelectorAll('[id=locationHeight]');
 const productSide = document.querySelectorAll('[id=productSide]');
 const installProduct = document.querySelectorAll('[id=installProduct]');
 const wide = document.querySelectorAll('[id=wide]');
-const sidePreview = document.querySelectorAll('[id=sidePreview]');
-const widePreview = document.querySelectorAll('[id=widePreview]');
 const cbRight = document.querySelectorAll('[id=cbRight]');
 const cbLeft = document.querySelectorAll('[id=cbLeft]');
 const serviceTbody = document.getElementById("serviceTBody");
 const serviceTBodyRows = serviceTbody.getElementsByTagName("tr");
-const serviceTbodyPreview = document.getElementById("serviceTBodyPreview");
-const serviceTBodyRowsPreview = serviceTbodyPreview.getElementsByTagName("tr");
-const totalPrintPricePreview = document.querySelectorAll('[id=totalPrintPricePreview]');
-const totalInstallPricePreview = document.querySelectorAll('[id=totalInstallPricePreview]');
-const locationCodePreview = document.querySelectorAll('[id=locationCodePreview]');
 
 let objServiceType = {
     print : true,
@@ -39,6 +30,8 @@ let objInstalls = {};
 let dataInstalls = [];
 
 selectPrintProduct = (sel) =>{
+    const printPrice = document.querySelectorAll('[id=printPrice]');
+    const printTotal = document.querySelectorAll('[id=printTotal]');
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
     
     if(sel.value != "pilih"){
@@ -100,6 +93,8 @@ getTotalInstall = () =>{
 }
 
 getTotalPrint = () =>{
+    const printPrice = document.querySelectorAll('[id=printPrice]');
+    const printTotal = document.querySelectorAll('[id=printTotal]');
     let subTotalPrint = 0;
     for(let i = 0; i < Number(locationQty.value); i++){
         if(document.getElementById("cbPrint").checked == true){
@@ -127,75 +122,60 @@ cbPrintAction = (sel) =>{
         alert("Pilih salah satu atau kedua opsi penawaran..!!");
         sel.checked = true;
     }else{
+        if(sel.checked == true){
+            for(let i = 0; i < serviceTBodyRows.length; i++){
+                if(i % 2 != 0 && i < serviceTBodyRows.length - 3){
+                    serviceTBodyRows[i-1].cells[2].innerHTML = serviceTBodyRows[i].cells[4].innerHTML;
+                    serviceTBodyRows[i-1].cells[3].innerHTML = serviceTBodyRows[i].cells[5].innerHTML;
+                    serviceTBodyRows[i-1].cells[6].innerHTML = serviceTBodyRows[i].cells[6].innerHTML;
+                    serviceTBodyRows[i-1].cells[7].innerHTML = serviceTBodyRows[i].cells[7].innerHTML;
+                    serviceTBodyRows[i].deleteCell(7);
+                    serviceTBodyRows[i].deleteCell(6);
+                    serviceTBodyRows[i].deleteCell(5);
+                    serviceTBodyRows[i].deleteCell(4);
+                    serviceTBodyRows[i-1].cells[0].setAttribute('rowspan', '2');
+                    serviceTBodyRows[i-1].cells[1].setAttribute('rowspan', '2');
+                    serviceTBodyRows[i-1].cells[4].setAttribute('rowspan', '2');
+                    serviceTBodyRows[i-1].cells[5].setAttribute('rowspan', '2');
+                    serviceTBodyRows[i].removeAttribute('hidden', 'hidden');
+                }
+            }
+        }else{
+            for(let i = 0; i < serviceTBodyRows.length; i++){
+                if(i % 2 != 0 && i < serviceTBodyRows.length - 3){ 
+                    serviceTBodyRows[i].insertCell(4);
+                    serviceTBodyRows[i].cells[4].innerHTML = serviceTBodyRows[i-1].cells[2].innerHTML;
+                    serviceTBodyRows[i].cells[4].setAttribute('hidden', 'hidden');
+                    serviceTBodyRows[i].insertCell(5);
+                    serviceTBodyRows[i].cells[5].innerHTML = serviceTBodyRows[i-1].cells[3].innerHTML;
+                    serviceTBodyRows[i].cells[5].setAttribute('hidden', 'hidden');
+                    serviceTBodyRows[i].insertCell(6);
+                    serviceTBodyRows[i].cells[6].innerHTML = serviceTBodyRows[i-1].cells[6].innerHTML;
+                    serviceTBodyRows[i].cells[6].setAttribute('hidden', 'hidden');
+                    serviceTBodyRows[i].insertCell(7);
+                    serviceTBodyRows[i].cells[7].innerHTML = serviceTBodyRows[i-1].cells[7].innerHTML;
+                    serviceTBodyRows[i].cells[7].setAttribute('hidden', 'hidden');
+                    serviceTBodyRows[i-1].cells[2].innerHTML = serviceTBodyRows[i].cells[0].innerHTML;
+                    serviceTBodyRows[i-1].cells[3].innerHTML = serviceTBodyRows[i].cells[1].innerHTML;
+                    serviceTBodyRows[i-1].cells[6].innerHTML = serviceTBodyRows[i].cells[2].innerHTML;
+                    serviceTBodyRows[i-1].cells[7].innerHTML = serviceTBodyRows[i].cells[3].innerHTML;
+                    serviceTBodyRows[i-1].cells[0].removeAttribute('rowspan');
+                    serviceTBodyRows[i-1].cells[1].removeAttribute('rowspan');
+                    serviceTBodyRows[i-1].cells[4].removeAttribute('rowspan');
+                    serviceTBodyRows[i-1].cells[5].removeAttribute('rowspan');
+                    serviceTBodyRows[i].setAttribute('hidden', 'hidden');
+                }
+            }
+        }
         for(let i = 0; i < Number(locationQty.value);i++){
             if(sel.checked == true){
                 selectPrint[i].removeAttribute('disabled');
-                printPrice[i].removeAttribute('disabled');
             }else{
                 selectPrint[i].setAttribute('disabled', 'disabled');
                 printPrice[i].value = 0;
                 printTotal[i].value = 0;
                 selectPrint[i].options[0].selected = true;
                 printPrice[i].setAttribute('disabled', 'disabled');
-            }
-        }
-        if(sel.checked == true){
-            for(let i = 0; i < serviceTBodyRows.length; i++){
-                if(i % 2 != 0 && i < serviceTBodyRows.length - 3){
-                    serviceTBodyRows[i].deleteCell(5);
-                    serviceTBodyRows[i].deleteCell(4);
-                    serviceTBodyRows[i].deleteCell(1);
-                    serviceTBodyRows[i].deleteCell(0);
-                    serviceTBodyRows[i-1].removeAttribute('hidden');
-
-                    serviceTBodyRowsPreview[i].deleteCell(5);
-                    serviceTBodyRowsPreview[i].deleteCell(4);
-                    serviceTBodyRowsPreview[i].deleteCell(1);
-                    serviceTBodyRowsPreview[i].deleteCell(0);
-                    serviceTBodyRowsPreview[i-1].removeAttribute('hidden');
-                }
-            }
-        }else{
-            for(let i = 0; i < serviceTBodyRows.length; i++){
-                if(i % 2 != 0 && i < serviceTBodyRows.length - 3){ 
-                    serviceTBodyRows[i].insertCell(0);
-                    serviceTBodyRows[i].cells[0].classList.add("td-service-center");
-                    serviceTBodyRows[i].cells[0].innerHTML = serviceTBodyRows[i-1].cells[0].innerHTML;
-                    serviceTBodyRows[i].insertCell(1);
-                    serviceTBodyRows[i].cells[1].classList.add("td-service-normal");
-                    serviceTBodyRows[i].cells[1].innerHTML = serviceTBodyRows[i-1].cells[1].innerHTML;
-                    serviceTBodyRows[i].insertCell(4);
-                    serviceTBodyRows[i].cells[4].classList.add("td-service-center");
-                    serviceTBodyRows[i].cells[4].setAttribute('id', 'side');
-                    serviceTBodyRows[i].cells[4].innerHTML = serviceTBodyRows[i-1].cells[4].innerHTML;
-                    serviceTBodyRows[i].insertCell(5);
-                    serviceTBodyRows[i].cells[5].classList.add("td-service-center");
-                    serviceTBodyRows[i].cells[5].setAttribute('id', 'wide');
-                    serviceTBodyRows[i].cells[5].innerHTML = serviceTBodyRows[i-1].cells[5].innerHTML;
-                    serviceTBodyRows[i].cells[0].removeAttribute('rowspan');
-                    serviceTBodyRows[i].cells[1].removeAttribute('rowspan');
-                    serviceTBodyRows[i].cells[4].removeAttribute('rowspan');
-                    serviceTBodyRows[i].cells[5].removeAttribute('rowspan');
-                    serviceTBodyRows[i-1].setAttribute('hidden', 'hidden');
-
-                    serviceTBodyRowsPreview[i].insertCell(0);
-                    serviceTBodyRowsPreview[i].cells[0].classList.add("td-service-center");
-                    serviceTBodyRowsPreview[i].cells[0].innerHTML = serviceTBodyRowsPreview[i-1].cells[0].innerHTML;
-                    serviceTBodyRowsPreview[i].insertCell(1);
-                    serviceTBodyRowsPreview[i].cells[1].classList.add("td-service-normal");
-                    serviceTBodyRowsPreview[i].cells[1].innerHTML = serviceTBodyRowsPreview[i-1].cells[1].innerHTML;
-                    serviceTBodyRowsPreview[i].insertCell(4);
-                    serviceTBodyRowsPreview[i].cells[4].classList.add("td-service-center");
-                    serviceTBodyRowsPreview[i].cells[4].innerHTML = serviceTBodyRows[i-1].cells[4].children[0].value;
-                    serviceTBodyRowsPreview[i].insertCell(5);
-                    serviceTBodyRowsPreview[i].cells[5].classList.add("td-service-center");
-                    serviceTBodyRowsPreview[i].cells[5].innerHTML = serviceTBodyRows[i-1].cells[5].innerHTML;
-                    serviceTBodyRowsPreview[i].cells[0].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i].cells[1].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i].cells[4].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i].cells[5].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i-1].setAttribute('hidden', 'hidden');
-                }
             }
         }
         countServicePrice();
@@ -232,12 +212,6 @@ cbInstallAction = (sel) =>{
                     serviceTBodyRows[i-1].cells[4].setAttribute('rowspan', "2");
                     serviceTBodyRows[i-1].cells[5].setAttribute('rowspan', "2");
                     serviceTBodyRows[i].removeAttribute('hidden');
-
-                    serviceTBodyRowsPreview[i-1].cells[0].setAttribute('rowspan', "2");
-                    serviceTBodyRowsPreview[i-1].cells[1].setAttribute('rowspan', "2");
-                    serviceTBodyRowsPreview[i-1].cells[4].setAttribute('rowspan', "2");
-                    serviceTBodyRowsPreview[i-1].cells[5].setAttribute('rowspan', "2");
-                    serviceTBodyRowsPreview[i].removeAttribute('hidden');
                 }
             }
         }else{
@@ -248,12 +222,6 @@ cbInstallAction = (sel) =>{
                     serviceTBodyRows[i-1].cells[4].removeAttribute('rowspan');
                     serviceTBodyRows[i-1].cells[5].removeAttribute('rowspan');
                     serviceTBodyRows[i].setAttribute('hidden', 'hidden');
-
-                    serviceTBodyRowsPreview[i-1].cells[0].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i-1].cells[1].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i-1].cells[4].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i-1].cells[5].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i].setAttribute('hidden', 'hidden');
                 }
             }
         }
@@ -268,13 +236,16 @@ cbInstallAction = (sel) =>{
 }
 
 cbPpnAction = (sel) =>{
+    const ppnNote = document.getElementById("ppnNote");
     if(sel.checked == true){
+        ppnNote.value = "- Biaya di atas sudah termasuk PPN";
         inputPpn.value = inputPpn.defaultValue;
         inputPpn.removeAttribute('disabled');
         objServicePpn.status = true;
         objServicePpn.value = document.getElementById("inputPpn").value;
         countServicePrice();
     }else{
+        ppnNote.value = "- Biaya di atas belum termasuk PPN";
         inputPpn.value = 0;
         inputPpn.setAttribute('disabled', 'disabled');
         objServicePpn.status = false;
@@ -327,37 +298,11 @@ fillServiceData = () =>{
 
     objPrice = {objInstalls, objPrints, objServicePpn, objServiceType, objSideView};
     price.value = JSON.stringify(objPrice);
-
-    setPreviewTable();
-}
-
-setPreviewTable = () =>{
-    const printProductPreview = document.querySelectorAll('[id=printProductPreview]');
-    const printPricePreview = document.querySelectorAll('[id=printPricePreview]');
-    const installProductPreview = document.querySelectorAll('[id=installProductPreview]');
-    const installPricePreview = document.querySelectorAll('[id=installPricePreview]');
-    const subTotalPreview = document.getElementById("subTotalPreview");
-    const servicePpnPreview = document.getElementById("servicePpnPreview");
-    const serviceGrandTotalPreview = document.getElementById("serviceGrandTotalPreview");
-
-    for(let i = 0; i < Number(locationQty.value); i++){
-        printProductPreview[i].innerHTML = selectPrint[i].value;
-        printPricePreview[i].innerHTML = Number(printPrice[i].value).toLocaleString();
-        totalPrintPricePreview[i].innerHTML = Number(printTotal[i].value).toLocaleString();
-        sidePreview[i].innerHTML = locationSide[i].value;
-        widePreview[i].innerHTML = wide[i].innerText;
-        installProductPreview[i].innerHTML = installProduct[i].innerText;
-        installPricePreview[i].innerHTML = Number(installPrice[i].value).toLocaleString();
-        totalInstallPricePreview[i].innerHTML = Number(installTotal[i].value).toLocaleString();
-    }
-
-    subTotalPreview.innerHTML = Number(document.getElementById("subTotal").innerText).toLocaleString();
-    servicePpnPreview.innerHTML = Number(document.getElementById("servicePpn").innerText).toLocaleString();
-    serviceGrandTotalPreview.innerHTML = Number(document.getElementById("serviceGrandTotal").innerText).toLocaleString();
-
 }
 
 cbLeftAction = (sel) =>{
+    const printPrice = document.querySelectorAll('[id=printPrice]');
+    const printTotal = document.querySelectorAll('[id=printTotal]');
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
     if(cbRight[index].checked == false){
         alert("Pilih salah satu atau kedua sisi..!!");
@@ -368,31 +313,19 @@ cbLeftAction = (sel) =>{
             wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
             printTotal[index].value = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
             installTotal[index].value = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            totalPrintPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            totalInstallPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            widePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
-            sidePreview[index].innerHTML = "2";
-            if(cbRight[index].checked == true){
-                locationCodePreview[index].innerHTML = "-> Sisi Kanan & Sisi Kiri";
-            }else{
-                locationCodePreview[index].innerHTML = "-> Sisi Kiri";
-            }
         }else{
             locationSide[index].value = "1";
             wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
             printTotal[index].value = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * printPrice[index].value;
             installTotal[index].value = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * installPrice[index].value;
-            totalPrintPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            totalInstallPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            widePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
-            sidePreview[index].innerHTML = "1";
-            locationCodePreview[index].innerHTML = "-> Sisi Kanan";
         }
         getSideView();
     }
 }
 
 cbRightAction = (sel) =>{
+    const printPrice = document.querySelectorAll('[id=printPrice]');
+    const printTotal = document.querySelectorAll('[id=printTotal]');
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
     if(cbLeft[index].checked == false){
         alert("Pilih salah satu atau kedua sisi..!!");
@@ -403,25 +336,11 @@ cbRightAction = (sel) =>{
             wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
             printTotal[index].value = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
             installTotal[index].value = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            totalPrintPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            totalInstallPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            widePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
-            sidePreview[index].innerHTML = "2";
-            if(cbLeft[index].checked == true){
-                locationCodePreview[index].innerHTML = "-> Sisi Kanan & Sisi Kiri";
-            }else{
-                locationCodePreview[index].innerHTML = "-> Sisi Kanan";
-            }
         }else{
             locationSide[index].value = "1";
             wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
             printTotal[index].value = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * printPrice[index].value;
             installTotal[index].value = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * installPrice[index].value;
-            totalPrintPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            totalInstallPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            widePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
-            sidePreview[index].innerHTML = "1";
-            locationCodePreview[index].innerHTML = "-> Sisi Kiri";
         }
         getSideView();
     }

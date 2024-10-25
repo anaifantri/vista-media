@@ -1,9 +1,11 @@
 <form class="flex justify-center" action="/marketing/print-orders" method="post" enctype="multipart/form-data">
     @csrf
-    <input type="text" name="company_id" id="company_id" value="{{ $dataOrder->company_id }}" hidden>
+    <input type="text" name="company_id" id="company_id" value="{{ $company_id }}" hidden>
     <input type="text" name="vendor_id" id="vendor_id" hidden>
     @if ($orderType == 'sale')
         <input type="text" name="sale_id" id="sale_id" value="{{ $dataOrder->id }}" hidden>
+    @else
+        <input type="text" name="sale_id" id="sale_id" hidden>
     @endif
     <input type="text" name="theme" id="theme" hidden>
     <input type="text" id="location_id" name="location_id" value="{{ $location_id }}" hidden>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\LicensingCategory;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,8 +16,7 @@ class LicensingCategoryController extends Controller
     {
         return response()-> view ('licensing-categories.index', [
             'licensing_categories'=>LicensingCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Perizinan',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Katagori Perizinan'
         ]);
     }
 
@@ -29,8 +27,7 @@ class LicensingCategoryController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('licensing-categories.create', [
-                'title' => 'Menambahkan Katagori Perizinan',
-                'categories' => MediaCategory::all()
+                'title' => 'Menambahkan Katagori Perizinan'
             ]);
         } else {
             abort(403);
@@ -83,8 +80,7 @@ class LicensingCategoryController extends Controller
     {
         return response()-> view ('licensing-categories.show', [
             'licensing_category' => $licensingCategory,
-            'title' => 'Detail Katagori Perizinan' . $licensingCategory->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Detail Katagori Perizinan' . $licensingCategory->name
         ]);
     }
 
@@ -96,8 +92,7 @@ class LicensingCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()->view('licensing-categories.edit', [
                 'licensing_category' => $licensingCategory,
-                'title' => 'Edit Katagori Perizinan',
-                'categories' => MediaCategory::all()
+                'title' => 'Edit Katagori Perizinan'
             ]);
         } else {
             abort(403);

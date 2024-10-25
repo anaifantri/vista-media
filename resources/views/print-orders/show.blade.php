@@ -2,16 +2,16 @@
 
 @section('container')
     <?php
-    $createdDate = strtotime($company->created_at);
-    $updatedDate = strtotime($company->updated_at);
+    $product = json_decode($print_orders->product);
+    $created_by = json_decode($print_orders->created_by);
+    $notes = json_decode($print_orders->notes);
+    
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
-    <div class="flex justify-center">
+    <div class="flex justify-center bg-black">
         <div class="mt-10">
-            <!-- Show Title start -->
-            <div class="flex w-[900px] items-center border-b">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[800px]">DATA PERUSAHAAN
-                    {{ strtoupper($company->name) }} </h1>
+            <div class="flex w-[950px] items-center border-b p-2">
+                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[800px]">DATA SPK CETAK</h1>
                 <div class="flex w-full justify-end items-center">
                     <a href="/marketing/print-orders" class="flex items-center justify-center btn-primary mx-1">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
@@ -22,8 +22,8 @@
                         </svg>
                         <span class="mx-1"> Back</span>
                     </a>
-                    @can('isAdmin')
-                        <a href="/marketing/print-orders/{{ $company->id }}/edit"
+                    @canany(['isAdmin', 'isMarketing'])
+                        <a href="/marketing/print-orders/{{ $print_orders->id }}/edit"
                             class="flex items-center justify-center btn-warning mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -33,140 +33,66 @@
                             </svg>
                             <span class="mx-1"> Edit </span>
                         </a>
-                        <form action="/marketing/print-orders/{{ $company->id }}" method="post" class="d-inline mt-4">
+                    @endcanany
+                    @can('isAdmin')
+                        <form action="/marketing/print-orders/{{ $print_orders->id }}" method="post" class="d-inline mt-4">
                             @method('delete')
                             @csrf
-                            @if (
-                                $company->location_photos()->exists() ||
-                                    $company->locations()->exists() ||
-                                    $company->quotations()->exists() ||
-                                    $company->sales()->exists())
-                                <button class="flex items-center justify-center btn-danger mx-1"
-                                    onclick="return confirm('Berelasi dengan data lokasi, data foto lokasi, data penawaran dan data penjualan, apakah anda yakin ingin menghapus data perusahaan {{ $company->name }} sekaligus menghapus data-data yang berelasi?')">
-                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="mx-1"> Delete </span>
-                                </button>
-                            @else
-                                <button class="flex items-center justify-center btn-danger mx-1"
-                                    onclick="return confirm('Apakah anda yakin ingin menghapus data perusahaan {{ $company->name }} ?')">
-                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="mx-1"> Delete </span>
-                                </button>
-                            @endif
+                            <button class="flex items-center justify-center btn-danger mx-1"
+                                onclick="return confirm('Apakah anda yakin ingin menghapus data SPK cetak dengan nomor {{ $print_orders->number }} ?')">
+                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <span class="mx-1"> Delete </span>
+                            </button>
                         </form>
                     @endcan
                 </div>
             </div>
-            <!-- Show Title end -->
-            <div class="flex justify-center items-center w-[900px]">
-                <!-- Logo Company Start -->
-                <div class="flex justify-center mt-2 w-[400px]">
-                    <div>
-                        @if ($company->logo)
-                            <img class="m-auto img-preview flex items-center w-44"
-                                src="{{ asset('storage/' . $company->logo) }}">
-                        @else
-                            <img class="m-auto img-preview flex items-center w-44" src="/img/photo_profile.png">
-                        @endif
-                        <span
-                            class="flex justify-center font-semibold text-teal-900 border-b mt-3">{{ $company->name }}</span>
-                        <span class="flex justify-center text-teal-700 text-sm text-center">{{ $company->address }}</span>
-                    </div>
-                </div>
-                <!-- Logo Company End -->
-                <!-- Detail Company Start -->
-                <div class="flex justify-center w-[500px] mt-2">
-                    <div>
-                        <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Kode</label>
-                            <label class="flex text-semibold">{{ $company->code }}</label>
-                        </div>
-                        <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Nama Perusahaan</label>
-                            <label class="flex text-semibold">{{ $company->name }}</label>
-                        </div>
-                        <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Alamat</label>
-                            <label class="flex text-semibold">{{ $company->address }}</label>
-                        </div>
-                        <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Email</label>
-                            @if ($company->email)
-                                <label class="flex text-semibold">{{ $company->email }}</label>
-                            @else
-                                <label class="flex text-semibold">-</label>
-                            @endif
-                        </div>
-                        @if ($company->phone)
-                            <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">No. Telepon</label>
-                                <label class="flex text-semibold">{{ $company->phone }}</label>
+            <div id="pdfPreview">
+                <div class="flex justify-center w-full">
+                    <div class="flex justify-center w-full">
+                        <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
+                            <!-- SPK Header start-->
+                            @include('print-orders.header-preview')
+                            <!-- SPK Header end-->
+
+                            <!-- SPK Body start-->
+                            @include('print-orders.body-vendor-preview')
+                            <!-- SPK Body end-->
+
+                            <!-- SPK Sign start-->
+                            @include('print-orders.sign-vendor-preview')
+                            <!-- SPK Sign end-->
+
+                            <div class="flex w-full justify-center items-center pt-2">
+                                <div class="border-t h-2 border-slate-500 border-dashed w-full">
+                                </div>
+                                <svg class="fill-slate-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M14.686 13.646l-6.597 3.181c-1.438.692-2.755-1.124-2.755-1.124l6.813-3.287 2.539 1.23zm6.168 5.354c-.533 0-1.083-.119-1.605-.373-1.511-.731-2.296-2.333-1.943-3.774.203-.822-.23-.934-.891-1.253l-11.036-5.341s1.322-1.812 2.759-1.117c.881.427 4.423 2.136 7.477 3.617l.766-.368c.662-.319 1.094-.43.895-1.252-.351-1.442.439-3.043 1.952-3.77.521-.251 1.068-.369 1.596-.369 1.799 0 3.147 1.32 3.147 2.956 0 1.23-.766 2.454-2.032 3.091-1.266.634-2.15.14-3.406.75l-.394.19.431.21c1.254.614 2.142.122 3.404.759 1.262.638 2.026 1.861 2.026 3.088 0 1.64-1.352 2.956-3.146 2.956zm-1.987-9.967c.381.795 1.459 1.072 2.406.617.945-.455 1.405-1.472 1.027-2.267-.381-.796-1.46-1.073-2.406-.618-.946.455-1.408 1.472-1.027 2.268zm-2.834 2.819c0-.322-.261-.583-.583-.583-.321 0-.583.261-.583.583s.262.583.583.583c.322.001.583-.261.583-.583zm5.272 2.499c-.945-.457-2.025-.183-2.408.611-.381.795.078 1.814 1.022 2.271.945.458 2.024.184 2.406-.611.382-.795-.075-1.814-1.02-2.271zm-18.305-3.351h-3v2h3v-2zm4 0h-3v2h3v-2z" />
+                                </svg>
                             </div>
-                        @endif
-                        @if ($company->m_phone)
-                            <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">No. Hp.</label>
-                                <label class="flex text-semibold">{{ $company->m_phone }}</label>
-                            </div>
-                        @endif
-                        @if ($company->created_at != $company->updated_at)
-                            <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">Diupdate Oleh</label>
-                                <label class="flex text-semibold">{{ $company->user->name }}</label>
-                            </div>
-                        @else
-                            <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">Dibuat Oleh</label>
-                                <label class="flex text-semibold">{{ $company->user->name }}</label>
-                            </div>
-                        @endif
-                        <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Tanggal Dibuat</label>
-                            <label class="flex text-semibold">{{ date('d', $createdDate) }}
-                                {{ $bulan[(int) date('m', $createdDate)] }}
-                                {{ date('Y', $createdDate) }}</label>
-                        </div>
-                        <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Tanggal Perubahan Terakhir</label>
-                            <label class="flex text-semibold">{{ date('d', $updatedDate) }}
-                                {{ $bulan[(int) date('m', $updatedDate)] }}
-                                {{ date('Y', $updatedDate) }}</label>
+
+                            <!-- SPK Header start-->
+                            @include('print-orders.header-preview')
+                            <!-- SPK Header end-->
+
+                            <!-- SPK Body start-->
+                            @include('print-orders.body-company-preview')
+                            <!-- SPK Body end-->
+
+                            <!-- SPK Sign start-->
+                            @include('print-orders.sign-company-preview')
+                            <!-- SPK Sign end-->
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Detail Company End -->
         </div>
     </div>
-    </div>
-    <!-- Script Preview Photo start-->
-    <script>
-        function previewPhoto() {
-            const photo = document.querySelector('#photo');
-            const photoPreview = document.querySelector('.photo-preview');
-
-            // imgPreview.style.display = 'block';
-
-            const oFReader = new FileReader();
-
-            oFReader.readAsDataURL(photo.files[0]);
-
-            oFReader.onload = function(oFREvent) {
-                photoPreview.src = oFREvent.target.result;
-            }
-        }
-    </script>
-    <!-- Script Preview Photo end-->
 @endsection

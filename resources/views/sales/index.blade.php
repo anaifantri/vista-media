@@ -127,7 +127,7 @@
             </div>
         </div>
         <div class="flex justify-center px-2 pb-8 w-full z-0">
-            <div class="w-[1200px] overflow-x-scroll h-[450px] overflow-y-auto border rounded-lg px-2">
+            <div class="w-[1200px] overflow-x-scroll h-[450px] overflow-y-auto border">
                 <table class="table-auto w-max mb-6">
                     <thead class="sticky top-0 z-10">
                         <tr class="bg-teal-100">
@@ -186,7 +186,6 @@
                                     $number = $revision->number;
                                     $notes = json_decode($revision->notes);
                                     $created_at = $revision->created_at;
-                                    $products = json_decode($revision->products);
                                     $payment_terms = json_decode($revision->payment_terms);
                                     $price = json_decode($revision->price);
                                     $dataApprovals = $sale->quotation->quotation_approvals;
@@ -196,7 +195,6 @@
                                     $number = $sale->quotation->number;
                                     $notes = json_decode($sale->quotation->notes);
                                     $created_at = $sale->quotation->created_at;
-                                    $products = json_decode($sale->quotation->products);
                                     $payment_terms = json_decode($sale->quotation->payment_terms);
                                     $price = json_decode($sale->quotation->price);
                                     $dataApprovals = $sale->quotation->quotation_approvals;
@@ -204,15 +202,9 @@
                                     $dataOrders = $sale->quotation->quotation_orders;
                                 }
                                 $clients = json_decode($sale->quotation->clients);
+                                $product = json_decode($sale->product);
+                                $description = json_decode($sale->description);
                             @endphp
-
-                            @foreach ($products as $dataProduct)
-                                @if ($dataProduct->code == $sale->product_code)
-                                    @php
-                                        $product = $dataProduct;
-                                    @endphp
-                                @endif
-                            @endforeach
                             <tr>
                                 <td class="text-teal-700 border text-[0.65rem] text-center align-top">
                                     {{ $loop->iteration }}</td>
@@ -244,7 +236,7 @@
                                         <div class="flex ml-1">
                                             <label class="w-8">Kode</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2 w-32">{{ $sale->product_code }}</label>
+                                            <label class="ml-2 w-32">{{ $product->code }}</label>
                                         </div>
                                         <div class="flex ml-1">
                                             <label class="w-8">Lokasi</label>
@@ -521,7 +513,7 @@
                                 <td class="text-teal-700 border text-[0.65rem] text-center align-top"></td>
                                 <td class="text-teal-700 border text-[0.65rem] text-center align-center">
                                     {{ count($dataApprovals) }} dokumen
-                                    <a href="/quotation-approvals/show-approvals/{{ $category }}/{{ $sale->quotation->id }}"
+                                    <a href="/marketing/quotation-approvals/show-approvals/{{ $category }}/{{ $sale->quotation->id }}"
                                         title="Lihat Dokumen"
                                         class="flex items-center px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md">
                                         <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"
@@ -535,7 +527,7 @@
                                 </td>
                                 <td class="text-teal-700 border text-[0.65rem] text-center align-center">
                                     {{ count($dataOrders) }} dokumen
-                                    <a href="/quotation-orders/show-orders/{{ $category }}/{{ $sale->quotation->id }}"
+                                    <a href="/marketing/quotation-orders/show-orders/{{ $category }}/{{ $sale->quotation->id }}"
                                         title="Lihat Dokumen"
                                         class="flex items-center px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md">
                                         <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"
@@ -549,7 +541,7 @@
                                 </td>
                                 <td class="text-teal-700 border text-[0.65rem] text-center align-center">
                                     {{ count($dataAgreements) }} dokumen
-                                    <a href="/quotation-agreements/show-agreements/{{ $category }}/{{ $sale->quotation->id }}"
+                                    <a href="/marketing/quotation-agreements/show-agreements/{{ $category }}/{{ $sale->quotation->id }}"
                                         title="Lihat Dokumen"
                                         class="flex items-center px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md">
                                         <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"

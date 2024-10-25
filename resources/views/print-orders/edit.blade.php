@@ -1,16 +1,31 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/marketing/print-orders/{{ $company->id }}" enctype="multipart/form-data">
+    <form method="post" action="/marketing/print-orders/{{ $print_orders->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center">
+        <?php
+        $product = json_decode($print_orders->product);
+        $notes = json_decode($print_orders->notes);
+        
+        $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $updated_by = new stdClass();
+        $updated_by->id = auth()->user()->id;
+        $updated_by->name = auth()->user()->name;
+        $updated_by->position = auth()->user()->position;
+        ?>
+        <input type="text" id="productType" value="{{ $product->product_type }}" hidden>
+        <input type="text" name="vendor_id" id="vendor_id" value="{{ $product->vendor_id }}" hidden>
+        <input type="text" name="theme" id="theme" value="{{ $print_orders->theme }}" hidden>
+        <input type="file" id="design" name="design" value="{{ $print_orders->design }}" hidden>
+        <input type="text" name="product" id="product" value="{{ $print_orders->product }}" hidden>
+        <input type="text" name="notes" id="notes" value="{{ $print_orders->notes }}" hidden>
+        <input type="text" name="updated_by" id="updated_by" value="{{ json_encode($updated_by) }}" hidden>
+        <div class="flex justify-center bg-black">
             <div class="mt-10">
-                <div class="flex items-center w-[900px] border-b">
-                    <!-- Title Area start -->
-                    <h1 class="index-h1 w-[500px]">MERUBAH DATA PERUSAHAAN</h1>
-                    <!-- Title Area end -->
-                    <div class="flex w-full justify-end items-center p-1">
+                <div class="flex w-[950px] items-center border-b p-2">
+                    <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[800px]">EDIT DATA SPK CETAK</h1>
+                    <div class="flex w-full justify-end items-center">
                         <button class="flex justify-center items-center mx-1 btn-primary" type="submit">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
@@ -29,83 +44,43 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex justify-center items-center w-[900px]">
-                    <div class="flex justify-center items-center w-[400px]">
-                        <div>
-                            <input type="hidden" name="oldLogo" value="{{ $company->logo }}">
-                            @if ($company->logo)
-                                <img class="m-auto img-preview flex items-center w-44"
-                                    src="{{ asset('storage/' . $company->logo) }}">
-                            @else
-                                <img class="m-auto img-preview flex items-center w-44" src="/img/photo_profile.png">
-                            @endif
-                            <label class="flex justify-center text-sm text-teal-700 mt-2">Logo Perusahaan</label>
-                            <input
-                                class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-4 @error('logo') is-invalid @enderror"
-                                type="file" id="logo" name="logo" onchange="previewImage(this)">
-                            @error('logo')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                <div id="pdfPreview">
+                    <div class="flex justify-center w-full">
+                        <div class="flex justify-center w-full">
+                            <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
+                                <!-- SPK Header start-->
+                                @include('print-orders.header-vendor-edit')
+                                <!-- SPK Header end-->
+
+                                <!-- SPK Body start-->
+                                @include('print-orders.body-vendor-edit')
+                                <!-- SPK Body end-->
+
+                                <!-- SPK Sign start-->
+                                @include('print-orders.sign-vendor-edit')
+                                <!-- SPK Sign end-->
+
+                                <div class="flex w-full justify-center items-center pt-2">
+                                    <div class="border-t h-2 border-slate-500 border-dashed w-full">
+                                    </div>
+                                    <svg class="fill-slate-500" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24">
+                                        <path
+                                            d="M14.686 13.646l-6.597 3.181c-1.438.692-2.755-1.124-2.755-1.124l6.813-3.287 2.539 1.23zm6.168 5.354c-.533 0-1.083-.119-1.605-.373-1.511-.731-2.296-2.333-1.943-3.774.203-.822-.23-.934-.891-1.253l-11.036-5.341s1.322-1.812 2.759-1.117c.881.427 4.423 2.136 7.477 3.617l.766-.368c.662-.319 1.094-.43.895-1.252-.351-1.442.439-3.043 1.952-3.77.521-.251 1.068-.369 1.596-.369 1.799 0 3.147 1.32 3.147 2.956 0 1.23-.766 2.454-2.032 3.091-1.266.634-2.15.14-3.406.75l-.394.19.431.21c1.254.614 2.142.122 3.404.759 1.262.638 2.026 1.861 2.026 3.088 0 1.64-1.352 2.956-3.146 2.956zm-1.987-9.967c.381.795 1.459 1.072 2.406.617.945-.455 1.405-1.472 1.027-2.267-.381-.796-1.46-1.073-2.406-.618-.946.455-1.408 1.472-1.027 2.268zm-2.834 2.819c0-.322-.261-.583-.583-.583-.321 0-.583.261-.583.583s.262.583.583.583c.322.001.583-.261.583-.583zm5.272 2.499c-.945-.457-2.025-.183-2.408.611-.381.795.078 1.814 1.022 2.271.945.458 2.024.184 2.406-.611.382-.795-.075-1.814-1.02-2.271zm-18.305-3.351h-3v2h3v-2zm4 0h-3v2h3v-2z" />
+                                    </svg>
                                 </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="flex justify-center items-center w-[500px]">
-                        <div class="p-2 w-full">
-                            <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">Kode</label>
-                                <label class="flex text-semibold">{{ $company->code }}</label>
-                            </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Nama Perusahaan</label>
-                                <input
-                                    class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
-                                    type="text" id="name" name="name" value="{{ $company->name }}" required
-                                    autofocus>
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Alamat Perusahaan</label>
-                                <textarea
-                                    class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
-                                    name="address" id="address" placeholder="Input Alamat Perusahaan" required>{{ $company->address }}</textarea>
-                                @error('address')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Email</label>
-                                <input
-                                    class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
-                                    type="text" id="email" name="email" value="{{ $company->email }}" required>
-                                @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">No. Telepon</label>
-                                <input
-                                    class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
-                                    type="text" id="phone" name="phone" value="{{ $company->phone }}">
-                                @error('phone')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">No. Hp</label>
-                                <input
-                                    class="flex px-2 text-semibold w-full border rounded-lg p-1 outline-teal-300 @error('m_phone') is-invalid @enderror"
-                                    type="text" id="m_phone" name="m_phone" value="{{ $company->m_phone }}">
-                                @error('m_phone')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+
+                                <!-- SPK Header start-->
+                                @include('print-orders.header-company-edit')
+                                <!-- SPK Header end-->
+
+                                <!-- SPK Body start-->
+                                @include('print-orders.body-company-edit')
+                                <!-- SPK Body end-->
+
+                                <!-- SPK Sign start-->
+                                @include('print-orders.sign-company-edit')
+                                <!-- SPK Sign end-->
                             </div>
                         </div>
                     </div>
@@ -113,8 +88,7 @@
             </div>
         </div>
     </form>
-
     <!-- Script Preview Image start-->
-    <script src="/js/previewimage.js"></script>
+    <script src="/js/editprintorders.js"></script>
     <!-- Script Preview Image end-->
 @endsection

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Vendor;
 use App\Models\User;
 use App\Models\VendorContact;
-use App\Models\MediaCategory;
 use App\Models\VendorCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,7 +25,6 @@ class VendorController extends Controller
         return response()-> view ('vendors.index', [
             'vendors'=>Vendor::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
             'title' => 'Daftar Vendor',
-            'categories' => MediaCategory::all(),
             compact('vendors', 'users', 'vendor_categories')
         ]);
     }
@@ -38,8 +36,7 @@ class VendorController extends Controller
     {
         return response()->view('vendors.create', [
             'vendor_categories'=>VendorCategory::all(),
-            'title' => 'Menambah Data Vendor',
-            'categories' => MediaCategory::all()
+            'title' => 'Menambah Data Vendor'
         ]);
     }
 
@@ -48,7 +45,7 @@ class VendorController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             if ($request->vendor_category_id == 'Pilih Katagori'){
                 return back()->withErrors(['vendor_category_id' => ['Silahkan pilih katagori']])->withInput();
             }
@@ -103,8 +100,7 @@ class VendorController extends Controller
         return response()->view('vendors.show', [
             'vendor' => $vendor,
             'vendor_contacts' => VendorContact::all(),
-            'title' => 'Data Vendor'.$vendor->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Data Vendor'.$vendor->name
         ]);
     }
 
@@ -116,8 +112,7 @@ class VendorController extends Controller
         return response()->view('vendors.edit', [
             'vendor' => $vendor,
             'vendor_categories'=>VendorCategory::all(),
-            'title' => 'Edit Data Vendor'.$vendor->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Edit Data Vendor'.$vendor->name
         ]);
     }
 
@@ -126,7 +121,7 @@ class VendorController extends Controller
      */
     public function update(Request $request, Vendor $vendor): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',

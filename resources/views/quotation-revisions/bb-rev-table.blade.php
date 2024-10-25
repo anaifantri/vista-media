@@ -22,14 +22,29 @@
                 </th>
                 <th class="text-[0.7rem] text-teal-700 border" rowspan="2">Lokasi
                 </th>
-                <th class="text-[0.7rem] text-teal-700 border" colspan="3">Deskripsi</th>
+                @if ($category == 'Signage')
+                    <th class="text-[0.7rem] text-teal-700 border" colspan="4">
+                        Deskripsi
+                    </th>
+                @else
+                    <th class="text-[0.7rem] text-teal-700 border" colspan="3">
+                        Deskripsi
+                    </th>
+                @endif
                 <th class="text-[0.7rem] text-teal-700 border" colspan="{{ $cbTitle }}">Harga
                     (Rp.)
                 </th>
                 <th class="text-[0.7rem] text-teal-700 border w-8" rowspan="2"></th>
             </tr>
             <tr>
-                <th class="text-[0.7rem] text-teal-700 border w-10">BL/FL</th>
+                @if ($category == 'Signage')
+                    <th class="text-[0.7rem] text-teal-700 border w-16">Bentuk</th>
+                @else
+                    <th class="text-[0.7rem] text-teal-700 border w-10">BL/FL</th>
+                @endif
+                @if ($category == 'Signage')
+                    <th class="text-[0.7rem] text-teal-700 border w-6">Qty</th>
+                @endif
                 <th class="text-[0.7rem] text-teal-700 border w-8">Side</th>
                 <th class="text-[0.7rem] text-teal-700 border w-20">Size - V/H</th>
                 @foreach ($price->dataTitle as $title)
@@ -71,13 +86,22 @@
                     <td class="text-[0.7rem] text-teal-700 border">
                         {{ $product->address }}
                     </td>
-                    <td class="text-[0.7rem] text-teal-700 border text-center">
-                        @if ($description->lighting == 'Backlight')
-                            BL
-                        @elseif ($description->lighting == 'Frontlight')
-                            FL
-                        @endif
-                    </td>
+                    @if ($category == 'Signage')
+                        <td class="text-[0.7rem] text-teal-700 border text-center">{{ $description->type }}</td>
+                    @else
+                        <td class="text-[0.7rem] text-teal-700 border text-center">
+                            @if ($description->lighting == 'Backlight')
+                                BL
+                            @elseif ($description->lighting == 'Frontlight')
+                                FL
+                            @endif
+                        </td>
+                    @endif
+                    @if ($category == 'Signage')
+                        <td class="text-[0.7rem] text-teal-700 border text-center">
+                            {{ $description->qty }}
+                        </td>
+                    @endif
                     <td class="text-[0.7rem] text-teal-700 border text-center">
                         {{ (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) }}
                     </td>

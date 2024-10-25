@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\PrintingProduct;
 use App\Models\User;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,8 +17,7 @@ class PrintingProductController extends Controller
     {
         return response()-> view ('printing-products.index', [
             'printing_products'=>PrintingProduct::filter(request('search'))->sortable()->with(['user'])->orderBy("name", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Bahan Cetak',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Bahan Cetak'
         ]);
     }
 
@@ -36,8 +34,7 @@ class PrintingProductController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             return response()-> view ('printing-products.create', [
-                'title' => 'Menambahkan Data Bahan Cetak',
-                'categories' => MediaCategory::all()
+                'title' => 'Menambahkan Data Bahan Cetak'
             ]);
         } else {
             abort(403);
@@ -97,8 +94,7 @@ class PrintingProductController extends Controller
     {
         return response()-> view ('printing-products.show', [
             'printing_product' => $printingProduct,
-            'title' => 'Detail Data Bahan ' . $printingProduct->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Detail Data Bahan ' . $printingProduct->name
         ]);
     }
 
@@ -110,8 +106,7 @@ class PrintingProductController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             return response()->view('printing-products.edit', [
                 'printing_product' => $printingProduct,
-                'title' => 'Edit Data Bahan Cetak',
-                'categories' => MediaCategory::all()
+                'title' => 'Edit Data Bahan Cetak'
             ]);
         } else {
             abort(403);

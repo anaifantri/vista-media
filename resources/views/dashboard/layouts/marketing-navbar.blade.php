@@ -143,7 +143,8 @@
             </li>
         </ul>
         <ul class="flex group w-max  p-1 h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-white {{ Request::is('marketing/clients*') ? 'active' : '' }}" href="#">
+            <a class="right-nav text-white {{ Request::is('marketing/clients*') ? 'active' : '' }}"
+                href="/marketing/clients">
                 <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                     viewBox="0 0 24 24">
                     <path

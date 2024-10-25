@@ -7,11 +7,6 @@ const btnDelPayment = document.getElementById("btnDelPayment");
 const paymentTerms = document.getElementById("paymentTerms");
 const price = document.getElementById("price");
 
-//const preview check
-const btnPreview = document.getElementById("btnPreview");
-const modalPreview = document.getElementById("modalPreview");
-const btnClose = document.getElementById("btnClose");
-
 
 // Button Add Note Action --> start
 btnAddNote.addEventListener("click", function() {
@@ -117,23 +112,20 @@ btnDelPayment.addEventListener("click", function() {
 });
 // Button Remove Last Payment Action --> end
 
-// Button Preview Action --> start
-btnPreview.addEventListener("click", function(){
+submitAction = () =>{
     const category = document.getElementById("category");
+    const formCreate = document.getElementById("formCreate");
     if(category.value == "Service"){
         if(printProductCheck() == false || installPriceCheck() == false){
             alert("Silahkan lengkapi harga yang belum diinput..!!")
         }else{
-            setPreviewTable();
-            modalPreview.classList.remove("hidden");
-            fillServiceData();
+            // fillServiceData();
             getNotes();
             getPayments();
-            // fillData();
+            formCreate.submit();
         }
     }else{
         if (paymentCheck() == true) {
-            modalPreview.classList.remove("hidden");
             getNotes();
             getPayments();
             if(category.value == "Billboard"){
@@ -147,16 +139,10 @@ btnPreview.addEventListener("click", function(){
             }else{
                 getVideotronPrice();
             }
+            formCreate.submit();
         }
     }
-})
-// Button Preview Action --> end
-
-// Button Close Action --> start
-btnClose.addEventListener("click", function(){
-    modalPreview.classList.add("hidden");
-})
-// Button Close Action --> end
+}
 
 // Function Payment Check --> start
 paymentCheck = () => {
@@ -184,16 +170,11 @@ paymentCheck = () => {
 // Function Get Note --> start
 getNotes = () => {
     const notes = document.getElementById("notes");
-    const previewNotesQty = document.getElementById("previewNotesQty");
     const category = document.getElementById("category");
     let objNotes = {};
     let dataNotes = []; 
     var freePrint = 0;
-    var freeInstall = 0;   
-
-    while (previewNotesQty.hasChildNodes()) {
-        previewNotesQty.removeChild(previewNotesQty.firstChild);
-    }
+    var freeInstall = 0;  
 
     for(let i = 0; i < notesQty.children.length; i++){
         if(category.value == "Billboard"){
@@ -297,7 +278,6 @@ getNotes = () => {
         labelNotes.innerHTML = dataNotes[i];
 
         divNotes.appendChild(labelNotes);
-        previewNotesQty.appendChild(divNotes);
     }
 
     objNotes = {dataNotes, freePrint, freeInstall};
@@ -308,13 +288,8 @@ getNotes = () => {
 // Function Get Payment Terms --> start
 getPayments = () => {
     const terms = document.getElementById("payment_terms");
-    const previewPaymentTerms = document.getElementById("previewPaymentTerms");
     let objPayments = {};
     let dataPayments = [];
-
-    while (previewPaymentTerms.hasChildNodes()) {
-        previewPaymentTerms.removeChild(previewPaymentTerms.firstChild);
-    }
 
     for(let i = 0; i < paymentTerms.children.length; i++){
             dataPayments[i] = {
@@ -334,7 +309,6 @@ getPayments = () => {
             labelTerms.innerHTML = '- ' + paymentTerms.children[i].children[1].value + ' ' + paymentTerms.children[i].children[2].value;
 
             divTerms.appendChild(labelTerms);
-            previewPaymentTerms.appendChild(divTerms);
     }
 
     objPayments = {dataPayments};
@@ -400,7 +374,6 @@ getBillboardPrice = () => {
 
     objPrice = {dataTitle, dataPrice};
     price.value = JSON.stringify(objPrice);
-    console.log(dataPriceHalf);
     for(let i = 0; i < dataTitle.length; i++){
         if(dataTitle[i].checkbox == true){
             thTitle[i].innerHTML = dataTitle[i].title;
@@ -800,7 +773,6 @@ cbBillboardCheck = (sel) => {
 // Function Input Slot Action --> start
 setSLot = (sel) => {
     const sharePrice = document.querySelectorAll('[id=sharePrice]');
-    console.log(sel.value);
     if(Number(sel.value) < 4 && Number(sel.value) > 0){
         for(let i = 0; i < sharePrice.length; i++){
             sharePrice[i].value = Number(sharePrice[i].defaultValue) * Number(sel.value);
@@ -824,7 +796,6 @@ setSLot = (sel) => {
 removeLocation = (sel) => {
     const locationView = document.querySelectorAll('[id=locationView]');
     const tableBody = document.getElementById("tableBody");
-    const previewTBody = document.getElementById("previewTBody");
     let objProducts = JSON.parse(document.getElementById("products").value);
 
     for(let i = 0; i < objProducts.length; i++){
@@ -835,14 +806,10 @@ removeLocation = (sel) => {
 
     if(tableBody.rows.length > 1){
         tableBody.deleteRow(sel.id);
-        previewTBody.deleteRow(sel.id);
         locationView[Number(sel.id)].classList.remove("flex");
         locationView[Number(sel.id)].classList.add("hidden");
         for(let i = 0; i < tableBody.rows.length; i++){
             tableBody.rows[i].cells[0].innerHTML = i + 1;
-        }
-        for(let i = 0; i < previewTBody.rows.length; i++){
-            previewTBody.rows[i].cells[0].innerHTML = i + 1;
         }
         document.getElementById("products").value = JSON.stringify(objProducts);
     }else{

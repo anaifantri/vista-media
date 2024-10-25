@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientCategory;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,8 +16,7 @@ class ClientCategoryController extends Controller
     {
         return response()-> view ('client-categories.index', [
             'client_categories'=>ClientCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Media',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Katagori Media'
         ]);
     }
 
@@ -29,8 +27,7 @@ class ClientCategoryController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('client-categories.create', [
-                'title' => 'Menambahkan Katagori Klien',
-                'categories' => MediaCategory::all()
+                'title' => 'Menambahkan Katagori Klien'
             ]);
         } else {
             abort(403);
@@ -83,8 +80,7 @@ class ClientCategoryController extends Controller
     {
         return response()-> view ('client-categories.show', [
             'client_category' => $clientCategory,
-            'title' => 'Detail Katagori Klien' . $clientCategory->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Detail Katagori Klien' . $clientCategory->name
         ]);
     }
 
@@ -96,8 +92,7 @@ class ClientCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()->view('client-categories.edit', [
                 'client_category' => $clientCategory,
-                'title' => 'Edit Katagori Klien',
-                'categories' => MediaCategory::all()
+                'title' => 'Edit Katagori Klien'
             ]);
         } else {
             abort(403);

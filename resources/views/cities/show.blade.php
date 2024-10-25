@@ -33,7 +33,7 @@
                             @method('delete')
                             @csrf
                             @if ($city->locations()->exists())
-                                <button class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                <button class="items-center flex justify-center mx-1 btn-danger"
                                     onclick="return confirm('Berelasi dengan {{ count($city->locations) }} data pada tabel data lokasi, Apakah anda yakin ingin menghapus kota {{ $city->city }} sekaligus menghapus data-data yang berelasi ?')">
                                     <svg class="w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24">
@@ -44,7 +44,7 @@
                                     <span class="mx-1">Delete</span>
                                 </button>
                             @else
-                                <button class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                <button class="items-center flex justify-center mx-1 btn-danger"
                                     onclick="return confirm('Apakah anda yakin ingin menghapus kota {{ $city->city }} ?')">
                                     <svg class="w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24">

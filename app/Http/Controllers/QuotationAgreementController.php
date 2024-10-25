@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\QuotationAgreement;
 use App\Models\Quotation;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,8 +29,7 @@ class QuotationAgreementController extends Controller
                 'quotation_agreements' => $dataAgreements,
                 'quotation' => $quotation,
                 'category' => $category,
-                'title' => 'Dokumen Perjanjian',
-                'categories' => MediaCategory::all()
+                'title' => 'Dokumen Perjanjian'
             ]);
         } else {
             abort(403);

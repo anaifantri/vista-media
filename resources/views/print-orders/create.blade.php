@@ -19,6 +19,7 @@
         $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
         if ($orderType == 'sale') {
             $location_id = $product->id;
+            $company_id = $dataOrder->company_id;
             $code = $product->code;
             $cityCode = $product->city_code;
             $side = $product->side;
@@ -28,6 +29,7 @@
             $height = $product->height;
         } elseif ($orderType == 'location') {
             $location_id = $location->id;
+            $company_id = $location->company_id;
             $code = $location->code;
             $cityCode = $location->city->code;
             $side = $location->side;

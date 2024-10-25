@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\VendorCategory;
 use App\Models\User;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,8 +17,7 @@ class VendorCategoryController extends Controller
     {
         return response()-> view ('vendor-categories.index', [
             'vendor_categories'=>VendorCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Vendor',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Katagori Vendor'
         ]);
     }
 
@@ -30,8 +28,7 @@ class VendorCategoryController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('vendor-categories.create', [
-                'title' => 'Menambah Katagori Vendor',
-                'categories' => MediaCategory::all()
+                'title' => 'Menambah Katagori Vendor'
             ]);
         } else {
             abort(403);
@@ -87,8 +84,7 @@ class VendorCategoryController extends Controller
     {
         return response()-> view ('vendor-categories.show', [
             'vendor_category' => $vendorCategory,
-            'title' => 'Data Katagori Vendor' . $vendorCategory->name,
-            'categories' => MediaCategory::all()
+            'title' => 'Data Katagori Vendor' . $vendorCategory->name
         ]);
     }
 
@@ -100,8 +96,7 @@ class VendorCategoryController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()->view('vendor-categories.edit', [
                 'vendor_category' => $vendorCategory,
-                'title' => 'Edit Data Katagori Vendor',
-                'categories' => MediaCategory::all()
+                'title' => 'Edit Data Katagori Vendor'
             ]);
         } else {
             abort(403);

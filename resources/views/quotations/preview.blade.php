@@ -341,7 +341,7 @@
                                             <span
                                                 class="flex justify-start items-center w-20 h-[42px] text-lg font-bold ml-1">
                                                 -
-                                                {{ $product->code }}
+                                                {{ $product->city_code }}
                                             </span>
                                             <img class="h-10" src="/img/code-line.png" alt="">
                                             <span
@@ -353,7 +353,7 @@
                                         <div
                                             class="flex w-[800px] h-[570px] justify-center items-center bg-slate-50 border rounded-b-xl">
                                             <img class="m-auto w-[770px] h-[540px]"
-                                                src="{{ asset('storage/' . $product->location_photo) }}" alt="">
+                                                src="{{ asset('storage/' . $product->photo) }}" alt="">
                                         </div>
                                     </div>
                                     <div class="flex w-full justify-center mt-4 h-[470px] bg-white">

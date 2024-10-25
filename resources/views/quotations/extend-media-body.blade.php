@@ -23,15 +23,16 @@
                 <label id="createSubject" class="ml-1 text-sm text-black flex">Penawaran Perpanjangan Penggunaan Media
                     Reklame {{ $category }}</label>
             </div>
-            <div class="hidden mt-4">
+            <div class="flex mt-4">
                 <div class="flex">
-                    <label class="ml-1 text-sm text-teal-700 flex w-12">Klien</label>
+                    <label class="ml-1 text-sm text-teal-700 flex w-20">Ganti Klien</label>
                     <label class="ml-1 text-sm text-teal-700 flex">:</label>
                     <div>
                         <div id="selectClient" class="flex" onclick="selectClientAction(event)">
                             <input
                                 class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-tl-lg w-40 px-2 hover:cursor-default"
-                                type="text" id="dataClient" name="dataClient" placeholder="Pilih Klien" readonly>
+                                type="text" id="dataClient" name="dataClient" value="{{ $dataClient->name }}"
+                                readonly>
                             <svg class="flex items-center justify-center w-5 p-1 border rounded-tr-lg"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path d="M12 21l-12-18h24z" />
@@ -64,12 +65,16 @@
                         </div>
                     </div>
                 </div>
-                <div id="divContact" class="hidden">
-                    <label class="ml-8 text-sm text-teal-700 flex w-12">Kontak</label>
+                <div id="divContact" class="flex">
+                    <label class="ml-8 text-sm text-teal-700 flex w-20">Ganti Kontak</label>
                     <label class="ml-1 text-sm text-teal-700 flex">:</label>
                     <select class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-lg w-40"
-                        name="contact_id" id="contact_id" onchange="getContact(this)" disabled>
-                        <option value="pilih">Pilih Kontak</option>
+                        name="contact_id" id="contact_id" onchange="getContact(this)">
+                        @foreach ($contacts as $contact)
+                            @if ($contact->client_id == $dataClient->id)
+                                <option value="{{ $contact->id }}">{{ $contact->name }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -79,8 +84,14 @@
                     @if ($dataClient->type == 'Perusahaan')
                         <label id="clientCompany"
                             class="ml-1 text-sm text-black font-semibold flex">{{ $dataClient->company }}</label>
-                        <label id="createClientContact"
-                            class="ml-1 text-sm text-black font-semibold flex">{{ $dataClient->contact_name }}</label>
+                        <input type="text" id="contactName" value="{{ $dataClient->contact_name }}" hidden>
+                        @if ($dataClient->contact_gender == 'Male')
+                            <label id="createClientContact" class="ml-1 text-sm text-black font-semibold flex">UP. Bapak
+                                {{ $dataClient->contact_name }}</label>
+                        @else
+                            <label id="createClientContact" class="ml-1 text-sm text-black font-semibold flex">UP. Ibu
+                                {{ $dataClient->contact_name }}</label>
+                        @endif
                     @else
                         <label id="clientCompany"
                             class="ml-1 text-sm text-black font-semibold flex">{{ $dataClient->name }}</label>
@@ -124,9 +135,6 @@
         @if ($category == 'Videotron')
             @include('quotations.vt-extend-table')
         @elseif ($category == 'Signage')
-            @php
-                $dataDescription = $products[0]->description;
-            @endphp
             @if ($dataDescription->type == 'Videotron')
                 @include('quotations.vt-extend-table')
             @else
@@ -143,7 +151,7 @@
         @include('quotations.led-notes')
     @elseif ($category == 'Signage')
         @php
-            $dataDescription = json_decode($locations[0]->description);
+            $dataDescription = json_decode($products[0]->description);
         @endphp
         @if ($dataDescription->type == 'Videotron')
             @include('quotations.led-notes')

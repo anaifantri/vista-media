@@ -36,8 +36,29 @@ class Sale extends Model
                     });
         }
     }
-
+    public function scopeService($query){
+        return $query->where('end_at', '>', date('Y-m-d'))
+                    ->whereHas('media_category', function($query){
+                                    $query->where('name', '!=', 'Videotron');
+                    })
+                    ->whereHas('media_category', function($query){
+                                    $query->where('name', '!=', 'Service');
+                    })
+                    ->whereHas('media_category', function($query){
+                                    $query->where('name', '=', 'Billboard');
+                    })
+                    ->orWhereHas('media_category', function($query){
+                                    $query->where('name', '=', 'Signage');
+                    })
+                    ->orWhere('product->description->type', '=', 'Neon Box')
+                    ->orWhere('product->description->type', '=', 'Papan');
+    }
     public function scopePrint($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '==', 'Service');
+                    });
+    }
+    public function scopeInstall($query){
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '==', 'Service');
                     });
@@ -45,6 +66,11 @@ class Sale extends Model
     public function scopeFree($query){
         return $query->whereHas('quotation', function($query){
                     $query->where('notes->freePrint', '>', 0);
+                });
+    }
+    public function scopeFreeInstall($query){
+        return $query->whereHas('quotation', function($query){
+                    $query->where('notes->freeInstall', '>', 0);
                 });
     }
 
@@ -87,6 +113,9 @@ class Sale extends Model
 
     public function install_order(){
         return $this->hasOne(InstallOrder::class, 'sale_id', 'id');
+    }
+    public function install_orders(){
+        return $this->hasMany(InstallOrder::class, 'sale_id', 'id');
     }
 
     public function print_order(){

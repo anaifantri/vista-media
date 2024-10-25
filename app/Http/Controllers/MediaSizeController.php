@@ -20,7 +20,6 @@ class MediaSizeController extends Controller
         return response()-> view ('media-sizes.index', [
             'media_sizes'=>MediaSize::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
             'title' => 'Daftar Ukuran',
-            'categories' => MediaCategory::all(),
             compact('media_categories')
         ]);
     }
@@ -32,8 +31,7 @@ class MediaSizeController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('media-sizes.create', [
-                'title' => 'Menambahkan Ukuran',
-                'categories' => MediaCategory::all()
+                'title' => 'Menambahkan Ukuran'
             ]);
         } else {
             abort(403);
@@ -104,10 +102,11 @@ class MediaSizeController extends Controller
      */
     public function show(MediaSize $mediaSize): Response
     {
+        $media_categories = MediaCategory::with('media_sizes')->get();
         return response()-> view ('media-sizes.show', [
             'media_size' => $mediaSize,
             'title' => 'Detail Ukuran ' . $mediaSize->size,
-            'categories' => MediaCategory::all()
+            compact('media_categories')
         ]);
     }
 
@@ -117,10 +116,11 @@ class MediaSizeController extends Controller
     public function edit(MediaSize $mediaSize): Response
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+            $media_categories = MediaCategory::with('media_sizes')->get();
             return response()->view('media-sizes.edit', [
                 'media_size' => $mediaSize,
                 'title' => 'Edit Ukuran',
-                'categories' => MediaCategory::all()
+                compact('media_categories')
             ]);
         } else {
             abort(403);

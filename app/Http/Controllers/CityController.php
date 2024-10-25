@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Area;
 use App\Models\User;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,8 +18,7 @@ class CityController extends Controller
     {        
         return response()-> view ('cities.index',[
             'cities'=>City::sortable()->with(['user', 'area'])->filter(request(['search']))->paginate(10)->withQueryString(),
-            'title' => 'Daftar Kota',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Kota'
         ]);
     }
 
@@ -32,8 +30,7 @@ class CityController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()->view('cities.create', [
                 'title' => 'Menambahkan Data Kota',
-                'areas'=>Area::all(),
-                'categories' => MediaCategory::all()
+                'areas'=>Area::all()
             ]);
         } else {
             abort(403);
@@ -90,7 +87,6 @@ class CityController extends Controller
         return response()-> view ('cities.show', [
             'city' => $city,
             'title' => 'Data Kota ' . $city->city,
-            'categories' => MediaCategory::all(),
             compact('areas', 'users')
         ]);
     }
@@ -103,8 +99,7 @@ class CityController extends Controller
         return response()->view('cities.edit', [
             'city' => $city,
             'areas' => Area::all(),
-            'title' => 'Merubah Data Kota'.$city->city,
-            'categories' => MediaCategory::all()
+            'title' => 'Merubah Data Kota'.$city->city
         ]);
     }
 

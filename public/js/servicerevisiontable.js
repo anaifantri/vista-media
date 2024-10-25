@@ -11,17 +11,14 @@ const locationHeight = document.querySelectorAll('[id=locationHeight]');
 const productSide = document.querySelectorAll('[id=productSide]');
 const installProduct = document.querySelectorAll('[id=installProduct]');
 const wide = document.querySelectorAll('[id=wide]');
-const sidePreview = document.querySelectorAll('[id=sidePreview]');
-const widePreview = document.querySelectorAll('[id=widePreview]');
 const cbRight = document.querySelectorAll('[id=cbRight]');
 const cbLeft = document.querySelectorAll('[id=cbLeft]');
 const serviceTBody = document.getElementById("serviceTBody");
 const serviceTBodyRows = serviceTBody.getElementsByTagName("tr");
-const serviceTbodyPreview = document.getElementById("serviceTBodyPreview");
-const serviceTBodyRowsPreview = serviceTbodyPreview.getElementsByTagName("tr");
-const totalPrintPricePreview = document.querySelectorAll('[id=totalPrintPricePreview]');
-const totalInstallPricePreview = document.querySelectorAll('[id=totalInstallPricePreview]');
-const locationCodePreview = document.querySelectorAll('[id=locationCodePreview]');
+const serviceTypeInstall = document.getElementById("serviceTypeInstall");
+const serviceTypePrint = document.getElementById("serviceTypePrint");
+
+let objPrice = JSON.parse(price.value);
 
 let objServiceType = {
     print : true,
@@ -47,11 +44,7 @@ selectPrintProduct = (sel) =>{
         printTotal[index].innerHTML = printTotalPrice;
     }
 
-    var subTotal = Number(getTotalInstall()) + Number(getTotalPrint());
-    var ppnValue = subTotal * (document.getElementById("inputPpn").value / 100);
-    document.getElementById("subTotal").innerHTML = subTotal;
-    document.getElementById("servicePpn").innerHTML = ppnValue;
-    document.getElementById("serviceGrandTotal").innerHTML = subTotal + ppnValue;
+    countServicePrice();
 }
 
 getSideView = () =>{
@@ -73,6 +66,8 @@ getSideView = () =>{
         }
     }
     objSideView = dataSideView;
+    objPrice.objSideView = objSideView;
+    price.value = JSON.stringify(objPrice);
 }
 getTotalInstall = () =>{
     let subTotalInstall = 0;
@@ -93,7 +88,10 @@ getTotalInstall = () =>{
     subTotalInstall = subTotalInstall + Number(installTotal[i].innerText);
     }
 
-    objInstalls = dataInstalls
+    objInstalls = dataInstalls;
+    objPrice.objInstalls = objInstalls;
+    price.value = JSON.stringify(objPrice);
+    
     return subTotalInstall;
 }
 
@@ -116,6 +114,8 @@ getTotalPrint = () =>{
         subTotalPrint = subTotalPrint + Number(printTotal[i].innerText);
     }
     objPrints = dataPrints;
+    objPrice.objPrints = objPrints;
+    price.value = JSON.stringify(objPrice);
     return subTotalPrint;
 }
 
@@ -144,12 +144,6 @@ cbPrintAction = (sel) =>{
                     serviceTBodyRows[i].deleteCell(1);
                     serviceTBodyRows[i].deleteCell(0);
                     serviceTBodyRows[i-1].removeAttribute('hidden');
-
-                    serviceTBodyRowsPreview[i].deleteCell(5);
-                    serviceTBodyRowsPreview[i].deleteCell(4);
-                    serviceTBodyRowsPreview[i].deleteCell(1);
-                    serviceTBodyRowsPreview[i].deleteCell(0);
-                    serviceTBodyRowsPreview[i-1].removeAttribute('hidden');
                 }
             }
         }else{
@@ -174,24 +168,6 @@ cbPrintAction = (sel) =>{
                     serviceTBodyRows[i].cells[4].removeAttribute('rowspan');
                     serviceTBodyRows[i].cells[5].removeAttribute('rowspan');
                     serviceTBodyRows[i-1].setAttribute('hidden', 'hidden');
-
-                    serviceTBodyRowsPreview[i].insertCell(0);
-                    serviceTBodyRowsPreview[i].cells[0].classList.add("td-service-center");
-                    serviceTBodyRowsPreview[i].cells[0].innerHTML = serviceTBodyRowsPreview[i-1].cells[0].innerHTML;
-                    serviceTBodyRowsPreview[i].insertCell(1);
-                    serviceTBodyRowsPreview[i].cells[1].classList.add("td-service-normal");
-                    serviceTBodyRowsPreview[i].cells[1].innerHTML = serviceTBodyRowsPreview[i-1].cells[1].innerHTML;
-                    serviceTBodyRowsPreview[i].insertCell(4);
-                    serviceTBodyRowsPreview[i].cells[4].classList.add("td-service-center");
-                    serviceTBodyRowsPreview[i].cells[4].innerHTML = serviceTBodyRows[i-1].cells[4].children[0].value;
-                    serviceTBodyRowsPreview[i].insertCell(5);
-                    serviceTBodyRowsPreview[i].cells[5].classList.add("td-service-center");
-                    serviceTBodyRowsPreview[i].cells[5].innerHTML = serviceTBodyRows[i-1].cells[5].innerHTML;
-                    serviceTBodyRowsPreview[i].cells[0].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i].cells[1].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i].cells[4].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i].cells[5].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i-1].setAttribute('hidden', 'hidden');
                 }
             }
         }
@@ -229,12 +205,6 @@ cbInstallAction = (sel) =>{
                     serviceTBodyRows[i-1].cells[4].setAttribute('rowspan', "2");
                     serviceTBodyRows[i-1].cells[5].setAttribute('rowspan', "2");
                     serviceTBodyRows[i].removeAttribute('hidden');
-
-                    serviceTBodyRowsPreview[i-1].cells[0].setAttribute('rowspan', "2");
-                    serviceTBodyRowsPreview[i-1].cells[1].setAttribute('rowspan', "2");
-                    serviceTBodyRowsPreview[i-1].cells[4].setAttribute('rowspan', "2");
-                    serviceTBodyRowsPreview[i-1].cells[5].setAttribute('rowspan', "2");
-                    serviceTBodyRowsPreview[i].removeAttribute('hidden');
                 }
             }
         }else{
@@ -245,12 +215,6 @@ cbInstallAction = (sel) =>{
                     serviceTBodyRows[i-1].cells[4].removeAttribute('rowspan');
                     serviceTBodyRows[i-1].cells[5].removeAttribute('rowspan');
                     serviceTBodyRows[i].setAttribute('hidden', 'hidden');
-
-                    serviceTBodyRowsPreview[i-1].cells[0].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i-1].cells[1].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i-1].cells[4].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i-1].cells[5].removeAttribute('rowspan');
-                    serviceTBodyRowsPreview[i].setAttribute('hidden', 'hidden');
                 }
             }
         }
@@ -285,7 +249,14 @@ setServicePpn = () =>{
 }
 
 countServicePrice = () =>{
-    var subTotal = Number(getTotalInstall()) + Number(getTotalPrint());
+    if(serviceTypeInstall.value == true && serviceTypePrint.value == true){
+        var subTotal = Number(getTotalInstall()) + Number(getTotalPrint());
+    }else if(serviceTypeInstall.value == false && serviceTypePrint.value == true){
+        var subTotal = Number(getTotalPrint());
+    }else if(serviceTypeInstall.value == true && serviceTypePrint.value == false){
+        var subTotal = Number(getTotalInstall());
+    }
+    
     var ppnValue = subTotal * (document.getElementById("inputPpn").value / 100);
     document.getElementById("subTotal").innerHTML = subTotal;
     document.getElementById("servicePpn").innerHTML = ppnValue;
@@ -314,45 +285,16 @@ installPriceCheck = () =>{
     }
 }
 
-fillServiceData = () =>{
-    const price = document.getElementById("price");
-    let objPrice = {};
+// fillServiceData = () =>{
+//     if(serviceTypeInstall.value == true){
+//         getTotalInstall();
+//     }
+//     if(serviceTypePrint.value == true){
+//         getTotalPrint();
+//     }
+//     getSideView();
 
-    getTotalInstall();
-    getTotalPrint();
-    getSideView();
-
-    objPrice = {objInstalls, objPrints, objServicePpn, objServiceType, objSideView};
-    price.value = JSON.stringify(objPrice);
-
-    setPreviewTable();
-}
-
-setPreviewTable = () =>{
-    const printProductPreview = document.querySelectorAll('[id=printProductPreview]');
-    const printPricePreview = document.querySelectorAll('[id=printPricePreview]');
-    const installProductPreview = document.querySelectorAll('[id=installProductPreview]');
-    const installPricePreview = document.querySelectorAll('[id=installPricePreview]');
-    const subTotalPreview = document.getElementById("subTotalPreview");
-    const servicePpnPreview = document.getElementById("servicePpnPreview");
-    const serviceGrandTotalPreview = document.getElementById("serviceGrandTotalPreview");
-
-    for(let i = 0; i < Number(locationQty.value); i++){
-        printProductPreview[i].innerHTML = selectPrint[i].value;
-        printPricePreview[i].innerHTML = Number(printPrice[i].value).toLocaleString();
-        totalPrintPricePreview[i].innerHTML = Number(printTotal[i].innerText).toLocaleString();
-        sidePreview[i].innerHTML = locationSide[i].innerText;
-        widePreview[i].innerHTML = wide[i].innerText;
-        installProductPreview[i].innerHTML = installProduct[i].innerText;
-        installPricePreview[i].innerHTML = Number(installPrice[i].value).toLocaleString();
-        totalInstallPricePreview[i].innerHTML = Number(installTotal[i].innerText).toLocaleString();
-    }
-
-    subTotalPreview.innerHTML = Number(document.getElementById("subTotal").innerText).toLocaleString();
-    servicePpnPreview.innerHTML = Number(document.getElementById("servicePpn").innerText).toLocaleString();
-    serviceGrandTotalPreview.innerHTML = Number(document.getElementById("serviceGrandTotal").innerText).toLocaleString();
-
-}
+// }
 
 cbLeftAction = (sel) =>{
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
@@ -365,25 +307,11 @@ cbLeftAction = (sel) =>{
             wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
             printTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
             installTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            totalPrintPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            totalInstallPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            widePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
-            sidePreview[index].innerHTML = "2";
-            if(cbRight[index].checked == true){
-                locationCodePreview[index].innerHTML = "-> Sisi Kanan & Sisi Kiri";
-            }else{
-                locationCodePreview[index].innerHTML = "-> Sisi Kiri";
-            }
         }else{
             locationSide[index].innerHTML = "1";
             wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
             printTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * printPrice[index].value;
             installTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * installPrice[index].value;
-            totalPrintPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            totalInstallPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            widePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
-            sidePreview[index].innerHTML = "1";
-            locationCodePreview[index].innerHTML = "-> Sisi Kanan";
         }
         console.log(sel.name);
         getSideView();
@@ -402,25 +330,11 @@ cbRightAction = (sel) =>{
             wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
             printTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
             installTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            totalPrintPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            totalInstallPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            widePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
-            sidePreview[index].innerHTML = "2";
-            if(cbLeft[index].checked == true){
-                locationCodePreview[index].innerHTML = "-> Sisi Kanan & Sisi Kiri";
-            }else{
-                locationCodePreview[index].innerHTML = "-> Sisi Kanan";
-            }
         }else{
             locationSide[index].innerHTML = "1";
             wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
             printTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * printPrice[index].value;
             installTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * installPrice[index].value;
-            totalPrintPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            totalInstallPricePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
-            widePreview[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
-            sidePreview[index].innerHTML = "1";
-            locationCodePreview[index].innerHTML = "-> Sisi Kiri";
         }
         console.log(sel.name);
         getSideView();

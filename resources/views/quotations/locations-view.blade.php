@@ -1,17 +1,11 @@
 <!-- View Location start -->
-@foreach ($locations as $location)
+@foreach ($products as $product)
     @php
-        $description = json_decode($location->description);
-        $sectors = json_decode($location->sector);
-        $location_photos = [];
-        foreach ($locationPhotos as $photo) {
-            if ($photo->location_id == $location->id) {
-                array_push($location_photos, $photo);
-            }
-        }
-        $name = $location->code . '-' . $location->city->code . '-' . $location->address;
+        $description = json_decode($product->description);
+        $sectors = json_decode($product->sector);
+        $name = $product->code . '-' . $product->city_code . '-' . $product->address;
 
-        if ($location->media_category->name == 'Signage') {
+        if ($product->category == 'Signage') {
             $mapsLink =
                 'https://maps.googleapis.com/maps/api/staticmap?center=' .
                 $description->lat[0] .
@@ -42,6 +36,6 @@
                 '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
         }
     @endphp
-    @include('dashboard.layouts.location-preview')
+    @include('quotations.location-preview')
 @endforeach
 <!-- View Location end -->

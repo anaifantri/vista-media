@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Show Quotatin start -->
+    <!-- Show Print Order start -->
     <?php
     $product = json_decode($print_orders->product);
     $created_by = json_decode($print_orders->created_by);
@@ -11,7 +11,7 @@
     ?>
     <div class="flex justify-center bg-black p-10">
         <div>
-            <!-- Title Show Quotatin start -->
+            <!-- Title Show Print Order start -->
             <div class="flex border-b">
                 <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary mb-2" title="Create PDF"
                     type="button">
@@ -40,7 +40,7 @@
                     </div>
                 @endif
             </div>
-            <!-- Title Show Quotatin end -->
+            <!-- Title Show Print Order end -->
             <div id="pdfPreview">
                 <div class="flex justify-center w-full">
                     <div class="flex justify-center w-full">
@@ -90,7 +90,7 @@
                 hidden>
         @endif --}}
     </div>
-    <!-- Show Quotatin end -->
+    <!-- Show Print Order end -->
 
     <!-- Script start -->
     <script src="/js/html2canvas.min.js"></script>

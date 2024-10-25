@@ -22,6 +22,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Carbon\Carbon;
+use Validator;
 
 class SaleController extends Controller
 {
@@ -33,6 +34,26 @@ class SaleController extends Controller
         //
     }
 
+    public function getSales(String $id, String $scope){
+        if($scope == "area"){
+            $sales = Sale::where('end_at', '>', date('Y-m-d'))
+            ->whereHas('location', function($query) use ($id){
+                $query->where('area_id', '=', $id);
+            })->whereHas('media_category', function($query){
+                $query->where('name', '!=', "Service");
+            })->get();
+        }elseif($scope == "city"){
+            $sales = Sale::where('end_at', '>', date('Y-m-d'))
+            ->whereHas('location', function($query) use ($id){
+                $query->where('area_id', '=', $id);
+            })->whereHas('media_category', function($query){
+                $query->where('name', '!=', "Service");
+            })->get();
+        }
+
+        return response()->json(['sales'=> $sales]);
+    }
+
     public function preview(String $category, String $id): View
     { 
         $quotation = Quotation::findOrFail($id);
@@ -41,7 +62,6 @@ class SaleController extends Controller
             $number = $revision->number;
             $notes = json_decode($revision->notes);
             $created_at = $revision->created_at;
-            $products = json_decode($revision->products);
             $payment_terms = json_decode($revision->payment_terms);
             $price = json_decode($revision->price);
             $dataApprovals = QuotationApproval::where('quotation_id', $id)->get();
@@ -51,7 +71,6 @@ class SaleController extends Controller
             $number = $quotation->number;
             $notes = json_decode($quotation->notes);
             $created_at = $quotation->created_at;
-            $products = json_decode($quotation->products);
             $payment_terms = json_decode($quotation->payment_terms);
             $price = json_decode($quotation->price);
             $lastQuotationStatus = QuotationStatus::where('quotation_id', $id)->get()->last();
@@ -68,7 +87,6 @@ class SaleController extends Controller
             'number'=>$number,
             'notes'=>$notes,
             'created_at'=>$created_at,
-            'products'=>$products,
             'clients'=>$clients,
             'price'=>$price,
             'payment_terms'=>$payment_terms,
@@ -76,7 +94,6 @@ class SaleController extends Controller
             'quotation_agreements'=>$dataAgreements,
             'quotation_orders'=>$dataOrders,
             'category'=>$category,
-            'categories'=>MediaCategory::all(),
             'title' => 'Data Penjualan'.$category,
             compact('media_categories')
         ]);
@@ -130,7 +147,6 @@ class SaleController extends Controller
         $quotations = Quotation::with('sales')->get();
         return view ('sales.index', [
             'sales'=>$sales,
-            'categories'=>MediaCategory::all(),
             'data_category'=>$dataCategory,
             'category'=>$category,
             'title' => 'Daftar Penjualan',
@@ -172,7 +188,6 @@ class SaleController extends Controller
                 $payment_terms = json_decode($revision->payment_terms);
                 $price = json_decode($revision->price);
                 $lastRevisionStatus = QuotRevisionStatus::where('quotation_revision_id', $revision->id)->get()->last();
-                $dataApprovals = QuotationApproval::where('quotation_id', $revision->id)->get();
             } else{
                 $number = $quotation->number;
                 $notes = json_decode($quotation->notes);
@@ -181,11 +196,10 @@ class SaleController extends Controller
                 $payment_terms = json_decode($quotation->payment_terms);
                 $price = json_decode($quotation->price);
                 $lastQuotationStatus = QuotationStatus::where('quotation_id', $quotationId)->get()->last();
-                $dataApprovals = QuotationApproval::where('quotation_id', $quotationId)->get();
             }
             $clients = json_decode($quotation->clients);
             $mediaCategory = MediaCategory::where('name', $category)->firstOrFail();
-            
+            $dataApprovals = QuotationApproval::where('quotation_id', $quotationId)->get();
             return response()-> view ('sales.create', [
                 'quotation'=>$quotation,
                 'number'=>$number,
@@ -222,6 +236,10 @@ class SaleController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing' ){
             $sales = json_decode($request->salesData);
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $request->validate([
+                'document_po.*'=> 'nullable|image|file|mimes:jpeg,png,jpg|max:2048',
+                'document_agreement.*'=> 'nullable|image|file|mimes:jpeg,png,jpg|max:2048',
+            ]);
             foreach($sales as $sale){
                 // Set number --> start
                 $lastSales = Sale::where('company_id', $sale->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
@@ -234,9 +252,9 @@ class SaleController extends Controller
                 
                 if($newNumber > 0 && $newNumber < 10){
                     $number = '000'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'. date('Y');
-                }else if($newNumber > 10 && $newNumber < 100 ){
+                }else if($newNumber >= 10 && $newNumber < 100 ){
                     $number = '00'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')]- date('Y');
-                }else if($newNumber > 100 && $newNumber < 1000 ){
+                }else if($newNumber >= 100 && $newNumber < 1000 ){
                     $number = '0'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'. date('Y');
                 } else {
                     $number = $newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'. date('Y');
@@ -248,7 +266,7 @@ class SaleController extends Controller
                 $validateData['location_id'] = $sale->location_id;
                 $validateData['company_id'] = $sale->company_id;
                 $validateData['media_category_id'] = $sale->media_category_id;
-                $validateData['product_code'] = $sale->product_code;
+                $validateData['product'] = json_encode($sale->product);
                 if($sale->dpp){
                     $validateData['dpp'] = $sale->dpp;
                 }
@@ -353,7 +371,7 @@ class SaleController extends Controller
             'quotation_agreements'=>$dataAgreements,
             'quotation_orders'=>$dataOrders,
             'category'=>$category,
-            'categories'=>MediaCategory::all(),
+            // 'categories'=>MediaCategory::all(),
             'title' => 'Data Penjualan'.$category,
             compact('media_categories')
         ]);

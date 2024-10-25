@@ -8,6 +8,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientGroupController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
@@ -65,7 +66,9 @@ Route::resource('/users', UserController::class)->middleware(['auth','user_acces
 // Route Client --> start
 Route::resource('/marketing/client-categories', ClientCategoryController::class)->middleware(['auth','user_access']);
 Route::resource('/marketing/clients', ClientController::class)->middleware(['auth','user_access']);
+Route::resource('/marketing/client-groups', ClientGroupController::class)->middleware(['auth','user_access']);
 Route::resource('/marketing/contacts', ContactController::class)->middleware(['auth','user_access']);
+Route::get('/get-contacts/{id}', [ContactController::class,'getContacts'])->middleware(['auth','user_access']);
 // Route Client --> end
 
 // Route Vendor --> start
@@ -106,6 +109,7 @@ Route::get('/marketing/sales/report/{category}', [SaleController::class,'report'
 Route::get('/marketing/sales/select-quotation/{category}', [SaleController::class,'selectQuotation'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales/create-sales/{category}/{id}', [SaleController::class,'createSales'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales/preview/{category}/{id}', [SaleController::class,'preview'])->middleware(['auth','user_access']);
+Route::get('/get-sales/{id}/{scope}', [SaleController::class,'getSales'])->middleware(['auth','user_access']);
 // Route Sales --> end
 
 // Route Service --> start
@@ -113,10 +117,13 @@ Route::resource('/marketing/printing-products', PrintingProductController::class
 Route::resource('/marketing/printing-prices', PrintingPriceController::class)->middleware(['auth','user_access']);
 Route::resource('/marketing/installation-prices', InstallationPriceController::class)->middleware(['auth','user_access']);
 Route::resource('/marketing/install-orders', InstallOrderController::class)->middleware(['auth','user_access']);
+Route::get('/install-orders/select-locations', [InstallOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
+Route::get('/install-orders/create-order/{id}/{type}', [InstallOrderController::class,'createOrder'])->middleware(['auth','user_access']);
 Route::resource('/marketing/print-orders', PrintOrderController::class)->middleware(['auth','user_access']);
 Route::get('/print-orders/select-locations', [PrintOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
 Route::get('/print-orders/create-order/{id}/{type}', [PrintOrderController::class,'createOrder'])->middleware(['auth','user_access']);
 Route::get('/marketing/print-orders/preview/{id}', [PrintOrderController::class,'preview'])->middleware(['auth','user_access']);
+Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'getPrintingPrices'])->middleware(['auth','user_access']);
 // Route Service --> end
 // Marketing Group --> end
 
@@ -137,6 +144,7 @@ Route::resource('/media/locations', LocationController::class)->middleware(['aut
 Route::get('/media/locations/preview/{category}/{id}', [LocationController::class,'preview']);
 Route::get('/media/locations/create-location/{category}', [LocationController::class,'createLocation']);
 Route::get('/media/locations/home/{category}', [LocationController::class,'home']);
+Route::get('/get-locations/{id}/{scope}', [LocationController::class,'getLocations'])->middleware(['auth','user_access']);
 // Route Location --> end
 
 // Route Legality --> start
@@ -151,7 +159,6 @@ Route::resource('/media/land-documents', LandDocumentController::class)->middlew
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth','user_access']);
 Route::get('/showCity', [CityController::class,'showCity'])->middleware(['auth','user_access']);
 Route::get('/showLed', [LedController::class,'showLed'])->middleware(['auth','user_access']);
-Route::get('/showContact', [ContactController::class,'showContact'])->middleware(['auth','user_access']);
 Route::get('/showClient', [ClientController::class,'showClient'])->middleware(['auth','user_access']);
 
 Route::get('/', function () {

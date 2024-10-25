@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\Client;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -78,7 +77,6 @@ class ContactController extends Controller
     {
         return response()->view('contacts.edit', [
             'contact' => $contact,
-            'categories' => MediaCategory::all(),
             'title' => 'Edit Kontak Person'
         ]);
     }
@@ -146,10 +144,12 @@ class ContactController extends Controller
     /**
      * Convert contact data to json.
      */
-    public function showContact(){
-        $dataContact = Contact::All();
+    public function getContacts(String $id){
+        $contacts = Contact::whereHas('client', function($query) use ($id){
+            $query->where('id', '=', $id);
+        })->get();
 
-        return response()->json(['dataContact'=> $dataContact]);
+        return response()->json(['contacts'=> $contacts]);
     }
 }
 

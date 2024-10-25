@@ -16,7 +16,8 @@
             <div class="flex justify-center">
                 <div>
                     <div class="flex justify-center my-2 border-b-2 border-teal-700">
-                        <label class="text-sm text-teal-700">Tidak Ada File Yang Dipilih</label>
+                        <label class="text-sm text-teal-700">Dokumen Persetujuan Penawaran Nomor :
+                            {{ $data_approvals[0]->quotation->number }}</label>
                     </div>
                     <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700"
                         id="figureViewImages">

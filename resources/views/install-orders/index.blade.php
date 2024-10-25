@@ -7,7 +7,7 @@
                 <div class="flex border-b">
                     <h1 class="index-h1">Daftar SPK Pemasangan Gambar</h1>
                     <div class="flex">
-                        <a href="/marketing/install-orders/create" class="index-link btn-primary">
+                        <a href="/install-orders/select-locations" class="index-link btn-primary">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -18,7 +18,7 @@
                         </a>
                     </div>
                 </div>
-                <form class="flex mt-2" action="/marketing/install-orders/">
+                <form class="flex mt-2" action="/marketing/install-orders">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"

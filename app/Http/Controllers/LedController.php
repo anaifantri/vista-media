@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Led;
 use App\Models\User;
 use App\Models\Vendor;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,7 +22,6 @@ class LedController extends Controller
         return response()-> view ('leds.index', [
             'leds'=>Led::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
             'title' => 'Daftar Jenis LED',
-            'categories' => MediaCategory::all(),
             compact('users', 'vendors')
         ]);
     }
@@ -44,8 +42,7 @@ class LedController extends Controller
                 'vendors'=>Vendor::WhereHas('vendor_category', function($query){
                     $query->where('name','LED');
                 })->orderBy("name", "asc")->get(),
-                'title' => 'Menambahkan Produk LED',
-                'categories' => MediaCategory::all(),
+                'title' => 'Menambahkan Produk LED'
             ]);
         } else {
             abort(403);
@@ -148,7 +145,6 @@ class LedController extends Controller
         return response()-> view ('leds.show', [
             'led' => $led,
             'title' => 'Detail Produk LED ' . $led->name,
-            'categories' => MediaCategory::all(),
             compact('users', 'vendors')
         ]);
     }
@@ -165,7 +161,6 @@ class LedController extends Controller
                 'led' => $led,
                 'vendors'=>Vendor::orderBy("name", "asc")->get(),
                 'title' => 'Edit Data Produk LED'.$led->name,
-                'categories' => MediaCategory::all(),
                 compact('users', 'vendors')
             ]);
         } else {

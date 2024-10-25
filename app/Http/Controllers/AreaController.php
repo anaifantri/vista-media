@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Models\User;
-use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,8 +17,7 @@ class AreaController extends Controller
     {
         return response()-> view ('areas.index', [
             'areas'=>Area::filter(request('search'))->sortable()->with(['user'])->paginate(10)->withQueryString(),
-            'title' => 'Daftar Area',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Area'
         ]);
     }
 
@@ -36,8 +34,7 @@ class AreaController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('areas.create', [
-                'title' => 'Menambahkan Area',
-                'categories' => MediaCategory::all()
+                'title' => 'Menambahkan Area'
             ]);
         } else {
             abort(403);
@@ -79,8 +76,7 @@ class AreaController extends Controller
     {
         return response()-> view ('areas.show', [
             'area' => $area,
-            'title' => 'Data Area ' . $area->area,
-            'categories' => MediaCategory::all()
+            'title' => 'Data Area ' . $area->area
         ]);
     }
 
@@ -91,8 +87,7 @@ class AreaController extends Controller
     {
         return response()->view('areas.edit', [
             'area' => $area,
-            'title' => 'Merubah Data Area',
-            'categories' => MediaCategory::all()
+            'title' => 'Merubah Data Area'
         ]);
     }
 

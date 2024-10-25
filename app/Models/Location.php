@@ -20,7 +20,7 @@ class Location extends Model
 
     public function scopeType($query){
         if (request('type') != 'All') {
-            return $query->where('description', 'like', '%' . request('type') . '%');
+            return $query->where('description->type', '=', request('type'));
         }
     }
 
@@ -35,11 +35,29 @@ class Location extends Model
             return $query->where('media_category_id', 'like', '%' . request('media_category_id') . '%');
         }
     }
+    public function scopeCategoryName($query, $category){
+            return $query->whereHas('media_category', function($query) use ($category){
+                $query->where('name', '=', $category);
+            });
+    }
 
     public function scopeCondition($query){
         if (request('condition') != 'All') {
             return $query->where('condition', 'like', '%' . request('condition') . '%');
         }
+    }
+
+    public function scopeQuotationNew($query){
+        return $query->whereDoesntHave('sales')
+                    ->orWhereHas('sales', function($query){
+                        $query->where('end_at', '<', date('Y-m-d'));
+                    });
+    }
+    
+    public function scopeQuotationExtend($query){
+        return $query->whereHas('sales', function($query){
+                        $query->where('end_at', '>', date('Y-m-d'));
+                    });
     }
 
     public function scopePrint($query){

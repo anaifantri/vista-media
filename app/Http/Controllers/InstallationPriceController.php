@@ -6,7 +6,6 @@ use App\Models\InstallationPrice;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\MediaCategory;
 
 class InstallationPriceController extends Controller
 {
@@ -17,8 +16,7 @@ class InstallationPriceController extends Controller
     {
         return response()-> view ('installation-prices.index', [
             'installation_prices'=>InstallationPrice::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Harga Pasang',
-            'categories' => MediaCategory::all()
+            'title' => 'Daftar Harga Pasang'
         ]);
     }
 
@@ -29,8 +27,7 @@ class InstallationPriceController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
             return response()-> view ('installation-prices.create', [
-                'title' => 'Menambah Harga Pasang',
-                'categories' => MediaCategory::all()
+                'title' => 'Menambah Harga Pasang'
             ]);
         } else {
             abort(403);
@@ -84,8 +81,7 @@ class InstallationPriceController extends Controller
     {
         return response()->view('installation-prices.show', [
             'installation_price' => $installationPrice,
-            'title' => 'Detail Harga Pasang',
-            'categories' => MediaCategory::all()
+            'title' => 'Detail Harga Pasang'
         ]);
     }
 
@@ -96,8 +92,7 @@ class InstallationPriceController extends Controller
     {
         return response()->view('installation-prices.edit', [
             'installation_price' => $installationPrice,
-            'title' => 'Edit Harga Pasang',
-            'categories' => MediaCategory::all()
+            'title' => 'Edit Harga Pasang'
         ]);
     }
 

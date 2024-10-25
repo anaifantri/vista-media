@@ -32,6 +32,8 @@
             </tr>
         </thead>
         <tbody id="serviceTBody">
+            <input type="text" id="serviceTypePrint" value="{{ $price->objServiceType->print }}" hidden>
+            <input type="text" id="serviceTypeInstall" value="{{ $price->objServiceType->install }}" hidden>
             @php
                 $subTotal = 0;
             @endphp
@@ -90,8 +92,10 @@
                                         hidden>
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft" hidden>Kiri</label>
                                     <input class="outline-none ml-4" type="checkbox" id="cbRight"
-                                        name="cbRight{{ $loop->iteration - 1 }}" onclick="cbRightAction(this)" hidden>
-                                    <label class="text-[0.7rem] text-teal-700 ml-1" for="cbRight" hidden>Kanan</label>
+                                        name="cbRight{{ $loop->iteration - 1 }}" onclick="cbRightAction(this)"
+                                        hidden>
+                                    <label class="text-[0.7rem] text-teal-700 ml-1" for="cbRight"
+                                        hidden>Kanan</label>
                                 @endif
                             </div>
                         </td>
@@ -214,13 +218,16 @@
                             @endphp
                             <td class="text-[0.7rem] text-teal-700 border px-1 text-center">Cetak</td>
                             <td class="text-[0.7rem] text-teal-700 border text-center">
-                                <<select id="selectPrint" name="printing_product{{ $loop->iteration - 1 }}"
+                                <select id="selectPrint" name="printing_product{{ $loop->iteration - 1 }}"
                                     class="flex px-2 text-[0.7rem] text-teal-700 w-28 border rounded-md outline-none"
                                     value="{{ $price->objPrints[$loop->iteration - 1]->printProduct }}" required
                                     onchange="selectPrintProduct(this)">
+                                    @php
+                                        $index = $loop->iteration - 1;
+                                    @endphp
                                     @foreach ($printing_products as $printingProduct)
                                         @if ($printingProduct->type == $description->lighting)
-                                            @if ($printingProduct->name == $price->objPrints[$loop->iteration - 1]->printProduct)
+                                            @if ($printingProduct->name == $price->objPrints[$index]->printProduct)
                                                 <option id="{{ $printingProduct->price }}"
                                                     value="{{ $printingProduct->name }}" selected>
                                                     {{ $printingProduct->name }}
@@ -233,7 +240,7 @@
                                             @endif
                                         @endif
                                     @endforeach
-                                    </select>
+                                </select>
                             </td>
                             <td id="locationSide" class="text-[0.7rem] text-teal-700 border text-center px-1">
                                 {{ $price->objSideView[$loop->iteration - 1]->side }}</td>
