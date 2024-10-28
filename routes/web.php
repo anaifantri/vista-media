@@ -59,7 +59,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 // Route dashboard --> end
 
 // Route users --> start
-Route::resource('/users', UserController::class)->middleware(['auth','user_access']);
+Route::resource('/user/users', UserController::class)->middleware(['auth','user_access']);
 // Route users --> end
 
 // Marketing Group --> start

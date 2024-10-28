@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class VendorCategoryController extends Controller
 {
@@ -15,10 +16,14 @@ class VendorCategoryController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('vendor-categories.index', [
-            'vendor_categories'=>VendorCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Vendor'
-        ]);
+        if(Gate::allows('isVendor') && Gate::allows('isMarketingRead')){
+            return response()-> view ('vendor-categories.index', [
+                'vendor_categories'=>VendorCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
+                'title' => 'Daftar Katagori Vendor'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -26,7 +31,7 @@ class VendorCategoryController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate'))){
             return response()-> view ('vendor-categories.create', [
                 'title' => 'Menambah Katagori Vendor'
             ]);
@@ -40,7 +45,7 @@ class VendorCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate'))){
             if ($request->name == 'pilih'){
                 return back()->withErrors(['name' => ['Silahkan pilih katagori']])->withInput();
             }
@@ -71,7 +76,7 @@ class VendorCategoryController extends Controller
             
             VendorCategory::create($validateData);
     
-            return redirect('/mrketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $request->name . ' berhasil ditambahkan');
+            return redirect('/marketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -82,10 +87,14 @@ class VendorCategoryController extends Controller
      */
     public function show(VendorCategory $vendorCategory): Response
     {
-        return response()-> view ('vendor-categories.show', [
-            'vendor_category' => $vendorCategory,
-            'title' => 'Data Katagori Vendor' . $vendorCategory->name
-        ]);
+        if(Gate::allows('isVendor') && Gate::allows('isMarketingRead')){
+            return response()-> view ('vendor-categories.show', [
+                'vendor_category' => $vendorCategory,
+                'title' => 'Data Katagori Vendor' . $vendorCategory->name
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -93,7 +102,7 @@ class VendorCategoryController extends Controller
      */
     public function edit(VendorCategory $vendorCategory): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit'))){
             return response()->view('vendor-categories.edit', [
                 'vendor_category' => $vendorCategory,
                 'title' => 'Edit Data Katagori Vendor'
@@ -108,7 +117,7 @@ class VendorCategoryController extends Controller
      */
     public function update(Request $request, VendorCategory $vendorCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -124,7 +133,7 @@ class VendorCategoryController extends Controller
             VendorCategory::where('id', $vendorCategory->id)
                 ->update($validateData);
         
-            return redirect('/mrketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name . ' berhasil dirubah');
+            return redirect('/marketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name . ' berhasil dirubah');
         } else {
             abort(403);
         }
@@ -135,10 +144,14 @@ class VendorCategoryController extends Controller
      */
     public function destroy(VendorCategory $vendorCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            VendorCategory::destroy($vendorCategory->id);
-
-            return redirect('/mrketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name .' berhasil dihapus');
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingDelete'))){
+            if($vendorCategory->vendors()->exists()){
+                return back()->withErrors(['delete' => ['Gagal untuk menghapus data katagori vendor, terdapat relasi dengan data pada tabel data lainnya']]);
+            }else{
+                VendorCategory::destroy($vendorCategory->id);
+    
+                return redirect('/marketing/vendor-categories')->with('success','Katagori vendor dengan nama '. $vendorCategory->name .' berhasil dihapus');
+            }
         } else {
             abort(403);
         }

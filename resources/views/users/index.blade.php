@@ -11,7 +11,7 @@
                     <!-- Button Create start -->
                     @canany(['isAdmin', 'isMedia'])
                         <div class="flex border-b">
-                            <a href="/users/create" class="index-link btn-primary"><span></span>
+                            <a href="/user/users/create" class="index-link btn-primary"><span></span>
                                 <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -26,7 +26,7 @@
                 <!-- Button Create end -->
                 <div class="flex mt-2">
                     <!-- Form Search start -->
-                    <form class="flex" action="/users/">
+                    <form class="flex" action="/user/users/">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
                             placeholder="Search" value="{{ request('search') }}">
@@ -71,8 +71,8 @@
                     <thead>
                         <tr class="h-10 bg-teal-50">
                             <th class="th-table w-5">No.</th>
-                            <th class="th-table w-44">
-                                <button class="flex justify-center items-center w-44">
+                            <th class="th-table w-40">
+                                <button class="flex justify-center items-center w-40">
                                     @sortablelink('name', 'Nama')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
@@ -80,8 +80,8 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="th-table w-32">
-                                <button class="flex justify-center items-center w-32">
+                            <th class="th-table w-28">
+                                <button class="flex justify-center items-center w-28">
                                     @sortablelink('username', 'Username')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
@@ -89,12 +89,11 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="th-table w-48">Email</th>
-                            <th class="th-table w-32">No. Hp.</th>
-                            <th class="th-table w-32">Divisi</th>
-                            <th class="th-table w-32">Jabatan</th>
-                            <th class="th-table w-32">Level Akses</th>
-                            <th class="th-table w-32">Jenis Kelamin</th>
+                            <th class="th-table w-60">Email</th>
+                            <th class="th-table w-24">No. Hp.</th>
+                            <th class="th-table w-24">Divisi</th>
+                            <th class="th-table w-24">Jabatan</th>
+                            <th class="th-table w-24">Level Akses</th>
                             <th class="th-table w-32">Action</th>
                         </tr>
                     </thead>
@@ -113,15 +112,8 @@
                                 <td class="td-table-center">{{ $user->position }}</td>
                                 <td class="td-table-center">{{ $user->level }}</td>
                                 <td class="td-table-center">
-                                    @if ($user->gender == 'Male')
-                                        Laki-Laki
-                                    @elseif ($user->gender == 'Female')
-                                        Perempuan
-                                    @endif
-                                </td>
-                                <td class="td-table-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/users/{{ $user->id }}"
+                                        <a href="/user/users/{{ $user->id }}"
                                             class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -132,7 +124,7 @@
                                             </svg>
                                         </a>
                                         @can('isAdmin')
-                                            <a href="/users/{{ $user->id }}/edit"
+                                            <a href="/user/users/{{ $user->id }}/edit"
                                                 class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
                                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -142,7 +134,8 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            <form action="/users/{{ $user->id }}" method="post" class="d-inline my-1">
+                                            <form action="/user/users/{{ $user->id }}" method="post"
+                                                class="d-inline my-1">
                                                 @method('delete')
                                                 @csrf
                                                 <button

@@ -8,7 +8,7 @@
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]"> DETAIL DATA PENGGUNA </h1>
                 <div class="flex w-full justify-end items-center">
                     @if (auth()->user()->level === 'Administrator')
-                        <a href="/users" class="flex items-center justify-center btn-primary mx-1">
+                        <a href="/user/users" class="flex items-center justify-center btn-primary mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -29,7 +29,8 @@
                         </a>
                     @endif
                     @if ($user->id === auth()->user()->id)
-                        <a href="/users/{{ $user->id }}/edit" class="flex items-center justify-center btn-warning mx-1">
+                        <a href="/user/users/{{ $user->id }}/edit"
+                            class="flex items-center justify-center btn-warning mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -40,7 +41,8 @@
                         </a>
                     @else
                         @can('isAdmin')
-                            <a href="/users/{{ $user->id }}/edit" class="flex items-center justify-center btn-warning mx-1">
+                            <a href="/user/users/{{ $user->id }}/edit"
+                                class="flex items-center justify-center btn-warning mx-1">
                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                     stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -52,7 +54,7 @@
                         @endcan
                     @endif
                     @can('isAdmin')
-                        <form action="/users/{{ $user->id }}" method="post" class="d-inline mt-4">
+                        <form action="/user/users/{{ $user->id }}" method="post" class="d-inline mt-4">
                             @method('delete')
                             @csrf
                             <button class="flex items-center justify-center btn-danger mx-1"
@@ -155,6 +157,140 @@
                             <h6 class="text-base font-semibold text-teal-900">{{ $user->updated_at->format('l, d-M-Y') }}
                             </h6>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center w-[1140px] mt-4">
+                <div class="mt-2">
+                    <label class="text-sm text-teal-700">Hak Akses</label>
+                    <div class="flex justify-center mt-2">
+                        @php
+                            $roles = json_decode($user->user_access);
+                        @endphp
+                        <table class="table-auto w-full">
+                            <thead>
+                                <tr id="tableHeader">
+                                    @foreach ($roles as $role)
+                                        <th id="mainMenu" class="text-teal-900 font-semibold text-xs px-2 border">
+                                            <div>
+                                                <input class="outline-none" id="cbMainMenu" type="checkbox"
+                                                    value="{{ $role->permissions->title }}" hidden disabled>
+                                                <label id="labelMainMenu"
+                                                    class="ml-2">{{ $role->permissions->title }}</label>
+                                                <div class="flex">
+                                                    @if ($role->permissions->create == true)
+                                                        <input id="cbCreate" class="outline-none ml-2" type="checkbox"
+                                                            checked disabled>
+                                                    @else
+                                                        <input id="cbCreate" class="outline-none ml-2" type="checkbox"
+                                                            disabled>
+                                                    @endif
+                                                    <label class="ml-1">C</label>
+                                                    @if ($role->permissions->read == true)
+                                                        <input id="cbRead" class="outline-none ml-2" type="checkbox"
+                                                            checked disabled>
+                                                    @else
+                                                        <input id="cbRead" class="outline-none ml-2" type="checkbox"
+                                                            disabled>
+                                                    @endif
+                                                    <label class="ml-1">R</label>
+                                                    @if ($role->permissions->update == true)
+                                                        <input id="cbUpdate" class="outline-none ml-2" type="checkbox"
+                                                            checked disabled>
+                                                    @else
+                                                        <input id="cbUpdate" class="outline-none ml-2" type="checkbox"
+                                                            disabled>
+                                                    @endif
+                                                    <label class="ml-1">U</label>
+                                                    @if ($role->permissions->delete == true)
+                                                        <input id="cbDelete" class="outline-none ml-2" type="checkbox"
+                                                            checked disabled>
+                                                    @else
+                                                        <input id="cbDelete" class="outline-none ml-2" type="checkbox"
+                                                            disabled>
+                                                    @endif
+                                                    <label class="ml-1">D</label>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="tableRow">
+                                    @foreach ($roles as $role)
+                                        <td id="subMenu" class="text-teal-900 text-xs border p-2 align-top">
+                                            @if ($role->permissions->title == 'Data Media')
+                                                @foreach ($roles->objMedia->mediaRoles as $mediaRole)
+                                                    <div id="menuItems" class="flex items-center">
+                                                        @if ($mediaRole->access == true)
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled checked>
+                                                        @else
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled>
+                                                        @endif
+                                                        <label class="ml-2 w-100">{{ $mediaRole->title }}</label>
+                                                    </div>
+                                                @endforeach
+                                            @elseif ($role->permissions->title == 'Data Pemasaran')
+                                                @foreach ($roles->objMarketing->marketingRoles as $marketingRole)
+                                                    <div id="menuItems" class="flex items-center">
+                                                        @if ($marketingRole->access == true)
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled checked>
+                                                        @else
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled>
+                                                        @endif
+                                                        <label class="ml-2 w-100">{{ $marketingRole->title }}</label>
+                                                    </div>
+                                                @endforeach
+                                            @elseif ($role->permissions->title == 'Data Keuangan')
+                                                @foreach ($roles->objAccounting->accountingRoles as $accountingRole)
+                                                    <div id="menuItems" class="flex items-center">
+                                                        @if ($accountingRole->access == true)
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled checked>
+                                                        @else
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled>
+                                                        @endif
+                                                        <label class="ml-2 w-100">{{ $accountingRole->title }}</label>
+                                                    </div>
+                                                @endforeach
+                                            @elseif ($role->permissions->title == 'Data Produksi')
+                                                @foreach ($roles->objWorkshop->workshopRoles as $workshopRole)
+                                                    <div id="menuItems" class="flex items-center">
+                                                        @if ($workshopRole->access == true)
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled checked>
+                                                        @else
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled>
+                                                        @endif
+                                                        <label class="ml-2 w-100">{{ $workshopRole->title }}</label>
+                                                    </div>
+                                                @endforeach
+                                            @elseif ($role->permissions->title == 'Data Pengguna')
+                                                @foreach ($roles->objUser->userRoles as $userRole)
+                                                    <div id="menuItems" class="flex items-center">
+                                                        @if ($userRole->access == true)
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled checked>
+                                                        @else
+                                                            <input class="outline-none" id="cbSubMenu" type="checkbox"
+                                                                disabled>
+                                                        @endif
+                                                        <label class="ml-2 w-100">{{ $userRole->title }}</label>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

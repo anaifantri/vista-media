@@ -8,6 +8,7 @@ use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class LedController extends Controller
 {
@@ -16,14 +17,18 @@ class LedController extends Controller
      */
     public function index(): Response
     {
-        $vendors = Vendor::with('leds')->get();
-        $users = User::with('leds')->get();
-
-        return response()-> view ('leds.index', [
-            'leds'=>Led::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
-            'title' => 'Daftar Jenis LED',
-            compact('users', 'vendors')
-        ]);
+        if(Gate::allows('isMediaSetting') && Gate::allows('isMediaRead')){
+            $vendors = Vendor::with('leds')->get();
+            $users = User::with('leds')->get();
+    
+            return response()-> view ('leds.index', [
+                'leds'=>Led::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+                'title' => 'Daftar Jenis LED',
+                compact('users', 'vendors')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     public function showLed(){
@@ -37,7 +42,7 @@ class LedController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate'))){
             return response()-> view ('leds.create', [
                 'vendors'=>Vendor::WhereHas('vendor_category', function($query){
                     $query->where('name','LED');
@@ -54,7 +59,7 @@ class LedController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate'))){
             if($request->vendor_id == 'pilih'){
                 return back()->withErrors(['vendor_id' => ['Silahkan pilih vendor']])->withInput();
             }
@@ -140,13 +145,17 @@ class LedController extends Controller
      */
     public function show(Led $led): Response
     {
-        $vendors = Vendor::with('leds')->get();
-        $users = User::with('leds')->get();
-        return response()-> view ('leds.show', [
-            'led' => $led,
-            'title' => 'Detail Produk LED ' . $led->name,
-            compact('users', 'vendors')
-        ]);
+        if(Gate::allows('isMediaSetting') && Gate::allows('isMediaRead')){
+            $vendors = Vendor::with('leds')->get();
+            $users = User::with('leds')->get();
+            return response()-> view ('leds.show', [
+                'led' => $led,
+                'title' => 'Detail Produk LED ' . $led->name,
+                compact('users', 'vendors')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -154,7 +163,7 @@ class LedController extends Controller
      */
     public function edit(Led $led): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit'))){
             $vendors = Vendor::with('leds')->get();
             $users = User::with('leds')->get();
             return response()->view('leds.edit', [
@@ -173,7 +182,7 @@ class LedController extends Controller
      */
     public function update(Request $request, Led $led): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'vendor_id' => 'required',
@@ -208,7 +217,6 @@ class LedController extends Controller
                 ->update($validateData);
         
             return redirect('/media/leds')->with('success','Produk LED dengan nama '. $led->name . ' berhasil dirubah');
-            
         } else {
             abort(403);
         }
@@ -219,7 +227,7 @@ class LedController extends Controller
      */
     public function destroy(Led $led): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete'))){
             Led::destroy($led->id);
 
             return redirect('/media/leds')->with('success','Produk LED dengan nama'. $led->name .' berhasil dihapus');

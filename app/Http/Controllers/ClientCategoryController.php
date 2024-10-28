@@ -25,7 +25,7 @@ class ClientCategoryController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             return response()-> view ('client-categories.create', [
                 'title' => 'Menambahkan Katagori Klien'
             ]);
@@ -39,7 +39,7 @@ class ClientCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             // Set code --> start
             $dataCategory = ClientCategory::all()->last();
             if($dataCategory){
@@ -89,7 +89,7 @@ class ClientCategoryController extends Controller
      */
     public function edit(ClientCategory $clientCategory): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             return response()->view('client-categories.edit', [
                 'client_category' => $clientCategory,
                 'title' => 'Edit Katagori Klien'
@@ -104,7 +104,7 @@ class ClientCategoryController extends Controller
      */
     public function update(Request $request, ClientCategory $clientCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -131,7 +131,7 @@ class ClientCategoryController extends Controller
      */
     public function destroy(ClientCategory $clientCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
             ClientCategory::destroy($clientCategory->id);
 
             return redirect('/marketing/client-categories')->with('success','Katagori klien dengan nama '. $clientCategory->name .' berhasil dihapus');

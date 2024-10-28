@@ -29,8 +29,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex justify-center items-center w-[900px]">
-                    <div class="flex justify-center items-center w-[400px]">
+                <div class="flex justify-center items-center w-[900px] mt-2">
+                    <div class="flex justify-center items-center w-[400px] h-[500px] p-4 border rounded-lg">
                         <div>
                             <input type="hidden" name="oldLogo" value="{{ $company->logo }}">
                             @if ($company->logo)
@@ -50,7 +50,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="flex justify-center items-center w-[500px]">
+                    <div class="flex ml-4 justify-center w-[500px] h-[500px] p-4 border rounded-lg">
                         <div class="p-2 w-full">
                             <div class="border-b mt-2">
                                 <label class="flex text-sm text-teal-700">Kode</label>

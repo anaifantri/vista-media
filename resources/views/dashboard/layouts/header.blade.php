@@ -50,7 +50,7 @@
                             <nav class="flex top-0 w-12 md:w-36">
                                 <ul class="ml-4 text-left">
                                     <li class="group">
-                                        <a class="mt-0 nav-a" href="/users/{{ auth()->user()->id }}">
+                                        <a class="mt-0 nav-a" href="/user/users/{{ auth()->user()->id }}">
                                             <svg class="fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
                                                 width="16" viewBox="0 0 24 24">
                                                 <title>My Profile</title>

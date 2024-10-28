@@ -38,24 +38,34 @@ hamburger.addEventListener('click', function () {
 function showHideMenu() {
     hamburger.classList.toggle('hamburger-active');
     liDashboard.classList.toggle('hidden');
-    liMedia.classList.toggle('hidden');
-    liMarketing.classList.toggle('hidden');
-    liAccounting.classList.toggle('hidden');
-    liWorkshop.classList.toggle('hidden');
-    liUser.classList.toggle('hidden');
+    if(liMedia){
+        liMedia.classList.toggle('hidden');
+        mediaChild.classList.add('hidden');
+        mediaArrow.classList.add('rotate-180');
+    }
+    if(liMarketing){
+        liMarketing.classList.toggle('hidden');
+        marketingChild.classList.add('hidden');
+        marketingArrow.classList.add('rotate-180');
+    }
+    if(liAccounting){
+        liAccounting.classList.toggle('hidden');
+        accountingChild.classList.add('hidden');
+        accountingArrow.classList.add('rotate-180');
+    }
+    if(liWorkshop){
+        liWorkshop.classList.toggle('hidden');
+        workshopChild.classList.add('hidden');
+        workshopArrow.classList.add('rotate-180');
+    }
+    if(liUser){
+        liUser.classList.toggle('hidden');
+        userChild.classList.add('hidden');
+        userArrow.classList.add('rotate-180');
+    }
     liLogout.classList.toggle('hidden');
     menu.classList.toggle('hidden');
     menu.classList.toggle('flex');
-    mediaChild.classList.add('hidden');
-    marketingChild.classList.add('hidden');
-    accountingChild.classList.add('hidden');
-    workshopChild.classList.add('hidden');
-    userChild.classList.add('hidden');
-    mediaArrow.classList.add('rotate-180');
-    marketingArrow.classList.add('rotate-180');
-    accountingArrow.classList.add('rotate-180');
-    workshopArrow.classList.add('rotate-180');
-    userArrow.classList.add('rotate-180');
 }
 
 var mainWrapper = document.getElementById("main-wrapper");
@@ -80,29 +90,40 @@ document.getElementById("nav-menu").addEventListener('click', function () {
 function hideMenu() {
     hamburger.classList.remove('hamburger-active');
     liDashboard.classList.add('hidden');
-    liMedia.classList.add('hidden');
-    liMedia.classList.add('group');
-    liMarketing.classList.add('hidden');
-    liMarketing.classList.add('group');
-    liAccounting.classList.add('hidden');
-    liAccounting.classList.add('group');
-    liWorkshop.classList.add('hidden');
-    liWorkshop.classList.add('group');
-    liUser.classList.add('hidden');
-    liUser.classList.add('group');
+    if(liMedia){
+        liMedia.classList.add('hidden');
+        liMedia.classList.add('group');
+        mediaChild.classList.add('hidden');
+        mediaArrow.classList.remove('rotate-180');
+    }
+    if(liMarketing){
+        liMarketing.classList.add('hidden');
+        liMarketing.classList.add('group');
+        marketingChild.classList.add('hidden');
+        marketingArrow.classList.remove('rotate-180');
+    }
+    if(liAccounting){
+        liAccounting.classList.add('hidden');
+        liAccounting.classList.add('group');
+        accountingChild.classList.add('hidden');
+        accountingArrow.classList.remove('rotate-180');
+    }
+    if(liWorkshop){
+        liWorkshop.classList.add('hidden');
+        liWorkshop.classList.add('group');
+        workshopChild.classList.add('hidden');
+        workshopArrow.classList.remove('rotate-180');
+    }
+    if(liUser){
+        liUser.classList.add('hidden');
+        liUser.classList.add('group');
+        userChild.classList.add('hidden');
+        userArrow.classList.remove('rotate-180');
+    }
+    
     liLogout.classList.add('hidden');
     menu.classList.add('hidden');
     menu.classList.remove('flex');
-    mediaChild.classList.add('hidden');
-    marketingChild.classList.add('hidden');
-    accountingChild.classList.add('hidden');
-    workshopChild.classList.add('hidden');
-    userChild.classList.add('hidden');
-    mediaArrow.classList.remove('rotate-180');
-    marketingArrow.classList.remove('rotate-180');
-    accountingArrow.classList.remove('rotate-180');
-    workshopArrow.classList.remove('rotate-180');
-    userArrow.classList.remove('rotate-180');
 }
 
 
@@ -178,33 +199,9 @@ function headerDropdown(e, sel) {
     }
 }
 
-// Media OOH
-// liMedia.addEventListener('click', function () {
-//     showHideDropdown();
-// });
-// Marketing
-// liMarketing.addEventListener('click', function () {
-//     showHideDropdown();
-// });
-
 function childMenu(e, sel) {
     e.stopPropagation();
     sel.classList.toggle('group');
     sel.children[0].children[2].classList.toggle('rotate-180');
     sel.children[1].classList.toggle('hidden');
 }
-
-//Accounting
-// liAccounting.addEventListener('click', function () {
-//     showHideDropdown();
-// });
-
-//Workshop
-// liWorkshop.addEventListener('click', function () {
-//     showHideDropdown();
-// });
-
-//User
-// liUser.addEventListener('click', function () {
-//     showHideDropdown();
-// });

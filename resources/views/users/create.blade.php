@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <form method="post" action="/users" enctype="multipart/form-data">
+    <form id="formCreate" method="post" action="/user/users" enctype="multipart/form-data">
         @csrf
         <div class="mt-10">
             <!-- Show Title start -->
@@ -9,8 +9,8 @@
                 <div class="flex items-center w-[1000px] border-b">
                     <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[650px]">MENAMBAHKAN DATA PENGGUNA </h1>
                     <div class="flex w-full justify-end items-center p-1">
-                        <button class="flex items-center justify-center btn-primary mx-1" type="submit" id="btnSubmit"
-                            name="btnSubmit">
+                        <button class="flex items-center justify-center btn-primary mx-1" type="button"
+                            onclick="btnSaveAction()">
                             <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <path
@@ -18,7 +18,7 @@
                             </svg>
                             <span class="mx-2"> Save </span>
                         </button>
-                        <a href="/users" class="flex items-center justify-center btn-danger mx-1">
+                        <a href="/user/users" class="flex items-center justify-center btn-danger mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -32,26 +32,27 @@
             </div>
             <!-- Show Title end -->
             <div class="flex w-full justify-center">
-                <div class="flex w-[1000px] mt-4">
-                    <div class="flex justify-center w-96">
-                        <div>
-                            <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
-                                src="/img/photo_profile.png">
-                            <label class="flex justify-center text-sm text-teal-700 mt-2">Photo Profile</label>
-                            <input
-                                class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('avatar') is-invalid @enderror"
-                                type="file" id="avatar" name="avatar" onchange="previewImage(this)">
-                            @error('avatar')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                <div class="w-[1000px]">
+                    <div class="flex mt-4">
+                        <div class="flex justify-center w-96">
+                            <div>
+                                <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
+                                    src="/img/photo_profile.png">
+                                <label class="flex justify-center text-sm text-teal-700 mt-2">Photo Profile</label>
+                                <input
+                                    class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('avatar') is-invalid @enderror"
+                                    type="file" id="avatar" name="avatar" onchange="previewImage(this)">
+                                @error('avatar')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex w-[280px]">
-                        <div class="w-full">
+                        <div class="flex w-[280px]">
                             <div class="mt-5 w-full">
-                                <div class="mt-2"><label class="text-sm text-teal-700">Nama</label>
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Nama</label>
                                     <input
                                         class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                         type="text" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}"
@@ -95,6 +96,110 @@
                                         </div>
                                     @enderror
                                 </div>
+                                <div class="mt-2"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                                    @php
+                                        $genders = ['Male', 'Female'];
+                                    @endphp
+                                    <select
+                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                                        name="gender" value="{{ old('gender') }}" required>
+                                        <option value="pilih">Pilih Jenis Kelamin</option>
+                                        @foreach ($genders as $gender)
+                                            @if (old('gender') == $gender)
+                                                <option value="{{ $gender }}" selected>
+                                                    @if ($gender == 'Male')
+                                                        Laki-Laki
+                                                    @elseif ($gender == 'Female')
+                                                        Perempuan
+                                                    @endif
+                                                </option>
+                                            @else
+                                                <option value="{{ $gender }}">
+                                                    @if ($gender == 'Male')
+                                                        Laki-Laki
+                                                    @elseif ($gender == 'Female')
+                                                        Perempuan
+                                                    @endif
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('gender')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex w-[280px] ml-4">
+                            <div class="mt-5 w-full">
+                                <div class="mt-2"><label class="text-sm text-teal-700">Divisi</label>
+                                    <input type="text" id="level" name="level" value="{{ old('level') }}" hidden>
+                                    @php
+                                        $divisions = [
+                                            'Administrator',
+                                            'Owner',
+                                            'Media',
+                                            'Marketing',
+                                            'Accounting',
+                                            'Workshop',
+                                        ];
+                                    @endphp
+                                    <select id="division" name="division"
+                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('division') is-invalid @enderror"
+                                        value="{{ old('division') }}"
+                                        onchange="selectDivision(this, document.getElementById('inputPosition'))" required>
+                                        <option value="pilih">Pilih Divisi</option>
+                                        @foreach ($divisions as $division)
+                                            @if (old('division') == $division)
+                                                <option value="{{ $division }}" selected>
+                                                    {{ $division }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $division }}">
+                                                    {{ $division }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('division')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Jabatan</label>
+                                    <input type="text" id="inputPosition" name="input_position"
+                                        value="{{ old('input_position') }}" hidden>
+                                    @if (old('division'))
+                                        @if (old('division') != 'pilih')
+                                            <select id="position" name="position"
+                                                class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                                value="{{ old('position') }}" onchange="selectPosition(this)" required>
+                                                <option value="pilih">Pilih Jabatan</option>
+                                            @else
+                                                <select id="position" name="position"
+                                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                                    value="{{ old('position') }}" onchange="selectPosition(this)"
+                                                    required disabled>
+                                                    <option value="pilih">Pilih Jabatan</option>
+                                        @endif
+                                    @else
+                                        <select id="position" name="position"
+                                            class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                            value="{{ old('position') }}" onchange="selectPosition(this)" required
+                                            disabled>
+                                            <option value="pilih">Pilih Jabatan</option>
+                                    @endif
+                                    </select>
+                                    @error('position')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                                 <div class="mt-2 items-center">
                                     <label class="text-sm text-teal-700">Password</label>
                                     <input type="password"
@@ -107,7 +212,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-2 items-center">
-                                    <label class="text-sm text-teal-700">Password</label>
+                                    <label class="text-sm text-teal-700">Konfirmasi Password</label>
                                     <input type="password"
                                         class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('confirm_password') is-invalid @enderror"
                                         placeholder="Confirm Password" name="confirm_password" required>
@@ -120,135 +225,232 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex w-[280px] ml-4">
-                        <div class="mt-5 w-full">
-                            <div class="mt-2"><label class="text-sm text-teal-700">Jenis Kelamin</label>
-                                @php
-                                    $genders = ['Male', 'Female'];
-                                @endphp
-                                <select
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
-                                    name="gender" value="{{ old('gender') }}" required>
-                                    <option value="pilih">Pilih Jenis Kelamin</option>
-                                    @foreach ($genders as $gender)
-                                        @if (old('gender') == $gender)
-                                            <option value="{{ $gender }}" selected>
-                                                @if ($gender == 'Male')
-                                                    Laki-Laki
-                                                @elseif ($gender == 'Female')
-                                                    Perempuan
-                                                @endif
-                                            </option>
-                                        @else
-                                            <option value="{{ $gender }}">
-                                                @if ($gender == 'Male')
-                                                    Laki-Laki
-                                                @elseif ($gender == 'Female')
-                                                    Perempuan
-                                                @endif
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @error('gender')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                    <div class="flex mt-4">
+                        <div class="mt-2">
+                            <label class="text-sm text-teal-700">Hak Akses</label>
+                            <input type="text" id="user_access" name="user_access" value="{{ old('user_access') }}"
+                                hidden>
+                            @error('user_access')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            <div class="flex justify-center mt-2">
+                                @if (old('user_access'))
+                                    @php
+                                        $roles = json_decode(old('user_access'));
+                                    @endphp
+                                    <table class="table-auto w-full">
+                                        <thead>
+                                            <tr id="tableHeader">
+                                                <th id="mainMenu" class="text-teal-900 font-semibold text-xs px-2 border"
+                                                    hidden>
+                                                    <div>
+                                                        <input class="outline-none" id="cbMainMenu" type="checkbox"
+                                                            hidden disabled>
+                                                        <label id="labelMainMenu" class="ml-2"></label>
+                                                        <div class="flex">
+                                                            <input id="cbCreate" class="outline-none ml-2"
+                                                                type="checkbox" disabled>
+                                                            <label class="ml-1">C</label>
+                                                            <input id="cbRead" class="outline-none ml-2"
+                                                                type="checkbox" disabled>
+                                                            <label class="ml-1">R</label>
+                                                            <input id="cbUpdate" class="outline-none ml-2"
+                                                                type="checkbox" disabled>
+                                                            <label class="ml-1">U</label>
+                                                            <input id="cbDelete" class="outline-none ml-2"
+                                                                type="checkbox" disabled>
+                                                            <label class="ml-1">D</label>
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                                @foreach ($roles as $role)
+                                                    <th id="mainMenu"
+                                                        class="text-teal-900 font-semibold text-xs px-2 border">
+                                                        <div>
+                                                            <input class="outline-none" id="cbMainMenu" type="checkbox"
+                                                                value="{{ $role->permissions->title }}" hidden disabled>
+                                                            <label id="labelMainMenu"
+                                                                class="ml-2">{{ $role->permissions->title }}</label>
+                                                            <div class="flex">
+                                                                @if ($role->permissions->create == true)
+                                                                    <input id="cbCreate" class="outline-none ml-2"
+                                                                        type="checkbox" checked>
+                                                                @else
+                                                                    <input id="cbCreate" class="outline-none ml-2"
+                                                                        type="checkbox" disabled>
+                                                                @endif
+                                                                <label class="ml-1">C</label>
+                                                                @if ($role->permissions->read == true)
+                                                                    <input id="cbRead" class="outline-none ml-2"
+                                                                        type="checkbox" checked>
+                                                                @else
+                                                                    <input id="cbRead" class="outline-none ml-2"
+                                                                        type="checkbox" disabled>
+                                                                @endif
+                                                                <label class="ml-1">R</label>
+                                                                @if ($role->permissions->update == true)
+                                                                    <input id="cbUpdate" class="outline-none ml-2"
+                                                                        type="checkbox" checked>
+                                                                @else
+                                                                    <input id="cbUpdate" class="outline-none ml-2"
+                                                                        type="checkbox" disabled>
+                                                                @endif
+                                                                <label class="ml-1">U</label>
+                                                                @if ($role->permissions->delete == true)
+                                                                    <input id="cbDelete" class="outline-none ml-2"
+                                                                        type="checkbox" checked>
+                                                                @else
+                                                                    <input id="cbDelete" class="outline-none ml-2"
+                                                                        type="checkbox" disabled>
+                                                                @endif
+                                                                <label class="ml-1">D</label>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                @endforeach
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="tableRow">
+                                                <td id="subMenu" class="text-teal-900 text-xs border p-2 align-top"
+                                                    hidden>
+
+                                                </td>
+                                                @foreach ($roles as $role)
+                                                    <td id="subMenu" class="text-teal-900 text-xs border p-2 align-top">
+                                                        @if ($role->permissions->title == 'Data Media')
+                                                            @foreach ($roles->objMedia->mediaRoles as $mediaRole)
+                                                                <div id="menuItems" class="flex items-center">
+                                                                    @if ($mediaRole->access == true)
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox" checked>
+                                                                    @else
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox">
+                                                                    @endif
+                                                                    <label
+                                                                        class="ml-2 w-100">{{ $mediaRole->title }}</label>
+                                                                </div>
+                                                            @endforeach
+                                                        @elseif ($role->permissions->title == 'Data Pemasaran')
+                                                            @foreach ($roles->objMarketing->marketingRoles as $marketingRole)
+                                                                <div id="menuItems" class="flex items-center">
+                                                                    @if ($marketingRole->access == true)
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox" checked>
+                                                                    @else
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox">
+                                                                    @endif
+                                                                    <label
+                                                                        class="ml-2 w-100">{{ $marketingRole->title }}</label>
+                                                                </div>
+                                                            @endforeach
+                                                        @elseif ($role->permissions->title == 'Data Keuangan')
+                                                            @foreach ($roles->objAccounting->accountingRoles as $accountingRole)
+                                                                <div id="menuItems" class="flex items-center">
+                                                                    @if ($accountingRole->access == true)
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox" checked>
+                                                                    @else
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox">
+                                                                    @endif
+                                                                    <label
+                                                                        class="ml-2 w-100">{{ $accountingRole->title }}</label>
+                                                                </div>
+                                                            @endforeach
+                                                        @elseif ($role->permissions->title == 'Data Produksi')
+                                                            @foreach ($roles->objWorkshop->workshopRoles as $workshopRole)
+                                                                <div id="menuItems" class="flex items-center">
+                                                                    @if ($workshopRole->access == true)
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox" checked>
+                                                                    @else
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox">
+                                                                    @endif
+                                                                    <label
+                                                                        class="ml-2 w-100">{{ $workshopRole->title }}</label>
+                                                                </div>
+                                                            @endforeach
+                                                        @elseif ($role->permissions->title == 'Data Pengguna')
+                                                            @foreach ($roles->objUser->userRoles as $userRole)
+                                                                <div id="menuItems" class="flex items-center">
+                                                                    @if ($userRole->access == true)
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox" checked>
+                                                                    @else
+                                                                        <input class="outline-none" id="cbSubMenu"
+                                                                            type="checkbox">
+                                                                    @endif
+                                                                    <label
+                                                                        class="ml-2 w-100">{{ $userRole->title }}</label>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                        {{-- @foreach ($role->mediaRoles as $media)
+                                                            <div id="menuItems" class="hidden items-center">
+                                                                <input class="outline-none" id="cbSubMenu"
+                                                                    type="checkbox" disabled>
+                                                                <label class="ml-2 w-100">$media[0]->title</label>
+                                                            </div>
+                                                        @endforeach --}}
+                                                    </td>
+                                                @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                @else
+                                    <table class="table-auto w-full">
+                                        <thead>
+                                            <tr id="tableHeader">
+                                                <th id="mainMenu" class="text-teal-900 font-semibold text-xs px-2 border"
+                                                    hidden>
+                                                    <div>
+                                                        <input class="outline-none" id="cbMainMenu" type="checkbox"
+                                                            hidden disabled>
+                                                        <label id="labelMainMenu" class="ml-2"></label>
+                                                        <div class="flex">
+                                                            <input id="cbCreate" class="outline-none ml-2"
+                                                                type="checkbox" disabled>
+                                                            <label class="ml-1">C</label>
+                                                            <input id="cbRead" class="outline-none ml-2"
+                                                                type="checkbox" disabled>
+                                                            <label class="ml-1">R</label>
+                                                            <input id="cbUpdate" class="outline-none ml-2"
+                                                                type="checkbox" disabled>
+                                                            <label class="ml-1">U</label>
+                                                            <input id="cbDelete" class="outline-none ml-2"
+                                                                type="checkbox" disabled>
+                                                            <label class="ml-1">D</label>
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="tableRow">
+                                                <td id="subMenu" class="text-teal-900 text-xs border p-2 align-top"
+                                                    hidden>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                @endif
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Divisi</label>
-                                @php
-                                    $divisions = ['Administrator', 'Owner', 'Media', 'Pemasaran', 'Keuangan', 'Gudang'];
-                                @endphp
-                                <select
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('division') is-invalid @enderror"
-                                    name="division" value="{{ old('division') }}" required>
-                                    <option value="pilih">Pilih Divisi</option>
-                                    @foreach ($divisions as $division)
-                                        @if (old('division') == $division)
-                                            <option value="{{ $division }}" selected>
-                                                {{ $division }}
-                                            </option>
-                                        @else
-                                            <option value="{{ $division }}">
-                                                {{ $division }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @error('division')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                            <div id="menuItems" class="hidden items-center">
+                                <input class="outline-none" id="cbSubMenu" type="checkbox" disabled>
+                                <label class="ml-2 w-100">Test</label>
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Jabatan</label>
-                                @php
-                                    $positions = [
-                                        'Administrator',
-                                        'Direktur',
-                                        'Manager Operasional',
-                                        'Manager Pemasaran',
-                                        'Manager Keuangan',
-                                        'Manager IT',
-                                        'Staff',
-                                    ];
-                                @endphp
-                                <select
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
-                                    name="position" value="{{ old('position') }}" required>
-                                    <option value="pilih">Pilih Jabatan</option>
-                                    @foreach ($positions as $position)
-                                        @if (old('position') == $position)
-                                            <option value="{{ $position }}" selected>
-                                                {{ $position }}
-                                            </option>
-                                        @else
-                                            <option value="{{ $position }}">
-                                                {{ $position }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @error('position')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Level Akses</label>
-                                @php
-                                    $levels = [
-                                        'Administrator',
-                                        'Owner',
-                                        'Media',
-                                        'Marketing',
-                                        'Accounting',
-                                        'Workshop',
-                                    ];
-                                @endphp
-                                <select
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('level') is-invalid @enderror"
-                                    name="level" value="{{ old('level') }}" required>
-                                    <option value="pilih">Pilih Level</option>
-                                    @foreach ($levels as $level)
-                                        @if (old('level') == $level)
-                                            <option value="{{ $level }}" selected>
-                                                {{ $level }}
-                                            </option>
-                                        @else
-                                            <option value="{{ $level }}">
-                                                {{ $level }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @error('level')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            @error('level')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -257,4 +459,5 @@
     </form>
 
     <script src="/js/previewimage.js"></script>
+    <script src="/js/createuser.js"></script>
 @endsection

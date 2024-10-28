@@ -6,6 +6,7 @@ use App\Models\MediaCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class MediaCategoryController extends Controller
 {
@@ -14,10 +15,14 @@ class MediaCategoryController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('media-categories.index', [
-            'media_categories'=>MediaCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Media'
-        ]);
+        if(Gate::allows('isMediaSetting') && Gate::allows('isMediaRead')){
+            return response()-> view ('media-categories.index', [
+                'media_categories'=>MediaCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
+                'title' => 'Daftar Katagori Media'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -25,7 +30,7 @@ class MediaCategoryController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate'))){
             return response()-> view ('media-categories.create', [
                 'title' => 'Menambahkan Katagori Media'
             ]);
@@ -39,7 +44,7 @@ class MediaCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate'))){
             if($request->name == "Billboard"){
                 $code = "BB";
             }elseif($request->name == "Videotron"){
@@ -78,10 +83,14 @@ class MediaCategoryController extends Controller
      */
     public function show(MediaCategory $mediaCategory): Response
     {
-        return response()-> view ('media-categories.show', [
-            'media_category' => $mediaCategory,
-            'title' => 'Detail Katagori Media' . $mediaCategory->name
-        ]);
+        if(Gate::allows('isMediaSetting') && Gate::allows('isMediaRead')){
+            return response()-> view ('media-categories.show', [
+                'media_category' => $mediaCategory,
+                'title' => 'Detail Katagori Media' . $mediaCategory->name
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -89,7 +98,7 @@ class MediaCategoryController extends Controller
      */
     public function edit(MediaCategory $mediaCategory): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit'))){
             return response()->view('media-categories.edit', [
                 'media_category' => $mediaCategory,
                 'title' => 'Edit Katagori Media'
@@ -104,7 +113,7 @@ class MediaCategoryController extends Controller
      */
     public function update(Request $request, MediaCategory $mediaCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -148,10 +157,14 @@ class MediaCategoryController extends Controller
      */
     public function destroy(MediaCategory $mediaCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            MediaCategory::destroy($mediaCategory->id);
-
-            return redirect('/media/media-categories')->with('success','Katagori media dengan nama '. $mediaCategory->name .' berhasil dihapus');
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete'))){
+            if($mediaCategory->location_photos()->exists() || $mediaCategory->locations()->exists() || $mediaCategory->sales()->exists() || $mediaCategory->quotations()->exists()){
+                return back()->withErrors(['delete' => ['Gagal untuk menghapus data katagori media, terdapat relasi dengan data pada tabel data lainnya']]);
+            }else{
+                MediaCategory::destroy($mediaCategory->id);
+    
+                return redirect('/media/media-categories')->with('success','Katagori media dengan nama '. $mediaCategory->name .' berhasil dihapus');
+            }
         } else {
             abort(403);
         }

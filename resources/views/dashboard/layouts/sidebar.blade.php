@@ -11,29 +11,39 @@
             </div>
             <nav class="mt-10 relative z-0">
                 <ul class="block">
-                    <div>
+                    <div id="sidebarMenu">
                         <!-- Sidebar Dashboard start-->
                         @include('dashboard.layouts.sidebar-dashboard')
                         <!-- Sidebar Dashboard End-->
 
                         <!-- Sidebar Media OOH start-->
-                        @include('dashboard.layouts.sidebar-media')
+                        @canany(['isAdmin', 'isOwner', 'isMedia', 'isMarketing', 'isAccounting'])
+                            @include('dashboard.layouts.sidebar-media')
+                        @endcanany
                         <!-- Sidebar Media OOH End-->
 
                         <!-- Sidebar Marketing start-->
-                        @include('dashboard.layouts.sidebar-marketing')
+                        @canany(['isAdmin', 'isOwner', 'isMarketing', 'isAccounting'])
+                            @include('dashboard.layouts.sidebar-marketing')
+                        @endcanany
                         <!-- Sidebar Marketing End-->
 
                         <!-- Sidebar Accounting start-->
-                        @include('dashboard.layouts.sidebar-accounting')
+                        @canany(['isAdmin', 'isOwner', 'isMarketing', 'isAccounting'])
+                            @include('dashboard.layouts.sidebar-accounting')
+                        @endcanany
                         <!-- Sidebar Accounting End-->
 
                         <!-- Sidebar Workshop start-->
-                        @include('dashboard.layouts.sidebar-workshop')
+                        @canany(['isAdmin', 'isOwner', 'isWorkshop', 'isMarketing', 'isAccounting'])
+                            @include('dashboard.layouts.sidebar-workshop')
+                        @endcanany
                         <!-- Sidebar Workshop End-->
 
                         <!-- Sidebar User start-->
-                        @include('dashboard.layouts.sidebar-user')
+                        @canany(['isAdmin', 'isOwner'])
+                            @include('dashboard.layouts.sidebar-user')
+                        @endcanany
                         <!-- Sidebar User End-->
 
                         <!-- Sidebar Logout start-->

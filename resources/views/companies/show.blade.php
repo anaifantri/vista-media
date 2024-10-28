@@ -9,7 +9,7 @@
     <div class="flex justify-center">
         <div class="mt-10">
             <!-- Show Title start -->
-            <div class="flex w-[900px] items-center border-b">
+            <div class="flex w-[900px] items-center border-b py-1">
                 <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[800px]">DATA PERUSAHAAN
                     {{ strtoupper($company->name) }} </h1>
                 <div class="flex w-full justify-end items-center">
@@ -22,7 +22,7 @@
                         </svg>
                         <span class="mx-1"> Back</span>
                     </a>
-                    @can('isAdmin')
+                    @canany(['isAdmin', 'isMediaEdit'])
                         <a href="/media/companies/{{ $company->id }}/edit"
                             class="flex items-center justify-center btn-warning mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
@@ -33,6 +33,8 @@
                             </svg>
                             <span class="mx-1"> Edit </span>
                         </a>
+                    @endcanany
+                    @canany(['isAdmin', 'isMediaDelete'])
                         <form action="/media/companies/{{ $company->id }}" method="post" class="d-inline mt-4">
                             @method('delete')
                             @csrf
@@ -66,13 +68,13 @@
                                 </button>
                             @endif
                         </form>
-                    @endcan
+                    @endcanany
                 </div>
             </div>
             <!-- Show Title end -->
             <div class="flex justify-center items-center w-[900px]">
                 <!-- Logo Company Start -->
-                <div class="flex justify-center mt-2 w-[400px]">
+                <div class="flex justify-center items-center mt-2 w-[400px] h-[500px] border rounded-lg p-4">
                     <div>
                         @if ($company->logo)
                             <img class="m-auto img-preview flex items-center w-44"
@@ -87,8 +89,8 @@
                 </div>
                 <!-- Logo Company End -->
                 <!-- Detail Company Start -->
-                <div class="flex justify-center w-[500px] mt-2">
-                    <div>
+                <div class="flex justify-center w-[500px] h-[500px] mt-2 border rounded-lg p-4 ml-4">
+                    <div class="w-[420px]">
                         <div class="border-b mt-2">
                             <label class="flex text-sm text-teal-700">Kode</label>
                             <label class="flex text-semibold">{{ $company->code }}</label>

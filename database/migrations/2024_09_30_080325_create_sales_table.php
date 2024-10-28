@@ -19,12 +19,11 @@ return new class extends Migration
             $table->foreignId('quotation_id')->constrained();
             $table->foreignId('location_id')->constrained();
             $table->json('product');
+            $table->double('price');
             $table->string('note');
             $table->string('duration')->nullable();
             $table->double('dpp')->nullable();
-            $table->double('price');
             $table->double('ppn')->nullable();
-            $table->double('pph')->nullable();
             $table->date('start_at')->nullable();
             $table->date('end_at')->nullable();
             $table->json('created_by');

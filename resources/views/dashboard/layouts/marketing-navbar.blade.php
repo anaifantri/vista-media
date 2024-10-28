@@ -10,169 +10,179 @@
                 <span class="flex group"> Dashboard </span>
             </a>
         </ul>
-        <ul id="quotationNav" class="relative group transition duration-300 ease-in-out"
-            onclick="headerDropdown(event, this)">
-            <a class="right-nav w-40  p-1 h-6 text-white {{ Request::is('marketing/quotations*') ? 'active' : '' }}"
-                href="#">
-                <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
-                    viewBox="0 0 24 24">
-                    <path
-                        d="M19 2c-1.229 0-2.18-1.084-3-2h-8c-.82.916-1.771 2-3 2h-3v22h20v-22h-3zm-7 0c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1zm8 20h-3.824c1.377-1.103 2.751-2.51 3.824-3.865v3.865zm0-8.457c0 4.107-6 2.457-6 2.457s1.518 6-2.638 6h-7.362v-18h4l2.102 2h3.898l2-2h4v9.543z" />
-                </svg>
-                <span class="flex"> Penawaran </span>
-                <svg id="quotationArrow" class="ml-1 fill-current transition duration-300 ease-in-out w-5"
-                    role="img" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
-                </svg>
-            </a>
-            <li id="quotationChild"
-                class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-emerald-50 drop-shadow-md bg-opacity-90 hidden">
-                <!-- Child Penawaran Start -->
-                <ul>
-                    <li class="group">
-                        <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                            href="/marketing/quotations/home/All">
-                            <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                            </svg>
-                            <span class="flex font-semibold"> Semua Katagori </span>
-                        </a>
-                    </li>
-                    @foreach ($categories as $category)
-                        @if ($category->name == 'Service')
-                            <li class="group">
-                                <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                                    href="/marketing/quotations/home/{{ $category->name }}">
-                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                    </svg>
-                                    <span class="flex font-semibold"> Cetak & Pasang </span>
-                                </a>
-                            </li>
-                        @else
-                            <li class="group">
-                                <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                                    href="/marketing/quotations/home/{{ $category->name }}">
-                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                    </svg>
-                                    <span class="flex font-semibold"> {{ $category->name }} </span>
-                                </a>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-                <!-- Child Penawaran End -->
-            </li>
-        </ul>
-        <ul id="saleNav" class="relative group transition duration-300 ease-in-out"
-            onclick="headerDropdown(event, this)">
-            <a class="right-nav w-40 p-1 h-6 text-white {{ Request::is('marketing/sales*') ? 'active' : '' }}"
-                href="#">
-                <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
-                    viewBox="0 0 24 24">
-                    <path
-                        d="M19 2c-1.229 0-2.18-1.084-3-2h-8c-.82.916-1.771 2-3 2h-3v22h20v-22h-3zm-7 0c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1zm8 20h-3.824c1.377-1.103 2.751-2.51 3.824-3.865v3.865zm0-8.457c0 4.107-6 2.457-6 2.457s1.518 6-2.638 6h-7.362v-18h4l2.102 2h3.898l2-2h4v9.543z" />
-                </svg>
-                <span class="flex"> Penjualan </span>
-                <svg id="saleArrow" class="ml-1 fill-current transition duration-300 ease-in-out w-5" role="img"
-                    clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
-                </svg>
-            </a>
-            <li id="saleChild"
-                class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-emerald-50 drop-shadow-md bg-opacity-90 hidden">
-                <!-- Child Penawaran Start -->
-                <ul>
-                    <li class="group">
-                        <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                            href="/marketing/sales/home/All">
-                            <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                            </svg>
-                            <span class="flex font-semibold"> Semua Katagori </span>
-                        </a>
-                    </li>
-                    @foreach ($categories as $category)
-                        @if ($category->name == 'Service')
-                            <li class="group">
-                                <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                                    href="/marketing/sales/home/{{ $category->name }}">
-                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
-                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                    </svg>
-                                    <span class="flex font-semibold"> Cetak & Pasang </span>
-                                </a>
-                            </li>
-                        @else
-                            <li class="group">
-                                <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
-                                    href="/marketing/sales/home/{{ $category->name }}">
-                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd"
-                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                    </svg>
-                                    <span class="flex font-semibold"> {{ $category->name }} </span>
-                                </a>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-                <!-- Child Penawaran End -->
-            </li>
-        </ul>
-        <ul class="flex group w-max  p-1 h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-white {{ Request::is('marketing/clients*') ? 'active' : '' }}"
-                href="/marketing/clients">
-                <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
-                    viewBox="0 0 24 24">
-                    <path
-                        d="M7 16.488l1.526-.723c1.792-.81 2.851-.344 4.349.232 1.716.661 2.365.883 3.077 1.164 1.278.506.688 2.177-.592 1.838-.778-.206-2.812-.795-3.38-.931-.64-.154-.93.602-.323.818 1.106.393 2.663.79 3.494 1.007.831.218 1.295-.145 1.881-.611.906-.72 2.968-2.909 2.968-2.909.842-.799 1.991-.135 1.991.72 0 .23-.083.474-.276.707-2.328 2.793-3.06 3.642-4.568 5.226-.623.655-1.342.974-2.204.974-.442 0-.922-.084-1.443-.25-1.825-.581-4.172-1.313-6.5-1.6v-5.662zm-1 6.538h-4v-8h4v8zm1-7.869v-1.714c-.006-1.557.062-2.447 1.854-2.861 1.963-.453 4.315-.859 3.384-2.577-2.761-5.092-.787-7.979 2.177-7.979 2.907 0 4.93 2.78 2.177 7.979-.904 1.708 1.378 2.114 3.384 2.577 1.799.415 1.859 1.311 1.853 2.879 0 .13-.011 1.171 0 1.665-.483-.309-1.442-.552-2.187.106-.535.472-.568.504-1.783 1.629-1.75-.831-4.456-1.883-6.214-2.478-.896-.304-2.04-.308-2.962.075l-1.683.699z" />
-                </svg>
-                <span class="lg:flex hidden"> Klien </span>
-            </a>
-        </ul>
-        <ul class="flex group w-max  ml-4 h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-white {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
-                href="/marketing/print-orders">
-                <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
-                    viewBox="0 0 24 24">
-                    <path
-                        d="M18 17l3 6h-18l3-6h2.203l-1.967 4h11.527l-1.956-4h2.193zm6-12v14h-2.764l-2-4h-14.472l-2 4h-2.764v-14h4v-4h16v4h4zm-6-2h-12v2h12v-2zm4 4.5c0-.276-.224-.5-.5-.5s-.5.224-.5.5.224.5.5.5.5-.224.5-.5z" />
-                </svg>
-                <span class="lg:flex hidden"> SPK Cetak </span>
-            </a>
-        </ul>
-        <ul id="setting" name="setting" class="flex group w-max transition duration-300 ease-in-out">
-            <a class="right-nav w-max p-2 h-6 text-white {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
-                href="/marketing/install-orders">
-                <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                        d="M9 3h6v2h-6v-2zm3 15l7-8h-4v-4h-6v4h-4l7 8zm3-16v-2h-6v2h6zm3.213-.246l-1.213 1.599c2.984 1.732 5 4.955 5 8.647 0 5.514-4.486 10-10 10s-10-4.486-10-10c0-3.692 2.016-6.915 5-8.647l-1.213-1.599c-3.465 2.103-5.787 5.897-5.787 10.246 0 6.627 5.373 12 12 12s12-5.373 12-12c0-4.349-2.322-8.143-5.787-10.246z" />
-                </svg>
-                <Span class="lg:flex hidden">SPK Pasang</Span>
-            </a>
-        </ul>
+        @can('isQuotation')
+            <ul id="quotationNav" class="relative group transition duration-300 ease-in-out"
+                onclick="headerDropdown(event, this)">
+                <a class="right-nav w-40  p-1 h-6 text-white {{ Request::is('marketing/quotations*') ? 'active' : '' }}"
+                    href="#">
+                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M19 2c-1.229 0-2.18-1.084-3-2h-8c-.82.916-1.771 2-3 2h-3v22h20v-22h-3zm-7 0c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1zm8 20h-3.824c1.377-1.103 2.751-2.51 3.824-3.865v3.865zm0-8.457c0 4.107-6 2.457-6 2.457s1.518 6-2.638 6h-7.362v-18h4l2.102 2h3.898l2-2h4v9.543z" />
+                    </svg>
+                    <span class="flex"> Penawaran </span>
+                    <svg id="quotationArrow" class="ml-1 fill-current transition duration-300 ease-in-out w-5"
+                        role="img" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
+                    </svg>
+                </a>
+                <li id="quotationChild"
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-emerald-50 drop-shadow-md bg-opacity-90 hidden">
+                    <!-- Child Penawaran Start -->
+                    <ul>
+                        <li class="group">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                href="/marketing/quotations/home/All">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex font-semibold"> Semua Katagori </span>
+                            </a>
+                        </li>
+                        @foreach ($categories as $category)
+                            @if ($category->name == 'Service')
+                                <li class="group">
+                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                        href="/marketing/quotations/home/{{ $category->name }}">
+                                        <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                        </svg>
+                                        <span class="flex font-semibold"> Cetak & Pasang </span>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="group">
+                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                        href="/marketing/quotations/home/{{ $category->name }}">
+                                        <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                        </svg>
+                                        <span class="flex font-semibold"> {{ $category->name }} </span>
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                    <!-- Child Penawaran End -->
+                </li>
+            </ul>
+        @endcan
+        @can('isSale')
+            <ul id="saleNav" class="relative group transition duration-300 ease-in-out"
+                onclick="headerDropdown(event, this)">
+                <a class="right-nav w-40 p-1 h-6 text-white {{ Request::is('marketing/sales*') ? 'active' : '' }}"
+                    href="#">
+                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M19 2c-1.229 0-2.18-1.084-3-2h-8c-.82.916-1.771 2-3 2h-3v22h20v-22h-3zm-7 0c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1zm8 20h-3.824c1.377-1.103 2.751-2.51 3.824-3.865v3.865zm0-8.457c0 4.107-6 2.457-6 2.457s1.518 6-2.638 6h-7.362v-18h4l2.102 2h3.898l2-2h4v9.543z" />
+                    </svg>
+                    <span class="flex"> Penjualan </span>
+                    <svg id="saleArrow" class="ml-1 fill-current transition duration-300 ease-in-out w-5" role="img"
+                        clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
+                    </svg>
+                </a>
+                <li id="saleChild"
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-emerald-50 drop-shadow-md bg-opacity-90 hidden">
+                    <!-- Child Penawaran Start -->
+                    <ul>
+                        <li class="group">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                href="/marketing/sales/home/All">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex font-semibold"> Semua Katagori </span>
+                            </a>
+                        </li>
+                        @foreach ($categories as $category)
+                            @if ($category->name == 'Service')
+                                <li class="group">
+                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                        href="/marketing/sales/home/{{ $category->name }}">
+                                        <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                            fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                        </svg>
+                                        <span class="flex font-semibold"> Cetak & Pasang </span>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="group">
+                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                        href="/marketing/sales/home/{{ $category->name }}">
+                                        <svg class="child-nav-svg" role="img" clip-rule="evenodd"
+                                            fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                        </svg>
+                                        <span class="flex font-semibold"> {{ $category->name }} </span>
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                    <!-- Child Penawaran End -->
+                </li>
+            </ul>
+        @endcan
+        @can('isClient')
+            <ul class="flex group w-max  p-1 h-6 transition duration-300 ease-in-out">
+                <a class="right-nav text-white {{ Request::is('marketing/clients*') ? 'active' : '' }}"
+                    href="/marketing/clients">
+                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M7 16.488l1.526-.723c1.792-.81 2.851-.344 4.349.232 1.716.661 2.365.883 3.077 1.164 1.278.506.688 2.177-.592 1.838-.778-.206-2.812-.795-3.38-.931-.64-.154-.93.602-.323.818 1.106.393 2.663.79 3.494 1.007.831.218 1.295-.145 1.881-.611.906-.72 2.968-2.909 2.968-2.909.842-.799 1.991-.135 1.991.72 0 .23-.083.474-.276.707-2.328 2.793-3.06 3.642-4.568 5.226-.623.655-1.342.974-2.204.974-.442 0-.922-.084-1.443-.25-1.825-.581-4.172-1.313-6.5-1.6v-5.662zm-1 6.538h-4v-8h4v8zm1-7.869v-1.714c-.006-1.557.062-2.447 1.854-2.861 1.963-.453 4.315-.859 3.384-2.577-2.761-5.092-.787-7.979 2.177-7.979 2.907 0 4.93 2.78 2.177 7.979-.904 1.708 1.378 2.114 3.384 2.577 1.799.415 1.859 1.311 1.853 2.879 0 .13-.011 1.171 0 1.665-.483-.309-1.442-.552-2.187.106-.535.472-.568.504-1.783 1.629-1.75-.831-4.456-1.883-6.214-2.478-.896-.304-2.04-.308-2.962.075l-1.683.699z" />
+                    </svg>
+                    <span class="lg:flex hidden"> Klien </span>
+                </a>
+            </ul>
+        @endcan
+        @can('isOrder')
+            <ul class="flex group w-max  ml-4 h-6 transition duration-300 ease-in-out">
+                <a class="right-nav text-white {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
+                    href="/marketing/print-orders">
+                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M18 17l3 6h-18l3-6h2.203l-1.967 4h11.527l-1.956-4h2.193zm6-12v14h-2.764l-2-4h-14.472l-2 4h-2.764v-14h4v-4h16v4h4zm-6-2h-12v2h12v-2zm4 4.5c0-.276-.224-.5-.5-.5s-.5.224-.5.5.224.5.5.5.5-.224.5-.5z" />
+                    </svg>
+                    <span class="lg:flex hidden"> SPK Cetak </span>
+                </a>
+            </ul>
+        @endcan
+        @can('isMarketingSetting')
+            <ul id="setting" name="setting" class="flex group w-max transition duration-300 ease-in-out">
+                <a class="right-nav w-max p-2 h-6 text-white {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
+                    href="/marketing/install-orders">
+                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M9 3h6v2h-6v-2zm3 15l7-8h-4v-4h-6v4h-4l7 8zm3-16v-2h-6v2h6zm3.213-.246l-1.213 1.599c2.984 1.732 5 4.955 5 8.647 0 5.514-4.486 10-10 10s-10-4.486-10-10c0-3.692 2.016-6.915 5-8.647l-1.213-1.599c-3.465 2.103-5.787 5.897-5.787 10.246 0 6.627 5.373 12 12 12s12-5.373 12-12c0-4.349-2.322-8.143-5.787-10.246z" />
+                    </svg>
+                    <Span class="lg:flex hidden">SPK Pasang</Span>
+                </a>
+            </ul>
+        @endcan
     </nav>
 </div>

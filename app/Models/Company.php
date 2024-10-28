@@ -52,18 +52,18 @@ class Company extends Model
         return $this->belongsTo(User::class);
     }
 
-    public static function boot(){
-        parent::boot();
+    // public static function boot(){
+    //     parent::boot();
 
-        static::deleting(function($company){
-            $company->locations()->get()->each->delete();
-            $company->location_photos()->get()->each->delete();
-            $company->quotations()->get()->each->delete();
-            $company->sales()->get()->each->delete();
-            $company->print_orders()->get()->each->delete();
-            $company->install_orders()->get()->each->delete();
-        });
-    }
+    //     static::deleting(function($company){
+    //         $company->locations()->get()->each->delete();
+    //         $company->location_photos()->get()->each->delete();
+    //         $company->quotations()->get()->each->delete();
+    //         $company->sales()->get()->each->delete();
+    //         $company->print_orders()->get()->each->delete();
+    //         $company->install_orders()->get()->each->delete();
+    //     });
+    // }
 
     public $sortable = ['name','code'];
 }

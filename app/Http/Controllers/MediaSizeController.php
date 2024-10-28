@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class MediaSizeController extends Controller
 {
@@ -16,12 +17,16 @@ class MediaSizeController extends Controller
      */
     public function index(): Response
     {
-        $media_categories = MediaCategory::with('media_sizes')->get();
-        return response()-> view ('media-sizes.index', [
-            'media_sizes'=>MediaSize::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Ukuran',
-            compact('media_categories')
-        ]);
+        if(Gate::allows('isMediaSetting') && Gate::allows('isMediaRead')){
+            $media_categories = MediaCategory::with('media_sizes')->get();
+            return response()-> view ('media-sizes.index', [
+                'media_sizes'=>MediaSize::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
+                'title' => 'Daftar Ukuran',
+                compact('media_categories')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -29,7 +34,7 @@ class MediaSizeController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate'))){
             return response()-> view ('media-sizes.create', [
                 'title' => 'Menambahkan Ukuran'
             ]);
@@ -43,7 +48,8 @@ class MediaSizeController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate'))){
             if ($request->media_category_id == 'pilih'){
                 return back()->withErrors(['media_category_id' => ['Silahkan pilih katagori']])->withInput();
             }
@@ -102,12 +108,16 @@ class MediaSizeController extends Controller
      */
     public function show(MediaSize $mediaSize): Response
     {
-        $media_categories = MediaCategory::with('media_sizes')->get();
-        return response()-> view ('media-sizes.show', [
-            'media_size' => $mediaSize,
-            'title' => 'Detail Ukuran ' . $mediaSize->size,
-            compact('media_categories')
-        ]);
+        if(Gate::allows('isMediaSetting') && Gate::allows('isMediaRead')){
+            $media_categories = MediaCategory::with('media_sizes')->get();
+            return response()-> view ('media-sizes.show', [
+                'media_size' => $mediaSize,
+                'title' => 'Detail Ukuran ' . $mediaSize->size,
+                compact('media_categories')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -115,7 +125,7 @@ class MediaSizeController extends Controller
      */
     public function edit(MediaSize $mediaSize): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit'))){
             $media_categories = MediaCategory::with('media_sizes')->get();
             return response()->view('media-sizes.edit', [
                 'media_size' => $mediaSize,
@@ -132,7 +142,7 @@ class MediaSizeController extends Controller
      */
     public function update(Request $request, MediaSize $mediaSize): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaEdit'))){
             if($request->width < $request->height){
                 $size = $request->width.'m x '.$request->height.'m';
             }else{
@@ -172,10 +182,14 @@ class MediaSizeController extends Controller
      */
     public function destroy(MediaSize $mediaSize): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            MediaSize::destroy($mediaSize->id);
-
-            return redirect('media-sizes')->with('success','Ukuran '. $mediaSize->size .' berhasil dihapus');
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete'))){
+            if($mediaSize->locations()->exists()){
+                return back()->withErrors(['delete' => ['Gagal untuk menghapus data ukuran, terdapat relasi dengan data pada tabel data lainnya']]);
+            }else{
+                MediaSize::destroy($mediaSize->id);
+    
+                return redirect('/media/media-sizes')->with('success','Ukuran '. $mediaSize->size .' berhasil dihapus');
+            }
         } else {
             abort(403);
         }

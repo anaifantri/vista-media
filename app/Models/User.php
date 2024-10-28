@@ -35,7 +35,6 @@ class User extends Authenticatable
     public function media_sizes(){
         return $this->hasMany(MediaSize::class, 'user_id', 'id');
     }
-
     public function leds(){
         return $this->hasMany(Led::class, 'user_id', 'id');
     }
@@ -54,17 +53,11 @@ class User extends Authenticatable
     public function cities(){
         return $this->hasMany(City::class, 'user_id', 'id');
     }
-    public function locations(){
-        return $this->hasMany(Location::class, 'user_id', 'id');
-    }
     public function location_photos(){
         return $this->hasMany(LocationPhoto::class, 'user_id', 'id');
     }
     public function media_categories(){
         return $this->hasMany(MediaCategory::class, 'user_id', 'id');
-    }
-    public function quotation_categories(){
-        return $this->hasMany(QuotationCategory::class, 'user_id', 'id');
     }
     public function clients(){
         return $this->hasMany(Client::class, 'user_id', 'id');
@@ -80,21 +73,6 @@ class User extends Authenticatable
     }
     public function companies(){
         return $this->hasMany(Company::class, 'user_id', 'id');
-    }
-    public function billboard_quotations(){
-        return $this->hasMany(BillboardQuotation::class, 'user_id', 'id');
-    }
-    public function billboard_quot_revisions(){
-        return $this->hasMany(BillboardQuotRevision::class, 'user_id', 'id');
-    }
-    public function billboard_quot_statuses(){
-        return $this->hasMany(BillboardQuotStatus::class, 'user_id', 'id');
-    }
-    public function sales(){
-        return $this->hasMany(Sale::class, 'user_id', 'id');
-    }
-    public function sale_categories(){
-        return $this->hasMany(SaleCategory::class, 'user_id', 'id');
     }
     public function printing_products(){
         return $this->hasMany(PrintingProduct::class, 'user_id', 'id');
