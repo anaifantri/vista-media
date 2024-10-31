@@ -19,43 +19,40 @@
                         <span class="mx-1">Back</span>
                     </a>
                     @canany(['isAdmin', 'isMedia'])
-                        <a href="/media/cities/{{ $city->id }}/edit"
-                            class="flex items-center justify-center btn-warning mx-1">
-                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                    fill-rule="nonzero" />
-                            </svg>
-                            <span class="mx-1"> Edit </span>
-                        </a>
-                        <form action="/media/cities/{{ $city->id }}" method="post" class="d-inline m-1">
-                            @method('delete')
-                            @csrf
-                            @if ($city->locations()->exists())
-                                <button class="items-center flex justify-center mx-1 btn-danger"
-                                    onclick="return confirm('Berelasi dengan {{ count($city->locations) }} data pada tabel data lokasi, Apakah anda yakin ingin menghapus kota {{ $city->city }} sekaligus menghapus data-data yang berelasi ?')">
-                                    <svg class="w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24">
-                                        <title>DELETE</title>
+                        @can('isArea')
+                            @can('isMediaEdit')
+                                <a href="/media/cities/{{ $city->id }}/edit"
+                                    class="flex items-center justify-center btn-warning mx-1">
+                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path
-                                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                            fill-rule="nonzero" />
                                     </svg>
-                                    <span class="mx-1">Delete</span>
-                                </button>
-                            @else
-                                <button class="items-center flex justify-center mx-1 btn-danger"
-                                    onclick="return confirm('Apakah anda yakin ingin menghapus kota {{ $city->city }} ?')">
-                                    <svg class="w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24">
-                                        <title>DELETE</title>
-                                        <path
-                                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                                    </svg>
-                                    <span class="mx-1">Delete</span>
-                                </button>
-                            @endif
-                        </form>
+                                    <span class="mx-1"> Edit </span>
+                                </a>
+                            @endcan
+                        @endcan
+                    @endcanany
+                    @canany(['isAdmin', 'isMedia'])
+                        @can('isArea')
+                            @can('isMediaDelete')
+                                <form action="/media/cities/{{ $city->id }}" method="post" class="d-inline m-1">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="items-center flex justify-center mx-1 btn-danger"
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus kota {{ $city->city }} ?')">
+                                        <svg class="w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <title>DELETE</title>
+                                            <path
+                                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                        </svg>
+                                        <span class="mx-1">Delete</span>
+                                    </button>
+                                </form>
+                            @endcan
+                        @endcan
                     @endcanany
                 </div>
             </div>

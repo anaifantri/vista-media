@@ -1,11 +1,15 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
+    <!-- Container start -->
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
             <div class="w-[1200px] p-2">
                 <div class="flex border-b">
+                    <!-- Title start -->
                     <h1 class="index-h1"> Daftar Perusahaan</h1>
+                    <!-- Title end -->
+                    <!-- Button Create start -->
                     @canany(['isAdmin', 'isMedia'])
                         @can('isMediaSetting')
                             @can('isMediaCreate')
@@ -24,11 +28,15 @@
                         @endcan
                     @endcanany
                 </div>
+                <!-- Button Create end -->
+
+                <!-- Form Search start -->
                 <form class="flex mt-2" action="/media/companies/">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
-                            placeholder="Search" value="{{ request('search') }}">
+                            placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                            onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                         <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                             type="submit">
                             <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -37,19 +45,33 @@
                             </svg>
                         </button>
                     </div>
-                    @if (session()->has('success'))
-                        <div class="ml-2 flex alert-success">
-                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                            </svg>
-                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
-                        </div>
-                    @endif
                 </form>
+                <!-- Form Search end -->
+
+                <!-- Alert start -->
+                @if (session()->has('success'))
+                    <div class="ml-2 flex alert-success">
+                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                        </svg>
+                        <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                    </div>
+                @endif
+                @error('delete')
+                    <div class="ml-2 flex alert-warning">
+                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                        </svg>
+                        <span class="font-semibold mx-1">Warning!!</span> {{ $message }}
+                    </div>
+                @enderror
+                <!-- Alert end -->
             </div>
         </div>
-        <div class="flex justify-center w-full">
+        <!-- View start -->
+        <div class="flex justify-center w-full mt-2">
             <div class="w-[1200px]">
                 <table class="table-auto w-full">
                     <thead>
@@ -152,9 +174,14 @@
                 </table>
             </div>
         </div>
+        <!-- View end -->
+
+        <!-- Pagination start -->
         <div class="flex justify-center text-teal-900">
             {{-- {{ $companies->links() }} --}}
             {!! $companies->appends(Request::query())->render('dashboard.layouts.pagination') !!}
         </div>
+        <!-- Pagination end -->
     </div>
+    <!-- Container end -->
 @endsection

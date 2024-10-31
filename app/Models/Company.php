@@ -15,7 +15,11 @@ class Company extends Model
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('code', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%'));
+                    ->orWhere('address', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%')
+                    ->orWhere('m_phone', 'like', '%' . $search . '%')
+                );
     }
     
     public function location_photos(){

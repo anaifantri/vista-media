@@ -24,7 +24,8 @@
             <!-- Vendor Start -->
             @can('isVendor')
                 <li class="group" title="Data Vendor" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/vendor-categories*') ? 'active' : '' }}{{ Request::is('marketing/vendors*') ? 'active' : '' }}"
+                        href="#">
                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path
                                 d="M5 15.613c0-.788.061-1.243.992-1.458 1.074-.249 2.075-.466 1.591-1.381-1.476-2.785-.392-4.274 1.166-4.274 1.054 0 1.874.681 1.874 1.936 0 2.907-1.605 1.551-1.623 5.564v1h-4v-1.387zm14 1.387h-9v-1c0-1.373-.11-2.129 1.322-2.46 1.433-.331 2.27-.621 1.623-1.841-1.966-3.713-.521-5.699 1.555-5.699 2.117 0 3.527 2.062 1.556 5.699-.666 1.227.218 1.518 1.621 1.841 1.411.326 1.323 1.067 1.323 2.46v1zm-6 4.949v-2.949h-2v2.949c-4.717-.472-8.479-4.232-8.949-8.949h2.949v-2h-2.949c.47-4.718 4.232-8.479 8.949-8.95v2.95h2v-2.95c4.717.471 8.479 4.232 8.949 8.95h-2.949v2h2.949c-.47 4.717-4.232 8.477-8.949 8.949zm-1-21.949c-6.627 0-12 5.372-12 12 0 6.627 5.373 12 12 12s12-5.373 12-12c0-6.628-5.373-12-12-12z" />
@@ -41,7 +42,8 @@
                     <!-- Child Vendor Start -->
                     <ul class="hidden">
                         <li class="group">
-                            <a class="nav-a ml-5 border-b-[1px]" href="/marketing/vendor-categories">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/vendor-categories*') ? 'active' : '' }}"
+                                href="/marketing/vendor-categories">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +54,8 @@
                             </a>
                         </li>
                         <li class="group">
-                            <a class="nav-a ml-5 border-b-[1px]" href="/marketing/vendors">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/vendors*') ? 'active' : '' }}"
+                                href="/marketing/vendors">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +74,8 @@
             <!-- Clients Start -->
             @can('isClient')
                 <li class="group" title="Data Klien" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/client-categories*') ? 'active' : '' }}{{ Request::is('marketing/clients*') ? 'active' : '' }}{{ Request::is('marketing/client-groups*') ? 'active' : '' }}"
+                        href="#">
                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path
                                 d="M7 16.488l1.526-.723c1.792-.81 2.851-.344 4.349.232 1.716.661 2.365.883 3.077 1.164 1.278.506.688 2.177-.592 1.838-.778-.206-2.812-.795-3.38-.931-.64-.154-.93.602-.323.818 1.106.393 2.663.79 3.494 1.007.831.218 1.295-.145 1.881-.611.906-.72 2.968-2.909 2.968-2.909.842-.799 1.991-.135 1.991.72 0 .23-.083.474-.276.707-2.328 2.793-3.06 3.642-4.568 5.226-.623.655-1.342.974-2.204.974-.442 0-.922-.084-1.443-.25-1.825-.581-4.172-1.313-6.5-1.6v-5.662zm-1 6.538h-4v-8h4v8zm1-7.869v-1.714c-.006-1.557.062-2.447 1.854-2.861 1.963-.453 4.315-.859 3.384-2.577-2.761-5.092-.787-7.979 2.177-7.979 2.907 0 4.93 2.78 2.177 7.979-.904 1.708 1.378 2.114 3.384 2.577 1.799.415 1.859 1.311 1.853 2.879 0 .13-.011 1.171 0 1.665-.483-.309-1.442-.552-2.187.106-.535.472-.568.504-1.783 1.629-1.75-.831-4.456-1.883-6.214-2.478-.896-.304-2.04-.308-2.962.075l-1.683.699z" />
@@ -88,7 +92,8 @@
                     <!-- Child Clients Start -->
                     <ul class="hidden">
                         <li class="group">
-                            <a class="nav-a ml-5 border-b-[1px]" href="/marketing/client-categories">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/client-categories*') ? 'active' : '' }}"
+                                href="/marketing/client-categories">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +104,8 @@
                             </a>
                         </li>
                         <li class="group">
-                            <a class="nav-a ml-5 border-b-[1px]" href="/marketing/clients">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/clients*') ? 'active' : '' }}"
+                                href="/marketing/clients">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -110,7 +116,8 @@
                             </a>
                         </li>
                         <li class="group">
-                            <a class="nav-a ml-5 border-b-[1px]" href="/marketing/client-groups">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/client-groups*') ? 'active' : '' }}"
+                                href="/marketing/client-groups">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -129,7 +136,8 @@
             <!-- Penawaran Start -->
             @can('isQuotation')
                 <li id="penawaran" title="Penawaran" class="group" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/quotations*') ? 'active' : '' }}"
+                        href="#">
                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24">
                             <path
@@ -148,7 +156,8 @@
                     <!-- Child Penawaran Start -->
                     <ul class="hidden">
                         <li class="group">
-                            <a class="nav-a ml-5 border-b-[1px]" href="/marketing/quotations/home/All">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/quotations/home/All*') ? 'active' : '' }}"
+                                href="/marketing/quotations/home/All">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -161,7 +170,7 @@
                         @foreach ($categories as $category)
                             @if ($category->name == 'Service')
                                 <li class="group">
-                                    <a class="nav-a ml-5 border-b-[1px]"
+                                    <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/quotations/home/' . $category->name . '*') ? 'active' : '' }}"
                                         href="/marketing/quotations/home/{{ $category->name }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -174,7 +183,7 @@
                                 </li>
                             @else
                                 <li class="group">
-                                    <a class="nav-a ml-5 border-b-[1px]"
+                                    <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/quotations/home/' . $category->name . '*') ? 'active' : '' }}"
                                         href="/marketing/quotations/home/{{ $category->name }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -196,7 +205,8 @@
             <!-- Penjualan start -->
             @can('isSale')
                 <li id="penjualan" title="Penjualan" class="group" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/sales*') ? 'active' : '' }}"
+                        href="#">
                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill-rule="evenodd" clip-rule="evenodd">
                             <path
@@ -214,7 +224,8 @@
                     <!-- Penjualan Child Start -->
                     <ul class="hidden">
                         <li class="group">
-                            <a class="nav-a ml-5 border-b-[1px]" href="/marketing/sales/home/All">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/sales/home/All*') ? 'active' : '' }}"
+                                href="/marketing/sales/home/All">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -227,7 +238,7 @@
                         @foreach ($categories as $category)
                             @if ($category->name == 'Service')
                                 <li class="group">
-                                    <a class="nav-a ml-5 border-b-[1px]"
+                                    <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/sales/home/' . $category->name . '*') ? 'active' : '' }}"
                                         href="/marketing/sales/home/{{ $category->name }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -240,7 +251,8 @@
                                 </li>
                             @else
                                 <li class="group">
-                                    <a class="nav-a ml-5" href="/marketing/sales/home/{{ $category->name }}">
+                                    <a class="nav-a ml-5 {{ Request::is('marketing/sales/home/' . $category->name . '*') ? 'active' : '' }}"
+                                        href="/marketing/sales/home/{{ $category->name }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -261,7 +273,8 @@
             <!-- SPK start -->
             @can('isOrder')
                 <li id="materi" title="SPK" class="group" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/print-orders*') ? 'active' : '' }}{{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
+                        href="#">
                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -281,7 +294,8 @@
                     <!-- Penggantian Materi Child Start -->
                     <ul class="hidden" id="materiChild" name="materiChild">
                         <li class="group">
-                            <a class="nav-a ml-5" href="/marketing/print-orders">
+                            <a class="nav-a ml-5 {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
+                                href="/marketing/print-orders">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
@@ -291,7 +305,8 @@
                             </a>
                         </li>
                         <li class="group">
-                            <a class="nav-a ml-5" href="/marketing/install-orders">
+                            <a class="nav-a ml-5 {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
+                                href="/marketing/install-orders">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
@@ -328,7 +343,7 @@
                     <!-- Quotation Reports Child Start -->
                     <ul class="hidden" id="quotReportChild" name="quotReportChild">
                         <li class="group">
-                            <a class="nav-a ml-5" href="/marketing/sales/home/All">
+                            <a class="nav-a ml-5" href="#">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -340,7 +355,7 @@
                         </li>
                         @foreach ($categories as $category)
                             <li class="group">
-                                <a class="nav-a ml-5" href="/marketing/sales/home/{{ $category->name }}">
+                                <a class="nav-a ml-5" href="#">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -360,7 +375,8 @@
             <!-- Sales Reports start -->
             @can('isSaleReport')
                 <li id="saleReports" title="Lap. Penjualan" class="group" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/sales/report*') ? 'active' : '' }}"
+                        href="#">
                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -379,7 +395,8 @@
                     <!-- Sales Reports Child Start -->
                     <ul class="hidden" id="saleReportChild" name="saleReportChild">
                         <li class="group">
-                            <a class="nav-a ml-5" href="/marketing/sales/report/All">
+                            <a class="nav-a ml-5 {{ Request::is('marketing/sales/report/All*') ? 'active' : '' }}"
+                                href="/marketing/sales/report/All">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -391,7 +408,8 @@
                         </li>
                         @foreach ($categories as $category)
                             <li class="group">
-                                <a class="nav-a ml-5" href="/marketing/sales/report/{{ $category->name }}">
+                                <a class="nav-a ml-5 {{ Request::is('marketing/sales/report/' . $category->name . '*') ? 'active' : '' }}"
+                                    href="/marketing/sales/report/{{ $category->name }}">
                                     <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -459,7 +477,8 @@
             <!-- Setting Start -->
             @can('isMarketingSetting')
                 <li class="group" title="Pengaturan" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2" href="#">
+                    <a class="nav-a ml-2 {{ Request::is('marketing/printing-products*') ? 'active' : '' }}{{ Request::is('marketing/printing-prices*') ? 'active' : '' }}{{ Request::is('marketing/installation-prices*') ? 'active' : '' }}"
+                        href="#">
                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24">
                             <path
@@ -477,7 +496,8 @@
                     <!-- Child Setting Start -->
                     <ul class="hidden">
                         <li class="group">
-                            <a class="nav-a ml-5" href="/marketing/printing-products">
+                            <a class="nav-a ml-5 {{ Request::is('marketing/printing-products*') ? 'active' : '' }}"
+                                href="/marketing/printing-products">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -488,7 +508,8 @@
                             </a>
                         </li>
                         <li class="group">
-                            <a class="nav-a ml-5" href="/marketing/printing-prices">
+                            <a class="nav-a ml-5 {{ Request::is('marketing/printing-prices*') ? 'active' : '' }}"
+                                href="/marketing/printing-prices">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -499,7 +520,8 @@
                             </a>
                         </li>
                         <li class="group">
-                            <a class="nav-a ml-5" href="/marketing/installation-prices">
+                            <a class="nav-a ml-5 {{ Request::is('marketing/installation-prices*') ? 'active' : '' }}"
+                                href="/marketing/installation-prices">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">

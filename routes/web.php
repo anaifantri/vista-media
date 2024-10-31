@@ -140,6 +140,7 @@ Route::resource('/media/cities', CityController::class)->middleware(['auth','use
 Route::resource('/media/location-photos', LocationPhotoController::class)->middleware(['auth','user_access']);
 Route::resource('/media/media-categories', MediaCategoryController::class)->middleware(['auth','user_access']);
 Route::resource('/media/media-sizes', MediaSizeController::class)->middleware(['auth','user_access']);
+Route::get('/get-media-sizes/{category}', [MediaSizeController::class,'getMediaSizes'])->middleware(['auth','user_access']);
 Route::resource('/media/locations', LocationController::class)->middleware(['auth','user_access']);
 Route::get('/media/locations/preview/{category}/{id}', [LocationController::class,'preview']);
 Route::get('/media/locations/create-location/{category}', [LocationController::class,'createLocation']);

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class AreaController extends Controller
 {
@@ -15,10 +16,14 @@ class AreaController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('areas.index', [
-            'areas'=>Area::filter(request('search'))->sortable()->with(['user'])->paginate(10)->withQueryString(),
-            'title' => 'Daftar Area'
-        ]);
+        if(Gate::allows('isArea') && Gate::allows('isMediaRead')){
+            return response()-> view ('areas.index', [
+                'areas'=>Area::filter(request('search'))->sortable()->with(['user'])->paginate(10)->withQueryString(),
+                'title' => 'Daftar Area'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     public function showArea(){
@@ -32,7 +37,7 @@ class AreaController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isArea') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isArea') && Gate::allows('isMediaCreate'))){
             return response()-> view ('areas.create', [
                 'title' => 'Menambahkan Area'
             ]);
@@ -46,7 +51,7 @@ class AreaController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isArea') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isArea') && Gate::allows('isMediaCreate'))){
             if ($request->lat == ""){
                 return back()->withErrors(['lat' => ['Silahkan memberikan tanda pada peta untuk menentukan lokasi area']])->withInput();
             }
@@ -74,10 +79,14 @@ class AreaController extends Controller
      */
     public function show(Area $area): Response
     {
-        return response()-> view ('areas.show', [
-            'area' => $area,
-            'title' => 'Data Area ' . $area->area
-        ]);
+        if(Gate::allows('isArea') && Gate::allows('isMediaRead')){
+            return response()-> view ('areas.show', [
+                'area' => $area,
+                'title' => 'Data Area ' . $area->area
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -85,10 +94,14 @@ class AreaController extends Controller
      */
     public function edit(Area $area): Response
     {
-        return response()->view('areas.edit', [
-            'area' => $area,
-            'title' => 'Merubah Data Area'
-        ]);
+        if((Gate::allows('isAdmin') && Gate::allows('isArea') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isArea') && Gate::allows('isMediaEdit'))){
+            return response()->view('areas.edit', [
+                'area' => $area,
+                'title' => 'Merubah Data Area'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -96,27 +109,31 @@ class AreaController extends Controller
      */
     public function update(Request $request, Area $area): RedirectResponse
     {
-        $request->request->add(['user_id' => auth()->user()->id]);
-        $rules = [
-            'user_id' => 'required',
-            'lat' => 'required',
-            'lng' => 'required',
-            'zoom' => 'required'
-        ];
-
-        if($request->area_code != $area->area_code){
-            $rules['area_code'] = 'required|unique:areas';
+        if((Gate::allows('isAdmin') && Gate::allows('isArea') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isArea') && Gate::allows('isMediaEdit'))){
+            $request->request->add(['user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'lat' => 'required',
+                'lng' => 'required',
+                'zoom' => 'required'
+            ];
+    
+            if($request->area_code != $area->area_code){
+                $rules['area_code'] = 'required|unique:areas';
+            }
+            if($request->area != $area->area){
+                $rules['area'] = 'required|unique:areas';
+            }
+    
+            $validateData = $request->validate($rules);
+    
+            Area::where('id', $area->id)
+                    ->update($validateData);
+    
+            return redirect('/media/area')->with('success','Data area dengan nama '.$area->area.' berhasil diupdate');
+        } else {
+            abort(403);
         }
-        if($request->area != $area->area){
-            $rules['area'] = 'required|unique:areas';
-        }
-
-        $validateData = $request->validate($rules);
-
-        Area::where('id', $area->id)
-                ->update($validateData);
-
-        return redirect('/media/area')->with('success','Data area dengan nama '.$area->area.' berhasil diupdate');
     }
 
     /**
@@ -124,11 +141,14 @@ class AreaController extends Controller
      */
     public function destroy(Area $area): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            
-            Area::destroy($area->id);
-
-            return redirect('/media/area')->with('success','Area dengan nama '. $area->area .' berhasil dihapus');
+        if((Gate::allows('isAdmin') && Gate::allows('isArea') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isArea') && Gate::allows('isMediaDelete'))){
+            if($area->locations()->exists() || $area->cities()->exists()){
+                return back()->withErrors(['delete' => ['Gagal untuk menghapus data area, terdapat relasi dengan data pada tabel data lainnya']]);
+            }else{
+                Area::destroy($area->id);
+    
+                return redirect('/media/area')->with('success','Area dengan nama '. $area->area .' berhasil dihapus');
+            }
         } else {
             abort(403);
         }

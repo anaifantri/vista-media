@@ -8,9 +8,19 @@
                 class="flex ml-1 text-semibold w-[72px] border rounded-lg px-1 outline-none @error('start_at') is-invalid @enderror"
                 name="start_at" id="start_at" type="time" value="{{ $description->start_at }}" required>
         @elseif ($category == 'Signage')
+            @if ($description->type == 'Videotron')
+                <input
+                    class="flex ml-1 text-semibold w-[72px] border rounded-lg px-1 outline-none @error('start_at') is-invalid @enderror"
+                    name="start_at" id="start_at" type="time" value="{{ $description->start_at }}">
+            @else
+                <input
+                    class="flex ml-1 text-semibold w-[72px] border rounded-lg px-1 outline-none @error('start_at') is-invalid @enderror"
+                    name="start_at" id="start_at" type="time" value="{{ old('start_at') }}">
+            @endif
+        @else
             <input
                 class="flex ml-1 text-semibold w-[72px] border rounded-lg px-1 outline-none @error('start_at') is-invalid @enderror"
-                name="start_at" id="start_at" type="time" value="{{ $description->start_at }}">
+                name="start_at" id="start_at" type="time" value="{{ old('start_at') }}">
         @endif
 
         <label class="flex ml-2 text-semibold">off</label>
@@ -19,9 +29,19 @@
                 class="flex ml-1 text-semibold w-[72px] border rounded-lg px-1 outline-none @error('end_at') is-invalid @enderror"
                 name="end_at" id="end_at" type="time" value="{{ $description->end_at }}" required>
         @elseif ($category == 'Signage')
+            @if ($description->type == 'Videotron')
+                <input
+                    class="flex ml-1 text-semibold w-[72px] border rounded-lg px-1 outline-none @error('end_at') is-invalid @enderror"
+                    name="end_at" id="end_at" type="time" value="{{ $description->end_at }}">
+            @else
+                <input
+                    class="flex ml-1 text-semibold w-[72px] border rounded-lg px-1 outline-none @error('end_at') is-invalid @enderror"
+                    name="end_at" id="end_at" type="time" value="{{ old('end_at') }}">
+            @endif
+        @else
             <input
                 class="flex ml-1 text-semibold w-[72px] border rounded-lg px-1 outline-none @error('end_at') is-invalid @enderror"
-                name="end_at" id="end_at" type="time" value="{{ $description->end_at }}">
+                name="end_at" id="end_at" type="time" value="{{ old('end_at') }}">
         @endif
     </div>
     @error('start_at')

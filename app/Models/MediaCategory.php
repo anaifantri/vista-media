@@ -14,7 +14,9 @@ class MediaCategory extends Model
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('code', 'like', '%' . $search . '%'));
+                ->orWhere('code', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%')
+            );
     }
 
     public function media_sizes(){

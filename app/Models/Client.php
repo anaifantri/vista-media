@@ -18,7 +18,8 @@ class Client extends Model
                     ->orWhere('address', 'like', '%' . $search . '%')
                     ->orWhereHas('client_category', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');
-                    }));
+                    })
+                );
     }
 
     public function contacts(){

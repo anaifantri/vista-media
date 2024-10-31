@@ -14,7 +14,9 @@ class VendorCategory extends Model
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('code', 'like', '%' . $search . '%')
-                ->orWhere('name', 'like', '%' . $search . '%'));
+                ->orWhere('name', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%')
+            );
     }
 
     public function vendors(){

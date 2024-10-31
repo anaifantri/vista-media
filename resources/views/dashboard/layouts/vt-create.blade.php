@@ -2,7 +2,8 @@
 <div class="flex justify-center">
     <div class="flex justify-start border rounded-lg w-[250px] h-[550px] px-4 py-2">
         <div>
-            @include('dashboard.layouts.select-company')
+            {{-- @include('dashboard.layouts.select-company') --}}
+            <input type="text" hidden name="company_id" value="{{ $company->id }}" hidden>
             <div class="flex">
                 <div class="mt-1">
                     <label class="text-sm text-teal-700">Kode Lokasi</label>
@@ -107,8 +108,8 @@
                 var cabinetWidth = objLed.cabinet_width;
                 var cabinetHeight = objLed.cabinet_height;
                 var pixelPitch = objLed.pixel_pitch;
-                screenWidth.value = (cabinetWidth / pixelPitch) * sizeWidth;
-                screenHeight.value = (cabinetHeight / pixelPitch) * sizeHeight;
+                screenWidth.value = parseInt(cabinetWidth / pixelPitch) * sizeWidth;
+                screenHeight.value = parseInt(cabinetHeight / pixelPitch) * sizeHeight;
             }
         }
     })
@@ -123,8 +124,8 @@
                 var cabinetWidth = objLed.cabinet_width;
                 var cabinetHeight = objLed.cabinet_height;
                 var pixelPitch = objLed.pixel_pitch;
-                screenWidth.value = (cabinetWidth / pixelPitch) * sizeWidth;
-                screenHeight.value = (cabinetHeight / pixelPitch) * sizeHeight;
+                screenWidth.value = parseInt(cabinetWidth / pixelPitch) * sizeWidth;
+                screenHeight.value = parseInt(cabinetHeight / pixelPitch) * sizeHeight;
             }
         }
     })

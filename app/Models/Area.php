@@ -15,7 +15,12 @@ class Area extends Model
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('area', 'like', '%' . $search . '%')
-                    ->orWhere('code', 'like', '%' . $search . '%'));
+                    ->orWhere('area_code', 'like', '%' . $search . '%')
+                    ->orWhere('area_code', 'like', '%' . $search . '%')
+                    ->orWhereHas('user', function($query) use ($search){
+                        $query->where('name', 'like', '%' . $search . '%');
+                    })
+                );
     }
     public function locations(){
         return $this->hasMany(Location::class, 'area_id', 'id');
@@ -29,14 +34,14 @@ class Area extends Model
         return $this->belongsTo(User::class);
     }
 
-    public static function boot(){
-        parent::boot();
+    // public static function boot(){
+    //     parent::boot();
 
-        static::deleting(function($area){
-            $area->cities()->get()->each->delete();
-            $area->locations()->get()->each->delete();
-        });
-    }
+    //     static::deleting(function($area){
+    //         $area->cities()->get()->each->delete();
+    //         $area->locations()->get()->each->delete();
+    //     });
+    // }
 
     public $sortable = ['area_code',
                         'area'

@@ -7,7 +7,7 @@ if ($description->type == 'Videotron') {
     $duration_second = $duration_hours * 60 * 60;
 }
 ?>
-<div class="flex mt-4">
+<div class="flex">
     <label class="text-semibold">Deskripsi Media {{ $location->media_category->name }}</label>
 </div>
 <div class="flex">

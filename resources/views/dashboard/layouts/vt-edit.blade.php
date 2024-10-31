@@ -2,7 +2,7 @@
 <div class="flex justify-center">
     <div class="flex justify-start border rounded-lg w-[250px] h-[550px] px-4 py-2">
         <div>
-            @include('dashboard.layouts.select-company-edit')
+            @include('dashboard.layouts.select-category-edit')
             <div class="flex">
                 <div class="mt-1">
                     <label class="text-sm text-teal-700">Kode Lokasi</label>
@@ -28,26 +28,59 @@
     </div>
     <div class="flex justify-start  border rounded-lg w-[250px] h-[550px] px-4 py-2 ml-4">
         <div>
-            @include('dashboard.layouts.select-led-edit')
-            @include('dashboard.layouts.input-sd-edit')
-            @include('dashboard.layouts.input-time-edit')
-            @include('dashboard.layouts.input-screen-edit')
+            @if (old('category'))
+                @if (old('category') != 'Videotron')
+                    <div id="bbLighting">
+                        @include('dashboard.layouts.select-lighting-edit')
+                    </div>
+                    <div id="ledEdit" hidden>
+                        @include('dashboard.layouts.select-led-edit')
+                        @include('dashboard.layouts.input-sd-edit')
+                        @include('dashboard.layouts.input-time-edit')
+                        @include('dashboard.layouts.input-screen-edit')
+                    </div>
+                @else
+                    <div id="bbLighting" hidden>
+                        @include('dashboard.layouts.select-lighting-edit')
+                    </div>
+                    <div id="ledEdit">
+                        @include('dashboard.layouts.select-led-edit')
+                        @include('dashboard.layouts.input-sd-edit')
+                        @include('dashboard.layouts.input-time-edit')
+                        @include('dashboard.layouts.input-screen-edit')
+                    </div>
+                @endif
+            @else
+                <div id="bbLighting" hidden>
+                    @include('dashboard.layouts.select-lighting-edit')
+                </div>
+                <div id="ledEdit">
+                    @include('dashboard.layouts.select-led-edit')
+                    @include('dashboard.layouts.input-sd-edit')
+                    @include('dashboard.layouts.input-time-edit')
+                    @include('dashboard.layouts.input-screen-edit')
+                </div>
+            @endif
             @include('dashboard.layouts.select-road-edit')
             @include('dashboard.layouts.select-distance-edit')
             @include('dashboard.layouts.select-speed-edit')
             @include('dashboard.layouts.select-sector-edit')
-            @canany(['isAdmin', 'isMarketing'])
-                <div id="price" name="price" class="mt-1">
-                    <label class="text-sm text-teal-700">Harga</label>
-                    <input
-                        class="flex w-[218px] text-semibold border mt-1 in-out-spin-none rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
-                        type="number" id="price" name="price" value="{{ $location->price }}">
-                    @error('price')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+            @canany(['isAdmin', 'isMedia'])
+                @can('isLocation')
+                    @can('isMediaEdit')
+                        <div id="price" name="price" class="mt-1">
+                            <label class="text-sm text-teal-700">Harga</label>
+                            <input
+                                class="flex w-[218px] text-semibold border mt-1 in-out-spin-none rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                type="number" id="price" name="price" value="{{ $location->price }}">
+                            @error('price')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
-                    @enderror
-                </div>
+                    @endcan
+                @endcan
             @endcanany
             <!-- Edit Location end -->
         </div>
@@ -70,10 +103,11 @@
         objLed = JSON.parse(selectLed.options[selectLed.selectedIndex].id);
         var sizeWidth = objSize.width;
         var sizeHeight = objSize.height;
-        var cabinetSize = objLed.cabinet_size;
+        var cabinetWidth = objLed.cabinet_width;
+        var cabinetHeight = objLed.cabinet_height;
         var pixelPitch = objLed.pixel_pitch;
-        screenWidth.value = (cabinetSize / pixelPitch) * sizeWidth;
-        screenHeight.value = (cabinetSize / pixelPitch) * sizeHeight;
+        screenWidth.value = parseInt(cabinetWidth / pixelPitch) * sizeWidth;
+        screenHeight.value = parseInt(cabinetHeight / pixelPitch) * sizeHeight;
     })
 
     selectLed.addEventListener('change', function() {
@@ -81,10 +115,11 @@
         objLed = JSON.parse(selectLed.options[selectLed.selectedIndex].id);
         var sizeWidth = objSize.width;
         var sizeHeight = objSize.height;
-        var cabinetSize = objLed.cabinet_size;
+        var cabinetWidth = objLed.cabinet_width;
+        var cabinetHeight = objLed.cabinet_height;
         var pixelPitch = objLed.pixel_pitch;
-        screenWidth.value = (cabinetSize / pixelPitch) * sizeWidth;
-        screenHeight.value = (cabinetSize / pixelPitch) * sizeHeight;
+        screenWidth.value = parseInt(cabinetWidth / pixelPitch) * sizeWidth;
+        screenHeight.value = parseInt(cabinetHeight / pixelPitch) * sizeHeight;
     })
     // Function Set Screen Size --> end
 

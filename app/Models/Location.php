@@ -137,18 +137,22 @@ class Location extends Model
         return $this->hasMany(PrintOrder::class, 'location_id', 'id');
     }
 
+    public function install_orders(){
+        return $this->hasMany(PrintOrder::class, 'location_id', 'id');
+    }
+
     public function licenses(){
         return $this->hasMany(License::class, 'location_id', 'id');
     }
 
-    public static function boot(){
-        parent::boot();
+    // public static function boot(){
+    //     parent::boot();
 
-        static::deleting(function($location){
-            $location->location_photos()->get()->each->delete();
-            $location->sales()->get()->each->delete();
-        });
-    }
+    //     static::deleting(function($location){
+    //         $location->location_photos()->get()->each->delete();
+    //         $location->sales()->get()->each->delete();
+    //     });
+    // }
 
     public $sortable = ['code',
                         'price'

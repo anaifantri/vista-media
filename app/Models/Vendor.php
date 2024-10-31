@@ -20,8 +20,11 @@ class Vendor extends Model
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('code', 'like', '%' . $search . '%')
                     ->orWhere('company', 'like', '%' . $search . '%')
                     ->orWhere('address', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%')
                     ->orWhereHas('vendor_category', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');
                     }));
@@ -47,15 +50,15 @@ class Vendor extends Model
         return $this->hasMany(PrintingPrice::class, 'vendor_id', 'id');
     }
 
-    public static function boot(){
-        parent::boot();
+    // public static function boot(){
+    //     parent::boot();
 
-        static::deleting(function($vendor){
-            $vendor->leds()->get()->each->delete();
-            $vendor->vendor_contacts()->get()->each->delete();
-            $vendor->printing_prices()->get()->each->delete();
-        });
-    }
+    //     static::deleting(function($vendor){
+    //         $vendor->leds()->get()->each->delete();
+    //         $vendor->vendor_contacts()->get()->each->delete();
+    //         $vendor->printing_prices()->get()->each->delete();
+    //     });
+    // }
 
     public $sortable = ['code','name','company'];
 }

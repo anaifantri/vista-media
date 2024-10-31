@@ -29,13 +29,15 @@
         @csrf
         <div class="flex justify-center">
             <input id="description" type="text" value="{{ json_encode($description) }}" hidden>
-            <input id="category" type="text" value="{{ $location->media_category->name }}" hidden>
-            <input id="media_category_id" name="media_category_id" type="text"
-                value="{{ $location->media_category->id }}" hidden>
+            <input id="company_id" name="company_id" type="text" value="{{ $company->id }}" hidden>
             <input id="modified_by" name="modified_by" type="text" value="{{ json_encode($modified_by) }}" hidden>
             <input id="sector" name="sector" type="text" value="{{ $location->sector }}" hidden>
             <input name="modified_by" type="text" value="{{ json_encode($modified_by) }}" hidden>
-            <input name="category" type="text" value="{{ $location->media_category->name }}" hidden>
+            @if (old('category'))
+                <input id="category" name="category" type="text" value="{{ old('category') }}" hidden>
+            @else
+                <input id="category" name="category" type="text" value="{{ $location->media_category->name }}" hidden>
+            @endif
             <div class="flex justify-center p-10">
                 <div>
                     <!-- Edit Location Title start -->
@@ -112,7 +114,7 @@
                 <div>
                     <span id="divTitle"
                         class="border-b flex justify-center text-base text-white font-semibold w-full"></span>
-                    <form action="/location-photos/" method="post" enctype="multipart/form-data">
+                    <form action="/media/location-photos/" method="post" enctype="multipart/form-data">
                         @csrf
                         <input name="location_id" type="text" value="{{ $location->id }}" hidden>
                         <input name="company_id" type="text" value="{{ $location->company->id }}" hidden>

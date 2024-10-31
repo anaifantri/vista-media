@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Gate;
 
 class VendorController extends Controller
 {
@@ -18,15 +19,19 @@ class VendorController extends Controller
      */
     public function index(): Response
     {
-        $vendors = Vendor::with('vendor_category')->get();
-        $vendor_categories = VendorCategory::with('vendors')->get();
-        $users = User::with('vendors')->get();
-
-        return response()-> view ('vendors.index', [
-            'vendors'=>Vendor::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
-            'title' => 'Daftar Vendor',
-            compact('vendors', 'users', 'vendor_categories')
-        ]);
+        if(Gate::allows('isVendor') && Gate::allows('isMarketingRead')){
+            $vendors = Vendor::with('vendor_category')->get();
+            $vendor_categories = VendorCategory::with('vendors')->get();
+            $users = User::with('vendors')->get();
+    
+            return response()-> view ('vendors.index', [
+                'vendors'=>Vendor::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+                'title' => 'Daftar Vendor',
+                compact('vendors', 'users', 'vendor_categories')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -34,10 +39,14 @@ class VendorController extends Controller
      */
     public function create(): Response
     {
-        return response()->view('vendors.create', [
-            'vendor_categories'=>VendorCategory::all(),
-            'title' => 'Menambah Data Vendor'
-        ]);
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate'))){
+            return response()->view('vendors.create', [
+                'vendor_categories'=>VendorCategory::all(),
+                'title' => 'Menambah Data Vendor'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -45,7 +54,7 @@ class VendorController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate'))){
             if ($request->vendor_category_id == 'Pilih Katagori'){
                 return back()->withErrors(['vendor_category_id' => ['Silahkan pilih katagori']])->withInput();
             }
@@ -97,11 +106,15 @@ class VendorController extends Controller
      */
     public function show(Vendor $vendor): Response
     {
-        return response()->view('vendors.show', [
-            'vendor' => $vendor,
-            'vendor_contacts' => VendorContact::all(),
-            'title' => 'Data Vendor'.$vendor->name
-        ]);
+        if(Gate::allows('isVendor') && Gate::allows('isMarketingRead')){
+            return response()->view('vendors.show', [
+                'vendor' => $vendor,
+                'vendor_contacts' => VendorContact::all(),
+                'title' => 'Data Vendor'.$vendor->name
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -109,11 +122,15 @@ class VendorController extends Controller
      */
     public function edit(Vendor $vendor): Response
     {
-        return response()->view('vendors.edit', [
-            'vendor' => $vendor,
-            'vendor_categories'=>VendorCategory::all(),
-            'title' => 'Edit Data Vendor'.$vendor->name
-        ]);
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit'))){
+            return response()->view('vendors.edit', [
+                'vendor' => $vendor,
+                'vendor_categories'=>VendorCategory::all(),
+                'title' => 'Edit Data Vendor'.$vendor->name
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -121,7 +138,7 @@ class VendorController extends Controller
      */
     public function update(Request $request, Vendor $vendor): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -165,10 +182,14 @@ class VendorController extends Controller
      */
     public function destroy(Vendor $vendor): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator'){
-            Vendor::destroy($vendor->id);
-
-            return redirect('/marketing/vendors')->with('success','Data vendor dengan nama '. $vendor->name .' berhasil dihapus');
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingDelete'))){
+            if($vendor->vendor_contacts()->exists() || $vendor->leds()->exists() || $vendor->printing_prices()->exists()){
+                return back()->withErrors(['delete' => ['Gagal untuk menghapus data vendor, terdapat relasi dengan data pada tabel data lainnya']]);
+            }else{
+                Vendor::destroy($vendor->id);
+    
+                return redirect('/marketing/vendors')->with('success','Data vendor dengan nama '. $vendor->name .' berhasil dihapus');
+            }
         } else {
             abort(403);
         }

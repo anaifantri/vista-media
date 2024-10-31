@@ -17,11 +17,6 @@
                                 class="flex px-2 text-semibold in-out-spin-none w-[125px] border rounded-lg p-1 outline-teal-300 @error('width') is-invalid @enderror"
                                 type="number" min="0" max="24" id="width" name="width"
                                 placeholder="Input panjang" value="{{ old('width') }}" autofocus required>
-                            @error('width')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                         <div class="mt-2 w-[140px]">
                             <label class="ml-3 text-sm text-teal-700">Lebar</label>
@@ -29,13 +24,13 @@
                                 class="ml-3 flex px-2 text-semibold in-out-spin-none w-[125px] border rounded-lg p-1 outline-teal-300 @error('height') is-invalid @enderror"
                                 type="number" min="0" max="24" id="height" name="height"
                                 placeholder="Input Lebar" value="{{ old('height') }}" required>
-                            @error('height')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                     </div>
+                    @error('width')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                     <div class="flex justify-center">
                         <div class="mt-1 w-[280px]">
                             <label class="text-sm  text-teal-700">Katagori</label>

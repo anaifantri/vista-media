@@ -74,7 +74,7 @@
                             type="text" placeholder="Input Kode Kota" required>
                     </div>
                     @error('code')
-                        <div class="text-red-600 flex ml-28">
+                        <div class="text-red-600 flex mx-2">
                             {{ $message }}
                         </div>
                     @enderror
@@ -98,16 +98,18 @@
                 </div>
                 <!-- Create New City end -->
                 <!-- Maps City start -->
-                @error('lat')
-                    <div class="text-red-600 flex ml-28">
-                        {{ $message }}
-                    </div>
-                @enderror
                 <div class="flex justify-center lg-map-product">
-                    <div class="lg-map-product" id="map">
+                    <div>
+                        @error('lat')
+                            <div class="text-red-600 flex mx-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                        <div class="lg-map-product" id="map">
+                        </div>
                     </div>
-                    <!-- Maps City end -->
                 </div>
+                <!-- Maps City end -->
             </div>
         </div>
     </form>

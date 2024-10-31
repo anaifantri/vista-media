@@ -1,5 +1,5 @@
 <!-- Media Description start -->
-<div class="flex mt-4">
+<div class="flex">
     <label class="text-semibold">Deskripsi Media {{ $location->media_category->name }}</label>
 </div>
 <div class="flex">

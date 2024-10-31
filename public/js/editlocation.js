@@ -287,3 +287,76 @@ figureAction = (sel) => {
     }
 }
 // Funtion Button Next-Prev-figure end -->
+
+// Get Category start -->
+getCategory = (sel) =>{
+    category.value = sel.options[sel.selectedIndex].text;
+    if(category.value == "Videotron"){
+        document.getElementById("ledEdit").removeAttribute('hidden');
+        document.getElementById("bbLighting").setAttribute('hidden', 'hidden');
+        document.getElementById("slots").setAttribute('required', 'required');
+        document.getElementById("duration").setAttribute('required', 'required');
+        document.getElementById("start_at").setAttribute('required', 'required');
+        document.getElementById("end_at").setAttribute('required', 'required');
+    }else{
+        document.getElementById("ledEdit").setAttribute('hidden','hidden');
+        document.getElementById("bbLighting").removeAttribute('hidden');
+        document.getElementById("slots").removeAttribute('required');
+        document.getElementById("duration").removeAttribute('required');
+        document.getElementById("start_at").removeAttribute('required');
+        document.getElementById("end_at").removeAttribute('required');
+    }
+    document.getElementById("screen_w").value = 0;
+    document.getElementById("screen_h").value = 0;
+    showMediaSizes();
+}
+// Get Category end -->
+
+// Set Media Size start -->
+function getMediaSizes() {
+    return fetch('/get-media-sizes/'+category.value)
+      .then(status)
+      .then(json);
+  }
+
+function status(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return Promise.resolve(response)
+    } else {
+      return Promise.reject(new Error(response.statusText))
+    }
+  }
+  
+  function json(response) {
+    return response.json()
+  }
+
+  function showMediaSizes(){
+    const sizeId = document.getElementById("media_size_id");
+    
+    let dataSizes = {};
+    getMediaSizes()
+    .then(function(data) {
+        dataSizes = data.mediaSizes;
+        while (sizeId.hasChildNodes()) {
+            sizeId.removeChild(sizeId.firstChild);
+        }
+        const optionSizes = [];
+        optionSizes[0] = document.createElement('option');
+        optionSizes[0].appendChild(document.createTextNode(['Pilih Ukuran '+category.value]));
+        optionSizes[0].value = "pilih";
+        sizeId.appendChild(optionSizes[0]);
+    
+        for (i = 0; i < dataSizes.length; i++) {
+            optionSizes[i + 1] = document.createElement('option');
+            optionSizes[i + 1].appendChild(document.createTextNode(dataSizes[i]['size']));
+            optionSizes[i + 1].setAttribute('value', dataSizes[i]['id']);
+            optionSizes[i + 1].setAttribute('id', JSON.stringify(dataSizes[i]));
+            sizeId.appendChild(optionSizes[i + 1]);
+        }
+    })
+    .catch(function(error) {
+      console.log('Request failed', error);
+    });
+}
+// Set Media Size end -->

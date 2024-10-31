@@ -34,13 +34,13 @@ class City extends Model
         return $this->belongsTo(User::class);
     }
 
-    public static function boot(){
-        parent::boot();
+    // public static function boot(){
+    //     parent::boot();
 
-        static::deleting(function($city){
-            $city->locations()->get()->each->delete();
-        });
-    }
+    //     static::deleting(function($city){
+    //         $city->locations()->get()->each->delete();
+    //     });
+    // }
 
     public $sortable = ['city'];
 }

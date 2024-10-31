@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Location;
 use App\Models\LocationPhoto;
 use App\Models\MediaCategory;
-use App\Models\Company;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Led;
@@ -16,6 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use \stdClass;
+use Gate;
 
 class LocationController extends Controller
 {
@@ -45,56 +45,63 @@ class LocationController extends Controller
 
     public function home(String $category, Request $request): View
     {
-        if($category == "All"){
-            $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-            $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString();
-        }else{
-            $dataCategory = MediaCategory::where('name', $category)->get()->last();
-            $media_category_id = $dataCategory->id;
-            $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->paginate(15)->withQueryString();
+        if(Gate::allows('isLocation') && Gate::allows('isMediaRead')){
+            if($category == "All"){
+                $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
+                $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+            }else{
+                $dataCategory = MediaCategory::where('name', $category)->get()->last();
+                $media_category_id = $dataCategory->id;
+                $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+            }
+    
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            return view ('locations.index', [
+                'locations'=>$dataLocations,
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'category'=>$category,
+                'data_categories'=>$dataCategory,
+                'title' => 'Daftar Lokasi Media',
+                compact('areas', 'cities', 'media_sizes', 'media_categories')
+            ]);
+        } else {
+            abort(403);
         }
-
-        $areas = Area::with('locations')->get();
-        $cities = City::with('locations')->get();
-        $media_sizes = MediaSize::with('locations')->get();
-        $media_categories = MediaCategory::with('locations')->get();
-        return view ('locations.index', [
-            'locations'=>$dataLocations,
-            'areas'=>Area::all(),
-            'cities'=>City::all(),
-            'category'=>$category,
-            'data_categories'=>$dataCategory,
-            'title' => 'Daftar Lokasi Media',
-            compact('areas', 'cities', 'media_sizes', 'media_categories')
-        ]);
     }
 
     public function preview(String $category, String $id): View
     { 
-        $areas = Area::with('locations')->get();
-        $cities = City::with('locations')->get();
-        $media_sizes = MediaSize::with('locations')->get();
-        $media_categories = MediaCategory::with('locations')->get();
-
-        return view('locations.preview', [
-            'location' => Location::findOrFail($id),
-            'leds' => Led::all(),
-            'title' => 'Detail Location',
-            'location_photos'=>LocationPhoto::where('location_id', $id)->where('set_default', true)->get()->last(),
-            'category'=>$category,
-            compact('areas', 'cities', 'media_sizes', 'media_categories')
-        ]);
+        if(Gate::allows('isLocation') && Gate::allows('isMediaRead')){
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+    
+            return view('locations.preview', [
+                'location' => Location::findOrFail($id),
+                'leds' => Led::all(),
+                'title' => 'Detail Location',
+                'location_photos'=>LocationPhoto::where('location_id', $id)->where('set_default', true)->get()->last(),
+                'category'=>$category,
+                compact('areas', 'cities', 'media_sizes', 'media_categories')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     public function createLocation(String $category): View
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaCreate'))){
             $dataCategory = MediaCategory::where('name', $category)->firstOrFail();
             return view ('locations.create', [
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
                 'leds'=>Led::all(),
-                'companies'=>Company::all(),
                 'media_sizes'=>MediaSize::orderBy("size", "asc")->get(),
                 'title' => 'Menambahkan Data Lokasi',
                 'data_category' => $dataCategory,
@@ -118,10 +125,7 @@ class LocationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
-            if ($request->company_id == 'pilih'){
-                return back()->withErrors(['company_id' => ['Silahkan pilih perusahaan']])->withInput();
-            }
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaCreate'))){
             if ($request->area_id == 'pilih'){
                 return back()->withErrors(['area_id' => ['Silahkan pilih area']])->withInput();
             }
@@ -239,7 +243,7 @@ class LocationController extends Controller
                 'created_by' => 'required',
                 'modified_by' => 'required',
                 'sector' => 'required',
-                'price' => 'required',
+                'price' => 'nullable',
                 'photo' => 'required|image|file|max:1024'
             ]);
 
@@ -269,20 +273,23 @@ class LocationController extends Controller
      */
     public function show(Location $location): Response
     {
-        $areas = Area::with('locations')->get();
-        $companies = Company::with('locations')->get();
-        $cities = City::with('locations')->get();
-        $media_sizes = MediaSize::with('locations')->get();
-        $media_categories = MediaCategory::with('locations')->get();
-
-        return response()->view('locations.show', [
-            'location' => $location,
-            'title' => 'Detail Lokasi',
-            'leds'=>Led::all(),
-            'category'=>$location->media_category->name,
-            'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
-            compact('areas', 'cities', 'media_sizes', 'media_categories', 'companies')
-        ]);
+        if(Gate::allows('isLocation') && Gate::allows('isMediaRead')){
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+    
+            return response()->view('locations.show', [
+                'location' => $location,
+                'title' => 'Detail Lokasi',
+                'leds'=>Led::all(),
+                'category'=>$location->media_category->name,
+                'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
+                compact('areas', 'cities', 'media_sizes', 'media_categories')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -290,23 +297,25 @@ class LocationController extends Controller
      */
     public function edit(Location $location): Response
     {
-        $areas = Area::with('locations')->get();
-        $media_sizes = MediaSize::with('locations')->get();
-        $companies = Company::with('locations')->get();
-        $media_categories = MediaCategory::with('locations')->get();
-
-        return response()->view('locations.edit', [
-            'location' => $location,
-            'title' => 'Edit Data Lokasi '. $location->media_category->name,
-            'leds'=>Led::all(),
-            'areas'=>Area::all(),
-            'companies'=>Company::all(),
-            'cities'=>City::all(),
-            'media_sizes'=>MediaSize::orderBy("size", "asc")->get(),
-            'category'=>$location->media_category->name,
-            'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
-            compact('areas', 'media_sizes', 'media_categories', 'companies')
-        ]);
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaEdit'))){
+            $areas = Area::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+    
+            return response()->view('locations.edit', [
+                'location' => $location,
+                'title' => 'Edit Data Lokasi '. $location->media_category->name,
+                'leds'=>Led::all(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'media_sizes'=>MediaSize::orderBy("size", "asc")->get(),
+                'category'=>$location->media_category->name,
+                'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
+                compact('areas', 'media_sizes', 'media_categories')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -314,9 +323,12 @@ class LocationController extends Controller
      */
     public function update(Request $request, Location $location): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaEdit'))){
             if ($request->city_id == 'pilih'){
                 return back()->withErrors(['city_id' => ['Silahkan pilih kota']])->withInput();
+            }
+            if ($request->media_size_id == 'pilih'){
+                return back()->withErrors(['media_size_id' => ['Silahkan pilih ukuran']])->withInput();
             }
             if ($request->sector == ''){
                 return back()->withErrors(['sector' => ['Silahkan pilih minimal 1 kawasan']])->withInput();
@@ -328,6 +340,9 @@ class LocationController extends Controller
                 $description->lng = json_decode($request->lng);
             }
             if($request->category == "Videotron"){
+                if ($request->led_id == 'pilih'){
+                    return back()->withErrors(['led_id' => ['Silahkan pilih jenis LED']])->withInput();
+                }
                 $description = new stdClass();
                 $description->led_id = $request->led_id;
                 $description->lat = json_decode($request->lat);
@@ -342,7 +357,7 @@ class LocationController extends Controller
             if($request->category == "Signage"){
                 if ($request->signage_type == "Videotron"){
                     if ($request->led_id == 'pilih'){
-                    return back()->withErrors(['led_id' => ['Silahkan pilih type LED']])->withInput();
+                    return back()->withErrors(['led_id' => ['Silahkan pilih jenis LED']])->withInput();
                     }else{
                         $description = new stdClass();
                         $description->type = $request->signage_type;
@@ -406,11 +421,12 @@ class LocationController extends Controller
             }
 
             $validateData = $request->validate($rules);
+            // dd($validateData);
 
             Location::where('id', $location->id)
                     ->update($validateData);
                 
-            return redirect('/media/locations/preview/'.$location->media_category->name.'/'.$location->id)->with('success',$location->media_category->name. ' dengan kode '. $location->code . ' berhasil diupdate');
+            return redirect('/media/locations/preview/'.$request->category.'/'.$location->id)->with('success',$request->category. ' dengan kode '. $location->code . ' berhasil diupdate');
         } else {
             abort(403);
         }
@@ -421,6 +437,17 @@ class LocationController extends Controller
      */
     public function destroy(Location $location): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaDelete'))){
+            if($location->location_photos()->exists() || $location->sales()->exists() || $location->land_agreements()->exists() || $location->print_orders()->exists() || $location->licenses()->exists() || $location->install_orders()->exists()){
+                return back()->withErrors(['delete' => ['Gagal untuk menghapus data lokasi, terdapat relasi dengan data pada tabel data lainnya']]);
+            }else{
+                dd($location);
+                Area::destroy($location->id);
+    
+                return redirect('/media/locations/home/'.$category)->with('success','Lokasi dengan kode '. $location->code .' berhasil dihapus');
+            }
+        } else {
+            abort(403);
+        }
     }
 }

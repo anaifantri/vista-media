@@ -33,7 +33,7 @@
                     <!-- Child Penawaran Start -->
                     <ul>
                         <li class="group">
-                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/quotations/home/All*') ? 'active' : '' }}"
                                 href="/marketing/quotations/home/All">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -47,7 +47,7 @@
                         @foreach ($categories as $category)
                             @if ($category->name == 'Service')
                                 <li class="group">
-                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/quotations/home/' . $category->name . '*') ? 'active' : '' }}"
                                         href="/marketing/quotations/home/{{ $category->name }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -60,7 +60,7 @@
                                 </li>
                             @else
                                 <li class="group">
-                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/quotations/home/' . $category->name . '*') ? 'active' : '' }}"
                                         href="/marketing/quotations/home/{{ $category->name }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -101,7 +101,7 @@
                     <!-- Child Penawaran Start -->
                     <ul>
                         <li class="group">
-                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/sales/home/All*') ? 'active' : '' }}"
                                 href="/marketing/sales/home/All">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -115,7 +115,7 @@
                         @foreach ($categories as $category)
                             @if ($category->name == 'Service')
                                 <li class="group">
-                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/sales/home/' . $category->name . '*') ? 'active' : '' }}"
                                         href="/marketing/sales/home/{{ $category->name }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -128,7 +128,7 @@
                                 </li>
                             @else
                                 <li class="group">
-                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                    <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/sales/home/' . $category->name . '*') ? 'active' : '' }}"
                                         href="/marketing/sales/home/{{ $category->name }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"

@@ -29,6 +29,14 @@ class MediaSizeController extends Controller
         }
     }
 
+    public function getMediaSizes(String $category){
+        $mediaSizes = MediaSize::whereHas('media_category', function($query) use ($category){
+            $query->where('name', $category);
+        })->orderBy("width", "asc")->get();
+
+        return response()->json(['mediaSizes'=> $mediaSizes]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -80,7 +88,7 @@ class MediaSizeController extends Controller
             $dataSizes = MediaSize::where('size', $size)->get();
             foreach($dataSizes as $getSize){
                 if($getSize->media_category_id == $request->media_category_id){
-                    return back()->withErrors(['width' => ['Ukuran sudah terdaftar, silahkan input ukuran yang berbeda']])->withInput();
+                    return back()->withErrors(['width' => ['Ukuran sudah terdaftar, silahkan input ukuran / katagori yang berbeda']])->withInput();
                 }
             }
 
@@ -186,6 +194,7 @@ class MediaSizeController extends Controller
             if($mediaSize->locations()->exists()){
                 return back()->withErrors(['delete' => ['Gagal untuk menghapus data ukuran, terdapat relasi dengan data pada tabel data lainnya']]);
             }else{
+                dd($mediaSize);
                 MediaSize::destroy($mediaSize->id);
     
                 return redirect('/media/media-sizes')->with('success','Ukuran '. $mediaSize->size .' berhasil dihapus');
