@@ -1,36 +1,45 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Container Index Media Category start -->
+    <?php
+    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agst', 'Sept', 'Okt', 'Nov', 'Des'];
+    ?>
+    <!-- Container start -->
     <div class="mt-10 z-0">
         <div class="flex justify-center w-full">
             <div class="w-[1000px]">
                 <div class="flex border-b">
-                    <!-- Title Media Category start -->
+                    <!-- Title start -->
                     <h1 class="index-h1"> DAFTAR KATAGORI PERIZINAN</h1>
-                    <!-- Title Media Category end -->
-                    <!-- Button Create New Media Category start -->
+                    <!-- Title end -->
+                    <!-- Button start -->
                     @canany(['isAdmin', 'isMedia'])
-                        <div class="flex">
-                            <a href="/media/licensing-categories/create" class="index-link btn-primary"><span></span>
-                                <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                        fill-rule="nonzero" />
-                                </svg>
-                                <span class="mx-1 hidden sm:flex"> Tambah Katagori</span>
-                            </a>
-                        </div>
+                        @can('isLegal')
+                            @can('isMediaCreate')
+                                <div class="flex">
+                                    <a href="/media/licensing-categories/create" class="index-link btn-primary"><span></span>
+                                        <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                fill-rule="nonzero" />
+                                        </svg>
+                                        <span class="mx-1 hidden sm:flex"> Tambah Katagori</span>
+                                    </a>
+                                </div>
+                            @endcan
+                        @endcan
                     @endcanany
                 </div>
-                <!-- Button Create New Media Category end -->
-                <!-- Alert Success Create New Media Category start -->
+                <!-- Button end -->
+
+                <!-- Form search start -->
                 <form class="mt-2" action="/media/licensing-categories/">
                     <div class="flex">
                         <input id="search" name="search"
                             class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900" type="text"
-                            placeholder="Search" value="{{ request('search') }}">
+                            placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                            onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                         <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                             type="submit">
                             <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -39,21 +48,24 @@
                             </svg>
                         </button>
                     </div>
-                    @if (session()->has('success'))
-                        <div class="ml-2 flex alert-success">
-                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                            </svg>
-                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
-                        </div>
-                    @endif
                 </form>
+                <!-- Form search end -->
+
+                <!-- Alert start -->
+                @if (session()->has('success'))
+                    <div class="ml-2 flex alert-success">
+                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                        </svg>
+                        <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                    </div>
+                @endif
+                <!-- Alert end -->
             </div>
         </div>
-        <!-- Alert Success Create New Media Category end -->
-        <!-- View Media Category start -->
-        <div class="flex justify-center w-full">
+        <!-- View start -->
+        <div class="flex justify-center w-full mt-2">
             <div class="w-[1000px]">
                 <table class="table-auto w-full">
                     <thead>
@@ -76,6 +88,8 @@
                                 </button>
                             </th>
                             <th class="text-teal-700 border text-sm text-center">Deskripsi</th>
+                            <th class="text-teal-700 border text-sm w-28 text-center">Tgl. Dibuat</th>
+                            <th class="text-teal-700 border text-sm w-28 text-center">Dibuat Oleh</th>
                             <th class="text-teal-700 border text-sm text-center w-24">Action</th>
                         </tr>
                     </thead>
@@ -88,8 +102,13 @@
                                 <td class="text-teal-700 border text-sm text-center">{{ $number++ }}</td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $category->code }}</td>
                                 <td class="text-teal-700 border text-sm text-center">{{ $category->name }}</td>
-                                <td class="px-2 text-teal-700 border text-sm">{{ $category->description }}
+                                <td class="px-2 text-teal-700 border text-sm">{{ $category->description }}</td>
+                                <td class="text-teal-700 border text-sm text-center">
+                                    {{ date('d', strtotime($category->created_at)) }}-
+                                    {{ $bulan[(int) date('m', strtotime($category->created_at))] }}-
+                                    {{ date('Y', strtotime($category->created_at)) }}
                                 </td>
+                                <td class="text-teal-700 border text-sm text-center">{{ $category->user->name }}</td>
                                 <td class="text-teal-700 border text-sm text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/media/licensing-categories/{{ $category->id }}"
@@ -103,50 +122,43 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        <a href="/media/licensing-categories/{{ $category->id }}/edit"
-                                            class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mr-1">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                                    fill-rule="nonzero" />
-                                            </svg>
-                                        </a>
-                                        @can('isAdmin')
-                                            <form action="/media/licensing-categories/{{ $category->id }}" method="post"
-                                                class="d-inline m-1">
-                                                @method('delete')
-                                                @csrf
-                                                @if (
-                                                    $category->location_photos()->exists() ||
-                                                        $category->locations()->exists() ||
-                                                        $category->quotations()->exists() ||
-                                                        $category->sales()->exists())
-                                                    <button
-                                                        class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                        onclick="return confirm('Berelasi dengan data lokasi, data foto lokasi, data penawaran, data penjualan dan data ukuran, apakah anda yakin ingin menghapus data katagori dengan nama {{ $category->name }} sekaligus menghapus data-data yang berelasi?')">
-                                                        <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                                            width="24" height="24" viewBox="0 0 24 24">
-                                                            <title>DELETE</title>
+                                        @canany(['isAdmin', 'isMedia'])
+                                            @can('isLegal')
+                                                @can('isMediaEdit')
+                                                    <a href="/media/licensing-categories/{{ $category->id }}/edit"
+                                                        class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md">
+                                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
                                                             <path
-                                                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                                                fill-rule="nonzero" />
                                                         </svg>
-                                                    </button>
-                                                @else
-                                                    <button
-                                                        class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data katagori dengan nama {{ $category->name }} ?')">
-                                                        <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                                            width="24" height="24" viewBox="0 0 24 24">
-                                                            <title>DELETE</title>
-                                                            <path
-                                                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                                                        </svg>
-                                                    </button>
-                                                @endif
-                                            </form>
-                                        @endcan
+                                                    </a>
+                                                @endcan
+                                            @endcan
+                                        @endcanany
+                                        @canany(['isAdmin', 'isMedia'])
+                                            @can('isLegal')
+                                                @can('isMediaDelete')
+                                                    <form action="/media/licensing-categories/{{ $category->id }}" method="post"
+                                                        class="d-inline m-1">
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button
+                                                            class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                                            onclick="return confirm('Apakah anda yakin ingin menghapus data katagori izin dengan nama {{ $category->name }} ?')">
+                                                            <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                                width="24" height="24" viewBox="0 0 24 24">
+                                                                <title>DELETE</title>
+                                                                <path
+                                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                @endcan
+                                            @endcan
+                                        @endcanany
                                     </div>
                                 </td>
                             </tr>
@@ -155,11 +167,13 @@
                 </table>
             </div>
         </div>
+        <!-- View end -->
+
+        <!-- Pagination star -->
         <div class="flex justify-center text-teal-900">
-            {{-- {{ $licensing_categories->links() }} --}}
             {!! $licensing_categories->appends(Request::query())->render('dashboard.layouts.pagination') !!}
         </div>
+        <!-- Pagination end -->
     </div>
-    <!-- View Media Category end -->
-    <!-- Container Index Media Category end -->
+    <!-- Container end -->
 @endsection

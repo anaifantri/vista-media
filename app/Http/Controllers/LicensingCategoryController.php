@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\LicensingCategory;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class LicensingCategoryController extends Controller
 {
@@ -14,10 +16,16 @@ class LicensingCategoryController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('licensing-categories.index', [
-            'licensing_categories'=>LicensingCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Perizinan'
-        ]);
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            $users = User::with('licensing_categories')->get();
+            return response()-> view ('licensing-categories.index', [
+                'licensing_categories'=>LicensingCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
+                'title' => 'Daftar Katagori Perizinan',
+                compact('users')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -25,7 +33,7 @@ class LicensingCategoryController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
             return response()-> view ('licensing-categories.create', [
                 'title' => 'Menambahkan Katagori Perizinan'
             ]);
@@ -39,7 +47,7 @@ class LicensingCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
             // Set code --> start
             $dataCategory = LicensingCategory::all()->last();
             if($dataCategory){
@@ -78,10 +86,14 @@ class LicensingCategoryController extends Controller
      */
     public function show(LicensingCategory $licensingCategory): Response
     {
-        return response()-> view ('licensing-categories.show', [
-            'licensing_category' => $licensingCategory,
-            'title' => 'Detail Katagori Perizinan' . $licensingCategory->name
-        ]);
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            return response()-> view ('licensing-categories.show', [
+                'licensing_category' => $licensingCategory,
+                'title' => 'Detail Katagori Perizinan' . $licensingCategory->name
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -89,7 +101,7 @@ class LicensingCategoryController extends Controller
      */
     public function edit(LicensingCategory $licensingCategory): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaEdit'))){
             return response()->view('licensing-categories.edit', [
                 'licensing_category' => $licensingCategory,
                 'title' => 'Edit Katagori Perizinan'
@@ -104,7 +116,7 @@ class LicensingCategoryController extends Controller
      */
     public function update(Request $request, LicensingCategory $licensingCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
+        if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaEdit'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -112,7 +124,7 @@ class LicensingCategoryController extends Controller
             ];
             
             if ($request->name != $licensingCategory->name) {
-                $rules['name'] = 'required|unique:media_categories';
+                $rules['name'] = 'required|unique:licensing_categories';
             } 
 
             $validateData = $request->validate($rules);
@@ -131,10 +143,14 @@ class LicensingCategoryController extends Controller
      */
     public function destroy(LicensingCategory $licensingCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media'){
-            LicensingCategory::destroy($licensingCategory->id);
-
-            return redirect('/media/licensing-categories')->with('success','Katagori perizinan dengan nama '. $licensingCategory->name .' berhasil dihapus');
+        if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete'))){
+            if($licensingCategory->licenses()->exists() || $licensingCategory->license_documents()->exists()){
+                return back()->withErrors(['delete' => ['Gagal untuk menghapus data katagori izin, terdapat relasi dengan data pada tabel data lainnya']]);
+            }else{
+                LicensingCategory::destroy($licensingCategory->id);
+    
+                return redirect('/media/licensing-categories')->with('success','Katagori perizinan dengan nama '. $licensingCategory->name .' berhasil dihapus');
+            }
         } else {
             abort(403);
         }

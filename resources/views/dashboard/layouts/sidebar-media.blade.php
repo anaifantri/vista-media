@@ -158,7 +158,7 @@
                         </li>
                         <li class="group">
                             <a class="nav-a ml-5 border-b-[1px] {{ Request::is('media/licenses*') ? 'active' : '' }}"
-                                href="/media/lisences">
+                                href="/media/licenses">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">

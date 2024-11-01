@@ -1,194 +1,462 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    @php
-        $description = json_decode($location->description);
-        $sectors = json_decode($location->sector);
-        $modified_by = new stdClass();
-        $modified_by->id = auth()->user()->id;
-        $modified_by->name = auth()->user()->name;
-        $modified_by->position = auth()->user()->position;
-        $bulan = [
-            1 => 'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember',
-        ];
-    @endphp
-    <!-- Edit Location start -->
-    <form action="/media/locations/{{ $location->id }}" method="post" enctype="multipart/form-data">
+    <?php
+    // $description = json_decode($location->description);
+    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    ?>
+    <!-- Container start -->
+    <form method="post" action="/media/licenses/{{ $license->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
         <div class="flex justify-center">
-            <input id="description" type="text" value="{{ json_encode($description) }}" hidden>
-            <input id="category" type="text" value="{{ $location->media_category->name }}" hidden>
-            <input id="media_category_id" name="media_category_id" type="text"
-                value="{{ $location->media_category->id }}" hidden>
-            <input id="modified_by" name="modified_by" type="text" value="{{ json_encode($modified_by) }}" hidden>
-            <input id="sector" name="sector" type="text" value="{{ $location->sector }}" hidden>
-            <input name="modified_by" type="text" value="{{ json_encode($modified_by) }}" hidden>
-            <input name="category" type="text" value="{{ $location->media_category->name }}" hidden>
-            <div class="flex justify-center p-10">
-                <div>
-                    <!-- Edit Location Title start -->
-                    <div class="flex w-[1140px] items-center border-b">
-                        <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[850px]"> EDIT DATA
-                            LOKASI
-                            {{ strtoupper($location->media_category->name) }}</h1>
-                        <div class="flex items-center w-full justify-end">
-                            <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
-                                type="submit">
-                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
-                                </svg>
-                                <span class="ml-1 w-10 text-xs">Save</span>
-                            </button>
-                            <a class="flex justify-center items-center ml-1 btn-danger"
-                                href="/media/locations/home/{{ $category }}">
-                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                                </svg>
-                                <span class="ml-1 w-10 text-xs">Cancel</span>
-                            </a>
+            <div class="mt-10">
+                <!-- Title start -->
+                <div class="flex w-[1200px] items-center border-b p-1">
+                    <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[850px]">EDIT DATA IZIN
+                        {{ strtoupper($license->licensing_category->name) }}</h1>
+                    <div class="flex items-center w-full justify-end">
+                        <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
+                            type="submit">
+                            <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                            </svg>
+                            <span class="ml-1 w-10 text-xs">Save</span>
+                        </button>
+                        <a class="flex justify-center items-center ml-1 btn-danger"
+                            href="/show-license/{{ $license->location->id }}">
+                            <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                            </svg>
+                            <span class="ml-1 w-10 text-xs">Cancel</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Title end -->
+
+                <!-- New Licenses Input start -->
+                <div class="flex justify-center w-full mt-2">
+                    <div class="flex justify-center">
+                        <div class="flex justify-center border rounded-lg w-[400px] h-[550px] p-2">
+                            <div class="w-[350px]">
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Jenis Izin</label>
+                                    <input
+                                        class="flex text-sm font-semibold mt-1 w-full text-slate-400 border rounded-lg px-1 outline-none"
+                                        type="text" value="{{ $license->licensing_category->name }}" readonly>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Nomor Izin</label>
+                                    <input
+                                        class="flex text-semibold w-full border rounded-lg px-1 outline-none @error('number') is-invalid @enderror"
+                                        type="text" min="0" id="number" name="number"
+                                        value="{{ $license->number }}" autofocus placeholder="Input Nomor Izin" required>
+                                    @error('number')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Penerbit Izin</label>
+                                    <input
+                                        class="flex text-semibold w-full border rounded-lg px-1 outline-none @error('government') is-invalid @enderror"
+                                        type="text" min="0" id="government" name="government"
+                                        value="{{ $license->government }}" placeholder="Input Penerbit Izin" required>
+                                    @error('government')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Tanggal Izin Terbit</label>
+                                    <input
+                                        class="flex text-semibold border rounded-lg px-1 outline-none @error('published') is-invalid @enderror"
+                                        type="date" min="0" id="published" name="published"
+                                        value="{{ $license->published }}" required>
+                                    @error('published')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Tanggal Awal Izin</label>
+                                    <input
+                                        class="flex text-semibold border rounded-lg px-1 outline-none @error('start_at') is-invalid @enderror"
+                                        type="date" min="0" id="start_at" name="start_at"
+                                        value="{{ $license->start_at }}" required>
+                                    @error('start_at')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Tanggal Akhir Izin</label>
+                                    <input
+                                        class="flex text-semibold border rounded-lg px-1 outline-none @error('end_at') is-invalid @enderror"
+                                        type="date" min="0" id="end_at" name="end_at"
+                                        value="{{ $license->end_at }}">
+                                    @error('end_at')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mt-2">
+                                    <label class="text-sm text-teal-700">Keterangan</label>
+                                    <textarea class="flex text-semibold w-full  border rounded-lg p-1 outline-none @error('notes') is-invalid @enderror"
+                                        name="notes" rows="8" id="notes" placeholder="Input Keterangan">{{ $license->notes }}</textarea>
+                                    @error('notes')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4">
+                            <div class="w-[750px]">
+                                <div class="flex w-full justify-center">
+                                    <a class="flex justify-center items-center w-44 btn-primary-small"
+                                        title="Tambah Dokumen" href="/create-license-documents/{{ $license->id }}">
+                                        <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                                            clip-rule="evenodd" viewBox="0 0 24 24">
+                                            <path
+                                                d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
+                                        </svg>
+                                        <span class="ml-2">Tambah Dokumen</span>
+                                    </a>
+                                </div>
+                                <div class="flex items-center mt-2 w-full justify-center border rounded-lg">
+                                    <label class="text-sm text-slate-500">Jumlah Dokumen</label>
+                                    <label class="text-sm text-slate-500 ml-2">:</label>
+                                    <label id="numberImagesFile" class="text-sm text-slate-500 ml-2">
+                                        {{ count($license_documents) }} dokumen</label>
+                                </div>
+                                <!-- Alert start -->
+                                @if (session()->has('success'))
+                                    <div class="ml-2 flex alert-success">
+                                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                                        </svg>
+                                        <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                                    </div>
+                                @endif
+                                <!-- Alert end -->
+                                @error('document_license')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                @error('document_license.*')
+                                    <div class="invalid-feedback">
+                                        Ukuran file max 2048 kb, tipe file jpeg/jpg/png
+                                    </div>
+                                @enderror
+                                <figure id="figure"
+                                    class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700">
+                                    @foreach ($license_documents as $document)
+                                        @if (count($license_documents) > 2)
+                                            @if ($loop->iteration - 1 == intdiv(count($license_documents), 2))
+                                                <img id="{{ $document->id }}" class="photo-active"
+                                                    src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                    onclick="figureAction(this)">
+                                            @else
+                                                <img id="{{ $document->id }}" class="photo"
+                                                    src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                    onclick="figureAction(this)">
+                                            @endif
+                                        @else
+                                            @if ($loop->iteration == 1)
+                                                <img id="{{ $document->id }}" class="photo-active"
+                                                    src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                    onclick="figureAction(this)">
+                                            @else
+                                                <img id="{{ $document->id }}" class="photo"
+                                                    src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                    onclick="figureAction(this)">
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </figure>
+                                <div class="relative m-auto w-[750px] h-max mt-2">
+                                    <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto">
+                                        <button
+                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                            type="button" onclick="buttonPrev()">
+                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto">
+                                        <button type="button"
+                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                            onclick="buttonNext()">
+                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    @foreach ($license_documents as $document)
+                                        @if (count($license_documents) > 2)
+                                            @if ($loop->iteration - 1 == intdiv(count($license_documents), 2))
+                                                <div class="divImage">
+                                                    <div
+                                                        class="absolute top-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                        <div class="flex items-center">
+                                                            <div class="w-64">
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                        Upload</label>
+                                                                    <label class="text-sm text-yellow-400">:</label>
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ date('d', strtotime($document->created_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                        {{ date('Y', strtotime($document->created_at)) }}</label>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                        Oleh</label>
+                                                                    <label class="text-sm text-yellow-400">: </label>
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ $license->user->name }}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex w-full px-1 justify-end items-center">
+                                                                <button id="{{ $document->id }}" type="button"
+                                                                    class="index-link btn-danger"
+                                                                    onclick="deleteDocument(this)">
+                                                                    <svg class="fill-current w-5" clip-rule="evenodd"
+                                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                                            fill-rule="nonzero" />
+                                                                    </svg>
+                                                                    <span class="mx-1">Hapus Dokumen</span>
+                                                                </button>
+                                                                <a class="flex justify-center items-center w-44 btn-primary mx-1"
+                                                                    title="Tambah Dokumen"
+                                                                    href="/media/license-documents/{{ $license->id }}/edit">
+                                                                    <svg class="fill-current w-5" clip-rule="evenodd"
+                                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 20l-1.359-2.038c-1.061.653-2.305 1.038-3.641 1.038-3.859 0-7-3.14-7-7h2c0 2.757 2.243 5 5 5 .927 0 1.786-.264 2.527-.708l-1.527-2.292h5.719l-1.719 6zm0-8c0-2.757-2.243-5-5-5-.927 0-1.786.264-2.527.708l1.527 2.292h-5.719l1.719-6 1.359 2.038c1.061-.653 2.305-1.038 3.641-1.038 3.859 0 7 3.14 7 7h-2z" />
+                                                                    </svg>
+                                                                    <span class="mx-1">Ganti Dokumen</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                                </div>
+                                            @else
+                                                <div class="divImage" hidden>
+                                                    <div
+                                                        class="absolute top-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                        <div class="flex items-center">
+                                                            <div class="w-64">
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                        Upload</label>
+                                                                    <label class="text-sm text-yellow-400">:</label>
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ date('d', strtotime($document->created_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                        {{ date('Y', strtotime($document->created_at)) }}</label>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                        Oleh</label>
+                                                                    <label class="text-sm text-yellow-400">: </label>
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ $license->user->name }}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex w-full px-1 justify-end items-center">
+                                                                <button id="{{ $document->id }}" type="button"
+                                                                    class="index-link btn-danger"
+                                                                    onclick="deleteDocument(this)">
+                                                                    <svg class="fill-current w-5" clip-rule="evenodd"
+                                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                                            fill-rule="nonzero" />
+                                                                    </svg>
+                                                                    <span class="mx-1">Hapus Dokumen</span>
+                                                                </button>
+                                                                <a class="flex justify-center items-center w-44 btn-primary mx-1"
+                                                                    title="Tambah Dokumen"
+                                                                    href="/media/license-documents/{{ $license->id }}/edit">
+                                                                    <svg class="fill-current w-5" clip-rule="evenodd"
+                                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 20l-1.359-2.038c-1.061.653-2.305 1.038-3.641 1.038-3.859 0-7-3.14-7-7h2c0 2.757 2.243 5 5 5 .927 0 1.786-.264 2.527-.708l-1.527-2.292h5.719l-1.719 6zm0-8c0-2.757-2.243-5-5-5-.927 0-1.786.264-2.527.708l1.527 2.292h-5.719l1.719-6 1.359 2.038c1.061-.653 2.305-1.038 3.641-1.038 3.859 0 7 3.14 7 7h-2z" />
+                                                                    </svg>
+                                                                    <span class="mx-1">Ganti Dokumen</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                                </div>
+                                            @endif
+                                        @else
+                                            @if ($loop->iteration == 1)
+                                                <div class="divImage">
+                                                    <div
+                                                        class="absolute top-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                        <div class="flex items-center">
+                                                            <div class="w-64">
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                        Upload</label>
+                                                                    <label class="text-sm text-yellow-400">:</label>
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ date('d', strtotime($document->created_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                        {{ date('Y', strtotime($document->created_at)) }}</label>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                        Oleh</label>
+                                                                    <label class="text-sm text-yellow-400">: </label>
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ $license->user->name }}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex w-full px-1 justify-end items-center">
+                                                                <button id="{{ $document->id }}" type="button"
+                                                                    class="index-link btn-danger"
+                                                                    onclick="deleteDocument(this)">
+                                                                    <svg class="fill-current w-5" clip-rule="evenodd"
+                                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                                            fill-rule="nonzero" />
+                                                                    </svg>
+                                                                    <span class="mx-1">Hapus Dokumen</span>
+                                                                </button>
+                                                                <a class="flex justify-center items-center w-44 btn-primary mx-1"
+                                                                    title="Tambah Dokumen"
+                                                                    href="/media/license-documents/{{ $license->id }}/edit">
+                                                                    <svg class="fill-current w-5" clip-rule="evenodd"
+                                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 20l-1.359-2.038c-1.061.653-2.305 1.038-3.641 1.038-3.859 0-7-3.14-7-7h2c0 2.757 2.243 5 5 5 .927 0 1.786-.264 2.527-.708l-1.527-2.292h5.719l-1.719 6zm0-8c0-2.757-2.243-5-5-5-.927 0-1.786.264-2.527.708l1.527 2.292h-5.719l1.719-6 1.359 2.038c1.061-.653 2.305-1.038 3.641-1.038 3.859 0 7 3.14 7 7h-2z" />
+                                                                    </svg>
+                                                                    <span class="mx-1">Ganti Dokumen</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                                </div>
+                                            @else
+                                                <div class="divImage" hidden>
+                                                    <div
+                                                        class="absolute top-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                        <div class="flex items-center">
+                                                            <div class="w-64">
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                        Upload</label>
+                                                                    <label class="text-sm text-yellow-400">:</label>
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ date('d', strtotime($document->created_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                        {{ date('Y', strtotime($document->created_at)) }}</label>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                        Oleh</label>
+                                                                    <label class="text-sm text-yellow-400">: </label>
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ $license->user->name }}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex w-full px-1 justify-end items-center">
+                                                                <button id="{{ $document->id }}" type="button"
+                                                                    class="index-link btn-danger"
+                                                                    onclick="deleteDocument(this)">
+                                                                    <svg class="fill-current w-5" clip-rule="evenodd"
+                                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                                            fill-rule="nonzero" />
+                                                                    </svg>
+                                                                    <span class="mx-1">Hapus Dokumen</span>
+                                                                </button>
+                                                                <a class="flex justify-center items-center w-44 btn-primary mx-1"
+                                                                    title="Tambah Dokumen"
+                                                                    href="/media/license-documents/{{ $license->id }}/edit">
+                                                                    <svg class="fill-current w-5" clip-rule="evenodd"
+                                                                        fill-rule="evenodd" stroke-linejoin="round"
+                                                                        stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 20l-1.359-2.038c-1.061.653-2.305 1.038-3.641 1.038-3.859 0-7-3.14-7-7h2c0 2.757 2.243 5 5 5 .927 0 1.786-.264 2.527-.708l-1.527-2.292h5.719l-1.719 6zm0-8c0-2.757-2.243-5-5-5-.927 0-1.786.264-2.527.708l1.527 2.292h-5.719l1.719-6 1.359 2.038c1.061-.653 2.305-1.038 3.641-1.038 3.859 0 7 3.14 7 7h-2z" />
+                                                                    </svg>
+                                                                    <span class="mx-1">Ganti Dokumen</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- Edit Location Title end -->
-
-                    <!-- Edit Location Input start -->
-                    <div class="flex justify-center w-full mt-2">
-                        @if ($category == 'Billboard' || $category == 'Bando' || $category == 'Baliho' || $category == 'Midiboard')
-                            @include('dashboard.layouts.bb-edit')
-                        @elseif ($category == 'Videotron')
-                            @include('dashboard.layouts.vt-edit')
-                        @elseif ($category == 'Signage')
-                            @include('dashboard.layouts.sn-edit')
-                        @endif
-                    </div>
-                    <!-- Edit Location Input end -->
                 </div>
+                <!-- New Licenses Input end -->
             </div>
         </div>
     </form>
-    <!-- Modal Preview start -->
     <form id="formDelete" method="post" hidden>
         @method('delete')
         @csrf
     </form>
-    <form id="formDefault" method="post" enctype="multipart/form-data" hidden>
-        @method('put')
-        @csrf
-        <input type="text" name="setDefault" value="true" hidden>
-    </form>
-    <div id="modal" name="modal"
-        class="absolute justify-center top-0 w-full h-[1500px] bg-black bg-opacity-90 z-50 hidden">
-        <div>
-            <div class="w-[600px] h-8 mt-10 ml-2">
-                <div class="flex items-center">
-                    <div class="flex w-full justify-end px-4">
-                        <button id="btn-close" name="btn-close" class="flex justify-center items-center" title="Close"
-                            onclick="btnClose()" type="button">
-                            <svg class="fill-white w-6 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-center w-full">
-                <div>
-                    <span id="divTitle"
-                        class="border-b flex justify-center text-base text-white font-semibold w-full"></span>
-                    <form action="/location-photos/" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input name="location_id" type="text" value="{{ $location->id }}" hidden>
-                        <input name="company_id" type="text" value="{{ $location->company->id }}" hidden>
-                        <input name="media_category_id" type="text" value="{{ $location->media_category->id }}" hidden>
-                        <input name="location_code" type="text" value="{{ $location->code }}" hidden>
-                        <div>
-                            <div id="divAdd" class="hidden w-[600px] justify-center items-center mt-2">
-                                <input
-                                    class="flex w-full h-8 border-t border-b border-r bg-white cursor-pointer text-gray-500"
-                                    type="file" id="add_photo" name="add_photo" onchange="previewImage()">
-                                <button class="index-link bg-slate-400 border rounded-r-lg h-8 hover:bg-slate-700"
-                                    type="submit">
-                                    <svg class="fill-white ml-2 w-4" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10 9h-6l8-9 8 9h-6v11h-4v-11zm11 11v2h-18v-2h-2v4h22v-4h-2z" />
-                                    </svg>
-                                    <span class="mx-1 text-white">Upload</span>
-                                </button>
-                            </div>
-                            <div id="divAddDefault" class="hidden items-center mt-2">
-                                <label class="text-sm text-white">Jadikan sebagai foto aktif :</label>
-                                <input class="ml-2 outline-none" type="radio" name="add_default" checked
-                                    value="Yes">
-                                <label class="text-sm text-white ml-1">Ya</label>
-                                <input class="ml-4 outline-none" type="radio" name="add_default" value="No">
-                                <label class="text-sm text-white ml-1">Tidak</label>
-                            </div>
-                        </div>
-                    </form>
-                    <form id="formUpdate" class="flex" method="post" enctype="multipart/form-data">
-                        @method('put')
-                        @csrf
-                        <div>
-                            <div id="divUpdate" class="hidden w-[600px] justify-center items-center mt-2">
-                                <input type="text" id="old_photo" name="old_photo" hidden>
-                                <input
-                                    class="flex w-full h-8 border-t border-b border-r bg-white cursor-pointer text-gray-500"
-                                    type="file" id="update_photo" name="update_photo"
-                                    onchange="previewImageUpdate()">
-                                <button id="btnUpdate"
-                                    class="index-link bg-slate-400 border rounded-r-lg h-8 hover:bg-slate-700"
-                                    type="button" onclick="actionSubmit(this)">
-                                    <svg class="fill-white ml-2 w-4" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10 9h-6l8-9 8 9h-6v11h-4v-11zm11 11v2h-18v-2h-2v4h22v-4h-2z" />
-                                    </svg>
-                                    <span class="mx-1 text-white">Upload</span>
-                                </button>
-                            </div>
-                            <div id="divUpdateDefault" class="hidden items-center mt-2">
-                                <label class="text-sm text-white">Jadikan sebagai foto aktif :</label>
-                                <input class="ml-2 outline-none" type="radio" name="update_default"
-                                    id="update_default" value="Yes" checked>
-                                <label class="text-sm text-white ml-1">Ya</label>
-                                <input class="ml-4 outline-none" type="radio" name="update_default"
-                                    id="update_default" value="No">
-                                <label class="text-sm text-white ml-1">Tidak</label>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="lg-photo-product mt-2 bg-white">
-                        <img class="img-preview lg-photo-product" src="/img/product-image.png">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!-- Modal Preview end -->
-    <!-- Form Edit Location end -->
-    <!-- Script Location start -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
-        defer></script>
-
-    <script src="/js/editlocation.js"></script>
-    <!-- Script Location end -->
+    <!-- Container end -->
+    <!-- Script start -->
+    <script src="/js/editlicense.js"></script>
+    <!-- Script end -->
 @endsection

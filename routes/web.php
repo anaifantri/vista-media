@@ -152,7 +152,10 @@ Route::get('/get-locations/{id}/{scope}', [LocationController::class,'getLocatio
 Route::resource('/media/licensing-categories', LicensingCategoryController::class)->middleware(['auth','user_access']);
 Route::resource('/media/land-agreements', LandAgreementController::class)->middleware(['auth','user_access']);
 Route::resource('/media/licenses', LicenseController::class)->middleware(['auth','user_access']);
+Route::get('/create-license/{locationId}', [LicenseController::class,'createLicense'])->middleware(['auth','user_access']);
+Route::get('/show-license/{locationId}', [LicenseController::class,'showLicense'])->middleware(['auth','user_access']);
 Route::resource('/media/license-documents', LicenseDocumentController::class)->middleware(['auth','user_access']);
+Route::get('/create-license-documents/{licenseId}', [LicenseDocumentController::class,'createDocuments'])->middleware(['auth','user_access']);
 Route::resource('/media/land-documents', LandDocumentController::class)->middleware(['auth','user_access']);
 // Route Legality --> end
 // Media Group --> end

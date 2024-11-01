@@ -1,129 +1,364 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    @php
-        $description = json_decode($location->description);
-        $sectors = json_decode($location->sector);
-        $created_by = json_decode($location->created_by);
-        $updated_by = json_decode($location->updated_by);
-        $name = $location->code . '-' . $location->city->code . '-' . $location->address;
-
-        if ($location->media_category->name == 'Signage') {
-            $mapsLink =
-                'https://maps.googleapis.com/maps/api/staticmap?center=' .
-                $description->lat[0] .
-                ',' .
-                $description->lng[0] .
-                '&zoom=17&size=480x355&maptype=terrain';
-            $mapsMarkers = '';
-            $googleKey = '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
-            for ($i = 0; $i < count($description->lat); $i++) {
-                $mapsMarkers =
-                    $mapsMarkers .
-                    '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
-                    $description->lat[$i] .
-                    ',' .
-                    $description->lng[$i];
-            }
-            $src = $mapsLink . $mapsMarkers . $googleKey;
-        } else {
-            $src =
-                'https://maps.googleapis.com/maps/api/staticmap?center=' .
-                $description->lat .
-                ',' .
-                $description->lng .
-                '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
-                $description->lat .
-                ',' .
-                $description->lng .
-                '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
-        }
-
-        $bulan = [
-            1 => 'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember',
-        ];
-    @endphp
-    <input id="lat" type="text" value="{{ json_encode($description->lat) }}" hidden>
-    <input id="lng" type="text" value="{{ json_encode($description->lng) }}" hidden>
-    <input id="category" type="text" value="{{ $location->media_category->name }}" hidden>
-    <input id="saveName" type="text" value="{{ $name }}" hidden>
+    <?php
+    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $published = date('d', strtotime($license->published)) . ' ' . $bulan[(int) date('m', strtotime($license->published))] . ' ' . date('Y', strtotime($license->published));
+    $start_at = date('d', strtotime($license->start_at)) . ' ' . $bulan[(int) date('m', strtotime($license->start_at))] . ' ' . date('Y', strtotime($license->start_at));
+    $end_at = date('d', strtotime($license->end_at)) . ' ' . $bulan[(int) date('m', strtotime($license->end_at))] . ' ' . date('Y', strtotime($license->end_at));
+    ?>
+    <!-- Container start -->
     <div class="flex justify-center">
         <div class="mt-10">
-            <!-- Show Location Title start -->
-            <div class="flex w-[1140px] items-center border-b">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]"> DETAIL LOKASI
-                    {{ strtoupper($category) }}</h1>
-                <div class="flex w-full p-1 justify-end">
-                    <a class="flex justify-center items-center ml-1 btn-primary"
-                        href="/media/locations/home/{{ $category }}">
-                        <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="m10.978 14.999v3.251c0 .412-.335.75-.752.75-.188 0-.375-.071-.518-.206-1.775-1.685-4.945-4.692-6.396-6.069-.2-.189-.312-.452-.312-.725 0-.274.112-.536.312-.725 1.451-1.377 4.621-4.385 6.396-6.068.143-.136.33-.207.518-.207.417 0 .752.337.752.75v3.251h9.02c.531 0 1.002.47 1.002 1v3.998c0 .53-.471 1-1.002 1z"
-                                fill-rule="nonzero" />
-                        </svg>
-                        <span class="ml-1 text-sm">Back</span>
-                    </a>
-                    <a href="/media/locations/{{ $location->id }}/edit"
-                        class="flex justify-center items-center mx-1 btn-warning">
-                        <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+            <!-- Title start -->
+            <div class="flex w-[1200px] items-center border-b p-1">
+                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[850px]">DETAIL IZIN
+                    {{ strtoupper($license->licensing_category->name) }}</h1>
+                <div class="flex items-center w-full justify-end">
+                    <a href="/show-license/{{ $license->location->id }}"
+                        class="flex items-center justify-center btn-primary mx-1">
+                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
-                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                d="m12.017 1.995c5.517 0 9.997 4.48 9.997 9.998s-4.48 9.998-9.997 9.998c-5.518 0-9.998-4.48-9.998-9.998s4.48-9.998 9.998-9.998zm0 1.5c-4.69 0-8.498 3.808-8.498 8.498s3.808 8.498 8.498 8.498 8.497-3.808 8.497-8.498-3.807-8.498-8.497-8.498zm-1.528 4.715s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
                                 fill-rule="nonzero" />
                         </svg>
-                        <span class="mx-1 text-sm">Edit</span>
+                        <span class="mx-1"> Back </span>
                     </a>
-                    <form action="/media/locations/{{ $location->id }}" method="post" class="d-inline">
-                        @method('delete')
-                        @csrf
-                        <button class="hidden items-center justify-center btn-danger mx-1"
-                            onclick="return confirm('Apakah anda yakin ingin menghapus {{ $location->media_category->name }} dengan kode {{ $location->code }} ?')">
-                            <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                    fill-rule="nonzero" />
-                            </svg>
-                            <span class="mx-1 text-sm"> Delete </span>
-                        </button>
-                    </form>
-                    <button id="btn-preview" name="btn-preview" class="flex justify-center items-center mx-1 btn-success"
-                        onclick="btnPreview()">
-                        <svg class="fill-current w-4 lg:w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path
-                                d="M24 11v12h-24v-12h4v-10h10.328c1.538 0 5.672 4.852 5.672 6.031v3.969h4zm-6-3.396c0-1.338-2.281-1.494-3.25-1.229.453-.813.305-3.375-1.082-3.375h-7.668v13h12v-8.396zm-2 5.396h-8v-1h8v1zm0-3h-8v1h8v-1zm0-2h-8v1h8v-1z" />
-                        </svg>
-                        <span class="mx-1 text-sm lg:text-md lg:mx-2">Preview</span>
-                    </button>
+                    @canany(['isAdmin', 'isMedia'])
+                        @can('isLegal')
+                            @can('isMediaEdit')
+                                <a href="/media/licenses/{{ $license->id }}/edit" class="flex items-center justify-center btn-warning">
+                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                            fill-rule="nonzero" />
+                                    </svg>
+                                    <span class="mx-1"> Edit </span>
+                                </a>
+                            @endcan
+                        @endcan
+                    @endcanany
+                    @canany(['isAdmin', 'isMedia'])
+                        @can('isLegal')
+                            @can('isMediaDelete')
+                                <form action="/media/licenses/{{ $license->id }}" method="post" class="d-inline m-1">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="flex items-center justify-center btn-danger"
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus data izin dengan nomor {{ $license->number }} ?')">
+                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                fill-rule="nonzero" />
+                                        </svg>
+                                        <span class="mx-1"> Delete </span>
+                                    </button>
+                                </form>
+                            @endcan
+                        @endcan
+                    @endcanany
                 </div>
             </div>
-            <!-- Show Location Title end -->
+            <!-- Title end -->
 
-            <!-- Show Location start -->
+            <!-- New Licenses Input start -->
             <div class="flex justify-center w-full mt-2">
-                @include('dashboard.layouts.location-show')
+                <div class="flex justify-center">
+                    <div class="flex justify-center border rounded-lg w-[400px] h-[550px] p-2">
+                        <div class="w-[350px]">
+                            <div class="mt-2">
+                                <label class="flex text-sm text-teal-700">Jenis Izin</label>
+                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                    type="text" value="{{ $license->licensing_category->name }}" readonly>
+                            </div>
+                            <div class="mt-2">
+                                <label class="flex text-sm text-teal-700">Nomor Izin</label>
+                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                    type="text" value="{{ $license->number }}" readonly>
+                            </div>
+                            <div class="mt-2">
+                                <label class="flex text-sm text-teal-700">Penerbit Izin</label>
+                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                    type="text" value="{{ $license->government }}" readonly>
+                            </div>
+                            <div class="mt-2">
+                                <label class="flex text-sm text-teal-700">Tanggal Terbit</label>
+                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                    type="text" value="{{ $published }}" readonly>
+                            </div>
+                            <div class="mt-2">
+                                <label class="flex text-sm text-teal-700">Tanggal Awal Izin</label>
+                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                    type="text" value="{{ $start_at }}" readonly>
+                            </div>
+                            <div class="mt-2">
+                                <label class="flex text-sm text-teal-700">Tanggal Akhir Izin</label>
+                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                    type="text" value="{{ $end_at }}" readonly>
+                            </div>
+                            <div class="mt-2">
+                                <label class="flex text-sm text-teal-700">Keterangan</label>
+                                <textarea class="flex text-semibold mt-1 w-full  border rounded-lg p-1 outline-none" rows="8" readonly>{{ $license->notes }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4">
+                        <div class="w-[750px]">
+                            <div class="flex items-center w-full justify-center font-semibold">
+                                <label class="text-sm text-slate-500">Dokumen Izin
+                                    {{ $license->licensing_category->name }}</label>
+                            </div>
+                            <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700 mt-2"
+                                id="figure">
+                                @foreach ($license_documents as $document)
+                                    @if (count($license_documents) > 2)
+                                        @if ($loop->iteration - 1 == intdiv(count($license_documents), 2))
+                                            <img id="{{ $document->id }}" class="photo-active"
+                                                src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                onclick="figureAction(this)">
+                                        @else
+                                            <img id="{{ $document->id }}" class="photo"
+                                                src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                onclick="figureAction(this)">
+                                        @endif
+                                    @else
+                                        @if ($loop->iteration == 1)
+                                            <img id="{{ $document->id }}" class="photo-active"
+                                                src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                onclick="figureAction(this)">
+                                        @else
+                                            <img id="{{ $document->id }}" class="photo"
+                                                src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                onclick="figureAction(this)">
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </figure>
+                            <div class="relative m-auto w-[750px] h-max mt-2">
+                                <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto">
+                                    <button
+                                        class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                        type="button" onclick="buttonPrev()">
+                                        <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                            fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                            <path
+                                                d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto">
+                                    <button type="button"
+                                        class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                        onclick="buttonNext()">
+                                        <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                            fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                            <path
+                                                d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                @foreach ($license_documents as $document)
+                                    @if (count($license_documents) > 2)
+                                        @if ($loop->iteration - 1 == intdiv(count($license_documents), 2))
+                                            <div class="divImage">
+                                                <div
+                                                    class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                    <div class="flex items-center">
+                                                        <div class="w-64">
+                                                            <div class="flex">
+                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                    Upload</label>
+                                                                <label class="text-sm text-yellow-400">:</label>
+                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                    {{ date('d', strtotime($document->created_at)) }}
+                                                                    {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                    {{ date('Y', strtotime($document->created_at)) }}
+                                                                </label>
+                                                            </div>
+                                                            <div class="flex">
+                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                    Oleh</label>
+                                                                <label class="text-sm text-yellow-400">: </label>
+                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                    {{ $license->user->name }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                            </div>
+                                        @else
+                                            <div class="divImage" hidden>
+                                                <div
+                                                    class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                    <div class="flex items-center">
+                                                        <div class="w-64">
+                                                            <div class="flex">
+                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                    Upload</label>
+                                                                <label class="text-sm text-yellow-400">:</label>
+                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                    {{ date('d', strtotime($document->created_at)) }}
+                                                                    {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                    {{ date('Y', strtotime($document->created_at)) }}
+                                                                </label>
+                                                            </div>
+                                                            <div class="flex">
+                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                    Oleh</label>
+                                                                <label class="text-sm text-yellow-400">: </label>
+                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                    {{ $license->user->name }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                            </div>
+                                        @endif
+                                    @else
+                                        @if ($loop->iteration == 1)
+                                            <div class="divImage">
+                                                <div
+                                                    class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                    <div class="flex items-center">
+                                                        <div class="w-64">
+                                                            <div class="flex">
+                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                    Upload</label>
+                                                                <label class="text-sm text-yellow-400">:</label>
+                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                    {{ date('d', strtotime($document->created_at)) }}
+                                                                    {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                    {{ date('Y', strtotime($document->created_at)) }}
+                                                                </label>
+                                                            </div>
+                                                            <div class="flex">
+                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                    Oleh</label>
+                                                                <label class="text-sm text-yellow-400">: </label>
+                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                    {{ $license->user->name }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                            </div>
+                                        @else
+                                            <div class="divImage" hidden>
+                                                <div
+                                                    class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                    <div class="flex items-center">
+                                                        <div class="w-64">
+                                                            <div class="flex">
+                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                    Upload</label>
+                                                                <label class="text-sm text-yellow-400">:</label>
+                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                    {{ date('d', strtotime($document->created_at)) }}
+                                                                    {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                    {{ date('Y', strtotime($document->created_at)) }}
+                                                                </label>
+                                                            </div>
+                                                            <div class="flex">
+                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                    Oleh</label>
+                                                                <label class="text-sm text-yellow-400">: </label>
+                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                    {{ $license->user->name }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Show Location end -->
+            <!-- New Licenses Input end -->
         </div>
     </div>
-    <!-- Script Show Location start -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
-        defer></script>
+    <!-- Container end -->
+    <!-- Script start -->
+    {{-- <script src="/js/addlicensedocuments.js"></script> --}}
+    <script>
+        // Funtion Button Next-Prev-figure start -->
+        const imageViews = document.querySelectorAll(".divImage");
+        const figure = document.getElementById("figure");
+        const figureImages = figure.getElementsByTagName("img");
+        var index = 0;
 
-    <script src="/js/showlocation.js"></script>
-    <script src="/js/savepdf.js"></script>
-    <!-- Script Show Location end -->
+        if (imageViews.length > 2) {
+            index = Math.floor(imageViews.length / 2);
+        } else {
+            index = 0;
+        }
+
+        buttonNext = () => {
+            if (index == imageViews.length - 1) {
+                figureImages[index].classList.remove('photo-active');
+                figureImages[index].classList.add('photo');
+                figureImages[0].classList.remove('photo');
+                figureImages[0].classList.add('photo-active');
+                imageViews[index].setAttribute('hidden', 'hidden');
+                imageViews[0].removeAttribute('hidden');
+                index = 0;
+            } else {
+                figureImages[index].classList.remove('photo-active');
+                figureImages[index].classList.add('photo');
+                figureImages[index + 1].classList.add('photo-active');
+                figureImages[index + 1].classList.remove('photo');
+                imageViews[index].setAttribute('hidden', 'hidden');
+                imageViews[index + 1].removeAttribute('hidden');
+                index = index + 1;
+            }
+        }
+        buttonPrev = () => {
+            if (index == 0) {
+                figureImages[index].classList.remove('photo-active');
+                figureImages[index].classList.add('photo');
+                figureImages[imageViews.length - 1].classList.remove('photo');
+                figureImages[imageViews.length - 1].classList.add('photo-active');
+                imageViews[index].setAttribute('hidden', 'hidden');
+                imageViews[imageViews.length - 1].removeAttribute('hidden');
+                index = imageViews.length - 1;
+            } else {
+                figureImages[index].classList.remove('photo-active');
+                figureImages[index].classList.add('photo');
+                figureImages[index - 1].classList.add('photo-active');
+                figureImages[index - 1].classList.remove('photo');
+                imageViews[index].setAttribute('hidden', 'hidden');
+                imageViews[index - 1].removeAttribute('hidden');
+                index = index - 1;
+            }
+        }
+        figureAction = (sel) => {
+            for (let i = 0; i < figureImages.length; i++) {
+                if (figureImages[i].id == sel.id) {
+                    figureImages[i].classList.remove('photo');
+                    figureImages[i].classList.add('photo-active');
+                    imageViews[i].removeAttribute('hidden');
+                } else {
+                    figureImages[i].classList.add('photo');
+                    figureImages[i].classList.remove('photo-active');
+                    imageViews[i].setAttribute('hidden', 'hidden');
+                }
+            }
+        }
+        // Funtion Button Next-Prev-figure end -->
+    </script>
+    <!-- Script end -->
 @endsection

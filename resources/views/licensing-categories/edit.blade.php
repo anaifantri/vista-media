@@ -42,11 +42,6 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
                             @error('name')
                                 <div class="invalid-feedback">
@@ -61,13 +56,13 @@
                             <textarea
                                 class="flex text-semibold w-[280px]  border rounded-lg p-1 outline-teal-300 @error('description') is-invalid @enderror"
                                 name="description" placeholder="Input deskripsi bahan" rows="6">{{ $licensing_category->description }}</textarea>
-                            @error('description')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
                         </div>
                     </div>
+                    @error('description')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                     <div class="flex justify-center mt-4">
                         <button class="flex items-center justify-center btn-primary mx-1" type="submit" id="btnSubmit"
                             name="btnSubmit">

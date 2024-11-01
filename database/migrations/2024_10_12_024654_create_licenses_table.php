@@ -18,8 +18,9 @@ return new class extends Migration
             $table->foreignId('location_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('licensing_category_id')->constrained();
-            $table->json('government');
-            $table->string('notes');
+            $table->string('government');
+            $table->string('notes')->nullable();
+            $table->date('published');
             $table->date('start_at');
             $table->date('end_at')->nullable();
             $table->timestamps();

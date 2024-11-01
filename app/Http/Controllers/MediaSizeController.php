@@ -194,7 +194,6 @@ class MediaSizeController extends Controller
             if($mediaSize->locations()->exists()){
                 return back()->withErrors(['delete' => ['Gagal untuk menghapus data ukuran, terdapat relasi dengan data pada tabel data lainnya']]);
             }else{
-                dd($mediaSize);
                 MediaSize::destroy($mediaSize->id);
     
                 return redirect('/media/media-sizes')->with('success','Ukuran '. $mediaSize->size .' berhasil dihapus');

@@ -89,6 +89,9 @@ class User extends Authenticatable
     public function licenses(){
         return $this->hasMany(License::class, 'user_id', 'id');
     }
+    public function licensing_categories(){
+        return $this->hasMany(LicensingCategory::class, 'user_id', 'id');
+    }
 
     public $sortable = ['name', 'username'];
     /**

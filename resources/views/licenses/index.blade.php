@@ -1,26 +1,40 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
+    <?php
+    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agst', 'Sept', 'Okt', 'Nov', 'Des'];
+    ?>
+    <!-- Container start -->
     <div class="flex justify-center pl-14 py-10">
         <div class="z-0 mb-8">
             <div class="flex p-1 w-full border-b">
+                <!-- Title start -->
                 <h1 class="index-h1">DAFTAR DATA PERIZINAN</h1>
-                @canany(['isAdmin', 'isMedia', 'isMarketing'])
-                    <div>
-                        <a href="/media/land-agreements/create" class="index-link btn-primary">
-                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                    fill-rule="nonzero" />
-                            </svg>
-                            <span class="mx-1 hidden sm:flex">Tambah Data Izin</span>
-                        </a>
-                    </div>
-                @endcanany
+                <!-- Title end -->
+
+                <!-- Button create start -->
+                {{-- @canany(['isAdmin', 'isMedia'])
+                    @can('isLegal')
+                        @can('isMediaCreate')
+                            <div>
+                                <a href="/media/licenses/create" class="index-link btn-primary">
+                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                            fill-rule="nonzero" />
+                                    </svg>
+                                    <span class="mx-1 hidden sm:flex">Tambah Data Izin</span>
+                                </a>
+                            </div>
+                        @endcan
+                    @endcan
+                @endcanany --}}
+                <!-- Button create end -->
             </div>
             <div>
-                <form action="/media/land-agreements/">
+                <!-- Form search start -->
+                <form action="/media/licenses/">
                     <div class="flex mt-1 ml-2">
                         <div class="w-36">
                             <span class="text-base text-teal-900">Area</span>
@@ -85,7 +99,8 @@
                         <div class="flex">
                             <input id="search" name="search"
                                 class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900"
-                                type="text" placeholder="Search" value="{{ request('search') }}">
+                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                 type="submit">
                                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -94,29 +109,35 @@
                                 </svg>
                             </button>
                         </div>
-                        @if (session()->has('success'))
-                            <div class="ml-2 flex alert-success">
-                                <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                                </svg>
-                                <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
-                            </div>
-                        @endif
                     </div>
                 </form>
+                <!-- Form search end -->
+
+                <!-- Alert start -->
+                @if (session()->has('success'))
+                    <div class="ml-2 flex alert-success">
+                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                        </svg>
+                        <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                    </div>
+                @endif
+                <!-- Alert end -->
+
             </div>
-            <div class="w-[1250px]">
+            <!-- View start -->
+            <div class="w-[1250px] mt-2">
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="bg-teal-100">
                             <th class="text-teal-700 border text-xs w-8 text-center">No</th>
                             <th class="text-teal-700 border text-xs text-center">Data Lokasi</th>
-                            <th class="text-teal-700 border text-xs text-center w-3">Izin Prinsip</th>
-                            <th class="text-teal-700 border text-xs text-center w-3">PBG/SLF</th>
-                            <th class="text-teal-700 border text-xs text-center w-3">Izin Reklame</th>
-                            <th class="text-teal-700 border text-xs text-center w-3">SKPD</th>
-                            <th class="text-teal-700 border text-xs text-center w-3">SSPD</th>
+                            <th class="text-teal-700 border text-xs text-center w-36">Izin Prinsip</th>
+                            <th class="text-teal-700 border text-xs text-center w-36">PBG/SLF</th>
+                            <th class="text-teal-700 border text-xs text-center w-36">Izin Reklame</th>
+                            <th class="text-teal-700 border text-xs text-center w-36">SKPD</th>
+                            <th class="text-teal-700 border text-xs text-center w-36">SSPD</th>
                             <th class="text-teal-700 border text-xs text-center w-24">Action</th>
                         </tr>
                     </thead>
@@ -125,21 +146,74 @@
                             $number = 1 + ($locations->currentPage() - 1) * $locations->perPage();
                         @endphp
                         @foreach ($locations as $location)
+                            @php
+                                $dataPrinsip = $location->licenses->where('licensing_category_id', $prinsip)->last();
+                            @endphp
                             @if ($number % 2 == 0)
                                 <tr class="bg-teal-50">
                                     <td class="text-teal-700 border text-xs text-center align-top">{{ $number++ }}</td>
-                                    <td class="text-teal-700 border text-xs text-center px-1 align-top">
+                                    <td class="text-teal-700 border text-xs px-1 align-top">
                                         <div class="flex">
                                             <label class="flex w-10">Kode</label>
-                                            <label class="flex">: {{ $location->code }} -
+                                            <label class="flex">:</label>
+                                            <label class="flex ml-1">{{ $location->code }} -
                                                 {{ $location->city->code }}</label>
                                         </div>
                                         <div class="flex">
                                             <label class="flex w-10">Lokasi</label>
-                                            <label class="flex">: {{ $location->address }}</label>
+                                            <label class="flex">:</label>
+                                            <label class="flex ml-1">{{ $location->address }}</label>
                                         </div>
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center">
+                                    <td class="text-teal-700 border text-xs">
+                                        <div class="flex w-36 px-1">
+                                            <label class="flex w-12">Nomor</label>
+                                            <label class="flex">:
+                                                @if ($dataPrinsip)
+                                                    @if ($dataPrinsip->number)
+                                                        {{ $dataPrinsip->number }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <div class="flex w-36 px-1">
+                                            <label class="flex w-12">Awal</label>
+                                            <label class="flex">:
+                                                @if ($dataPrinsip)
+                                                    @if ($dataPrinsip->start_at)
+                                                        {{ date('d', strtotime($dataPrinsip->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataPrinsip->start_at))] }}
+                                                        {{ date('Y', strtotime($dataPrinsip->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <div class="flex w-36 px-1">
+                                            <label class="flex w-12">Akhir</label>
+                                            <label class="flex">:
+                                                @if ($dataPrinsip)
+                                                    @if ($dataPrinsip->end_at)
+                                                        {{ date('d', strtotime($dataPrinsip->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataPrinsip->end_at))] }}
+                                                        {{ date('Y', strtotime($dataPrinsip->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
                                             <label class="flex">: </label>
@@ -153,7 +227,7 @@
                                             <label class="flex">: </label>
                                         </div>
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center">
+                                    <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
                                             <label class="flex">: </label>
@@ -167,7 +241,7 @@
                                             <label class="flex">: </label>
                                         </div>
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center">
+                                    <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
                                             <label class="flex">: </label>
@@ -181,21 +255,7 @@
                                             <label class="flex">: </label>
                                         </div>
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center">
-                                        <div class="flex w-36 px-1">
-                                            <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
-                                        </div>
-                                        <div class="flex w-36 px-1">
-                                            <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
-                                        </div>
-                                        <div class="flex w-36 px-1">
-                                            <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
-                                        </div>
-                                    </td>
-                                    <td class="text-teal-700 border text-xs text-center">
+                                    <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
                                             <label class="flex">: </label>
@@ -211,7 +271,7 @@
                                     </td>
                                     <td class="text-teal-700 border text-xs text-center">
                                         <div class="flex justify-center items-center">
-                                            <a href="/media/land-agreements/{{ $location->id }}"
+                                            <a href="/show-license/{{ $location->id }}" title="Lihat Data Izin"
                                                 class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                                 <svg class="fill-current w-[18px]" clip-rule="evenodd"
                                                     fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -221,33 +281,20 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            @canany(['isAdmin', 'isMedia', 'isMarketing'])
-                                                <a href="/media/land-agreements/{{ $location->id }}/edit"
-                                                    class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
-                                                    <svg class="fill-current w-[18px]" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                                            fill-rule="nonzero" />
-                                                    </svg>
-                                                </a>
-                                                @can('isAdmin')
-                                                    <form action="/media/land-agreements/{{ $location->id }}" method="post"
-                                                        class="d-inline m-1">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button
-                                                            class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                            onclick="return confirm('Apakah anda yakin ingin menghapus lokasi dengan kode {{ $location->code }} ?')">
-                                                            <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                                                width="24" height="24" viewBox="0 0 24 24">
-                                                                <title>DELETE</title>
+                                            @canany(['isAdmin', 'isMedia'])
+                                                @can('isLegal')
+                                                    @can('isMediaCreate')
+                                                        <a href="/create-license/{{ $location->id }}" title="Tambah Data Izin"
+                                                            class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md">
+                                                            <svg class="fill-current w-[18px]" clip-rule="evenodd"
+                                                                fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                                 <path
-                                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                                    fill-rule="nonzero" />
                                                             </svg>
-                                                        </button>
-                                                    </form>
+                                                        </a>
+                                                    @endcan
                                                 @endcan
                                             @endcanany
                                         </div>
@@ -257,18 +304,68 @@
                                 <tr>
                                     <td class="text-teal-700 border text-xs text-center align-top">{{ $number++ }}
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center px-1 align-top">
+                                    <td class="text-teal-700 border text-xs px-1 align-top">
                                         <div class="flex">
                                             <label class="flex w-10">Kode</label>
-                                            <label class="flex">: {{ $location->code }} -
+                                            <label class="flex">:</label>
+                                            <label class="flex ml-1">{{ $location->code }} -
                                                 {{ $location->city->code }}</label>
                                         </div>
                                         <div class="flex">
                                             <label class="flex w-10">Lokasi</label>
-                                            <label class="flex">: {{ $location->address }}</label>
+                                            <label class="flex">:</label>
+                                            <label class="flex ml-1">{{ $location->address }}</label>
                                         </div>
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center">
+                                    <td class="text-teal-700 border text-xs">
+                                        <div class="flex w-36 px-1">
+                                            <label class="flex w-12">Nomor</label>
+                                            <label class="flex">:
+                                                @if ($dataPrinsip)
+                                                    @if ($dataPrinsip->number)
+                                                        {{ $dataPrinsip->number }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <div class="flex w-36 px-1">
+                                            <label class="flex w-12">Awal</label>
+                                            <label class="flex">:
+                                                @if ($dataPrinsip)
+                                                    @if ($dataPrinsip->start_at)
+                                                        {{ date('d', strtotime($dataPrinsip->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataPrinsip->start_at))] }}
+                                                        {{ date('Y', strtotime($dataPrinsip->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <div class="flex w-36 px-1">
+                                            <label class="flex w-12">Akhir</label>
+                                            <label class="flex">:
+                                                @if ($dataPrinsip)
+                                                    @if ($dataPrinsip->end_at)
+                                                        {{ date('d', strtotime($dataPrinsip->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataPrinsip->end_at))] }}
+                                                        {{ date('Y', strtotime($dataPrinsip->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
                                             <label class="flex">: </label>
@@ -282,7 +379,7 @@
                                             <label class="flex">: </label>
                                         </div>
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center">
+                                    <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
                                             <label class="flex">: </label>
@@ -296,7 +393,7 @@
                                             <label class="flex">: </label>
                                         </div>
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center">
+                                    <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
                                             <label class="flex">: </label>
@@ -310,21 +407,7 @@
                                             <label class="flex">: </label>
                                         </div>
                                     </td>
-                                    <td class="text-teal-700 border text-xs text-center">
-                                        <div class="flex w-36 px-1">
-                                            <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
-                                        </div>
-                                        <div class="flex w-36 px-1">
-                                            <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
-                                        </div>
-                                        <div class="flex w-36 px-1">
-                                            <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
-                                        </div>
-                                    </td>
-                                    <td class="text-teal-700 border text-xs text-center">
+                                    <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
                                             <label class="flex">: </label>
@@ -340,7 +423,7 @@
                                     </td>
                                     <td class="text-teal-700 border text-xs text-center">
                                         <div class="flex justify-center items-center">
-                                            <a href="/media/land-agreements/{{ $location->id }}"
+                                            <a href="/show-license/{{ $location->id }}" title="Lihat Data Izin"
                                                 class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                                 <svg class="fill-current w-[18px]" clip-rule="evenodd"
                                                     fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -350,33 +433,20 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            @canany(['isAdmin', 'isMedia', 'isMarketing'])
-                                                <a href="/media/land-agreements/{{ $location->id }}/edit"
-                                                    class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
-                                                    <svg class="fill-current w-[18px]" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                                            fill-rule="nonzero" />
-                                                    </svg>
-                                                </a>
-                                                @can('isAdmin')
-                                                    <form action="/media/land-agreements/{{ $location->id }}" method="post"
-                                                        class="d-inline m-1">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button
-                                                            class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                            onclick="return confirm('Apakah anda yakin ingin menghapus lokasi dengan kode {{ $location->code }} ?')">
-                                                            <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                                                width="24" height="24" viewBox="0 0 24 24">
-                                                                <title>DELETE</title>
+                                            @canany(['isAdmin', 'isMedia'])
+                                                @can('isLegal')
+                                                    @can('isMediaCreate')
+                                                        <a href="/create-license/{{ $location->id }}" title="Tambah Data Izin"
+                                                            class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md">
+                                                            <svg class="fill-current w-[18px]" clip-rule="evenodd"
+                                                                fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                                 <path
-                                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                                    fill-rule="nonzero" />
                                                             </svg>
-                                                        </button>
-                                                    </form>
+                                                        </a>
+                                                    @endcan
                                                 @endcan
                                             @endcanany
                                         </div>
@@ -387,9 +457,14 @@
                     </tbody>
                 </table>
             </div>
+            <!-- View end -->
+
+            <!-- Pagination start -->
             <div class="flex justify-center text-teal-900 mt-2">
                 {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
+            <!-- Pagination end -->
         </div>
     </div>
+    <!-- Container end -->
 @endsection

@@ -11,14 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('licensing_categories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
+        Schema::table('license_documents', function (Blueprint $table) {
             $table->foreignId('licensing_category_id')->constrained();
-            $table->string('code')->unique();
-            $table->string('name')->unique();
-            $table->string('description');
-            $table->timestamps();
         });
     }
 
@@ -27,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('licensing_categories');
+        Schema::table('license_documents', function (Blueprint $table) {
+            $table->dropForeign(['licensing_category_id']);
+            $table->dropColumn('licensing_category_id');
+        });
     }
 };

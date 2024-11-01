@@ -21,6 +21,10 @@ class LicensingCategory extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function license_documents(){
+        return $this->hasMany(LicenseDocument::class, 'licensing_category_id', 'id');
+    }
+
     public function licenses(){
         return $this->hasMany(License::class, 'licensing_category_id', 'id');
     }

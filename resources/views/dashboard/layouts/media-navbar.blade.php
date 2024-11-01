@@ -68,7 +68,7 @@
         @can('isLegal')
             <ul id="legalNav" class="relative group transition duration-300 ease-in-out"
                 onclick="headerDropdown(event, this)">
-                <a class="right-nav w-40 p-1 h-6 text-white {{ Request::is('media/legal*') ? 'active' : '' }}"
+                <a class="right-nav w-40 p-1 h-6 text-white {{ Request::is('media/licenses*') ? 'active' : '' }}{{ Request::is('media/land_agreements*') ? 'active' : '' }}"
                     href="#">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                         viewBox="0 0 24 24">
@@ -88,7 +88,8 @@
                     <!-- Child Legalitas Start -->
                     <ul>
                         <li class="group">
-                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]" href="/media/licenses">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('media/licenses*') ? 'active' : '' }}"
+                                href="/media/licenses">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +100,8 @@
                             </a>
                         </li>
                         <li class="group">
-                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]" href="/media/land-agreements">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('media/land_agreements*') ? 'active' : '' }}"
+                                href="/media/land-agreements">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
