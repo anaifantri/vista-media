@@ -98,6 +98,10 @@ class Location extends Model
                     ->orWhereHas('media_size', function($query) use ($search){
                         $query->where('size', 'like', '%' . $search . '%');
                     })
+                    ->orWhereHas('land_agreements', function($query) use ($search){
+                        $query->where('number', 'like', '%' . $search . '%')
+                            ->orWhere('second_party', 'like', '%' . $search . '%');
+                    })
                 );
     }
 

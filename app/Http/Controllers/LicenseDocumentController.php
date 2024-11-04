@@ -61,6 +61,7 @@ class LicenseDocumentController extends Controller
                     $documentLicense = [];
                     $documentLicense = [
                         'license_id' => $request->license_id,
+                        'user_id' => auth()->user()->id,
                         'licensing_category_id' => $request->licensing_category_id,
                         'name' => $request->name,
                         'image' => $image->store('license-images')
@@ -108,7 +109,7 @@ class LicenseDocumentController extends Controller
                 'license_document' => 'required|image|file|mimes:jpeg,png,jpg|max:2048'
             ]);
             Storage::delete($request->oldDocument);
-    
+            $validateData['user_id'] = auth()->user()->id;
             $validateData['image'] = $request->file('license_document')->store('license-images');
 
             LicenseDocument::where('id', $licenseDocument->id)->update($validateData);

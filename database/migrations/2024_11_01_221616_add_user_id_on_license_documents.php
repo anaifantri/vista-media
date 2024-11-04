@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('license_documents', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('license_id')->constrained();
+        Schema::table('license_documents', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained();
-            $table->string('name');
-            $table->string('image');
-            $table->timestamps();
         });
     }
 
@@ -26,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('license_documents');
+        Schema::table('license_documents', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+        });
     }
 };

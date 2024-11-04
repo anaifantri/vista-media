@@ -86,8 +86,14 @@ class User extends Authenticatable
     public function land_agreements(){
         return $this->hasMany(LandAgreement::class, 'user_id', 'id');
     }
+    public function land_documents(){
+        return $this->hasMany(LandDocument::class, 'user_id', 'id');
+    }
     public function licenses(){
         return $this->hasMany(License::class, 'user_id', 'id');
+    }
+    public function license_documents(){
+        return $this->hasMany(LicenseDocument::class, 'user_id', 'id');
     }
     public function licensing_categories(){
         return $this->hasMany(LicensingCategory::class, 'user_id', 'id');

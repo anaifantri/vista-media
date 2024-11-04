@@ -107,7 +107,7 @@
                     </div>
                     <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4">
                         <div class="w-[750px]">
-                            <div class="flex items-center w-full justify-center font-semibold">
+                            <div class="flex items-center w-full justify-center font-semibold border-b">
                                 <label class="text-sm text-slate-500">Dokumen Izin
                                     {{ $license->licensing_category->name }}</label>
                             </div>
@@ -243,7 +243,7 @@
                                                                     Oleh</label>
                                                                 <label class="text-sm text-yellow-400">: </label>
                                                                 <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ $license->user->name }}
+                                                                    {{ $document->user->name }}
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -272,7 +272,7 @@
                                                                     Oleh</label>
                                                                 <label class="text-sm text-yellow-400">: </label>
                                                                 <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ $license->user->name }}
+                                                                    {{ $document->user->name }}
                                                                 </label>
                                                             </div>
                                                         </div>

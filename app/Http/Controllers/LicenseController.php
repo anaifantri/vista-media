@@ -122,8 +122,8 @@ class LicenseController extends Controller
                 return back()->withErrors(['licensing_category_id' => ['Silahkan pilih katagori izin']])->withInput();
             }
             $request->validate([
-                'document_license.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
-                'document_license' => 'required',
+                'legal_documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
+                'legal_documents' => 'required',
             ]);
             $request->request->add(['user_id' => auth()->user()->id]);
             $validateData = $request->validate([
@@ -144,8 +144,8 @@ class LicenseController extends Controller
             $category = LicensingCategory::where('id', $dataLicense->licensing_category_id)->firstOrFail();
             $name = $category->name;
     
-            if($request->file('document_license')){
-                $images = $request->file('document_license');
+            if($request->file('legal_documents')){
+                $images = $request->file('legal_documents');
                 foreach($images as $image){
                     $documentLicense = [];
                     $documentLicense = [

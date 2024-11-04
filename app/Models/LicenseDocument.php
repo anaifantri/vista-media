@@ -12,6 +12,9 @@ class LicenseDocument extends Model
     public function license(){
         return $this->belongsTo(License::class);
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
     public function licensing_category(){
         return $this->belongsTo(LicensingCategory::class);

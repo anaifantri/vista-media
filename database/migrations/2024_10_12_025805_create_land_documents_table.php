@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('land_documents', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->foreignId('land_agreement_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->string('name');
             $table->string('image');
             $table->timestamps();
         });

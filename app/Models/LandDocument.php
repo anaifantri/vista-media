@@ -12,4 +12,7 @@ class LandDocument extends Model
     public function land_agreement(){
         return $this->belongsTo(LandAgreement::class);
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

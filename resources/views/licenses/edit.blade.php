@@ -2,7 +2,6 @@
 
 @section('container')
     <?php
-    // $description = json_decode($location->description);
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
@@ -234,8 +233,9 @@
                                                                         class="text-sm text-yellow-400 w-28 mx-1">Diupload
                                                                         Oleh</label>
                                                                     <label class="text-sm text-yellow-400">: </label>
-                                                                    <label
-                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ $license->user->name }}</label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ $document->user->name }}
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                             <div class="flex w-full px-1 justify-end items-center">
@@ -254,7 +254,7 @@
                                                                 </button>
                                                                 <a class="flex justify-center items-center w-44 btn-primary mx-1"
                                                                     title="Tambah Dokumen"
-                                                                    href="/media/license-documents/{{ $license->id }}/edit">
+                                                                    href="/media/license-documents/{{ $document->id }}/edit">
                                                                     <svg class="fill-current w-5" clip-rule="evenodd"
                                                                         fill-rule="evenodd" stroke-linejoin="round"
                                                                         stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -290,8 +290,9 @@
                                                                         class="text-sm text-yellow-400 w-28 mx-1">Diupload
                                                                         Oleh</label>
                                                                     <label class="text-sm text-yellow-400">: </label>
-                                                                    <label
-                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ $license->user->name }}</label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ $document->user->name }}
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                             <div class="flex w-full px-1 justify-end items-center">
@@ -310,7 +311,7 @@
                                                                 </button>
                                                                 <a class="flex justify-center items-center w-44 btn-primary mx-1"
                                                                     title="Tambah Dokumen"
-                                                                    href="/media/license-documents/{{ $license->id }}/edit">
+                                                                    href="/media/license-documents/{{ $document->id }}/edit">
                                                                     <svg class="fill-current w-5" clip-rule="evenodd"
                                                                         fill-rule="evenodd" stroke-linejoin="round"
                                                                         stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -348,8 +349,9 @@
                                                                         class="text-sm text-yellow-400 w-28 mx-1">Diupload
                                                                         Oleh</label>
                                                                     <label class="text-sm text-yellow-400">: </label>
-                                                                    <label
-                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ $license->user->name }}</label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ $document->user->name }}
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                             <div class="flex w-full px-1 justify-end items-center">
@@ -368,7 +370,7 @@
                                                                 </button>
                                                                 <a class="flex justify-center items-center w-44 btn-primary mx-1"
                                                                     title="Tambah Dokumen"
-                                                                    href="/media/license-documents/{{ $license->id }}/edit">
+                                                                    href="/media/license-documents/{{ $document->id }}/edit">
                                                                     <svg class="fill-current w-5" clip-rule="evenodd"
                                                                         fill-rule="evenodd" stroke-linejoin="round"
                                                                         stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -404,8 +406,9 @@
                                                                         class="text-sm text-yellow-400 w-28 mx-1">Diupload
                                                                         Oleh</label>
                                                                     <label class="text-sm text-yellow-400">: </label>
-                                                                    <label
-                                                                        class="text-sm text-yellow-400 ml-2 w-40">{{ $license->user->name }}</label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ $document->user->name }}
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                             <div class="flex w-full px-1 justify-end items-center">
@@ -424,7 +427,7 @@
                                                                 </button>
                                                                 <a class="flex justify-center items-center w-44 btn-primary mx-1"
                                                                     title="Tambah Dokumen"
-                                                                    href="/media/license-documents/{{ $license->id }}/edit">
+                                                                    href="/media/license-documents/{{ $document->id }}/edit">
                                                                     <svg class="fill-current w-5" clip-rule="evenodd"
                                                                         fill-rule="evenodd" stroke-linejoin="round"
                                                                         stroke-miterlimit="2" viewBox="0 0 24 24"

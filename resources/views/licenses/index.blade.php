@@ -11,26 +11,6 @@
                 <!-- Title start -->
                 <h1 class="index-h1">DAFTAR DATA PERIZINAN</h1>
                 <!-- Title end -->
-
-                <!-- Button create start -->
-                {{-- @canany(['isAdmin', 'isMedia'])
-                    @can('isLegal')
-                        @can('isMediaCreate')
-                            <div>
-                                <a href="/media/licenses/create" class="index-link btn-primary">
-                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="mx-1 hidden sm:flex">Tambah Data Izin</span>
-                                </a>
-                            </div>
-                        @endcan
-                    @endcan
-                @endcanany --}}
-                <!-- Button create end -->
             </div>
             <div>
                 <!-- Form search start -->
@@ -112,7 +92,6 @@
                     </div>
                 </form>
                 <!-- Form search end -->
-
                 <!-- Alert start -->
                 @if (session()->has('success'))
                     <div class="ml-2 flex alert-success">
@@ -124,7 +103,6 @@
                     </div>
                 @endif
                 <!-- Alert end -->
-
             </div>
             <!-- View start -->
             <div class="w-[1250px] mt-2">
@@ -148,6 +126,11 @@
                         @foreach ($locations as $location)
                             @php
                                 $dataPrinsip = $location->licenses->where('licensing_category_id', $prinsip)->last();
+                                $dataPbg = $location->licenses->where('licensing_category_id', $pbg)->last();
+                                $dataSlf = $location->licenses->where('licensing_category_id', $slf)->last();
+                                $dataIpr = $location->licenses->where('licensing_category_id', $ipr)->last();
+                                $dataSkpd = $location->licenses->where('licensing_category_id', $skpd)->last();
+                                $dataSspd = $location->licenses->where('licensing_category_id', $sspd)->last();
                             @endphp
                             @if ($number % 2 == 0)
                                 <tr class="bg-teal-50">
@@ -168,10 +151,14 @@
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">:
+                                            <label class="flex font-semibold">:
                                                 @if ($dataPrinsip)
                                                     @if ($dataPrinsip->number)
-                                                        {{ $dataPrinsip->number }}
+                                                        @if (strlen($dataPrinsip->number) > 10)
+                                                            {{ substr($dataPrinsip->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataPrinsip->number, 0, 10) }}
+                                                        @endif
                                                     @else
                                                         -
                                                     @endif
@@ -216,57 +203,235 @@
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataPbg)
+                                                    @if ($dataPbg->number)
+                                                        @if (strlen($dataPbg->number) > 10)
+                                                            {{ substr($dataPbg->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataPbg->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @elseif ($dataSlf)
+                                                    @if ($dataSlf->number)
+                                                        @if (strlen($dataSlf->number) > 10)
+                                                            {{ substr($dataSlf->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataSlf->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataPbg)
+                                                    @if ($dataPbg->start_at)
+                                                        {{ date('d', strtotime($dataPbg->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataPbg->start_at))] }}
+                                                        {{ date('Y', strtotime($dataPbg->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @elseif ($dataSlf)
+                                                    @if ($dataSlf->start_at)
+                                                        {{ date('d', strtotime($dataSlf->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSlf->start_at))] }}
+                                                        {{ date('Y', strtotime($dataSlf->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataPbg)
+                                                    @if ($dataPbg->end_at)
+                                                        {{ date('d', strtotime($dataPbg->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataPbg->end_at))] }}
+                                                        {{ date('Y', strtotime($dataPbg->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @elseif ($dataSlf)
+                                                    @if ($dataSlf->end_at)
+                                                        {{ date('d', strtotime($dataSlf->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSlf->end_at))] }}
+                                                        {{ date('Y', strtotime($dataSlf->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataIpr)
+                                                    @if ($dataIpr->number)
+                                                        @if (strlen($dataIpr->number) > 10)
+                                                            {{ substr($dataIpr->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataIpr->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataIpr)
+                                                    @if ($dataIpr->start_at)
+                                                        {{ date('d', strtotime($dataIpr->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataIpr->start_at))] }}
+                                                        {{ date('Y', strtotime($dataIpr->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataIpr)
+                                                    @if ($dataIpr->end_at)
+                                                        {{ date('d', strtotime($dataIpr->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataIpr->end_at))] }}
+                                                        {{ date('Y', strtotime($dataIpr->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSkpd)
+                                                    @if ($dataSkpd->number)
+                                                        @if (strlen($dataSkpd->number) > 10)
+                                                            {{ substr($dataSkpd->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataSkpd->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSkpd)
+                                                    @if ($dataSkpd->start_at)
+                                                        {{ date('d', strtotime($dataSkpd->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSkpd->start_at))] }}
+                                                        {{ date('Y', strtotime($dataSkpd->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSkpd)
+                                                    @if ($dataSkpd->end_at)
+                                                        {{ date('d', strtotime($dataSkpd->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSkpd->end_at))] }}
+                                                        {{ date('Y', strtotime($dataSkpd->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSspd)
+                                                    @if ($dataSspd->number)
+                                                        @if (strlen($dataSspd->number) > 10)
+                                                            {{ substr($dataSspd->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataSspd->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSspd)
+                                                    @if ($dataSspd->start_at)
+                                                        {{ date('d', strtotime($dataSspd->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSspd->start_at))] }}
+                                                        {{ date('Y', strtotime($dataSspd->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSspd)
+                                                    @if ($dataSspd->end_at)
+                                                        {{ date('d', strtotime($dataSspd->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSspd->end_at))] }}
+                                                        {{ date('Y', strtotime($dataSspd->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="text-teal-700 border text-xs text-center">
@@ -320,10 +485,14 @@
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">:
+                                            <label class="flex font-semibold">:
                                                 @if ($dataPrinsip)
                                                     @if ($dataPrinsip->number)
-                                                        {{ $dataPrinsip->number }}
+                                                        @if (strlen($dataPrinsip->number) > 10)
+                                                            {{ substr($dataPrinsip->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataPrinsip->number, 0, 10) }}
+                                                        @endif
                                                     @else
                                                         -
                                                     @endif
@@ -368,57 +537,235 @@
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataPbg)
+                                                    @if ($dataPbg->number)
+                                                        @if (strlen($dataPbg->number) > 10)
+                                                            {{ substr($dataPbg->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataPbg->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @elseif ($dataSlf)
+                                                    @if ($dataSlf->number)
+                                                        @if (strlen($dataSlf->number) > 10)
+                                                            {{ substr($dataSlf->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataSlf->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataPbg)
+                                                    @if ($dataPbg->start_at)
+                                                        {{ date('d', strtotime($dataPbg->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataPbg->start_at))] }}
+                                                        {{ date('Y', strtotime($dataPbg->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @elseif ($dataSlf)
+                                                    @if ($dataSlf->start_at)
+                                                        {{ date('d', strtotime($dataSlf->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSlf->start_at))] }}
+                                                        {{ date('Y', strtotime($dataSlf->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataPbg)
+                                                    @if ($dataPbg->end_at)
+                                                        {{ date('d', strtotime($dataPbg->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataPbg->end_at))] }}
+                                                        {{ date('Y', strtotime($dataPbg->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @elseif ($dataSlf)
+                                                    @if ($dataSlf->end_at)
+                                                        {{ date('d', strtotime($dataSlf->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSlf->end_at))] }}
+                                                        {{ date('Y', strtotime($dataSlf->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataIpr)
+                                                    @if ($dataIpr->number)
+                                                        @if (strlen($dataIpr->number) > 10)
+                                                            {{ substr($dataIpr->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataIpr->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataIpr)
+                                                    @if ($dataIpr->start_at)
+                                                        {{ date('d', strtotime($dataIpr->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataIpr->start_at))] }}
+                                                        {{ date('Y', strtotime($dataIpr->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataIpr)
+                                                    @if ($dataIpr->end_at)
+                                                        {{ date('d', strtotime($dataIpr->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataIpr->end_at))] }}
+                                                        {{ date('Y', strtotime($dataIpr->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSkpd)
+                                                    @if ($dataSkpd->number)
+                                                        @if (strlen($dataSkpd->number) > 10)
+                                                            {{ substr($dataSkpd->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataSkpd->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSkpd)
+                                                    @if ($dataSkpd->start_at)
+                                                        {{ date('d', strtotime($dataSkpd->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSkpd->start_at))] }}
+                                                        {{ date('Y', strtotime($dataSkpd->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSkpd)
+                                                    @if ($dataSkpd->end_at)
+                                                        {{ date('d', strtotime($dataSkpd->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSkpd->end_at))] }}
+                                                        {{ date('Y', strtotime($dataSkpd->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="text-teal-700 border text-xs">
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Nomor</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSspd)
+                                                    @if ($dataSspd->number)
+                                                        @if (strlen($dataSspd->number) > 10)
+                                                            {{ substr($dataSspd->number, 0, 11) }}...
+                                                        @else
+                                                            {{ substr($dataSspd->number, 0, 10) }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Awal</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSspd)
+                                                    @if ($dataSspd->start_at)
+                                                        {{ date('d', strtotime($dataSspd->start_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSspd->start_at))] }}
+                                                        {{ date('Y', strtotime($dataSspd->start_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex w-36 px-1">
                                             <label class="flex w-12">Akhir</label>
-                                            <label class="flex">: </label>
+                                            <label class="flex">:
+                                                @if ($dataSspd)
+                                                    @if ($dataSspd->end_at)
+                                                        {{ date('d', strtotime($dataSspd->end_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($dataSspd->end_at))] }}
+                                                        {{ date('Y', strtotime($dataSspd->end_at)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </label>
                                         </div>
                                     </td>
                                     <td class="text-teal-700 border text-xs text-center">
@@ -458,7 +805,6 @@
                 </table>
             </div>
             <!-- View end -->
-
             <!-- Pagination start -->
             <div class="flex justify-center text-teal-900 mt-2">
                 {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!}

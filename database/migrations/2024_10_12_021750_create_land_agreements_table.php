@@ -20,6 +20,7 @@ return new class extends Migration
             $table->json('first_party');
             $table->json('second_party');
             $table->string('notes');
+            $table->date('published');
             $table->string('duration');
             $table->date('start_at');
             $table->date('end_at');

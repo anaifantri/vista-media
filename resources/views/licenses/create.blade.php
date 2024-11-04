@@ -137,13 +137,13 @@
                         <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4">
                             <div class="w-[750px]">
                                 <div class="flex w-full justify-center">
-                                    <input id="documentLicense" name="document_license[]" type="file"
+                                    <input id="legalDocuments" name="legal_docments[]" type="file"
                                         accept="image/png, image/jpg, image/jpeg" onchange="imagePreview(this)" multiple
                                         hidden>
                                     <button id="btnChooseImages"
                                         class="flex justify-center items-center w-44 btn-primary-small"
                                         title="Chose Files" type="button"
-                                        onclick="document.getElementById('documentLicense').click()">
+                                        onclick="document.getElementById('legalDocuments').click()">
                                         <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
                                             fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
                                             <path
@@ -158,12 +158,12 @@
                                     <label id="numberImagesFile" class="text-sm text-slate-500 ml-2"> 0 file yang
                                         dipilih</label>
                                 </div>
-                                @error('document_license')
+                                @error('legal_docments')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                @error('document_license.*')
+                                @error('legal_docments.*')
                                     <div class="invalid-feedback">
                                         Ukuran file max 2048 kb, tipe file jpeg/jpg/png
                                     </div>
@@ -209,6 +209,6 @@
     </form>
     <!-- Container end -->
     <!-- Script start -->
-    <script src="/js/addlicensedocuments.js"></script>
+    <script src="/js/addlegaldocuments.js"></script>
     <!-- Script end -->
 @endsection
