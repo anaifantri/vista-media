@@ -3,11 +3,11 @@
 @section('container')
     <?php
     $description = json_decode($location->description);
-    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agst', 'Sept', 'Okt', 'Nov', 'Des'];
+    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10">
-        <div class="z-0 mb-8">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
                 <h1 class="index-h1 w-[400px]">DATA SEWA LAHAN</h1>
@@ -46,15 +46,15 @@
                 </div>
             @enderror
             <!-- Alert end -->
+            <!-- Location start -->
             <div class="flex w-full justify-center mt-2">
-                <!-- Location start -->
-                <div class="w-[485px] border rounded-lg p-2 bg-teal-50">
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Kode Lokasi</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->code }}-{{ $location->city->code }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Lokasi</label>
                         <label>:</label>
                         <label class="ml-1">
@@ -65,106 +65,115 @@
                             @endif
                         </label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Ukuran</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
                     </div>
                 </div>
-                <div class="w-[485px] border rounded-lg p-2 bg-teal-50 ml-4">
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                <div class="w-[485px] border rounded-lg p-2 bg-stone-200 ml-4">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Jenis</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->media_category->name }}-{{ $description->lighting }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Area</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->area->area }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Kota</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->city->city }}</label>
                     </div>
                 </div>
-                <!-- Location end -->
             </div>
+            <!-- Location end -->
             <!-- View Agreement start -->
             <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-teal-900 test-sm font-semibold mt-2">DATA SEWA LAHAN</label>
+                <label class="lex text-stone-100 test-sm font-semibold mt-2">DATA SEWA LAHAN</label>
                 <table class="table-auto w-full mt-2">
                     <thead>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-xs text-center w-32" rowspan="2">Nomor</th>
-                            <th class="text-teal-700 border text-xs text-center w-28" rowspan="2">Tanggal</th>
-                            <th class="text-teal-700 border text-xs text-center w-60" rowspan="2">Pemilik</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="3">Periode Sewa</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="2">Periode Sewa</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Action</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">Nomor
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28" rowspan="2">
+                                Tanggal</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-60" rowspan="2">
+                                Pemilik</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="3">Periode
+                                Sewa</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="2">Periode
+                                Sewa</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs text-center w-14">Waktu</th>
-                            <th class="text-teal-700 border text-xs text-center w-28">Awal</th>
-                            <th class="text-teal-700 border text-xs text-center w-28">Akhir</th>
-                            <th class="text-teal-700 border text-xs text-center w-24">Harga / Tahun</th>
-                            <th class="text-teal-700 border text-xs text-center w-24">Total Harga</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-14">Waktu</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Awal</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Akhir</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Harga / Tahun</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Total Harga</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-200">
                         @foreach ($agreements as $agreement)
                             @php
                                 $secondParty = json_decode($agreement->second_party);
                             @endphp
                             <tr>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $loop->iteration }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if (strlen($agreement->number) > 15)
                                         {{ substr($agreement->number, 0, 15) }}...
                                     @else
                                         {{ $agreement->number }}
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ date('d', strtotime($agreement->published)) }}
                                     {{ $bulan[(int) date('m', strtotime($agreement->published))] }}
                                     {{ date('Y', strtotime($agreement->published)) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
-                                    @if (strlen($secondParty->name) > 12)
-                                        {{ substr($secondParty->name, 0, 12) }}
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    @if (strlen($secondParty->name) > 20)
+                                        {{ substr($secondParty->name, 0, 20) }}..
                                     @else
                                         {{ $secondParty->name }}
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $agreement->duration }} th
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $agreement->duration }} th
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($agreement->start_at)
-                                        {{ date('d', strtotime($agreement->start_at)) }}-
-                                        {{ $bulan[(int) date('m', strtotime($agreement->start_at))] }}-
+                                        {{ date('d', strtotime($agreement->start_at)) }}
+                                        {{ $bulan[(int) date('m', strtotime($agreement->start_at))] }}
                                         {{ date('Y', strtotime($agreement->start_at)) }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($agreement->end_at)
-                                        {{ date('d', strtotime($agreement->end_at)) }}-
-                                        {{ $bulan[(int) date('m', strtotime($agreement->end_at))] }}-
+                                        {{ date('d', strtotime($agreement->end_at)) }}
+                                        {{ $bulan[(int) date('m', strtotime($agreement->end_at))] }}
                                         {{ date('Y', strtotime($agreement->end_at)) }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     {{ number_format($agreement->price) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     {{ number_format($agreement->price * $agreement->duration) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/media/land-agreements/{{ $agreement->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">

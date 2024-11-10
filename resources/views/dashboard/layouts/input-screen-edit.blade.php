@@ -1,7 +1,7 @@
 <!-- Input Screen Size start -->
 @if ($category == 'Videotron')
     <div class="mt-1">
-        <label class="text-sm text-teal-700">Ukuran Screen</label>
+        <label class="text-sm text-stone-900">Ukuran Screen</label>
         <div class="flex">
             <label class="flex text-semibold">W (pixel)</label>
             @if (old('screen_w'))
@@ -29,7 +29,7 @@
 @elseif($category == 'Signage')
     @if ($description->type == 'Videotron')
         <div class="mt-1">
-            <label class="text-sm text-teal-700">Ukuran Screen</label>
+            <label class="text-sm text-stone-900">Ukuran Screen</label>
             <div class="flex">
                 <label class="flex text-semibold">W (pixel)</label>
                 @if (old('screen_w'))
@@ -56,7 +56,7 @@
         </div>
     @else
         <div class="mt-1">
-            <label class="text-sm text-teal-700">Ukuran Screen</label>
+            <label class="text-sm text-stone-900">Ukuran Screen</label>
             <div class="flex">
                 <label class="flex text-semibold">W (pixel)</label>
                 <input class="flex ml-1 text-semibold w-10 in-out-spin-none  border rounded-lg px-1 outline-none"
@@ -72,7 +72,7 @@
     @endif
 @else
     <div class="mt-1">
-        <label class="text-sm text-teal-700">Ukuran Screen</label>
+        <label class="text-sm text-stone-900">Ukuran Screen</label>
         <div class="flex">
             <label class="flex text-semibold">W (pixel)</label>
             <input class="flex ml-1 text-semibold w-10 in-out-spin-none  border rounded-lg px-1 outline-none"

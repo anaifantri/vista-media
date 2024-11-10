@@ -5,13 +5,13 @@
     <input type="text" name="lighting" id="lighting" value="{{ old('lighting') }}" hidden>
 @endif
 <div class="flex justify-center">
-    <div class="flex justify-start border rounded-lg w-[250px] h-[575px] px-4 py-2">
+    <div class="flex justify-start border bg-stone-300 rounded-lg w-[250px] h-[575px] px-4 py-2">
         <div>
             {{-- @include('dashboard.layouts.select-category-edit') --}}
             <input name="media_category_id" type="text" value="{{ $location->media_category->id }}" hidden>
             <div class="flex">
                 <div class="mt-1">
-                    <label class="text-sm text-teal-700">Kode Lokasi</label>
+                    <label class="text-sm text-stone-900">Kode Lokasi</label>
                     <input
                         class="flex in-out-spin-none text-semibold font-semibold w-32 border rounded-lg px-1 outline-none @error('code') is-invalid @enderror"
                         type="number" min="0" id="code" name="code" value="{{ $location->code }}">
@@ -35,7 +35,7 @@
             @include('dashboard.layouts.select-speed-edit')
         </div>
     </div>
-    <div class="flex justify-start  border rounded-lg w-[250px] h-[575px] px-4 py-2 ml-4">
+    <div class="flex justify-start  border bg-stone-300 rounded-lg w-[250px] h-[575px] px-4 py-2 ml-4">
         <div>
             @include('dashboard.layouts.select-sn-type-edit')
             @include('dashboard.layouts.input-qty-edit')

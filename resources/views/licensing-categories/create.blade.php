@@ -3,10 +3,10 @@
 @section('container')
     <form method="post" action="/media/licensing-categories" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center mt-10">
-            <div class="p-4 w-[350px] h-[500px] border rounded-lg">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-700">
                 <div class="flex items-center justify-center mb-2 border-b w-full">
-                    <h4 class="text-xl font-semibold tracking-wider text-teal-900">Tambah Katagori Perizinan</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-100">Tambah Katagori Perizinan</h4>
                 </div>
                 <div>
                     <div class="flex justify-center mt-4 w-full">
@@ -15,7 +15,7 @@
                                 $dataCategories = ['Prinsip', 'PBG', 'SLF', 'IPR', 'SKPD', 'SSPD'];
                             @endphp
                             <div class="flex">
-                                <label class="text-sm text-teal-700">Katagori</label>
+                                <label class="text-sm text-stone-100">Katagori</label>
                             </div>
                             <div class="mt-1">
                                 <select id="name" name="name"
@@ -45,7 +45,7 @@
                     </div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Deskripsi</label>
+                            <label class="text-sm text-stone-100">Deskripsi</label>
                             <textarea
                                 class="flex text-semibold w-[250px]  border rounded-lg p-1 outline-none @error('description') is-invalid @enderror"
                                 name="description" rows="5" id="description" placeholder="Input deskripsi katagori">{{ old('description') }}</textarea>

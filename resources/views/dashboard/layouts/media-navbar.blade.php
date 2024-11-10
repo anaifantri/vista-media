@@ -29,7 +29,7 @@
                     </svg>
                 </a>
                 <li id="mediaChildNav"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-emerald-50 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child Media Start -->
                     <ul>
                         <li class="group">
@@ -84,7 +84,7 @@
                     </svg>
                 </a>
                 <li id="legalChildNav"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-emerald-50 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child Legalitas Start -->
                     <ul>
                         <li class="group">

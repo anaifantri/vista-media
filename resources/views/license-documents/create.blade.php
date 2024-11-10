@@ -109,6 +109,6 @@
     </form>
     <!-- Container end -->
     <!-- Script start -->
-    <script src="/js/addlicensedocuments.js"></script>
+    <script src="/js/addlegaldocuments.js"></script>
     <!-- Script end -->
 @endsection

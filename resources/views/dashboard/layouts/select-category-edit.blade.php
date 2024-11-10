@@ -1,6 +1,6 @@
 <!-- Select Category start -->
 <div class="mt-1">
-    <label class="text-sm text-teal-700">Media Katagori</label>
+    <label class="text-sm text-stone-900">Media Katagori</label>
     @if (old('media_category_id'))
         <select id="media_category_id" name="media_category_id"
             class="flex text-semibold w-[218px] border rounded-lg px-1 outline-none @error('media_category_id') is-invalid @enderror"

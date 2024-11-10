@@ -1,13 +1,14 @@
 @canany(['isAdmin', 'isMedia', 'isMarketing', 'isOwner', 'isWorkshop', 'isAccounting'])
     <div name="nav-menu" id="nav-menu" class="flex fixed h-screen pb-24 pt-2 px-2 top-14">
-        <div class="bg-teal-50 rounded-2xl overflow-y-auto border">
-            <div class="flex fixed p-2 rounded-2xl items-center bg-teal-50 z-10">
+        <div class="bg-stone-900 rounded-2xl overflow-y-auto border">
+            <div class="flex fixed p-2 rounded-2xl items-center bg-stone-900 z-10">
                 <button class="" id="hamburger" name="hamburger" type="button">
                     <span class="origin-top-left hamburger-line transition duration-300 ease-in-out"></span>
                     <span class="hamburger-line transition duration-300 ease-in-out"></span>
                     <span class="origin-bottom-left hamburger-line transition duration-300 ease-in-out"></span>
                 </button>
-                <span id="menu" name="menu" class="w-40 mx-2 justify-center hidden border-b"> MAIN MENU </span>
+                <span id="menu" name="menu" class="w-40 mx-2 justify-center text-white hidden border-b"> MAIN MENU
+                </span>
             </div>
             <nav class="mt-10 relative z-0">
                 <ul class="block">

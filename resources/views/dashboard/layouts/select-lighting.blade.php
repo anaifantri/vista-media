@@ -4,7 +4,7 @@
         $lightings = ['Frontlight', 'Backlight', 'Nonlight'];
     @endphp
     <div class="flex">
-        <label class="text-sm text-teal-700">Penerangan</label>
+        <label class="text-sm text-stone-900">Penerangan</label>
     </div>
     <div class="mt-1">
         <select id="lighting" name="lighting"

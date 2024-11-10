@@ -11,12 +11,12 @@
     </div>
     <div class="flex items-center mt-2 w-full justify-center border rounded-lg">
         <div>
-            <label class="flex text-sm text-teal-900 justify-center font-semibold">DOKUMEN PEMBAYARAN</label>
-            <label class="flex text-sm text-teal-900 justify-center">Jumlah Dokumen : {{ count($receipts) }}
+            <label class="flex text-sm text-stone-100 justify-center font-semibold">DOKUMEN PEMBAYARAN</label>
+            <label class="flex text-sm text-stone-100 justify-center">Jumlah Dokumen : {{ count($receipts) }}
                 dokumen</label>
         </div>
     </div>
-    <figure id="figureReceipt" class="flex w-[950px] justify-center overflow-x-auto border-b-2 border-teal-700">
+    <figure id="figureReceipt" class="flex w-[950px] justify-center overflow-x-auto bg-stone-800 mt-2 rounded-lg">
         @foreach ($receipts as $document)
             @if (count($receipts) > 2)
                 @if ($loop->iteration - 1 == intdiv(count($receipts), 2))

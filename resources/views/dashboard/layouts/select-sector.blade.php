@@ -18,7 +18,7 @@
 <div class="mt-1">
     <input class="@error('sector') is-invalid @enderror" type="text" id="sector" name="sector"
         value="{{ old('sector') }}" hidden>
-    <label class="text-sm text-teal-700 border-b w-[218px] flex px-1">Kawasan</label>
+    <label class="text-sm text-stone-900 border-b w-[218px] flex px-1">Kawasan</label>
     @error('sector')
         <div class="invalid-feedback">
             {{ $message }}
@@ -30,7 +30,7 @@
                 @if ($loop->iteration - 1 < 6)
                     <div class="flex items-center">
                         <input type="checkbox" id="cbSector" value="{{ $sector }}" onclick="getSector(this)">
-                        <label class="ml-1 text-[0.65rem] text-teal-700 flex w-20">{{ $sector }}</label>
+                        <label class="ml-1 text-[0.65rem] text-stone-900 flex w-20">{{ $sector }}</label>
                     </div>
                 @endif
             @endforeach
@@ -40,7 +40,7 @@
                 @if ($loop->iteration - 1 > 5)
                     <div class="flex items-center">
                         <input type="checkbox" id="cbSector" value="{{ $sector }}" onclick="getSector(this)">
-                        <label class="ml-1 text-[0.65rem] text-teal-700 flex w-20">{{ $sector }}</label>
+                        <label class="ml-1 text-[0.65rem] text-stone-900 flex w-20">{{ $sector }}</label>
                     </div>
                 @endif
             @endforeach

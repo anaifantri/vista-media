@@ -12,7 +12,7 @@
     ];
 @endphp
 <div class="mt-1">
-    <label class="text-sm text-teal-700">Kecepatan Kendaraan</label>
+    <label class="text-sm text-stone-900">Kecepatan Kendaraan</label>
     <select id="speed_average" name="speed_average"
         class="flex w-[218px] text-semibold border rounded-lg px-1 outline-none @error('speed_average') is-invalid @enderror"
         type="text" value="{{ $location->speed_average }}">

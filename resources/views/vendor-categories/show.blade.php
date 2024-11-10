@@ -6,25 +6,26 @@
     $updatedDate = strtotime($vendor_category->updated_at);
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
-    <div class="flex justify-center mt-10">
-        <div class="p-4 w-[350px] h-[500px] border rounded-lg">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-300">
             <div class="flex justify-center items-center mb-3 w-full border-b">
-                <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Detail Katagori Vendor</h4>
+                <h4 class="text-2xl font-semibold tracking-wider text-stone-900">Detail Katagori Vendor</h4>
             </div>
             <div>
-                <div class="border-b mt-2"><label class="text-sm text-teal-700">Katagori</label>
-                    <h6 class="text-base font-semibold text-teal-900">{{ $vendor_category->name }}</h6>
+                <div class="border-b mt-2"><label class="text-sm text-stone-900">Katagori</label>
+                    <h6 class="text-base font-semibold text-stone-900">{{ $vendor_category->name }}</h6>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="mt-1">
-                        <label class="text-sm text-teal-700">Deskripsi</label>
-                        <textarea class="flex text-base font-semibold text-teal-900 w-[320px]  border rounded-lg p-1 outline-teal-300" readonly>{{ $vendor_category->description }}</textarea>
+                        <label class="text-sm text-stone-900">Deskripsi</label>
+                        <textarea class="flex text-base font-semibold text-stone-900 w-[320px]  border rounded-lg p-1 outline-teal-300"
+                            readonly>{{ $vendor_category->description }}</textarea>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b mt-2 w-[320px]">
-                        <label class="text-sm text-teal-700">Tanggal Dibuat</label>
-                        <h6 class="text-base font-semibold text-teal-900">
+                        <label class="text-sm text-stone-900">Tanggal Dibuat</label>
+                        <h6 class="text-base font-semibold text-stone-900">
                             {{ date('d', $createdDate) }}
                             {{ $bulan[(int) date('m', $createdDate)] }}
                             {{ date('Y', $createdDate) }}
@@ -33,9 +34,9 @@
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b mt-2 w-[320px]">
-                        <label class="text-sm text-teal-700">Tanggal Perubahan
+                        <label class="text-sm text-stone-900">Tanggal Perubahan
                             Terakhir</label>
-                        <h6 class="text-base font-semibold text-teal-900">
+                        <h6 class="text-base font-semibold text-stone-900">
                             {{ date('d', $updatedDate) }}
                             {{ $bulan[(int) date('m', $updatedDate)] }}
                             {{ date('Y', $updatedDate) }}
@@ -45,8 +46,8 @@
                 @if ($vendor_category->created_at != $vendor_category->updated_at)
                     <div class="flex justify-center mt-2 w-full">
                         <div class="border-b mt-2 w-[320px]">
-                            <label class="text-sm text-teal-700">Diupdate Oleh</label>
-                            <h6 class="text-base font-semibold text-teal-900">
+                            <label class="text-sm text-stone-900">Diupdate Oleh</label>
+                            <h6 class="text-base font-semibold text-stone-900">
                                 {{ $vendor_category->user->name }}
                             </h6>
                         </div>
@@ -54,8 +55,8 @@
                 @else
                     <div class="flex justify-center mt-2 w-full">
                         <div class="border-b mt-2 w-[320px]">
-                            <label class="text-sm text-teal-700">Dibuat Oleh</label>
-                            <h6 class="text-base font-semibold text-teal-900">
+                            <label class="text-sm text-stone-900">Dibuat Oleh</label>
+                            <h6 class="text-base font-semibold text-stone-900">
                                 {{ $vendor_category->user->name }}
                             </h6>
                         </div>

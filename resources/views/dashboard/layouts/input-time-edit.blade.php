@@ -1,6 +1,6 @@
 <!-- Input Time Show start -->
 <div class="mt-1">
-    <label class="text-sm text-teal-700">Waktu Tayang</label>
+    <label class="text-sm text-stone-900">Waktu Tayang</label>
     <div class="flex">
         <label class="flex text-semibold">On</label>
         @if ($category == 'Videotron')

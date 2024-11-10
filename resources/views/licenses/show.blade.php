@@ -8,11 +8,11 @@
     $end_at = date('d', strtotime($license->end_at)) . ' ' . $bulan[(int) date('m', strtotime($license->end_at))] . ' ' . date('Y', strtotime($license->end_at));
     ?>
     <!-- Container start -->
-    <div class="flex justify-center">
-        <div class="mt-10">
+    <div class="flex justify-center bg-stone-800 p-10">
+        <div class="bg-stone-700 p-2 border rounded-md">
             <!-- Title start -->
             <div class="flex w-[1200px] items-center border-b p-1">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[850px]">DETAIL IZIN
+                <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[850px]">DETAIL IZIN
                     {{ strtoupper($license->licensing_category->name) }}</h1>
                 <div class="flex items-center w-full justify-end">
                     <a href="/show-license/{{ $license->location->id }}"
@@ -67,51 +67,51 @@
             <!-- New Licenses Input start -->
             <div class="flex justify-center w-full mt-2">
                 <div class="flex justify-center">
-                    <div class="flex justify-center border rounded-lg w-[400px] h-[550px] p-2">
+                    <div class="flex justify-center border rounded-lg w-[400px] h-[550px] p-2 bg-stone-300">
                         <div class="w-[350px]">
                             <div class="mt-2">
-                                <label class="flex text-sm text-teal-700">Jenis Izin</label>
+                                <label class="flex text-sm text-stone-900">Jenis Izin</label>
                                 <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
                                     type="text" value="{{ $license->licensing_category->name }}" readonly>
                             </div>
                             <div class="mt-2">
-                                <label class="flex text-sm text-teal-700">Nomor Izin</label>
+                                <label class="flex text-sm text-stone-900">Nomor Izin</label>
                                 <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
                                     type="text" value="{{ $license->number }}" readonly>
                             </div>
                             <div class="mt-2">
-                                <label class="flex text-sm text-teal-700">Penerbit Izin</label>
+                                <label class="flex text-sm text-stone-900">Penerbit Izin</label>
                                 <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
                                     type="text" value="{{ $license->government }}" readonly>
                             </div>
                             <div class="mt-2">
-                                <label class="flex text-sm text-teal-700">Tanggal Terbit</label>
+                                <label class="flex text-sm text-stone-900">Tanggal Terbit</label>
                                 <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
                                     type="text" value="{{ $published }}" readonly>
                             </div>
                             <div class="mt-2">
-                                <label class="flex text-sm text-teal-700">Tanggal Awal Izin</label>
+                                <label class="flex text-sm text-stone-900">Tanggal Awal Izin</label>
                                 <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
                                     type="text" value="{{ $start_at }}" readonly>
                             </div>
                             <div class="mt-2">
-                                <label class="flex text-sm text-teal-700">Tanggal Akhir Izin</label>
+                                <label class="flex text-sm text-stone-900">Tanggal Akhir Izin</label>
                                 <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
                                     type="text" value="{{ $end_at }}" readonly>
                             </div>
                             <div class="mt-2">
-                                <label class="flex text-sm text-teal-700">Keterangan</label>
+                                <label class="flex text-sm text-stone-900">Keterangan</label>
                                 <textarea class="flex text-semibold mt-1 w-full  border rounded-lg p-1 outline-none" rows="8" readonly>{{ $license->notes }}</textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4">
+                    <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4 bg-stone-300">
                         <div class="w-[750px]">
                             <div class="flex items-center w-full justify-center font-semibold border-b">
-                                <label class="text-sm text-slate-500">Dokumen Izin
+                                <label class="text-sm text-stone-900">Dokumen Izin
                                     {{ $license->licensing_category->name }}</label>
                             </div>
-                            <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700 mt-2"
+                            <figure class="flex w-[750px] justify-center overflow-x-auto rounded-lg bg-stone-800 mt-2"
                                 id="figure">
                                 @foreach ($license_documents as $document)
                                     @if (count($license_documents) > 2)

@@ -6,11 +6,11 @@
     $updatedDate = strtotime($company->updated_at);
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
-    <div class="flex justify-center">
-        <div class="mt-10">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <!-- Show Title start -->
             <div class="flex w-[900px] items-center border-b py-1">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[800px]">DATA PERUSAHAAN
+                <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[800px]">DATA PERUSAHAAN
                     {{ strtoupper($company->name) }} </h1>
                 <div class="flex w-full justify-end items-center">
                     <a href="/media/companies" class="flex items-center justify-center btn-primary mx-1">
@@ -74,37 +74,37 @@
             <!-- Show Title end -->
             <div class="flex justify-center items-center w-[900px]">
                 <!-- Logo Company Start -->
-                <div class="flex justify-center items-center mt-2 w-[400px] h-[500px] border rounded-lg p-4">
+                <div class="flex justify-center items-center mt-2 w-[400px] h-[500px] border rounded-lg p-4 bg-stone-300">
                     <div>
                         @if ($company->logo)
-                            <img class="m-auto img-preview flex items-center w-44"
+                            <img class="m-auto img-preview rounded-lg flex items-center w-44"
                                 src="{{ asset('storage/' . $company->logo) }}">
                         @else
-                            <img class="m-auto img-preview flex items-center w-44" src="/img/photo_profile.png">
+                            <img class="m-auto img-preview rounded-lg flex items-center w-44" src="/img/photo_profile.png">
                         @endif
                         <span
-                            class="flex justify-center font-semibold text-teal-900 border-b mt-3">{{ $company->name }}</span>
-                        <span class="flex justify-center text-teal-700 text-sm text-center">{{ $company->address }}</span>
+                            class="flex justify-center font-semibold text-stone-900 border-b mt-3">{{ $company->name }}</span>
+                        <span class="flex justify-center text-stone-900 text-sm text-center">{{ $company->address }}</span>
                     </div>
                 </div>
                 <!-- Logo Company End -->
                 <!-- Detail Company Start -->
-                <div class="flex justify-center w-[500px] h-[500px] mt-2 border rounded-lg p-4 ml-4">
+                <div class="flex justify-center w-[500px] h-[500px] mt-2 border rounded-lg p-4 ml-4 bg-stone-300">
                     <div class="w-[420px]">
                         <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Kode</label>
+                            <label class="flex text-sm text-stone-900">Kode</label>
                             <label class="flex text-semibold">{{ $company->code }}</label>
                         </div>
                         <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Nama Perusahaan</label>
+                            <label class="flex text-sm text-stone-900">Nama Perusahaan</label>
                             <label class="flex text-semibold">{{ $company->name }}</label>
                         </div>
                         <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Alamat</label>
+                            <label class="flex text-sm text-stone-900">Alamat</label>
                             <label class="flex text-semibold">{{ $company->address }}</label>
                         </div>
                         <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Email</label>
+                            <label class="flex text-sm text-stone-900">Email</label>
                             @if ($company->email)
                                 <label class="flex text-semibold">{{ $company->email }}</label>
                             @else
@@ -113,35 +113,35 @@
                         </div>
                         @if ($company->phone)
                             <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">No. Telepon</label>
+                                <label class="flex text-sm text-stone-900">No. Telepon</label>
                                 <label class="flex text-semibold">{{ $company->phone }}</label>
                             </div>
                         @endif
                         @if ($company->m_phone)
                             <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">No. Hp.</label>
+                                <label class="flex text-sm text-stone-900">No. Hp.</label>
                                 <label class="flex text-semibold">{{ $company->m_phone }}</label>
                             </div>
                         @endif
                         @if ($company->created_at != $company->updated_at)
                             <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">Diupdate Oleh</label>
+                                <label class="flex text-sm text-stone-900">Diupdate Oleh</label>
                                 <label class="flex text-semibold">{{ $company->user->name }}</label>
                             </div>
                         @else
                             <div class="border-b mt-2">
-                                <label class="flex text-sm text-teal-700">Dibuat Oleh</label>
+                                <label class="flex text-sm text-stone-900">Dibuat Oleh</label>
                                 <label class="flex text-semibold">{{ $company->user->name }}</label>
                             </div>
                         @endif
                         <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Tanggal Dibuat</label>
+                            <label class="flex text-sm text-stone-900">Tanggal Dibuat</label>
                             <label class="flex text-semibold">{{ date('d', $createdDate) }}
                                 {{ $bulan[(int) date('m', $createdDate)] }}
                                 {{ date('Y', $createdDate) }}</label>
                         </div>
                         <div class="border-b mt-2">
-                            <label class="flex text-sm text-teal-700">Tanggal Perubahan Terakhir</label>
+                            <label class="flex text-sm text-stone-900">Tanggal Perubahan Terakhir</label>
                             <label class="flex text-semibold">{{ date('d', $updatedDate) }}
                                 {{ $bulan[(int) date('m', $updatedDate)] }}
                                 {{ date('Y', $updatedDate) }}</label>

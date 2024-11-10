@@ -3,7 +3,7 @@
     $signageType = ['Neon Box', 'Videotron', 'Papan'];
 @endphp
 <div class="flex">
-    <label class="text-sm text-teal-700">Jenis Signage</label>
+    <label class="text-sm text-stone-900">Jenis Signage</label>
 </div>
 <div class="mt-1">
     @if (old('signage_type'))

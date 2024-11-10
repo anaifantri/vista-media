@@ -20,12 +20,79 @@
         </a>
         <!-- Workshop Child Start -->
         <ul id="workshopChild" class="hidden">
-            @can('isMonitoring')
-                <li id="monitoring" title="Pemantauan" class="group" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+            @can('isElectricity')
+                <li id="electricity" title="Data Listrik" class="group" onclick="childMenu(event,this)">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('workshop/electrical-powers*') ? 'active' : '' }}{{ Request::is('workshop/electricity-top-ups*') ? 'active' : '' }}{{ Request::is('workshop/electricity-payments*') ? 'active' : '' }}"
+                        href="#">
                         <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path
-                                d="M7 10h-4.083l1.271-1.396.812.396.676-.862 1.324 1.862zm.88 3h-7.88v-8h9.204c.739 1.612 2.024 1.696 3.796 2.509v4.648c-1.638-.182-3.985-.26-5.12.843zm.12-6h-6v4h6v-4zm9.17-1.833c-.806-1.165-5.031-1.924-6.742-2.167-.169.727.111 1.643.859 2.076.729.422 2.847 1.078 3.473 1.702.812.808 2.026 4.668.028 7.282-2.076-.589-4.24-.527-5.415-.048-1.153.47-1.013 1.908.189 2.045 3.42.39 7.587 1.161 10.322 4.943 0 0 1.821-1.885 4.115-4.426-3.668-3.053-4.198-7.606-6.829-11.407zm-13.92 2.833c-.138 0-.25.112-.25.25s.112.25.25.25c.139 0 .25-.112.25-.25s-.111-.25-.25-.25z" />
+                                d="M0 18h21v-12h-21v12zm9.599-6.157v-2.843l6.401 4.686-4.408-1.296v2.61l-6.592-4.488 4.599 1.331zm14.401-1.593v3.5c0 .69-.56 1.25-1.25 1.25h-.75v-6h.75c.69 0 1.25.56 1.25 1.25z" />
+                        </svg>
+                        <span class="flex w-36"> DATA LISTRIK </span>
+                        <svg id="electricityArrow" name="electricityArrow"
+                            class="svg-arrow rotate-180 transition duration-300 ease-in-out" role="img"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <title>Arrow</title>
+                            <path
+                                d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
+                        </svg>
+                    </a>
+                    <ul id="electricityChild" name="electricityChild" class="hidden">
+                        <li class="group">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('workshop/electrical-powers*') ? 'active' : '' }}"
+                                href="/workshop/electrical-powers">
+                                <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex w-40"> Daya Listrik </span>
+                            </a>
+                        </li>
+                        <li class="group">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('workshop/electricity-top-ups*') ? 'active' : '' }}"
+                                href="/workshop/electricity-top-ups">
+                                <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex w-40"> Pengisian Pulsa </span>
+                            </a>
+                        </li>
+                        <li class="group">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('workshop/electricity-payments*') ? 'active' : '' }}"
+                                href="/workshop/electricity-payments">
+                                <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex w-40"> Pembayaran Listrik </span>
+                            </a>
+                        </li>
+                        <li class="group">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('workshop/electricity-reports*') ? 'active' : '' }}"
+                                href="/workshop/electricity-reports">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex w-40"> Laporan</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
+            @can('isMonitoring')
+                <li id="monitoring" title="Pemantauan" class="group" onclick="childMenu(event,this)">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('workshop/monitorings*') ? 'active' : '' }}"
+                        href="#">
+                        <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M21.169 19.754c.522-.79.831-1.735.831-2.754 0-2.761-2.238-5-5-5s-5 2.239-5 5 2.238 5 5 5c1.019 0 1.964-.309 2.755-.832l2.831 2.832 1.414-1.414-2.831-2.832zm-4.169.246c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3zm-4.89 2h-7.11l2.599-3h2.696c.345 1.152.976 2.18 1.815 3zm-2.11-5h-10v-17h22v12.11c-.574-.586-1.251-1.068-2-1.425v-8.685h-18v13h8.295c-.19.634-.295 1.305-.295 2zm-2.131-4.372l.945-5.759.965 4.145c.096.425.686.473.847.063l.895-2.328.479.974c.08.169.164.277.438.277h1.208v-.877h-.921l-.836-1.624c-.156-.364-.677-.356-.82.014l-.741 1.895-1.144-5.062c-.052-.232-.242-.346-.43-.346-.2 0-.4.127-.44.373l-.948 5.847-.969-3.6c-.109-.43-.715-.455-.853-.029l-.721 2.545h-.823v.864h1.172c.16 0 .334-.13.38-.284l.406-1.257 1.043 4.206c.117.468.791.437.868-.037z" />
                         </svg>
                         <span class="flex w-36"> PEMANTAUAN </span>
                         <svg id="monitoringArrow" name="monitoringArrow"
@@ -38,7 +105,8 @@
                     </a>
                     <ul id="monitoringChild" name="monitoringChild" class="hidden">
                         <li class="group">
-                            <a class="nav-a ml-5 border-b-[1px]" href="#">
+                            <a class="nav-a ml-5 border-b-[1px] {{ Request::is('workshop/monitorings*') ? 'active' : '' }}"
+                                href="/workshop/monitorings">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path d="M10 9h-6l8-9 8 9h-6v11h-4v-11zm11 11v2h-18v-2h-2v4h22v-4h-2z" />
@@ -55,7 +123,7 @@
                                         d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-12.751 8.306c-.165-.147-.249-.351-.249-.556 0-.411.333-.746.748-.746.178 0 .355.062.499.19l2.371 2.011 4.453-4.962c.149-.161.35-.243.554-.243.417 0 .748.336.748.746 0 .179-.065.359-.196.503l-4.953 5.508c-.148.161-.35.243-.553.243-.177 0-.356-.063-.498-.19z"
                                         fill-rule="nonzero" />
                                 </svg>
-                                <span class="flex w-40"> Lap. Pemantauan</span>
+                                <span class="flex w-40"> Laporan</span>
                             </a>
                         </li>
                     </ul>
@@ -64,7 +132,8 @@
             @can('isDocumentation')
                 <li id="gambar" title="Pemasangan" class="group" onclick="childMenu(event,this)">
                     <a class="nav-a ml-2 border-b-[1px]" href="#">
-                        <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24">
                             <path
                                 d="M9 12c0-.552.448-1 1.001-1s.999.448.999 1-.446 1-.999 1-1.001-.448-1.001-1zm6.2 0l-1.7 2.6-1.3-1.6-3.2 4h10l-3.8-5zm5.8-7v-2h-21v15h2v-13h19zm3 2v14h-20v-14h20zm-2 2h-16v10h16v-10z" />
                         </svg>
@@ -96,7 +165,7 @@
                                         d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-12.751 8.306c-.165-.147-.249-.351-.249-.556 0-.411.333-.746.748-.746.178 0 .355.062.499.19l2.371 2.011 4.453-4.962c.149-.161.35-.243.554-.243.417 0 .748.336.748.746 0 .179-.065.359-.196.503l-4.953 5.508c-.148.161-.35.243-.553.243-.177 0-.356-.063-.498-.19z"
                                         fill-rule="nonzero" />
                                 </svg>
-                                <span class="flex w-40"> Lap. Pemasangan</span>
+                                <span class="flex w-40"> Laporan</span>
                             </a>
                         </li>
                     </ul>

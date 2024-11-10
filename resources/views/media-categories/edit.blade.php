@@ -4,16 +4,16 @@
     <form method="post" action="/media/media-categories/{{ $media_category->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center mt-10">
-            <div class="p-4 w-[350px] h-[500px] border rounded-lg">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-400">
                 <div class="flex items-center justify-center mb-2 border-b w-full">
-                    <h4 class="w-[280px] text-center text-xl font-semibold tracking-wider text-teal-900">Edit Katagori
+                    <h4 class="w-[280px] text-center text-xl font-semibold tracking-wider text-stone-900">Edit Katagori
                         Media</h4>
                 </div>
                 <div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="w-[280px]">
-                            <label class="flex text-sm text-teal-700">Kode Katagori</label>
+                            <label class="flex text-sm text-stone-900">Kode Katagori</label>
                             <label class="flex text-semibold">{{ $media_category->code }}</label>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                                 ];
                             @endphp
                             <div class="flex">
-                                <label class="text-sm text-teal-700">Katagori</label>
+                                <label class="text-sm text-stone-900">Katagori</label>
                             </div>
                             <div class="mt-1">
                                 <select id="name" name="name"
@@ -65,7 +65,7 @@
                     </div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="w-[280px]">
-                            <label class="text-sm text-teal-700">Deskripsi</label>
+                            <label class="text-sm text-stone-900">Deskripsi</label>
                             <textarea
                                 class="flex text-semibold w-[280px]  border rounded-lg p-1 outline-teal-300 @error('description') is-invalid @enderror"
                                 name="description" placeholder="Input deskripsi bahan" rows="6">{{ $media_category->description }}</textarea>

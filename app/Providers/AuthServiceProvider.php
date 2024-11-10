@@ -309,6 +309,16 @@ class AuthServiceProvider extends ServiceProvider
         //Gate Accounting --> end
 
         //Gate Workshop --> start
+        Gate::define('isElectricity', function($user){
+            $roles = json_decode($user->user_access);
+            if($roles){
+                foreach ($roles->objWorkshop->workshopRoles as $workshopRole){
+                    if ($workshopRole->access == true && $workshopRole->title == 'Data Listrik'){
+                        return true;
+                    }
+                }
+            }
+        });
         Gate::define('isMonitoring', function($user){
             $roles = json_decode($user->user_access);
             if($roles){

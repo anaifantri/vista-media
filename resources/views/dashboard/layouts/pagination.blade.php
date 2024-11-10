@@ -33,11 +33,11 @@
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
-                            <li class="page-item active">
+                            <li class="page-item active mx-1">
                                 <a class="page-link border rounded-sm px-1">{{ $page }}</a>
                             </li>
                         @else
-                            <li class="page-item">
+                            <li class="page-item mx-1">
                                 <a class="page-link border rounded-sm px-1"
                                     href="{{ $url }}">{{ $page }}</a>
                             </li>
@@ -47,7 +47,7 @@
             @endforeach
 
             @if ($paginator->hasMorePages())
-                <li class="page-item px-1">
+                <li class="page-item px-1 mx-1">
                     <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +58,7 @@
                     </a>
                 </li>
             @else
-                <li class="page-item px-1 disabled">
+                <li class="page-item px-1 mx-1 disabled">
                     <a class="page-link" href="#">
                         <svg class="fill-slate-400 w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

@@ -3,13 +3,13 @@
 @section('container')
     <form method="post" action="/marketing/clients" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center mt-10">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
             @if (request('clientType') == 'Perorangan' || old('type') == 'Perorangan')
-                <div class="flex justify-center items-center w-[350px] h-[550px] border rounded-lg">
+                <div class="flex justify-center items-center w-[350px] h-[550px] border rounded-lg bg-stone-300">
                     <div>
                         <img class="m-auto img-preview flex items-center w-36 h-36 md:w-48 md:h-48"
                             src="/img/photo_profile.png">
-                        <label class="flex justify-center text-sm text-teal-700 mb-2">Foto Profil</label>
+                        <label class="flex justify-center text-sm text-stone-900 mb-2">Foto Profil</label>
                         <input
                             class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 mt-5 @error('photo') is-invalid @enderror"
                             type="file" id="logo" name="logo" onchange="previewImage(this)">
@@ -21,11 +21,11 @@
                     </div>
                 </div>
             @elseif (request('clientType') == 'Perusahaan' || old('type') == 'Perusahaan')
-                <div class="flex justify-center items-center w-[350px] h-[550px] border rounded-lg">
+                <div class="flex justify-center items-center w-[350px] h-[550px] border rounded-lg bg-stone-300">
                     <div>
                         <img class="m-auto img-preview flex items-center w-36 h-36 md:w-48 md:h-48"
                             src="/img/photo_profile.png">
-                        <label class="flex justify-center text-sm text-teal-700 mb-2">Logo Perusahaan</label>
+                        <label class="flex justify-center text-sm text-stone-900 mb-2">Logo Perusahaan</label>
                         <input
                             class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 mt-5 @error('photo') is-invalid @enderror"
                             type="file" id="logo" name="logo" onchange="previewImage(this)">
@@ -37,18 +37,18 @@
                     </div>
                 </div>
             @endif
-            <div class="mx-4 px-4 py-2 w-[350px] h-[550px] border rounded-lg">
+            <div class="mx-4 px-4 py-2 w-[350px] h-[550px] border rounded-lg bg-stone-300">
                 <div class="flex items-center justify-center border-b">
-                    <h4 class="text-2xl font-semibold tracking-wider text-teal-900">TAMBAH DATA KLIEN</h4>
+                    <h4 class="text-2xl font-semibold tracking-wider text-stone-900">TAMBAH DATA KLIEN</h4>
                 </div>
                 <div class="mt-2">
                     @php
                         $types = ['Perusahaan', 'Perorangan'];
                     @endphp
-                    <label class="text-sm text-teal-700">Jenis Klien</label>
+                    <label class="text-sm text-stone-900">Jenis Klien</label>
                     @if (request('clientType'))
                         <select
-                            class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('type') is-invalid @enderror"
+                            class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('type') is-invalid @enderror"
                             name="type" id="type" value="{{ request('clientType') }}" onchange="submitType(this)"
                             required>
                             <option value="pilih">Pilih Jenis Klien</option>
@@ -66,7 +66,7 @@
                         </select>
                     @else
                         <select
-                            class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('type') is-invalid @enderror"
+                            class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('type') is-invalid @enderror"
                             name="type" id="type" value="{{ old('type') }}" onchange="submitType(this)" required>
                             <option value="pilih">Pilih Jenis Klien</option>
                             @foreach ($types as $type)
@@ -91,9 +91,9 @@
                 @if (request('clientType') == 'Perorangan' || old('type') == 'Perorangan')
                     <div id="divPersonal" class="w-full">
                         <div class="mt-2">
-                            <label class="text-sm text-teal-700">Nama</label>
+                            <label class="text-sm text-stone-900">Nama</label>
                             <input
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                 type="text" id="name" name="name" placeholder="Nama Klien"
                                 value="{{ old('name') }}" autofocus required>
                             @error('name')
@@ -103,9 +103,9 @@
                             @enderror
                         </div>
                         <div class="mt-2">
-                            <label class="text-sm text-teal-700">Alamat</label>
+                            <label class="text-sm text-stone-900">Alamat</label>
                             <textarea
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
                                 name="address" rows="3" id="address" required placeholder="Alamat Perusahaan">{{ old('address') }}</textarea>
                             @error('address')
                                 <div class="invalid-feedback">
@@ -114,9 +114,9 @@
                             @enderror
                         </div>
                         <div class="mt-2">
-                            <label class="text-sm text-teal-700">Email</label>
+                            <label class="text-sm text-stone-900">Email</label>
                             <input
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
                                 type="email" id="email" name="email" placeholder="Email Perusahaan"
                                 value="{{ old('email') }}">
                             @error('email')
@@ -126,9 +126,9 @@
                             @enderror
                         </div>
                         <div class="mt-2">
-                            <label class="text-sm text-teal-700">No. Handphone</label>
+                            <label class="text-sm text-stone-900">No. Handphone</label>
                             <input
-                                class="flex px-2 text-sm in-out-spin-none font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                class="flex px-2 text-sm in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                 type="number" min="0" id="phone" name="phone"
                                 placeholder="No. Telepon Perusahaan" value="{{ old('phone') }}" required>
                             @error('phone')
@@ -162,9 +162,9 @@
                 @elseif (request('clientType') == 'Perusahaan' || old('type') == 'Perusahaan')
                     <div id="divCompany" class="w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Nama Klien</label>
+                            <label class="text-sm text-stone-900">Nama Klien</label>
                             <input
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                 type="text" id="name" name="name" placeholder="Nama Klien"
                                 value="{{ old('name') }}" autofocus required>
                             @error('name')
@@ -174,9 +174,9 @@
                             @enderror
                         </div>
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Nama Perusahaan</label>
+                            <label class="text-sm text-stone-900">Nama Perusahaan</label>
                             <input
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('company') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('company') is-invalid @enderror"
                                 type="text" id="company" name="company" placeholder="Nama Perusahaan"
                                 value="{{ old('company') }}" required>
                             @error('company')
@@ -186,9 +186,9 @@
                             @enderror
                         </div>
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Alamat Perusahaan</label>
+                            <label class="text-sm text-stone-900">Alamat Perusahaan</label>
                             <textarea
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
                                 name="address" rows="3" id="address" required placeholder="Alamat Perusahaan">{{ old('address') }}</textarea>
                             @error('address')
                                 <div class="invalid-feedback">
@@ -197,9 +197,9 @@
                             @enderror
                         </div>
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Katagori</label>
+                            <label class="text-sm text-stone-900">Katagori</label>
                             <select
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('client_category_id') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('client_category_id') is-invalid @enderror"
                                 name="client_category_id" id="client_category_id"
                                 value="{{ old('client_category_id') }}" required>
                                 <option value="pilih">Pilih Katagori</option>
@@ -222,9 +222,9 @@
                             @enderror
                         </div>
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Email</label>
+                            <label class="text-sm text-stone-900">Email</label>
                             <input
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
                                 type="email" id="email" name="email" placeholder="Email Perusahaan"
                                 value="{{ old('email') }}">
                             @error('email')
@@ -234,9 +234,9 @@
                             @enderror
                         </div>
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">No. Telepon</label>
+                            <label class="text-sm text-stone-900">No. Telepon</label>
                             <input
-                                class="flex px-2 text-sm in-out-spin-none font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                class="flex px-2 text-sm in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                 type="number" min="0" id="phone" name="phone"
                                 placeholder="No. Telepon Perusahaan" value="{{ old('phone') }}">
                             @error('phone')

@@ -15,11 +15,11 @@ foreach ($leds as $led) {
     <label class="text-semibold">Deskripsi Media {{ $location->media_category->name }}</label>
 </div>
 <div class="flex">
-    <label class="text-sm text-teal-700 w-28">Ukuran</label>
+    <label class="text-sm text-stone-900 w-28">Ukuran</label>
     <label class="text-semibold">: {{ $location->media_size->size }} - {{ $location->side }}</label>
 </div>
 <div class="flex">
-    <label class="text-sm text-teal-700 w-28">Screen Size</label>
+    <label class="text-sm text-stone-900 w-28">Screen Size</label>
     @if ($description->screen_w < $description->screen_h)
         <label class="text-semibold">: {{ $description->screen_w }} pixel x {{ $description->screen_h }} pixel</label>
     @else
@@ -27,15 +27,15 @@ foreach ($leds as $led) {
     @endif
 </div>
 <div class="flex">
-    <label class="text-sm text-teal-700 w-28">Orientasi</label>
+    <label class="text-sm text-stone-900 w-28">Orientasi</label>
     <label class="text-semibold">: {{ $location->orientation }}</label>
 </div>
 <div class="flex">
-    <label class="text-sm text-teal-700 w-28">Kondisi</label>
+    <label class="text-sm text-stone-900 w-28">Kondisi</label>
     <label class="text-semibold">: {{ $location->condition }}</label>
 </div>
 <div class="flex">
-    <label class="text-sm text-teal-700 w-28">Waktu Tayang</label>
+    <label class="text-sm text-stone-900 w-28">Waktu Tayang</label>
     <label class="text-semibold">:
         {{ date('H:i', strtotime($description->start_at)) }} s.d
         {{ date('H:i', strtotime($description->end_at)) }}
@@ -43,15 +43,15 @@ foreach ($leds as $led) {
     </label>
 </div>
 <div class="flex">
-    <label class="text-sm text-teal-700 w-28">Jumlah Slot</label>
+    <label class="text-sm text-stone-900 w-28">Jumlah Slot</label>
     <label class="text-semibold">: {{ $description->slots }} slot</label>
 </div>
 <div class="flex">
-    <label class="text-sm text-teal-700 w-28">Durasi Video</label>
+    <label class="text-sm text-stone-900 w-28">Durasi Video</label>
     <label class="text-semibold">: {{ $description->duration }} detik</label>
 </div>
 <div class="flex">
-    <label class="text-sm text-teal-700 w-28">Jumlah Tampilan</label>
+    <label class="text-sm text-stone-900 w-28">Jumlah Tampilan</label>
     <label class="text-semibold">:
         {{ $duration_second / $description->duration / $description->slots }} tampilan / slot / hari
     </label>

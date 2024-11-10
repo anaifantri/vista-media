@@ -1,11 +1,11 @@
 <!-- Edit Location start -->
 <div class="flex justify-center">
-    <div class="flex justify-start border rounded-lg w-[250px] h-[550px] px-4 py-2">
+    <div class="flex justify-start bg-stone-300 border rounded-lg w-[250px] h-[550px] px-4 py-2">
         <div>
             @include('dashboard.layouts.select-category-edit')
             <div class="flex">
                 <div class="mt-1">
-                    <label class="text-sm text-teal-700">Kode Lokasi</label>
+                    <label class="text-sm text-stone-900">Kode Lokasi</label>
                     <input
                         class="flex in-out-spin-none text-semibold font-semibold w-32 border rounded-lg px-1 outline-none @error('code') is-invalid @enderror"
                         type="number" min="0" id="code" name="code" value="{{ $location->code }}">
@@ -26,7 +26,7 @@
             @include('dashboard.layouts.select-condition-edit')
         </div>
     </div>
-    <div class="flex justify-start  border rounded-lg w-[250px] h-[550px] px-4 py-2 ml-4">
+    <div class="flex justify-start bg-stone-300  border rounded-lg w-[250px] h-[550px] px-4 py-2 ml-4">
         <div>
             @if (old('category'))
                 @if (old('category') == 'Videotron')
@@ -69,7 +69,7 @@
                 @can('isLocation')
                     @can('isMediaEdit')
                         <div id="price" name="price" class="mt-1">
-                            <label class="text-sm text-teal-700">Harga</label>
+                            <label class="text-sm text-stone-900">Harga</label>
                             <input
                                 class="flex w-[218px] text-semibold border mt-1 in-out-spin-none rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                 type="number" id="price" name="price" value="{{ $location->price }}">

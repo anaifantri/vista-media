@@ -1,14 +1,14 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex justify-center mt-10">
-        <div class="md:flex">
-            <form class="md:flex" method="post" action="/marketing/vendors/{{ $vendor->id }}" enctype="multipart/form-data">
-                @method('put')
-                @csrf
-                <div class="flex justify-center items-center w-60 md:w-72">
+    <form method="post" action="/marketing/vendors/{{ $vendor->id }}" enctype="multipart/form-data">
+        @method('put')
+        @csrf
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="flex">
+                <div class="flex justify-center items-center w-96 bg-stone-300 p-4 border rounded-lg">
                     <div class="d-flex justify-center items-center p-8">
-                        <label class="flex justify-center text-sm text-teal-700 mb-2">Logo Vendor</label>
+                        <label class="flex justify-center text-sm text-stone-900 mb-2">Logo Vendor</label>
                         <input type="hidden" name="oldLogo" value="{{ $vendor->logo }}">
                         @if ($vendor->logo)
                             <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
@@ -18,7 +18,7 @@
                                 src="/img/photo_profile.png">
                         @endif
                         <input
-                            class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 md:w-72 mt-5 @error('logo') is-invalid @enderror"
+                            class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('logo') is-invalid @enderror"
                             type="file" id="logo" name="logo" onchange="previewImage()">
                         @error('logo')
                             <div class="invalid-feedback">
@@ -27,15 +27,15 @@
                         @enderror
                     </div>
                 </div>
-                <div class="flex w-72 md:w-96 items-center">
+                <div class="flex w-96 bg-stone-300 p-4 border rounded-lg items-center ml-4">
                     <div class="p-3 py-3 w-full">
                         <div class="flex items-center border-b w-full">
-                            <h4 class="text-2xl font-semibold tracking-wider text-teal-900">EDIT DATA VENDOR</h4>
+                            <h4 class="text-2xl font-semibold tracking-wider text-stone-900">EDIT DATA VENDOR</h4>
                         </div>
                         <div class="mt-5 w-full">
-                            <div class="mt-2"><label class="text-sm text-teal-700">Nama Vendor</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Nama Vendor</label>
                                 <input
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                     type="text" id="name" name="name" value="{{ $vendor->name }}" autofocus>
                                 @error('name')
                                     <div class="invalid-feedback">
@@ -43,9 +43,9 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Nama Perusahaan</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Nama Perusahaan</label>
                                 <input
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('company') is-invalid @enderror"
+                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('company') is-invalid @enderror"
                                     type="text" id="company" name="company" value="{{ $vendor->company }}">
                                 @error('company')
                                     <div class="invalid-feedback">
@@ -53,9 +53,9 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Alamat Perusahaan</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Alamat Perusahaan</label>
                                 <textarea
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
+                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
                                     name="address" id="address" required placeholder="Alamat Perusahaan">{{ $vendor->address }}</textarea>
                                 @error('address')
                                     <div class="invalid-feedback">
@@ -63,9 +63,9 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Katagori</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Katagori</label>
                                 <select
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('vendor_category_id') is-invalid @enderror"
+                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('vendor_category_id') is-invalid @enderror"
                                     name="vendor_category_id" id="vendor_category_id"
                                     value="{{ $vendor->vendor_category_id }}">
                                     @foreach ($vendor_categories as $category)
@@ -86,9 +86,9 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Email</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Email</label>
                                 <input
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
+                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
                                     type="text" id="email" name="email" value="{{ $vendor->email }}">
                                 @error('email')
                                     <div class="invalid-feedback">
@@ -96,9 +96,9 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">No. Telepon</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">No. Telepon</label>
                                 <input
-                                    class="flex px-2 in-out-spin-none text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                    class="flex px-2 in-out-spin-none text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                     type="number" min="0" id="phone" name="phone"
                                     value="{{ $vendor->phone }}">
                                 @error('phone')
@@ -130,9 +130,9 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 
     <!-- Script Preview Image start-->
     <script>

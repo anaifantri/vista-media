@@ -1,6 +1,6 @@
 <!-- Input Quantity start -->
 <div class="mt-1">
-    <label class="text-sm text-teal-700">Jumlah Signage</label>
+    <label class="text-sm text-stone-900">Jumlah Signage</label>
     <div class="flex">
         <input
             class="flex ml-2 text-semibold w-16 in-out-spin-none  border rounded-lg px-1 outline-none @error('qty') is-invalid @enderror"

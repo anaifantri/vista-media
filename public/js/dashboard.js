@@ -133,6 +133,7 @@ const profileChild = document.querySelector('#profileChild');
 const profileArrow = document.querySelector('#profileArrow');
 
 profileAction = (e,sel) => {
+    navBarChildHidden();
     e.stopPropagation();
     sel.classList.toggle('group');
     profileArrow.classList.toggle('rotate-180');
@@ -160,6 +161,16 @@ navBarChildHidden = () =>{
         document.getElementById("legalNav").classList.add('group');
         document.getElementById("legalChildNav").classList.add('hidden');
         document.getElementById("legalArrow").classList.remove('rotate-180');
+    }else if(document.getElementById("electricityNav")){
+        document.getElementById("electricityChildNav").classList.add('hidden');
+        document.getElementById("electricityNav").classList.add('group');
+        document.getElementById("electricityArrowNav").classList.remove('rotate-180');
+        document.getElementById("monitoringChildNav").classList.add('hidden');
+        document.getElementById("monitoringNav").classList.add('group');
+        document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
+        document.getElementById("documentationChildNav").classList.add('hidden');
+        document.getElementById("documentationNav").classList.add('group');
+        document.getElementById("documentationArrowNav").classList.remove('rotate-180');
     }
 }
 
@@ -172,6 +183,7 @@ function showHideDropdown(sel) {
 
 // header dropdown
 function headerDropdown(e, sel) {
+    profileChildrendHide();
     e.stopPropagation();
     sel.classList.toggle('group');
     sel.children[0].children[2].classList.toggle('rotate-180');
@@ -195,6 +207,29 @@ function headerDropdown(e, sel) {
             document.getElementById("mediaNav").classList.add('group');
             document.getElementById("mediaChildNav").classList.add('hidden');
             document.getElementById("mediaArrowNav").classList.remove('rotate-180');
+        }
+    }else if(document.getElementById("electricityNav")){
+        if(sel.id == "electricityNav"){
+            document.getElementById("monitoringNav").classList.add('group');
+            document.getElementById("monitoringChildNav").classList.add('hidden');
+            document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
+            document.getElementById("documentationNav").classList.add('group');
+            document.getElementById("documentationChildNav").classList.add('hidden');
+            document.getElementById("documentationArrowNav").classList.remove('rotate-180');
+        }else if(sel.id == "monitoringNav"){
+            document.getElementById("electricityNav").classList.add('group');
+            document.getElementById("electricityChildNav").classList.add('hidden');
+            document.getElementById("electricityArrowNav").classList.remove('rotate-180');
+            document.getElementById("documentationNav").classList.add('group');
+            document.getElementById("documentationChildNav").classList.add('hidden');
+            document.getElementById("documentationArrowNav").classList.remove('rotate-180');
+        }else if(sel.id == "documentationNav"){
+            document.getElementById("electricityNav").classList.add('group');
+            document.getElementById("electricityChildNav").classList.add('hidden');
+            document.getElementById("electricityArrowNav").classList.remove('rotate-180');
+            document.getElementById("monitoringNav").classList.add('group');
+            document.getElementById("monitoringChildNav").classList.add('hidden');
+            document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
         }
     }
 }

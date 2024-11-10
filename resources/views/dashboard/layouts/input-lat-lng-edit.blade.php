@@ -1,6 +1,6 @@
 <!-- Input Latitude - longitude start -->
 <div class="mt-1" hidden>
-    <label class="text-sm text-teal-700">Latitude</label>
+    <label class="text-sm text-stone-900">Latitude</label>
     @if ($category == 'Signage')
         <input
             class="flex text-sm text-slate-500 font-semibold w-[218px]  border rounded-lg px-1 outline-none @error('lat') is-invalid @enderror"
@@ -20,7 +20,7 @@
     @enderror
 </div>
 <div class="mt-1" hidden>
-    <label class="text-sm text-teal-700">Longitude</label>
+    <label class="text-sm text-stone-900">Longitude</label>
     @if ($category == 'Signage')
         <input
             class="flex text-sm text-slate-500 font-semibold w-[218px]  border rounded-lg px-1 outline-none @error('lng') is-invalid @enderror"

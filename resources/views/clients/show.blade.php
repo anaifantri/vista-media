@@ -6,10 +6,10 @@
     $updatedDate = strtotime($client->updated_at);
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
-    <div class="flex justify-center mt-10">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="flex justify-center">
             <!-- Logo Client Start -->
-            <div class="flex justify-center items-center w-64 h-[550px] m-1 border rounded-lg">
+            <div class="flex justify-center items-center w-64 h-[550px] m-1 border rounded-lg bg-stone-300">
                 <div>
                     @if ($client->logo)
                         <img class="m-auto img-preview flex items-center rounded-full w-48 "
@@ -17,29 +17,29 @@
                     @else
                         <img class="m-auto img-preview flex rounded-full items-center w-48" src="/img/photo_profile.png">
                     @endif
-                    <span class="flex justify-center font-semibold text-teal-900 border-b mt-3">{{ $client->name }}</span>
-                    <span class="flex justify-center text-teal-700 text-sm text-center">{{ $client->company }}</span>
+                    <span class="flex justify-center font-semibold text-stone-900 border-b mt-3">{{ $client->name }}</span>
+                    <span class="flex justify-center text-stone-900 text-sm text-center">{{ $client->company }}</span>
                 </div>
             </div>
             <!-- Logo Client End -->
             <!-- Detail Client Start -->
-            <div class="flex justify-center w-[500px] h-[550px] m-1 border rounded-lg">
+            <div class="flex justify-center w-[500px] h-[550px] m-1 border rounded-lg bg-stone-300">
                 <div class="p-2 w-full justify-center">
                     <div class="flex items-center w-full border-b">
-                        <h4 class="text-2xl font-semibold tracking-wider text-teal-900">DATA KLIEN</h4>
+                        <h4 class="text-2xl font-semibold tracking-wider text-stone-900">DATA KLIEN</h4>
                     </div>
                     <div class="mt-2 w-full">
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">Nama Klien</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->name }}</h6>
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">Nama Klien</label>
+                            <h6 class="text-base font-semibold text-stone-900">{{ $client->name }}</h6>
                         </div>
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">Nama Perusahaan</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->company }}</h6>
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">Nama Perusahaan</label>
+                            <h6 class="text-base font-semibold text-stone-900">{{ $client->company }}</h6>
                         </div>
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">Alamat</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->address }}</h6>
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">Alamat</label>
+                            <h6 class="text-base font-semibold text-stone-900">{{ $client->address }}</h6>
                         </div>
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">Katagori</label>
-                            <h6 class="text-base font-semibold text-teal-900">
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">Katagori</label>
+                            <h6 class="text-base font-semibold text-stone-900">
                                 @if ($client->client_category_id)
                                     {{ $client->client_category->name }}
                                 @else
@@ -47,31 +47,31 @@
                                 @endif
                             </h6>
                         </div>
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">Email</label>
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">Email</label>
                             @if ($client->email)
-                                <h6 class="text-base font-semibold text-teal-900">{{ $client->email }}</h6>
+                                <h6 class="text-base font-semibold text-stone-900">{{ $client->email }}</h6>
                             @else
-                                <h6 class="text-base font-semibold text-teal-900">-</h6>
+                                <h6 class="text-base font-semibold text-stone-900">-</h6>
                             @endif
                         </div>
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">No. Telepon</label>
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">No. Telepon</label>
                             @if ($client->phone)
-                                <h6 class="text-base font-semibold text-teal-900">{{ $client->phone }}</h6>
+                                <h6 class="text-base font-semibold text-stone-900">{{ $client->phone }}</h6>
                             @else
-                                <h6 class="text-base font-semibold text-teal-900">-</h6>
+                                <h6 class="text-base font-semibold text-stone-900">-</h6>
                             @endif
                         </div>
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">Dibuat Oleh</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ $client->user->name }}</h6>
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">Dibuat Oleh</label>
+                            <h6 class="text-base font-semibold text-stone-900">{{ $client->user->name }}</h6>
                         </div>
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">Tanggal Terdaftar</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ date('d', $createdDate) }}
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">Tanggal Terdaftar</label>
+                            <h6 class="text-base font-semibold text-stone-900">{{ date('d', $createdDate) }}
                                 {{ $bulan[(int) date('m', $createdDate)] }}
                                 {{ date('Y', $createdDate) }}
                             </h6>
                         </div>
-                        <div class="border-b mt-1"><label class="text-sm text-teal-700">Tanggal Perubahan Terakhir</label>
-                            <h6 class="text-base font-semibold text-teal-900">{{ date('d', $updatedDate) }}
+                        <div class="border-b mt-1"><label class="text-sm text-stone-900">Tanggal Perubahan Terakhir</label>
+                            <h6 class="text-base font-semibold text-stone-900">{{ date('d', $updatedDate) }}
                                 {{ $bulan[(int) date('m', $updatedDate)] }}
                                 {{ date('Y', $updatedDate) }}
                             </h6>
@@ -133,12 +133,13 @@
             </div>
             <!-- Detail Client End -->
             <!-- Kontak Person Start -->
-            <div class="justify-center relative w-[475px] border-l h-[550px] m-1 border rounded-lg overflow-y-auto">
+            <div
+                class="justify-center relative w-[475px] border-l h-[550px] m-1 border rounded-lg bg-stone-300 overflow-y-auto">
                 <div class="flex bg-white w-full">
                     <div class="w-[450px] p-2">
                         <div class="flex items-center w-full border-b">
                             <!-- Title Start -->
-                            <h4 class="text-2xl font-semibold tracking-wider text-teal-900 w-[400px]">KONTAK PERSON</h4>
+                            <h4 class="text-2xl font-semibold tracking-wider text-stone-900 w-[400px]">KONTAK PERSON</h4>
                             <!-- Title End -->
                             <!-- Button Add Contact Start -->
                             <div class="flex w-full items-center justify-end">
@@ -174,7 +175,7 @@
                                         <div>
                                             <img class="m-auto photo-preview rounded-full flex items-center w-32"
                                                 src="/img/photo_profile.png">
-                                            <label class="flex justify-center text-sm text-teal-700 mb-2">Photo
+                                            <label class="flex justify-center text-sm text-stone-900 mb-2">Photo
                                                 Profile</label>
                                             <input
                                                 class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full mt-5 @error('avatar') is-invalid @enderror"
@@ -191,16 +192,16 @@
                                         <div>
                                             <div class="flex mt-1 items-center">
                                                 <input name="client_id" value="{{ $client->id }}" type="hidden">
-                                                <label class="text-sm text-teal-700 w-[150px]">Nama Client</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Nama Client</label>
                                                 <input id="client_name" name="client_name"
                                                     class="flex px-2 text-sm font-semibold text-slate-400 w-full border rounded-lg p-1 outline-none"
                                                     type="text" title="Terisi otomatis" value="{{ $client->name }}"
                                                     required readonly>
                                             </div>
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">Nama</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Nama</label>
                                                 <input
-                                                    class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                                                    class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                                     type="text" id="name" name="name"
                                                     placeholder="Input Nama" value="{{ old('name') }}" autofocus
                                                     required>
@@ -211,12 +212,12 @@
                                                 </div>
                                             @enderror
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">Jenis Kelamin</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Jenis Kelamin</label>
                                                 @php
                                                     $genders = ['Male', 'Female'];
                                                 @endphp
                                                 <select
-                                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
                                                     name="gender" value="{{ old('gender') }}" required>
                                                     <option value="pilih">Pilih Jenis Kelamin</option>
                                                     @foreach ($genders as $gender)
@@ -246,9 +247,9 @@
                                                 </div>
                                             @enderror
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">Email</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Email</label>
                                                 <input
-                                                    class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
+                                                    class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
                                                     type="email" id="email" name="email"
                                                     placeholder="Input Email" value="{{ old('email') }}">
                                             </div>
@@ -258,9 +259,9 @@
                                                 </div>
                                             @enderror
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">No. Handphone</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">No. Handphone</label>
                                                 <input
-                                                    class="flex px-2 text-base in-out-spin-none font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                                    class="flex px-2 text-base in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                                     type="number" min="0" id="phone" name="phone"
                                                     placeholder="Input No. Handphone" value="{{ old('phone') }}"
                                                     required>
@@ -271,9 +272,9 @@
                                                 </div>
                                             @enderror
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">Jabatan</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Jabatan</label>
                                                 <input
-                                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
                                                     type="text" id="position" name="position"
                                                     placeholder="Input Jabatan" value="{{ old('position') }}">
                                             </div>
@@ -311,7 +312,7 @@
                                         <div>
                                             <img class="m-auto photo-preview rounded-full flex items-center w-32"
                                                 src="/img/photo_profile.png">
-                                            <label class="flex justify-center text-sm text-teal-700 mb-2">Photo
+                                            <label class="flex justify-center text-sm text-stone-900 mb-2">Photo
                                                 Profile</label>
                                             <input
                                                 class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full mt-5 @error('avatar') is-invalid @enderror"
@@ -328,15 +329,15 @@
                                         <div>
                                             <div class="flex mt-1 items-center">
                                                 <input name="client_id" value="{{ $client->id }}" type="hidden">
-                                                <label class="text-sm text-teal-700 w-[150px]">Nama Klien</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Nama Klien</label>
                                                 <input id="client_name" name="client_name" title="Terisi otomatis"
                                                     class="flex px-2 text-sm font-semibold text-slate-400 w-full border rounded-lg p-1 outline-none"
                                                     type="text" value="{{ $client->name }}" required readonly>
                                             </div>
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">Nama</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Nama</label>
                                                 <input
-                                                    class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                                                    class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                                     type="text" id="name" name="name"
                                                     placeholder="Input Nama" value="{{ old('name') }}" autofocus
                                                     required>
@@ -347,12 +348,12 @@
                                                 </div>
                                             @enderror
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">Jenis Kelamin</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Jenis Kelamin</label>
                                                 @php
                                                     $genders = ['Male', 'Female'];
                                                 @endphp
                                                 <select
-                                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
                                                     name="gender" value="{{ old('gender') }}" required>
                                                     <option value="pilih">Pilih Jenis Kelamin</option>
                                                     @foreach ($genders as $gender)
@@ -382,9 +383,9 @@
                                                 </div>
                                             @enderror
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">Email</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Email</label>
                                                 <input
-                                                    class="flex px-2 text-sm font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
+                                                    class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
                                                     type="email" id="email" name="email"
                                                     placeholder="Input Email" value="{{ old('email') }}">
                                             </div>
@@ -394,9 +395,9 @@
                                                 </div>
                                             @enderror
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">No. Handphone</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">No. Handphone</label>
                                                 <input
-                                                    class="flex px-2 text-base in-out-spin-none font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                                    class="flex px-2 text-base in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                                     type="number" min="0" id="phone" name="phone"
                                                     placeholder="Input No. Handphone" value="{{ old('phone') }}"
                                                     required>
@@ -407,9 +408,9 @@
                                                 </div>
                                             @enderror
                                             <div class="flex mt-1 items-center">
-                                                <label class="text-sm text-teal-700 w-[150px]">Jabatan</label>
+                                                <label class="text-sm text-stone-900 w-[150px]">Jabatan</label>
                                                 <input
-                                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
                                                     type="text" id="position" name="position"
                                                     placeholder="Input Jabatan" value="{{ old('position') }}">
                                             </div>
@@ -453,7 +454,7 @@
                             $i = $i + 1;
                             ?>
                             <div class="flex border-t">
-                                <h6 class="flex absolute text-sm mx-3 mt-3 font-semibold text-teal-900">
+                                <h6 class="flex absolute text-sm mx-3 mt-3 font-semibold text-stone-900">
                                     {{ $i }}
                                 </h6>
                                 <div class="flex justify-center w-44">
@@ -468,11 +469,11 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 w-52">
-                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">Nama</label>
-                                        <h6 class="text-sm font-semibold text-teal-900">{{ $contact->name }}</h6>
+                                    <div class="border-b mt-1"><label class="text-sm text-stone-900">Nama</label>
+                                        <h6 class="text-sm font-semibold text-stone-900">{{ $contact->name }}</h6>
                                     </div>
-                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">Jenis Kelamin</label>
-                                        <h6 class="text-sm font-semibold text-teal-900">
+                                    <div class="border-b mt-1"><label class="text-sm text-stone-900">Jenis Kelamin</label>
+                                        <h6 class="text-sm font-semibold text-stone-900">
                                             @if ($contact->gender == 'Male')
                                                 Laki-Laki
                                             @elseif ($contact->gender == 'Female')
@@ -481,21 +482,21 @@
                                         </h6>
                                     </div>
                                     <div class="border-b mt-1">
-                                        <label class="text-sm text-teal-700">Email</label>
+                                        <label class="text-sm text-stone-900">Email</label>
                                         @if ($contact->email)
-                                            <h6 class="text-sm font-semibold text-teal-900">{{ $contact->email }}</h6>
+                                            <h6 class="text-sm font-semibold text-stone-900">{{ $contact->email }}</h6>
                                         @else
-                                            <h6 class="text-sm font-semibold text-teal-900">-</h6>
+                                            <h6 class="text-sm font-semibold text-stone-900">-</h6>
                                         @endif
                                     </div>
-                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">No. Handphone</label>
-                                        <h6 class="text-sm font-semibold text-teal-900">{{ $contact->phone }}</h6>
+                                    <div class="border-b mt-1"><label class="text-sm text-stone-900">No. Handphone</label>
+                                        <h6 class="text-sm font-semibold text-stone-900">{{ $contact->phone }}</h6>
                                     </div>
-                                    <div class="border-b mt-1"><label class="text-sm text-teal-700">Jabatan</label>
+                                    <div class="border-b mt-1"><label class="text-sm text-stone-900">Jabatan</label>
                                         @if ($contact->position)
-                                            <h6 class="text-sm font-semibold text-teal-900">{{ $contact->position }}</h6>
+                                            <h6 class="text-sm font-semibold text-stone-900">{{ $contact->position }}</h6>
                                         @else
-                                            <h6 class="text-sm font-semibold text-teal-900">-</h6>
+                                            <h6 class="text-sm font-semibold text-stone-900">-</h6>
                                         @endif
                                     </div>
                                     <div class="flex mt-2">

@@ -7,7 +7,7 @@
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10">
-        <div class="z-0 mb-8">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
                 <h1 class="index-h1 w-[400px]">DETAIL DATA PERIZINAN</h1>
@@ -49,35 +49,35 @@
             <!-- Alert end -->
             <div class="flex w-full justify-center mt-2">
                 <!-- Location start -->
-                <div class="w-[485px] border rounded-lg p-2 bg-teal-50">
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                <div class="w-[485px] border rounded-lg p-2 bg-stone-400">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Kode Lokasi</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->code }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Lokasi</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->address }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Ukuran</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
                     </div>
                 </div>
-                <div class="w-[485px] border rounded-lg p-2 bg-teal-50 ml-4">
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                <div class="w-[485px] border rounded-lg p-2 bg-stone-400 ml-4">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Jenis</label>
                         <label>:</label>
                         <label class="ml-2">{{ $location->media_category->name }}-{{ $description->lighting }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Area</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->area->area }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Kota</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->city->city }}</label>
@@ -87,34 +87,43 @@
             </div>
             <!-- View Prinsip start -->
             <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-teal-900 test-sm font-semibold mt-2">1. DATA IZIN PRINSIP</label>
+                <label class="flex text-stone-100 test-sm font-semibold mt-2">1. DATA IZIN PRINSIP</label>
                 <table class="table-auto w-full mt-2">
                     <thead>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-xs text-center w-32" rowspan="2">Nomor</th>
-                            <th class="text-teal-700 border text-xs text-center" rowspan="2">Penerbit</th>
-                            <th class="text-teal-700 border text-xs text-center w-28" rowspan="2">Tgl. Terbit</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="2">Jangka Waktu</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Action</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">Nomor
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28" rowspan="2">Tgl.
+                                Terbit</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="2">Jangka
+                                Waktu</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs text-center w-28">Awal</th>
-                            <th class="text-teal-700 border text-xs text-center w-28">Akhir</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Awal</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Akhir</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-200">
                         @foreach ($data_prinsip as $prinsip)
                             <tr>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $prinsip->number }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $prinsip->government }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $loop->iteration }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $prinsip->number }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $prinsip->government }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ date('d', strtotime($prinsip->published)) }}
                                     {{ $bulan[(int) date('m', strtotime($prinsip->published))] }}
                                     {{ date('Y', strtotime($prinsip->published)) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($prinsip->start_at)
                                         {{ date('d', strtotime($prinsip->start_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($prinsip->start_at))] }}
@@ -123,7 +132,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($prinsip->end_at)
                                         {{ date('d', strtotime($prinsip->end_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($prinsip->end_at))] }}
@@ -132,7 +141,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/media/licenses/{{ $prinsip->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
@@ -192,34 +201,43 @@
             <!-- View Prinsip end -->
             <!-- View PBG/SLF start -->
             <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-teal-900 test-sm font-semibold mt-2">2. DATA PBG / SLF</label>
+                <label class="lex text-stone-100 test-sm font-semibold mt-2">2. DATA PBG / SLF</label>
                 <table class="table-auto w-full mt-2">
                     <thead>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-xs text-center w-32" rowspan="2">Nomor</th>
-                            <th class="text-teal-700 border text-xs text-center" rowspan="2">Penerbit</th>
-                            <th class="text-teal-700 border text-xs text-center w-28" rowspan="2">Tgl. Terbit</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="2">Jangka Waktu</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Action</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                                Nomor</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28" rowspan="2">
+                                Tgl. Terbit</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="2">Jangka
+                                Waktu</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs text-center w-28">Awal</th>
-                            <th class="text-teal-700 border text-xs text-center w-28">Akhir</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Awal</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Akhir</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-200">
                         @foreach ($data_pbg as $pbg)
                             <tr>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $pbg->number }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $pbg->government }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $loop->iteration }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $pbg->number }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $pbg->government }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ date('d', strtotime($pbg->published)) }}
                                     {{ $bulan[(int) date('m', strtotime($pbg->published))] }}
                                     {{ date('Y', strtotime($pbg->published)) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($pbg->start_at)
                                         {{ date('d', strtotime($pbg->start_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($pbg->start_at))] }}
@@ -228,7 +246,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($pbg->end_at)
                                         {{ date('d', strtotime($pbg->end_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($pbg->end_at))] }}
@@ -237,7 +255,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/media/licenses/{{ $pbg->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
@@ -297,34 +315,43 @@
             <!-- View PBG/SLF end -->
             <!-- View IPR start -->
             <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-teal-900 test-sm font-semibold mt-2">3. DATA IPR</label>
+                <label class="lex text-stone-100 test-sm font-semibold mt-2">3. DATA IPR</label>
                 <table class="table-auto w-full mt-2">
                     <thead>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-xs text-center w-32" rowspan="2">Nomor</th>
-                            <th class="text-teal-700 border text-xs text-center" rowspan="2">Penerbit</th>
-                            <th class="text-teal-700 border text-xs text-center w-28" rowspan="2">Tgl. Terbit</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="2">Jangka Waktu</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Action</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                                Nomor</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28" rowspan="2">
+                                Tgl. Terbit</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="2">Jangka
+                                Waktu</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs text-center w-28">Awal</th>
-                            <th class="text-teal-700 border text-xs text-center w-28">Akhir</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Awal</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Akhir</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-200">
                         @foreach ($data_ipr as $ipr)
                             <tr>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $ipr->number }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $ipr->government }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $loop->iteration }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $ipr->number }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $ipr->government }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ date('d', strtotime($ipr->published)) }}
                                     {{ $bulan[(int) date('m', strtotime($ipr->published))] }}
                                     {{ date('Y', strtotime($ipr->published)) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($ipr->start_at)
                                         {{ date('d', strtotime($ipr->start_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($ipr->start_at))] }}
@@ -333,7 +360,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($ipr->end_at)
                                         {{ date('d', strtotime($ipr->end_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($ipr->end_at))] }}
@@ -342,7 +369,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/media/licenses/{{ $ipr->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
@@ -402,34 +429,43 @@
             <!-- View IPR end -->
             <!-- View SKPD start -->
             <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-teal-900 test-sm font-semibold mt-2">4. DATA SKPD</label>
+                <label class="lex text-stone-100 test-sm font-semibold mt-2">4. DATA SKPD</label>
                 <table class="table-auto w-full mt-2">
                     <thead>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-xs text-center w-32" rowspan="2">Nomor</th>
-                            <th class="text-teal-700 border text-xs text-center" rowspan="2">Penerbit</th>
-                            <th class="text-teal-700 border text-xs text-center w-28" rowspan="2">Tgl. Terbit</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="2">Jangka Waktu</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Action</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                                Nomor</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28" rowspan="2">
+                                Tgl. Terbit</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="2">Jangka
+                                Waktu</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs text-center w-28">Awal</th>
-                            <th class="text-teal-700 border text-xs text-center w-28">Akhir</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Awal</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Akhir</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-200">
                         @foreach ($data_skpd as $skpd)
                             <tr>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $skpd->number }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $skpd->government }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $loop->iteration }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $skpd->number }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $skpd->government }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ date('d', strtotime($skpd->published)) }}
                                     {{ $bulan[(int) date('m', strtotime($skpd->published))] }}
                                     {{ date('Y', strtotime($skpd->published)) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($skpd->start_at)
                                         {{ date('d', strtotime($skpd->start_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($skpd->start_at))] }}
@@ -438,7 +474,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($skpd->end_at)
                                         {{ date('d', strtotime($skpd->end_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($skpd->end_at))] }}
@@ -447,7 +483,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/media/licenses/{{ $skpd->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
@@ -507,34 +543,43 @@
             <!-- View SKPD end -->
             <!-- View SSPD start -->
             <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-teal-900 test-sm font-semibold mt-2">5. DATA SSPD</label>
+                <label class="lex text-stone-100 test-sm font-semibold mt-2">5. DATA SSPD</label>
                 <table class="table-auto w-full mt-2">
                     <thead>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-xs text-center w-32" rowspan="2">Nomor</th>
-                            <th class="text-teal-700 border text-xs text-center" rowspan="2">Penerbit</th>
-                            <th class="text-teal-700 border text-xs text-center w-28" rowspan="2">Tgl. Terbit</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="2">Jangka Waktu</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Action</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                                Nomor</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28" rowspan="2">
+                                Tgl. Terbit</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="2">Jangka
+                                Waktu</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs text-center w-28">Awal</th>
-                            <th class="text-teal-700 border text-xs text-center w-28">Akhir</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Awal</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Akhir</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-200">
                         @foreach ($data_sspd as $sspd)
                             <tr>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $sspd->number }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $sspd->government }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $loop->iteration }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $sspd->number }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $sspd->government }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ date('d', strtotime($sspd->published)) }}
                                     {{ $bulan[(int) date('m', strtotime($sspd->published))] }}
                                     {{ date('Y', strtotime($sspd->published)) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($sspd->start_at)
                                         {{ date('d', strtotime($sspd->start_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($sspd->start_at))] }}
@@ -543,7 +588,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($sspd->end_at)
                                         {{ date('d', strtotime($sspd->end_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($sspd->end_at))] }}
@@ -552,7 +597,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/media/licenses/{{ $sspd->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">

@@ -3,23 +3,23 @@
 @section('container')
     <form method="post" action="/media/media-sizes" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center mt-10">
-            <div class="p-4 w-[350px] h-[500px] border rounded-lg">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-300">
                 <div class="flex items-center justify-center border-b">
-                    <h4 class="text-xl font-semibold tracking-wider text-teal-900">Tambah Ukuran</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-900">Tambah Ukuran</h4>
                 </div>
                 <div class="mt-5 w-full">
                     <input id="size" name="size" type="text" hidden>
                     <div class="flex justify-center">
                         <div class="mt-2 w-[140px]">
-                            <label class="text-sm text-teal-700">Panjang</label>
+                            <label class="text-sm text-stone-900">Panjang</label>
                             <input
                                 class="flex px-2 text-semibold in-out-spin-none w-[125px] border rounded-lg p-1 outline-teal-300 @error('width') is-invalid @enderror"
                                 type="number" min="0" max="24" id="width" name="width"
                                 placeholder="Input panjang" value="{{ old('width') }}" autofocus required>
                         </div>
                         <div class="mt-2 w-[140px]">
-                            <label class="ml-3 text-sm text-teal-700">Lebar</label>
+                            <label class="ml-3 text-sm text-stone-900">Lebar</label>
                             <input
                                 class="ml-3 flex px-2 text-semibold in-out-spin-none w-[125px] border rounded-lg p-1 outline-teal-300 @error('height') is-invalid @enderror"
                                 type="number" min="0" max="24" id="height" name="height"
@@ -33,9 +33,9 @@
                     @enderror
                     <div class="flex justify-center">
                         <div class="mt-1 w-[280px]">
-                            <label class="text-sm  text-teal-700">Katagori</label>
+                            <label class="text-sm  text-stone-900">Katagori</label>
                             <select name="media_category_id"
-                                class="flex text-sm w-[280px] font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('media_category_id') is-invalid @enderror"
+                                class="flex text-sm w-[280px] font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('media_category_id') is-invalid @enderror"
                                 type="text" value="{{ old('media_category_id') }}">
                                 <option class="text-semibold" value="pilih">-- pilih --</option>
                                 @foreach ($categories as $category)

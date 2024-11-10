@@ -2,10 +2,10 @@
 
 @section('container')
     <div class="text-center w-full">
-        <h1 class="w-full text-xl text-emerald-700 font-bold tracking-wider mt-8"> Selamat Datang Kembali
+        <h1 class="w-full text-xl text-amber-100 font-bold tracking-wider mt-8"> Selamat Datang Kembali
             {{ auth()->user()->name }}
         </h1>
-        <h1 class="w-full text-xl text-emerald-700 font-bold tracking-wider mt-2">`` Semoga harimu menyenangkan ``</h1>
+        <h1 class="w-full text-xl text-amber-100 font-bold tracking-wider mt-2">`` Semoga harimu menyenangkan ``</h1>
         {{-- <h1 class="w-full text-md text-emerald-700 tracking-wider mt-24"> Today's Quote :</h1>
         <h1 id="quote" name="quote"
             class="w-full text-xl text-emerald-700 font-semibold italic tracking-wider mt-4 px-10">

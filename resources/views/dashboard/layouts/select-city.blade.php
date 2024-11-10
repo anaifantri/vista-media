@@ -1,6 +1,6 @@
 <!-- Select City start -->
 <div class="mt-1">
-    <label class="text-sm text-teal-700">Kota</label>
+    <label class="text-sm text-stone-900">Kota</label>
     <select id="city_id" name="city_id"
         class="flex text-semibold w-[218px]  border rounded-lg px-1 outline-none @error('city_id') is-invalid @enderror"
         type="text" onchange="selectCity(this)">

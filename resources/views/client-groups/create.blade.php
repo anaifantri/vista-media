@@ -3,16 +3,16 @@
 @section('container')
     <form id="formCreate" method="post" action="/marketing/client-groups" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center mt-10">
-            <div class="p-4 w-[350px] h-[500px] border rounded-lg">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-300">
                 <div class="flex items-center justify-center mb-2 border-b w-full">
-                    <h4 class="text-xl font-semibold tracking-wider text-teal-900">Tambah Group Klien</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-900">Tambah Group Klien</h4>
                 </div>
                 <div>
                     <div class="flex justify-center mt-4 w-full">
                         <div class="mt-1">
                             <div class="flex">
-                                <label class="text-sm text-teal-700">Nama Group</label>
+                                <label class="text-sm text-stone-900">Nama Group</label>
                             </div>
                             <div class="mt-1">
                                 <input
@@ -29,7 +29,7 @@
                     </div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Tambah Member</label>
+                            <label class="text-sm text-stone-900">Tambah Member</label>
                             <select class="flex text-semibold w-[250px]  border rounded-lg p-1 outline-none mb-4"
                                 onchange="addMember(this)">
                                 <option value="pilih">-- Pilih Klien --</option>
@@ -51,8 +51,8 @@
                                     </button>
                                 </div>
                             </div>
-                            <label class="text-sm text-teal-700">Daftar Member :</label>
-                            <div id="data-member" class="text-sm text-teal-700">
+                            <label class="text-sm text-stone-900">Daftar Member :</label>
+                            <div id="data-member" class="text-sm text-stone-900">
                             </div>
                             @error('member')
                                 <div class="invalid-feedback">

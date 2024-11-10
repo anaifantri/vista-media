@@ -1,6 +1,6 @@
 <!-- Input Slots & Duration start -->
 <div class="mt-1">
-    <label class="text-sm text-teal-700">Jumlah Slots dan Durasi Video</label>
+    <label class="text-sm text-stone-900">Jumlah Slots dan Durasi Video</label>
     <div class="flex">
         <label class="flex text-semibold">Slots</label>
         @if ($category == 'Videotron')

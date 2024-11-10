@@ -127,17 +127,17 @@ figureAction = (sel, type) => {
         imageViews = document.querySelectorAll(".divImageAgreement");
         const figure = document.getElementById("figureAgreement");
         figureImages = figure.getElementsByTagName("img");
-        index = indexAgreement;
+        indexAgreement = Number(sel.id);
     }else if(type == 'certificate'){
         imageViews = document.querySelectorAll(".divImageCertificate");
         const figure = document.getElementById("figureCertificate");
         figureImages = figure.getElementsByTagName("img");
-        index = indexCertificate;
+        indexCertificate = Number(sel.id);
     }else if(type == 'receipt'){
         imageViews = document.querySelectorAll(".divImageReceipt");
         const figure = document.getElementById("figureReceipt");
         figureImages = figure.getElementsByTagName("img");
-        index = indexReceipt;
+        indexReceipt = Number(sel.id);
     }
     for (let i = 0; i < figureImages.length; i++) {
         if (figureImages[i].id == sel.id) {

@@ -3,7 +3,7 @@
     $sides = ['1 Sisi', '2 Sisi'];
 @endphp
 <div class="flex">
-    <label class="text-sm text-teal-700">Jumlah Sisi</label>
+    <label class="text-sm text-stone-900">Jumlah Sisi</label>
 </div>
 <div class="mt-1">
     <select id="side" name="side"

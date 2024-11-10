@@ -11,7 +11,7 @@
 }
 
 .right-nav {
-    @apply flex items-center font-medium text-sm mx-1 group-hover:text-emerald-200;
+    @apply flex items-center font-medium text-sm mx-1 group-hover:text-stone-500;
 }
 
 .right-profile-show {
@@ -23,7 +23,7 @@
 }
 
 .hamburger-line {
-    @apply w-[24px] h-[2px] my-[6px] block bg-teal-900;
+    @apply w-[24px] h-[2px] my-[6px] block bg-white;
 }
 
 .hamburger-active > span:nth-child(1) {
@@ -45,19 +45,19 @@
     @apply translate-x-full;
 }
 .nav-a {
-    @apply flex items-center text-base text-slate-700 py-1 group-hover:text-emerald-600;
+    @apply flex items-center text-base text-stone-100 py-1 group-hover:text-stone-500;
 }
 .div-nav-a {
-    @apply flex items-start text-base text-slate-700 py-1 mx-2 group-hover:text-emerald-600;
+    @apply flex items-start text-base text-stone-100 py-1 mx-2 group-hover:text-stone-500;
 }
 .active {
-    @apply text-gray-400;
+    @apply text-stone-500;
 }
 .nav-svg {
-    @apply flex fill-current w-6 hover:text-emerald-600 hover:scale-125;
+    @apply flex fill-current w-6 hover:text-stone-500 hover:scale-125;
 }
 .child-nav-svg {
-    @apply flex fill-current w-4 mr-1 hover:text-emerald-600;
+    @apply flex fill-current w-4 mr-1 hover:text-stone-500;
 }
 .svg-arrow {
     @apply flex fill-current w-2;
@@ -73,14 +73,14 @@
 
 /* Button */
 .btn-primary {
-    @apply p-2 w-max h-8 bg-teal-500 rounded-lg text-white hover:bg-teal-600 drop-shadow-md;
+    @apply p-2 w-max h-8 bg-amber-600 rounded-lg text-white hover:bg-amber-700 drop-shadow-md;
 }
 .btn-primary-small {
-    @apply p-2 w-max h-6 bg-teal-500 rounded-lg text-white hover:bg-teal-600 drop-shadow-md;
+    @apply p-2 w-max h-6 bg-amber-600 rounded-lg text-white hover:bg-amber-700 drop-shadow-md;
 }
 
 .btn-success {
-    @apply p-2 w-max h-8 bg-green-700 rounded-lg text-white hover:bg-green-800 drop-shadow-md;
+    @apply p-2 w-max h-8 bg-lime-600 rounded-lg text-white hover:bg-lime-700 drop-shadow-md;
 }
 
 .btn-warning {
@@ -101,21 +101,21 @@
 }
 
 .alert-success {
-    @apply text-green-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-green-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
+    @apply text-stone-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-lime-300 drop-shadow-xl shadow-inner w-max h-8 p-2;
 }
 
 .alert-warning {
-    @apply text-yellow-700 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-yellow-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
+    @apply text-stone-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-yellow-300 drop-shadow-xl shadow-inner w-max h-8 p-2;
 }
 
 .alert-danger {
-    @apply text-red-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-red-200 drop-shadow-xl shadow-inner w-max h-8 p-2;
+    @apply text-stone-900 text-sm items-center rounded-lg border border-white bg-opacity-60 bg-red-300 drop-shadow-xl shadow-inner w-max h-8 p-2;
 }
 /* Main end*/
 
 /* Form start*/
 .input-area {
-    @apply ml-3 p-1 bg-white text-teal-700 font-semibold rounded-md border outline-none;
+    @apply ml-3 p-1 bg-white text-stone-900 font-semibold rounded-md border outline-none;
 }
 /* Form end*/
 
@@ -145,7 +145,7 @@
     @apply flex items-center justify-center;
 }
 .index-h1 {
-    @apply flex text-xl text-cyan-800 font-bold tracking-wider w-full py-1;
+    @apply flex text-xl text-stone-100 font-bold tracking-wider w-full py-1;
 }
 /* index end */
 
@@ -186,11 +186,11 @@
 
 /* maps end */
 .label {
-    @apply text-sm text-teal-700 align-middle;
+    @apply text-sm text-stone-900 align-middle;
 }
 
 .label-base {
-    @apply text-base text-teal-700 align-middle;
+    @apply text-base text-stone-900 align-middle;
 }
 
 .input {
@@ -198,19 +198,19 @@
 }
 
 .td-table {
-    @apply text-xs text-teal-700 border;
+    @apply text-xs text-stone-900 border;
 }
 
 .td-table-center {
-    @apply text-xs text-teal-700 text-center border;
+    @apply text-xs text-stone-900 text-center border;
 }
 
 .td-table-sale {
-    @apply text-xs text-teal-700 text-right font-semibold border px-2;
+    @apply text-xs text-stone-900 text-right font-semibold border px-2;
 }
 
 .td-table-preview {
-    @apply text-[0.65rem] text-teal-700 text-center border;
+    @apply text-[0.65rem] text-stone-900 text-center border;
 }
 
 .btn-del {
@@ -218,11 +218,11 @@
 }
 
 .input-price {
-    @apply w-[72px] outline-none border rounded-md text-xs text-teal-700 text-center;
+    @apply w-[72px] outline-none border rounded-md text-xs text-stone-900 text-center;
 }
 
 .input-price-preview {
-    @apply w-[108px] outline-none text-xs text-teal-700 text-center;
+    @apply w-[108px] outline-none text-xs text-stone-900 text-center;
 }
 
 .main-title {
@@ -350,7 +350,7 @@
 }
 
 .sale-label-title {
-    @apply flex text-lg font-bold border-b text-teal-700;
+    @apply flex text-lg font-bold border-b text-stone-900;
 }
 
 .body-detail {
@@ -370,11 +370,11 @@
 }
 
 .label-sale-01 {
-    @apply text-sm text-teal-700 w-28;
+    @apply text-sm text-stone-900 w-28;
 }
 
 .label-sale-02 {
-    @apply text-sm text-teal-700 ml-2;
+    @apply text-sm text-stone-900 ml-2;
 }
 
 .btn-sale {
@@ -382,7 +382,7 @@
 }
 
 .th-table {
-    @apply text-sm text-teal-700 border text-center;
+    @apply text-sm text-stone-100 border text-center;
 }
 
 .sale-note {
@@ -394,19 +394,19 @@
 }
 
 .sale-note-title {
-    @apply text-sm font-semibold underline text-teal-700;
+    @apply text-sm font-semibold underline text-stone-900;
 }
 
 .label-sale-notes {
-    @apply flex text-sm text-teal-700 w-[340px];
+    @apply flex text-sm text-stone-900 w-[340px];
 }
 
 .label-number-notes {
-    @apply ml-1 flex text-sm text-teal-700 w-4;
+    @apply ml-1 flex text-sm text-stone-900 w-4;
 }
 
 .line-label {
-    @apply flex text-sm text-teal-700 w-[416px] border-b h-5 border-dotted;
+    @apply flex text-sm text-stone-900 w-[416px] border-b h-5 border-dotted;
 }
 
 .sign-area {
@@ -418,15 +418,15 @@
 }
 
 .th-title-sign {
-    @apply text-teal-700 border h-6 underline;
+    @apply text-stone-900 border h-6 underline;
 }
 
 .th-sign {
-    @apply text-xs text-teal-700 border w-[190px] h-5;
+    @apply text-xs text-stone-900 border w-[190px] h-5;
 }
 
 .td-sign {
-    @apply text-center align-bottom text-sm font-bold text-teal-700 border w-[190px] p-2 underline;
+    @apply text-center align-bottom text-sm font-bold text-stone-900 border w-[190px] p-2 underline;
 }
 
 .table-sign {
@@ -486,46 +486,46 @@
 }
 
 .label-radio {
-    @apply text-xs text-teal-700 ml-1;
+    @apply text-xs text-stone-900 ml-1;
 }
 
 .input-dpp {
-    @apply outline-none text-teal-700 text-xs rounded-sm w-24 text-right;
+    @apply outline-none text-stone-900 text-xs rounded-sm w-24 text-right;
 }
 
 .title-periode {
-    @apply text-teal-700 text-sm border-b border-teal-700;
+    @apply text-stone-900 text-sm border-b border-teal-700;
 }
 
 .date-periode {
-    @apply outline-none text-teal-700 text-sm rounded-sm w-32 ml-2;
+    @apply outline-none text-stone-900 text-sm rounded-sm w-32 ml-2;
 }
 
 .text-area-notes {
     @apply ml-1 w-[721px] outline-none text-sm;
 }
 .td-print-install {
-    @apply text-xs text-teal-700 border text-center p-1;
+    @apply text-xs text-stone-900 border text-center p-1;
 }
 .td-address-print-install {
-    @apply text-xs text-teal-700 border p-1;
+    @apply text-xs text-stone-900 border p-1;
 }
 .td-price-print-install {
-    @apply text-xs text-teal-700 border p-1 text-right;
+    @apply text-xs text-stone-900 border p-1 text-right;
 }
 .select-print-product {
-    @apply flex w-28 text-sm font-semibold text-teal-700 border rounded-lg outline-none;
+    @apply flex w-28 text-sm font-semibold text-stone-900 border rounded-lg outline-none;
 }
 .term-of-payment {
     @apply text-xs ml-2 outline-none border rounded-md px-1 w-12;
 }
 
 .input-on-td {
-    @apply text-center text-[0.7rem] text-teal-700 outline-none border rounded-sm;
+    @apply text-center text-[0.7rem] text-stone-900 outline-none border rounded-sm;
 }
 
 .input-td-enable {
-    @apply text-center text-[0.7rem] text-teal-700 outline-none border rounded-sm;
+    @apply text-center text-[0.7rem] text-stone-900 outline-none border rounded-sm;
 }
 
 .input-td-disabled {
@@ -533,7 +533,7 @@
 }
 
 .td-enable {
-    @apply text-[0.7rem] px-1 text-teal-700 border;
+    @apply text-[0.7rem] px-1 text-stone-900 border;
 }
 
 .td-disabled {
@@ -553,13 +553,13 @@
 }
 
 .text-semibold {
-    @apply text-sm font-semibold text-teal-900;
+    @apply text-sm font-semibold text-stone-900;
 }
 
 .td-service-center {
-    @apply text-[0.7rem] text-teal-700 border text-center;
+    @apply text-[0.7rem] text-stone-900 border text-center;
 }
 
 .td-service-normal {
-    @apply text-[0.7rem] text-teal-700 border px-2;
+    @apply text-[0.7rem] text-stone-900 border px-2;
 }

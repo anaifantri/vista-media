@@ -8,7 +8,6 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ClientGroupController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
@@ -17,7 +16,9 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaSizeController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PrintOrderController;
+use App\Http\Controllers\ClientGroupController;
 use App\Http\Controllers\InstallOrderController;
 use App\Http\Controllers\LandDocumentController;
 use App\Http\Controllers\LandAgreementController;
@@ -28,13 +29,18 @@ use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\ClientCategoryController;
 use App\Http\Controllers\QuotationOrderController;
 use App\Http\Controllers\VendorCategoryController;
+use App\Http\Controllers\ElectricalPowerController;
 use App\Http\Controllers\LicenseDocumentController;
+use App\Http\Controllers\MonitoringPhotoController;
 use App\Http\Controllers\PrintingProductController;
 use App\Http\Controllers\QuotationStatusController;
+use App\Http\Controllers\ElectricityTopUpController;
+use App\Http\Controllers\ElectricityReportController;
 use App\Http\Controllers\InstallationPriceController;
 use App\Http\Controllers\LicensingCategoryController;
 use App\Http\Controllers\QuotationApprovalController;
 use App\Http\Controllers\QuotationRevisionController;
+use App\Http\Controllers\ElectricityPaymentController;
 use App\Http\Controllers\QuotationAgreementController;
 use App\Http\Controllers\QuotRevisionStatusController;
 
@@ -162,6 +168,23 @@ Route::resource('/media/land-documents', LandDocumentController::class)->middlew
 Route::get('/create-land-documents/{landAgreementId}/{name}', [LandDocumentController::class,'createDocuments'])->middleware(['auth','user_access']);
 // Route Legality --> end
 // Media Group --> end
+
+// Workshop Group --> start
+Route::resource('/workshop/monitoring-photos', MonitoringPhotoController::class)->middleware(['auth','user_access']);
+Route::get('/create-photos/{monitoringId}', [MonitoringPhotoController::class,'createPhotos'])->middleware(['auth','user_access']);
+Route::resource('/workshop/monitorings', MonitoringController::class)->middleware(['auth','user_access']);
+Route::get('/show-monitoring/{locationId}', [MonitoringController::class,'showMonitoring'])->middleware(['auth','user_access']);
+Route::get('/create-monitoring/{locationId}', [MonitoringController::class,'createMonitoring'])->middleware(['auth','user_access']);
+Route::resource('/workshop/electricity-payments', ElectricityPaymentController::class)->middleware(['auth','user_access']);
+Route::get('/show-electricity-payment/{locationId}', [ElectricityPaymentController::class,'showElectricityPayment'])->middleware(['auth','user_access']);
+Route::get('/create-electricity-payment/{locationId}', [ElectricityPaymentController::class,'createElectricityPayment'])->middleware(['auth','user_access']);
+Route::resource('/workshop/electricity-top-ups', ElectricityTopUpController::class)->middleware(['auth','user_access']);
+Route::get('/show-electricity-top-up/{locationId}', [ElectricityTopUpController::class,'showElectricityTopUp'])->middleware(['auth','user_access']);
+Route::get('/create-electricity-top-up/{locationId}', [ElectricityTopUpController::class,'createElectricityTopUp'])->middleware(['auth','user_access']);
+Route::resource('/workshop/electrical-powers', ElectricalPowerController::class)->middleware(['auth','user_access']);
+Route::get('/create-electrical-power/{locationId}', [ElectricalPowerController::class,'createElectricalPower'])->middleware(['auth','user_access']);
+Route::get('/workshop/electricity-reports', [ElectricityReportController::class,'index'])->middleware(['auth','user_access']);
+// Workshop Group --> end
 
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth','user_access']);
 Route::get('/showCity', [CityController::class,'showCity'])->middleware(['auth','user_access']);

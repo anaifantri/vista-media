@@ -1,5 +1,5 @@
 <!-- Location Photo & Maps start -->
-<div class="flex justify-center w-[650px] px-4 py-2">
+<div class="flex justify-center bg-stone-300 border rounded-lg w-[650px] p-4 ml-4">
     <div>
         <!-- Location Photo start -->
         <div>
@@ -41,7 +41,8 @@
             </div>
         @enderror
         <div class="mt-2">
-            <figure id="figure" class="flex w-[600px] justify-center overflow-x-auto border-b-2 border-teal-700">
+            <figure id="figure"
+                class="flex w-[600px] bg-stone-800 rounded-lg justify-center overflow-x-auto border-b-2 border-stone-900">
                 @foreach ($location_photos as $photo)
                     @if ($photo->set_default == true)
                         <img id="{{ $photo->id }}" class="photo-active" src="{{ asset('storage/' . $photo->photo) }}"

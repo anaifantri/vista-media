@@ -149,6 +149,19 @@ class Location extends Model
         return $this->hasMany(License::class, 'location_id', 'id');
     }
 
+    public function electrical_power(){
+        return $this->hasOne(ElectricalPower::class, 'location_id', 'id');
+    }
+    public function electricity_top_ups(){
+        return $this->hasMany(ElectricityTopUp::class, 'location_id', 'id');
+    }
+    public function electricity_payments(){
+        return $this->hasMany(ElectricityPayment::class, 'location_id', 'id');
+    }
+    public function monitorings(){
+        return $this->hasMany(Monitoring::class, 'location_id', 'id');
+    }
+
     // public static function boot(){
     //     parent::boot();
 

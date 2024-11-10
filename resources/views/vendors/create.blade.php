@@ -1,17 +1,17 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex relative mt-5 items-center justify-center">
-        <div class="md:flex">
-            <form class="md:flex" method="post" action="/marketing/vendors" enctype="multipart/form-data">
-                @csrf
-                <div class="flex justify-center items-center w-60 md:w-72">
+    <form method="post" action="/marketing/vendors" enctype="multipart/form-data">
+        @csrf
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="flex">
+                <div class="flex justify-center items-center w-96 border rounded-lg bg-stone-300 p-4">
                     <div class="d-flex justify-center items-center p-8">
-                        <label class="flex justify-center text-sm text-teal-700 mb-2">Logo Perusahaan</label>
+                        <label class="flex justify-center text-sm text-stone-900 mb-2">Logo Perusahaan</label>
                         <img class="m-auto img-preview flex items-center w-36 h-36 md:w-48 md:h-48"
                             src="/img/photo_profile.png">
                         <input
-                            class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 md:w-72 mt-5 @error('photo') is-invalid @enderror"
+                            class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('photo') is-invalid @enderror"
                             type="file" id="logo" name="logo" onchange="previewImage(this)">
                         @error('logo')
                             <div class="invalid-feedback">
@@ -20,13 +20,13 @@
                         @enderror
                     </div>
                 </div>
-                <div class="flex w-72 md:w-96 items-center">
+                <div class="flex w-96 items-center border rounded-lg bg-stone-300 ml-4 p-4">
                     <div class="p-3 py-5 w-full">
                         <div class="flex items-center mb-3">
-                            <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Menambah Vendor</h4>
+                            <h4 class="text-2xl font-semibold tracking-wider text-stone-900">Menambah Vendor</h4>
                         </div>
                         <div class="mt-5 w-full">
-                            <div class="mt-2"><label class="text-sm text-teal-700">Nama Vendor</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Nama Vendor</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                     type="text" id="name" name="name" placeholder="Nama Vendor"
@@ -37,7 +37,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Nama Perusahaan</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Nama Perusahaan</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('company') is-invalid @enderror"
                                     type="text" id="company" name="company" placeholder="Nama Perusahaan"
@@ -48,7 +48,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Alamat Perusahaan</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Alamat Perusahaan</label>
                                 <textarea
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
                                     name="address" id="address" required placeholder="Alamat Perusahaan">{{ old('address') }}</textarea>
@@ -58,7 +58,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Katagori</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Katagori</label>
                                 <select
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('vendor_category_id') is-invalid @enderror"
                                     name="vendor_category_id" id="vendor_category_id"
@@ -82,7 +82,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">Email</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">Email</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
                                     type="email" id="email" name="email" placeholder="Email Perusahaan"
@@ -93,7 +93,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mt-2"><label class="text-sm text-teal-700">No. Telepon</label>
+                            <div class="mt-2"><label class="text-sm text-stone-900">No. Telepon</label>
                                 <input
                                     class="flex px-2 in-out-spin-none text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                     type="number" min="0" id="phone" name="phone"
@@ -128,9 +128,9 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 
     <!-- Script Preview Image start-->
     <script src="/js/previewimage.js"></script>

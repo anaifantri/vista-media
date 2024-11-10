@@ -3,8 +3,8 @@
 @section('container')
     <form method="post" action="/media/companies" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center w-full ">
-            <div class="mt-10">
+        <div class="flex justify-center w-full pl-14 py-10 bg-stone-800">
+            <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <div class="flex items-center w-[900px] border-b">
                     <!-- Title Area start -->
                     <h1 class="index-h1 w-[500px]"> MENAMBAHKAN DATA PERUSAHAAN</h1>
@@ -29,10 +29,11 @@
                     </div>
                 </div>
                 <div class="flex justify-center">
-                    <div class="flex justify-center items-center mt-2 w-[350px] h-[500px] mx-2 border rounded-lg">
+                    <div
+                        class="flex justify-center items-center mt-2 w-[350px] h-[500px] mx-2 border rounded-lg bg-stone-300">
                         <div>
                             <img class="m-auto img-preview flex items-center w-36 m-t2" src="/img/photo_profile.png">
-                            <label class="flex justify-center text-sm text-teal-700">Logo Perusahaan</label>
+                            <label class="flex justify-center text-sm text-stone-900">Logo Perusahaan</label>
                             <input
                                 class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-60 md:w-72 mt-5 @error('photo') is-invalid @enderror"
                                 type="file" id="logo" name="logo" onchange="previewImage(this)">
@@ -43,10 +44,10 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="flex justify-center w-[500px] h-[500px] border rounded-lg mx-2 mt-2">
+                    <div class="flex justify-center w-[500px] h-[500px] border rounded-lg mx-2 mt-2 bg-stone-300">
                         <div class="w-[400px]">
                             <div class="mt-2">
-                                <label class="text-sm text-teal-700">Nama Perusahaan</label>
+                                <label class="text-sm text-stone-900">Nama Perusahaan</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                     type="text" id="name" name="name" placeholder="Nama Perusahaan"
@@ -58,7 +59,7 @@
                                 @enderror
                             </div>
                             <div class="mt-2">
-                                <label class="text-sm text-teal-700">Alamat Perusahaan</label>
+                                <label class="text-sm text-stone-900">Alamat Perusahaan</label>
                                 <textarea
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
                                     name="address" rows="5" id="address" required placeholder=" Input Alamat Perusahaan">{{ old('address') }}</textarea>
@@ -69,7 +70,7 @@
                                 @enderror
                             </div>
                             <div class="mt-2">
-                                <label class="text-sm text-teal-700">Email</label>
+                                <label class="text-sm text-stone-900">Email</label>
                                 <input
                                     class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
                                     type="email" id="email" name="email" placeholder="Input Email Perusahaan"
@@ -81,7 +82,7 @@
                                 @enderror
                             </div>
                             <div class="mt-2">
-                                <label class="text-sm text-teal-700">No. Telepon</label>
+                                <label class="text-sm text-stone-900">No. Telepon</label>
                                 <input
                                     class="flex px-2 text-base font-semibold in-out-spin-none text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                     type="number" min="0" id="phone" name="phone"
@@ -93,7 +94,7 @@
                                 @enderror
                             </div>
                             <div class="mt-2">
-                                <label class="text-sm text-teal-700">No. Handphone</label>
+                                <label class="text-sm text-stone-900">No. Handphone</label>
                                 <input
                                     class="flex px-2 text-base font-semibold in-out-spin-none text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('m_phone') is-invalid @enderror"
                                     type="number" min="0" id="m_phone" name="m_phone"

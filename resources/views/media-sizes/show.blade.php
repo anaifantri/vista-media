@@ -6,44 +6,44 @@
     $updatedDate = strtotime($media_size->updated_at);
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
-    <div class="flex justify-center mt-10">
-        <div class="p-10 w-[350px] h-[500px] border rounded-lg">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="p-10 w-[350px] h-[500px] border rounded-lg bg-stone-300">
             <div class="flex justify-center items-center mb-3 w-full border-b">
-                <h4 class="text-2xl font-semibold tracking-wider text-teal-900">Detail Ukuran</h4>
+                <h4 class="text-2xl font-semibold tracking-wider text-stone-900">Detail Ukuran</h4>
             </div>
             <div class="mt-5 w-full">
                 <div class="border-b mt-2">
-                    <label class="flex text-sm text-teal-700">Kode</label>
+                    <label class="flex text-sm text-stone900">Kode</label>
                     <label class="flex text-semibold">{{ $media_size->code }}</label>
                 </div>
                 <div class="border-b mt-2">
-                    <label class="flex text-sm text-teal-700">Katagori</label>
+                    <label class="flex text-sm text-stone900">Katagori</label>
                     <label class="flex text-semibold">{{ $media_size->media_category->name }}</label>
                 </div>
                 <div class="border-b mt-2">
-                    <label class="flex text-sm text-teal-700">Ukuran</label>
+                    <label class="flex text-sm text-stone900">Ukuran</label>
                     <label class="flex text-semibold">{{ $media_size->size }}</label>
                 </div>
                 <div class="border-b mt-2">
-                    <label class="flex text-sm text-teal-700">Tanggal Dibuat</label>
+                    <label class="flex text-sm text-stone900">Tanggal Dibuat</label>
                     <label class="flex text-semibold">{{ date('d', $createdDate) }}
                         {{ $bulan[(int) date('m', $createdDate)] }}
                         {{ date('Y', $createdDate) }}</label>
                 </div>
                 <div class="border-b mt-2">
-                    <label class="flex text-sm text-teal-700">Tanggal Perubahan Terakhir</label>
+                    <label class="flex text-sm text-stone900">Tanggal Perubahan Terakhir</label>
                     <label class="flex text-semibold">{{ date('d', $updatedDate) }}
                         {{ $bulan[(int) date('m', $updatedDate)] }}
                         {{ date('Y', $updatedDate) }}</label>
                 </div>
                 @if ($media_size->created_at == $media_size->updated_at)
                     <div class="border-b mt-2">
-                        <label class="flex text-sm text-teal-700">Dibuat Oleh</label>
+                        <label class="flex text-sm text-stone900">Dibuat Oleh</label>
                         <label class="flex text-semibold">{{ $media_size->user->name }}</label>
                     </div>
                 @else
                     <div class="border-b mt-2">
-                        <label class="flex text-sm text-teal-700">Diupdate Oleh</label>
+                        <label class="flex text-sm text-stone900">Diupdate Oleh</label>
                         <label class="flex text-semibold">{{ $media_size->user->name }}</label>
                     </div>
                 @endif

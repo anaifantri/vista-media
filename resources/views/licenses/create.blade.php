@@ -4,11 +4,11 @@
     <!-- Container start -->
     <form action="/media/licenses/" method="post" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center">
-            <div class="mt-10">
+        <div class="flex justify-center p-10 bg-stone-800">
+            <div class="bg-stone-700 p-2 border rounded-md">
                 <!-- Title start -->
                 <div class="flex w-[1200px] items-center border-b p-1">
-                    <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[850px]"> MENAMBAHKAN DATA IZIN</h1>
+                    <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[850px]"> MENAMBAHKAN DATA IZIN</h1>
                     <div class="flex items-center w-full justify-end">
                         <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
                             type="submit">
@@ -34,10 +34,10 @@
                 <!-- New Licenses Input start -->
                 <div class="flex justify-center w-full mt-2">
                     <div class="flex justify-center">
-                        <div class="flex justify-center border rounded-lg w-[400px] h-[550px] p-2">
+                        <div class="flex justify-center border rounded-lg w-[400px] h-[550px] p-2 bg-stone-300">
                             <div class="w-[350px]">
                                 <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Jenis Izin</label>
+                                    <label class="text-sm text-stone-900">Jenis Izin</label>
                                     <input type="text" name="company_id" value="{{ $company->id }}" hidden>
                                     <input type="text" name="location_id" value="{{ $location_id }}" hidden>
                                     <select id="licensing_category_id" name="licensing_category_id"
@@ -63,7 +63,7 @@
                                     </div>
                                 @enderror
                                 <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Nomor Izin</label>
+                                    <label class="text-sm text-stone-900">Nomor Izin</label>
                                     <input
                                         class="flex text-semibold w-full border rounded-lg px-1 outline-none @error('number') is-invalid @enderror"
                                         type="text" min="0" id="number" name="number"
@@ -75,7 +75,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Penerbit Izin</label>
+                                    <label class="text-sm text-stone-900">Penerbit Izin</label>
                                     <input
                                         class="flex text-semibold w-full border rounded-lg px-1 outline-none @error('government') is-invalid @enderror"
                                         type="text" min="0" id="government" name="government"
@@ -87,7 +87,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Tanggal Izin Terbit</label>
+                                    <label class="text-sm text-stone-900">Tanggal Izin Terbit</label>
                                     <input
                                         class="flex text-semibold border rounded-lg px-1 outline-none @error('published') is-invalid @enderror"
                                         type="date" min="0" id="published" name="published"
@@ -99,7 +99,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Tanggal Awal Izin</label>
+                                    <label class="text-sm text-stone-900">Tanggal Awal Izin</label>
                                     <input
                                         class="flex text-semibold border rounded-lg px-1 outline-none @error('start_at') is-invalid @enderror"
                                         type="date" min="0" id="start_at" name="start_at"
@@ -111,7 +111,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Tanggal Akhir Izin</label>
+                                    <label class="text-sm text-stone-900">Tanggal Akhir Izin</label>
                                     <input
                                         class="flex text-semibold border rounded-lg px-1 outline-none @error('end_at') is-invalid @enderror"
                                         type="date" min="0" id="end_at" name="end_at"
@@ -123,7 +123,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Keterangan</label>
+                                    <label class="text-sm text-stone-900">Keterangan</label>
                                     <textarea class="flex text-semibold w-full  border rounded-lg p-1 outline-none @error('notes') is-invalid @enderror"
                                         name="notes" rows="8" id="notes" placeholder="Input Keterangan">{{ old('notes') }}</textarea>
                                     @error('notes')
@@ -134,7 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4">
+                        <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4 bg-stone-300">
                             <div class="w-[750px]">
                                 <div class="flex w-full justify-center">
                                     <input id="legalDocuments" name="legal_docments[]" type="file"
@@ -152,10 +152,11 @@
                                         <span class="ml-2">Pilih Dokumen</span>
                                     </button>
                                 </div>
-                                <div class="flex items-center mt-2 w-full justify-center border rounded-lg">
-                                    <label class="text-sm text-slate-500 w-20">Jumlah File</label>
-                                    <label class="text-sm text-slate-500 ml-2">:</label>
-                                    <label id="numberImagesFile" class="text-sm text-slate-500 ml-2"> 0 file yang
+                                <div
+                                    class="flex items-center mt-2 w-full justify-center border rounded-lg border-stone-900">
+                                    <label class="text-sm text-stone-900 w-20">Jumlah File</label>
+                                    <label class="text-sm text-stone-900 ml-2">:</label>
+                                    <label id="numberImagesFile" class="text-sm text-stone-900 ml-2"> 0 file yang
                                         dipilih</label>
                                 </div>
                                 @error('legal_docments')
@@ -168,8 +169,7 @@
                                         Ukuran file max 2048 kb, tipe file jpeg/jpg/png
                                     </div>
                                 @enderror
-                                <figure
-                                    class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700 mt-2"
+                                <figure class="flex w-[750px] justify-center overflow-x-auto bg-stone-800 rounded-lg mt-2"
                                     id="figureImages">
 
                                 </figure>

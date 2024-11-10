@@ -10,11 +10,11 @@
     <form action="/media/land-agreements/{{ $land_agreement->id }}" method="post" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center">
-            <div class="mt-10">
+        <div class="flex justify-center py-10 px-14 bg-stone-800">
+            <div class="bg-stone-700 p-2 border rounded-md">
                 <!-- Title start -->
                 <div class="flex w-[1200px] items-center border-b p-1">
-                    <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[850px]">EDIT DATA SEWA LAHAN</h1>
+                    <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[850px]">EDIT DATA SEWA LAHAN</h1>
                     <div class="flex items-center w-full justify-end">
                         <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
                             type="submit">
@@ -43,9 +43,9 @@
                     <div class="w-[1200px]">
                         <div>
                             <div class="flex justify-center border rounded-lg w-[1200px] p-2">
-                                <div class="w-[580px] p-2 border rounded-lg bg-teal-50">
+                                <div class="w-[580px] p-2 border rounded-lg bg-stone-300">
                                     <div class="flex">
-                                        <label class="text-xs text-teal-700 w-36">Nomor Perjanjian</label>
+                                        <label class="text-xs text-stone-900 w-36">Nomor Perjanjian</label>
                                         <input type="text" id="number" name="number"
                                             value="{{ $land_agreement->number }}"
                                             class="flex text-semibold w-96 border rounded-lg px-1 outline-none @error('number') is-invalid @enderror"
@@ -57,7 +57,7 @@
                                         @enderror
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-36">Tanggal Perjanjian</label>
+                                        <label class="text-xs text-stone-900 w-36">Tanggal Perjanjian</label>
                                         <input type="date" id="published" name="published"
                                             value="{{ $land_agreement->published }}"
                                             class="flex text-semibold border rounded-lg px-1 outline-none @error('published') is-invalid @enderror"
@@ -69,7 +69,7 @@
                                         @enderror
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-36">Keterangan</label>
+                                        <label class="text-xs text-stone-900 w-36">Keterangan</label>
                                         <textarea class="flex text-semibold w-96  border rounded-lg p-1 outline-none @error('notes') is-invalid @enderror"
                                             name="notes" rows="3" id="notes">{{ $land_agreement->notes }}</textarea>
                                         @error('notes')
@@ -79,14 +79,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-[580px] p-2 ml-4 border rounded-lg bg-teal-50">
+                                <div class="w-[580px] p-2 ml-4 border rounded-lg bg-stone-300">
                                     <div class="flex">
-                                        <label class="text-xs text-teal-700 w-36">Durasi Sewa</label>
+                                        <label class="text-xs text-stone-900 w-36">Durasi Sewa</label>
                                         <input id="duration" name="duration" onkeyup="countTotal()" type="number"
                                             min="0" value="{{ $land_agreement->duration }}"
                                             class="flex text-semibold w-20 in-out-spin-none border rounded-lg px-1 outline-none @error('duration') is-invalid @enderror"
                                             required>
-                                        <label class="text-xs text-teal-700 ml-2">Tahun</label>
+                                        <label class="text-xs text-stone-900 ml-2">Tahun</label>
                                         @error('duration')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -94,11 +94,11 @@
                                         @enderror
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-36">Harga Sewa</label>
+                                        <label class="text-xs text-stone-900 w-36">Harga Sewa</label>
                                         <input id="price" name="price" onkeyup="countTotal()"
                                             class="flex text-semibold in-out-spin-none w-32 border rounded-lg px-1 outline-none @error('price') is-invalid @enderror"
                                             type="number" min="0" value="{{ $land_agreement->price }}" required>
-                                        <label class="text-xs text-teal-700 ml-2">/ Tahun</label>
+                                        <label class="text-xs text-stone-900 ml-2">/ Tahun</label>
                                         @error('price')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -106,7 +106,7 @@
                                         @enderror
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-36">Total Harga</label>
+                                        <label class="text-xs text-stone-900 w-36">Total Harga</label>
                                         <input id="totalPrice" name="totalPrice" type="number" min="0"
                                             placeholder="0"
                                             value="{{ $land_agreement->price * $land_agreement->duration }}"
@@ -114,7 +114,7 @@
                                             readonly>
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-36">Tgl. Awal Perjanjian</label>
+                                        <label class="text-xs text-stone-900 w-36">Tgl. Awal Perjanjian</label>
                                         <input id="start_at" name="start_at" type="date"
                                             value="{{ $land_agreement->start_at }}"
                                             class="flex text-semibold border rounded-lg px-1 outline-none @error('start_at') is-invalid @enderror"
@@ -126,7 +126,7 @@
                                         @enderror
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-36">Tgl. Akhir Perjanjian</label>
+                                        <label class="text-xs text-stone-900 w-36">Tgl. Akhir Perjanjian</label>
                                         <input min="0" id="end_at" name="end_at" type="date"
                                             value="{{ $land_agreement->end_at }}"
                                             class="flex text-semibold border rounded-lg px-1 outline-none @error('end_at') is-invalid @enderror"
@@ -140,13 +140,13 @@
                                 </div>
                             </div>
                             <div class="flex justify-center border rounded-lg w-[1200px] p-2 mt-2">
-                                <div class="flex border rounded-lg w-[580px] p-2 bg-teal-50">
+                                <div class="flex border rounded-lg w-[580px] p-2 bg-stone-300">
                                     <div class="w-[275px] pl-2 py-2">
                                         <label
-                                            class="text-xs font-semibold text-teal-700 flex justify-center w-full border-b">PIHAK
+                                            class="text-xs font-semibold text-stone-900 flex justify-center w-full border-b">PIHAK
                                             PERTAMA</label>
                                         <div class="flex mt-2">
-                                            <label class="text-xs text-teal-700 w-16">Nama</label>
+                                            <label class="text-xs text-stone-900 w-16">Nama</label>
                                             <input type="text" id="nameFirst" name="nameFirst"
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('nameFirst') is-invalid @enderror"
                                                 value="{{ $firstParty->name }}" required>
@@ -157,7 +157,7 @@
                                             @enderror
                                         </div>
                                         <div class="flex mt-2">
-                                            <label class="text-xs text-teal-700 w-16">Alamat</label>
+                                            <label class="text-xs text-stone-900 w-16">Alamat</label>
                                             <textarea
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('addressFirst') is-invalid @enderror"
                                                 id="addressFirst" name="addressFirst" rows="5" required>{{ $firstParty->address }}</textarea>
@@ -168,7 +168,7 @@
                                             @enderror
                                         </div>
                                         <div class="flex mt-2">
-                                            <label class="text-xs text-teal-700 w-16">No. KTP</label>
+                                            <label class="text-xs text-stone-900 w-16">No. KTP</label>
                                             <input type="text" id="idNumberFirst" name="idNumberFirst"
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('idNumberFirst') is-invalid @enderror"
                                                 value="{{ $firstParty->idNumber }}" required>
@@ -179,7 +179,7 @@
                                             @enderror
                                         </div>
                                         <div class="flex mt-2">
-                                            <label class="text-xs text-teal-700 w-16">No. Hp</label>
+                                            <label class="text-xs text-stone-900 w-16">No. Hp</label>
                                             <input type="text" id="phoneFirst" name="phoneFirst"
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('phoneFirst') is-invalid @enderror"
                                                 value="{{ $firstParty->phone }}" required>
@@ -223,13 +223,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex border rounded-lg w-[580px] bg-teal-50 ml-4">
+                                <div class="flex border rounded-lg w-[580px] bg-stone-300 ml-4">
                                     <div class="w-[275px] pl-2 py-2">
                                         <label
-                                            class="text-xs font-semibold text-teal-700 flex justify-center w-full border-b">PIHAK
+                                            class="text-xs font-semibold text-stone-900 flex justify-center w-full border-b">PIHAK
                                             KEDUA</label>
                                         <div class="flex mt-2">
-                                            <label class="text-xs text-teal-700 w-16">Nama</label>
+                                            <label class="text-xs text-stone-900 w-16">Nama</label>
                                             <input type="text" id="nameSecond" name="nameSecond"
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('nameSecond') is-invalid @enderror"
                                                 value="{{ $secondParty->name }}" required>
@@ -240,7 +240,7 @@
                                             @enderror
                                         </div>
                                         <div class="flex mt-2">
-                                            <label class="text-xs text-teal-700 w-16">Alamat</label>
+                                            <label class="text-xs text-stone-900 w-16">Alamat</label>
                                             <textarea
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('addressSecond') is-invalid @enderror"
                                                 id="addressSecond" name="addressSecond" rows="5" required>{{ $secondParty->address }}</textarea>
@@ -251,7 +251,7 @@
                                             @enderror
                                         </div>
                                         <div class="flex mt-2">
-                                            <label class="text-xs text-teal-700 w-16">No. KTP</label>
+                                            <label class="text-xs text-stone-900 w-16">No. KTP</label>
                                             <input
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('idNumberSecond') is-invalid @enderror"
                                                 type="text" id="idNumberSecond" name="idNumberSecond"
@@ -263,7 +263,7 @@
                                             @enderror
                                         </div>
                                         <div class="flex mt-2">
-                                            <label class="text-xs text-teal-700 w-16">No. Hp</label>
+                                            <label class="text-xs text-stone-900 w-16">No. Hp</label>
                                             <input
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('phoneSecond') is-invalid @enderror"
                                                 type="text" id="phoneSecond" name="phoneSecond"
@@ -313,7 +313,6 @@
                         </div>
                         <div class="flex justify-center border rounded-lg w-[1200px] p-2 mt-4">
                             <div>
-
                                 <!-- Alert start -->
                                 @if (session()->has('success'))
                                     <div class="ml-2 flex alert-success">

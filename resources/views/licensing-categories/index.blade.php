@@ -5,8 +5,8 @@
     $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agst', 'Sept', 'Okt', 'Nov', 'Des'];
     ?>
     <!-- Container start -->
-    <div class="mt-10 z-0">
-        <div class="flex justify-center w-full">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="w-[1000px]">
                 <div class="flex border-b">
                     <!-- Title start -->
@@ -63,115 +63,121 @@
                 @endif
                 <!-- Alert end -->
             </div>
-        </div>
-        <!-- View start -->
-        <div class="flex justify-center w-full mt-2">
-            <div class="w-[1000px]">
-                <table class="table-auto w-full">
-                    <thead>
-                        <tr class="bg-teal-100 h-10">
-                            <th class="text-teal-700 border text-sm w-10 text-center">No.</th>
-                            <th class="text-teal-700 border text-sm text-center w-20">
-                                <button class="flex justify-center items-center w-20">@sortablelink('code', 'Kode')
-                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24">
-                                        <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                                    </svg>
-                                </button>
-                            </th>
-                            <th class="text-teal-700 border text-sm text-center w-28">
-                                <button class="flex justify-center items-center w-28">@sortablelink('name', 'Katagori')
-                                    <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24">
-                                        <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                                    </svg>
-                                </button>
-                            </th>
-                            <th class="text-teal-700 border text-sm text-center">Deskripsi</th>
-                            <th class="text-teal-700 border text-sm w-28 text-center">Tgl. Dibuat</th>
-                            <th class="text-teal-700 border text-sm w-28 text-center">Dibuat Oleh</th>
-                            <th class="text-teal-700 border text-sm text-center w-24">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $number = 1 + ($licensing_categories->currentPage() - 1) * $licensing_categories->perPage();
-                        @endphp
-                        @foreach ($licensing_categories as $category)
-                            <tr>
-                                <td class="text-teal-700 border text-sm text-center">{{ $number++ }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $category->code }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $category->name }}</td>
-                                <td class="px-2 text-teal-700 border text-sm">{{ $category->description }}</td>
-                                <td class="text-teal-700 border text-sm text-center">
-                                    {{ date('d', strtotime($category->created_at)) }}-
-                                    {{ $bulan[(int) date('m', strtotime($category->created_at))] }}-
-                                    {{ date('Y', strtotime($category->created_at)) }}
-                                </td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $category->user->name }}</td>
-                                <td class="text-teal-700 border text-sm text-center">
-                                    <div class="flex justify-center items-center">
-                                        <a href="/media/licensing-categories/{{ $category->id }}"
-                                            class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
-                                            <svg class="w-5 fill-current" clip-rule="evenodd" fill-rule="evenodd"
-                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <title>VIEW</title>
-                                                <path
-                                                    d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm.002 3c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5z"
-                                                    fill-rule="nonzero" />
-                                            </svg>
-                                        </a>
-                                        @canany(['isAdmin', 'isMedia'])
-                                            @can('isLegal')
-                                                @can('isMediaEdit')
-                                                    <a href="/media/licensing-categories/{{ $category->id }}/edit"
-                                                        class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md">
-                                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                                                fill-rule="nonzero" />
-                                                        </svg>
-                                                    </a>
-                                                @endcan
-                                            @endcan
-                                        @endcanany
-                                        @canany(['isAdmin', 'isMedia'])
-                                            @can('isLegal')
-                                                @can('isMediaDelete')
-                                                    <form action="/media/licensing-categories/{{ $category->id }}" method="post"
-                                                        class="d-inline m-1">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button
-                                                            class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                            onclick="return confirm('Apakah anda yakin ingin menghapus data katagori izin dengan nama {{ $category->name }} ?')">
-                                                            <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                                                width="24" height="24" viewBox="0 0 24 24">
-                                                                <title>DELETE</title>
-                                                                <path
-                                                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
-                                                @endcan
-                                            @endcan
-                                        @endcanany
-                                    </div>
-                                </td>
+            <!-- View start -->
+            <div class="flex justify-center w-full mt-2">
+                <div class="w-[1000px]">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-stone-400 h-10">
+                                <th class="text-stone-900 border border-stone-900 text-sm w-10 text-center">No.</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">
+                                    <button class="flex justify-center items-center w-20">@sortablelink('code', 'Kode')
+                                        <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                        </svg>
+                                    </button>
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
+                                    <button class="flex justify-center items-center w-28">@sortablelink('name', 'Katagori')
+                                        <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                        </svg>
+                                    </button>
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center">Deskripsi</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Tgl. Dibuat</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Dibuat Oleh</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">Action</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-stone-300">
+                            @php
+                                $number =
+                                    1 + ($licensing_categories->currentPage() - 1) * $licensing_categories->perPage();
+                            @endphp
+                            @foreach ($licensing_categories as $category)
+                                <tr>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $number++ }}</td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $category->code }}</td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $category->name }}</td>
+                                    <td class="px-2 text-stone-900 border border-stone-900 text-sm">
+                                        {{ $category->description }}</td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ date('d', strtotime($category->created_at)) }}-
+                                        {{ $bulan[(int) date('m', strtotime($category->created_at))] }}-
+                                        {{ date('Y', strtotime($category->created_at)) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $category->user->name }}</td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        <div class="flex justify-center items-center">
+                                            <a href="/media/licensing-categories/{{ $category->id }}"
+                                                class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">
+                                                <svg class="w-5 fill-current" clip-rule="evenodd" fill-rule="evenodd"
+                                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <title>VIEW</title>
+                                                    <path
+                                                        d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm.002 3c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5z"
+                                                        fill-rule="nonzero" />
+                                                </svg>
+                                            </a>
+                                            @canany(['isAdmin', 'isMedia'])
+                                                @can('isLegal')
+                                                    @can('isMediaEdit')
+                                                        <a href="/media/licensing-categories/{{ $category->id }}/edit"
+                                                            class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md">
+                                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                                                    fill-rule="nonzero" />
+                                                            </svg>
+                                                        </a>
+                                                    @endcan
+                                                @endcan
+                                            @endcanany
+                                            @canany(['isAdmin', 'isMedia'])
+                                                @can('isLegal')
+                                                    @can('isMediaDelete')
+                                                        <form action="/media/licensing-categories/{{ $category->id }}" method="post"
+                                                            class="d-inline m-1">
+                                                            @method('delete')
+                                                            @csrf
+                                                            <button
+                                                                class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                                                onclick="return confirm('Apakah anda yakin ingin menghapus data katagori izin dengan nama {{ $category->name }} ?')">
+                                                                <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                                    width="24" height="24" viewBox="0 0 24 24">
+                                                                    <title>DELETE</title>
+                                                                    <path
+                                                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
+                                                @endcan
+                                            @endcanany
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <!-- View end -->
+            <!-- View end -->
 
-        <!-- Pagination star -->
-        <div class="flex justify-center text-teal-900">
-            {!! $licensing_categories->appends(Request::query())->render('dashboard.layouts.pagination') !!}
+            <!-- Pagination star -->
+            <div class="flex justify-center text-teal-900">
+                {!! $licensing_categories->appends(Request::query())->render('dashboard.layouts.pagination') !!}
+            </div>
         </div>
         <!-- Pagination end -->
     </div>

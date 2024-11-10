@@ -16,7 +16,7 @@
     ];
 @endphp
 <div class="mt-1">
-    <label class="text-sm text-teal-700 border-b w-[218px] flex px-1">Kawasan</label>
+    <label class="text-sm text-stone-900 border-b w-[218px] flex px-1">Kawasan</label>
     @error('sector')
         <div class="invalid-feedback">
             {{ $message }}
@@ -43,7 +43,7 @@
                         @else
                             <input type="checkbox" id="cbSector" value="{{ $dataSector }}" onclick="getSector(this)">
                         @endif
-                        <label class="ml-1 text-[0.65rem] text-teal-700 flex w-20">{{ $dataSector }}</label>
+                        <label class="ml-1 text-[0.65rem] text-stone-900 flex w-20">{{ $dataSector }}</label>
                     </div>
                 @endif
             @endforeach
@@ -68,7 +68,7 @@
                         @else
                             <input type="checkbox" id="cbSector" value="{{ $dataSector }}" onclick="getSector(this)">
                         @endif
-                        <label class="ml-1 text-[0.65rem] text-teal-700 flex w-20">{{ $dataSector }}</label>
+                        <label class="ml-1 text-[0.65rem] text-stone-900 flex w-20">{{ $dataSector }}</label>
                     </div>
                 @endif
             @endforeach

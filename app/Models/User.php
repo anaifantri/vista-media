@@ -98,6 +98,23 @@ class User extends Authenticatable
     public function licensing_categories(){
         return $this->hasMany(LicensingCategory::class, 'user_id', 'id');
     }
+    public function electrical_powers(){
+        return $this->hasMany(ElectricalPower::class, 'user_id', 'id');
+    }
+    public function electricity_top_ups(){
+        return $this->hasMany(ElectricityTopUp::class, 'user_id', 'id');
+    }
+    public function electricity_payments(){
+        return $this->hasMany(ElectricityPayment::class, 'user_id', 'id');
+    }
+
+    public function monitorings(){
+        return $this->hasMany(Monitoring::class, 'user_id', 'id');
+    }
+
+    public function monitoring_photos(){
+        return $this->hasMany(MonitoringPhoto::class, 'user_id', 'id');
+    }
 
     public $sortable = ['name', 'username'];
     /**

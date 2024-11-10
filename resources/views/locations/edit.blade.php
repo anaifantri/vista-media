@@ -27,7 +27,7 @@
     <form action="/media/locations/{{ $location->id }}" method="post" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center">
+        <div class="flex justify-center bg-stone-800">
             <input id="description" type="text" value="{{ json_encode($description) }}" hidden>
             <input id="company_id" name="company_id" type="text" value="{{ $company->id }}" hidden>
             <input id="modified_by" name="modified_by" type="text" value="{{ json_encode($modified_by) }}" hidden>
@@ -41,8 +41,8 @@
             <div class="flex justify-center p-10">
                 <div>
                     <!-- Edit Location Title start -->
-                    <div class="flex w-[1140px] items-center border-b">
-                        <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[850px]"> EDIT DATA
+                    <div class="flex w-[1140px] items-center border-b p-1">
+                        <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[850px]"> EDIT DATA
                             LOKASI
                             {{ strtoupper($location->media_category->name) }}</h1>
                         <div class="flex items-center w-full justify-end">

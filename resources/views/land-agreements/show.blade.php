@@ -10,11 +10,11 @@
     $secondParty = json_decode($land_agreement->second_party);
     ?>
     <!-- Container start -->
-    <div class="flex justify-center">
-        <div class="mt-10">
+    <div class="flex justify-center py-10 px-14 bg-stone-800">
+        <div class="bg-stone-700 p-2 border rounded-md">
             <!-- Title start -->
             <div class="flex w-[1200px] items-center border-b p-1">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[850px]">DETAIL PERJANIAN SEWA LAHAN</h1>
+                <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[850px]">DETAIL PERJANIAN SEWA LAHAN</h1>
                 <div class="flex items-center w-full justify-end">
                     <a href="/show-land-agreement/{{ $land_agreement->location->id }}"
                         class="flex items-center justify-center btn-primary mx-1">
@@ -71,84 +71,84 @@
                 <div class="w-[1200px]">
                     <div>
                         <div class="flex justify-center border rounded-lg w-[1200px] p-2">
-                            <div class="w-[580px] p-2 border rounded-lg bg-teal-50">
+                            <div class="w-[580px] p-2 border rounded-lg bg-stone-300">
                                 <div class="flex">
-                                    <label class="flex text-xs text-teal-700 w-36">Nomor Perjanjian</label>
+                                    <label class="flex text-xs text-stone-900 w-36">Nomor Perjanjian</label>
                                     <label
                                         class="flex text-semibold w-96 border rounded-lg px-1 bg-white">{{ $land_agreement->number }}</label>
                                 </div>
                                 <div class="flex mt-2">
-                                    <label class="text-xs text-teal-700 w-36">Tanggal Perjanjian</label>
+                                    <label class="text-xs text-stone-900 w-36">Tanggal Perjanjian</label>
                                     <label class="flex text-semibold w-96 border rounded-lg px-1 bg-white">
-                                        {{ date('d', strtotime($published)) }}
-                                        {{ $bulan[(int) date('m', strtotime($published))] }}
-                                        {{ date('Y', strtotime($published)) }}
+                                        {{ date('d', strtotime($land_agreement->published)) }}
+                                        {{ $bulan[(int) date('m', strtotime($land_agreement->published))] }}
+                                        {{ date('Y', strtotime($land_agreement->published)) }}
                                     </label>
                                 </div>
                                 <div class="flex mt-2">
-                                    <label class="text-xs text-teal-700 w-36">Keterangan</label>
+                                    <label class="text-xs text-stone-900 w-36">Keterangan</label>
                                     <textarea class="flex text-semibold w-96  border rounded-lg p-1 outline-none" name="notes" rows="3"
                                         id="notes" readonly>{{ $land_agreement->notes }}</textarea>
                                 </div>
                             </div>
-                            <div class="w-[580px] p-2 ml-4 border rounded-lg bg-teal-50">
+                            <div class="w-[580px] p-2 ml-4 border rounded-lg bg-stone-300">
                                 <div class="flex">
-                                    <label class="text-xs text-teal-700 w-36">Durasi Sewa</label>
+                                    <label class="text-xs text-stone-900 w-36">Durasi Sewa</label>
                                     <label
                                         class="flex text-semibold w-96 border rounded-lg px-1 bg-white">{{ $land_agreement->duration }}
                                         tahun</label>
                                 </div>
                                 <div class="flex mt-2">
-                                    <label class="text-xs text-teal-700 w-36">Harga Sewa</label>
+                                    <label class="text-xs text-stone-900 w-36">Harga Sewa</label>
                                     <label class="flex text-semibold w-96 border rounded-lg px-1 bg-white">Rp.
                                         {{ number_format($land_agreement->price) }},-
                                         / Tahun</label>
                                 </div>
                                 <div class="flex mt-2">
-                                    <label class="text-xs text-teal-700 w-36">Total Harga</label>
+                                    <label class="text-xs text-stone-900 w-36">Total Harga</label>
                                     <label class="flex text-semibold w-96 border rounded-lg px-1 bg-white">Rp.
                                         {{ number_format($land_agreement->price * $land_agreement->duration) }},-</label>
                                 </div>
                                 <div class="flex mt-2">
-                                    <label class="text-xs text-teal-700 w-36">Tgl. Awal Masa Sewa</label>
+                                    <label class="text-xs text-stone-900 w-36">Tgl. Awal Masa Sewa</label>
                                     <label class="flex text-semibold w-96 border rounded-lg px-1 bg-white">
-                                        {{ date('d', strtotime($start_at)) }}
-                                        {{ $bulan[(int) date('m', strtotime($start_at))] }}
-                                        {{ date('Y', strtotime($start_at)) }}
+                                        {{ date('d', strtotime($land_agreement->start_at)) }}
+                                        {{ $bulan[(int) date('m', strtotime($land_agreement->start_at))] }}
+                                        {{ date('Y', strtotime($land_agreement->start_at)) }}
                                     </label>
                                 </div>
                                 <div class="flex mt-2">
-                                    <label class="text-xs text-teal-700 w-36">Tgl. Akhir Masa Sewa</label>
+                                    <label class="text-xs text-stone-900 w-36">Tgl. Akhir Masa Sewa</label>
                                     <label class="flex text-semibold w-96 border rounded-lg px-1 bg-white">
-                                        {{ date('d', strtotime($end_at)) }}
-                                        {{ $bulan[(int) date('m', strtotime($end_at))] }}
-                                        {{ date('Y', strtotime($end_at)) }}
+                                        {{ date('d', strtotime($land_agreement->end_at)) }}
+                                        {{ $bulan[(int) date('m', strtotime($land_agreement->end_at))] }}
+                                        {{ date('Y', strtotime($land_agreement->end_at)) }}
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="flex justify-center border rounded-lg w-[1200px] p-2 mt-2">
-                            <div class="flex border rounded-lg w-[580px] p-2 bg-teal-50">
+                            <div class="flex border rounded-lg w-[580px] p-2 bg-stone-300">
                                 <div class="w-[275px] pl-2 py-2">
                                     <label
-                                        class="text-xs font-semibold text-teal-700 flex justify-center w-full border-b">PIHAK
+                                        class="text-xs font-semibold text-stone-900 flex justify-center w-full border-b">PIHAK
                                         PERTAMA</label>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-16">Nama</label>
+                                        <label class="text-xs text-stone-900 w-16">Nama</label>
                                         <label
                                             class="flex text-semibold w-48 border rounded-lg px-1 bg-white">{{ $firstParty->name }}</label>
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-16">Alamat</label>
+                                        <label class="text-xs text-stone-900 w-16">Alamat</label>
                                         <textarea class="flex text-semibold w-48  border rounded-lg p-1 outline-none" rows="5" readonly>{{ $firstParty->address }}</textarea>
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-16">No. KTP</label>
+                                        <label class="text-xs text-stone-900 w-16">No. KTP</label>
                                         <label
                                             class="flex text-semibold w-48 border rounded-lg px-1 bg-white">{{ $firstParty->idNumber }}</label>
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-16">No. Hp</label>
+                                        <label class="text-xs text-stone-900 w-16">No. Hp</label>
                                         <label
                                             class="flex text-semibold w-48 border rounded-lg px-1 bg-white">{{ $firstParty->phone }}</label>
                                     </div>
@@ -161,27 +161,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex border rounded-lg w-[580px] bg-teal-50 ml-4">
+                            <div class="flex border rounded-lg w-[580px] bg-stone-300 ml-4">
                                 <div class="w-[275px] pl-2 py-2">
                                     <label
-                                        class="text-xs font-semibold text-teal-700 flex justify-center w-full border-b">PIHAK
+                                        class="text-xs font-semibold text-stone-900 flex justify-center w-full border-b">PIHAK
                                         KEDUA</label>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-16">Nama</label>
+                                        <label class="text-xs text-stone-900 w-16">Nama</label>
                                         <label
                                             class="flex text-semibold w-48 border rounded-lg px-1 bg-white">{{ $secondParty->name }}</label>
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-16">Alamat</label>
+                                        <label class="text-xs text-stone-900 w-16">Alamat</label>
                                         <textarea class="flex text-semibold w-48  border rounded-lg p-1 outline-none" rows="5" readonly>{{ $secondParty->address }}</textarea>
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-16">No. KTP</label>
+                                        <label class="text-xs text-stone-900 w-16">No. KTP</label>
                                         <label
                                             class="flex text-semibold w-48 border rounded-lg px-1 bg-white">{{ $secondParty->idNumber }}</label>
                                     </div>
                                     <div class="flex mt-2">
-                                        <label class="text-xs text-teal-700 w-16">No. Hp</label>
+                                        <label class="text-xs text-stone-900 w-16">No. Hp</label>
                                         <label
                                             class="flex text-semibold w-48 border rounded-lg px-1 bg-white">{{ $secondParty->phone }}</label>
                                     </div>
@@ -196,7 +196,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-center border rounded-lg w-[1200px] p-2 mt-4">
+                    <div class="flex justify-center border rounded-lg w-[1200px] p-2 mt-4 bg-stone-300">
                         <div>
                             @include('land-agreements.agreement-documents')
                             @include('land-agreements.certificate-documents')

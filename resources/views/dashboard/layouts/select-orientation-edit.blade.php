@@ -3,7 +3,7 @@
     $orientations = ['Vertikal', 'Horizontal'];
 @endphp
 <div class="flex">
-    <label class="text-sm text-teal-700">Orientasi</label>
+    <label class="text-sm text-stone-900">Orientasi</label>
 </div>
 <div class="mt-1">
     <select id="orientation" name="orientation"

@@ -1,25 +1,27 @@
 <div class="w-[950px] p-4">
-    <div class="border-t border-b p-1">
-        <label class="flex justify-center text-sm font-semibold text-slate-500">DOKUMEN PEMBAYARAN</label>
-        <label class="flex justify-center text-sm font-semibold text-slate-500">Jumlah Dokumen :
+    <div class="border-t border-b border-stone-900 p-1">
+        <label class="flex justify-center text-sm font-semibold text-stone-900">DOKUMEN PEMBAYARAN</label>
+        <label class="flex justify-center text-sm font-semibold text-stone-900">Jumlah Dokumen :
             {{ count($receipts) }} dokumen</label>
     </div>
-    <figure class="flex w-[950px] justify-center overflow-x-auto border-b-2 border-teal-700 mt-2" id="figureReceipt">
+    <figure class="flex w-[950px] justify-center overflow-x-auto bg-stone-800 rounded-lg mt-2" id="figureReceipt">
         @foreach ($receipts as $document)
             @if (count($receipts) > 2)
                 @if ($loop->iteration - 1 == intdiv(count($receipts), 2))
-                    <img id="{{ $document->id }}" class="photo-active" src="{{ asset('storage/' . $document->image) }}"
-                        alt="" onclick="figureAction(this,'receipt')">
+                    <img id="{{ $loop->iteration - 1 }}" class="photo-active"
+                        src="{{ asset('storage/' . $document->image) }}" alt=""
+                        onclick="figureAction(this,'receipt')">
                 @else
-                    <img id="{{ $document->id }}" class="photo" src="{{ asset('storage/' . $document->image) }}"
+                    <img id="{{ $loop->iteration - 1 }}" class="photo" src="{{ asset('storage/' . $document->image) }}"
                         alt="" onclick="figureAction(this,'receipt')">
                 @endif
             @else
                 @if ($loop->iteration == 1)
-                    <img id="{{ $document->id }}" class="photo-active" src="{{ asset('storage/' . $document->image) }}"
-                        alt="" onclick="figureAction(this,'receipt')">
+                    <img id="{{ $loop->iteration - 1 }}" class="photo-active"
+                        src="{{ asset('storage/' . $document->image) }}" alt=""
+                        onclick="figureAction(this,'receipt')">
                 @else
-                    <img id="{{ $document->id }}" class="photo" src="{{ asset('storage/' . $document->image) }}"
+                    <img id="{{ $loop->iteration - 1 }}" class="photo" src="{{ asset('storage/' . $document->image) }}"
                         alt="" onclick="figureAction(this,'receipt')">
                 @endif
             @endif

@@ -3,21 +3,21 @@
 @section('container')
     <form method="post" action="/marketing/vendor-categories" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center mt-10">
-            <div class="p-4 w-[300px] h-[500px] border rounded-lg">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="p-4 w-[300px] h-[500px] border rounded-lg bg-stone-300">
                 <div class="flex items-center justify-center mb-2 border-b w-full">
-                    <h4 class="text-xl font-semibold tracking-wider text-teal-900">Tambah Katagori Vendor</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-900">Tambah Katagori Vendor</h4>
                 </div>
 
                 <div>
                     <div class="flex justify-center mt-5 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Katagori</label>
+                            <label class="text-sm text-stone-900">Katagori</label>
                             @php
                                 $dataCategories = ['Printing', 'LED', 'Media'];
                             @endphp
                             <select
-                                class="flex px-2 text-base font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                                class="flex px-2 text-base font-semibold text-stone-900 w-[250px] border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                 name="name" value="{{ old('name') }}" required>
                                 <option value="pilih">Pilih Katagori</option>
                                 @foreach ($dataCategories as $category)
@@ -41,9 +41,9 @@
                     </div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Deskripsi</label>
+                            <label class="text-sm text-stone-900">Deskripsi</label>
                             <textarea
-                                class="flex text-sm font-semibold text-teal-900 w-[250px]  border rounded-lg p-1 outline-none @error('description') is-invalid @enderror"
+                                class="flex text-sm font-semibold text-stone-900 w-[250px]  border rounded-lg p-1 outline-none @error('description') is-invalid @enderror"
                                 name="description" rows="5" id="description" placeholder="Input deskripsi katagori">{{ old('description') }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">

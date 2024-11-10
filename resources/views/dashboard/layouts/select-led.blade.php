@@ -1,5 +1,5 @@
 <div class="mt-1">
-    <label class="text-sm text-teal-700">Jenis LED</label>
+    <label class="text-sm text-stone-900">Jenis LED</label>
     <select id="led_id" name="led_id"
         class="flex w-[218px]  text-semibold border rounded-lg px-1 outline-none @error('led_id') is-invalid @enderror"
         type="text" value="{{ old('led_id') }}">

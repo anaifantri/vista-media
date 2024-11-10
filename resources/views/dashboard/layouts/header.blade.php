@@ -1,5 +1,5 @@
 <header class="top-0 left-0 absolute w-full flex items-center z-10">
-    <div id="main-header" class="w-full bg-cyan-800">
+    <div id="main-header" class="w-full bg-stone-900">
         <div class="flex items-center relative justify-between">
             <!-- Logo & Tittle Start-->
             <div class="flex items-center ml-2 px-2 w-full sm:max-w-[180px]">
@@ -19,6 +19,9 @@
             @endcan
             @can('isMedia')
                 @include('dashboard.layouts.media-navbar')
+            @endcan
+            @can('isWorkshop')
+                @include('dashboard.layouts.workshop-navbar')
             @endcan
 
             <!-- Navbar End-->
@@ -46,7 +49,7 @@
                     </div>
                     <div class="justify-end absolute mt-3 items-center transition duration-500 ease-in-out origin-center hidden"
                         id="profileChild" name="profileChild">
-                        <div class="flex bg-opacity-90 bg-emerald-50 w-36 top-0 rounded-b-xl border drop-shadow-md">
+                        <div class="flex bg-stone-700 w-36 top-0 rounded-b-xl border drop-shadow-md">
                             <nav class="flex top-0 w-12 md:w-36">
                                 <ul class="ml-4 text-left">
                                     <li class="group">

@@ -7,34 +7,34 @@
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
 
-    <div class="flex justify-center mt-10">
-        <div class="p-4 w-[350px] h-[500px] border rounded-lg">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-300">
             <div class="flex justify-center items-center mb-3 w-full border-b">
-                <h4 class="text-xl font-semibold tracking-wider text-teal-900">Detail Katagori {{ $client_category->name }}
+                <h4 class="text-xl font-semibold tracking-wider text-stone-900">Detail Katagori {{ $client_category->name }}
                 </h4>
             </div>
             <div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="flex text-sm text-teal-700">Kode Katagori</label>
+                        <label class="flex text-sm text-stone-900">Kode Katagori</label>
                         <label class="flex text-semibold">{{ $client_category->code }}</label>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="flex text-sm text-teal-700">Nama Katagori</label>
+                        <label class="flex text-sm text-stone-900">Nama Katagori</label>
                         <label class="flex text-semibold">{{ $client_category->name }}</label>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="w-[280px]">
-                        <label class="text-sm text-teal-700">Deskripsi</label>
+                        <label class="text-sm text-stone-900">Deskripsi</label>
                         <textarea class="flex text-semibold w-[280px] border rounded-lg p-1 outline-teal-300" rows="4" readonly>{{ $client_category->description }}</textarea>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="flex text-sm text-teal-700">Tanggal Dibuat</label>
+                        <label class="flex text-sm text-stone-900">Tanggal Dibuat</label>
                         <label class="flex text-semibold">{{ date('d', $createdDate) }}
                             {{ $bulan[(int) date('m', $createdDate)] }}
                             {{ date('Y', $createdDate) }}</label>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="flex text-sm text-teal-700">Tanggal Perubahan Terakhir</label>
+                        <label class="flex text-sm text-stone-900">Tanggal Perubahan Terakhir</label>
                         <label class="flex text-semibold">{{ date('d', $updatedDate) }}
                             {{ $bulan[(int) date('m', $updatedDate)] }}
                             {{ date('Y', $updatedDate) }}</label>
@@ -51,14 +51,14 @@
                 @if ($client_category->created_at != $client_category->updated_at)
                     <div class="flex justify-center mt-2 w-full">
                         <div class="border-b w-[280px]">
-                            <label class="flex text-sm text-teal-700">Diupdate Oleh</label>
+                            <label class="flex text-sm text-stone-900">Diupdate Oleh</label>
                             <label class="flex text-semibold">{{ $client_category->user->name }}</label>
                         </div>
                     </div>
                 @else
                     <div class="flex justify-center mt-2 w-full">
                         <div class="border-b w-[280px]">
-                            <label class="flex text-sm text-teal-700">Dibuat Oleh</label>
+                            <label class="flex text-sm text-stone-900">Dibuat Oleh</label>
                             <label class="flex text-semibold">{{ $client_category->user->name }}</label>
                         </div>
                     </div>
