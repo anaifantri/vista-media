@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Gate;
 
 class VendorContactController extends Controller
 {
@@ -32,31 +33,35 @@ class VendorContactController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->request->add(['vendor_id' => $request->vendor_id, 'user_id' => auth()->user()->id]);
-        $rules = [
-            'user_id' => 'required',
-            'vendor_id' => 'required',
-            'name' => 'required|max:255',
-            'photo' => 'image|file|max:1024'
-        ];
-        if($request->email){
-            $rules['email'] = 'email:dns|unique:vendor_contacts';
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingCreate'))){
+            $request->request->add(['vendor_id' => $request->vendor_id, 'user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'vendor_id' => 'required',
+                'name' => 'required|max:255',
+                'photo' => 'image|file|max:1024'
+            ];
+            if($request->email){
+                $rules['email'] = 'email:dns|unique:vendor_contacts';
+            }
+            if($request->phone){
+                $rules['phone'] = 'min:10|max:15|unique:vendor_contacts';
+            }
+    
+            $validateData = $request->validate($rules);
+    
+            $validateData['position'] = $request->position;
+    
+            if($request->file('photo')){
+                $validateData['photo'] = $request->file('photo')->store('vendor-contact-images');
+            }
+    
+            VendorContact::create($validateData);
+    
+            return redirect('/marketing/vendors/'. $request->vendor_id)->with('success','Kontak baru dengan nama '. $request->name . ' berhasil ditambahkan');
+        } else {
+            abort(403);
         }
-        if($request->phone){
-            $rules['phone'] = 'min:10|max:15|unique:vendor_contacts';
-        }
-
-        $validateData = $request->validate($rules);
-
-        $validateData['position'] = $request->position;
-
-        if($request->file('photo')){
-            $validateData['photo'] = $request->file('photo')->store('vendor-contact-images');
-        }
-
-        VendorContact::create($validateData);
-
-        return redirect('/marketing/vendors/'. $request->vendor_id)->with('success','Kontak baru dengan nama '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -72,12 +77,16 @@ class VendorContactController extends Controller
      */
     public function edit(VendorContact $vendorContact): Response
     {
-        $vendors = Vendor::with('vendor_contacts')->get();
-        return response()->view('vendor-contacts.edit', [
-            'contact' => $vendorContact,
-            'title' => 'Edit Kontak Vendor',
-            compact('vendors')
-        ]);
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit'))){
+            $vendors = Vendor::with('vendor_contacts')->get();
+            return response()->view('vendor-contacts.edit', [
+                'contact' => $vendorContact,
+                'title' => 'Edit Kontak Vendor',
+                compact('vendors')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -85,36 +94,40 @@ class VendorContactController extends Controller
      */
     public function update(Request $request, VendorContact $vendorContact): RedirectResponse
     {
-        $request->request->add(['vendor_id' => $request->vendor_id, 'user_id' => auth()->user()->id]);
-        $rules = [
-            'user_id' => 'required',
-            'vendor_id' => 'required',
-            'name' => 'required|max:255',
-            'photo' => 'image|file|max:1024'
-        ];
-
-        if($request->email != $vendorContact->email){
-            $rules['email'] = 'email:dns|unique:vendor_contacts';
-        } 
-
-        if($request->phone != $vendorContact->phone){
-            $rules['phone'] = 'min:10|max:15|unique:vendor_contacts';
-        }
-
-        $validateData = $request->validate($rules);
-        $validateData['position'] = $request->position;
-
-        if($request->file('photo')){
-            if($request->oldPhoto){
-                Storage::delete($request->oldPhoto);
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingEdit'))){
+            $request->request->add(['vendor_id' => $request->vendor_id, 'user_id' => auth()->user()->id]);
+            $rules = [
+                'user_id' => 'required',
+                'vendor_id' => 'required',
+                'name' => 'required|max:255',
+                'photo' => 'image|file|max:1024'
+            ];
+    
+            if($request->email != $vendorContact->email){
+                $rules['email'] = 'email:dns|unique:vendor_contacts';
+            } 
+    
+            if($request->phone != $vendorContact->phone){
+                $rules['phone'] = 'min:10|max:15|unique:vendor_contacts';
             }
-            $validateData['photo'] = $request->file('photo')->store('contact-images');
+    
+            $validateData = $request->validate($rules);
+            $validateData['position'] = $request->position;
+    
+            if($request->file('photo')){
+                if($request->oldPhoto){
+                    Storage::delete($request->oldPhoto);
+                }
+                $validateData['photo'] = $request->file('photo')->store('contact-images');
+            }
+    
+            VendorContact::where('id', $vendorContact->id)
+                    ->update($validateData);
+    
+            return redirect('/marketing/vendors/'. $request->vendor_id)->with('success','Kontak person dengan nama '. $request->name . ' berhasil dirubah');
+        } else {
+            abort(403);
         }
-
-        VendorContact::where('id', $vendorContact->id)
-                ->update($validateData);
-
-        return redirect('/marketing/vendors/'. $request->vendor_id)->with('success','Kontak person dengan nama '. $request->name . ' berhasil dirubah');
     }
 
     /**
@@ -122,12 +135,16 @@ class VendorContactController extends Controller
      */
     public function destroy(VendorContact $vendorContact): RedirectResponse
     {
-        if($vendorContact->photo){
-            Storage::delete($vendorContact->photo);
+        if((Gate::allows('isAdmin') && Gate::allows('isVendor') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isVendor') && Gate::allows('isMarketingDelete'))){
+            if($vendorContact->photo){
+                Storage::delete($vendorContact->photo);
+            }
+    
+            VendorContact::destroy($vendorContact->id);
+            
+            return redirect('/marketing/vendors/'. $vendorContact->vendor_id)->with('success','Kontak person dengan nama ' . $vendorContact->name . ' berhasil dihapus');
+        } else {
+            abort(403);
         }
-
-        VendorContact::destroy($vendorContact->id);
-        
-        return redirect('/marketing/vendors/'. $vendorContact->vendor_id)->with('success','Kontak person dengan nama ' . $vendorContact->name . ' berhasil dihapus');
     }
 }

@@ -1,13 +1,13 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex justify-center mt-10">
-        <form class="md:flex" method="post" action="/marketing/installation-prices" enctype="multipart/form-data">
-            @csrf
-            <div class="flex w-[300px] h-max p-4 border rounded-lg justify-center">
+    <form method="post" action="/marketing/installation-prices" enctype="multipart/form-data">
+        @csrf
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="flex w-[300px] h-max p-4 border rounded-lg justify-center bg-stone-300">
                 <div class="p-3 w-full">
                     <div class="flex items-center justify-center mb-2 border-b w-full">
-                        <h4 class="text-xl font-semibold tracking-wider text-teal-900">Tambah Harga Pasang</h4>
+                        <h4 class="text-xl font-semibold tracking-wider text-stone-900">Tambah Harga Pasang</h4>
                     </div>
                     <div class="flex justify-center mt-5 w-full">
                         <div>
@@ -16,11 +16,11 @@
                                     $types = ['Frontlight', 'Backlight'];
                                 @endphp
                                 <div class="flex mt-1">
-                                    <label class="text-sm text-teal-700">Type</label>
+                                    <label class="text-sm text-stone-900">Type</label>
                                 </div>
                                 <div class="mt-1">
                                     <select id="type" name="type"
-                                        class="w-[250px] text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                        class="w-[250px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none
                                             @error('type') is-invalid @enderror"
                                         type="text" value="{{ old('type') }}">
                                         <option value="pilih">- pilih -</option>
@@ -44,9 +44,9 @@
                                 </div>
                             </div>
                             <div class="mt-1">
-                                <label class="text-sm text-teal-700">Harga Pasang</label>
+                                <label class="text-sm text-stone-900">Harga Pasang</label>
                                 <input
-                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                    class="flex px-2 text-sm font-semibold text-stone-900 w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                     type="number" min="0" id="price" name="price"
                                     placeholder="Input harga pasang" value="{{ old('price') }}" required>
                                 @error('price')
@@ -80,6 +80,6 @@
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection

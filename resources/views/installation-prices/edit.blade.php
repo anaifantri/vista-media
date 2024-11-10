@@ -1,20 +1,19 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex justify-center p-10">
-        <form method="post" action="/marketing/installation-prices/{{ $installation_price->id }}"
-            enctype="multipart/form-data">
-            @method('put')
-            @csrf
-            <div class="flex w-[300px] h-max p-4 border rounded-lg justify-center items-center">
+    <form method="post" action="/marketing/installation-prices/{{ $installation_price->id }}" enctype="multipart/form-data">
+        @method('put')
+        @csrf
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="flex w-[300px] h-max p-4 border rounded-lg justify-center items-center bg-stone-300">
                 <div class="p-3 w-full">
                     <div class="flex items-center justify-center mb-2 border-b w-full">
-                        <h4 class="text-xl font-semibold tracking-wider text-teal-900">Edit Harga Pasang</h4>
+                        <h4 class="text-xl font-semibold tracking-wider text-stone-900">Edit Harga Pasang</h4>
                     </div>
                     <div class="flex justify-center mt-5 w-full">
                         <div>
                             <div class="mt-1">
-                                <label class="flex text-sm text-teal-700">Kode</label>
+                                <label class="flex text-sm text-stone-900">Kode</label>
                                 <label
                                     class="flex text-sm font-semibold text-slate-500">{{ $installation_price->code }}</label>
                             </div>
@@ -23,11 +22,11 @@
                                     $types = ['Frontlight', 'Backlight'];
                                 @endphp
                                 <div class="flex mt-1">
-                                    <label class="text-sm text-teal-700">Type</label>
+                                    <label class="text-sm text-stone-900">Type</label>
                                 </div>
                                 <div class="mt-1">
                                     <select id="type" name="type"
-                                        class="w-[250px] text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                        class="w-[250px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none
                                             @error('type') is-invalid @enderror"
                                         type="text" value="{{ $installation_price->type }}">
                                         @foreach ($types as $type)
@@ -50,9 +49,9 @@
                                 </div>
                             </div>
                             <div class="mt-1">
-                                <label class="text-sm text-teal-700">Harga Pasang</label>
+                                <label class="text-sm text-stone-900">Harga Pasang</label>
                                 <input
-                                    class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                    class="flex px-2 text-sm font-semibold text-stone-900 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                     type="number" id="price" name="price" value="{{ $installation_price->price }}"
                                     required>
                                 @error('price')
@@ -87,6 +86,6 @@
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection

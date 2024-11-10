@@ -6,6 +6,7 @@ use App\Models\ClientCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class ClientCategoryController extends Controller
 {
@@ -14,10 +15,14 @@ class ClientCategoryController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('client-categories.index', [
-            'client_categories'=>ClientCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Katagori Media'
-        ]);
+        if(Gate::allows('isClient') && Gate::allows('isMarketingRead')){
+            return response()-> view ('client-categories.index', [
+                'client_categories'=>ClientCategory::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
+                'title' => 'Daftar Katagori Media'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -25,7 +30,7 @@ class ClientCategoryController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingCreate'))){
             return response()-> view ('client-categories.create', [
                 'title' => 'Menambahkan Katagori Klien'
             ]);
@@ -39,8 +44,7 @@ class ClientCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
-            // Set code --> start
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingCreate'))){
             $dataCategory = ClientCategory::all()->last();
             if($dataCategory){
                 $lastCode = (int)substr($dataCategory->code,3,3);
@@ -78,10 +82,14 @@ class ClientCategoryController extends Controller
      */
     public function show(ClientCategory $clientCategory): Response
     {
-        return response()-> view ('client-categories.show', [
-            'client_category' => $clientCategory,
-            'title' => 'Detail Katagori Klien' . $clientCategory->name
-        ]);
+        if(Gate::allows('isClient') && Gate::allows('isMarketingRead')){
+            return response()-> view ('client-categories.show', [
+                'client_category' => $clientCategory,
+                'title' => 'Detail Katagori Klien' . $clientCategory->name
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -89,7 +97,7 @@ class ClientCategoryController extends Controller
      */
     public function edit(ClientCategory $clientCategory): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingEdit'))){
             return response()->view('client-categories.edit', [
                 'client_category' => $clientCategory,
                 'title' => 'Edit Katagori Klien'
@@ -104,7 +112,7 @@ class ClientCategoryController extends Controller
      */
     public function update(Request $request, ClientCategory $clientCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingEdit'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -131,10 +139,14 @@ class ClientCategoryController extends Controller
      */
     public function destroy(ClientCategory $clientCategory): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
-            ClientCategory::destroy($clientCategory->id);
-
-            return redirect('/marketing/client-categories')->with('success','Katagori klien dengan nama '. $clientCategory->name .' berhasil dihapus');
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingDelete'))){
+            if($clientCategory->clients()->exists()){
+                return back()->withErrors(['delete' => ['Gagal untuk menghapus data katagori klien, terdapat relasi dengan data pada tabel data lainnya']]);
+            }else{
+                ClientCategory::destroy($clientCategory->id);
+    
+                return redirect('/marketing/client-categories')->with('success','Katagori klien dengan nama '. $clientCategory->name .' berhasil dihapus');
+            }
         } else {
             abort(403);
         }

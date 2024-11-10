@@ -3,17 +3,17 @@
 @section('container')
     <form method="post" action="/marketing/printing-prices" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center mt-10">
-            <div class="p-4 w-[350px] h-[500px] border rounded-lg">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-300">
                 <div class="flex items-center justify-center mb-2 border-b w-full">
-                    <h4 class="text-xl font-semibold tracking-wider text-teal-900">Tambah Harga Cetak</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-900">Tambah Harga Cetak</h4>
                 </div>
                 <div>
                     <div class="flex justify-center mt-5 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Nama Bahan</label>
+                            <label class="text-sm text-stone-900">Nama Bahan</label>
                             <select
-                                class="flex px-2 text-base font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-teal-300 @error('printing_product_id') is-invalid @enderror"
+                                class="flex px-2 text-base font-semibold text-stone-900 w-[250px] border rounded-lg p-1 outline-teal-300 @error('printing_product_id') is-invalid @enderror"
                                 name="printing_product_id" id="printing_product_id" value="{{ old('printing_product_id') }}"
                                 required>
                                 <option value="pilih">Pilih Bahan</option>
@@ -38,9 +38,9 @@
                     </div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Nama Vendor</label>
+                            <label class="text-sm text-stone-900">Nama Vendor</label>
                             <select
-                                class="flex px-2 text-base font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-teal-300 @error('vendor_id') is-invalid @enderror"
+                                class="flex px-2 text-base font-semibold text-stone-900 w-[250px] border rounded-lg p-1 outline-teal-300 @error('vendor_id') is-invalid @enderror"
                                 name="vendor_id" id="vendor_id" value="{{ old('vendor_id') }}" required>
                                 <option value="pilih">Pilih Vendor</option>
                                 @foreach ($vendors as $vendor)
@@ -66,9 +66,9 @@
                     </div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Harga Cetak</label>
+                            <label class="text-sm text-stone-900">Harga Cetak</label>
                             <input
-                                class="flex px-2 text-sm in-out-spin-none font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                class="flex px-2 text-sm in-out-spin-none font-semibold text-stone-900 w-[250px] border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                 type="number" min="0" id="price" name="price" placeholder="Input harga cetak"
                                 value="{{ old('price') }}" required>
                             @error('price')

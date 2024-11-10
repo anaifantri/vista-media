@@ -1,7 +1,7 @@
 <div class="justify-start items-center px-2 w-full hidden sm:flex">
     <nav class="sm:flex w-full hidden">
         <ul class="flex justify-start group w-max  h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-white {{ Request::is('dashboard') ? 'active' : '' }}" href="/dashboard">
+            <a class="right-nav text-stone-200 {{ Request::is('dashboard') ? 'active' : '' }}" href="/dashboard">
                 <svg class="fill-current w-5 mx-2" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <title>DASHBOARD</title>
                     <path
@@ -13,7 +13,7 @@
         @can('isQuotation')
             <ul id="quotationNav" class="relative group transition duration-300 ease-in-out"
                 onclick="headerDropdown(event, this)">
-                <a class="right-nav w-40  p-1 h-6 text-white {{ Request::is('marketing/quotations*') ? 'active' : '' }}"
+                <a class="right-nav w-40  p-1 h-6 text-stone-200 {{ Request::is('marketing/quotations*') ? 'active' : '' }}"
                     href="#">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                         viewBox="0 0 24 24">
@@ -29,7 +29,7 @@
                     </svg>
                 </a>
                 <li id="quotationChild"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-emerald-50 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child Penawaran Start -->
                     <ul>
                         <li class="group">
@@ -81,7 +81,7 @@
         @can('isSale')
             <ul id="saleNav" class="relative group transition duration-300 ease-in-out"
                 onclick="headerDropdown(event, this)">
-                <a class="right-nav w-40 p-1 h-6 text-white {{ Request::is('marketing/sales*') ? 'active' : '' }}"
+                <a class="right-nav w-40 p-1 h-6 text-stone-200 {{ Request::is('marketing/sales*') ? 'active' : '' }}"
                     href="#">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                         viewBox="0 0 24 24">
@@ -97,7 +97,7 @@
                     </svg>
                 </a>
                 <li id="saleChild"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-emerald-50 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child Penawaran Start -->
                     <ul>
                         <li class="group">
@@ -148,7 +148,7 @@
         @endcan
         @can('isClient')
             <ul class="flex group w-max  p-1 h-6 transition duration-300 ease-in-out">
-                <a class="right-nav text-white {{ Request::is('marketing/clients*') ? 'active' : '' }}"
+                <a class="right-nav text-stone-200 {{ Request::is('marketing/clients*') ? 'active' : '' }}"
                     href="/marketing/clients">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                         viewBox="0 0 24 24">
@@ -161,7 +161,7 @@
         @endcan
         @can('isOrder')
             <ul class="flex group w-max  ml-4 h-6 transition duration-300 ease-in-out">
-                <a class="right-nav text-white {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
+                <a class="right-nav text-stone-200 {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
                     href="/marketing/print-orders">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                         viewBox="0 0 24 24">
@@ -174,7 +174,7 @@
         @endcan
         @can('isMarketingSetting')
             <ul id="setting" name="setting" class="flex group w-max transition duration-300 ease-in-out">
-                <a class="right-nav w-max p-2 h-6 text-white {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
+                <a class="right-nav w-max p-2 h-6 text-stone-200 {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
                     href="/marketing/install-orders">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path

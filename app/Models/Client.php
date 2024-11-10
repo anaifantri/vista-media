@@ -42,13 +42,13 @@ class Client extends Model
         return $this->hasMany(Sale::class, 'client_id', 'id');
     }
 
-    public static function boot(){
-        parent::boot();
+    // public static function boot(){
+    //     parent::boot();
 
-        static::deleting(function($client){
-            $client->contacts()->get()->each->delete();
-        });
-    }
+    //     static::deleting(function($client){
+    //         $client->contacts()->get()->each->delete();
+    //     });
+    // }
 
     public $sortable = ['code','name','company'];
 }

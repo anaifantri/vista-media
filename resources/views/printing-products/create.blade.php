@@ -3,16 +3,16 @@
 @section('container')
     <form method="post" action="/marketing/printing-products" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center mt-10">
-            <div class="w-[350px] h-[500px] border rounded-lg p-4">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="w-[350px] h-[500px] border rounded-lg p-4 bg-stone-300">
                 <div class="flex items-center justify-center mb-2 border-b w-full">
-                    <h4 class="text-xl font-semibold tracking-wider text-teal-900">Tambah Bahan Cetak</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-900">Tambah Bahan Cetak</h4>
                 </div>
                 <div class="flex justify-center w-full mt-4">
                     <div class="mt-1">
-                        <label class="text-sm text-teal-700">Nama Bahan</label>
+                        <label class="text-sm text-stone-900">Nama Bahan</label>
                         <input
-                            class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('name') is-invalid @enderror"
+                            class="flex px-2 text-sm font-semibold text-stone-900 w-[250px] border rounded-lg p-1 outline-none @error('name') is-invalid @enderror"
                             type="text" id="name" name="name" placeholder="Input nama bahan"
                             value="{{ old('name') }}" autofocus required>
                         @error('name')
@@ -28,11 +28,11 @@
                             $types = ['Frontlight', 'Backlight'];
                         @endphp
                         <div class="flex mt-1">
-                            <label class="text-sm text-teal-700">Type</label>
+                            <label class="text-sm text-stone-900">Type</label>
                         </div>
                         <div class="mt-1">
                             <select id="type" name="type"
-                                class="w-[250px] text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                class="w-[250px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none
                                             @error('type') is-invalid @enderror"
                                 type="text" value="{{ old('type') }}">
                                 <option value="pilih">- pilih -</option>
@@ -58,9 +58,9 @@
                 </div>
                 <div class="flex justify-center w-full">
                     <div class="mt-1">
-                        <label class="text-sm text-teal-700">Deskripsi</label>
+                        <label class="text-sm text-stone-900">Deskripsi</label>
                         <textarea
-                            class="flex text-sm font-semibold text-teal-900 w-[250px]  border rounded-lg p-1 outline-teal-300 @error('description') is-invalid @enderror"
+                            class="flex text-sm font-semibold text-stone-900 w-[250px]  border rounded-lg p-1 outline-teal-300 @error('description') is-invalid @enderror"
                             name="description" rows="5" id="description" placeholder="Input deskripsi bahan">{{ old('description') }}</textarea>
                         @error('description')
                             <div class="invalid-feedback">
@@ -71,9 +71,9 @@
                 </div>
                 <div class="flex justify-center w-full">
                     <div class="mt-1">
-                        <label class="text-sm text-teal-700">Harga Jual</label>
+                        <label class="text-sm text-stone-900">Harga Jual</label>
                         <input
-                            class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                            class="flex px-2 text-sm font-semibold text-stone-900 w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                             type="number" min="0" id="price" name="price" placeholder="Input Harga Jual"
                             value="{{ old('name') }}" required>
                         @error('price')

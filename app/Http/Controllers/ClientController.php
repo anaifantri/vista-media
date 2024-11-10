@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Gate;
 
 class ClientController extends Controller
 {
@@ -18,14 +19,18 @@ class ClientController extends Controller
      */
     public function index(): Response
     {
-        $client_categories = ClientCategory::with('clients')->get();
-        $users = User::with('clients')->get();
-
-        return response()->view('clients.index', [
-            'clients' => Client::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
-            'title' => 'Daftar Klien',
-            compact('users', 'client_categories')
-        ]);
+        if(Gate::allows('isClient') && Gate::allows('isMarketingRead')){
+            $client_categories = ClientCategory::with('clients')->get();
+            $users = User::with('clients')->get();
+    
+            return response()->view('clients.index', [
+                'clients' => Client::filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+                'title' => 'Daftar Klien',
+                compact('users', 'client_categories')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     public function showClient(){
@@ -39,10 +44,14 @@ class ClientController extends Controller
      */
     public function create(): Response
     {
-        return response()->view('clients.create', [
-            'title' => 'Tambah Data Klien',
-            'client_categories'=>ClientCategory::all()
-        ]);
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingCreate'))){
+            return response()->view('clients.create', [
+                'title' => 'Tambah Data Klien',
+                'client_categories'=>ClientCategory::all()
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -50,56 +59,60 @@ class ClientController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->client_category_id){
-            if ($request->client_category_id == 'pilih'){
-                return back()->withErrors(['client_category_id' => ['Silahkan pilih katagori']])->withInput();
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingCreate'))){
+            if ($request->client_category_id){
+                if ($request->client_category_id == 'pilih'){
+                    return back()->withErrors(['client_category_id' => ['Silahkan pilih katagori']])->withInput();
+                }
             }
-        }
-
-        // Set code --> start
-        $dataClient = Client::all()->last();
-        if($dataClient){
-            $lastCode = (int)substr($dataClient->code,4,4);
-            $newCode = $lastCode + 1;
+    
+            // Set code --> start
+            $dataClient = Client::all()->last();
+            if($dataClient){
+                $lastCode = (int)substr($dataClient->code,4,4);
+                $newCode = $lastCode + 1;
+            } else {
+                $newCode = 1;
+            }
+            
+            if($newCode < 100 ){
+                $code = 'CLI-000'.$newCode;
+            } elseif($newCode < 10 ){
+                $code = 'CLI-00'.$newCode;
+            } else {
+                $code = 'CLI-0'.$newCode;
+            }
+            // Set code --> end
+            $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
+            $rules = [
+                'code' => 'required|max:255|unique:clients',
+                'name' => 'required|max:255|unique:clients',
+                'company' => 'min:6|unique:clients',
+                'user_id' => 'required',
+                'type' => 'required',
+                'address' => 'required',
+                'logo' => 'image|file|max:1024'
+            ];
+            if($request->email){
+                $rules['email'] = 'email:dns|unique:clients';
+            }
+            if($request->email){
+                $rules['phone'] = 'min:8|unique:clients';
+            }
+            $validateData = $request->validate($rules);
+    
+            $validateData['client_category_id'] = $request->client_category_id;
+    
+            if($request->file('logo')){
+                $validateData['logo'] = $request->file('logo')->store('client-images');
+            }
+            
+            Client::create($validateData);
+            
+            return redirect('/marketing/clients')->with('success','Data klien baru dengan nama '. $request->name . ' berhasil ditambahkan');
         } else {
-            $newCode = 1;
+            abort(403);
         }
-        
-        if($newCode < 100 ){
-            $code = 'CLI-000'.$newCode;
-        } elseif($newCode < 10 ){
-            $code = 'CLI-00'.$newCode;
-        } else {
-            $code = 'CLI-0'.$newCode;
-        }
-        // Set code --> end
-        $request->request->add(['code' => $code, 'user_id' => auth()->user()->id]);
-        $rules = [
-            'code' => 'required|max:255|unique:clients',
-            'name' => 'required|max:255|unique:clients',
-            'company' => 'min:6|unique:clients',
-            'user_id' => 'required',
-            'type' => 'required',
-            'address' => 'required',
-            'logo' => 'image|file|max:1024'
-        ];
-        if($request->email){
-            $rules['email'] = 'email:dns|unique:clients';
-        }
-        if($request->email){
-            $rules['phone'] = 'min:8|unique:clients';
-        }
-        $validateData = $request->validate($rules);
-
-        $validateData['client_category_id'] = $request->client_category_id;
-
-        if($request->file('logo')){
-            $validateData['logo'] = $request->file('logo')->store('client-images');
-        }
-        
-        Client::create($validateData);
-        
-        return redirect('/marketing/clients')->with('success','Data klien baru dengan nama '. $request->name . ' berhasil ditambahkan');
     }
 
     /**
@@ -107,11 +120,15 @@ class ClientController extends Controller
      */
     public function show(Client $client): Response
     {
-        return response()->view('clients.show', [
-            'client' => $client,
-            'contacts' => Contact::all(),
-            'title' => 'Detail Klien'
-        ]);
+        if(Gate::allows('isClient') && Gate::allows('isMarketingRead')){
+            return response()->view('clients.show', [
+                'client' => $client,
+                'contacts' => Contact::all(),
+                'title' => 'Detail Klien'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -119,11 +136,15 @@ class ClientController extends Controller
      */
     public function edit(Client $client): Response
     {
-        return response()->view('clients.edit', [
-            'client' => $client,
-            'client_categories'=>ClientCategory::all(),
-            'title' => 'Merubah Data Klien'
-        ]);
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingEdit'))){
+            return response()->view('clients.edit', [
+                'client' => $client,
+                'client_categories'=>ClientCategory::all(),
+                'title' => 'Merubah Data Klien'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -131,54 +152,58 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client): RedirectResponse
     {
-        if($request->client_category_id){
-            if ($request->client_category_id == 'pilih'){
-                return back()->withErrors(['client_category_id' => ['Silahkan pilih katagori']])->withInput();
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingEdit'))){
+            if($request->client_category_id){
+                if ($request->client_category_id == 'pilih'){
+                    return back()->withErrors(['client_category_id' => ['Silahkan pilih katagori']])->withInput();
+                }
             }
-        }
-        
-        $rules = [
-            'name' => 'required|max:255',
-            'type' => 'required',
-            'address' => 'required',
-            'logo' => 'image|file|max:1024'
-        ];
-
-        if($request->email != $client->email){
-            $rules['email'] = 'email:dns|unique:clients';
-        }
-
-        if($request->company != $client->company){
-            $rules['company'] = 'unique:clients';
-        } 
-
-        if($request->phone != $client->phone){
-            $rules['phone'] = 'min:10|unique:clients';
-        }
-
-        if($request->client_category_id != $client->category){
-            $rules['client_category_id'] = 'required';
-        }
-
-        $validateData = $request->validate($rules);
-
-        if($request->type == "Perorangan"){
-            $validateData['client_category_id'] = null;
-            $validateData['company'] = "";
-        }
-
-
-        if($request->file('logo')){
-            if($request->oldLogo){
-                Storage::delete($request->oldLogo);
+            
+            $rules = [
+                'name' => 'required|max:255',
+                'type' => 'required',
+                'address' => 'required',
+                'logo' => 'image|file|max:1024'
+            ];
+    
+            if($request->email != $client->email){
+                $rules['email'] = 'email:dns|unique:clients';
             }
-            $validateData['logo'] = $request->file('logo')->store('client-images');
+    
+            if($request->company != $client->company){
+                $rules['company'] = 'unique:clients';
+            } 
+    
+            if($request->phone != $client->phone){
+                $rules['phone'] = 'min:10|unique:clients';
+            }
+    
+            if($request->client_category_id != $client->category){
+                $rules['client_category_id'] = 'required';
+            }
+    
+            $validateData = $request->validate($rules);
+    
+            if($request->type == "Perorangan"){
+                $validateData['client_category_id'] = null;
+                $validateData['company'] = "";
+            }
+    
+    
+            if($request->file('logo')){
+                if($request->oldLogo){
+                    Storage::delete($request->oldLogo);
+                }
+                $validateData['logo'] = $request->file('logo')->store('client-images');
+            }
+    
+            Client::where('id', $client->id)
+                    ->update($validateData);
+    
+            return redirect('/marketing/clients/')->with('success','Klien '. $request->name . ' berhasil di update');
+        } else {
+            abort(403);
         }
-
-        Client::where('id', $client->id)
-                ->update($validateData);
-
-        return redirect('/marketing/clients/')->with('success','Klien '. $request->name . ' berhasil di update');
     }
 
     /**
@@ -186,12 +211,34 @@ class ClientController extends Controller
      */
     public function destroy(Client $client): RedirectResponse
     {
-        if($client->logo){
-            Storage::delete($client->logo);
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingDelete'))){
+            if($client->contacts()->exists()){
+                $dataContacts = Contact::where('client_id', $client->id)->get();
+                foreach($dataContacts as $contact){
+                    if($contact->photo){
+                        Storage::delete($contact->photo);
+                    }
+            
+                    Contact::destroy($contact->id);
+                }
+                if($client->logo){
+                    Storage::delete($client->logo);
+                }
+        
+                Client::destroy($client->id);
+        
+                return redirect('/marketing/clients')->with('success','Klien ' . $client->name . ' berhasil dihapus');
+            }else{
+                if($client->logo){
+                    Storage::delete($client->logo);
+                }
+        
+                Client::destroy($client->id);
+        
+                return redirect('/marketing/clients')->with('success','Klien ' . $client->name . ' berhasil dihapus');
+            }
+        } else {
+            abort(403);
         }
-
-        Client::destroy($client->id);
-
-        return redirect('/marketing/clients')->with('success','Klien ' . $client->name . ' berhasil dihapus');
     }
 }

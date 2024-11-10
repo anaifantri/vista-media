@@ -14,7 +14,7 @@
 <body class="container bg-stone-700 mx-auto flex h-screen w-full position-relative">
     <!-- Container start -->
     <div
-        class="m-auto w-60 h-[340px] sm:h-[500px] sm:w-[360px] bg-stone-600 position-absolute p-5 rounded-xl drop-shadow-xl sm:shadow-2xl items-center justify-center sm:rounded-2xl">
+        class="m-auto w-60 h-[340px] sm:h-[500px] sm:w-[360px] bg-stone-500 position-absolute p-5 rounded-xl drop-shadow-xl sm:shadow-2xl items-center justify-center sm:rounded-2xl">
         <!-- Logo start-->
         <div
             class="drop-shadow-lg m-auto sm:mt-5 w-20 h-20 sm:w-[90px] sm:h-[90px] flex position-relative bg-white rounded-full border">
@@ -26,7 +26,7 @@
         <!-- Logo end-->
         <!-- Text tittle start-->
         <div class="m-auto sm:mt-4 position-relative flex p-2 items-center justify-center">
-            <h2 class="tracking-widest font-bold text-xl sm:text-2xl text-gray-500">Please Login</h2>
+            <h2 class="tracking-widest font-bold text-xl sm:text-2xl text-stone-100">Please Login</h2>
         </div>
         <!-- Text tittle end-->
         <!-- Form login start-->
@@ -54,7 +54,7 @@
                 <div
                     class="mt-2 h-10 sm:w-[238px] w-[192px] sm:h-12 shadow-inner inset-10 sm:mt-6 rounded-2xl items-center justify-center flex">
                     <input name="username" id="username"
-                        class="shadow-inner sm:w-[230px] sm:h-10 tracking-wider text-gray-500 h-8 rounded-xl pl-2 outline-none w-[184px]"
+                        class="shadow-inner sm:w-[230px] sm:h-10 tracking-wider text-stone-900 h-8 rounded-xl pl-2 outline-none w-[184px]"
                         type="text" placeholder="Username" autofocus required>
                 </div>
                 <!-- Input username end-->
@@ -62,7 +62,7 @@
                 <div
                     class="mt-2 h-10 sm:w-[238px] w-[192px] sm:h-12 shadow-inner inset-10 sm:mt-6 rounded-2xl items-center justify-center flex">
                     <input
-                        class="shadow-inner sm:w-[230px] sm:h-10 tracking-wider text-gray-500 h-8 rounded-xl pl-2 outline-none w-[184px]"
+                        class="shadow-inner sm:w-[230px] sm:h-10 tracking-wider text-stone-900 h-8 rounded-xl pl-2 outline-none w-[184px]"
                         type="password" placeholder="Password" name="password" id="password" required>
                 </div>
                 <!-- Input password end-->

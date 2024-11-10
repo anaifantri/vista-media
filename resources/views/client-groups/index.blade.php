@@ -1,33 +1,36 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <!-- Container Index Client Groups start -->
+    <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
                 <div class="w-[1000px]">
                     <div class="flex border-b">
-                        <!-- Title Client Groups start -->
+                        <!-- Title start -->
                         <h1 class="index-h1"> DAFTAR GROUP KLIEN</h1>
-                        <!-- Title Client Groups end -->
-                        <!-- Button Create New Client Groups start -->
+                        <!-- Title end -->
+                        <!-- Button Create start -->
                         @canany(['isAdmin', 'isMarketing'])
-                            <div class="flex">
-                                <a href="/marketing/client-groups/create" class="index-link btn-primary"><span></span>
-                                    <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="mx-1 hidden sm:flex"> Tambah Group</span>
-                                </a>
-                            </div>
+                            @can('isClient')
+                                @can('isMarketingCreate')
+                                    <div class="flex">
+                                        <a href="/marketing/client-groups/create" class="index-link btn-primary"><span></span>
+                                            <svg class="fill-current w-6 mx-1" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                            <span class="mx-1 hidden sm:flex"> Tambah Group</span>
+                                        </a>
+                                    </div>
+                                @endcan
+                            @endcan
                         @endcanany
                     </div>
-                    <!-- Button Create New Client Groups end -->
-                    <!-- Alert Success Create New Client Groups start -->
+                    <!-- Button Create end -->
                     <form class="mt-2" action="/marketing/client-groups/">
                         <div class="flex">
                             <input id="search" name="search"
@@ -41,20 +44,30 @@
                                 </svg>
                             </button>
                         </div>
-                        @if (session()->has('success'))
-                            <div class="ml-2 flex alert-success">
-                                <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                                </svg>
-                                <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
-                            </div>
-                        @endif
                     </form>
+                    <!-- Alert start -->
+                    @if (session()->has('success'))
+                        <div class="ml-2 flex alert-success">
+                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                            </svg>
+                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                        </div>
+                    @endif
+                    @error('delete')
+                        <div class="mt-2 flex alert-warning">
+                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                            </svg>
+                            <span class="font-semibold mx-1">Warning!!</span> {{ $message }}
+                        </div>
+                    @enderror
+                    <!-- Alert end -->
                 </div>
             </div>
-            <!-- Alert Success Create New Client Groups end -->
-            <!-- View Client Groups start -->
+            <!-- View start -->
             <div class="flex justify-center w-full">
                 <div class="w-[1000px]">
                     <table class="table-auto w-full">
@@ -143,12 +156,11 @@
                     </table>
                 </div>
             </div>
-            <div class="flex justify-center text-stone-900">
-                {{-- {{ $client_groups->links() }} --}}
+            <div class="flex justify-center text-stone-100">
                 {!! $client_groups->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>
     </div>
-    <!-- View Client Groups end -->
-    <!-- Container Index Client Groups end -->
+    <!-- View end -->
+    <!-- Container end -->
 @endsection

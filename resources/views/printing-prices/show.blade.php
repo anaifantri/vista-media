@@ -17,37 +17,37 @@
             'Desember',
         ];
     @endphp
-    <div class="flex justify-center mt-10">
-        <div class="p-4 w-[350px] h-[500px] border rounded-lg">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-300">
             <div class="flex justify-center items-center">
-                <h4 class="text-2xl font-semibold w-[280px] border-b text-center tracking-wider text-teal-900">Detail Harga
+                <h4 class="text-2xl font-semibold w-[280px] border-b text-center tracking-wider text-stone-900">Detail Harga
                     Cetak</h4>
             </div>
             <div>
                 <div class="flex justify-center mt-5 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="text-sm text-teal-700">Nama Bahan</label>
-                        <h6 class="text-base font-semibold text-teal-900">
+                        <label class="text-sm text-stone-900">Nama Bahan</label>
+                        <h6 class="text-base font-semibold text-stone-900">
                             {{ $printing_price->printing_product->name }}</h6>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="text-sm text-teal-700">Nama Vendor</label>
-                        <h6 class="text-base font-semibold text-teal-900">{{ $printing_price->vendor->name }}</h6>
+                        <label class="text-sm text-stone-900">Nama Vendor</label>
+                        <h6 class="text-base font-semibold text-stone-900">{{ $printing_price->vendor->name }}</h6>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="text-sm text-teal-700">Harga Cetak</label>
-                        <h6 class="text-base font-semibold text-teal-900">
+                        <label class="text-sm text-stone-900">Harga Cetak</label>
+                        <h6 class="text-base font-semibold text-stone-900">
                             {{ number_format($printing_price->price) }}</h6>
                     </div>
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="text-sm text-teal-700">Tanggal Dibuat</label>
-                        <h6 class="text-base font-semibold text-teal-900">
+                        <label class="text-sm text-stone-900">Tanggal Dibuat</label>
+                        <h6 class="text-base font-semibold text-stone-900">
                             {{ date('d', strtotime($printing_price->created_at)) }}
                             {{ $bulan[(int) date('m', strtotime($printing_price->created_at))] }}
                             {{ date('Y', strtotime($printing_price->created_at)) }}
@@ -56,9 +56,9 @@
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="text-sm text-teal-700">Tanggal Perubahan
+                        <label class="text-sm text-stone-900">Tanggal Perubahan
                             Terakhir</label>
-                        <h6 class="text-base font-semibold text-teal-900">
+                        <h6 class="text-base font-semibold text-stone-900">
                             {{ date('d', strtotime($printing_price->updated_at)) }}
                             {{ $bulan[(int) date('m', strtotime($printing_price->updated_at))] }}
                             {{ date('Y', strtotime($printing_price->updated_at)) }}
@@ -68,8 +68,8 @@
                 @if ($printing_price->created_at != $printing_price->updated_at)
                     <div class="flex justify-center mt-2 w-full">
                         <div class="border-b w-[280px]">
-                            <label class="text-sm text-teal-700">Diupdate Oleh</label>
-                            <h6 class="text-base font-semibold text-teal-900">
+                            <label class="text-sm text-stone-900">Diupdate Oleh</label>
+                            <h6 class="text-base font-semibold text-stone-900">
                                 {{ $printing_price->user->name }}
                             </h6>
                         </div>
@@ -77,8 +77,8 @@
                 @else
                     <div class="flex justify-center mt-2 w-full">
                         <div class="border-b w-[280px]">
-                            <label class="text-sm text-teal-700">Dibuat Oleh</label>
-                            <h6 class="text-base font-semibold text-teal-900">
+                            <label class="text-sm text-stone-900">Dibuat Oleh</label>
+                            <h6 class="text-base font-semibold text-stone-900">
                                 {{ $printing_price->user->name }}
                             </h6>
                         </div>
@@ -94,30 +94,42 @@
                         </svg>
                         <span class="mx-1"> Back </span>
                     </a>
-                    <a href="/marketing/printing-prices/{{ $printing_price->id }}/edit"
-                        class="flex items-center justify-center btn-warning mx-1">
-                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                fill-rule="nonzero" />
-                        </svg>
-                        <span class="mx-1"> Edit </span>
-                    </a>
-                    <form action="/marketing/printing-prices/{{ $printing_price->id }}" method="post" class="d-inline">
-                        @method('delete')
-                        @csrf
-                        <button class="flex items-center justify-center btn-danger mx-1"
-                            onclick="return confirm('Apakah anda yakin ingin menghapus harga cetak dengan nama bahan {{ $printing_price->name }} ?')">
-                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                    fill-rule="nonzero" />
-                            </svg>
-                            <span class="mx-1"> Delete </span>
-                        </button>
-                    </form>
+                    @canany(['isAdmin', 'isMarketing'])
+                        @can('isMarketingSetting')
+                            @can('isMarketingEdit')
+                                <a href="/marketing/printing-prices/{{ $printing_price->id }}/edit"
+                                    class="flex items-center justify-center btn-warning mx-1">
+                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                            fill-rule="nonzero" />
+                                    </svg>
+                                    <span class="mx-1"> Edit </span>
+                                </a>
+                            @endcan
+                        @endcan
+                    @endcanany
+                    @canany(['isAdmin', 'isMarketing'])
+                        @can('isVendor')
+                            @can('isMarketingDelete')
+                                <form action="/marketing/printing-prices/{{ $printing_price->id }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="flex items-center justify-center btn-danger mx-1"
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus harga cetak dengan nama bahan {{ $printing_price->name }} ?')">
+                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                fill-rule="nonzero" />
+                                        </svg>
+                                        <span class="mx-1"> Delete </span>
+                                    </button>
+                                </form>
+                            @endcan
+                        @endcan
+                    @endcanany
                 </div>
             </div>
         </div>

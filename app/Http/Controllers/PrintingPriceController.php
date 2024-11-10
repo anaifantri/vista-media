@@ -10,6 +10,7 @@ use App\Models\VendorCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class PrintingPriceController extends Controller
 {
@@ -18,14 +19,18 @@ class PrintingPriceController extends Controller
      */
     public function index(): Response
     {
-        $printing_products = PrintingProduct::with('printing_prices')->get();
-        $vendors = Vendor::with('printing_prices')->get();
-
-        return response()-> view ('printing-prices.index', [
-            'printing_prices'=>PrintingPrice::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar Harga Cetak',
-            compact('vendors', 'printing_products')
-        ]);
+        if(Gate::allows('isMarketingSetting') && Gate::allows('isMarketingRead')){
+            $printing_products = PrintingProduct::with('printing_prices')->get();
+            $vendors = Vendor::with('printing_prices')->get();
+    
+            return response()-> view ('printing-prices.index', [
+                'printing_prices'=>PrintingPrice::filter(request('search'))->sortable()->with(['user'])->orderBy("code", "asc")->paginate(10)->withQueryString(),
+                'title' => 'Daftar Harga Cetak',
+                compact('vendors', 'printing_products')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     public function showPrintPrice(){
@@ -39,7 +44,7 @@ class PrintingPriceController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingCreate'))){
             return response()-> view ('printing-prices.create', [
                 'printing_products'=>PrintingProduct::all(),
                 'vendors'=>Vendor::all(),
@@ -55,7 +60,7 @@ class PrintingPriceController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingCreate'))){
             if ($request->printing_product_id == 'pilih'){
                 return back()->withErrors(['printing_product_id' => ['Silahkan pilih bahan']])->withInput();
             }
@@ -107,10 +112,14 @@ class PrintingPriceController extends Controller
      */
     public function show(PrintingPrice $printingPrice): Response
     {
-        return response()-> view ('printing-prices.show', [
-            'printing_price' => $printingPrice,
-            'title' => 'Detail Harga Cetak '
-        ]);
+        if(Gate::allows('isMarketingSetting') && Gate::allows('isMarketingRead')){
+            return response()-> view ('printing-prices.show', [
+                'printing_price' => $printingPrice,
+                'title' => 'Detail Harga Cetak '
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -118,7 +127,7 @@ class PrintingPriceController extends Controller
      */
     public function edit(PrintingPrice $printingPrice): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingEdit'))){
             return response()->view('printing-prices.edit', [
                 'printing_price' => $printingPrice,
                 'printing_products'=>PrintingProduct::all(),
@@ -135,7 +144,7 @@ class PrintingPriceController extends Controller
      */
     public function update(Request $request, PrintingPrice $printingPrice): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingEdit'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -158,7 +167,7 @@ class PrintingPriceController extends Controller
      */
     public function destroy(PrintingPrice $printingPrice): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isMarketingSetting') && Gate::allows('isMarketingDelete'))){
             PrintingPrice::destroy($printingPrice->id);
 
             return redirect('/marketing/printing-prices')->with('success','Harga cetak dengan kode '. $printingPrice->code .' berhasil dihapus');

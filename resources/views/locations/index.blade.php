@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Container start -->
-    <div class="flex justify-center p-10">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
@@ -163,7 +163,7 @@
                     </div>
                 @endif
                 @error('delete')
-                    <div class="ml-2 flex alert-warning">
+                    <div class="mt-2 flex alert-warning">
                         <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path
                                 d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />

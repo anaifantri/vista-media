@@ -4,15 +4,15 @@
     <form method="post" action="/marketing/printing-products/{{ $printing_product->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center mt-10">
-            <div class="w-[350px] h-[500px] border rounded-lg p-4">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="w-[350px] h-[500px] border rounded-lg p-4 bg-stone-300">
                 <div class="flex items-center justify-center mb-2 border-b w-full">
-                    <h4 class="text-xl font-semibold tracking-wider text-teal-900">Edit Data Bahan Cetak</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-900">Edit Data Bahan Cetak</h4>
                 </div>
                 <div>
                     <div class="flex justify-center mt-4 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Kode</label>
+                            <label class="text-sm text-stone-900">Kode</label>
                             <input
                                 class="flex px-2 text-sm font-semibold text-slate-400 w-[250px] border rounded-lg p-1 outline-none @error('code') is-invalid @enderror"
                                 type="text" id="code" name="code" value="{{ $printing_product->code }}" readonly
@@ -26,9 +26,9 @@
                     </div>
                     <div class="flex justify-center mt-4 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Nama Bahan</label>
+                            <label class="text-sm text-stone-900">Nama Bahan</label>
                             <input
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] border rounded-lg p-1 outline-none @error('name') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-[250px] border rounded-lg p-1 outline-none @error('name') is-invalid @enderror"
                                 type="text" id="name" name="name" placeholder="Input nama bahan"
                                 value="{{ $printing_product->name }}" autofocus required>
                             @error('name')
@@ -44,11 +44,11 @@
                                 $types = ['Frontlight', 'Backlight'];
                             @endphp
                             <div class="flex mt-1">
-                                <label class="text-sm text-teal-700">Type</label>
+                                <label class="text-sm text-stone-900">Type</label>
                             </div>
                             <div class="mt-1">
                                 <select id="type" name="type"
-                                    class="w-[250px] text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none
+                                    class="w-[250px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none
                                             @error('type') is-invalid @enderror"
                                     type="text" value="{{ $printing_product->type }}">
                                     @foreach ($types as $type)
@@ -73,9 +73,9 @@
                     </div>
                     <div class="flex justify-center w-full mt-2">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Deskripsi</label>
+                            <label class="text-sm text-stone-900">Deskripsi</label>
                             <textarea
-                                class="flex text-sm font-semibold text-teal-900 w-[250px]  border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
+                                class="flex text-sm font-semibold text-stone-900 w-[250px]  border rounded-lg p-1 outline-teal-300 @error('address') is-invalid @enderror"
                                 name="description" id="description" placeholder="Input deskripsi bahan">{{ $printing_product->description }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">
@@ -86,9 +86,9 @@
                     </div>
                     <div class="flex justify-center w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-teal-700">Harga Jual</label>
+                            <label class="text-sm text-stone-900">Harga Jual</label>
                             <input
-                                class="flex px-2 text-sm font-semibold text-teal-900 w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
+                                class="flex px-2 text-sm font-semibold text-stone-900 w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                 type="number" min="0" id="price" name="price" placeholder="Input Harga Jual"
                                 value="{{ $printing_product->price }}" required>
                             @error('price')
