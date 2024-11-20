@@ -26,7 +26,7 @@
                 <th class="text-[0.7rem] text-teal-700 border w-16">Jenis</th>
                 <th class="text-[0.7rem] text-teal-700 border w-28">Bahan</th>
                 <th class="text-[0.7rem] text-teal-700 border w-8">side</th>
-                <th class="text-[0.7rem] text-teal-700 border w-10">L (m2)</th>
+                <th class="text-[0.7rem] text-teal-700 border w-12">L(m2)</th>
                 <th class="text-[0.7rem] text-teal-700 border w-14">Harga</th>
                 <th class="text-[0.7rem] text-teal-700 border w-16">Total</th>
             </tr>
@@ -49,31 +49,47 @@
                         <td class="text-[0.7rem] text-teal-700 border px-2" rowspan="2">
                             <div class="flex">
                                 <label class="w-10">Kode</label>
-                                <label id="locationCode" class="ml-2">: {{ $location->code }} -
+                                <label>:</label>
+                                <label id="locationCode" class="ml-1">{{ $location->code }} -
                                     {{ $location->city_code }}</label>
                             </div>
                             <div class="flex">
                                 <label class="w-10">Lokasi</label>
-                                <label class="ml-2">: {{ $location->address }}</label>
+                                <label>:</label>
+                                <label class="ml-1 w-72">{{ $location->address }}</label>
                             </div>
                             <div class="flex items-center">
                                 <input id="locationWidth" type="number" value="{{ $location->width }}" hidden>
                                 <input id="locationHeight" type="number" value="{{ $location->height }}" hidden>
                                 <label class="w-10">Ukuran</label>
-                                <label class="ml-2">: {{ $location->size }} x {{ $location->side }} -
+                                <label>:</label>
+                                <label class="ml-1">{{ $location->size }} x {{ $location->side }} -
                                     @if ($location->orientation == 'Vertikal')
                                         V
                                     @elseif ($location->orientation == 'Horizontal')
                                         H
                                     @endif
                                 </label>
+                                @if ($location->category == 'Signage')
+                                    <label class="w-6 ml-2">Qty :</label>
+                                    <input id="qty" type="number" min="0"
+                                        name="qty{{ $loop->iteration - 1 }}"
+                                        class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                        value="{{ $description->qty }}" onkeyup="qtyChangeAction(this)">
+                                @else
+                                    <label class="w-6 ml-2">Qty :</label>
+                                    <input id="qty" type="number" min="0"
+                                        name="qty{{ $loop->iteration - 1 }}"
+                                        class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                        value="1" onkeyup="qtyChangeAction(this)">
+                                @endif
                                 @if ((int) $location->side == '2')
                                     @if ($price->objSideView[$loop->iteration - 1]->left == true)
-                                        <input class="outline-none ml-8" type="checkbox" id="cbLeft"
+                                        <input class="outline-none ml-4" type="checkbox" id="cbLeft"
                                             name="cbLeft{{ $loop->iteration - 1 }}" checked
                                             onclick="cbLeftAction(this)">
                                     @else
-                                        <input class="outline-none ml-8" type="checkbox" id="cbLeft"
+                                        <input class="outline-none ml-4" type="checkbox" id="cbLeft"
                                             name="cbLeft{{ $loop->iteration - 1 }}" onclick="cbLeftAction(this)">
                                     @endif
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft">Kiri</label>
@@ -87,7 +103,7 @@
                                     @endif
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbRight">Kanan</label>
                                 @else
-                                    <input class="outline-none ml-8" type="checkbox" id="cbLeft"
+                                    <input class="outline-none ml-4" type="checkbox" id="cbLeft"
                                         name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)"
                                         hidden>
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft" hidden>Kiri</label>
@@ -147,7 +163,7 @@
                                 onkeyup="printPriceChanged(this)">
                         </td>
                         <td id="printTotal" class="text-[0.7rem] text-teal-700 border text-right px-2">
-                            {{ $totalPrint }}
+                            {{ number_format($totalPrint) }}
                         </td>
                     </tr>
                     <tr class="bg-slate-50">
@@ -162,7 +178,7 @@
                                 onkeyup="installPriceChanged(this)">
                         </td>
                         <td id="installTotal" class="text-[0.7rem] text-teal-700 border text-right px-2">
-                            {{ $totalInstall }}
+                            {{ number_format($totalInstall) }}
                         </td>
                     </tr>
                 @else
@@ -172,32 +188,61 @@
                         <td class="text-[0.7rem] text-teal-700 border px-2">
                             <div class="flex">
                                 <label class="w-10">Kode</label>
-                                <label id="locationCode" class="ml-2">: {{ $location->code }} -
+                                <label>:</label>
+                                <label id="locationCode" class="ml-1">{{ $location->code }} -
                                     {{ $location->city_code }}</label>
                             </div>
                             <div class="flex">
                                 <label class="w-10">Lokasi</label>
-                                <label class="ml-2">: {{ $location->address }}</label>
+                                <label>:</label>
+                                <label class="ml-1 w-72">{{ $location->address }}</label>
                             </div>
                             <div class="flex items-center">
+                                <input id="locationWidth" type="number" value="{{ $location->width }}" hidden>
+                                <input id="locationHeight" type="number" value="{{ $location->height }}" hidden>
                                 <label class="w-10">Ukuran</label>
-                                <label class="ml-2">: {{ $location->size }} x {{ $location->side }} -
+                                <label>:</label>
+                                <label class="ml-1">{{ $location->size }} x {{ $location->side }} -
                                     @if ($location->orientation == 'Vertikal')
                                         V
                                     @elseif ($location->orientation == 'Horizontal')
                                         H
                                     @endif
                                 </label>
+                                @if ($location->category == 'Signage')
+                                    <label class="w-6 ml-2">Qty :</label>
+                                    <input id="qty" type="number" min="0"
+                                        name="qty{{ $loop->iteration - 1 }}"
+                                        class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                        value="{{ $description->qty }}" onkeyup="qtyChangeAction(this)">
+                                @else
+                                    <label class="w-6 ml-2">Qty :</label>
+                                    <input id="qty" type="number" min="0"
+                                        name="qty{{ $loop->iteration - 1 }}"
+                                        class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                        value="1" onkeyup="qtyChangeAction(this)">
+                                @endif
                                 @if ((int) $location->side == '2')
-                                    <input class="outline-none ml-8" type="checkbox" id="cbLeft"
-                                        name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)">
+                                    @if ($price->objSideView[$loop->iteration - 1]->left == true)
+                                        <input class="outline-none ml-4" type="checkbox" id="cbLeft"
+                                            name="cbLeft{{ $loop->iteration - 1 }}" checked
+                                            onclick="cbLeftAction(this)">
+                                    @else
+                                        <input class="outline-none ml-4" type="checkbox" id="cbLeft"
+                                            name="cbLeft{{ $loop->iteration - 1 }}" onclick="cbLeftAction(this)">
+                                    @endif
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft">Kiri</label>
-                                    <input class="outline-none ml-4" type="checkbox" id="cbRight"
-                                        name="cbRight{{ $loop->iteration - 1 }}" checked
-                                        onclick="cbRightAction(this)">
+                                    @if ($price->objSideView[$loop->iteration - 1]->right == true)
+                                        <input class="outline-none ml-4" type="checkbox" id="cbRight"
+                                            name="cbRight{{ $loop->iteration - 1 }}" checked
+                                            onclick="cbRightAction(this)">
+                                    @else
+                                        <input class="outline-none ml-4" type="checkbox" id="cbRight"
+                                            name="cbRight{{ $loop->iteration - 1 }}" onclick="cbRightAction(this)">
+                                    @endif
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbRight">Kanan</label>
                                 @else
-                                    <input class="outline-none ml-8" type="checkbox" id="cbLeft"
+                                    <input class="outline-none ml-4" type="checkbox" id="cbLeft"
                                         name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)"
                                         hidden>
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft" hidden>Kiri</label>
@@ -254,7 +299,7 @@
                                     onkeyup="printPriceChanged(this)">
                             </td>
                             <td id="printTotal" class="text-[0.7rem] text-teal-700 border text-right px-2">
-                                {{ $totalPrint }}
+                                {{ number_format($totalPrint) }}
                             </td>
                         @else
                             @php
@@ -278,7 +323,7 @@
                                     onkeyup="installPriceChanged(this)">
                             </td>
                             <td id="installTotal" class="text-[0.7rem] text-teal-700 border text-right px-2">
-                                {{ $totalInstall }}
+                                {{ number_format($totalInstall) }}
                             </td>
                         @endif
                     </tr>
@@ -288,7 +333,7 @@
                 <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2" colspan="7">Sub Total
                 </td>
                 <td id="subTotal" class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">
-                    {{ $subTotal }}</td>
+                    {{ number_format($subTotal) }}</td>
             </tr>
             @if ($price->objServicePpn->status == true)
                 <tr>
@@ -306,7 +351,7 @@
                         @php
                             $servicePpn = ($price->objServicePpn->value / 100) * $subTotal;
                         @endphp
-                        {{ $servicePpn }}
+                        {{ number_format($servicePpn) }}
                     </td>
                 </tr>
                 <tr>
@@ -315,7 +360,7 @@
                     </td>
                     <td id="serviceGrandTotal"
                         class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">
-                        {{ $subTotal + $servicePpn }}
+                        {{ number_format($subTotal + $servicePpn) }}
                     </td>
                 </tr>
             @else

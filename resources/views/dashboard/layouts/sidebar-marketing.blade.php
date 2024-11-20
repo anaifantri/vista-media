@@ -324,7 +324,8 @@
             <!-- Quotation Reports start -->
             @can('isQuotationReport')
                 <li id="quotReport" title="Lap. Penawaran" class="group" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/quotations-report*') ? 'active' : '' }}"
+                        href="/marketing/quotations-report">
                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -333,7 +334,7 @@
                         </svg>
                         <span class="flex w-36"> LAP. PENAWARAN </span>
                         <svg id="quotReportArrow" name="quotReportArrow"
-                            class="svg-arrow rotate-180 transition duration-300 ease-in-out" role="img"
+                            class="hidden rotate-180 transition duration-300 ease-in-out" role="img"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <title>Arrow</title>
                             <path
@@ -341,7 +342,7 @@
                         </svg>
                     </a>
                     <!-- Quotation Reports Child Start -->
-                    <ul class="hidden" id="quotReportChild" name="quotReportChild">
+                    {{-- <ul class="hidden" id="quotReportChild" name="quotReportChild">
                         <li class="group">
                             <a class="nav-a ml-5" href="#">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
@@ -366,7 +367,7 @@
                                 </a>
                             </li>
                         @endforeach
-                    </ul>
+                    </ul> --}}
                     <!-- Quotation Reports Child End -->
                 </li>
             @endcan
@@ -375,8 +376,8 @@
             <!-- Sales Reports start -->
             @can('isSaleReport')
                 <li id="saleReports" title="Lap. Penjualan" class="group" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/sales/report*') ? 'active' : '' }}"
-                        href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/sales-report*') ? 'active' : '' }}"
+                        href="/marketing/sales-report">
                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -385,7 +386,7 @@
                         </svg>
                         <span class="flex w-36"> LAP. PENJUALAN </span>
                         <svg id="saleReportsArrow" name="saleReportsArrow"
-                            class="svg-arrow rotate-180 transition duration-300 ease-in-out" role="img"
+                            class="hidden rotate-180 transition duration-300 ease-in-out" role="img"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <title>Arrow</title>
                             <path
@@ -393,10 +394,10 @@
                         </svg>
                     </a>
                     <!-- Sales Reports Child Start -->
-                    <ul class="hidden" id="saleReportChild" name="saleReportChild">
+                    {{-- <ul class="hidden" id="saleReportChild" name="saleReportChild">
                         <li class="group">
-                            <a class="nav-a ml-5 {{ Request::is('marketing/sales/report/All*') ? 'active' : '' }}"
-                                href="/marketing/sales/report/All">
+                            <a class="nav-a ml-5 {{ Request::is('marketing/sales-report*') ? 'active' : '' }}"
+                                href="/marketing/sales-report">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -420,7 +421,7 @@
                                 </a>
                             </li>
                         @endforeach
-                    </ul>
+                    </ul> --}}
                     <!-- Sales Reports Child End -->
                 </li>
             @endcan

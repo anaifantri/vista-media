@@ -8,7 +8,12 @@
         <div id="notesQty">
             @foreach ($notes->dataNotes as $note)
                 <div class="flex">
-                    <input class="ml-1 text-sm text-black outline-none w-full" value="{{ $note }}">
+                    @if ($loop->iteration - 1 == 0)
+                        <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
+                            value="{{ $note }}">
+                    @else
+                        <input class="ml-1 text-sm text-black outline-none w-full" value="{{ $note }}">
+                    @endif
                 </div>
             @endforeach
         </div>
@@ -35,8 +40,8 @@
             @foreach ($payment_terms->dataPayments as $payment_term)
                 <div class="flex">
                     <label class="ml-1 text-sm">-</label>
-                    <input class="text-sm ml-2 outline-none in-out-spin-none border rounded-md px-1 w-12" type="number"
-                        min="0" max="100" value="{{ $payment_term->term }}">
+                    <input class="term-of-payment" type="number" min="0" max="100"
+                        value="{{ $payment_term->term }}">
                     <textarea class="text-area-notes" rows="1">{{ $payment_term->note }}</textarea>
                 </div>
             @endforeach

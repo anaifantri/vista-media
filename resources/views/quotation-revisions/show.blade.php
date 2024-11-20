@@ -11,240 +11,252 @@
     $payment_terms = json_decode($quotation_revision->payment_terms);
     $notes = json_decode($quotation_revision->notes);
     $number = Str::substr($quotation_revision->number, 0, 9);
-    if ($quotation_revision->quotation->media_category->name == 'Signage') {
-        $dataDescription = json_decode($products[0]->description);
-    }
+    // if ($quotation_revision->quotation->media_category->name == 'Signage') {
+    //     $dataDescription = json_decode($products[0]->description);
+    // }
     
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     $status = ['Created', 'Sent', 'Follow Up', 'Deal', 'Closed'];
     ?>
     <input type="text" id="price" value="{{ json_encode($price) }}" hidden>
-    <input type="text" id="category" value="{{ $quotation_revision->quotation->media_category->name }}" hidden>
-    @if ($quotation_revision->quotation->media_category->name == 'Signage')
-        <input type="text" id="type" value="{{ $dataDescription->type }}" hidden>
+    @if ($category == 'Signage')
+        @php
+            $dataDescription = json_decode($products[0]->description);
+        @endphp
+        <input type="text" id="category" name="{{ $dataDescription->type }}" value="{{ $category }}" hidden>
+    @else
+        <input type="text" id="category" value="{{ $category }}" hidden>
     @endif
-    <div class="flex justify-center p-10 bg-stone-900">
-        <div class="w-[1200px]">
+    {{-- @if ($quotation_revision->quotation->media_category->name == 'Signage')
+        <input type="text" id="type" value="{{ $dataDescription->type }}" hidden>
+    @endif --}}
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-4 border rounded-md">
             <!-- Title Show Quotation Revision start -->
             <div class="flex border-b">
                 <h1 class="text-xl text-teal-50 px-2 w-[900px] font-bold tracking-wider">DETAIL REVISI PENAWAWARAN NOMOR :
                     {{ substr($quotation_revision->quotation->number, 0, 4) }}</h1>
                 <div class="flex justify-end w-full p-1">
-                    <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-success"
+                    <a class="flex justify-center items-center btn-success mx-1"
                         href="/marketing/quotations/{{ $quotation_revision->quotation->id }}">
-                        <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1" clip-rule="evenodd" fill-rule="evenodd"
-                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
+                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
                                 fill-rule="nonzero" />
                         </svg>
-                        <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Back</span>
+                        <span class="mx-1">Back</span>
                     </a>
-                    <button id="btnCreatePdf" class="flex justify-center items-center ml-1 btn-primary" type="button">
-                        <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" viewBox="0 0 24 24">
+                    <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary" type="button">
+                        <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
                             <path
                                 d="M12.819 14.427c.064.267.077.679-.021.948-.128.351-.381.528-.754.528h-.637v-2.12h.496c.474 0 .803.173.916.644zm3.091-8.65c2.047-.479 4.805.279 6.09 1.179-1.494-1.997-5.23-5.708-7.432-6.882 1.157 1.168 1.563 4.235 1.342 5.703zm-7.457 7.955h-.546v.943h.546c.235 0 .467-.027.576-.227.067-.123.067-.366 0-.489-.109-.198-.341-.227-.576-.227zm13.547-2.732v13h-20v-24h8.409c4.858 0 3.334 8 3.334 8 3.011-.745 8.257-.42 8.257 3zm-12.108 2.761c-.16-.484-.606-.761-1.224-.761h-1.668v3.686h.907v-1.277h.761c.619 0 1.064-.277 1.224-.763.094-.292.094-.597 0-.885zm3.407-.303c-.297-.299-.711-.458-1.199-.458h-1.599v3.686h1.599c.537 0 .961-.181 1.262-.535.554-.659.586-2.035-.063-2.693zm3.701-.458h-2.628v3.686h.907v-1.472h1.49v-.732h-1.49v-.698h1.721v-.784z" />
                         </svg>
-                        <span class="ml-2 text-white">Create PDF</span>
+                        <span class="mx-1">Create PDF</span>
                     </button>
                 </div>
             </div>
             <!-- Title Show Quotation Revision end -->
-            <div class="flex">
-                <div class="flex justify-center mx-1">
-                    <div>
-                        <div class="mt-1 w-60 h-max py-1 px-2">
-                            <div class="mt-1">
-                                <label class="text-sm text-teal-50 font-semibold">Progress Penawaran</label>
-                            </div>
-                            <div
-                                class="flex justify-center overflow-y-auto w-56 h-[300px] bg-teal-50 border rounded-lg p-1 mt-1">
-                                <div>
-                                    @php
-                                        $index = count($quot_revision_statuses);
-                                    @endphp
-                                    @foreach ($quot_revision_statuses as $quot_revision_status)
-                                        <?php
-                                        $updated_by = json_decode($quot_revision_status->updated_by);
-                                        ?>
-                                        <div class="border rounded-md mt-2 w-48 p-2 bg-amber-100 bg-opacity-50">
-                                            <div
-                                                class="flex text-sm w-44 justify-center text-teal-900 border-b font-semibold">
-                                                UPDATE KE -
-                                                {{ $index }}.
-                                            </div>
-                                            <div class="mt-1">
-                                                <label class="flex text-sm text-teal-900">Diupdate oleh :</label>
-                                                <label
-                                                    class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ $updated_by->name }}</label>
-                                            </div>
-                                            <div class="mt-1">
-                                                <label class="flex text-sm text-teal-900">Status :</label>
-                                                <label
-                                                    class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ $quot_revision_status->status }}</label>
-                                            </div>
-                                            <div class="mt-1">
-                                                <label class="flex text-sm text-teal-900">Tanggal :</label>
-                                                <label
-                                                    class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ date('d', strtotime($quot_revision_status->created_at)) }}
-                                                    {{ $bulan[(int) date('m', strtotime($quot_revision_status->created_at))] }}
-                                                    {{ date('Y', strtotime($quot_revision_status->created_at)) }}</label>
-                                            </div>
-                                            <div class="mt-1">
-                                                <label class="flex text-sm text-teal-900">Keterangan :</label>
-                                                <label class="flex w-44 font-semibold border-b text-sm text-teal-900">
-                                                    {{ $quot_revision_status->description }}</label>
-                                            </div>
+            <div class="flex justify-center">
+                <div>
+                    <div class="mt-1 w-60 h-max py-1 px-2">
+                        <div class="mt-1">
+                            <label class="text-sm text-teal-50 font-semibold">Progress Penawaran</label>
+                        </div>
+                        <div
+                            class="flex justify-center overflow-y-auto w-56 h-[300px] bg-teal-50 border rounded-lg p-1 mt-1">
+                            <div>
+                                @php
+                                    $index = count($quot_revision_statuses);
+                                @endphp
+                                @foreach ($quot_revision_statuses as $quot_revision_status)
+                                    <?php
+                                    $updated_by = json_decode($quot_revision_status->updated_by);
+                                    ?>
+                                    <div class="border rounded-md mt-2 w-48 p-2 bg-amber-100 bg-opacity-50">
+                                        <div class="flex text-sm w-44 justify-center text-teal-900 border-b font-semibold">
+                                            UPDATE KE -
+                                            {{ $index }}.
                                         </div>
-                                        @php
-                                            $index--;
-                                        @endphp
-                                    @endforeach
-                                </div>
+                                        <div class="mt-1">
+                                            <label class="flex text-sm text-teal-900">Diupdate oleh :</label>
+                                            <label
+                                                class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ $updated_by->name }}</label>
+                                        </div>
+                                        <div class="mt-1">
+                                            <label class="flex text-sm text-teal-900">Status :</label>
+                                            <label
+                                                class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ $quot_revision_status->status }}</label>
+                                        </div>
+                                        <div class="mt-1">
+                                            <label class="flex text-sm text-teal-900">Tanggal :</label>
+                                            <label
+                                                class="flex w-44 font-semibold border-b text-sm text-teal-900">{{ date('d', strtotime($quot_revision_status->created_at)) }}
+                                                {{ $bulan[(int) date('m', strtotime($quot_revision_status->created_at))] }}
+                                                {{ date('Y', strtotime($quot_revision_status->created_at)) }}</label>
+                                        </div>
+                                        <div class="mt-1">
+                                            <label class="flex text-sm text-teal-900">Keterangan :</label>
+                                            <label class="flex w-44 font-semibold border-b text-sm text-teal-900">
+                                                {{ $quot_revision_status->description }}</label>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $index--;
+                                    @endphp
+                                @endforeach
                             </div>
                         </div>
-                        @if (session()->has('success'))
-                            <div
-                                class="text-amber-400 text-sm rounded-lg border border-amber-400 bg-opacity-60 bg-stone-900 drop-shadow-xl shadow-inner p-1 w-60">
-                                <div class="flex justify-center">
-                                    <svg class="flex fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                                    </svg>
-                                    <span class="flex font-semibold mx-1">Success!</span>
-                                </div>
-                                <label class="flex text-center w-56">{{ session('success') }}</label>
+                    </div>
+                    @if (session()->has('success'))
+                        <div
+                            class="text-amber-400 text-sm rounded-lg border border-amber-400 bg-opacity-60 bg-stone-900 drop-shadow-xl shadow-inner p-1 w-60">
+                            <div class="flex justify-center">
+                                <svg class="flex fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                                </svg>
+                                <span class="flex font-semibold mx-1">Success!</span>
                             </div>
-                        @endif
-                        <form class="" action="/marketing/quot-revision-statuses" method="post"
-                            enctype="multipart/form-data">
-                            @csrf
+                            <label class="flex text-center w-56">{{ session('success') }}</label>
+                        </div>
+                    @endif
+                    <form class="" action="/marketing/quot-revision-statuses" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
 
-                            <?php
-                            $updated_by = new stdClass();
-                            $updated_by->id = auth()->user()->id;
-                            $updated_by->name = auth()->user()->name;
-                            $updated_by->position = auth()->user()->position;
-                            ?>
-                            <input type="text" name="quotation_id" value="{{ $quotation_revision->quotation->id }}"
-                                hidden>
-                            <input type="text" name="quotation_revision_id" value="{{ $quotation_revision->id }}"
-                                hidden>
-                            <input type="text" name="updated_by" value="{{ json_encode($updated_by) }}" hidden>
-                            @if (
-                                $last_statuses->status == 'Deal' ||
-                                    $last_statuses->status == 'Closed' ||
-                                    $last_revision->number != $quotation_revision->number)
-                                <div class="mt-1" hidden>
-                                    <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
-                                    <input type="text" id="cbUpdateValue" name="cb-update-value"
-                                        value="{{ old('cb-update-value') }}" hidden>
-                                    <label class="text-sm font-semibold text-teal-50"> Update Progress</label>
-                                </div>
-                            @else
-                                <div class="mt-1">
-                                    <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
-                                    <input type="text" id="cbUpdateValue" name="cb-update-value"
-                                        value="{{ old('cb-update-value') }}" hidden>
-                                    <label class="text-sm font-semibold text-teal-50">Update Progress</label>
-                                </div>
-                            @endif
-                            <div id="divProgress" hidden>
-                                <div class="mt-1">
-                                    <label class="text-sm text-teal-50">Status</label>
-                                    <select id="status" name="status"
-                                        class="flex w-36  text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('status') is-invalid @enderror"
-                                        type="text" value="{{ old('status') }}" onchange="getStatus(this)">
-                                        @if ($last_statuses->status == 'Created')
-                                            @for ($i = 0; $i < count($status); $i++)
-                                                @if ($i == 1 || $i == 4)
-                                                    @if (old('status') == $status[$i])
-                                                        <option value="{{ $status[$i] }}" selected> {{ $status[$i] }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $status[$i] }}"> {{ $status[$i] }}
-                                                        </option>
-                                                    @endif
-                                                @endif
-                                            @endfor
-                                        @elseif ($last_statuses->status == 'Sent' || $last_statuses->status == 'Follow Up')
-                                            @for ($i = 0; $i < count($status); $i++)
-                                                @if ($i == 2 || $i == 3 || $i == 4)
-                                                    @if (old('status') == $status[$i])
-                                                        <option value="{{ $status[$i] }}" selected> {{ $status[$i] }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $status[$i] }}"> {{ $status[$i] }}
-                                                        </option>
-                                                    @endif
-                                                @endif
-                                            @endfor
-                                        @endif
-                                    </select>
-                                    @error('status')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
+                        <?php
+                        $updated_by = new stdClass();
+                        $updated_by->id = auth()->user()->id;
+                        $updated_by->name = auth()->user()->name;
+                        $updated_by->position = auth()->user()->position;
+                        ?>
+                        <input type="text" name="quotation_id" value="{{ $quotation_revision->quotation->id }}" hidden>
+                        <input type="text" name="quotation_revision_id" value="{{ $quotation_revision->id }}" hidden>
+                        <input type="text" name="updated_by" value="{{ json_encode($updated_by) }}" hidden>
+                        @if (
+                            $last_statuses->status == 'Deal' ||
+                                $last_statuses->status == 'Closed' ||
+                                $last_revision->number != $quotation_revision->number)
+                            @canany(['isAdmin', 'isMarketing'])
+                                @can('isQuotation')
+                                    @can('isMarketingCreate')
+                                        <div class="mt-1" hidden>
+                                            <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
+                                            <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                value="{{ old('cb-update-value') }}" hidden>
+                                            <label class="text-sm font-semibold text-teal-50"> Update Progress</label>
                                         </div>
-                                    @enderror
-                                </div>
-                                <div id="divApproval" class="mt-1" hidden>
-                                    <label class="text-sm text-teal-50">Document Approval</label>
-                                    <div class="flex items-center">
-                                        <input class="hidden" id="documentApproval" name="document_approval[]"
-                                            type="file" accept="image/png, image/jpg, image/jpeg"
-                                            onchange="imagePreview(this, document.querySelectorAll('[id=labelDocumentApproval]'))"
-                                            multiple>
-                                        <label id="labelDocumentApproval"
-                                            class="flex text-sm bg-white text-teal-700 border border-teal-700 rounded-lg px-2 w-32">0
-                                            images selected</label>
-                                        <button id="approval" type="button"
-                                            class="flex justify-center items-center ml-2 px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
-                                            onclick="btnImages(this, document.getElementById('documentApproval'), document.querySelectorAll('[id=labelDocumentApproval]'))">
-                                            <svg class="fill-current w-3" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24">
-                                                <path
-                                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z" />
-                                            </svg>
-                                            <span class="text-sm ml-1">Tambah</span>
-                                        </button>
+                                    @endcan
+                                @endcan
+                            @endcanany
+                        @else
+                            @canany(['isAdmin', 'isMarketing'])
+                                @can('isQuotation')
+                                    @can('isMarketingCreate')
+                                        <div class="mt-1">
+                                            <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
+                                            <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                value="{{ old('cb-update-value') }}" hidden>
+                                            <label class="text-sm font-semibold text-teal-50">Update Progress</label>
+                                        </div>
+                                    @endcan
+                                @endcan
+                            @endcanany
+                        @endif
+                        <div id="divProgress" hidden>
+                            <div class="mt-1">
+                                <label class="text-sm text-teal-50">Status</label>
+                                <select id="status" name="status"
+                                    class="flex w-36  text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('status') is-invalid @enderror"
+                                    type="text" value="{{ old('status') }}" onchange="getStatus(this)">
+                                    @if ($last_statuses->status == 'Created')
+                                        @for ($i = 0; $i < count($status); $i++)
+                                            @if ($i == 1 || $i == 4)
+                                                @if (old('status') == $status[$i])
+                                                    <option value="{{ $status[$i] }}" selected> {{ $status[$i] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $status[$i] }}"> {{ $status[$i] }}
+                                                    </option>
+                                                @endif
+                                            @endif
+                                        @endfor
+                                    @elseif ($last_statuses->status == 'Sent' || $last_statuses->status == 'Follow Up')
+                                        @for ($i = 0; $i < count($status); $i++)
+                                            @if ($i == 2 || $i == 3 || $i == 4)
+                                                @if (old('status') == $status[$i])
+                                                    <option value="{{ $status[$i] }}" selected> {{ $status[$i] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $status[$i] }}"> {{ $status[$i] }}
+                                                    </option>
+                                                @endif
+                                            @endif
+                                        @endfor
+                                    @endif
+                                </select>
+                                @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
                                     </div>
-                                    @error('document_approval')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="mt-1">
-                                    <label class="text-sm text-teal-50">Keterangan</label>
-                                    <textarea
-                                        class="flex w-56 text-sm text-left font-semibold text-teal-900 border rounded-lg p-2 outline-none @error('description') is-invalid @enderror"
-                                        id="description" name="description" rows="4" cols="">{{ old('description') }}</textarea>
-                                    @error('description')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="mt-1">
-                                    <button id="btnSaveProgress"
-                                        class="flex justify-center items-center mx-1 btn-success mb-2" type="submit">
-                                        <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                @enderror
+                            </div>
+                            <div id="divApproval" class="mt-1" hidden>
+                                <label class="text-sm text-teal-50">Document Approval</label>
+                                <div class="flex items-center">
+                                    <input class="hidden" id="documentApproval" name="document_approval[]"
+                                        type="file" accept="image/png, image/jpg, image/jpeg"
+                                        onchange="imagePreview(this, document.querySelectorAll('[id=labelDocumentApproval]'))"
+                                        multiple>
+                                    <label id="labelDocumentApproval"
+                                        class="flex text-sm bg-white text-teal-700 border border-teal-700 rounded-lg px-2 w-32">0
+                                        dokumen</label>
+                                    <button id="approval" type="button"
+                                        class="flex justify-center items-center ml-2 px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
+                                        onclick="btnImages(this, document.getElementById('documentApproval'), document.querySelectorAll('[id=labelDocumentApproval]'))">
+                                        <svg class="fill-current w-3" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
                                             <path
-                                                d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z" />
                                         </svg>
-                                        <span class="ml-2 text-white">Save Progress</span>
+                                        <span class="text-sm ml-1">Tambah</span>
                                     </button>
                                 </div>
+                                @error('document_approval')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                        </form>
-                    </div>
+                            <div class="mt-1">
+                                <label class="text-sm text-teal-50">Keterangan</label>
+                                <textarea
+                                    class="flex w-56 text-sm text-left font-semibold text-teal-900 border rounded-lg p-2 outline-none @error('description') is-invalid @enderror"
+                                    id="description" name="description" rows="4" cols="">{{ old('description') }}</textarea>
+                                @error('description')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mt-1">
+                                <button id="btnSaveProgress"
+                                    class="flex justify-center items-center mx-1 btn-success mb-2" type="submit">
+                                    <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24">
+                                        <path
+                                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                    </svg>
+                                    <span class="ml-2 text-white">Save Progress</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div id="pdfPreview">
+                <div id="pdfPreview" class="ml-4">
                     <div class="flex justify-center w-full">
                         <div class="w-[950px] h-[1345px] mt-1 bg-white">
                             <!-- Header start -->
@@ -326,16 +338,12 @@
                                         @if ($quotation_revision->quotation->media_category->name == 'Service')
                                             @include('quotations.service-show-table')
                                         @else
-                                            @if ($quotation_revision->quotation->media_category->name == 'Billboard')
-                                                @include('quotations.bb-show-table')
-                                            @elseif($quotation_revision->quotation->media_category->name == 'Videotron')
+                                            @if (
+                                                $quotation_revision->quotation->media_category->name == 'Videotron' ||
+                                                    ($quotation_revision->quotation->media_category->name == 'Signage' && $dataDescription->type == 'Videotron'))
                                                 @include('quotations.vt-show-table')
-                                            @elseif($quotation_revision->quotation->media_category->name == 'Signage')
-                                                @if ($dataDescription->type == 'Videotron')
-                                                    @include('quotations.vt-show-table')
-                                                @else
-                                                    @include('quotations.bb-show-table')
-                                                @endif
+                                            @else
+                                                @include('quotations.bb-show-table')
                                             @endif
                                         @endif
                                     </div>
@@ -355,7 +363,17 @@
                                                     <label
                                                         class="ml-1 text-sm text-black flex">{{ $note }}</label>
                                                 @else
-                                                    @if ($quotation_revision->quotation->media_category->name == 'Billboard')
+                                                    @if (
+                                                        $quotation_revision->quotation->media_category->name == 'Videotron' ||
+                                                            ($quotation_revision->quotation->media_category->name == 'Signage' && $dataDescription->type == 'Videotron'))
+                                                        @if ($loop->iteration == 3 || $loop->iteration == 4)
+                                                            <label
+                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                        @else
+                                                            <label
+                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                        @endif
+                                                    @else
                                                         @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
                                                             @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
                                                                 <label
@@ -380,53 +398,6 @@
                                                                 <label
                                                                     class="ml-1 text-sm text-black flex">{{ $note }}</label>
                                                             @endif
-                                                        @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                        @endif
-                                                    @elseif ($quotation_revision->quotation->media_category->name == 'Signage')
-                                                        @if ($dataDescription->type == 'Videotron')
-                                                            @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                                <label
-                                                                    class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                            @else
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                            @endif
-                                                        @else
-                                                            @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
-                                                                @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
-                                                                    <label
-                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                                @else
-                                                                    <label
-                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                                @endif
-                                                            @elseif (($notes->freePrint == 0 && $notes->freeInstall != 0) || ($notes->freePrint != 0 && $notes->freeInstall == 0))
-                                                                @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                                    <label
-                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                                @else
-                                                                    <label
-                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                                @endif
-                                                            @elseif ($notes->freePrint == 0 && $notes->freeInstall == 0)
-                                                                @if ($loop->iteration == 3)
-                                                                    <label
-                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                                @else
-                                                                    <label
-                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                                @endif
-                                                            @else
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                            @endif
-                                                        @endif
-                                                    @else
-                                                        @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                            <label
-                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
                                                         @else
                                                             <label
                                                                 class="ml-1 text-sm text-black flex">{{ $note }}</label>

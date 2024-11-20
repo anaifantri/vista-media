@@ -110,10 +110,10 @@ imagePreview = (sel, label) => {
     if (sel.files.length != 0) {
         for(let i = 0; i < label.length; i++){
             label[i].innerHTML = "";
-            label[i].innerHTML = sel.files.length + " dokumen di pilih";
+            label[i].innerHTML = sel.files.length + " dokumen";
         }
         
-        numberImagesFile.innerHTML = sel.files.length + " dokumen di pilih";
+        numberImagesFile.innerHTML = sel.files.length + " file dipilih";
         fileLength = sel.files.length ;
 
         for (n = 0; n < sel.files.length; n++) {
@@ -214,7 +214,7 @@ btnClearAction = (label, inputFile) =>{
     nextButton.setAttribute('hidden', 'hidden');
     for(let i = 0; i < label.length; i++){
         label[i].innerHTML = "";
-        label[i].innerHTML = "0 dokumen di pilih";
+        label[i].innerHTML = "0 dokumen";
     }
     inputFile.value = null;
     numberImagesFile.innerHTML = "Tidak Ada File Yang Dipilih";

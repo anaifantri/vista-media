@@ -70,6 +70,9 @@
 .invalid-feedback {
     @apply text-sm text-red-500;
 }
+.success-feedback {
+    @apply text-sm text-green-700;
+}
 
 /* Button */
 .btn-primary {
@@ -382,7 +385,7 @@
 }
 
 .th-table {
-    @apply text-sm text-stone-100 border text-center;
+    @apply text-sm text-stone-900 border text-center;
 }
 
 .sale-note {
@@ -414,19 +417,19 @@
 }
 
 .div-sign {
-    @apply flex justify-center w-[750px] h-40;
+    @apply flex justify-center w-[750px] h-32;
 }
 
 .th-title-sign {
-    @apply text-stone-900 border h-6 underline;
+    @apply text-stone-900 border underline;
 }
 
 .th-sign {
-    @apply text-xs text-stone-900 border w-[190px] h-5;
+    @apply text-xs text-stone-900 border w-[190px];
 }
 
 .td-sign {
-    @apply text-center align-bottom text-sm font-bold text-stone-900 border w-[190px] p-2 underline;
+    @apply text-center align-bottom text-sm font-semibold text-stone-900 border w-[190px] p-2 underline;
 }
 
 .table-sign {
@@ -494,7 +497,7 @@
 }
 
 .title-periode {
-    @apply text-stone-900 text-sm border-b border-teal-700;
+    @apply text-stone-900 text-sm border-b border-black;
 }
 
 .date-periode {
@@ -517,7 +520,7 @@
     @apply flex w-28 text-sm font-semibold text-stone-900 border rounded-lg outline-none;
 }
 .term-of-payment {
-    @apply text-xs ml-2 outline-none border rounded-md px-1 w-12;
+    @apply text-xs ml-2 outline-none in-out-spin-none border rounded-md px-1 w-12;
 }
 
 .input-on-td {

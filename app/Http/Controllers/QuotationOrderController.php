@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Gate;
 
 class QuotationOrderController extends Controller
 {
@@ -22,7 +23,7 @@ class QuotationOrderController extends Controller
 
     public function showOrders(String $category, String $quotationId): View
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
             $dataOrders = QuotationOrder::where('quotation_id', $quotationId)->get();
             $quotation = Quotation::where('id', $quotationId)->get();
             return view('quotation-orders.show', [
@@ -49,7 +50,7 @@ class QuotationOrderController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
             if($request->file('document_order')){
                 $images = $request->file('document_order');
                 foreach($images as $image){
@@ -64,7 +65,7 @@ class QuotationOrderController extends Controller
                 }
             }
 
-            return redirect('/marketing/quotation-orders/show-orders/'.$request->quotation_id)->with('success', count($request->document_order).' Dokumen PO/SPK berhasil ditambahkan');
+            return redirect('/marketing/quotation-orders/show-orders/'.$request->category.'/'.$request->quotation_id)->with('success', count($request->document_order).' Dokumen PO/SPK berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -99,8 +100,9 @@ class QuotationOrderController extends Controller
      */
     public function destroy(QuotationOrder $quotationOrder): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingDelete'))){
             $quotation_id = $quotationOrder->quotation_id;
+            $category = $quotationOrder->quotation->media_category->name;
 
             if($quotationOrder->image){
                 Storage::delete($quotationOrder->image);
@@ -108,7 +110,7 @@ class QuotationOrderController extends Controller
 
             QuotationOrder::destroy($quotationOrder->id);
 
-            return redirect('quotation-orders/show-orders/'.$quotation_id)->with('success','Dokumen PO/SPK berhasil dihapus');
+            return redirect('marketing/quotation-orders/show-orders/'.$category.'/'.$quotation_id)->with('success','Dokumen PO/SPK berhasil dihapus');
         } else {
             abort(403);
         }

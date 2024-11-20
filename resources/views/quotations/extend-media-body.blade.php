@@ -24,7 +24,7 @@
                     Reklame {{ $category }}</label>
             </div>
             <div class="flex mt-4">
-                <div class="flex">
+                <div class="hidden">
                     <label class="ml-1 text-sm text-teal-700 flex w-20">Ganti Klien</label>
                     <label class="ml-1 text-sm text-teal-700 flex">:</label>
                     <div>
@@ -65,18 +65,44 @@
                         </div>
                     </div>
                 </div>
-                <div id="divContact" class="flex">
-                    <label class="ml-8 text-sm text-teal-700 flex w-20">Ganti Kontak</label>
-                    <label class="ml-1 text-sm text-teal-700 flex">:</label>
-                    <select class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-lg w-40"
-                        name="contact_id" id="contact_id" onchange="getContact(this)">
-                        @foreach ($contacts as $contact)
-                            @if ($contact->client_id == $dataClient->id)
-                                <option value="{{ $contact->id }}">{{ $contact->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
+                @if ($dataClient->type == 'Perusahaan')
+                    <div id="divContact" class="flex p-1">
+                        <label class="text-sm text-teal-700 flex w-20">Ganti Kontak</label>
+                        <label class="ml-1 text-sm text-teal-700 flex">:</label>
+                        <select
+                            class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-lg w-40"
+                            name="contact_id" id="contact_id" onchange="getContact(this)">
+                            @foreach ($contacts as $contact)
+                                @if ($contact->client_id == $dataClient->id)
+                                    @if ($contact->name == $dataClient->contact_name)
+                                        <option id="{{ $contact }}" value="{{ $contact->id }}" selected>
+                                            {{ $contact->name }}
+                                        </option>
+                                    @else
+                                        <option id="{{ $contact }}" value="{{ $contact->id }}">
+                                            {{ $contact->name }}
+                                        </option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                @else
+                    <div id="divContact" class="hidden p-1">
+                        <label class="text-sm text-teal-700 flex w-20">Ganti Kontak</label>
+                        <label class="ml-1 text-sm text-teal-700 flex">:</label>
+                        <select
+                            class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-lg w-40"
+                            name="contact_id" id="contact_id" onchange="getContact(this)">
+                            @foreach ($contacts as $contact)
+                                @if ($contact->client_id == $dataClient->id)
+                                    <option id="{{ $contact }}" value="{{ $contact->id }}">{{ $contact->name }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
             </div>
             <div class="flex mt-4">
                 <div>
@@ -132,14 +158,8 @@
     </div>
     <!-- table start -->
     <div class="flex justify-center ml-2">
-        @if ($category == 'Videotron')
+        @if ($category == 'Videotron' || ($category == 'Signage' && $dataDescription->type == 'Videotron'))
             @include('quotations.vt-extend-table')
-        @elseif ($category == 'Signage')
-            @if ($dataDescription->type == 'Videotron')
-                @include('quotations.vt-extend-table')
-            @else
-                @include('quotations.bb-extend-table')
-            @endif
         @else
             @include('quotations.bb-extend-table')
         @endif

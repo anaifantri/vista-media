@@ -4,11 +4,11 @@
     <form id="formUpdate" method="post" action="/user/users/{{ $user->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center p-10">
-            <div>
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <!-- Show Title start -->
-                <div class="flex w-[1140px] items-center border-b">
-                    <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]">MERUBAH DATA PENGGUNA </h1>
+                <div class="flex w-[1140px] items-center border-b p-1">
+                    <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[550px]">MERUBAH DATA PENGGUNA </h1>
                     <div class="flex w-full justify-end items-center">
                         @if (auth()->user()->level == 'Administrator')
                             <button class="flex items-center justify-center btn-primary mx-1" type="button"
@@ -68,9 +68,9 @@
                     </div>
                 @endif
                 <div class="flex justify-center w-[1140px] mt-4">
-                    <div class="flex justify-center w-96">
+                    <div class="flex justify-center border rounded-lg bg-stone-400 p-4 w-96">
                         <div>
-                            <label class="flex justify-center text-sm text-teal-700 mt-2">Photo Profile</label>
+                            <label class="flex justify-center text-sm text-stone-900 mt-2">Photo Profile</label>
                             <input type="hidden" name="oldAvatar" value="{{ $user->avatar }}">
                             @if ($user->avatar)
                                 <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
@@ -89,12 +89,12 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="flex w-[280px]">
+                    <div class="flex w-[280px] border rounded-lg bg-stone-400 p-4 ml-4">
                         <div class="w-full">
-                            <div class="mt-5 w-full">
-                                <div class="mt-2"><label class="text-sm text-teal-700">Nama</label>
+                            <div class="w-full">
+                                <div class="mt-2"><label class="text-sm text-stone-900">Nama</label>
                                     <input
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
+                                        class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('name') is-invalid @enderror"
                                         type="text" id="name" name="name" value="{{ $user->name }}" autofocus
                                         required>
                                     @error('name')
@@ -103,9 +103,9 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="mt-2"><label class="text-sm text-teal-700">Username</label>
+                                <div class="mt-2"><label class="text-sm text-stone-900">Username</label>
                                     <input
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('username') is-invalid @enderror"
+                                        class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('username') is-invalid @enderror"
                                         type="text" id="username" name="username" value="{{ $user->username }}"
                                         required>
                                     @error('username')
@@ -114,9 +114,9 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="mt-2"><label class="text-sm text-teal-700">Email</label>
+                                <div class="mt-2"><label class="text-sm text-stone-900">Email</label>
                                     <input
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
+                                        class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('email') is-invalid @enderror"
                                         type="text" id="email" name="email" value="{{ $user->email }}" required>
                                     @error('email')
                                         <div class="invalid-feedback">
@@ -124,9 +124,9 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="mt-2"><label class="text-sm text-teal-700">No. Handphone</label>
+                                <div class="mt-2"><label class="text-sm text-stone-900">No. Handphone</label>
                                     <input
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                        class="flex px-2 text-base font-semibold in-out-spin-none text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                         type="number" id="phone" name="phone" value="{{ $user->phone }}"
                                         required>
                                     @error('phone')
@@ -135,12 +135,12 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="mt-2"><label class="text-sm text-teal-700">Jenis Kelamin</label>
+                                <div class="mt-2"><label class="text-sm text-stone-900">Jenis Kelamin</label>
                                     @php
                                         $genders = ['Male', 'Female'];
                                     @endphp
                                     <select
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                                        class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
                                         name="gender" id="gender" value="{{ $user->gender }}" required>
                                         @foreach ($genders as $gender)
                                             @if ($user->gender == $gender)
@@ -171,10 +171,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex w-[280px] ml-4">
-                        <div class="mt-5 w-full">
+                    <div class="flex w-[280px] border rounded-lg bg-stone-400 p-4 ml-4">
+                        <div class="w-full">
                             @can('isAdmin')
-                                <div class="mt-2"><label class="text-sm text-teal-700">Divisi</label>
+                                <div class="mt-2"><label class="text-sm text-stone-900">Divisi</label>
                                     <input type="text" id="level" name="level" value="{{ $user->level }}" hidden>
                                     @php
                                         $divisions = [
@@ -188,7 +188,7 @@
                                     @endphp
                                     @if (old('division'))
                                         <select id="division"
-                                            class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('division') is-invalid @enderror"
+                                            class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('division') is-invalid @enderror"
                                             name="division" value="{{ $user->division }}"
                                             onchange="selectDivision(this, document.getElementById('inputPosition'))" required>
                                             @foreach ($divisions as $division)
@@ -205,7 +205,7 @@
                                         </select>
                                     @else
                                         <select id="division"
-                                            class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('division') is-invalid @enderror"
+                                            class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('division') is-invalid @enderror"
                                             name="division" value="{{ $user->division }}"
                                             onchange="selectDivision(this, document.getElementById('inputPosition'))" required>
                                             @foreach ($divisions as $division)
@@ -228,7 +228,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Jabatan</label>
+                                    <label class="text-sm text-stone-900">Jabatan</label>
                                     @if (old('position'))
                                         <input type="text" id="inputPosition" name="input_position"
                                             value="{{ old('position') }}" hidden>
@@ -237,7 +237,7 @@
                                             value="{{ $user->position }}" hidden>
                                     @endif
                                     <select id="position" name="position"
-                                        class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                        class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
                                         onchange="selectPosition(this)" required disabled>
                                         <option value="pilih">Pilih Jabatan</option>
                                     </select>
@@ -248,13 +248,13 @@
                                     @enderror
                                 </div>
                                 {{-- <div class="mt-2">
-                                    <label class="text-sm text-teal-700">Status</label>
+                                    <label class="text-sm text-stone-900">Status</label>
                                     <div class="flex">
                                         <input class="outline-none" type="radio" name="active_status" value="true"
                                             checked>
-                                        <label class="ml-2 text-sm font-semibold text-teal-900">Aktif</label>
+                                        <label class="ml-2 text-sm font-semibold text-stone-900">Aktif</label>
                                         <input class="ml-2 outline-none" type="radio" name="active_status" value="false">
-                                        <label class="ml-2 text-sm font-semibold text-teal-900">Non Aktif</label>
+                                        <label class="ml-2 text-sm font-semibold text-stone-900">Non Aktif</label>
                                     </div>
                                     @error('active_status')
                                         <div class="invalid-feedback">
@@ -268,14 +268,14 @@
                                     value="{{ old('cbPasswordValue') }}" hidden>
                                 <input class="items-center mt-0" id="cbPassword" name="cbPassword" type="checkbox"
                                     aria-label="Checkbox for following text input" onclick="changePassword(this)">
-                                <label class="text-sm text-teal-700">Rubah Password?</label>
+                                <label class="text-sm text-stone-900">Rubah Password?</label>
                             </div>
                             <div id="divPassword" class="mt-2 items-center" hidden>
-                                <label class="text-sm text-teal-700">Password</label>
+                                <label class="text-sm text-stone-900">Password</label>
                                 <input type="hidden" id="oldPassword" name="oldPassword"
                                     value="{{ $user->password }}">
                                 <input type="password"
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('password') is-invalid @enderror"
+                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('password') is-invalid @enderror"
                                     id="password" placeholder="New Password" name="password"
                                     aria-label="Text input with checkbox" disabled>
                                 @error('password')
@@ -285,9 +285,9 @@
                                 @enderror
                             </div>
                             <div id="divConfirmPassword" class="mt-2 items-center" hidden>
-                                <label class="text-sm text-teal-700">Konfirmasi Password</label>
+                                <label class="text-sm text-stone-900">Konfirmasi Password</label>
                                 <input type="password" id="confirmPassword"
-                                    class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('confirm_password') is-invalid @enderror"
+                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('confirm_password') is-invalid @enderror"
                                     placeholder="Confirm Password" name="confirm_password" disabled>
                                 @error('confirm_password')
                                     <div class="invalid-feedback">
@@ -299,9 +299,9 @@
                     </div>
                 </div>
                 @can('isAdmin')
-                    <div class="flex justify-center w-[1140px] mt-4">
-                        <div class="mt-2">
-                            <label class="text-sm text-teal-700">Hak Akses</label>
+                    <div class="flex justify-center w-[1140px] border rounded-lg bg-stone-400 p-4 mt-4">
+                        <div>
+                            <label class="text-sm text-stone-900">Hak Akses</label>
                             @if (old('user_access'))
                                 <input type="text" id="user_access" name="user_access" value="{{ old('user_access') }}"
                                     hidden>
@@ -326,7 +326,7 @@
                                     <table class="table-auto w-full">
                                         <thead>
                                             <tr id="tableHeader">
-                                                <th id="mainMenu" class="text-teal-900 font-semibold text-xs px-2 border"
+                                                <th id="mainMenu" class="text-stone-900 font-semibold text-xs px-2 border"
                                                     hidden>
                                                     <div>
                                                         <input class="outline-none" id="cbMainMenu" type="checkbox" hidden
@@ -350,7 +350,7 @@
                                                 </th>
                                                 @foreach ($roles as $role)
                                                     <th id="mainMenu"
-                                                        class="text-teal-900 font-semibold text-xs px-2 border">
+                                                        class="text-stone-900 font-semibold text-xs px-2 border">
                                                         <div>
                                                             <input class="outline-none" id="cbMainMenu" type="checkbox"
                                                                 value="{{ $role->permissions->title }}" hidden disabled>
@@ -397,10 +397,10 @@
                                         </thead>
                                         <tbody>
                                             <tr id="tableRow">
-                                                <td id="subMenu" class="text-teal-900 text-xs border p-2 align-top" hidden>
+                                                <td id="subMenu" class="text-stone-900 text-xs border p-2 align-top" hidden>
                                                 </td>
                                                 @foreach ($roles as $role)
-                                                    <td id="subMenu" class="text-teal-900 text-xs border p-2 align-top">
+                                                    <td id="subMenu" class="text-stone-900 text-xs border p-2 align-top">
                                                         @if ($role->permissions->title == 'Data Media')
                                                             @foreach ($roles->objMedia->mediaRoles as $mediaRole)
                                                                 <div id="menuItems" class="flex items-center">
@@ -512,7 +512,7 @@
                                     <table class="table-auto w-full">
                                         <thead>
                                             <tr id="tableHeader">
-                                                <th id="mainMenu" class="text-teal-900 font-semibold text-xs px-2 border"
+                                                <th id="mainMenu" class="text-stone-900 font-semibold text-xs px-2 border"
                                                     hidden>
                                                     <div>
                                                         <input class="outline-none" id="cbMainMenu" type="checkbox" hidden
@@ -538,7 +538,7 @@
                                         </thead>
                                         <tbody>
                                             <tr id="tableRow">
-                                                <td id="subMenu" class="text-teal-900 text-xs border p-2 align-top" hidden>
+                                                <td id="subMenu" class="text-stone-900 text-xs border p-2 align-top" hidden>
 
                                                 </td>
                                             </tr>

@@ -1,30 +1,30 @@
 <table class="table-auto w-full">
     <thead>
         <tr>
-            <th class="text-xs text-teal-700 border w-20" rowspan="2">
+            <th class="text-xs text-black border border-black w-20" rowspan="2">
                 Kode
             </th>
-            <th class="text-xs text-teal-700 border" rowspan="2">Lokasi
+            <th class="text-xs text-black border border-black" rowspan="2">Lokasi
             </th>
             @if ($category == 'Signage')
-                <th class="text-[0.7rem] text-teal-700 border" colspan="4">Deskripsi</th>
+                <th class="text-[0.7rem] text-black border border-black" colspan="4">Deskripsi</th>
             @else
-                <th class="text-[0.7rem] text-teal-700 border" colspan="3">Deskripsi</th>
+                <th class="text-[0.7rem] text-black border border-black" colspan="3">Deskripsi</th>
             @endif
-            <th class="text-xs text-teal-700 border w-24">Harga (Rp.)</th>
+            <th class="text-xs text-black border border-black w-24">Harga (Rp.)</th>
         </tr>
         <tr>
             @if ($category == 'Signage')
-                <th class="text-[0.7rem] text-teal-700 border w-16" rowspan="2">Bentuk</th>
+                <th class="text-[0.7rem] text-black border border-black w-16" rowspan="2">Bentuk</th>
             @else
-                <th class="text-[0.7rem] text-teal-700 border w-10" rowspan="2">BL/FL</th>
+                <th class="text-[0.7rem] text-black border border-black w-10" rowspan="2">BL/FL</th>
             @endif
             @if ($category == 'Signage')
-                <th class="text-[0.7rem] text-teal-700 border w-6" rowspan="2">Qty</th>
+                <th class="text-[0.7rem] text-black border border-black w-6" rowspan="2">Qty</th>
             @endif
-            <th class="text-[0.7rem] text-teal-700 border w-8" rowspan="2">Side</th>
-            <th class="text-xs text-teal-700 border w-32">Size - V/H</th>
-            <th class="text-xs text-teal-700 border w-24">
+            <th class="text-[0.7rem] text-black border border-black w-8" rowspan="2">Side</th>
+            <th class="text-xs text-black border border-black w-32">Size - V/H</th>
+            <th class="text-xs text-black border border-black w-24">
                 @if ($category == 'Billboard')
                     @foreach ($price->dataTitle as $dataTitle)
                         @if ($dataTitle->checkbox == true)
@@ -87,15 +87,15 @@
     </thead>
     <tbody>
         <tr>
-            <td class="text-xs text-teal-700 border text-center">
+            <td class="text-xs text-black border border-black text-center">
                 {{ $product->code }}-{{ $product->city_code }}</td>
-            <td class="text-xs text-teal-700 border px-2">
+            <td class="text-xs text-black border border-black px-2">
                 {{ $product->address }}
             </td>
             @if ($category == 'Signage')
-                <td class="text-[0.7rem] text-teal-700 border text-center">{{ $description->type }}</td>
+                <td class="text-[0.7rem] text-black border border-black text-center">{{ $description->type }}</td>
             @else
-                <td class="text-[0.7rem] text-teal-700 border text-center">
+                <td class="text-[0.7rem] text-black border border-black text-center">
                     @if ($description->lighting == 'Backlight')
                         BL
                     @elseif ($description->lighting == 'Frontlight')
@@ -104,14 +104,14 @@
                 </td>
             @endif
             @if ($category == 'Signage')
-                <td class="text-[0.7rem] text-teal-700 border text-center">
+                <td class="text-[0.7rem] text-black border border-black text-center">
                     {{ $description->qty }}
                 </td>
             @endif
-            <td class="text-[0.7rem] text-teal-700 border text-center">
+            <td class="text-[0.7rem] text-black border border-black text-center">
                 {{ (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) }}
             </td>
-            <td class="text-xs text-teal-700 border text-center">
+            <td class="text-xs text-black border border-black text-center">
                 {{ $product->size }} -
                 @if ($product->orientation == 'Vertikal')
                     V
@@ -119,7 +119,7 @@
                     H
                 @endif
             </td>
-            <td id="previewPrice" class="text-xs  text-teal-700 border text-right px-2">
+            <td id="previewPrice" class="text-xs  text-black border border-black text-right px-2">
                 @if ($category == 'Billboard')
                     @php
                         $getCode = $product->code . '-' . $product->city_code;
@@ -192,46 +192,54 @@
         @if ($sales->dpp)
             <tr>
                 @if ($category == 'Signage')
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">DPP</td>
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">DPP
+                    </td>
                 @else
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="5">DPP</td>
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="5">DPP
+                    </td>
                 @endif
-                <td class="text-xs text-teal-700 border text-right px-2">
+                <td class="text-xs text-black border border-black text-right px-2">
                     {{ number_format($sales->dpp) }}</td>
             </tr>
             <tr>
                 @if ($category == 'Signage')
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">(A) PPN
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">(A)
+                        PPN
                         {{ $sales->ppn }}%</td>
                 @else
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="5">(A) PPN
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="5">(A)
+                        PPN
                         {{ $sales->ppn }}%</td>
                 @endif
-                <td class="text-xs text-teal-700 border text-right px-2">
+                <td class="text-xs text-black border border-black text-right px-2">
                     {{ number_format($sales->dpp * ($sales->ppn / 100)) }}
                 </td>
             </tr>
             <tr>
                 @if ($category == 'Signage')
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">(B) PPh
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">(B)
+                        PPh
                         {{ $sales->pph }}%</td>
                 @else
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="5">(B) PPh
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="5">(B)
+                        PPh
                         {{ $sales->pph }}%</td>
                 @endif
-                <td class="text-xs text-teal-700 border text-right px-2">
+                <td class="text-xs text-black border border-black text-right px-2">
                     {{ number_format($sales->dpp * ($sales->pph / 100)) }}
                 </td>
             </tr>
             <tr>
                 @if ($category == 'Signage')
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="6">TOTAL (Harga +
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">
+                        TOTAL (Harga +
                         A - B)</td>
                 @else
-                    <td class="border px-2 text-right text-xs text-teal-700 font-semibold" colspan="5">TOTAL (Harga +
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="5">
+                        TOTAL (Harga +
                         A - B)</td>
                 @endif
-                <td class="text-xs text-teal-700 border text-right px-2">
+                <td class="text-xs text-black border border-black text-right px-2">
                     {{ number_format($getPrice + $sales->dpp * ($sales->ppn / 100) - $sales->dpp * ($sales->pph / 100)) }}
                 </td>
             </tr>

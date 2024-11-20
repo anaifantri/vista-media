@@ -19,13 +19,13 @@
         </thead>
         <tbody id="videotronTBody">
             <tr>
-                <td class="px-4 text-sm text-black border">Kode Lokasi</td>
-                <td class="px-4 text-sm text-black border" colspan="4">
+                <td class="px-4 text-xs text-black border">Kode Lokasi</td>
+                <td class="px-4 text-xs text-black border" colspan="4">
                     {{ $products[0]->code }}-{{ $products[0]->city_code }}</td>
             </tr>
             <tr>
-                <td class="px-4 text-sm text-black border">Lokasi</td>
-                <td class="px-4 text-sm text-black border" colspan="4">
+                <td class="px-4 text-xs text-black border">Lokasi</td>
+                <td class="px-4 text-xs text-black border" colspan="4">
                     {{ $products[0]->address }}</td>
             </tr>
             <tr>
@@ -46,32 +46,31 @@
             @endif
             <tr>
                 <td class="px-4 text-xs text-black border">Ukuran Pixel - Konfigurasi Pixel</td>
-                <td class="px-4 text-xs text-black border" colspan="4">P
-                    {{ $led->pixel_pitch }} -
-                    {{ $led->pixel_config }}</td>
+                <td class="px-4 text-xs text-black border" colspan="4">P{{ $dataLed->pixel_pitch }} -
+                    {{ $dataLed->pixel_config }}</td>
             </tr>
             <tr>
                 <td class="px-4 text-xs text-black border">Kerapatan Pixel</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->pixel_density }}
+                    {{ $dataLed->pixel_density }}
                 </td>
             </tr>
             <tr>
                 <td class="px-4 text-xs text-black border">Jarak Pandang Terbaik</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->optimal_distance }}
+                    {{ $dataLed->optimal_distance }}
                 </td>
             </tr>
             <tr>
                 <td class="px-4 text-xs text-black border">Sudut Pandang Terbaik</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->vertical_angle }}(V)
-                    {{ $led->horizontal_angle }}(H)</td>
+                    {{ $dataLed->vertical_angle }}(V)
+                    {{ $dataLed->horizontal_angle }}(H)</td>
             </tr>
             <tr>
                 <td class="px-4 text-xs text-black border">Refresh Rate</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->refresh_rate }}
+                    {{ $dataLed->refresh_rate }}
                 </td>
             </tr>
             <tr>
@@ -107,7 +106,8 @@
             </tr>
             @if ($price->priceType[0] == true)
                 <tr>
-                    <td class="px-4 text-xs text-black border" rowspan="2">Harga Sharing {{ $price->slotQty }} Slot
+                    <td class="px-4 text-xs text-black border" rowspan="2">Harga Sharing Untuk {{ $price->slotQty }}
+                        Slot
                     </td>
                     @foreach ($price->dataSharingPrice as $dataSharingPrice)
                         @if ($dataSharingPrice->checkbox == true)
@@ -133,7 +133,7 @@
             @endif
             @if ($price->priceType[1] == true)
                 <tr>
-                    <td class="px-4 text-xs text-black border" rowspan="2">Harga eksklusif (4 slot)</td>
+                    <td class="px-4 text-xs text-black border" rowspan="2">Harga eksklusif</td>
                     @foreach ($price->dataExclusivePrice as $dataExclusivePrice)
                         @if ($dataExclusivePrice->checkbox == true)
                             <td class="border bg-slate-100 text-xs text-black w-28 text-center">
@@ -154,6 +154,66 @@
                                 {{ number_format($dataExclusivePrice->price) }}</td>
                         @endif
                     @endforeach
+                </tr>
+            @endif
+            @if ($price->objPpn->checked == true)
+                @php
+                    $subTotal = 0;
+                @endphp
+                @if ($price->priceType[0] == true)
+                    @foreach ($price->dataSharingPrice as $dataSharingPrice)
+                        @if ($dataSharingPrice->checkbox == true)
+                            @php
+                                $subTotal = $subTotal + $dataSharingPrice->price;
+                            @endphp
+                        @endif
+                    @endforeach
+                @elseif ($price->priceType[1] == true)
+                    @foreach ($price->dataExclusivePrice as $dataExclusivePrice)
+                        @if ($dataExclusivePrice->checkbox == true)
+                            @php
+                                $subTotal = $subTotal + $dataExclusivePrice->price;
+                            @endphp
+                        @endif
+                    @endforeach
+                @endif
+                <tr>
+                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">Sub
+                        Total (A)</td>
+                    <td class="text-[0.7rem] text-black border font-semibold px-1">
+                        <label class="flex w-20 justify-end">{{ number_format($subTotal) }}</label>
+                    </td>
+                </tr>
+                @if ($price->objPpn->dpp != $subTotal)
+                    <tr>
+                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">DPP
+                        </td>
+                        <td class="text-[0.7rem] text-black border font-semibold px-1">
+                            <label class="flex w-20 justify-end">{{ number_format($price->objPpn->dpp) }}</label>
+                        </td>
+                    </tr>
+                @endif
+                <tr>
+                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">PPN
+                        {{ $price->objPpn->value }} % (B)
+                    </td>
+                    <td class="text-[0.7rem] text-black border font-semibold px-1">
+                        <label
+                            class="flex w-20 justify-end">{{ number_format($price->objPpn->dpp * ($price->objPpn->value / 100)) }}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
+                        Grand Total (A + B)</td>
+                    <td class="text-[0.7rem] text-black border font-semibold px-1">
+                        <label class="flex w-20 justify-end">
+                            @if ($price->objPpn->dpp != $subTotal)
+                                {{ number_format($subTotal + $price->objPpn->dpp * ($price->objPpn->value / 100)) }}
+                            @else
+                                {{ number_format($subTotal + $subTotal * ($price->objPpn->value / 100)) }}
+                            @endif
+                        </label>
+                    </td>
                 </tr>
             @endif
         </tbody>

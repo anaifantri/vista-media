@@ -15,10 +15,10 @@
         <input name="modified_by" type="text" value="{{ json_encode($created_by) }}" hidden>
         <input name="media_category_id" type="text" value="{{ $data_category->id }}" hidden>
         <input name="category" type="text" value="{{ $data_category->name }}" hidden>
-        <div class="flex justify-center bg-stone-800">
-            <div class="mt-10">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <!-- Create New Location Title start -->
-                <div class="flex w-[1140px] items-center border-b p-1">
+                <div class="flex w-[1200px] items-center border-b p-1">
                     <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[850px]"> MENAMBAHKAN DATA LOKASI
                         {{ strtoupper($category) }}</h1>
                     <div class="flex items-center w-full justify-end">

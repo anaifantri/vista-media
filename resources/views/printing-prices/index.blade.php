@@ -134,7 +134,7 @@
                                                 @endcan
                                             @endcanany
                                             @canany(['isAdmin', 'isMarketing'])
-                                                @can('isVendor')
+                                                @can('isMarketingSetting')
                                                     @can('isMarketingDelete')
                                                         <form action="/marketing/printing-prices/{{ $printing_price->id }}"
                                                             method="post" class="d-inline m-1">

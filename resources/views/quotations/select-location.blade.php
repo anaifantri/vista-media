@@ -2,15 +2,15 @@
 
 @section('container')
     <!-- Quotation Signage start -->
-    <div class="flex justify-center">
-        <div>
-            <div class="mt-10">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
+            <div>
                 <div class="flex w-[1100px] border-b">
                     @if ($category == 'Service')
-                        <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi Cetak /
+                        <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi Cetak /
                             Pasang</h1>
                     @else
-                        <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi
+                        <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi
                             {{ $category }}</h1>
                     @endif
 
@@ -45,10 +45,10 @@
                     <input id="requestType" type="text" value="{{ request('quotationType') }}" hidden>
                     <div class="flex mt-1 ml-2">
                         <div class="w-36">
-                            <span class="text-base text-teal-900">Area</span>
+                            <span class="text-base text-stone-100">Area</span>
                             @if (request('area'))
-                                <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="area"
-                                    id="area" onchange="submit()" value="{{ request('area') }}">
+                                <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
+                                    name="area" id="area" onchange="submit()" value="{{ request('area') }}">
                                     <option value="All">All</option>
                                     @foreach ($areas as $area)
                                         @if (request('area') == $area->id)
@@ -59,8 +59,8 @@
                                     @endforeach
                                 </select>
                             @else
-                                <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="area"
-                                    id="area" onchange="submit()" value="{{ request('area') }}">
+                                <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
+                                    name="area" id="area" onchange="submit()" value="{{ request('area') }}">
                                     <option value="All">All</option>
                                     @foreach ($areas as $area)
                                         @if (request('area') == $area->id)
@@ -73,10 +73,11 @@
                             @endif
                         </div>
                         <div class="w-36 ml-2">
-                            <span class="text-base text-teal-900">Kota</span>
+                            <span class="text-base text-stone-100">Kota</span>
                             @if (request('area'))
-                                <select id="city" class="w-full border rounded-lg text-base text-teal-900 outline-none"
-                                    name="city" onchange="submit()">
+                                <select id="city"
+                                    class="w-full border rounded-lg text-base text-stone-900 outline-none" name="city"
+                                    onchange="submit()">
                                     <option value="All">All</option>
                                     @foreach ($cities as $city)
                                         @if (request('area') == $city->area_id)
@@ -89,8 +90,9 @@
                                     @endforeach
                                 </select>
                             @else
-                                <select id="city" class="w-full border rounded-lg text-base text-teal-900 outline-none"
-                                    name="city" onchange="submit()" disabled>
+                                <select id="city"
+                                    class="w-full border rounded-lg text-base text-stone-900 outline-none" name="city"
+                                    onchange="submit()" disabled>
                                     <option value="All">All</option>
                                 </select>
                             @endif
@@ -101,9 +103,9 @@
                                 @php
                                     $dataType = ['Neon Box', 'Videotron', 'Papan'];
                                 @endphp
-                                <span class="text-base text-teal-900">Bentuk</span>
+                                <span class="text-base text-stone-100">Bentuk</span>
                                 @if (request('type'))
-                                    <select class="w-full border rounded-lg text-base text-teal-900 outline-none"
+                                    <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
                                         name="type" id="type" onchange="submit()" value="{{ request('type') }}">
                                         <option value="All">All</option>
                                         @foreach ($dataType as $type)
@@ -115,7 +117,7 @@
                                         @endforeach
                                     </select>
                                 @else
-                                    <select class="w-full border rounded-lg text-base text-teal-900 outline-none"
+                                    <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
                                         name="type" id="type" onchange="submit()" value="{{ request('type') }}">
                                         <option value="All">All</option>
                                         @foreach ($dataType as $type)
@@ -131,8 +133,8 @@
                         @endif
                         @if ($category == 'Service')
                             <div class="w-36 ml-4">
-                                <span class="text-base text-teal-900">Katagori</span>
-                                <select class="w-full border rounded-lg text-base text-teal-900 outline-none"
+                                <span class="text-base text-stone-100">Katagori</span>
+                                <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
                                     name="media_category_id" id="media_category_id" onchange="submit()"
                                     value="{{ request('media_category_id') }}">
                                     <option value="All">All</option>
@@ -151,27 +153,27 @@
                                 </select>
                             </div>
                             <div class="ml-4">
-                                <span class="text-base text-teal-900">Jenis Penawaran</span>
+                                <span class="text-base text-stone-100">Jenis Penawaran</span>
                                 <div class="flex items-center">
                                     <input id="existingRadioService" class="outline-none" type="radio"
                                         name="serviceType" value="existing" onclick="typeServiceCheck(this), submit()"
                                         checked>
-                                    <label class="text-sm text-teal-900 ml-2" for="existing">Dari Data Penjualan</label>
+                                    <label class="text-sm text-stone-100 ml-2" for="existing">Dari Data Penjualan</label>
                                     <input id="newRadioService" class="outline-none  ml-4" type="radio"
                                         name="serviceType" value="new" onclick="typeServiceCheck(this), submit()">
-                                    <label class="text-sm text-teal-900 ml-2" for="new">Penawaran Baru</label>
+                                    <label class="text-sm text-stone-100 ml-2" for="new">Penawaran Baru</label>
                                 </div>
                             </div>
                         @else
                             <div class="ml-4">
-                                <span class="text-base text-teal-900">Jenis Penawaran</span>
+                                <span class="text-base text-stone-100">Jenis Penawaran</span>
                                 <div class="flex items-center">
                                     <input id="newType" class="outline-none" type="radio" name="quotationType"
                                         value="new" checked onclick="typeCheck(this), submit()">
-                                    <label class="text-sm text-teal-900 ml-2" for="new">Penawaran Baru</label>
+                                    <label class="text-sm text-stone-100 ml-2" for="new">Penawaran Baru</label>
                                     <input id="extendType" class="outline-none ml-4" type="radio" name="quotationType"
                                         value="extend" onclick="typeCheck(this), submit()">
-                                    <label class="text-sm text-teal-900 ml-2" for="extend">Penawaran
+                                    <label class="text-sm text-stone-100 ml-2" for="extend">Penawaran
                                         Perpanjangan</label>
                                 </div>
                             </div>
@@ -180,7 +182,7 @@
                     <div class="flex mt-2">
                         <div class="flex">
                             <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900"
+                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
                                 type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
                                 autofocus onfocus="this.setSelectionRange(this.value.length,this.value.length);">
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
@@ -217,7 +219,7 @@
                     @endif
                 @endif
             </div>
-            <div class="flex justify-center text-teal-900">
+            <div class="flex justify-center text-stone-100">
                 {{-- {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!} --}}
             </div>
         </div>

@@ -24,6 +24,7 @@ class Quotation extends Model
                     ->orWhere('products', 'like', '%' . $search . '%')
                     ->orWhere('clients', 'like', '%' . $search . '%')
                     ->orWhere('created_by', 'like', '%' . $search . '%')
+                    ->orWhere('created_at', 'like', '%' . $search . '%')
                     ->orWhere('modified_by', 'like', '%' . $search . '%')
                 );
     }

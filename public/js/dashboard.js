@@ -33,6 +33,7 @@ const userArrow = document.querySelector('#userArrow');
 
 hamburger.addEventListener('click', function () {
     showHideMenu();
+    profileChildrendHide();
 });
 
 function showHideMenu() {
@@ -134,6 +135,7 @@ const profileArrow = document.querySelector('#profileArrow');
 
 profileAction = (e,sel) => {
     navBarChildHidden();
+    hideMenu();
     e.stopPropagation();
     sel.classList.toggle('group');
     profileArrow.classList.toggle('rotate-180');
@@ -171,6 +173,19 @@ navBarChildHidden = () =>{
         document.getElementById("documentationChildNav").classList.add('hidden');
         document.getElementById("documentationNav").classList.add('group');
         document.getElementById("documentationArrowNav").classList.remove('rotate-180');
+    }else if(document.getElementById("collectNav")){
+        document.getElementById("collectChildNav").classList.add('hidden');
+        document.getElementById("collectNav").classList.add('group');
+        document.getElementById("collectArrowNav").classList.remove('rotate-180');
+        document.getElementById("paymentChildNav").classList.add('hidden');
+        document.getElementById("paymentNav").classList.add('group');
+        document.getElementById("paymentArrowNav").classList.remove('rotate-180');
+        document.getElementById("ppnChildNav").classList.add('hidden');
+        document.getElementById("ppnNav").classList.add('group');
+        document.getElementById("ppnArrowNav").classList.remove('rotate-180');
+        document.getElementById("pphChildNav").classList.add('hidden');
+        document.getElementById("pphNav").classList.add('group');
+        document.getElementById("pphArrowNav").classList.remove('rotate-180');
     }
 }
 
@@ -184,6 +199,7 @@ function showHideDropdown(sel) {
 // header dropdown
 function headerDropdown(e, sel) {
     profileChildrendHide();
+    hideMenu();
     e.stopPropagation();
     sel.classList.toggle('group');
     sel.children[0].children[2].classList.toggle('rotate-180');
@@ -230,6 +246,48 @@ function headerDropdown(e, sel) {
             document.getElementById("monitoringNav").classList.add('group');
             document.getElementById("monitoringChildNav").classList.add('hidden');
             document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
+        }
+    }else if(document.getElementById("collectNav")){
+        if(sel.id == "collectNav"){
+            document.getElementById("paymentNav").classList.add('group');
+            document.getElementById("paymentChildNav").classList.add('hidden');
+            document.getElementById("paymentArrowNav").classList.remove('rotate-180');
+            document.getElementById("ppnNav").classList.add('group');
+            document.getElementById("ppnChildNav").classList.add('hidden');
+            document.getElementById("ppnArrowNav").classList.remove('rotate-180');
+            document.getElementById("pphNav").classList.add('group');
+            document.getElementById("pphChildNav").classList.add('hidden');
+            document.getElementById("pphArrowNav").classList.remove('rotate-180');
+        }else if(sel.id == "paymentNav"){
+            document.getElementById("collectNav").classList.add('group');
+            document.getElementById("collectChildNav").classList.add('hidden');
+            document.getElementById("collectArrowNav").classList.remove('rotate-180');
+            document.getElementById("ppnNav").classList.add('group');
+            document.getElementById("ppnChildNav").classList.add('hidden');
+            document.getElementById("ppnArrowNav").classList.remove('rotate-180');
+            document.getElementById("pphNav").classList.add('group');
+            document.getElementById("pphChildNav").classList.add('hidden');
+            document.getElementById("pphArrowNav").classList.remove('rotate-180');
+        }else if(sel.id == "ppnNav"){
+            document.getElementById("collectNav").classList.add('group');
+            document.getElementById("collectChildNav").classList.add('hidden');
+            document.getElementById("collectArrowNav").classList.remove('rotate-180');
+            document.getElementById("paymentNav").classList.add('group');
+            document.getElementById("paymentChildNav").classList.add('hidden');
+            document.getElementById("paymentArrowNav").classList.remove('rotate-180');
+            document.getElementById("pphNav").classList.add('group');
+            document.getElementById("pphChildNav").classList.add('hidden');
+            document.getElementById("pphArrowNav").classList.remove('rotate-180');
+        }else if(sel.id == "pphNav"){
+            document.getElementById("collectNav").classList.add('group');
+            document.getElementById("collectChildNav").classList.add('hidden');
+            document.getElementById("collectArrowNav").classList.remove('rotate-180');
+            document.getElementById("paymentNav").classList.add('group');
+            document.getElementById("paymentChildNav").classList.add('hidden');
+            document.getElementById("paymentArrowNav").classList.remove('rotate-180');
+            document.getElementById("ppnNav").classList.add('group');
+            document.getElementById("ppnChildNav").classList.add('hidden');
+            document.getElementById("ppnArrowNav").classList.remove('rotate-180');
         }
     }
 }

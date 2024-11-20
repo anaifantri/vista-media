@@ -139,7 +139,7 @@
                                                 @endcan
                                             @endcanany
                                             @canany(['isAdmin', 'isMarketing'])
-                                                @can('isVendor')
+                                                @can('isClient')
                                                     @can('isMarketingDelete')
                                                         <form action="/marketing/client-categories/{{ $category->id }}" method="post"
                                                             class="d-inline my-1">

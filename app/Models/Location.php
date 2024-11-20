@@ -49,13 +49,13 @@ class Location extends Model
 
     public function scopeQuotationNew($query){
         return $query->whereDoesntHave('sales')
-                    ->orWhereHas('sales', function($query){
+                    ->orWhereHas('latestSale', function($query){
                         $query->where('end_at', '<', date('Y-m-d'));
                     });
     }
     
     public function scopeQuotationExtend($query){
-        return $query->whereHas('sales', function($query){
+        return $query->whereHas('latestSale', function($query){
                         $query->where('end_at', '>', date('Y-m-d'));
                     });
     }
@@ -68,17 +68,14 @@ class Location extends Model
                                     $query->where('name', '!=', 'Service');
                     })
                     ->whereHas('media_category', function($query){
-                                    $query->where('name', '=', 'Billboard');
+                                    $query->where('name', '!=', 'Signage');
                     })
                     ->whereDoesntHave('sales')
                     ->orWhereHas('sales', function($query){
                         $query->where('end_at', '<', date('Y-m-d'));
                     })
-                    ->orWhereHas('media_category', function($query){
-                                    $query->where('name', '=', 'Signage');
-                    })
-                    ->orWhere('description->type', '=', 'Neon Box')
-                    ->orWhere('description->type', '=', 'Papan');
+                    ->orWhereJsonContains('description->type', 'Neon Box')
+                    ->orWhereJsonContains('description->type', 'Papan');
     }
     
     public function scopeFilter($query, $filter){
@@ -131,6 +128,10 @@ class Location extends Model
     
     public function sales(){
         return $this->hasMany(Sale::class, 'location_id', 'id');
+    }
+
+    public function latestSale() {
+        return $this->hasOne(Sale::class)->latestOfMany();
     }
 
     public function land_agreements(){

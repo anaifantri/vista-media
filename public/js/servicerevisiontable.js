@@ -11,6 +11,7 @@ const locationHeight = document.querySelectorAll('[id=locationHeight]');
 const productSide = document.querySelectorAll('[id=productSide]');
 const installProduct = document.querySelectorAll('[id=installProduct]');
 const wide = document.querySelectorAll('[id=wide]');
+const qty = document.querySelectorAll('[id=qty]');
 const cbRight = document.querySelectorAll('[id=cbRight]');
 const cbLeft = document.querySelectorAll('[id=cbLeft]');
 const serviceTBody = document.getElementById("serviceTBody");
@@ -85,7 +86,7 @@ getTotalInstall = () =>{
                 type : "",
             }
         }
-    subTotalInstall = subTotalInstall + Number(installTotal[i].innerText);
+    subTotalInstall = subTotalInstall + parseInt(installTotal[i].innerText.replace ( /[^\d.]/g, '' ));
     }
 
     objInstalls = dataInstalls;
@@ -111,7 +112,7 @@ getTotalPrint = () =>{
                 printProduct : ""
             }
         }
-        subTotalPrint = subTotalPrint + Number(printTotal[i].innerText);
+        subTotalPrint = subTotalPrint + parseInt(printTotal[i].innerText.replace ( /[^\d.]/g, '' ));
     }
     objPrints = dataPrints;
     objPrice.objPrints = objPrints;
@@ -229,13 +230,16 @@ cbInstallAction = (sel) =>{
 }
 
 cbPpnAction = (sel) =>{
+    const ppnNote = document.getElementById("ppnNote");
     if(sel.checked == true){
+        ppnNote.value = "- Biaya di atas sudah termasuk PPN";
         inputPpn.value = inputPpn.defaultValue;
         inputPpn.removeAttribute('disabled');
         objServicePpn.status = true;
         objServicePpn.value = document.getElementById("inputPpn").value;
         countServicePrice();
     }else{
+        ppnNote.value = "- Biaya di atas belum termasuk PPN";
         inputPpn.value = 0;
         inputPpn.setAttribute('disabled', 'disabled');
         objServicePpn.status = false;
@@ -258,9 +262,9 @@ countServicePrice = () =>{
     }
     
     var ppnValue = subTotal * (document.getElementById("inputPpn").value / 100);
-    document.getElementById("subTotal").innerHTML = subTotal;
-    document.getElementById("servicePpn").innerHTML = ppnValue;
-    document.getElementById("serviceGrandTotal").innerHTML = subTotal + ppnValue;
+    document.getElementById("subTotal").innerHTML = subTotal.toLocaleString();
+    document.getElementById("servicePpn").innerHTML = ppnValue.toLocaleString();
+    document.getElementById("serviceGrandTotal").innerHTML = (subTotal + ppnValue).toLocaleString();
 }
 
 printProductCheck = () =>{
@@ -285,16 +289,17 @@ installPriceCheck = () =>{
     }
 }
 
-// fillServiceData = () =>{
-//     if(serviceTypeInstall.value == true){
-//         getTotalInstall();
-//     }
-//     if(serviceTypePrint.value == true){
-//         getTotalPrint();
-//     }
-//     getSideView();
+fillServiceData = () =>{
+    const price = document.getElementById("price");
+    let objPrice = {};
 
-// }
+    getTotalInstall();
+    getTotalPrint();
+    getSideView();
+
+    objPrice = {objInstalls, objPrints, objServicePpn, objServiceType, objSideView};
+    price.value = JSON.stringify(objPrice);
+}
 
 cbLeftAction = (sel) =>{
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
@@ -303,17 +308,16 @@ cbLeftAction = (sel) =>{
         sel.checked = true;
     }else{
         if(cbLeft[index].checked == true && sel.checked == true){
-            locationSide[index].innerHTML = "2";
-            wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
-            printTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            installTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
+            locationSide[index].innerText = "2";
+            wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * qty[index].value * 2;
+            printTotal[index].innerText = (Number(wide[index].innerText) * printPrice[index].value).toLocaleString();
+            installTotal[index].innerText = (Number(wide[index].innerText) * installPrice[index].value).toLocaleString();
         }else{
-            locationSide[index].innerHTML = "1";
-            wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
-            printTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * printPrice[index].value;
-            installTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * installPrice[index].value;
+            locationSide[index].innerText = "1";
+            wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * qty[index].value * 1;
+            printTotal[index].innerText = (Number(wide[index].innerText) * printPrice[index].value).toLocaleString();
+            installTotal[index].innerText = (Number(wide[index].innerText) * installPrice[index].value).toLocaleString();
         }
-        console.log(sel.name);
         getSideView();
         countServicePrice();
     }
@@ -326,20 +330,31 @@ cbRightAction = (sel) =>{
         sel.checked = true;
     }else{
         if(cbLeft[index].checked == true && sel.checked == true){
-            locationSide[index].innerHTML = "2";
-            wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2;
-            printTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * printPrice[index].value;
-            installTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 2 * installPrice[index].value;
+            locationSide[index].innerText = "2";
+            wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * Number(qty[index].value) * 2;
+            printTotal[index].innerText= (Number(wide[index].innerText) * printPrice[index].value).toLocaleString();
+            installTotal[index].innerText = (Number(wide[index].innerText) * installPrice[index].value).toLocaleString();
         }else{
-            locationSide[index].innerHTML = "1";
-            wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1;
-            printTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * printPrice[index].value;
-            installTotal[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * 1 * installPrice[index].value;
+            locationSide[index].innerText = "1";
+            wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * Number(qty[index].value) * 1;
+            printTotal[index].innerText = (Number(wide[index].innerText) * printPrice[index].value).toLocaleString();
+            installTotal[index].innerText = (Number(wide[index].innerText) * installPrice[index].value).toLocaleString();
         }
-        console.log(sel.name);
         getSideView();
         countServicePrice();
     }
+}
+
+qtyChangeAction = (sel) =>{
+    var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
+    wide[index].innerHTML = Number(locationWidth[index].value) * Number(locationHeight[index].value) * Number(sel.value) * Number(locationSide[index].innerText);
+    if(printPrice[index]){
+        printTotal[index].innerText= (Number(wide[index].innerText) * printPrice[index].value).toLocaleString();
+    }
+    if(installPrice[index]){
+        installTotal[index].innerText = (Number(wide[index].innerText) * installPrice[index].value).toLocaleString();
+    }
+    countServicePrice();
 }
 
 installPriceChanged = (sel) =>{

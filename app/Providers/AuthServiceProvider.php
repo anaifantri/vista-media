@@ -257,6 +257,17 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
+        Gate::define('isPayment', function($user){
+            $roles = json_decode($user->user_access);
+            if($roles){
+                foreach ($roles->objAccounting->accountingRoles as $accountingRole){
+                    if ($accountingRole->access == true && $accountingRole->title == 'Pembayaran'){
+                        return true;
+                    }
+                }
+            }
+        });
+
         Gate::define('isPPN', function($user){
             $roles = json_decode($user->user_access);
             if($roles){

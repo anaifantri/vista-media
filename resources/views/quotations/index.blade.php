@@ -1,8 +1,8 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <div class="flex justify-center">
-        <div class="mt-10 z-0 mb-8">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
                 @if ($category == 'All')
                     <h1 class="index-h1">Daftar Surat Penawaran</h1>
@@ -14,33 +14,41 @@
                 @if ($category == 'All')
                     @if (request('media_category_id') != '' && request('media_category_id') != 'All')
                         @canany(['isAdmin', 'isMarketing'])
-                            <div>
-                                <a href="/marketing/quotations/select-location/{{ $data_category->name }}"
-                                    class="index-link btn-primary">
-                                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                            fill-rule="nonzero" />
-                                    </svg>
-                                    <span class="mx-1 hidden sm:flex">Menambah Penawaran</span>
-                                </a>
-                            </div>
+                            @can('isQuotation')
+                                @can('isMarketingCreate')
+                                    <div>
+                                        <a href="/marketing/quotations/select-location/{{ $data_category->name }}"
+                                            class="index-link btn-primary">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                            <span class="mx-1 hidden sm:flex">Menambah Penawaran</span>
+                                        </a>
+                                    </div>
+                                @endcan
+                            @endcan
                         @endcanany
                     @endif
                 @else
                     @canany(['isAdmin', 'isMarketing'])
-                        <div>
-                            <a href="/marketing/quotations/select-location/{{ $category }}" class="index-link btn-primary">
-                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                        fill-rule="nonzero" />
-                                </svg>
-                                <span class="mx-1 hidden sm:flex">Menambah Penawaran</span>
-                            </a>
-                        </div>
+                        @can('isQuotation')
+                            @can('isMarketingCreate')
+                                <div>
+                                    <a href="/marketing/quotations/select-location/{{ $category }}" class="index-link btn-primary">
+                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                fill-rule="nonzero" />
+                                        </svg>
+                                        <span class="mx-1 hidden sm:flex">Menambah Penawaran</span>
+                                    </a>
+                                </div>
+                            @endcan
+                        @endcan
                     @endcanany
                 @endif
             </div>
@@ -48,8 +56,8 @@
                 <form action="/marketing/quotations/home/{{ $category }}">
                     <div class="flex mt-1 ml-2">
                         {{-- <div class="w-36">
-                            <span class="text-base text-teal-900">Area</span>
-                            <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="area"
+                            <span class="text-base text-stone-900">Area</span>
+                            <select class="w-full border rounded-lg text-base text-stone-900 outline-none" name="area"
                                 id="area" onchange="submit()" value="{{ request('area') }}">
                                 <option value="All">All</option>
                                 @foreach ($areas as $area)
@@ -63,9 +71,9 @@
                         </div> --}}
                         {{-- @if (request('area') && request('area') != 'All')
                             <div class="w-36 ml-2">
-                                <span class="text-base text-teal-900">Kota</span>
+                                <span class="text-base text-stone-900">Kota</span>
                                 <select id="city" name="city"
-                                    class="flex text-base text-teal-900 w-full border rounded-lg px-1 outline-none"
+                                    class="flex text-base text-stone-900 w-full border rounded-lg px-1 outline-none"
                                     type="text" value="{{ request('city') }}" onchange="submit()">
                                     <option value="All">All</option>
                                     @foreach ($cities as $city)
@@ -92,8 +100,8 @@
                         @endif --}}
                         @if ($category == 'All')
                             <div class="w-36">
-                                <span class="text-base text-teal-900">Katagori</span>
-                                <select class="w-full border rounded-lg text-base text-teal-900 outline-none"
+                                <span class="text-base text-stone-100">Katagori</span>
+                                <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
                                     name="media_category_id" id="media_category_id" onchange="submit()"
                                     value="{{ request('media_category_id') }}">
                                     <option value="All">All</option>
@@ -108,8 +116,8 @@
                             </div>
                         @endif
                         {{-- <div class="w-36 ml-2">
-                            <span class="text-base text-teal-900">Kondisi</span>
-                            <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="condition"
+                            <span class="text-base text-stone-900">Kondisi</span>
+                            <select class="w-full border rounded-lg text-base text-stone-900 outline-none" name="condition"
                                 id="condition" onchange="submit()">
                                 <?php $condition = ['All', 'Terbangun', 'Rencana']; ?>
                                 @for ($i = 0; $i < count($condition); $i++)
@@ -125,7 +133,7 @@
                     <div class="md:flex mt-2">
                         <div class="flex">
                             <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900"
+                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
                                 type="text" placeholder="Search" value="{{ request('search') }}">
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                 type="submit">
@@ -150,10 +158,12 @@
             <div class="w-[1200px]">
                 <table class="table-auto w-full">
                     <thead>
-                        <tr class="bg-teal-100">
-                            <th class="text-teal-700 border text-sm w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-sm text-center w-20" rowspan="2">Jenis</th>
-                            <th class="text-teal-700 border text-sm w-40 text-center" rowspan="2">
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-20" rowspan="2">Jenis
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-40 text-center" rowspan="2">
                                 <button class="flex justify-center items-center w-40">@sortablelink('number', 'Nomor')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
@@ -161,18 +171,23 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-sm text-center w-24" rowspan="2">Tanggal</th>
-                            <th class="text-teal-700 border text-sm text-center" colspan="2">Data Klien</th>
-                            <th class="text-teal-700 border text-sm text-center" rowspan="2">Lokasi</th>
-                            <th class="text-teal-700 border text-sm text-center w-44" rowspan="2">status</th>
-                            <th class="text-teal-700 border text-sm text-center w-16" rowspan="2">Action</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24" rowspan="2">
+                                Tanggal</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="2">Data Klien
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-36" rowspan="2">
+                                status</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-100">
-                            <th class="text-teal-700 border text-sm text-center w-32">Nama</th>
-                            <th class="text-teal-700 border text-sm text-center w-52">Perusahaan</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-32">Nama</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-60">Perusahaan</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-300">
                         @php
                             $number = 1 + ($quotations->currentPage() - 1) * $quotations->perPage();
                         @endphp
@@ -187,15 +202,18 @@
                                 $clients = json_decode($quotation->clients);
                             @endphp
                             <tr>
-                                <td class="text-teal-700 border text-sm text-center">{{ $number++ }}</td>
-                                <td class="text-teal-700 border text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $number++ }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     {{ $quotation->media_category->name }}
                                 </td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $quotation->number }}</td>
-                                <td class="text-teal-700 border text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $quotation->number }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     {{ date('d-m-Y', strtotime($quotation->created_at)) }}</td>
-                                <td class="text-teal-700 border text-sm text-center">{{ $clients->name }}</td>
-                                <td class="text-teal-700 border text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $clients->name }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     @if ($clients->type == 'Perusahaan')
                                         {{ $clients->company }}
                                     @else
@@ -203,7 +221,7 @@
                                     @endif
 
                                 </td>
-                                <td class="text-teal-700 border text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     @foreach ($products as $product)
                                         @if ($loop->iteration != count($products))
                                             {{ $product->code }},
@@ -212,7 +230,7 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td class="text-teal-700 border text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     @if (count($quotation->quotation_revisions) != 0)
                                         Revisi ke {{ count($quotation->quotation_revisions) }} :
                                         {{ $quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->status }}
@@ -221,7 +239,7 @@
                                         {{ $quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->status }}
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/marketing/quotations/{{ $quotation->id }}"
                                             class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
@@ -234,32 +252,42 @@
                                             </svg>
                                         </a>
                                         @canany(['isAdmin', 'isMarketing'])
-                                            <a href="/marketing/quotations/{{ $quotation->id }}/edit"
-                                                class="hidden text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
-                                                <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
-                                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                                        fill-rule="nonzero" />
-                                                </svg>
-                                            </a>
-                                            <form action="/marketing/quotations/{{ $quotation->id }}" method="post"
-                                                class="hidden">
-                                                @method('delete')
-                                                @csrf
-                                                <button
-                                                    class="index-link text-white w-7 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
-                                                    onclick="return confirm('Apakah anda yakin ingin menghapus {{ $quotation->media_category->name }} dengan kode {{ $quotation->code }} ?')">
-                                                    <svg class="fill-current w-[18px]" clip-rule="evenodd"
-                                                        fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                                            fill-rule="nonzero" />
-                                                    </svg>
-                                                </button>
-                                            </form>
+                                            @can('isQuotation')
+                                                @can('isMarketingEdit')
+                                                    <a href="/marketing/quotations/{{ $quotation->id }}/edit"
+                                                        class="hidden text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
+                                                        <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
+                                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                                                fill-rule="nonzero" />
+                                                        </svg>
+                                                    </a>
+                                                @endcan
+                                            @endcan
+                                        @endcanany
+                                        @canany(['isAdmin', 'isMarketing'])
+                                            @can('isQuotation')
+                                                @can('isMarketingDelete')
+                                                    <form action="/marketing/quotations/{{ $quotation->id }}" method="post"
+                                                        class="hidden">
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button
+                                                            class="index-link text-white w-7 h-5 rounded bg-red-600 hover:bg-red-700 drop-shadow-md"
+                                                            onclick="return confirm('Apakah anda yakin ingin menghapus penawaran {{ $quotation->media_category->name }} dengan nomor {{ $quotation->number }} ?')">
+                                                            <svg class="fill-current w-[18px]" clip-rule="evenodd"
+                                                                fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                                    fill-rule="nonzero" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                @endcan
+                                            @endcan
                                         @endcanany
                                     </div>
                                 </td>
@@ -268,7 +296,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="flex justify-center text-teal-900">
+            <div class="flex justify-center text-stone-100 mt-2">
                 {!! $quotations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>

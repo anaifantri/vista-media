@@ -27,7 +27,7 @@
     <form action="/media/locations/{{ $location->id }}" method="post" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center bg-stone-800">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
             <input id="description" type="text" value="{{ json_encode($description) }}" hidden>
             <input id="company_id" name="company_id" type="text" value="{{ $company->id }}" hidden>
             <input id="modified_by" name="modified_by" type="text" value="{{ json_encode($modified_by) }}" hidden>
@@ -38,48 +38,46 @@
             @else
                 <input id="category" name="category" type="text" value="{{ $location->media_category->name }}" hidden>
             @endif
-            <div class="flex justify-center p-10">
-                <div>
-                    <!-- Edit Location Title start -->
-                    <div class="flex w-[1140px] items-center border-b p-1">
-                        <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[850px]"> EDIT DATA
-                            LOKASI
-                            {{ strtoupper($location->media_category->name) }}</h1>
-                        <div class="flex items-center w-full justify-end">
-                            <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
-                                type="submit">
-                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
-                                </svg>
-                                <span class="ml-1 w-10 text-xs">Save</span>
-                            </button>
-                            <a class="flex justify-center items-center ml-1 btn-danger"
-                                href="/media/locations/home/{{ $category }}">
-                                <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                                </svg>
-                                <span class="ml-1 w-10 text-xs">Cancel</span>
-                            </a>
-                        </div>
+            <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
+                <!-- Edit Location Title start -->
+                <div class="flex w-[1200px] items-center border-b p-1">
+                    <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[850px]"> EDIT DATA
+                        LOKASI
+                        {{ strtoupper($location->media_category->name) }}</h1>
+                    <div class="flex items-center w-full justify-end">
+                        <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
+                            type="submit">
+                            <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                            </svg>
+                            <span class="ml-1 w-10 text-xs">Save</span>
+                        </button>
+                        <a class="flex justify-center items-center ml-1 btn-danger"
+                            href="/media/locations/home/{{ $category }}">
+                            <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                            </svg>
+                            <span class="ml-1 w-10 text-xs">Cancel</span>
+                        </a>
                     </div>
-                    <!-- Edit Location Title end -->
-
-                    <!-- Edit Location Input start -->
-                    <div class="flex justify-center w-full mt-2">
-                        @if ($category == 'Billboard' || $category == 'Bando' || $category == 'Baliho' || $category == 'Midiboard')
-                            @include('dashboard.layouts.bb-edit')
-                        @elseif ($category == 'Videotron')
-                            @include('dashboard.layouts.vt-edit')
-                        @elseif ($category == 'Signage')
-                            @include('dashboard.layouts.sn-edit')
-                        @endif
-                    </div>
-                    <!-- Edit Location Input end -->
                 </div>
+                <!-- Edit Location Title end -->
+
+                <!-- Edit Location Input start -->
+                <div class="flex justify-center w-full mt-2">
+                    @if ($category == 'Billboard' || $category == 'Bando' || $category == 'Baliho' || $category == 'Midiboard')
+                        @include('dashboard.layouts.bb-edit')
+                    @elseif ($category == 'Videotron')
+                        @include('dashboard.layouts.vt-edit')
+                    @elseif ($category == 'Signage')
+                        @include('dashboard.layouts.sn-edit')
+                    @endif
+                </div>
+                <!-- Edit Location Input end -->
             </div>
         </div>
     </form>

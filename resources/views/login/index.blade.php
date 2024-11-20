@@ -14,7 +14,7 @@
 <body class="container bg-stone-700 mx-auto flex h-screen w-full position-relative">
     <!-- Container start -->
     <div
-        class="m-auto w-60 h-[340px] sm:h-[500px] sm:w-[360px] bg-stone-500 position-absolute p-5 rounded-xl drop-shadow-xl sm:shadow-2xl items-center justify-center sm:rounded-2xl">
+        class="m-auto w-60 h-[340px] sm:h-[500px] sm:w-[360px] bg-stone-500 border border-stone-100 position-absolute p-5 rounded-xl drop-shadow-xl sm:shadow-2xl items-center justify-center sm:rounded-2xl">
         <!-- Logo start-->
         <div
             class="drop-shadow-lg m-auto sm:mt-5 w-20 h-20 sm:w-[90px] sm:h-[90px] flex position-relative bg-white rounded-full border">
@@ -69,7 +69,7 @@
                 <!-- Button login start-->
                 <div class="flex items-center justify-center">
                     <button
-                        class="w-full m-auto text-white font-semibold sm:text-lg tracking-widest bg-lime-600 sm:w-[230px] mt-5 sm:h-10 sm:mt-8 p-1 position-relative rounded-3xl drop-shadow-xl hover:bg-lime-700 cursor-pointer"
+                        class="w-full m-auto border-white border text-white font-semibold sm:text-lg tracking-widest bg-teal-600 sm:w-[230px] mt-5 sm:h-10 sm:mt-8 p-1 position-relative rounded-3xl drop-shadow-xl hover:bg-teal-700 cursor-pointer"
                         type="submit">
                         Login
                     </button>

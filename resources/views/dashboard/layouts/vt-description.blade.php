@@ -33,20 +33,20 @@
     </div>
     <div class="flex mt-1">
         <span class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Type LED</span>
-        <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-            {{ $dataLed->pixel_pitch }} - {{ $dataLed->type }} - {{ $dataLed->pixel_config }}
+        <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">: P{{ $dataLed->pixel_pitch }} -
+            {{ $dataLed->type }} - {{ $dataLed->pixel_config }}
         </span>
     </div>
     <div class="flex mt-1">
         <span class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Pixel Density</span>
         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-            {{ $dataLed->pixel_density }}
+            {{ number_format($dataLed->pixel_density) }} pixel/m2
         </span>
     </div>
     <div class="flex mt-1">
         <span class="w-[80px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Refresh Rate</span>
         <span class="w-[140px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-            {{ $dataLed->refresh_rate }}
+            {{ $dataLed->refresh_rate }} Hz
         </span>
     </div>
 </div>

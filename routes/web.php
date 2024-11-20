@@ -19,6 +19,7 @@ use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PrintOrderController;
 use App\Http\Controllers\ClientGroupController;
+use App\Http\Controllers\SalesReportController;
 use App\Http\Controllers\InstallOrderController;
 use App\Http\Controllers\LandDocumentController;
 use App\Http\Controllers\LandAgreementController;
@@ -35,6 +36,7 @@ use App\Http\Controllers\MonitoringPhotoController;
 use App\Http\Controllers\PrintingProductController;
 use App\Http\Controllers\QuotationStatusController;
 use App\Http\Controllers\ElectricityTopUpController;
+use App\Http\Controllers\QuotationsReportController;
 use App\Http\Controllers\ElectricityReportController;
 use App\Http\Controllers\InstallationPriceController;
 use App\Http\Controllers\LicensingCategoryController;
@@ -117,6 +119,18 @@ Route::get('/marketing/sales/create-sales/{category}/{id}', [SaleController::cla
 Route::get('/marketing/sales/preview/{category}/{id}', [SaleController::class,'preview'])->middleware(['auth','user_access']);
 Route::get('/get-sales/{id}/{scope}', [SaleController::class,'getSales'])->middleware(['auth','user_access']);
 // Route Sales --> end
+
+// Route Sales Report --> start
+Route::get('/marketing/sales-report', [SalesReportController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/marketing/sales-report/chart-report/{areaId}', [SalesReportController::class,'chartReports'])->middleware(['auth','user_access']);
+Route::get('/marketing/sales-report/c-report', [SalesReportController::class,'cReports'])->middleware(['auth','user_access']);
+// Route Sales Report --> end
+
+// Route Sales Report --> start
+Route::get('/marketing/quotations-report', [QuotationsReportController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/marketing/quotations-report/reports/{categoryId}', [QuotationsReportController::class,'quotationReports'])->middleware(['auth','user_access']);
+// Route::get('/marketing/quotations-report/c-report', [QuotationsReportController::class,'cReports'])->middleware(['auth','user_access']);
+// Route Sales Report --> end
 
 // Route Service --> start
 Route::resource('/marketing/printing-products', PrintingProductController::class)->middleware(['auth','user_access']);

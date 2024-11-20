@@ -76,10 +76,11 @@
                 <td class="px-2 text-xs text-black border" rowspan="2">
                     <div class="flex items-center">
                         <input id="cbSharing" type="checkbox" onclick="sharingPrice(this)" checked>
-                        <span class="flex ml-2">Harga Sharing untuk </span>
+                        <span class="flex ml-2">Harga Sharing Untuk </span>
                         <input id="slotQty"
                             class="text-xs in-out-spin-none text-black w-7 text-center border rounded-md ml-2 outline-none bg-transparent"
-                            type="number" min="1" max="3" value="1" onkeyup="setSLot(this)">
+                            type="number" min="1" max="3" value="1" onkeyup="setSLot(this)"
+                            onchange="checkSlot(this)">
                         <span class="flex ml-2">Slot</span>
                     </div>
                 </td>
@@ -87,32 +88,36 @@
                     <div class="flex w-28 justify-center items-center">
                         <input id="cbShareTitle" name="cbShareTitle0" type="checkbox" checked
                             onclick="cbShareCheck(this)">
-                        <input input id="shareTitle" class="text-xs text-black  ml-2 w-12 outline-none bg-transparent"
-                            type="text" value="1 Bulan">
+                        <input input id="shareTitle"
+                            class="text-xs text-black  ml-2 w-16 text-center outline-none border rounded-md"
+                            type="text" value="1 Bulan" onchange="periodeTitleCheck(this)">
                     </div>
                 </td>
                 <td class="border bg-slate-100">
                     <div class="flex w-28 justify-center items-center">
                         <input id="cbShareTitle" name="cbShareTitle1" type="checkbox" checked
                             onclick="cbShareCheck(this)">
-                        <input id="shareTitle" class="text-xs text-black  ml-2 w-12 outline-none bg-transparent"
-                            type="text" value="3 Bulan">
+                        <input id="shareTitle"
+                            class="text-xs text-black  ml-2 w-16 text-center outline-none border rounded-md"
+                            type="text" value="3 Bulan" onchange="periodeTitleCheck(this)">
                     </div>
                 </td>
                 <td class="border bg-slate-100">
                     <div class="flex w-28 justify-center items-center">
                         <input id="cbShareTitle" name="cbShareTitle2" type="checkbox" checked
                             onclick="cbShareCheck(this)">
-                        <input id="shareTitle" class="text-xs text-black  ml-1 w-16 outline-none bg-transparent"
-                            type="text" value="6 Bulan">
+                        <input id="shareTitle"
+                            class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                            type="text" value="6 Bulan" onchange="periodeTitleCheck(this)">
                     </div>
                 </td>
                 <td class="border bg-slate-100">
                     <div class="flex w-28 justify-center items-center">
                         <input id="cbShareTitle" name="cbShareTitle3" type="checkbox" checked
                             onclick="cbShareCheck(this)">
-                        <input id="shareTitle" class="text-xs text-black  ml-1 w-16 outline-none bg-transparent"
-                            type="text" value="1 Tahun">
+                        <input id="shareTitle"
+                            class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                            type="text" value="1 Tahun" onchange="periodeTitleCheck(this)">
                     </div>
                 </td>
             </tr>
@@ -121,7 +126,8 @@
                     <div class="flex w-28 justify-center items-center">
                         <input id="sharePrice"
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ ($locations[0]->price * (27.5 / 100)) / 10 }}">
+                            type="number" min="0" value="{{ ($locations[0]->price * (27.5 / 100)) / 10 }}"
+                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
                     </div>
                 </td>
                 <td class="border">
@@ -129,7 +135,8 @@
                         <input id="sharePrice"
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
                             type="number" min="0"
-                            value="{{ $locations[0]->price * (27.5 / 100) * (27.5 / 100) }}">
+                            value="{{ $locations[0]->price * (27.5 / 100) * (27.5 / 100) }}"
+                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
                     </div>
                 </td>
                 <td class="border">
@@ -137,14 +144,16 @@
                         <input id="sharePrice"
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
                             type="number" min="0"
-                            value="{{ $locations[0]->price * (27.5 / 100) * (52.5 / 100) }}">
+                            value="{{ $locations[0]->price * (27.5 / 100) * (52.5 / 100) }}"
+                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
                     </div>
                 </td>
                 <td class="border">
                     <div class="flex w-28 justify-center items-center">
                         <input id="sharePrice"
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price * (27.5 / 100) }}">
+                            type="number" min="0" value="{{ $locations[0]->price * (27.5 / 100) }}"
+                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
                     </div>
                 </td>
             </tr>
@@ -159,32 +168,32 @@
                     <div class="flex w-28 justify-center items-center">
                         <input id="cbExTitle" name="cbExTitle0" type="checkbox" checked
                             onclick="cbExclusiveCheck(this)">
-                        <input class="text-xs text-black  ml-1 w-12 outline-none bg-transparent" type="text"
-                            id="exTitle" value="1 Bulan">
+                        <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                            type="text" id="exTitle" value="1 Bulan" onchange="periodeTitleCheck(this)">
                     </div>
                 </td>
                 <td class="border bg-slate-100">
                     <div class="flex w-28 justify-center items-center">
                         <input id="cbExTitle" name="cbExTitle1" type="checkbox" checked
                             onclick="cbExclusiveCheck(this)">
-                        <input class="text-xs text-black  ml-1 w-12 outline-none bg-transparent" type="text"
-                            id="exTitle" value="3 Bulan">
+                        <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                            type="text" id="exTitle" value="3 Bulan" onchange="periodeTitleCheck(this)">
                     </div>
                 </td>
                 <td class="border bg-slate-100">
                     <div class="flex w-28 justify-center items-center">
                         <input id="cbExTitle" name="cbExTitle2" type="checkbox" checked
                             onclick="cbExclusiveCheck(this)">
-                        <input class="text-xs text-black  ml-1 w-12 outline-none bg-transparent" type="text"
-                            id="exTitle" value="6 Bulan">
+                        <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                            type="text" id="exTitle" value="6 Bulan" onchange="periodeTitleCheck(this)">
                     </div>
                 </td>
                 <td class="border bg-slate-100">
                     <div class="flex w-28 justify-center items-center">
                         <input id="cbExTitle" name="cbExTitle3" type="checkbox" checked
                             onclick="cbExclusiveCheck(this)">
-                        <input class="text-xs text-black  ml-1 w-12 outline-none bg-transparent" type="text"
-                            id="exTitle" value="1 Tahun">
+                        <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                            type="text" id="exTitle" value="1 Tahun" onchange="periodeTitleCheck(this)">
                     </div>
                 </td>
             </tr>
@@ -193,36 +202,40 @@
                     <div class="flex w-28 justify-center items-center">
                         <input id="exPrice"
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price / 10 }}">
+                            type="number" min="0" value="{{ $locations[0]->price / 10 }}"
+                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
                     </div>
                 </td>
                 <td class="border">
                     <div class="flex w-28 justify-center items-center">
                         <input id="exPrice"
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price * (27.5 / 100) }}">
+                            type="number" min="0" value="{{ $locations[0]->price * (27.5 / 100) }}"
+                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
                     </div>
                 </td>
                 <td class="border">
                     <div class="flex w-28 justify-center items-center">
                         <input id="exPrice"
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price * (52.5 / 100) }}">
+                            type="number" min="0" value="{{ $locations[0]->price * (52.5 / 100) }}"
+                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
                     </div>
                 </td>
                 <td class="border">
                     <div class="flex w-28 justify-center items-center">
                         <input id="exPrice"
                             class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price }}">
+                            type="number" min="0" value="{{ $locations[0]->price }}"
+                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
                     </div>
                 </td>
             </tr>
             <tr>
-                <td class="border px-2 text-right text-xs text-teal-700 font-semibold">
+                <td class="border px-2 text-right text-xs text-black font-semibold">
                     Include PPN..?
                 </td>
-                <td class="border px-2 tex-center text-xs text-teal-700 font-semibold" colspan="4">
+                <td class="border px-2 tex-center text-xs text-black font-semibold">
                     <div class="flex items-center">
                         <input id="ppnYes" class="ml-2" type="radio" name="ppnCheck" value="yes"
                             onclick="ppnCheckAction(this)">
@@ -234,24 +247,33 @@
                 </td>
             </tr>
             <tr hidden>
-                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">
-                    <div class="flex items-center justify-end">
-                        <label class="text-[0.7rem] text-teal-700 ml-1" for="cbPpn">PPN</label>
-                        <input id="ppnValue"
-                            class="text-xs text-center border rounded-md text-teal-700 outline-none in-out-spin-none w-8 px-1 ml-2"
-                            type="number" min="0" max="100" value="11" onkeyup="setPpn(this)">
-                        <label class="text-xs text-teal-700 ml-2">% * DPP</label>
-                        <input id="dppValue"
-                            class="text-right text-[0.7rem] outline-none text-teal-700 font-semibold in-out-spin-none w-20 border ml-2 pr-1"
-                            type="number" min="0" onkeyup="getDpp(this)" required>
-                    </div>
-                </td>
-                <td id="ppnNominal" class="text-[0.7rem] text-teal-700 border font-semibold px-2" colspan="4">
+                <td class="text-[0.7rem] text-black border text-right font-semibold px-2">Sub Total</td>
+                <td id="subTotal" class="flex justify-end text-[0.7rem] text-black border font-semibold px-2"
+                    colspan="4">
                 </td>
             </tr>
             <tr hidden>
-                <td class="text-[0.7rem] text-teal-700 border text-right font-semibold px-2">Grand Total</td>
-                <td id="grandTotal" class="text-[0.7rem] text-teal-700 border font-semibold px-2" colspan="4">
+                <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
+                    <div class="flex items-center justify-end">
+                        <label class="text-[0.7rem] text-black ml-1" for="cbPpn">PPN</label>
+                        <input id="ppnValue"
+                            class="text-xs text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
+                            type="number" min="0" max="100" value="11" onkeyup="setPpn(this)"
+                            onchange="checkPpn(this)">
+                        <label class="text-xs text-black ml-2">% * DPP</label>
+                        <input id="dppValue"
+                            class="text-right text-[0.7rem] outline-none text-black font-semibold in-out-spin-none w-20 border ml-2 pr-1"
+                            type="number" min="0" onkeyup="getDpp(this)" onchange="dppCheck(this)" required>
+                    </div>
+                </td>
+                <td id="ppnNominal" class="flex justify-end text-[0.7rem] text-black border font-semibold px-2"
+                    colspan="4">
+                </td>
+            </tr>
+            <tr hidden>
+                <td class="text-[0.7rem] text-black border text-right font-semibold px-2">Grand Total</td>
+                <td id="grandTotal" class="flex justify-end text-[0.7rem] text-black border font-semibold px-2"
+                    colspan="4">
                 </td>
             </tr>
         </tbody>

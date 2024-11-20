@@ -58,8 +58,8 @@
     <input id="lng" type="text" value="{{ json_encode($description->lng) }}" hidden>
     <input id="category" type="text" value="{{ $location->media_category->name }}" hidden>
     <input id="saveName" type="text" value="{{ $name }}" hidden>
-    <div class="flex justify-center bg-stone-800">
-        <div class="mt-10">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <!-- Show Location Title start -->
             <div class="flex w-[1140px] items-center border-b">
                 <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[550px]"> DETAIL LOKASI

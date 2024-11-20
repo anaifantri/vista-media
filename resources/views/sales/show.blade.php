@@ -3,12 +3,19 @@
 @section('container')
     @php
         $salesNote = [];
+        $description = json_decode($products[0]->description);
         if ($category == 'Service') {
             for ($i = 0; $i < count($notes->dataNotes); $i++) {
                 array_push($salesNote, $notes->dataNotes[$i]);
             }
         } else {
-            if ($category == 'Billboard') {
+            if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron')) {
+                for ($i = 0; $i < count($notes->dataNotes); $i++) {
+                    if ($i == 2) {
+                        array_push($salesNote, $notes->dataNotes[$i]);
+                    }
+                }
+            } else {
                 $freeInstall = $notes->freeInstall;
                 $freePrint = $notes->freePrint;
                 if ($freeInstall != 0 && $freePrint != 0) {
@@ -22,37 +29,6 @@
                         if ($i == 2) {
                             array_push($salesNote, $notes->dataNotes[$i]);
                         }
-                    }
-                }
-            } elseif ($category == 'Signage') {
-                $description = json_decode($products[0]->description);
-                if ($description->type == 'Videotron') {
-                    for ($i = 0; $i < count($notes->dataNotes); $i++) {
-                        if ($i == 2) {
-                            array_push($salesNote, $notes->dataNotes[$i]);
-                        }
-                    }
-                } else {
-                    $freeInstall = $notes->freeInstall;
-                    $freePrint = $notes->freePrint;
-                    if ($freeInstall != 0 && $freePrint != 0) {
-                        for ($i = 0; $i < count($notes->dataNotes); $i++) {
-                            if ($i == 2 || $i == 3) {
-                                array_push($salesNote, $notes->dataNotes[$i]);
-                            }
-                        }
-                    } elseif (($freeInstall != 0 && $freePrint == 0) || ($freeInstall == 0 && $freePrint != 0)) {
-                        for ($i = 0; $i < count($notes->dataNotes); $i++) {
-                            if ($i == 2) {
-                                array_push($salesNote, $notes->dataNotes[$i]);
-                            }
-                        }
-                    }
-                }
-            } else {
-                for ($i = 0; $i < count($notes->dataNotes); $i++) {
-                    if ($i == 2) {
-                        array_push($salesNote, $notes->dataNotes[$i]);
                     }
                 }
             }
@@ -76,11 +52,11 @@
         $description = json_decode($product->description);
     @endphp
     <!-- Show Sales Data start -->
-    <div class="flex justify-center bg-gray-800 p-10">
-        <div>
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex border-b w-[950px]">
                 <div class="flex w-96 items-center">
-                    <h1 class="text-xl text-white font-bold tracking-wider">DETAIL DATA PENJUALAN</h1>
+                    <h1 class="text-xl text-stone-100 font-bold tracking-wider">DETAIL DATA PENJUALAN</h1>
                 </div>
                 <div class="flex justify-end w-[660px]">
                     <a class="flex justify-center items-center ml-1 btn-success"
@@ -167,11 +143,11 @@
                                                     <div class="div-sale justify-center w-[350px] border rounded-lg p-1">
                                                         <div>
                                                             <div class="flex justify-center w-[160px]">
-                                                                <label class="text-sm text-teal-700 flex">Awal Kontrak
+                                                                <label class="text-sm text-black flex">Awal Kontrak
                                                                     :</label>
                                                             </div>
                                                             <div class="flex justify-center w-[160px]">
-                                                                <label class="text-sm text-teal-700 flex font-semibold">
+                                                                <label class="text-sm text-black flex font-semibold">
                                                                     @if ($sales->start_at)
                                                                         {{ date('d', strtotime($sales->start_at)) }}
                                                                         {{ $bulan[(int) date('m', strtotime($sales->start_at))] }}
@@ -184,11 +160,11 @@
                                                         </div>
                                                         <div>
                                                             <div class="flex justify-center w-[160px]">
-                                                                <label class="text-sm text-teal-700 flex">Akhir Kontrak
+                                                                <label class="text-sm text-black flex">Akhir Kontrak
                                                                     :</label>
                                                             </div>
                                                             <div class="flex justify-center w-[160px]">
-                                                                <label class="text-sm text-teal-700 flex font-semibold">
+                                                                <label class="text-sm text-black flex font-semibold">
                                                                     @if ($sales->end_at)
                                                                         {{ date('d', strtotime($sales->end_at)) }}
                                                                         {{ $bulan[(int) date('m', strtotime($sales->end_at))] }}
@@ -232,7 +208,7 @@
                                                 <div class="div-sale">
                                                     <label class="label-sale-01">Alamat</label>
                                                     <label class="label-sale-02">:</label>
-                                                    <textarea class="ml-1 w-[230px] outline-none border text-teal-700 text-sm p-1 font-semibold" rows="2" readonly>{{ $clients->address }}</textarea>
+                                                    <textarea class="ml-1 w-[230px] outline-none border text-black text-sm p-1 font-semibold" rows="2" readonly>{{ $clients->address }}</textarea>
                                                 </div>
                                                 @if ($clients->type == 'Perusahaan')
                                                     <div class="div-sale">
@@ -373,80 +349,79 @@
                             <div class="h-[1125px]">
                                 <div>
                                     <div class="flex justify-center mt-4 w-full">
-                                        <label
-                                            class="flex text-lg text-center font-bold underline text-teal-700 mt-4">DETAIL
+                                        <label class="flex text-lg text-center font-bold underline text-black mt-4">DETAIL
                                             PENJUALAN</label>
                                     </div>
                                     <div class="flex justify-center w-full">
-                                        <label class="flex text-sm text-center font-bold text-teal-700">Nomor :
+                                        <label class="flex text-sm text-center font-bold text-black">Nomor :
                                             {{ $sales->number }}</label>
                                     </div>
                                 </div>
                                 <div class="flex justify-center mx-1 w-full mt-4">
                                     <div class="w-[780px]">
                                         <div class="mt-2 ml-2">
-                                            <label class="text-sm font-semibold underline text-teal-700 w-28">A. Data Cetak
+                                            <label class="text-sm font-semibold underline text-black w-28">A. Data Cetak
                                                 dan
                                                 Pasang</label>
                                         </div>
                                         <div class="flex border rounded-lg mt-1 w-[760px] p-1">
                                             <div>
                                                 <div class="flex items-center">
-                                                    <label class="text-sm text-teal-700 h-6 items-center w-28">Free
+                                                    <label class="text-sm text-black h-6 items-center w-28">Free
                                                         cetak</label>
-                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                    <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freePrint }}</label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freePrint }}</label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 h-6 items-center w-20 ml-6">Terpakai</label>
-                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                        class="flex text-sm text-black h-6 items-center w-20 ml-6">Terpakai</label>
+                                                    <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 h-6 items-center w-10 ml-6">Sisa</label>
-                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                        class="flex text-sm text-black h-6 items-center w-10 ml-6">Sisa</label>
+                                                    <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
                                                 </div>
                                                 <div class="flex items-center">
                                                     <label
-                                                        class="text-sm text-teal-700 h-6 items-center w-28">FreePasang</label>
-                                                    <label class="flex text-sm text-teal-700 h-6 items-center">:</label>
+                                                        class="text-sm text-black h-6 items-center w-28">FreePasang</label>
+                                                    <label class="flex text-sm text-black h-6 items-center">:</label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freeInstall }}</label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freeInstall }}</label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 h-6 items-center w-20 ml-6">Terpakai</label>
-                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                        class="flex text-sm text-black h-6 items-center w-20 ml-6">Terpakai</label>
+                                                    <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 ml-2 h-5 justify-center items-center border rounded-md w-8">
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">
                                                     </label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 h-6 items-center w-10 ml-6">Sisa</label>
-                                                    <label class="flex text-sm text-teal-700 h-6 items-center">: </label>
+                                                        class="flex text-sm text-black h-6 items-center w-10 ml-6">Sisa</label>
+                                                    <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-teal-700 ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mt-4 ml-2">
-                                            <label class="text-sm font-semibold underline text-teal-700">B. Data
+                                            <label class="text-sm font-semibold underline text-black">B. Data
                                                 Penagihan</label>
                                         </div>
                                         <div class="border rounded-lg mt-1 w-[760px] p-2">
                                             <div>
-                                                <label class="flex text-sm text-teal-700">Termin Pembayaran</label>
+                                                <label class="flex text-sm text-black">Termin Pembayaran</label>
                                                 <table class="table-auto w-[740px] mt-1">
                                                     <thead>
                                                         <tr>
-                                                            <th class="w-12 text-[0.7rem] text-teal-700 border">Termin</th>
-                                                            <th class="w-20 text-[0.7rem] text-teal-700 border">Harga</th>
-                                                            <th class="w-20 text-[0.7rem] text-teal-700 border">DPP</th>
-                                                            <th class="w-20 text-[0.7rem] text-teal-700 border">PPN
+                                                            <th class="w-12 text-[0.7rem] text-black border">Termin</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">Harga</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">DPP</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">PPN
                                                                 {{ $sales->ppn }} %
                                                             </th>
-                                                            <th class="w-16 text-[0.7rem] text-teal-700 border">PPh
+                                                            <th class="w-16 text-[0.7rem] text-black border">PPh
                                                                 {{ $sales->pph }} %</th>
-                                                            <th class="w-20 text-[0.7rem] text-teal-700 border">Total</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">Total</th>
 
                                                         </tr>
                                                     </thead>
@@ -457,20 +432,20 @@
                                                             $pph = $sales['dpp'] * ($sales->pph / 100);
                                                             ?>
                                                             <tr>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ $loop->iteration }}.
                                                                     {{ $terms->term }} %</td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ number_format(($sales['price'] * $terms->term) / 100) }}
                                                                 </td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ number_format(($sales['dpp'] * $terms->term) / 100) }}
                                                                 </td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ number_format(($ppn * $terms->term) / 100) }}</td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ number_format(($pph * $terms->term) / 100) }}</td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ number_format((($sales['price'] + $ppn - $pph) * $terms->term) / 100) }}
                                                                 </td>
                                                             </tr>
@@ -479,20 +454,20 @@
                                                 </table>
                                             </div>
                                             <div class="mt-2">
-                                                <label class="text-sm text-teal-700 underline">Data Penagihan</label>
+                                                <label class="text-sm text-black underline">Data Penagihan</label>
                                                 <table class="table-auto w-[740px] mt-1">
                                                     <thead>
                                                         <tr>
-                                                            <th class="w-12 text-[0.7rem] text-teal-700 border">Termin
+                                                            <th class="w-12 text-[0.7rem] text-black border">Termin
                                                             </th>
-                                                            <th class="w-24 text-[0.7rem] text-teal-700 border">No.
+                                                            <th class="w-24 text-[0.7rem] text-black border">No.
                                                                 Invoice</th>
-                                                            <th class="w-24 text-[0.7rem] text-teal-700 border">Tgl.
+                                                            <th class="w-24 text-[0.7rem] text-black border">Tgl.
                                                                 Invoice</th>
-                                                            <th class="w-28 text-[0.7rem] text-teal-700 border">Nominal
+                                                            <th class="w-28 text-[0.7rem] text-black border">Nominal
                                                             </th>
-                                                            <th class="w-20 text-[0.7rem] text-teal-700 border">Status</th>
-                                                            <th class="w-20 text-[0.7rem] text-teal-700 border">Tgl. Bayar
+                                                            <th class="w-20 text-[0.7rem] text-black border">Status</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">Tgl. Bayar
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -503,20 +478,20 @@
                                                             $pph = $sales['dpp'] * (2 / 100);
                                                             ?>
                                                             <tr>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ $loop->iteration }}.
                                                                     {{ $terms->term }} %</td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     -
                                                                 </td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                 </td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ number_format((($sales['price'] + $ppn - $pph) * $terms->term) / 100) }}
                                                                 </td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                     terkirim / lunas </td>
-                                                                <td class="text-[0.7rem] text-center text-teal-700 border">
+                                                                <td class="text-[0.7rem] text-center text-black border">
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -525,7 +500,7 @@
                                             </div>
                                         </div>
                                         <div class="mt-4 ml-2">
-                                            <label class="text-sm font-semibold underline text-teal-700">C. Data Cetak &
+                                            <label class="text-sm font-semibold underline text-black">C. Data Cetak &
                                                 Pasang</label>
                                         </div>
                                         <div class="border rounded-lg mt-1 w-[760px] p-2">
@@ -533,35 +508,35 @@
                                                 <table class="table-auto w-[740px] mt-1">
                                                     <thead>
                                                         <tr>
-                                                            <th class="w-12 text-[0.65rem] text-teal-700 border"
+                                                            <th class="w-12 text-[0.65rem] text-black border"
                                                                 colspan="6">Detail Cetak</th>
-                                                            <th class="w-20 text-[0.65rem] text-teal-700 border"
+                                                            <th class="w-20 text-[0.65rem] text-black border"
                                                                 colspan="6">Detail Pasang</th>
                                                         </tr>
                                                         <tr>
-                                                            <th class="w-6 text-[0.65rem] text-teal-700 border">No.</th>
-                                                            <th class="w-16 text-[0.65rem] text-teal-700 border">SPK Cetak
+                                                            <th class="w-6 text-[0.65rem] text-black border">No.</th>
+                                                            <th class="w-16 text-[0.65rem] text-black border">SPK Cetak
                                                             </th>
-                                                            <th class="w-16 text-[0.65rem] text-teal-700 border">Tgl. Cetak
+                                                            <th class="w-16 text-[0.65rem] text-black border">Tgl. Cetak
                                                             </th>
-                                                            <th class="w-16 text-[0.65rem] text-teal-700 border">Design
+                                                            <th class="w-16 text-[0.65rem] text-black border">Design
                                                             </th>
-                                                            <th class="w-12 text-[0.65rem] text-teal-700 border">Status
+                                                            <th class="w-12 text-[0.65rem] text-black border">Status
                                                             </th>
-                                                            <th class="w-24 text-[0.65rem] text-teal-700 border">No.
+                                                            <th class="w-24 text-[0.65rem] text-black border">No.
                                                                 Penawaran
                                                             </th>
-                                                            <th class="w-6 text-[0.65rem] text-teal-700 border">No.</th>
-                                                            <th class="w-16 text-[0.65rem] text-teal-700 border">SPK Pasang
+                                                            <th class="w-6 text-[0.65rem] text-black border">No.</th>
+                                                            <th class="w-16 text-[0.65rem] text-black border">SPK Pasang
                                                             </th>
-                                                            <th class="w-16 text-[0.65rem] text-teal-700 border">Tgl.
+                                                            <th class="w-16 text-[0.65rem] text-black border">Tgl.
                                                                 Pasang
                                                             </th>
-                                                            <th class="w-16 text-[0.65rem] text-teal-700 border">Design
+                                                            <th class="w-16 text-[0.65rem] text-black border">Design
                                                             </th>
-                                                            <th class="w-12 text-[0.65rem] text-teal-700 border">Status
+                                                            <th class="w-12 text-[0.65rem] text-black border">Status
                                                             </th>
-                                                            <th class="w-24 text-[0.65rem] text-teal-700 border">No.
+                                                            <th class="w-24 text-[0.65rem] text-black border">No.
                                                                 Penawaran
                                                             </th>
                                                         </tr>
@@ -569,51 +544,39 @@
                                                     <tbody>
                                                         @for ($i = 0; $i < 36; $i++)
                                                             <tr>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     {{ $i + 1 }}</td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
-                                                                <td
-                                                                    class="text-[0.65rem] text-teal-700 border text-center">
+                                                                <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
                                                             </tr>

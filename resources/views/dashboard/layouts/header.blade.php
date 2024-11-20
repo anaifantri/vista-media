@@ -20,6 +20,9 @@
             @can('isMedia')
                 @include('dashboard.layouts.media-navbar')
             @endcan
+            @can('isAccounting')
+                @include('dashboard.layouts.accounting-navbar')
+            @endcan
             @can('isWorkshop')
                 @include('dashboard.layouts.workshop-navbar')
             @endcan

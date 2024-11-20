@@ -28,55 +28,66 @@
     @if ($quotation->media_category->name == 'Signage')
         <input type="text" id="type" value="{{ $dataDescription->type }}" hidden>
     @endif
-    <div class="flex justify-center p-10 bg-stone-900">
-        <div class="w-[1200px]">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-4 border rounded-md">
             <!-- Title Show Quotatin start -->
             <div class="flex border-b">
                 <h1 class="text-xl text-teal-50 font-bold w-[700px] tracking-wider px-2">DETAIL PENAWAWARAN NOMOR :
                     {{ substr($quotation->number, 0, 4) }}</h1>
                 <div class="flex justify-end p-1 w-full">
-                    <a class="flex justify-center items-center ml-1 btn-success"
+                    <a class="flex justify-center items-center mx-1 btn-success"
                         href="/marketing/quotations/home/{{ $quotation->media_category->name }}">
-                        <svg class="fill-current w-4 ml-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
                                 fill-rule="nonzero" />
                         </svg>
-                        <span class="ml-1 text-sm">Back</span>
+                        <span class="mx-1">Back</span>
                     </a>
-                    <button id="btnCreatePdf" class="flex justify-center items-center ml-1 btn-primary" type="button">
-                        <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" viewBox="0 0 24 24">
+                    <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary" type="button">
+                        <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
                             <path
                                 d="M12.819 14.427c.064.267.077.679-.021.948-.128.351-.381.528-.754.528h-.637v-2.12h.496c.474 0 .803.173.916.644zm3.091-8.65c2.047-.479 4.805.279 6.09 1.179-1.494-1.997-5.23-5.708-7.432-6.882 1.157 1.168 1.563 4.235 1.342 5.703zm-7.457 7.955h-.546v.943h.546c.235 0 .467-.027.576-.227.067-.123.067-.366 0-.489-.109-.198-.341-.227-.576-.227zm13.547-2.732v13h-20v-24h8.409c4.858 0 3.334 8 3.334 8 3.011-.745 8.257-.42 8.257 3zm-12.108 2.761c-.16-.484-.606-.761-1.224-.761h-1.668v3.686h.907v-1.277h.761c.619 0 1.064-.277 1.224-.763.094-.292.094-.597 0-.885zm3.407-.303c-.297-.299-.711-.458-1.199-.458h-1.599v3.686h1.599c.537 0 .961-.181 1.262-.535.554-.659.586-2.035-.063-2.693zm3.701-.458h-2.628v3.686h.907v-1.472h1.49v-.732h-1.49v-.698h1.721v-.784z" />
                         </svg>
-                        <span class="ml-2 text-white">Create PDF</span>
+                        <span class="mx-1">Create PDF</span>
                     </button>
                     @if ($quotStatus == 'Deal' || $quotStatus == 'Closed')
-                        <a class="hidden justify-center items-center ml-1 btn-warning"
-                            href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
-                            <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                    fill-rule="nonzero" />
-                            </svg>
-                            <span class="ml-1 text-sm">Revisi</span>
-                        </a>
+                        @canany(['isAdmin', 'isMarketing'])
+                            @can('isQuotation')
+                                @can('isMarketingCreate')
+                                    <a class="hidden justify-center items-center mx-1 btn-warning"
+                                        href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
+                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                                fill-rule="nonzero" />
+                                        </svg>
+                                        <span class="mx-1">Revisi</span>
+                                    </a>
+                                @endcan
+                            @endcan
+                        @endcanany
                     @else
-                        <a class="flex justify-center items-center ml-1 btn-warning"
-                            href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
-                            <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
-                                    fill-rule="nonzero" />
-                            </svg>
-                            <span class="ml-1 text-sm">Revisi</span>
-                        </a>
+                        @canany(['isAdmin', 'isMarketing'])
+                            @can('isQuotation')
+                                @can('isMarketingCreate')
+                                    <a class="flex justify-center items-center ml-1 btn-warning"
+                                        href="/marketing/quotation-revisions/revision/{{ $quotation->media_category->name }}/{{ $quotation->id }}">
+                                        <svg class="fill-current w-4 lg:w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                            stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
+                                                fill-rule="nonzero" />
+                                        </svg>
+                                        <span class="mx-1">Revisi</span>
+                                    </a>
+                                @endcan
+                            @endcan
+                        @endcanany
                     @endif
                 </div>
             </div>
@@ -178,19 +189,31 @@
                             <input type="text" name="quotation_id" value="{{ $quotation->id }}" hidden>
                             <input type="text" name="updated_by" value="{{ json_encode($updated_by) }}" hidden>
                             @if ($last_status->status == 'Deal' || $last_status->status == 'Closed' || count($data_revisions) != 0)
-                                <div class="mt-1" hidden>
-                                    <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
-                                    <input type="text" id="cbUpdateValue" name="cb-update-value"
-                                        value="{{ old('cb-update-value') }}" hidden>
-                                    <label class="text-sm font-semibold text-teal-50"> Update Progress</label>
-                                </div>
+                                @canany(['isAdmin', 'isMarketing'])
+                                    @can('isQuotation')
+                                        @can('isMarketingCreate')
+                                            <div class="mt-1" hidden>
+                                                <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
+                                                <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                    value="{{ old('cb-update-value') }}" hidden>
+                                                <label class="text-sm font-semibold text-teal-50"> Update Progress</label>
+                                            </div>
+                                        @endcan
+                                    @endcan
+                                @endcanany
                             @else
-                                <div class="mt-1">
-                                    <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
-                                    <input type="text" id="cbUpdateValue" name="cb-update-value"
-                                        value="{{ old('cb-update-value') }}" hidden>
-                                    <label class="text-sm font-semibold text-teal-50">Update Progress</label>
-                                </div>
+                                @canany(['isAdmin', 'isMarketing'])
+                                    @can('isQuotation')
+                                        @can('isMarketingCreate')
+                                            <div class="mt-1">
+                                                <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
+                                                <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                    value="{{ old('cb-update-value') }}" hidden>
+                                                <label class="text-sm font-semibold text-teal-50">Update Progress</label>
+                                            </div>
+                                        @endcan
+                                    @endcan
+                                @endcanany
                             @endif
                             <div id="divProgress" hidden>
                                 <div class="mt-1">
@@ -239,7 +262,7 @@
                                             multiple>
                                         <label id="labelDocumentApproval"
                                             class="flex text-sm text-teal-700 border bg-white border-teal-700 rounded-lg px-2 w-32">0
-                                            images selected</label>
+                                            dokumen</label>
                                         <button id="approval" type="button"
                                             class="flex justify-center items-center ml-2 px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
                                             onclick="btnImages(this, document.getElementById('documentApproval'), document.querySelectorAll('[id=labelDocumentApproval]'))">
@@ -363,16 +386,12 @@
                                         @if ($quotation->media_category->name == 'Service')
                                             @include('quotations.service-show-table')
                                         @else
-                                            @if ($quotation->media_category->name == 'Billboard')
-                                                @include('quotations.bb-show-table')
-                                            @elseif($quotation->media_category->name == 'Videotron')
+                                            @if (
+                                                $quotation->media_category->name == 'Videotron' ||
+                                                    ($quotation->media_category->name == 'Signage' && $dataDescription->type == 'Videotron'))
                                                 @include('quotations.vt-show-table')
-                                            @elseif($quotation->media_category->name == 'Signage')
-                                                @if ($dataDescription->type == 'Videotron')
-                                                    @include('quotations.vt-show-table')
-                                                @else
-                                                    @include('quotations.bb-show-table')
-                                                @endif
+                                            @else
+                                                @include('quotations.bb-show-table')
                                             @endif
                                         @endif
                                     </div>
@@ -392,7 +411,17 @@
                                                     <label
                                                         class="ml-1 text-sm text-black flex">{{ $note }}</label>
                                                 @else
-                                                    @if ($quotation->media_category->name == 'Billboard')
+                                                    @if (
+                                                        $quotation->media_category->name == 'Videotron' ||
+                                                            ($quotation->media_category->name == 'Signage' && $dataDescription->type == 'Videotron'))
+                                                        @if ($loop->iteration == 3 || $loop->iteration == 4)
+                                                            <label
+                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                        @else
+                                                            <label
+                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                        @endif
+                                                    @else
                                                         @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
                                                             @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
                                                                 <label
@@ -417,53 +446,6 @@
                                                                 <label
                                                                     class="ml-1 text-sm text-black flex">{{ $note }}</label>
                                                             @endif
-                                                        @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                        @endif
-                                                    @elseif ($quotation->media_category->name == 'Signage')
-                                                        @if ($dataDescription->type == 'Videotron')
-                                                            @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                                <label
-                                                                    class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                            @else
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                            @endif
-                                                        @else
-                                                            @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
-                                                                @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
-                                                                    <label
-                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                                @else
-                                                                    <label
-                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                                @endif
-                                                            @elseif (($notes->freePrint == 0 && $notes->freeInstall != 0) || ($notes->freePrint != 0 && $notes->freeInstall == 0))
-                                                                @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                                    <label
-                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                                @else
-                                                                    <label
-                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                                @endif
-                                                            @elseif ($notes->freePrint == 0 && $notes->freeInstall == 0)
-                                                                @if ($loop->iteration == 3)
-                                                                    <label
-                                                                        class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                                @else
-                                                                    <label
-                                                                        class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                                @endif
-                                                            @else
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                            @endif
-                                                        @endif
-                                                    @else
-                                                        @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                            <label
-                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
                                                         @else
                                                             <label
                                                                 class="ml-1 text-sm text-black flex">{{ $note }}</label>

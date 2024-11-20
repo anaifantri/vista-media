@@ -47,12 +47,13 @@
             $dataProduct->city = $getLocation->city;
             $dataProduct->city_code = $getLocation->city_code;
             $dataProduct->address = $getLocation->address;
-            $dataProduct->location_photo = $getLocation->photo;
+            $dataProduct->photo = $getLocation->photo;
             $dataProduct->description = $getLocation->description;
             $dataProduct->size = $getLocation->size;
             $dataProduct->width = $getLocation->width;
             $dataProduct->height = $getLocation->height;
             $dataProduct->side = $getLocation->side;
+            $dataProduct->price = $getLocation->price;
             $dataProduct->orientation = $getLocation->orientation;
             $dataProduct->road_segment = $getLocation->road_segment;
             $dataProduct->max_distance = $getLocation->max_distance;
@@ -85,7 +86,7 @@
     <!-- Quotation start -->
     <form id="formCreate" action="/marketing/quotations" method="post" enctype="multipart/form-data">
         @csrf
-        <input type="text" name="company_id" id="company_id" value="1" hidden>
+        <input type="text" name="company_id" id="company_id" value="{{ $company->id }}" hidden>
         <input type="text" name="media_category_id" id="media_category_id" value="{{ $data_category->id }}" hidden>
         @if ($data_category->name == 'Signage')
             @php
@@ -120,79 +121,88 @@
         <input type="text" name="created_by" id="created_by" value="{{ json_encode($created_by) }}" hidden>
         <input type="text" name="modified_by" id="modified_by" value="{{ json_encode($created_by) }}" hidden>
         <input type="text" name="products" id="products" value="{{ json_encode($products) }}" hidden>
-        <div class="p-10 z-0 bg-black">
-            <div class="flex w-full justify-center">
-                <div class="flex w-[950px] border-b py-2">
-                    @if ($category == 'Service')
-                        <h1 class="text-xl text-teal-50 px-2 w-[900px] font-bold tracking-wider">MEMBUAT PENAWARAN
-                            CETAK/PASANG</h1>
-                    @else
-                        @if ($quotation_type == 'extend')
-                            <h1 class="text-xl text-teal-50 px-2 w-[900px] font-bold tracking-wider">MEMBUAT PENAWARAN
-                                PERPANJANGAN</h1>
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="z-0 mb-8 bg-stone-700 p-4 border rounded-md">
+                <div class="flex w-full justify-center">
+                    <div class="flex w-[950px] border-b py-2">
+                        @if ($category == 'Service')
+                            <h1 class="text-xl text-stone-100 px-2 w-[900px] font-bold tracking-wider">MEMBUAT PENAWARAN
+                                CETAK/PASANG</h1>
                         @else
-                            <h1 class="text-xl text-teal-50 px-2 w-[900px] font-bold tracking-wider">MEMBUAT PENAWARAN BARU
-                            </h1>
+                            @if ($quotation_type == 'extend')
+                                <h1 class="text-xl text-stone-100 px-2 w-[900px] font-bold tracking-wider">MEMBUAT PENAWARAN
+                                    PERPANJANGAN</h1>
+                            @else
+                                <h1 class="text-xl text-stone-100 px-2 w-[900px] font-bold tracking-wider">MEMBUAT PENAWARAN
+                                    BARU
+                                </h1>
+                            @endif
                         @endif
-                    @endif
-                    <div class="flex w-full justify-end">
-                        <button id="btnSave" class="flex justify-center items-center mx-1 btn-primary" title="Save"
-                            type="button" onclick="submitAction()">
-                            <svg class="fill-current w-5 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24">
-                                <path
-                                    d="M15.003 3h2.997v5h-2.997v-5zm8.997 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9z" />
-                            </svg>
-                            <span class="ml-2 text-white">Save</span>
-                        </button>
-                        <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
-                            href="/marketing/quotations/select-location/{{ $category }}">
-                            <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                            </svg>
-                            <span class="ml-1 xl:mx-2 text-sm">Cancel</span>
-                        </a>
+                        <div class="flex w-full justify-end">
+                            @canany(['isAdmin', 'isMarketing'])
+                                @can('isQuotation')
+                                    @can('isMarketingCreate')
+                                        <button id="btnSave" class="flex justify-center items-center mx-1 btn-primary" title="Save"
+                                            type="button" onclick="submitAction()">
+                                            <svg class="fill-current w-5 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M15.003 3h2.997v5h-2.997v-5zm8.997 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9z" />
+                                            </svg>
+                                            <span class="ml-2 text-white">Save</span>
+                                        </button>
+                                    @endcan
+                                @endcan
+                            @endcanany
+                            <a class="flex justify-center items-center ml-1 btn-danger"
+                                href="/marketing/quotations/select-location/{{ $category }}">
+                                <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                                </svg>
+                                <span class="ml-1 xl:mx-2 text-sm">Cancel</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex justify-center w-full">
-                <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
-                    <!-- Header start -->
-                    @include('dashboard.layouts.letter-header')
-                    <!-- Header end -->
-                    <!-- Body start -->
-                    @if ($category == 'Service')
-                        @if ($quotation_type == 'new')
-                            @include('quotations.new-service-body');
-                        @elseif ($quotation_type == 'existing')
-                            @include('quotations.existing-service-body');
+                <div class="flex justify-center w-full">
+                    <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
+                        <!-- Header start -->
+                        @include('dashboard.layouts.letter-header')
+                        <!-- Header end -->
+                        <!-- Body start -->
+                        @if ($category == 'Service')
+                            @if ($quotation_type == 'new')
+                                @include('quotations.new-service-body');
+                            @elseif ($quotation_type == 'existing')
+                                @include('quotations.existing-service-body');
+                            @endif
+                        @else
+                            @if ($quotation_type == 'new')
+                                @include('quotations.new-media-body');
+                            @elseif ($quotation_type == 'extend')
+                                @include('quotations.extend-media-body');
+                            @endif
                         @endif
-                    @else
-                        @if ($quotation_type == 'new')
-                            @include('quotations.new-media-body');
-                        @elseif ($quotation_type == 'extend')
-                            @include('quotations.extend-media-body');
-                        @endif
-                    @endif
-                    <!-- Body end -->
-                    <!-- Footer start -->
-                    @include('dashboard.layouts.letter-footer')
-                    <!-- Footer end -->
+                        <!-- Body end -->
+                        <!-- Footer start -->
+                        @include('dashboard.layouts.letter-footer')
+                        <!-- Footer end -->
+                    </div>
                 </div>
+                <!-- View Location start -->
+                @if ($category != 'Service')
+                    @if ($quotation_type == 'new')
+                        @include('quotations.locations-view')
+                    @else
+                        {{-- @include('quotations.locations-extend-view') --}}
+                    @endif
+                @endif
+                <!-- View Location end -->
             </div>
+        </div>
     </form>
-    <!-- View Location start -->
-    @if ($category != 'Service')
-        @if ($quotation_type == 'new')
-            @include('quotations.locations-view')
-        @else
-            {{-- @include('quotations.locations-extend-view') --}}
-        @endif
-    @endif
-    <!-- View Location end -->
-    </div>
 
     <!-- Modal Preview start -->
     {{-- @include('quotations.create-preview') --}}

@@ -7,6 +7,7 @@ use App\Models\QuotationApproval;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class QuotationStatusController extends Controller
 {
@@ -31,7 +32,7 @@ class QuotationStatusController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing' ){
+        if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
             if($request->status == "Deal"){
                 $validateData = $request->validate([
                     'quotation_id' => 'required',
@@ -64,8 +65,7 @@ class QuotationStatusController extends Controller
                 }
             }
 
-            return redirect('/marketing/quotations/'.$validateData['quotation_id'])->with('success','Progress surat penawaran telah di update');
-            
+            return redirect('/marketing/quotations/'.$validateData['quotation_id'])->with('success','Progress surat penawaran telah diperbarui');
         } else {
             abort(403);
         }

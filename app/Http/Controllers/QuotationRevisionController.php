@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Gate;
 
 class QuotationRevisionController extends Controller
 {
@@ -28,31 +29,39 @@ class QuotationRevisionController extends Controller
 
     public function preview(String $category, String $id): View
     { 
-        $quotation = Quotation::with('quotation_revisions')->get();
-        return view('quotation-revisions.preview', [
-            'quotation_revision' => QuotationRevision::findOrFail($id),
-            'title' => 'Detail Revisi Penawaran',
-            'category'=>$category,
-            'leds' => Led::all(),
-            compact('quotation')
-        ]);
+        if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
+            $quotation = Quotation::with('quotation_revisions')->get();
+            return view('quotation-revisions.preview', [
+                'quotation_revision' => QuotationRevision::findOrFail($id),
+                'title' => 'Detail Revisi Penawaran',
+                'category'=>$category,
+                'leds' => Led::all(),
+                compact('quotation')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     public function revision(String $category, String $id): View
     {
-        $companies = Company::with('quotations')->get();
-        $media_categories = MediaCategory::with('quotations')->get();
-        $quotation_revisions = QuotationRevision::with('quotation')->get();
+        if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
+            $companies = Company::with('quotations')->get();
+            $media_categories = MediaCategory::with('quotations')->get();
+            $quotation_revisions = QuotationRevision::with('quotation')->get();
 
-        return view('quotation-revisions.create', [
-            'quotation' => Quotation::findOrFail($id),
-            'printing_products'=>PrintingProduct::all(),
-            'installation_prices'=>InstallationPrice::all(),
-            'leds' => Led::all(),
-            'category'=>$category,
-            'title' => 'Revisi Penawaran',
-            compact('media_categories', 'companies', 'quotation_revisions')
-        ]);
+            return view('quotation-revisions.create', [
+                'quotation' => Quotation::findOrFail($id),
+                'printing_products'=>PrintingProduct::all(),
+                'installation_prices'=>InstallationPrice::all(),
+                'leds' => Led::all(),
+                'category'=>$category,
+                'title' => 'Revisi Penawaran',
+                compact('media_categories', 'companies', 'quotation_revisions')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -68,7 +77,7 @@ class QuotationRevisionController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing' ){
+        if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
             $validateData = $request->validate([
                 'number' => 'required|unique:quotation_revisions',
                 'quotation_id' => 'required',
@@ -90,12 +99,12 @@ class QuotationRevisionController extends Controller
             if($dataQuotation->quotation->media_category->name == "Service"){
                 $validateData['description'] = "Revisi surat penawaran cetak / pasang dengan nomor ".$validateData['number']." telah dibuat dan tersimpan";
             }else{
-                $validateData['description'] = "Revisi surat penawaran ". $request->category ." dengan nomor ".$validateData['number']." telah dibuat dan tersimpan";
+                $validateData['description'] = "Revisi surat penawaran ". $dataQuotation->quotation->media_category->name ." dengan nomor ".$validateData['number']." telah dibuat dan tersimpan";
             }
             
             QuotRevisionStatus::create($validateData);
                 
-            return redirect('/marketing/quotation-revisions/preview/'.$request->category.'/'.$dataQuotation->id)->with('success', 'Revisi penawaran dengan nomor '. $validateData['number'] . ' berhasil dibuat');
+            return redirect('/marketing/quotation-revisions/preview/'.$dataQuotation->quotation->media_category->name.'/'.$dataQuotation->id)->with('success', 'Revisi penawaran dengan nomor '. $validateData['number'] . ' berhasil dibuat');
         } else {
             abort(403);
         }
@@ -106,19 +115,23 @@ class QuotationRevisionController extends Controller
      */
     public function show(QuotationRevision $quotationRevision): Response
     {
-        $quot_revision_statuses = QuotRevisionStatus::where('quotation_revision_id', $quotationRevision->id)->orderBy("created_at", "desc")->get();
-        $quotation = Quotation::with('quotation_revisions')->get();
-        $lastRevision = QuotationRevision::where('quotation_id', $quotationRevision->quotation_id)->get()->last();
-
-        return response()->view('quotation-revisions.show', [
-            'quotation_revision' => $quotationRevision,
-            'quot_revision_statuses' => $quot_revision_statuses,
-            'last_revision' => $lastRevision,
-            'title' => 'Data Revisi Penawaran',
-            'leds' => Led::all(),
-            'last_statuses' => QuotRevisionStatus::where('quotation_revision_id', $quotationRevision->id)->get()->last(),
-            compact('quotation')
-        ]);
+        if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
+            $quot_revision_statuses = QuotRevisionStatus::where('quotation_revision_id', $quotationRevision->id)->orderBy("created_at", "desc")->get();
+            $quotation = Quotation::with('quotation_revisions')->get();
+            $lastRevision = QuotationRevision::where('quotation_id', $quotationRevision->quotation_id)->get()->last();
+    
+            return response()->view('quotation-revisions.show', [
+                'quotation_revision' => $quotationRevision,
+                'quot_revision_statuses' => $quot_revision_statuses,
+                'last_revision' => $lastRevision,
+                'title' => 'Data Revisi Penawaran',
+                'leds' => Led::all(),
+                'last_statuses' => QuotRevisionStatus::where('quotation_revision_id', $quotationRevision->id)->get()->last(),
+                compact('quotation')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**

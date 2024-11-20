@@ -37,37 +37,7 @@ getStatus = (sel) => {
         var titlePrice = 0;
 
         if(category.value != "Service"){
-            if(category.value == "Billboard"){
-                for(let i = 0; i < dataPrice.dataTitle.length; i++){
-                    if(dataPrice.dataTitle[i].checkbox == true){
-                        titlePrice++;
-                    }
-                }
-            } else if(category.value == "Signage"){
-                const type = document.getElementById("type");
-                if(type == "Videotron"){
-                    if(dataPrice.priceType[0] == true){
-                        for(let i = 0; i < dataPrice.dataSharingPrice.length; i++){
-                            if(dataPrice.dataSharingPrice[i].checkbox == true){
-                                titlePrice++;
-                            }
-                        }
-                    }
-                    if(dataPrice.priceType[1] == true){
-                        for(let i = 0; i < dataPrice.dataExclusivePrice.length; i++){
-                            if(dataPrice.dataExclusivePrice[i].checkbox == true){
-                                titlePrice++;
-                            }
-                        }
-                    }
-                }else{
-                    for(let i = 0; i < dataPrice.dataTitle.length; i++){
-                        if(dataPrice.dataTitle[i].checkbox == true){
-                            titlePrice++;
-                        }
-                    }
-                }
-            }else{
+            if(category.value == "Videotron" || (category.value == "Signage" && category.name == "Videotron")){
                 if(dataPrice.priceType[0] == true){
                     for(let i = 0; i < dataPrice.dataSharingPrice.length; i++){
                         if(dataPrice.dataSharingPrice[i].checkbox == true){
@@ -80,6 +50,12 @@ getStatus = (sel) => {
                         if(dataPrice.dataExclusivePrice[i].checkbox == true){
                             titlePrice++;
                         }
+                    }
+                }
+            }else{
+                for(let i = 0; i < dataPrice.dataTitle.length; i++){
+                    if(dataPrice.dataTitle[i].checkbox == true){
+                        titlePrice++;
                     }
                 }
             }

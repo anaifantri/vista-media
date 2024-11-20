@@ -7,8 +7,13 @@
         </div>
         <div id="notesQty">
             <div class="flex">
-                <input class="ml-1 text-sm text-black outline-none w-full"
-                    value="- Biaya di atas belum termasuk PPN dan tidak termasuk desain materi iklan">
+                @if ($price->objPpn->checked == true)
+                    <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
+                        value="- Biaya di atas sudah termasuk PPN">
+                @else
+                    <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
+                        value="- Biaya di atas belum termasuk PPN">
+                @endif
             </div>
             <div class="flex">
                 <input class="ml-1 text-sm text-black outline-none w-full" value="- Harga tersebut termasuk :"
@@ -53,8 +58,7 @@
         <div id="paymentTerms">
             <div class="flex">
                 <label class="ml-1 text-sm">-</label>
-                <input class="text-sm ml-2 outline-none border rounded-md px-1 w-12" type="number" min="0"
-                    max="100" value="100">
+                <input class="term-of-payment" type="number" min="0" max="100" value="100">
                 <textarea class="text-area-notes" rows="1">% sebelum materi iklan tayang</textarea>
             </div>
         </div>

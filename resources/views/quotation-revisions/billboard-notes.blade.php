@@ -7,8 +7,8 @@
         </div>
         <div id="notesQty">
             <div class="flex">
-                <input class="ml-1 text-sm text-black outline-none w-full"
-                    value="- Biaya di atas belum termasuk PPN dan tidak termasuk desain materi iklan">
+                <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
+                    value="- Biaya di atas belum termasuk PPN">
             </div>
             <div class="flex">
                 <input class="ml-1 text-sm text-black outline-none w-full" value="- Harga tersebut termasuk :"
@@ -16,14 +16,14 @@
             </div>
             <div class="flex">
                 <label class="ml-4 text-sm text-black flex">• Free pemasangan materi visual</label>
-                <input class="ml-1 text-sm text-black in-out-spin-none outline-none w-8 text-center" type="number"
-                    value="{{ $notes->freeInstall }}" min="0">
+                <input class="ml-1 text-sm text-black in-out-spin-none border rounded-md outline-none w-8 text-center"
+                    type="number" value="{{ $notes->freeInstall }}" min="0">
                 <label class="ml-1 text-sm text-black flex">x selama kontrak</label>
             </div>
             <div class="flex">
                 <label class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
-                <input class="ml-1 text-sm text-black in-out-spin-none outline-none w-8 text-center" type="number"
-                    value="{{ $notes->freePrint }}" min="0">
+                <input class="ml-1 text-sm text-black in-out-spin-none border rounded-md outline-none w-8 text-center"
+                    type="number" value="{{ $notes->freePrint }}" min="0">
                 <label class="ml-1 text-sm text-black flex">x selama kontrak</label>
             </div>
             <div class="flex">
@@ -105,8 +105,8 @@
             @foreach ($payment_terms->dataPayments as $payment_term)
                 <div class="flex">
                     <label class="ml-1 text-sm">-</label>
-                    <input class="text-sm ml-2 outline-none in-out-spin-none border rounded-md px-1 w-12" type="number"
-                        min="0" max="100" value="{{ $payment_term->term }}">
+                    <input class="term-of-payment" type="number" min="0" max="100"
+                        value="{{ $payment_term->term }}">
                     <textarea class="text-area-notes" rows="1">{{ $payment_term->note }}</textarea>
                 </div>
             @endforeach

@@ -1,4 +1,5 @@
 let locationId = [];
+let client = [];
 const inputs = document.getElementsByTagName('input');
 const btnCreate = document.getElementById("btnCreate");
 const area = document.getElementById("area");
@@ -44,6 +45,66 @@ if(requestType.value){
     }
 }
 
+getExtendLocation = (sel) =>{
+    if (sel.checked == true) {
+        locationId.push(sel.value);
+    } else {
+        for (let i = 0; i < locationId.length; i++) {
+            if (locationId[i] == sel.value) {
+                locationId.splice(i, 1);
+            }
+        }
+    }
+
+    if (locationId.length == 1) {
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].checked == false) {
+                inputs[i].setAttribute('disabled', 'disabled');
+            }
+        }
+    } else {
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].checked == false) {
+                inputs[i].removeAttribute('disabled');
+            }
+        }
+    }
+}
+
+getExistingLocation = (sel) =>{
+    if (sel.checked == true) {
+        if(locationId.length == 0){
+            locationId.push(sel.value);
+            client.push(sel.id);
+        }else if(sel.id == client[0]){
+            locationId.push(sel.value);
+        }else{
+            alert('Silahkan pilih lokasi dengan klien yang sama..!!');
+            sel.checked = false;
+        }
+    } else {
+        for (let i = 0; i < locationId.length; i++) {
+            if (locationId[i] == sel.value) {
+                locationId.splice(i, 1);
+                client.splice(i, 1);
+            }
+        }
+    }
+
+    if (locationId.length == 5) {
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].checked == false) {
+                inputs[i].setAttribute('disabled', 'disabled');
+            }
+        }
+    } else {
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].checked == false) {
+                inputs[i].removeAttribute('disabled');
+            }
+        }
+    }
+}
 getLocation = (sel) => {
     if (sel.checked == true) {
         locationId.push(sel.value);
@@ -55,8 +116,7 @@ getLocation = (sel) => {
         }
     }
 
-    // if (category.value == "Videotron" || (category.value == "Service" && document.getElementById("existing")
-    if (category.value == "Videotron") {
+    if (category.value == "Videotron" || (category.value == "Signage" && type.value == "Videotron")) {
         if (locationId.length == 1) {
             for (let i = 0; i < inputs.length; i++) {
                 if (inputs[i].checked == false) {
@@ -67,36 +127,6 @@ getLocation = (sel) => {
             for (let i = 0; i < inputs.length; i++) {
                 if (inputs[i].checked == false) {
                     inputs[i].removeAttribute('disabled');
-                }
-            }
-        }
-    } else if (category.value == "Signage") {
-        if (type.value == "Videotron") {
-            if (locationId.length == 1) {
-                for (let i = 0; i < inputs.length; i++) {
-                    if (inputs[i].checked == false) {
-                        inputs[i].setAttribute('disabled', 'disabled');
-                    }
-                }
-            } else {
-                for (let i = 0; i < inputs.length; i++) {
-                    if (inputs[i].checked == false) {
-                        inputs[i].removeAttribute('disabled');
-                    }
-                }
-            }
-        } else {
-            if (locationId.length == 5) {
-                for (let i = 0; i < inputs.length; i++) {
-                    if (inputs[i].checked == false) {
-                        inputs[i].setAttribute('disabled', 'disabled');
-                    }
-                }
-            } else {
-                for (let i = 0; i < inputs.length; i++) {
-                    if (inputs[i].checked == false) {
-                        inputs[i].removeAttribute('disabled');
-                    }
                 }
             }
         }

@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Container Index Area start -->
-    <div class="flex justify-center p-10">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
                 <div class="w-[900px]">

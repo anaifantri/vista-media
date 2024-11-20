@@ -58,21 +58,36 @@
                                         H
                                     @endif
                                 </label>
+                                @if ($location->category == 'Signage')
+                                    <label class="w-6 ml-2">Qty :</label>
+                                    <input id="qty" type="number" min="0"
+                                        name="qty{{ $loop->iteration - 1 }}"
+                                        class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                        value="{{ $description->qty }}" onkeyup="qtyChangeAction(this)"
+                                        onchange="checkQty(this)">
+                                @else
+                                    <label class="w-6 ml-2">Qty :</label>
+                                    <input id="qty" type="number" min="0"
+                                        name="qty{{ $loop->iteration - 1 }}"
+                                        class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                        value="1" onkeyup="qtyChangeAction(this)" onchange="checkQty(this)">
+                                @endif
                                 @if ((int) $location->side == '2')
-                                    <input class="outline-none ml-8" type="checkbox" id="cbLeft"
+                                    <input class="outline-none ml-4" type="checkbox" id="cbLeft"
                                         name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)">
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft">Kiri</label>
                                     <input class="outline-none ml-4" type="checkbox" id="cbRight"
                                         name="cbRight{{ $loop->iteration - 1 }}" checked onclick="cbRightAction(this)">
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbRight">Kanan</label>
                                 @else
-                                    <input class="outline-none ml-8" type="checkbox" id="cbLeft"
+                                    <input class="outline-none ml-4" type="checkbox" id="cbLeft"
                                         name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)"
                                         hidden>
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft" hidden>Kiri</label>
                                     <input class="outline-none ml-4" type="checkbox" id="cbRight"
                                         name="cbRight{{ $loop->iteration - 1 }}" onclick="cbRightAction(this)" hidden>
-                                    <label class="text-[0.7rem] text-teal-700 ml-1" for="cbRight" hidden>Kanan</label>
+                                    <label class="text-[0.7rem] text-teal-700 ml-1" for="cbRight"
+                                        hidden>Kanan</label>
                                 @endif
                             </div>
                         </td>
@@ -109,12 +124,17 @@
                                 type="number" min="0" value="{{ (int) $location->side }}" readonly>
                         </td>
                         <td id="wide" class="text-[0.7rem] text-teal-700 border text-center" rowspan="2">
-                            {{ (int) $location->width * (int) $location->height * (int) $location->side }}</td>
+                            @if ($location->category == 'Signage')
+                                {{ (int) $location->width * (int) $location->height * (int) $location->side * (int) $description->qty }}
+                            @else
+                                {{ (int) $location->width * (int) $location->height * (int) $location->side }}
+                            @endif
+                        </td>
                         <td class="text-[0.7rem] text-teal-700 border text-center px-1">
                             <input id="printPrice" name="printPrice{{ $loop->iteration - 1 }}"
                                 class="flex px-1 text-[0.7rem] text-teal-700 w-12 text-right border rounded-md outline-none in-out-spin-none"
                                 type="number" min="0" value="0" onkeyup="printPriceChanged(this)"
-                                disabled>
+                                onchange="checkPrintPrice(this)" disabled>
                         </td>
                         <td class="text-[0.7rem] text-teal-700 border text-right px-1">
                             <input id="printTotal"
@@ -139,14 +159,26 @@
                                     <input id="installPrice" name="instalPrice{{ $indexInstall }}"
                                         class="flex px-1 text-[0.7rem] text-teal-700 w-12 text-right border rounded-md outline-none in-out-spin-none"
                                         type="number" min="0" value="{{ $installationPrice->price }}"
-                                        onkeyup="installPriceChanged(this)">
+                                        onkeyup="installPriceChanged(this)" onchange="checkInstallPrice(this)">
                                 </td>
                                 <td class="text-[0.7rem] text-teal-700 border text-right px-1">
                                     @php
-                                        $installTotal =
-                                            $installationPrice->price *
-                                            ((int) $location->width * (int) $location->height * (int) $location->side);
-                                        $subTotal = $subTotal + $installTotal;
+                                        if ($location->category == 'Signage') {
+                                            $installTotal =
+                                                $installationPrice->price *
+                                                ((int) $location->width *
+                                                    (int) $location->height *
+                                                    (int) $location->side) *
+                                                (int) $description->qty;
+                                            $subTotal = $subTotal + $installTotal;
+                                        } else {
+                                            $installTotal =
+                                                $installationPrice->price *
+                                                ((int) $location->width *
+                                                    (int) $location->height *
+                                                    (int) $location->side);
+                                            $subTotal = $subTotal + $installTotal;
+                                        }
                                     @endphp
                                     <input id="installTotal"
                                         class="flex px-1 text-[0.7rem] text-teal-700 w-16 text-right outline-none in-out-spin-none bg-transparent"
@@ -180,8 +212,22 @@
                                         H
                                     @endif
                                 </label>
+                                @if ($location->category == 'Signage')
+                                    <label class="w-6 ml-2">Qty :</label>
+                                    <input id="qty" type="number" min="0"
+                                        name="qty{{ $loop->iteration - 1 }}"
+                                        class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                        value="{{ $description->qty }}" onkeyup="qtyChangeAction(this)"
+                                        onchange="checkQty(this)">
+                                @else
+                                    <label class="w-6 ml-2">Qty :</label>
+                                    <input id="qty" type="number" min="0"
+                                        name="qty{{ $loop->iteration - 1 }}"
+                                        class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                        value="1" onkeyup="qtyChangeAction(this)" onchange="checkQty(this)">
+                                @endif
                                 @if ((int) $location->side == '2')
-                                    <input class="outline-none ml-8" type="checkbox" id="cbLeft"
+                                    <input class="outline-none ml-4" type="checkbox" id="cbLeft"
                                         name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)">
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft">Kiri</label>
                                     <input class="outline-none ml-4" type="checkbox" id="cbRight"
@@ -189,7 +235,7 @@
                                         onclick="cbRightAction(this)">
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbRight">Kanan</label>
                                 @else
-                                    <input class="outline-none ml-8" type="checkbox" id="cbLeft"
+                                    <input class="outline-none ml-4" type="checkbox" id="cbLeft"
                                         name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)"
                                         hidden>
                                     <label class="text-[0.7rem] text-teal-700 ml-1" for="cbLeft" hidden>Kiri</label>
@@ -234,12 +280,17 @@
                                 type="number" min="0" value="{{ (int) $location->side }}" readonly>
                         </td>
                         <td id="wide" class="text-[0.7rem] text-teal-700 border text-center" rowspan="2">
-                            {{ (int) $location->width * (int) $location->height * (int) $location->side }}</td>
+                            @if ($location->category == 'Signage')
+                                {{ (int) $location->width * (int) $location->height * (int) $location->side * (int) $description->qty }}
+                            @else
+                                {{ (int) $location->width * (int) $location->height * (int) $location->side }}
+                            @endif
+                        </td>
                         <td class="text-[0.7rem] text-teal-700 border text-center px-1">
                             <input id="printPrice" name="printPrice{{ $loop->iteration - 1 }}"
                                 class="flex px-1 text-[0.7rem] text-teal-700 w-12 text-right border rounded-md outline-none in-out-spin-none"
                                 type="number" min="0" value="0" onkeyup="printPriceChanged(this)"
-                                disabled>
+                                onchange="checkPrintPrice(this)" disabled>
                         </td>
                         <td class="text-[0.7rem] text-teal-700 border text-right px-1">
                             <input id="printTotal"
@@ -264,14 +315,26 @@
                                     <input id="installPrice" name="instalPrice{{ $indexInstall }}"
                                         class="flex px-1 text-[0.7rem] text-teal-700 w-12 text-right border rounded-md outline-none in-out-spin-none"
                                         type="number" min="0" value="{{ $installationPrice->price }}"
-                                        onkeyup="installPriceChanged(this)">
+                                        onkeyup="installPriceChanged(this)" onchange="checkInstallPrice(this)">
                                 </td>
                                 <td class="text-[0.7rem] text-teal-700 border text-right px-1">
                                     @php
-                                        $installTotal =
-                                            $installationPrice->price *
-                                            ((int) $location->width * (int) $location->height * (int) $location->side);
-                                        $subTotal = $subTotal + $installTotal;
+                                        if ($location->category == 'Signage') {
+                                            $installTotal =
+                                                $installationPrice->price *
+                                                ((int) $location->width *
+                                                    (int) $location->height *
+                                                    (int) $location->side) *
+                                                (int) $description->qty;
+                                            $subTotal = $subTotal + $installTotal;
+                                        } else {
+                                            $installTotal =
+                                                $installationPrice->price *
+                                                ((int) $location->width *
+                                                    (int) $location->height *
+                                                    (int) $location->side);
+                                            $subTotal = $subTotal + $installTotal;
+                                        }
                                     @endphp
                                     <input id="installTotal"
                                         class="flex px-1 text-[0.7rem] text-teal-700 w-16 text-right outline-none in-out-spin-none"
@@ -296,7 +359,8 @@
                         <label class="text-[0.7rem] text-teal-700 ml-1" for="cbPpn">PPN</label>
                         <input id="inputPpn"
                             class="text-xs text-center border rounded-md text-teal-700 outline-none in-out-spin-none w-8 px-1 ml-2"
-                            type="number" min="0" max="100" value="11" onkeyup="setServicePpn()">
+                            type="number" min="0" max="100" value="11" onkeyup="setServicePpn()"
+                            onchange="checkPpn(this)">
                         <label class="text-xs text-teal-700 ml-2"> %</label>
                     </div>
                 </td>

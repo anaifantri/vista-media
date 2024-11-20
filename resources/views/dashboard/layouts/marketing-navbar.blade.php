@@ -29,7 +29,7 @@
                     </svg>
                 </a>
                 <li id="quotationChild"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md hidden">
                     <!-- Child Penawaran Start -->
                     <ul>
                         <li class="group">
@@ -96,8 +96,7 @@
                             d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
                     </svg>
                 </a>
-                <li id="saleChild"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                <li id="saleChild" class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md hidden">
                     <!-- Child Penawaran Start -->
                     <ul>
                         <li class="group">

@@ -22,21 +22,21 @@
             <div class="flex border-b">
                 <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary mb-2" title="Create PDF"
                     type="button">
-                    <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24">
+                    <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24">
                         <path
                             d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                     </svg>
-                    <span class="ml-2 text-white">Save PDF</span>
+                    <span class="mx-1">Save PDF</span>
                 </button>
-                <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger"
+                <a class="flex justify-center items-center mx-1 btn-danger"
                     href="/marketing/quotations/{{ $quotation_revision->quotation->id }}">
                     <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
                         <path
                             d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
                     </svg>
-                    <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Close</span>
+                    <span class="mx-1">Close</span>
                 </a>
                 @if (session()->has('success'))
                     <div class="ml-2 flex alert-success">
@@ -127,16 +127,10 @@
                                     @if ($category == 'Service')
                                         @include('quotations.service-show-table')
                                     @else
-                                        @if ($category == 'Billboard')
-                                            @include('quotations.bb-show-table')
-                                        @elseif($category == 'Videotron')
+                                        @if ($category == 'Videotron' || ($category == 'Signage' && $dataDescription->type == 'Videotron'))
                                             @include('quotations.vt-show-table')
-                                        @elseif($category == 'Signage')
-                                            @if ($dataDescription->type == 'Videotron')
-                                                @include('quotations.vt-show-table')
-                                            @else
-                                                @include('quotations.bb-show-table')
-                                            @endif
+                                        @else
+                                            @include('quotations.bb-show-table')
                                         @endif
                                     @endif
                                 </div>
@@ -155,7 +149,15 @@
                                             @if ($category == 'Service')
                                                 <label class="ml-1 text-sm text-black flex">{{ $note }}</label>
                                             @else
-                                                @if ($category == 'Billboard')
+                                                @if ($category == 'Videotron' || ($category == 'Signage' && $dataDescription->type == 'Videotron'))
+                                                    @if ($loop->iteration == 3 || $loop->iteration == 4)
+                                                        <label
+                                                            class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                    @else
+                                                        <label
+                                                            class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                    @endif
+                                                @else
                                                     @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
                                                         @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
                                                             <label
@@ -180,53 +182,6 @@
                                                             <label
                                                                 class="ml-1 text-sm text-black flex">{{ $note }}</label>
                                                         @endif
-                                                    @else
-                                                        <label
-                                                            class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                    @endif
-                                                @elseif ($category == 'Signage')
-                                                    @if ($dataDescription->type == 'Videotron')
-                                                        @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                            <label
-                                                                class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                        @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                        @endif
-                                                    @else
-                                                        @if ($notes->freePrint != 0 && $notes->freeInstall != 0)
-                                                            @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
-                                                                <label
-                                                                    class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                            @else
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                            @endif
-                                                        @elseif (($notes->freePrint == 0 && $notes->freeInstall != 0) || ($notes->freePrint != 0 && $notes->freeInstall == 0))
-                                                            @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                                <label
-                                                                    class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                            @else
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                            @endif
-                                                        @elseif ($notes->freePrint == 0 && $notes->freeInstall == 0)
-                                                            @if ($loop->iteration == 3)
-                                                                <label
-                                                                    class="ml-4 text-sm text-black flex">{{ $note }}</label>
-                                                            @else
-                                                                <label
-                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                            @endif
-                                                        @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
-                                                        @endif
-                                                    @endif
-                                                @else
-                                                    @if ($loop->iteration == 3 || $loop->iteration == 4)
-                                                        <label
-                                                            class="ml-4 text-sm text-black flex">{{ $note }}</label>
                                                     @else
                                                         <label
                                                             class="ml-1 text-sm text-black flex">{{ $note }}</label>

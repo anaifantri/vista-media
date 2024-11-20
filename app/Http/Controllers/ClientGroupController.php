@@ -7,6 +7,7 @@ use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Gate;
 
 class ClientGroupController extends Controller
 {
@@ -15,10 +16,14 @@ class ClientGroupController extends Controller
      */
     public function index(): Response
     {
-        return response()-> view ('client-groups.index', [
-            'client_groups'=>ClientGroup::filter(request('search'))->sortable()->with(['user'])->paginate(10)->withQueryString(),
-            'title' => 'Daftar Group Client'
-        ]);
+        if(Gate::allows('isClient') && Gate::allows('isMarketingRead')){
+            return response()-> view ('client-groups.index', [
+                'client_groups'=>ClientGroup::filter(request('search'))->sortable()->with(['user'])->paginate(10)->withQueryString(),
+                'title' => 'Daftar Group Client'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -26,7 +31,7 @@ class ClientGroupController extends Controller
      */
     public function create(): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingCreate'))){
             return response()-> view ('client-groups.create', [
                 'title' => 'Menambahkan Group Klien',
                 'clients' => Client::all()
@@ -41,7 +46,7 @@ class ClientGroupController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingCreate'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $validateData = $request->validate([
                 'group' => 'required|unique:client_groups',
@@ -61,10 +66,14 @@ class ClientGroupController extends Controller
      */
     public function show(ClientGroup $clientGroup): Response
     {
-        return response()-> view ('client-groups.show', [
-            'client_group' => $clientGroup,
-            'title' => 'Detail Group Klien ' . $clientGroup->group
-        ]);
+        if(Gate::allows('isClient') && Gate::allows('isMarketingRead')){
+            return response()-> view ('client-groups.show', [
+                'client_group' => $clientGroup,
+                'title' => 'Detail Group Klien ' . $clientGroup->group
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -72,7 +81,7 @@ class ClientGroupController extends Controller
      */
     public function edit(ClientGroup $clientGroup): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingEdit'))){
             return response()->view('client-groups.edit', [
                 'client_group' => $clientGroup,
                 'title' => 'Edit Group Klien',
@@ -88,7 +97,7 @@ class ClientGroupController extends Controller
      */
     public function update(Request $request, ClientGroup $clientGroup): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingEdit'))){
             $request->request->add(['user_id' => auth()->user()->id]);
             $rules = [
                 'user_id' => 'required',
@@ -116,7 +125,7 @@ class ClientGroupController extends Controller
      */
     public function destroy(ClientGroup $clientGroup): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingDelete'))){
             ClientGroup::destroy($clientGroup->id);
 
             return redirect('/marketing/client-groups')->with('success','Group klien dengan nama '. $clientGroup->group .' berhasil dihapus');

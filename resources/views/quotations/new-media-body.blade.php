@@ -26,12 +26,12 @@
             </div>
             <div class="flex mt-2">
                 <div class="flex">
-                    <label class="ml-1 text-sm text-teal-700 flex w-12">Klien</label>
-                    <label class="ml-1 text-sm text-teal-700 flex">:</label>
+                    <label class="ml-1 text-sm text-black flex w-12">Klien</label>
+                    <label class="ml-1 text-sm text-black flex">:</label>
                     <div>
                         <div id="selectClient" class="flex" onclick="selectClientAction(event)">
                             <input
-                                class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-tl-lg w-40 px-2 hover:cursor-default"
+                                class="ml-1 text-sm text-black flex font-semibold outline-none border rounded-tl-lg w-40 px-2 hover:cursor-default"
                                 type="text" id="dataClient" name="dataClient" placeholder="Pilih Klien" readonly>
                             <svg class="flex items-center justify-center w-5 p-1 border rounded-tr-lg"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@
                                     <tr>
                                         <th>
                                             <input id="search" name="search"
-                                                class="text-sm text-teal-700 flex font-semibold outline-none border rounded-lg w-40 px-2"
+                                                class="text-sm text-black flex font-semibold outline-none border rounded-lg w-40 px-2"
                                                 type="text" placeholder="Search" onkeyup="searchTable()">
                                         </th>
                                     </tr>
@@ -53,9 +53,9 @@
                                 <tbody>
                                     @foreach ($clients as $client)
                                         <tr>
-                                            <td class="w-full text-sm text-teal-700 px-2 hover:bg-slate-200"
+                                            <td class="w-full text-sm text-black px-2 hover:bg-slate-200"
                                                 id="{{ $client->id }}"
-                                                title="{{ $client->company }}-{{ $client->type }}-{{ $client->name }}-{{ $client->phone }}-{{ $client->email }}-{{ $client->address }}"
+                                                title="{{ $client->company }}*{{ $client->type }}*{{ $client->name }}*{{ $client->phone }}*{{ $client->email }}*{{ $client->address }}"
                                                 onclick="getSelect(this)">
                                                 {{ $client->name }}</td>
                                         </tr>
@@ -66,9 +66,9 @@
                     </div>
                 </div>
                 <div id="divContact" class="hidden">
-                    <label class="ml-8 text-sm text-teal-700 flex w-12">Kontak</label>
-                    <label class="ml-1 text-sm text-teal-700 flex">:</label>
-                    <select class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-lg w-40"
+                    <label class="ml-8 text-sm text-black flex w-12">Kontak</label>
+                    <label class="ml-1 text-sm text-black flex">:</label>
+                    <select class="ml-1 text-sm text-black flex font-semibold outline-none border rounded-lg w-40"
                         name="contact_id" id="contact_id" onchange="getContact(this)" disabled>
                         <option value="pilih">Pilih Kontak</option>
                     </select>
@@ -110,18 +110,12 @@
         </div>
     </div>
     <!-- table start -->
-    <div class="flex justify-center ml-2">
-        @if ($category == 'Videotron')
+    <div class="flex justify-center">
+        @php
+            $dataDescription = json_decode($locations[0]->description);
+        @endphp
+        @if ($category == 'Videotron' || ($category == 'Signage' && $dataDescription->type == 'Videotron'))
             @include('quotations.vt-quot-table')
-        @elseif ($category == 'Signage')
-            @php
-                $dataDescription = json_decode($locations[0]->description);
-            @endphp
-            @if ($dataDescription->type == 'Videotron')
-                @include('quotations.vt-quot-table')
-            @else
-                @include('quotations.bb-quot-table')
-            @endif
         @else
             @include('quotations.bb-quot-table')
         @endif

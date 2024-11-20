@@ -17,6 +17,10 @@ class Sale extends Model
         }
     }
 
+    public function scopeMonth($query){
+        return $query->where('created_at', 'like', '%' . request('monthSearch') . '%');
+    }
+
     public function scopeArea($query){
         if (request('area') != 'All') {
                 $query->whereHas('location', function($query){
@@ -45,13 +49,10 @@ class Sale extends Model
                                     $query->where('name', '!=', 'Service');
                     })
                     ->whereHas('media_category', function($query){
-                                    $query->where('name', '=', 'Billboard');
+                                    $query->where('name', '!=', 'Signage');
                     })
-                    ->orWhereHas('media_category', function($query){
-                                    $query->where('name', '=', 'Signage');
-                    })
-                    ->orWhere('product->description->type', '=', 'Neon Box')
-                    ->orWhere('product->description->type', '=', 'Papan');
+                    ->orWhereJsonContains('product->description->type','Neon Box')
+                    ->orWhereJsonContains('product->description->type','Papan');
     }
     public function scopePrint($query){
         return $query->whereHas('media_category', function($query){
@@ -75,24 +76,20 @@ class Sale extends Model
     }
 
     public function scopeFilter($query, $filter){
+        // $filter = ucfirst($filter);
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('number', 'like', '%' . $search . '%')
                     ->orWhere('duration', 'like', '%' . $search . '%')
-                    ->orWhere('created_by', 'like', '%' . $search . '%')
                     ->orWhere('created_at', 'like', '%' . $search . '%')
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(created_by, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.code")) like ?', ['"%' . strtolower($search) . '%"'])
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.address")) like ?', ['"%' . strtolower($search) . '%"'])
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.category")) like ?', ['"%' . strtolower($search) . '%"'])
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.area")) like ?', ['"%' . strtolower($search) . '%"'])
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.city")) like ?', ['"%' . strtolower($search) . '%"'])
                     ->orWhereHas('quotation', function($query) use ($search){
-                        $query->where('products', 'like', '%' . $search . '%')
-                        ->orWhere('clients', 'like', '%' . $search . '%');
-                    })
-                    ->orWhereHas('location', function($query) use ($search){
-                        $query->where('address', 'like', '%' . $search . '%')
-                        ->orWhere('code', 'like', '%' . $search . '%')
-                        ->orWhereHas('city', function($query) use ($search){
-                            $query->where('city', 'like', '%' . $search . '%');
-                        })
-                        ->orWhereHas('area', function($query) use ($search){
-                            $query->where('area', 'like', '%' . $search . '%');
-                        });
+                        $query->whereRaw('LOWER(JSON_EXTRACT(clients, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
+                        ->orWhereRaw('LOWER(JSON_EXTRACT(clients, "$.company")) like ?', ['"%' . strtolower($search) . '%"']);
                     })
                 );
     }

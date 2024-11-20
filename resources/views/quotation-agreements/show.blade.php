@@ -9,12 +9,12 @@
     $quotation_created_at = $quotation[0]->created_at;
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
-    <div class="flex justify-center">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <!-- Document Approvals start -->
-        <div class=" mt-10">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <!-- Document Approvals Title start -->
             <div class="flex w-[600px] items-center border-b p-1">
-                <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[550px]">DOKUMEN PERJANJIAN</h1>
+                <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[550px]">DOKUMEN PERJANJIAN</h1>
                 <div class="flex justify-end">
                     <a class="flex justify-center items-center ml-1 btn-danger"
                         href="/marketing/sales/home/{{ $category }}">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             @if (session()->has('success'))
-                <div class="ml-2 flex alert-success">
+                <div class="mt-2 flex alert-success">
                     <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path
                             d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
@@ -37,22 +37,22 @@
                 </div>
             @endif
             <!-- Document Approvals Title end -->
-            <div class="flex w-[600px] items-center border rounded-lg mt-2 px-2">
-                <div class="w-[280px]">
+            <div class="flex w-[600px] items-center border rounded-lg mt-2 px-2 bg-stone-400">
+                <div class="w-[280px] py-1">
                     <div class="div-sale">
-                        <label class="text-sm text-teal-700 w-24">No. Penawaran</label>
+                        <label class="text-sm text-stone-900 w-24">No. Penawaran</label>
                         <label class="label-sale-02">:</label>
                         <label class="label-sale-02">{{ $quotation_number }}</label>
                     </div>
                     <div class="div-sale">
-                        <label class="text-sm text-teal-700 w-24">Tgl. Penawaran</label>
+                        <label class="text-sm text-stone-900 w-24">Tgl. Penawaran</label>
                         <label class="label-sale-02">:</label>
                         <label class="label-sale-02">{{ date('d', strtotime($quotation_created_at)) }}
                             {{ $bulan[(int) date('m', strtotime($quotation_created_at))] }}
                             {{ date('Y', strtotime($quotation_created_at)) }}</label>
                     </div>
                     <div class="div-sale">
-                        <label class="text-sm text-teal-700 w-24">Jml. Dokumen</label>
+                        <label class="text-sm text-stone-900 w-24">Jml. Dokumen</label>
                         <label class="label-sale-02">:</label>
                         <label class="label-sale-02">{{ count($quotation_agreements) }} dokumen</label>
                         <button id="agreement"
@@ -66,21 +66,21 @@
                         </button>
                     </div>
                 </div>
-                <div class="w-[310px] border-l pl-2">
+                <div class="w-[310px] border-l p-1">
                     <div class="div-sale">
-                        <label class="text-sm text-teal-700 w-20">Nama Klien</label>
+                        <label class="text-sm text-stone-900 w-20">Nama Klien</label>
                         <label class="label-sale-02">:</label>
                         <label class="label-sale-02">{{ $clients->name }}</label>
                     </div>
                     @if ($clients->type == 'Perusahaan')
                         <div class="div-sale">
-                            <label class="text-sm text-teal-700 w-20">Perusahaan</label>
+                            <label class="text-sm text-stone-900 w-20">Perusahaan</label>
                             <label class="label-sale-02">:</label>
                             <label class="label-sale-02">{{ $clients->company }}</label>
                         </div>
                     @endif
                     <div class="div-sale">
-                        <label class="text-sm text-teal-700 w-20">Kode Lokasi</label>
+                        <label class="text-sm text-stone-900 w-20">Kode Lokasi</label>
                         <label class="label-sale-02">:</label>
                         <label class="label-sale-02">
                             @foreach ($products as $product)
@@ -143,8 +143,8 @@
                                                 </div>
                                             </div>
                                             <div class="flex w-full px-1 justify-end items-center">
-                                                <form action="/quotation-agreements/{{ $agreement->id }}" method="post"
-                                                    class="d-inline my-1">
+                                                <form action="/marketing/quotation-agreements/{{ $agreement->id }}"
+                                                    method="post" class="d-inline my-1">
                                                     @method('delete')
                                                     @csrf
                                                     <button
@@ -191,8 +191,8 @@
                                                 </div>
                                             </div>
                                             <div class="flex w-full px-1 justify-end items-center">
-                                                <form action="/quotation-agreements/{{ $agreement->id }}" method="post"
-                                                    class="d-inline my-1">
+                                                <form action="/marketing/quotation-agreements/{{ $agreement->id }}"
+                                                    method="post" class="d-inline my-1">
                                                     @method('delete')
                                                     @csrf
                                                     <button
@@ -239,6 +239,7 @@
         <input type="text" name="quotation_id" value="{{ $quotation[0]->id }}" hidden>
         <input type="text" id="number" name="number" hidden>
         <input type="date" id="date" name="date" hidden>
+        <input type="text" name="category" value="{{ $category }}" hidden>
     </form>
 
     <script src="/js/adddocuments.js"></script>

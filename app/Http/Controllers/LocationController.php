@@ -8,6 +8,7 @@ use App\Models\MediaCategory;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Led;
+use App\Models\Sale;
 use App\Models\MediaSize;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -48,17 +49,18 @@ class LocationController extends Controller
         if(Gate::allows('isLocation') && Gate::allows('isMediaRead')){
             if($category == "All"){
                 $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-                $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy("code", "asc")->paginate(10)->withQueryString();
+                $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
             }else{
                 $dataCategory = MediaCategory::where('name', $category)->get()->last();
                 $media_category_id = $dataCategory->id;
-                $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->orderBy("code", "asc")->paginate(10)->withQueryString();
+                $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
             }
     
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
             $media_categories = MediaCategory::with('locations')->get();
+            $sales = Sale::with('location')->get();
             return view ('locations.index', [
                 'locations'=>$dataLocations,
                 'areas'=>Area::all(),
@@ -66,7 +68,7 @@ class LocationController extends Controller
                 'category'=>$category,
                 'data_categories'=>$dataCategory,
                 'title' => 'Daftar Lokasi Media',
-                compact('areas', 'cities', 'media_sizes', 'media_categories')
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'sales')
             ]);
         } else {
             abort(403);

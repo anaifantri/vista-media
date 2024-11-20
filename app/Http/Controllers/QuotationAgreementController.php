@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Gate;
 
 class QuotationAgreementController extends Controller
 {
@@ -22,7 +23,7 @@ class QuotationAgreementController extends Controller
 
     public function showAgreements(String $category, String $quotationId): View
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
             $dataAgreements = QuotationAgreement::where('quotation_id', $quotationId)->get();
             $quotation = Quotation::where('id', $quotationId)->get();
             return view('quotation-agreements.show', [
@@ -49,7 +50,7 @@ class QuotationAgreementController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
             if($request->file('document_agreement')){
                 $images = $request->file('document_agreement');
                 foreach($images as $image){
@@ -64,7 +65,7 @@ class QuotationAgreementController extends Controller
                 }
             }
 
-            return redirect('/marketing/quotation-agreements/show-agreements/'.$request->quotation_id)->with('success', count($request->document_agreement).' Dokumen Perjanjian berhasil ditambahkan');
+            return redirect('/marketing/quotation-agreements/show-agreements/'.$request->category.'/'.$request->quotation_id)->with('success', count($request->document_agreement).' Dokumen Perjanjian berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -99,8 +100,9 @@ class QuotationAgreementController extends Controller
      */
     public function destroy(QuotationAgreement $quotationAgreement): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingDelete'))){
             $quotation_id = $quotationAgreement->quotation_id;
+            $category = $quotationAgreement->quotation->media_category->name;
 
             if($quotationAgreement->image){
                 Storage::delete($quotationAgreement->image);
@@ -108,7 +110,7 @@ class QuotationAgreementController extends Controller
 
             QuotationAgreement::destroy($quotationAgreement->id);
 
-            return redirect('quotation-agreements/show-agreements/'.$quotation_id)->with('success','Dokumen Perjanjian berhasil dihapus');
+            return redirect('marketing/quotation-agreements/show-agreements/'.$category.'/'.$quotation_id)->with('success','Dokumen Perjanjian berhasil dihapus');
         } else {
             abort(403);
         }
