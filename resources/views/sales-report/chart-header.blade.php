@@ -43,10 +43,32 @@
                             @endfor
                         </select>
                     </div>
+                    <!-- Form search start -->
+                    <form action="/marketing/sales-report/chart-report/{{ $area->id }}">
+                        <div class="flex ml-8">
+                            <span class="text-base text-stone-200">Katagori</span>
+                            <select class="outline-none border w-24 text-sm text-stone-900 rounded-md ml-2 bg-stone-100"
+                                name="media_category_id" id="media_category_id" onchange="submit()"
+                                value="{{ request('media_category_id') }}">
+                                <option value="All">All</option>
+                                @foreach ($categories as $category)
+                                    @if ($category->name != 'Service')
+                                        @if (request('media_category_id') == $category->id)
+                                            <option value="{{ $category->id }}" selected>{{ $category->name }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </form>
+                    <!-- Form search end -->
                 </div>
             </div>
             <div id="divButton" class="flex justify-end w-full">
-                <button id="savePdf" class="flex justify-center items-center mx-1 btn-primary"
+                <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary"
                     title="Simpan dalam bentuk pdf" type="button">
                     <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24">

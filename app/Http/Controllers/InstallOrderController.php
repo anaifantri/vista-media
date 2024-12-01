@@ -6,6 +6,7 @@ use App\Models\InstallOrder;
 use App\Models\PrintOrder;
 use App\Models\Sale;
 use App\Models\MediaSize;
+use App\Models\MediaCategory;
 use App\Models\Company;
 use App\Models\Location;
 use App\Models\LocationPhoto;
@@ -20,6 +21,8 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Validator;
+use Gate;
 
 class InstallOrderController extends Controller
 {
@@ -28,28 +31,43 @@ class InstallOrderController extends Controller
      */
     public function index(): Response
     {
-        $sale = Sale::with('install_order')->get();
-        return response()-> view ('install-orders.index', [
-            'install_orders'=>InstallOrder::filter(request('search'))->sortable()->orderBy("code", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar SPK Pemasangan Gambar',
-            compact('sale')
-        ]);
+        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $sale = Sale::with('install_order')->get();
+            $print_order = PrintOrder::with('install_order')->get();
+            $locations = Location::with('install_orders')->get();
+            return response()-> view ('install-orders.index', [
+                'install_orders'=>InstallOrder::filter(request('search'))->sortable()->orderBy("number", "asc")->paginate(15)->withQueryString(),
+                'title' => 'Daftar SPK Pemasangan Gambar',
+                compact('sale', 'print_order', 'locations')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function preview(String $id): View
+    { 
+        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $locations = Location::with('install_orders')->get();
+            $sale = Sale::with('install_order')->get();
+            $companies = Company::with('install_orders')->get();
+            $print_order = PrintOrder::with('install_order')->get();
+            return view('install-orders.preview', [
+                'install_order' => InstallOrder::findOrFail($id),
+                'title' => 'Preview SPK Pasang',
+                compact('companies', 'locations', 'sale', 'print_order')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     public function selectLocations(Request $request): View
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
             if($request->orderType){
                 if($request->orderType == "locations"){
-                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
-                    return view ('install-orders.select-location', [
-                        'locations'=>$locations,
-                        'areas' => Area::all(),
-                        'cities' => City::all(),
-                        'title' => 'Pilih Lokasi',
-                    ]);
-                }else if($request->orderType == "sales"){
-                    $locations = Sale::install()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
                     return view ('install-orders.select-location', [
                         'locations'=>$locations,
                         'areas' => Area::all(),
@@ -57,11 +75,11 @@ class InstallOrderController extends Controller
                         'title' => 'Pilih Lokasi',
                     ]);
                 }else if($request->orderType == "free"){
-                    $locations = collect([]);
+                    $sales = collect([]);
                     $clients = [];
                     $usedInstalls = [];
                     $freeInstalls = [];
-                    $dataSales = Sale::freeInstall()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                    $dataSales = Sale::free()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
                     foreach($dataSales as $dataSale){
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
                         if($revision){
@@ -74,32 +92,127 @@ class InstallOrderController extends Controller
                             $dataInstalls = InstallOrder::where('sale_id', $dataSale->id)->get();
                         }
                         if($freeInstall > count($dataInstalls)){
-                            $locations->push($dataSale);
+                            $sales->push($dataSale);
                             array_push($clients,json_decode($dataSale->quotation->clients));
                             array_push($freeInstalls, $freeInstall);
                             array_push($usedInstalls, count($dataInstalls));
                         }
                     }
+                    $locations = Location::with('sales')->get();
+                    $quotations = Quotation::with('sales')->get();
+                    $quotation_revisions = QuotationRevision::with('quotation')->get();
                     return view ('install-orders.select-location', [
-                        'locations'=>$locations,
+                        'sales'=>$sales,
                         'clients'=>$clients,
                         'freeInstalls'=>$freeInstalls,
                         'usedInstalls'=>$usedInstalls,
                         'areas' => Area::all(),
                         'cities' => City::all(),
                         'title' => 'Pilih Lokasi',
+                        compact('locations', 'quotations', 'quotation_revisions')
+                    ]);
+                }elseif($request->orderType == "sales"){
+                    $sales = collect([]);
+                    $clients = [];
+                    $usedInstalls = [];
+                    $freeInstalls = [];
+                    $installTypes = [];
+                    $dataSales = Sale::installOrder()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                    foreach($dataSales as $dataSale){
+                        $product = json_decode($dataSale->product);
+                        $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
+                        if($revision){
+                            $notes = json_decode($revision->notes);
+                            $freeInstall = $notes->freeInstall;
+                            $dataInstalls = InstallOrder::where('sale_id', $dataSale->id)->get();
+                            $price = json_decode($revision->price);
+                            foreach($price->objInstalls as $install){
+                                if($install->code == $dataSale->product->code){
+                                    $installType = $install->ptype;
+                                }
+                            }
+                        }else{
+                            $notes = json_decode($dataSale->quotation->notes);
+                            $freeInstall = $notes->freeInstall;
+                            $dataInstalls = InstallOrder::where('sale_id', $dataSale->id)->get();
+                            $price = json_decode($dataSale->quotation->price);
+                            foreach($price->objInstalls as $install){
+                                if($install->code == $product->code){
+                                    $installType = $install->type;
+                                }
+                            }
+                        }
+                        if($freeInstall < count($dataInstalls) || $freeInstall == 0){
+                            $sales->push($dataSale);
+                            array_push($clients,json_decode($dataSale->quotation->clients));
+                            array_push($freeInstalls, $freeInstall);
+                            array_push($installTypes, $installType);
+                            array_push($usedInstalls, count($dataInstalls));
+                        }
+                    }
+                    $locations = Location::with('sales')->get();
+                    $quotations = Quotation::with('sales')->get();
+                    $quotation_revisions = QuotationRevision::with('quotation')->get();
+                    return view ('install-orders.select-location', [
+                        'sales'=>$sales,
+                        'clients'=>$clients,
+                        'installTypes'=>$installTypes,
+                        'areas' => Area::all(),
+                        'cities' => City::all(),
+                        'title' => 'Pilih Lokasi',
+                        compact('locations', 'quotations', 'quotation_revisions')
                     ]);
                 }
             }else{
-                $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
-                $cities = City::with('locations')->get();
-                $areas = Area::with('locations')->get();
+                $sales = collect([]);
+                $clients = [];
+                $usedInstalls = [];
+                $freeInstalls = [];
+                $installTypes = [];
+                $dataSales = Sale::installOrder()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                foreach($dataSales as $dataSale){
+                    $product = json_decode($dataSale->product);
+                    $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
+                    if($revision){
+                        $notes = json_decode($revision->notes);
+                        $freeInstall = $notes->freeInstall;
+                        $dataInstalls = InstallOrder::where('sale_id', $dataSale->id)->get();
+                        $price = json_decode($revision->price);
+                        foreach($price->objInstalls as $install){
+                            if($install->code == $dataSale->product->code){
+                                $installType = $install->ptype;
+                            }
+                        }
+                    }else{
+                        $notes = json_decode($dataSale->quotation->notes);
+                        $freeInstall = $notes->freeInstall;
+                        $dataInstalls = InstallOrder::where('sale_id', $dataSale->id)->get();
+                        $price = json_decode($dataSale->quotation->price);
+                        foreach($price->objInstalls as $install){
+                            if($install->code == $product->code){
+                                $installType = $install->type;
+                            }
+                        }
+                    }
+                    if($freeInstall < count($dataInstalls) || $freeInstall == 0){
+                        $sales->push($dataSale);
+                        array_push($clients,json_decode($dataSale->quotation->clients));
+                        array_push($freeInstalls, $freeInstall);
+                        array_push($installTypes, $installType);
+                        array_push($usedInstalls, count($dataInstalls));
+                    }
+                }
+                $locations = Location::with('sales')->get();
+                $quotations = Quotation::with('sales')->get();
+                $quotation_revisions = QuotationRevision::with('quotation')->get();
                 return view ('install-orders.select-location', [
-                    'locations'=>$locations,
+                    'sales'=>$sales,
+                    'clients'=>$clients,
+                    'installTypes'=>$installTypes,
                     'areas' => Area::all(),
                     'cities' => City::all(),
                     'title' => 'Pilih Lokasi',
-                    compact('areas', 'cities')
+                    compact('locations', 'quotations', 'quotation_revisions')
                 ]);
             }
         } else {
@@ -109,61 +222,82 @@ class InstallOrderController extends Controller
 
     public function createOrder(String $dataId, String $orderType, Request $request): View
     {
-        if ($orderType == "sale"){
-            $dataOrder = Sale::findOrFail($dataId);
-            $saleNumber = $dataOrder->number;
-            $revision = QuotationRevision::where('quotation_id', $dataOrder->quotation->id)->get()->last();
-            if($revision){
-                $saleProducts = json_decode($revision->products);
-                $notes = json_decode($revision->notes);
-                $freeInstall = $notes->freeInstall;
-            }else{
-                $saleProducts = json_decode($dataOrder->quotation->products);
-                $notes = json_decode($dataOrder->quotation->notes);
-                $freeInstall = $notes->freeInstall;
-            }
-            
-            foreach($saleProducts as $saleProduct){
-                if($saleProduct->code == $dataOrder->product_code){
-                    $product = $saleProduct;
-                    $description = json_decode($saleProduct->description);
-                    $productType = $description->lighting;
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
+            if($orderType == "free"){
+                $dataOrder = Sale::findOrFail($dataId);
+                $saleNumber = $dataOrder->number;
+                $revision = QuotationRevision::where('quotation_id', $dataOrder->quotation->id)->get()->last();
+                $product = json_decode($dataOrder->product);
+                if($revision){
+                    $notes = json_decode($revision->notes);
+                    $freeInstall = $notes->freeInstall;
+                }else{
+                    $notes = json_decode($dataOrder->quotation->notes);
+                    $freeInstall = $notes->freeInstall;
                 }
+                $description = json_decode($product->description);
+                $productType = $description->lighting;
+                $usedInstall = count(InstallOrder::where('sale_id', $dataOrder->id)->get());
+                $quotations = Quotation::with('sales')->get();
+                $media_categories = MediaCategory::with('sales')->get();
+                return view('install-orders.create', [
+                    'dataOrder'=>$dataOrder,
+                    'product'=>$product,
+                    'freeInstall'=>$freeInstall,
+                    'usedInstall'=>$usedInstall,
+                    'description'=>$description,
+                    'title' => 'Tambah SPK Pasang Gambar',
+                    'dataId'=>$dataId,
+                    'orderType'=>$orderType,
+                    'productType'=>$productType,
+                    compact('quotations', 'media_categories')
+                ]);
+            }else if ($orderType == "sales"){
+                $dataOrder = Sale::findOrFail($dataId);
+                $saleNumber = $dataOrder->number;
+                $revision = QuotationRevision::where('quotation_id', $dataOrder->quotation->id)->get()->last();
+                $product = json_decode($dataOrder->product);
+                if($revision){
+                    $notes = json_decode($revision->notes);
+                    $freeInstall = $notes->freeInstall;
+                }else{
+                    $notes = json_decode($dataOrder->quotation->notes);
+                    $freeInstall = $notes->freeInstall;
+                }
+                $description = json_decode($product->description);
+                $productType = $description->lighting;
+                $usedInstall = count(InstallOrder::where('sale_id', $dataOrder->id)->get());
+                $quotations = Quotation::with('sales')->get();
+                $media_categories = MediaCategory::with('sales')->get();
+                return view('install-orders.create', [
+                    'dataOrder'=>$dataOrder,
+                    'product'=>$product,
+                    'freeInstall'=>$freeInstall,
+                    'usedInstall'=>$usedInstall,
+                    'description'=>$description,
+                    'title' => 'Tambah SPK Pasang Gambar',
+                    'dataId'=>$dataId,
+                    'orderType'=>$orderType,
+                    'productType'=>$productType,
+                    compact('quotations', 'media_categories')
+                ]);
+            }else if($orderType == "location"){
+                $location = Location::findOrFail($dataId);
+                $areas = Area::with('locations')->get();
+                $cities = City::with('locations')->get();
+                $media_sizes = MediaSize::with('locations')->get();
+                $location_photos = LocationPhoto::with('location')->get();
+                $media_categories = MediaCategory::with('locations')->get();
+                return view('install-orders.create', [
+                    'location'=>$location,
+                    'title' => 'Tambah SPK Cetak Gambar',
+                    'orderType'=>$orderType,
+                    'dataId'=>$dataId,
+                    compact('areas', 'media_categories', 'cities', 'media_sizes', 'location_photos')
+                ]);
             }
-            $usedInstall = count(InstallOrder::where('sale_id', $dataOrder->id)->get());
-            $quotations = Quotation::with('sales')->get();
-            $media_categories = MediaCategory::with('sales')->get();
-            return view('install-orders.create', [
-                'dataOrder'=>$dataOrder,
-                'print_orders'=>PrintOrder:: whereDoesntHave('install_order')->get(),
-                'product'=>$product,
-                'freeInstall'=>$freeInstall,
-                'usedInstall'=>$usedInstall,
-                'description'=>$description,
-                'title' => 'Tambah SPK Cetak Gambar',
-                'installation_prices' => InstallationPrice::all(),
-                'dataId'=>$dataId,
-                'orderType'=>$orderType,
-                'productType'=>$productType,
-                compact('quotations', 'media_categories')
-            ]);
-        }else if($orderType == "location"){
-            $location = Location::findOrFail($dataId);
-            $areas = Area::with('locations')->get();
-            $cities = City::with('locations')->get();
-            $media_sizes = MediaSize::with('locations')->get();
-            $media_categories = MediaCategory::with('locations')->get();
-            $location_photo = LocationPhoto::where('location_id', $location->id)->where('set_default', true)->get();
-            return view('install-orders.create', [
-                'location'=>$location,
-                'print_orders'=>PrintOrder:: whereDoesntHave('install_order')->get(),
-                'title' => 'Tambah SPK Cetak Gambar',
-                'installation_prices' => InstallationPrice::all(),
-                'location_photo' => $location_photo[0]->photo,
-                'orderType'=>$orderType,
-                'dataId'=>$dataId,
-                compact('areas', 'media_categories', 'cities', 'media_sizes')
-            ]);
+        } else {
+            abort(403);
         }
     }
 
@@ -183,7 +317,62 @@ class InstallOrderController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
+            if($request->file('design')){
+                $request->validate([
+                    'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
+                ]);
+            }
+            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            // Set number --> start
+            $lastOrder = InstallOrder::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
+            if($lastOrder){
+                $lastNumber = (int)substr($lastOrder->number,0,4);
+                $newNumber = $lastNumber + 1;
+            } else {
+                $newNumber = 1;
+            }
+            
+            if($newNumber > 0 && $newNumber < 10){
+                $number = '000'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+            }else if($newNumber > 10 && $newNumber < 100 ){
+                $number = '00'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')]- date('Y');
+            }else if($newNumber > 100 && $newNumber < 1000 ){
+                $number = '0'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+            } else {
+                $number = $newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+            }
+            // Set number --> end
+
+            $request->request->add(['number' => $number]);
+            $validateData = $request->validate([
+                'number' => 'required|unique:install_orders',
+                'company_id' => 'required',
+                'sale_id' => 'nullable',
+                'print_order_id' => 'nullable',
+                'location_id' => 'required',
+                'theme' => 'required',
+                'install_at' => 'required',
+                'notes' => 'required',
+                'type' => 'required',
+                'product' => 'required',
+                'created_by' => 'required',
+                'updated_by' => 'required',
+                'design' => 'required'
+            ]);
+
+            if($request->file('design')){
+                $validateData['design'] = $request->file('design')->store('install-designs');
+            }
+            
+            InstallOrder::create($validateData);
+
+            $dataOrder = InstallOrder::where('number', $validateData['number'])->firstOrFail();
+    
+            return redirect('/marketing/install-orders/preview/'.$dataOrder->id)->with('success','SPK Pasang dengan nomor '. $number . ' berhasil ditambahkan');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -191,7 +380,19 @@ class InstallOrderController extends Controller
      */
     public function show(InstallOrder $installOrder): Response
     {
-        //
+        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $locations = Location::with('install_orders')->get();
+            $sale = Sale::with('install_order')->get();
+            $companies = Company::with('install_orders')->get();
+            $print_order = PrintOrder::with('install_order')->get();
+            return response()-> view ('install-orders.show', [
+                'install_order' => $installOrder,
+                'title' => 'Data SPK Cetak',
+                compact('companies', 'locations', 'sale', 'print_order')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -199,7 +400,20 @@ class InstallOrderController extends Controller
      */
     public function edit(InstallOrder $installOrder): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit'))){
+            $product = json_decode($installOrder->product);
+            $locations = Location::with('print_orders')->get();
+            $sale = Sale::with('print_order')->get();
+            $companies = Company::with('print_orders')->get();
+            return response()-> view ('install-orders.edit', [
+                'install_order' => $installOrder,
+                'product'=>$product,
+                'title' => 'Edit Data SPK Pasang',
+                compact('companies', 'locations', 'sale')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -207,7 +421,35 @@ class InstallOrderController extends Controller
      */
     public function update(Request $request, InstallOrder $installOrder): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit'))){
+            if($request->file('design')){
+                $request->validate([
+                    'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
+                ]);
+            }
+            $rules = [
+                'theme' => 'required',
+                'install_at' => 'required',
+                'updated_by' => 'required',
+                'notes' => 'nullable'
+            ];
+
+            $validateData = $request->validate($rules);
+                
+            if($request->file('design')){
+                if($request->oldDesign){
+                    Storage::delete($request->oldDesign);
+                }
+                $validateData['design'] = $request->file('design')->store('install-designs');
+            }
+            
+            InstallOrder::where('id', $installOrder->id)
+                ->update($validateData);
+    
+            return redirect('/marketing/install-orders/preview/'.$installOrder->id)->with('success','SPK pasang dengan nomor '. $installOrder->number . ' berhasil diedit');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -215,6 +457,12 @@ class InstallOrderController extends Controller
      */
     public function destroy(InstallOrder $installOrder): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete'))){
+            Storage::delete($installOrder->design);
+            InstallOrder::destroy($installOrder->id);
+            return redirect('/marketing/install-orders')->with('success', 'Data SPK pasang dengan nomor '.$installOrder->number.' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }

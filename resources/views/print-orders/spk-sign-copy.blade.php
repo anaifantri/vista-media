@@ -4,24 +4,24 @@
         <table class="table-sign">
             <thead>
                 <tr class="h-6">
-                    <th class="text-teal-900 font-semibold text-sm border" colspan="2">Mengetahui :</th>
-                    <th class="text-teal-900 font-semibold text-sm border">Data Lokasi</th>
-                    @if ($orderType == 'sale')
-                        <th class="text-teal-900 font-semibold text-sm border">Data Penjualan</th>
+                    <th class="text-black font-semibold text-sm border" colspan="2">Mengetahui :</th>
+                    <th class="text-black font-semibold text-sm border">Data Lokasi</th>
+                    @if ($orderType == 'sales' || $orderType == 'free')
+                        <th class="text-black font-semibold text-sm border">Data Penjualan</th>
                     @else
-                        <th class="text-teal-900 font-semibold text-sm"></th>
+                        <th class="text-black font-semibold text-sm"></th>
                     @endif
                 </tr>
                 <tr>
-                    <th class="text-teal-900 font-semibold text-sm border">PT. Vista Media,</th>
-                    <th id="vendorSignCopy" class="text-teal-900 font-semibold text-sm border"></th>
-                    <th class="text-teal-900 text-sm font-semibold border">Kode : {{ $code }} -
+                    <th class="text-black font-semibold text-sm border">PT. Vista Media,</th>
+                    <th id="vendorSignCopy" class="text-black font-semibold text-sm border"></th>
+                    <th class="text-black text-sm font-semibold border">Kode : {{ $code }} -
                         {{ $cityCode }}</th>
-                    @if ($orderType == 'sale')
-                        <th id="thSaleNumber" class="text-teal-900 text-sm font-semibold border">
+                    @if ($orderType == 'sales' || $orderType == 'free')
+                        <th id="thSaleNumber" class="text-black text-sm font-semibold border">
                             {{ $dataOrder->number }}</th>
                     @else
-                        <th id="thSaleNumber" class="text-teal-900 text-sm font-semibold"></th>
+                        <th id="thSaleNumber" class="text-black text-sm font-semibold"></th>
                     @endif
                 </tr>
             </thead>
@@ -29,19 +29,16 @@
                 <tr>
                     <td class="td-sign">(<u>{{ auth()->user()->name }})</u></td>
                     <td class="td-sign">(___________________________)</td>
-                    <td class="text-teal-900 text-sm border text-center">
-                        <div class="flex w-full justify-center items-center">
-                            {{ QrCode::size(75)->generate('https://vistamedia.co.id/') }}
-                        </div>
+                    <td class="text-black text-sm border text-center">
+                        Lokasi : {{ $location_address }}
                     </td>
-                    @if ($orderType == 'sale')
-                        <td class="text-teal-900 text-sm border align-middle text-center">
+                    @if ($orderType == 'sales' || $orderType == 'free')
+                        <td class="text-black text-sm border align-middle text-center">
                             <div class="flex w-full justify-center items-center">
-                                {{ QrCode::size(75)->generate('https://vistamedia.co.id/') }}
                             </div>
                         </td>
                     @else
-                        <td class="text-teal-900 text-sm align-middle text-center"></td>
+                        <td class="text-black text-sm align-middle text-center"></td>
                     @endif
                 </tr>
             </tbody>

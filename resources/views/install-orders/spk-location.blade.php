@@ -4,9 +4,9 @@
         <table class="table-sign">
             <thead>
                 <tr>
-                    <th class="text-teal-900 font-semibold text-sm border w-[260px]">Kode Lokasi :
+                    <th class="text-black font-semibold text-sm border w-[260px]">Kode Lokasi :
                         {{ $code }}-{{ $cityCode }}</th>
-                    <th class="text-teal-900 font-semibold text-sm border">Google Maps</th>
+                    <th class="text-black font-semibold text-sm border">Google Maps</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,7 +19,6 @@
                     </td>
                     <td class="border p-1 text-center">
                         <div class="flex w-full justify-center items-center">
-                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/') }}
                         </div>
                     </td>
                 </tr>

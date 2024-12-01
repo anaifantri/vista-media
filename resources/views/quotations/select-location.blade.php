@@ -219,8 +219,10 @@
                     @endif
                 @endif
             </div>
-            <div class="flex justify-center text-stone-100">
-                {{-- {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!} --}}
+            <div class="flex justify-center text-stone-100 mt-2">
+                @if ($category != 'Service' || ($category == 'Service' && request('serviceType') == 'new'))
+                    {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
+                @endif
             </div>
         </div>
     </div>

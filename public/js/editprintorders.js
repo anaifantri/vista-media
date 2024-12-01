@@ -111,58 +111,94 @@ getTheme = (sel) =>{
     document.getElementById("companyDesign").innerHTML = sel.value;
 }
 
-// cbRightAction = (sel) =>{
-//     if(sel.checked == true){
-//         if(document.getElementById("cbLeft").checked == false){
-//             qty.value = 1;
-//             qtyCopy.value = 1;
-//             document.getElementById("cbRightCopy").checked = sel.checked;
-//             countTotal();
-//         }else{
-//             qty.value = 2;
-//             qtyCopy.value = 2;
-//             document.getElementById("cbRightCopy").checked = sel.checked;
-//             countTotal();
-//         }
+cbRightAction = (sel) =>{
+    if(sel.checked == true){
+        if(document.getElementById("cbLeft").checked == false){
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.innerHTML = document.getElementById("location_qty").value * 1;
+            document.getElementById("cbRightCopy").checked = sel.checked;
+            countTotal();
+        }else{
+            qty.value = document.getElementById("location_qty").value * 2;
+            qtyCopy.innerHTML = document.getElementById("location_qty").value * 2;
+            document.getElementById("cbRightCopy").checked = sel.checked;
+            countTotal();
+        }
 
-//     }else{
-//         if(document.getElementById("cbLeft").checked == false){
-//             alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
-//             sel.checked = true;
-//             document.getElementById("cbRightCopy").checked = sel.checked;
-//         }else{
-//             qty.value = 1;
-//             qtyCopy.value = 1;
-//             document.getElementById("cbRightCopy").checked = sel.checked;
-//             countTotal();
-//         }
-//     }
-// }
+    }else{
+        if(document.getElementById("cbLeft").checked == false){
+            alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
+            sel.checked = true;
+            document.getElementById("cbRightCopy").checked = sel.checked;
+        }else{
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.innerHTML = document.getElementById("location_qty").value * 1;
+            document.getElementById("cbRightCopy").checked = sel.checked;
+            countTotal();
+        }
+    }
+}
 
-// cbLeftAction = (sel) =>{
-//     if(sel.checked == true){
-//         if(document.getElementById("cbRight").checked == false){
-//             qty.value = 1;
-//             qtyCopy.value = 1;
-//             document.getElementById("cbLeftCopy").checked = sel.checked;
-//             countTotal();
-//         }else{
-//             qty.value = 2;
-//             qtyCopy.value = 2;
-//             document.getElementById("cbLeftCopy").checked = sel.checked;
-//             countTotal();
-//         }
+cbLeftAction = (sel) =>{
+    if(sel.checked == true){
+        if(document.getElementById("cbRight").checked == false){
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.innerHTML = document.getElementById("location_qty").value * 1;
+            document.getElementById("cbLeftCopy").checked = sel.checked;
+            countTotal();
+        }else{
+            qty.value = document.getElementById("location_qty").value * 2;
+            qtyCopy.innerHTML = document.getElementById("location_qty").value * 2;
+            document.getElementById("cbLeftCopy").checked = sel.checked;
+            countTotal();
+        }
 
-//     }else{
-//         if(document.getElementById("cbRight").checked == false){
-//             alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
-//             sel.checked = true;
-//             document.getElementById("cbLeftCopy").checked = sel.checked;
-//         }else{
-//             qty.value = 1;
-//             qtyCopy.value = 1;
-//             document.getElementById("cbLeftCopy").checked = sel.checked;
-//             countTotal();
-//         }
-//     }
-// }
+    }else{
+        if(document.getElementById("cbRight").checked == false){
+            alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
+            sel.checked = true;
+            document.getElementById("cbLeftCopy").checked = sel.checked;
+        }else{
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.innerHTML = document.getElementById("location_qty").value * 1;
+            document.getElementById("cbLeftCopy").checked = sel.checked;
+            countTotal();
+        }
+    }
+}
+
+finishingCheck = () =>{
+    if(finishing.value == ""){
+        alert('Silahkan input finishing terlebih dahulu..!!');
+        finishing.classList.add("is-invalid");
+        finishing.focus();
+    }else{
+        return true;
+    }
+}
+
+themeCheck = () =>{
+    if(theme.value == ""){
+        alert('Silahkan input tema design terlebih dahulu..!!');
+        theme.classList.add("is-invalid");
+        theme.focus();
+    }else{
+        return true;
+    }
+}
+
+fillData = () =>{
+    if(themeCheck() == true && finishingCheck() == true){
+        if(confirm('Apakah anda yakin data yang diinput sudah benar?')){
+            objProducts.qty = qty.value;
+            objProducts.side_left = document.getElementById("cbLeft").checked;
+            objProducts.side_right = document.getElementById("cbRight").checked;
+            product.value = JSON.stringify(objProducts);
+            notes.value = JSON.stringify(objNotes);
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+}

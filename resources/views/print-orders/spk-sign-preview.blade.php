@@ -4,12 +4,12 @@
         <table class="table-sign">
             <thead>
                 <tr class="h-6">
-                    <th class="text-teal-900 font-semibold text-sm border" colspan="2">Mengetahui :</th>
+                    <th class="text-black font-semibold text-sm border" colspan="2">Mengetahui :</th>
                     <th colspan="2"></th>
                 </tr>
                 <tr>
-                    <th class="text-teal-900 font-semibold text-sm border">PT. Vista Media,</th>
-                    <th id="vendorSignPreview" class="text-teal-900 font-semibold text-sm border">
+                    <th class="text-black font-semibold text-sm border">PT. Vista Media,</th>
+                    <th id="vendorSignPreview" class="text-black font-semibold text-sm border">
                         @if ($vendor != null)
                             {{ $vendor->company }}
                         @endif

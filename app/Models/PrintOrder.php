@@ -15,10 +15,10 @@ class PrintOrder extends Model
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('theme', 'like', '%' . $search . '%')
-                    ->orWhere('type', 'like', '%' . $search . '%')
+                ->orWhere('created_at', 'like', '%' . $search . '%')
                     ->orWhereHas('sale', function($query) use ($search){
                         $query->WhereHas('quotation', function($query) use ($search){
-                            $query->where('client', 'like', '%' . $search . '%')
+                            $query->where('clients', 'like', '%' . $search . '%')
                             ->orWhere('products', 'like', '%' . $search . '%');
                         });
                     })
@@ -33,6 +33,9 @@ class PrintOrder extends Model
     }
     public function location(){
         return $this->belongsTo(Location::class);
+    }
+    public function vendor(){
+        return $this->belongsTo(Vendor::class);
     }
 
     public function install_order(){

@@ -2,7 +2,7 @@
 
 @section('container')
     <?php
-    $products = json_decode($quotation->products);
+    // $products = json_decode($quotation->products);
     $client = json_decode($quotation->clients);
     $price = json_decode($quotation->price);
     $payment_terms = json_decode($quotation->payment_terms);

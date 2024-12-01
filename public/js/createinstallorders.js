@@ -1,108 +1,82 @@
-// const qty = document.getElementById("qty");
-// const qtyCopy = document.getElementById("qtyCopy");
-// const size = document.getElementById("size");
-// const sizeWidth = document.getElementById("sizeWidth");
-// const sizeHeight = document.getElementById("sizeHeight");
-// const vendorId = document.getElementById("vendorId");
-// const selectProduct = document.getElementById("selectProduct");
-// const inputFinishing = document.getElementById("inputFinishing");
-// const inputTheme = document.getElementById("inputTheme");
-// const inputDesign = document.getElementById("inputDesign");
-// const design = document.getElementById("design");
-// const price = document.getElementById("price");
-// const orderStatus = document.getElementById("orderStatus");
+const locationId = document.getElementById("location_id");
+const locationCode = document.getElementById("location_code");
+const locationSide = document.getElementById("location_side");
+const locationAddress = document.getElementById("location_address");
+const locationPhoto = document.getElementById("location_photo");
+const cityCode = document.getElementById("cityCode");
+const side = document.getElementById("side");
+const size = document.getElementById("size");
+const qty = document.getElementById("qty");
+const type = document.getElementById("type");
+const product = document.getElementById("product");
+const orderType = document.getElementById("orderType");
+const sizeWidth = document.getElementById("sizeWidth");
+const sizeHeight = document.getElementById("sizeHeight");
+const theme = document.getElementById("theme");
+const design = document.getElementById("design");
+const installAt = document.getElementById("install_at");
+const saleId = document.getElementById("sale_id");
+const mainSaleId = document.getElementById("main_sale_id");
+const saleNumber = document.getElementById("saleNumber");
+const orderStatus = document.getElementById("orderStatus");
 
-// let objProducts = {
-//     product_id : "",
-//     product_type : "",
-//     product_name : "",
-//     product_price : 0,
-//     vendor_id : "",
-//     vendor_company : "",
-//     vendor_address : "",
-//     vendor_phone : "",
-//     location_id : "",
-//     location_code : "",
-//     city_code : "",
-//     location_side : "",
-//     location_size : "",
-//     location_width : "",
-//     location_height : "",
-//     sale_id : "",
-//     sale_number : "",
-//     order_type : "",
-//     status : ""
-// }
+let objProducts = {
+    qty : 0,
+    location_id : "",
+    location_code : "",
+    location_address : "",
+    location_photo : "",
+    city_code : "",
+    location_side : "",
+    location_size : "",
+    location_width : "",
+    location_height : "",
+    sale_id : "",
+    main_sale_id : "",
+    sale_number : "",
+    order_type : "",
+    status : "",
+    side_right : false,
+    side_left : true
+}
 
-// let objNotes = {
-//     finishing : "",
-//     note : "",
-// }
+if(product.value != ""){
+    objProducts = JSON.parse(product.value);
+}
 
-// vendorCheck = () =>{
-//     if(vendorId.value == "pilih"){
-//         alert('Silahkan pilih vendor terlebih dahulu..!!');
-//         vendorId.classList.add("is-invalid");
-//         vendorId.focus();
-//     }else{
-//         return true;
-//     }
-// }
-
-// productCheck = () =>{
-//     if(selectProduct.value == "pilih"){
-//         alert('Silahkan pilih bahan cetak terlebih dahulu..!!');
-//         selectProduct.classList.add("is-invalid");
-//         selectProduct.focus();
-//     }else{
-//         return true;
-//     }
-// }
-
-// finishingCheck = () =>{
-//     if(inputFinishing.value == ""){
-//         alert('Silahkan pilih input finishing terlebih dahulu..!!');
-//         inputFinishing.classList.add("is-invalid");
-//         inputFinishing.focus();
-//     }else{
-//         return true;
-//     }
-// }
-
-// themeCheck = () =>{
-//     if(inputTheme.value == ""){
-//         alert('Silahkan pilih input tema design terlebih dahulu..!!');
-//         inputTheme.classList.add("is-invalid");
-//         inputTheme.focus();
-//     }else{
-//         return true;
-//     }
-// }
-
-// designCheck = () =>{
-//     if(inputDesign.files.length == 0){
-//         alert('Silahkan pilih pilih file design terlebih dahulu..!!');
-//         inputDesign.classList.add("is-invalid");
-//         inputDesign.focus();
-//     }else{
-//         return true;
-//     }
-// }
-
-printOrderRadio = (sel) =>{
-    const selectPrint = document.getElementById("selectPrint");
-    if(sel.value == "yes"){
-        selectPrint.removeAttribute('disabled');
+themeCheck = () =>{
+    if(theme.value == ""){
+        alert('Silahkan pilih input tema design terlebih dahulu..!!');
+        theme.classList.add("is-invalid");
+        theme.focus();
     }else{
-        selectPrint.setAttribute('disabled', 'disabled');
-        selectPrint.options.selectedIndex = 0;
+        return true;
+    }
+}
+
+designCheck = () =>{
+    if(design.files.length == 0){
+        alert('Silahkan pilih file design terlebih dahulu..!!');
+        design.classList.add("is-invalid");
+        design.focus();
+    }else{
+        return true;
+    }
+}
+
+installAtCheck = () =>{
+    if(installAt.value == ""){
+        alert('Silahkan input tanggal tayang terlebih dahulu..!!');
+        installAt.classList.add("is-invalid");
+        installAt.focus();
+    }else{
+        return true;
     }
 }
 
 function previewImage(sel) {
     const imgPreview = document.querySelector('.img-preview');
-
-    // imgPreview.style.display = 'block';
+    const imgPreviewCopy = document.querySelector('.img-preview-copy');
 
     const oFReader = new FileReader();
 
@@ -110,163 +84,98 @@ function previewImage(sel) {
 
     oFReader.onload = function(oFREvent) {
         imgPreview.src = oFREvent.target.result;
+        imgPreviewCopy.src = oFREvent.target.result;
     }
-    design.files = sel.files;
-    console.log(design.value);
 }
 
-// countTotal = () =>{
-//     const productPrice =document.getElementById("productPrice");
-//     const total = document.getElementById("total");
-//     const totalCopy = document.getElementById("totalCopy");
+getNotes = (sel) =>{
+    document.getElementById("notesCopy").value = sel.value;
+}
 
-//     var getWide = qty.value * sizeWidth.value * sizeHeight.value;
-//     var getTotal = getWide * productPrice.value;
+getTheme = (sel) =>{
+    document.getElementById("themeCopy").value = sel.value;
+}
 
-//     total.value = getTotal;
-//     totalCopy.value = getTotal;
-//     price.value = getTotal;
-//     document.getElementById("totalPreview").innerHTML = getTotal.toLocaleString();
-//     document.getElementById("copyTotalPreview").innerHTML = getTotal.toLocaleString();
-    
-// }
+getInstallAt = (sel) =>{
+    document.getElementById("installAt").value = sel.value;
+}
 
-// if(vendorId.value != "pilih"){
-//     const inputVendorId = document.getElementById("vendor_id");
-//     document.getElementById("vendorSign").innerHTML = vendorId.options[vendorId.selectedIndex].text;
-//     document.getElementById("vendorSignPreview").innerHTML = vendorId.options[vendorId.selectedIndex].text;
-//     document.getElementById("vendorSignCopy").innerHTML = vendorId.options[vendorId.selectedIndex].text;
-//     document.getElementById("vendorSignCopyPreview").innerHTML = vendorId.options[vendorId.selectedIndex].text;
-//     inputVendorId.value = vendorId.value;
-//     objProducts.vendor_id = vendorId.value;
-//     objProducts.vendor_address = document.getElementById("vendorAddress").value;
-//     objProducts.vendor_phone = document.getElementById("vendorPhone").innerText;
-//     objProducts.vendor_company = vendorId.options[vendorId.selectedIndex].text;
-// }
 
-// getPrintProduct = (sel) =>{
-//     if(sel.value != "pilih"){
-//         document.getElementById("copyProduct").value = sel.options[sel.selectedIndex].text;
-//         document.getElementById("copyProductPreview").innerHTML = sel.options[sel.selectedIndex].text;
-//         document.getElementById("productPreview").innerHTML = sel.options[sel.selectedIndex].text;
-//         document.getElementById("productPrice").value = sel.options[sel.selectedIndex].value;
-//         document.getElementById("pricePreview").innerHTML = Number(sel.options[sel.selectedIndex].value).toLocaleString();
-//         document.getElementById("copyPrice").value = sel.options[sel.selectedIndex].value;
-//         document.getElementById("copyPricePreview").innerHTML = Number(sel.options[sel.selectedIndex].value).toLocaleString();
-//         objProducts.product_id = sel.options[sel.selectedIndex].id;
-//         objProducts.product_name = sel.options[sel.selectedIndex].text;
-//         objProducts.product_price = Number(sel.options[sel.selectedIndex].value);
-//         objProducts.product_type = document.getElementById("productType").value;
-//         countTotal();
-//     }
-// }
+cbRightAction = (sel) =>{
+    if(sel.checked == true){
+        if(document.getElementById("cbLeft").checked == false){
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.value = document.getElementById("location_qty").value * 1;
+            document.getElementById("cbRightCopy").checked = sel.checked;
+        }else{
+            qty.value = document.getElementById("location_qty").value * 2;
+            qtyCopy.value = document.getElementById("location_qty").value * 2;
+            document.getElementById("cbRightCopy").checked = sel.checked;
+        }
 
-// getFinishing = (sel) =>{
-//     document.getElementById("copyFinishing").value = sel.value;
-//     document.getElementById("finishingPreview").innerHTML = sel.value;
-//     document.getElementById("copyFinishingPreview").innerHTML = sel.value;
-//     objNotes.finishing = sel.value;
-// }
+    }else{
+        if(document.getElementById("cbLeft").checked == false){
+            alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
+            sel.checked = true;
+            document.getElementById("cbRightCopy").checked = sel.checked;
+        }else{
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.value = document.getElementById("location_qty").value * 1;
+            document.getElementById("cbRightCopy").checked = sel.checked;
+        }
+    }
+}
 
-// getNotes = (sel) =>{
-//     document.getElementById("copyNotes").value = sel.value;
-//     document.getElementById("notesPreview").innerHTML = sel.value;
-//     document.getElementById("copyNotesPreview").innerHTML = sel.value;
-//     objNotes.note = sel.value;
-// }
+cbLeftAction = (sel) =>{
+    if(sel.checked == true){
+        if(document.getElementById("cbRight").checked == false){
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.value = document.getElementById("location_qty").value * 1;
+            document.getElementById("cbLeftCopy").checked = sel.checked;
+        }else{
+            qty.value = document.getElementById("location_qty").value * 2;
+            qtyCopy.value = document.getElementById("location_qty").value * 2;
+            document.getElementById("cbLeftCopy").checked = sel.checked;
+        }
 
-// getDesign = (sel) =>{
-//     document.getElementById("copyDesign").value = sel.value;
-//     document.getElementById("designPreview").innerHTML = sel.value;
-//     document.getElementById("copyDesignPreview").innerHTML = sel.value;
-//     document.getElementById("theme").value = sel.value;
-// }
+    }else{
+        if(document.getElementById("cbRight").checked == false){
+            alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
+            sel.checked = true;
+            document.getElementById("cbLeftCopy").checked = sel.checked;
+        }else{
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.value = document.getElementById("location_qty").value * 1;
+            document.getElementById("cbLeftCopy").checked = sel.checked;
+        }
+    }
+}
 
-// cbRightAction = (sel) =>{
-//     if(sel.checked == true){
-//         if(document.getElementById("cbLeft").checked == false){
-//             qty.value = 1;
-//             qtyCopy.value = 1;
-//             document.getElementById("cbRightCopy").checked = sel.checked;
-//             countTotal();
-//         }else{
-//             qty.value = 2;
-//             qtyCopy.value = 2;
-//             document.getElementById("cbRightCopy").checked = sel.checked;
-//             countTotal();
-//         }
-
-//     }else{
-//         if(document.getElementById("cbLeft").checked == false){
-//             alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
-//             sel.checked = true;
-//             document.getElementById("cbRightCopy").checked = sel.checked;
-//         }else{
-//             qty.value = 1;
-//             qtyCopy.value = 1;
-//             document.getElementById("cbRightCopy").checked = sel.checked;
-//             countTotal();
-//         }
-//     }
-// }
-
-// cbLeftAction = (sel) =>{
-//     if(sel.checked == true){
-//         if(document.getElementById("cbRight").checked == false){
-//             qty.value = 1;
-//             qtyCopy.value = 1;
-//             document.getElementById("cbLeftCopy").checked = sel.checked;
-//             countTotal();
-//         }else{
-//             qty.value = 2;
-//             qtyCopy.value = 2;
-//             document.getElementById("cbLeftCopy").checked = sel.checked;
-//             countTotal();
-//         }
-
-//     }else{
-//         if(document.getElementById("cbRight").checked == false){
-//             alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
-//             sel.checked = true;
-//             document.getElementById("cbLeftCopy").checked = sel.checked;
-//         }else{
-//             qty.value = 1;
-//             qtyCopy.value = 1;
-//             document.getElementById("cbLeftCopy").checked = sel.checked;
-//             countTotal();
-//         }
-//     }
-// }
-
-// btnPreviewAction = () =>{
-//     if(vendorCheck() == true && productCheck() == true && themeCheck() == true && designCheck() == true && finishingCheck() == true){
-//         fillPreviewData();
-//         document.getElementById("modalPreview").classList.remove("hidden");
-//         document.getElementById("modalPreview").classList.add("flex");
-//     }
-// }
-
-// fillPreviewData = () =>{
-//     document.getElementById("qtyPreview").innerHTML = qty.value + " Lembar";
-//     document.getElementById("copyQtyPreview").innerHTML = qty.value + " Lembar";
-//     objProducts.sale_id = document.getElementById("sale_id").value;
-//     objProducts.sale_number = document.getElementById("thSaleNumber").innerText;
-//     objProducts.location_width = sizeWidth.value;
-//     objProducts.location_height = sizeHeight.value;
-//     objProducts.location_side = qty.value;
-//     objProducts.location_size = size.value;
-//     objProducts.location_id = document.getElementById("location_id").value;
-//     objProducts.location_code = document.getElementById("location_code").value;
-//     objProducts.city_code = document.getElementById("cityCode").value;
-//     objProducts.order_type = document.getElementById("orderType").value;
-//     objProducts.status = orderStatus.value;
-//     document.getElementById("product").value = JSON.stringify(objProducts);
-//     document.getElementById("notes").value = JSON.stringify(objNotes);
-// }
-
-// Button Close Action --> start
-// btnClose.addEventListener("click", function(){
-//     modalPreview.classList.add("hidden");
-//     modalPreview.classList.remove("flex");
-// })
-// Button Close Action --> end
+fillData = () =>{
+    if(themeCheck() == true && designCheck() == true && installAtCheck() == true){
+        if(confirm('Apakah anda yakin data yang diinput sudah benar?')){
+            objProducts.sale_id = saleId.value;
+            objProducts.main_sale_id = mainSaleId.value;
+            objProducts.sale_number = saleNumber.innerText;
+            objProducts.location_width = sizeWidth.value;
+            objProducts.location_height = sizeHeight.value;
+            objProducts.location_side = locationSide.value;
+            objProducts.location_size = size.value;
+            objProducts.location_id = locationId.value;
+            objProducts.location_code = locationCode.value;
+            objProducts.location_address = locationAddress.value;
+            objProducts.location_photo = locationPhoto.value;
+            objProducts.city_code = cityCode.value;
+            objProducts.qty = qty.value;
+            objProducts.order_type = orderType.value;
+            objProducts.status = orderStatus.value;
+            objProducts.side_left = document.getElementById("cbLeft").checked;
+            objProducts.side_right = document.getElementById("cbRight").checked;
+            product.value = JSON.stringify(objProducts);
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+}

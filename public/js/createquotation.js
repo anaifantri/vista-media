@@ -88,13 +88,13 @@ function selectClientAction(e){
     clientList.classList.toggle("hidden");
 }
 
-if(quotationType.value == "new" || quotationType.value == "existing"){
-    if (quotationType.value == "existing") {
-        clientType = document.getElementById("client_type").value;
-        if(clientType == "Perusahaan"){
-            companyClient  = JSON.parse(document.getElementById("clients").value);
-        }
-    }
+if(quotationType.value == "new"){
+    // if (quotationType.value == "existing") {
+    //     clientType = document.getElementById("client_type").value;
+    //     if(clientType == "Perusahaan"){
+    //         companyClient  = JSON.parse(document.getElementById("clients").value);
+    //     }
+    // }
     var mainWrapper = document.getElementById("main-wrapper");
     var mainHeader = document.getElementById("main-header");
     
@@ -111,8 +111,7 @@ if(quotationType.value == "new" || quotationType.value == "existing"){
     }, false);
     //Select Client Action --> start
     getSelect = (sel) => {
-        var clientItems = sel.title.split("*")
-        console.log(clientItems);
+        var clientItems = sel.title.split("*");
         dataClient.value = sel.innerText;
         clientList.classList.add("hidden");
         search.value = "";
@@ -227,7 +226,16 @@ if(quotationType.value == "new" || quotationType.value == "existing"){
         }
     }
     // Get Contact --> end
-}else if(quotationType.value == "extend"){
+}else if(quotationType.value == "extend" || quotationType.value == "existing"){
+    var mainWrapper = document.getElementById("main-wrapper");
+    var mainHeader = document.getElementById("main-header");
+    
+    mainWrapper.addEventListener('click', function () {
+        clientList.classList.add("hidden");
+        search.value = "";
+        searchTable();
+    }, false);
+    
     clientType = document.getElementById("client_type").value;
     if(clientType == "Perusahaan"){
         companyClient  = JSON.parse(document.getElementById("clients").value);
@@ -1034,7 +1042,7 @@ cbBillboardCheck = (sel) => {
 
 // Function Input Slot Action --> start
 setSLot = (sel) => {
-    if(Number(sel.value) < JSON.parse(objProducts[0].description).slots && Number(sel.value) > 0){
+    if(Number(sel.value) < document.getElementById("maxSlot").value && Number(sel.value) > 0){
         for(let i = 0; i < sharePrice.length; i++){
             sharePrice[i].value = Number(sharePrice[i].defaultValue) * Number(sel.value);
             if(ppnYes.checked == true){
@@ -1047,8 +1055,8 @@ setSLot = (sel) => {
         if(ppnYes.checked == true){
             countGrandTotal();
         }
-    }else if(sel.value > JSON.parse(objProducts[0].description).slots - 1){
-        alert('Jumlah slot maksimal ' + (JSON.parse(objProducts[0].description).slots - 1));
+    }else if(sel.value > document.getElementById("maxSlot").value){
+        alert('Jumlah slot maksimal ' + document.getElementById("maxSlot").value);
         sel.value = sel.defaultValue;
         for(let i = 0; i < sharePrice.length; i++){
             if( cbShareTitle[i].checked == true ){

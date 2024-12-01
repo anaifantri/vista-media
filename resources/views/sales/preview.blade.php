@@ -332,17 +332,14 @@
                                 <!-- sign area end -->
 
                                 <!-- photo start -->
-                                @if ($category != 'Service')
-                                    <div class="flex justify-center mt-2">
-                                        <div class="sale-detail">
-                                            <img class="img-location-sale"
-                                                src="{{ asset('storage/' . $product->photo) }}">
-                                        </div>
-                                        <div class="qr-code-sale ml-4">
-
-                                        </div>
+                                <div class="flex justify-center mt-2">
+                                    <div class="sale-detail">
+                                        <img class="img-location-sale" src="{{ asset('storage/' . $product->photo) }}">
                                     </div>
-                                @endif
+                                    <div class="qr-code-sale ml-4">
+
+                                    </div>
+                                </div>
                                 <!-- photo end -->
                             </div>
                             <!-- Body end -->
@@ -389,7 +386,7 @@
                     },
                     html2canvas: {
                         dpi: 192,
-                        scale: 4,
+                        scale: 2,
                         letterRendering: true,
                         useCORS: true
                     },

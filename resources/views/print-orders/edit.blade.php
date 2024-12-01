@@ -15,18 +15,19 @@
         $updated_by->position = auth()->user()->position;
         ?>
         <input type="text" id="productType" value="{{ $product->product_type }}" hidden>
+        <input type="text" id="location_qty" value="{{ $product->location_qty }}" hidden>
         <input type="text" name="vendor_id" id="vendor_id" value="{{ $product->vendor_id }}" hidden>
-        <input type="text" name="theme" id="theme" value="{{ $print_orders->theme }}" hidden>
-        <input type="file" id="design" name="design" value="{{ $print_orders->design }}" hidden>
+        <input type="text" id="oldDesign" name="oldDesign" value="{{ $print_orders->design }}" hidden>
         <input type="text" name="product" id="product" value="{{ $print_orders->product }}" hidden>
         <input type="text" name="notes" id="notes" value="{{ $print_orders->notes }}" hidden>
         <input type="text" name="updated_by" id="updated_by" value="{{ json_encode($updated_by) }}" hidden>
-        <div class="flex justify-center bg-black">
-            <div class="mt-10">
-                <div class="flex w-[950px] items-center border-b p-2">
-                    <h1 class="flex text-xl text-cyan-800 font-bold tracking-wider w-[800px]">EDIT DATA SPK CETAK</h1>
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
+                <div class="flex w-[950px] items-center border-b p-1">
+                    <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[800px]">EDIT DATA SPK CETAK</h1>
                     <div class="flex w-full justify-end items-center">
-                        <button class="flex justify-center items-center mx-1 btn-primary" type="submit">
+                        <button class="flex justify-center items-center mx-1 btn-primary" type="submit"
+                            onclick="return fillData()">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path

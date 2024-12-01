@@ -13,7 +13,7 @@
                     <label class="flex text-xs w-28">Nama Vendor</label>
                     <label class="flex text-xs">:</label>
                     <select id="vendorId" name="vendor_id"
-                        class="flex text-sm ml-1 w-60 font-semibold text-teal-900 border rounded-lg px-1 outline-none"
+                        class="flex text-sm ml-1 w-60 font-semibold text-black border rounded-lg px-1 outline-none"
                         type="text" onchange="getVendor(this)">
                         @foreach ($vendors as $dataVendor)
                             @if ($dataVendor->id == $product->vendor_id)

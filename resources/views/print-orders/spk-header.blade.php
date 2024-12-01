@@ -9,34 +9,31 @@
         </div>
         <div class="flex justify-end w-full">
             <div>
-                <form action="/print-orders/create-order/{{ $dataId }}/{{ $orderType }}">
-                    <div class="flex mt-1">
-                        <input name="productType" type="text" value="{{ $productType }}" hidden>
-                        <label class="flex text-xs w-28">Nama Vendor</label>
-                        <label class="flex text-xs">:</label>
-                        <select id="vendorId" name="vendorId"
-                            class="flex text-sm ml-1 w-60 font-semibold text-teal-900 border rounded-lg px-1 outline-none"
-                            type="text" onchange="submit()">
-                            <option class="text-semibold" value="pilih">-- pilih --</option>
-                            @foreach ($vendors as $dataVendor)
-                                @if (request('vendorId'))
-                                    @if (request('vendorId') == $dataVendor->id)
-                                        <option class="text-semibold" value="{{ $dataVendor->id }}" selected>
-                                            {{ $dataVendor->company }}</option>
-                                    @else
-                                        <option class="text-semibold" value="{{ $dataVendor->id }}">
-                                            {{ $dataVendor->company }}
-                                        </option>
-                                    @endif
+                <div class="flex mt-1">
+                    <label class="flex text-xs w-28">Nama Vendor</label>
+                    <label class="flex text-xs">:</label>
+                    <select id="vendorId" name="vendorId"
+                        class="flex text-sm ml-1 w-60 font-semibold text-black border rounded-lg px-1 outline-none"
+                        type="text" onchange="formVendorSubmit(this)">
+                        <option class="text-semibold" value="pilih">-- pilih --</option>
+                        @foreach ($vendors as $dataVendor)
+                            @if (request('vendorID'))
+                                @if (request('vendorID') == $dataVendor->id)
+                                    <option class="text-semibold" value="{{ $dataVendor->id }}" selected>
+                                        {{ $dataVendor->company }}</option>
                                 @else
                                     <option class="text-semibold" value="{{ $dataVendor->id }}">
                                         {{ $dataVendor->company }}
                                     </option>
                                 @endif
-                            @endforeach
-                        </select>
-                    </div>
-                </form>
+                            @else
+                                <option class="text-semibold" value="{{ $dataVendor->id }}">
+                                    {{ $dataVendor->company }}
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">Alamat</label>
                     <label class="flex text-xs">:</label>

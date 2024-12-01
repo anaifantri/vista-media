@@ -1,5 +1,16 @@
 @php
     $descriptions = json_decode($locations[0]->description);
+    $maxSlot = 3;
+    $slotQty = $descriptions->slots;
+    $videotronSales = $locations[0]->videotron_active_sales;
+    if (count($videotronSales) != 0) {
+        $clientSlots = 0;
+        foreach ($videotronSales as $videotronSale) {
+            $getPrice = json_decode($videotronSale->quotation->price);
+            $clientSlots = $clientSlots + $getPrice->slotQty;
+        }
+        $maxSlot = $slotQty - $clientSlots;
+    }
     foreach ($leds as $led) {
         if ($led->id == $descriptions->led_id) {
             $dataLed = $led;
@@ -77,10 +88,11 @@
                     <div class="flex items-center">
                         <input id="cbSharing" type="checkbox" onclick="sharingPrice(this)" checked>
                         <span class="flex ml-2">Harga Sharing Untuk </span>
+                        <input type="number" id="maxSlot" value="{{ $maxSlot }}" hidden>
                         <input id="slotQty"
                             class="text-xs in-out-spin-none text-black w-7 text-center border rounded-md ml-2 outline-none bg-transparent"
-                            type="number" min="1" max="3" value="1" onkeyup="setSLot(this)"
-                            onchange="checkSlot(this)">
+                            type="number" min="1" max="{{ $maxSlot }}" value="1"
+                            onkeyup="setSLot(this)" onchange="checkSlot(this)">
                         <span class="flex ml-2">Slot</span>
                     </div>
                 </td>
@@ -157,80 +169,157 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td class="px-2 text-xs text-black border" rowspan="2">
-                    <div class="flex items-center">
-                        <input id="cbExclusive" type="checkbox" onclick="exclusivePrice(this)" checked>
-                        <span class="flex ml-2">Harga eksklusif</span>
-                    </div>
-                </td>
-                <td class="border bg-slate-100">
-                    <div class="flex w-28 justify-center items-center">
-                        <input id="cbExTitle" name="cbExTitle0" type="checkbox" checked
-                            onclick="cbExclusiveCheck(this)">
-                        <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
-                            type="text" id="exTitle" value="1 Bulan" onchange="periodeTitleCheck(this)">
-                    </div>
-                </td>
-                <td class="border bg-slate-100">
-                    <div class="flex w-28 justify-center items-center">
-                        <input id="cbExTitle" name="cbExTitle1" type="checkbox" checked
-                            onclick="cbExclusiveCheck(this)">
-                        <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
-                            type="text" id="exTitle" value="3 Bulan" onchange="periodeTitleCheck(this)">
-                    </div>
-                </td>
-                <td class="border bg-slate-100">
-                    <div class="flex w-28 justify-center items-center">
-                        <input id="cbExTitle" name="cbExTitle2" type="checkbox" checked
-                            onclick="cbExclusiveCheck(this)">
-                        <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
-                            type="text" id="exTitle" value="6 Bulan" onchange="periodeTitleCheck(this)">
-                    </div>
-                </td>
-                <td class="border bg-slate-100">
-                    <div class="flex w-28 justify-center items-center">
-                        <input id="cbExTitle" name="cbExTitle3" type="checkbox" checked
-                            onclick="cbExclusiveCheck(this)">
-                        <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
-                            type="text" id="exTitle" value="1 Tahun" onchange="periodeTitleCheck(this)">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="border">
-                    <div class="flex w-28 justify-center items-center">
-                        <input id="exPrice"
-                            class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price / 10 }}"
-                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
-                    </div>
-                </td>
-                <td class="border">
-                    <div class="flex w-28 justify-center items-center">
-                        <input id="exPrice"
-                            class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price * (27.5 / 100) }}"
-                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
-                    </div>
-                </td>
-                <td class="border">
-                    <div class="flex w-28 justify-center items-center">
-                        <input id="exPrice"
-                            class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price * (52.5 / 100) }}"
-                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
-                    </div>
-                </td>
-                <td class="border">
-                    <div class="flex w-28 justify-center items-center">
-                        <input id="exPrice"
-                            class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
-                            type="number" min="0" value="{{ $locations[0]->price }}"
-                            onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
-                    </div>
-                </td>
-            </tr>
+            @if (count($videotronSales) == 0)
+                <tr>
+                    <td class="px-2 text-xs text-black border" rowspan="2">
+                        <div class="flex items-center">
+                            <input id="cbExclusive" type="checkbox" onclick="exclusivePrice(this)" checked>
+                            <span class="flex ml-2">Harga eksklusif</span>
+                        </div>
+                    </td>
+                    <td class="border bg-slate-100">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="cbExTitle" name="cbExTitle0" type="checkbox" checked
+                                onclick="cbExclusiveCheck(this)">
+                            <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                                type="text" id="exTitle" value="1 Bulan" onchange="periodeTitleCheck(this)">
+                        </div>
+                    </td>
+                    <td class="border bg-slate-100">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="cbExTitle" name="cbExTitle1" type="checkbox" checked
+                                onclick="cbExclusiveCheck(this)">
+                            <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                                type="text" id="exTitle" value="3 Bulan" onchange="periodeTitleCheck(this)">
+                        </div>
+                    </td>
+                    <td class="border bg-slate-100">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="cbExTitle" name="cbExTitle2" type="checkbox" checked
+                                onclick="cbExclusiveCheck(this)">
+                            <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                                type="text" id="exTitle" value="6 Bulan" onchange="periodeTitleCheck(this)">
+                        </div>
+                    </td>
+                    <td class="border bg-slate-100">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="cbExTitle" name="cbExTitle3" type="checkbox" checked
+                                onclick="cbExclusiveCheck(this)">
+                            <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                                type="text" id="exTitle" value="1 Tahun" onchange="periodeTitleCheck(this)">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="exPrice"
+                                class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
+                                type="number" min="0" value="{{ $locations[0]->price / 10 }}"
+                                onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
+                        </div>
+                    </td>
+                    <td class="border">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="exPrice"
+                                class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
+                                type="number" min="0" value="{{ $locations[0]->price * (27.5 / 100) }}"
+                                onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
+                        </div>
+                    </td>
+                    <td class="border">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="exPrice"
+                                class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
+                                type="number" min="0" value="{{ $locations[0]->price * (52.5 / 100) }}"
+                                onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
+                        </div>
+                    </td>
+                    <td class="border">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="exPrice"
+                                class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
+                                type="number" min="0" value="{{ $locations[0]->price }}"
+                                onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
+                        </div>
+                    </td>
+                </tr>
+            @else
+                <tr hidden>
+                    <td class="px-2 text-xs text-black border" rowspan="2">
+                        <div class="flex items-center">
+                            <input id="cbExclusive" type="checkbox" onclick="exclusivePrice(this)">
+                            <span class="flex ml-2">Harga eksklusif</span>
+                        </div>
+                    </td>
+                    <td class="border bg-slate-100">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="cbExTitle" name="cbExTitle0" type="checkbox"
+                                onclick="cbExclusiveCheck(this)">
+                            <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                                type="text" id="exTitle" value="1 Bulan" onchange="periodeTitleCheck(this)">
+                        </div>
+                    </td>
+                    <td class="border bg-slate-100">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="cbExTitle" name="cbExTitle1" type="checkbox"
+                                onclick="cbExclusiveCheck(this)">
+                            <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                                type="text" id="exTitle" value="3 Bulan" onchange="periodeTitleCheck(this)">
+                        </div>
+                    </td>
+                    <td class="border bg-slate-100">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="cbExTitle" name="cbExTitle2" type="checkbox"
+                                onclick="cbExclusiveCheck(this)">
+                            <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                                type="text" id="exTitle" value="6 Bulan" onchange="periodeTitleCheck(this)">
+                        </div>
+                    </td>
+                    <td class="border bg-slate-100">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="cbExTitle" name="cbExTitle3" type="checkbox"
+                                onclick="cbExclusiveCheck(this)">
+                            <input class="text-xs text-black  ml-1 w-16 text-center outline-none border rounded-md"
+                                type="text" id="exTitle" value="1 Tahun" onchange="periodeTitleCheck(this)">
+                        </div>
+                    </td>
+                </tr>
+                <tr hidden>
+                    <td class="border">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="exPrice"
+                                class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
+                                type="number" min="0" value="{{ $locations[0]->price / 10 }}"
+                                onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
+                        </div>
+                    </td>
+                    <td class="border">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="exPrice"
+                                class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
+                                type="number" min="0" value="{{ $locations[0]->price * (27.5 / 100) }}"
+                                onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
+                        </div>
+                    </td>
+                    <td class="border">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="exPrice"
+                                class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
+                                type="number" min="0" value="{{ $locations[0]->price * (52.5 / 100) }}"
+                                onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
+                        </div>
+                    </td>
+                    <td class="border">
+                        <div class="flex w-28 justify-center items-center">
+                            <input id="exPrice"
+                                class="flex text-center text-xs in-out-spin-none text-black w-[112px] outline-none font-semibold"
+                                type="number" min="0" value="{{ $locations[0]->price }}"
+                                onkeyup="inputPriceChange(this)" onchange="checkPrice(this)">
+                        </div>
+                    </td>
+                </tr>
+            @endif
             <tr>
                 <td class="border px-2 text-right text-xs text-black font-semibold">
                     Include PPN..?

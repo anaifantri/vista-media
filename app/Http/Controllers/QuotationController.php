@@ -99,11 +99,46 @@ class QuotationController extends Controller
                 if($request->serviceType){
                     if($request->serviceType == "new"){
                         $dataLocations = Location::filter(request('search'))->area()->city()->print()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
-                        // dd($dataLocations);
                     }else if($request->serviceType == "existing"){
                         $dataSales = Sale::filter(request('search'))->service()->area()->city()->sortable()->paginate(15)->withQueryString();
-                        $sales = $dataSales;
+                        // $sales = $dataSales;
                         foreach ($dataSales as $sale) {
+                            $product = json_decode($sale->product);
+                            $description = json_decode($product->description);
+                            if($product->category != "Signage" || ($product->category == "Signage" && $description->type != "Videotron")){
+                                $sales->push($sale);
+                                $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
+                                if($revision){
+                                    $notes = json_decode($revision->notes);
+                                    $freePrint = $notes->freePrint;
+                                    $freeInstall = $notes->freeInstall;
+                                    $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
+                                    $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
+                                }else{
+                                    $notes = json_decode($sale->quotation->notes);
+                                    $freePrint = $notes->freePrint;
+                                    $freeInstall = $notes->freeInstall;
+                                    $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
+                                    $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
+                                }
+    
+                                if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
+                                    $dataLocations->push(json_decode($sale->product));
+                                    array_push($clients,json_decode($sale->quotation->clients));
+                                    array_push($freePrints, $freePrint);
+                                    array_push($usedPrints, count($dataPrints));
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    $dataSales = Sale::filter(request('search'))->service()->area()->city()->sortable()->paginate(15)->withQueryString();
+                    // $sales = $dataSales;
+                    foreach ($dataSales as $sale) {
+                        $product = json_decode($sale->product);
+                        $description = json_decode($product->description);
+                        if($product->category != "Signage" || ($product->category == "Signage" && $description->type != "Videotron")){
+                            $sales->push($sale);
                             $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
                             if($revision){
                                 $notes = json_decode($revision->notes);
@@ -127,32 +162,6 @@ class QuotationController extends Controller
                             }
                         }
                     }
-                }else{
-                    $dataSales = Sale::filter(request('search'))->service()->area()->city()->sortable()->paginate(15)->withQueryString();
-                    $sales = $dataSales;
-                    foreach ($dataSales as $sale) {
-                        $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
-                        if($revision){
-                            $notes = json_decode($revision->notes);
-                            $freePrint = $notes->freePrint;
-                            $freeInstall = $notes->freeInstall;
-                            $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
-                            $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
-                        }else{
-                            $notes = json_decode($sale->quotation->notes);
-                            $freePrint = $notes->freePrint;
-                            $freeInstall = $notes->freeInstall;
-                            $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
-                            $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
-                        }
-
-                        if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
-                            $dataLocations->push(json_decode($sale->product));
-                            array_push($clients,json_decode($sale->quotation->clients));
-                            array_push($freePrints, $freePrint);
-                            array_push($usedPrints, count($dataPrints));
-                        }
-                    }
                 }
             }else{
                 if($request->quotationType){
@@ -161,7 +170,7 @@ class QuotationController extends Controller
                     }else if($request->quotationType == "extend"){
                         $dataLocations = Location::categoryName($category)->quotationExtend()->filter(request('search'))->area()->city()->type()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
                         foreach ($dataLocations as $location) {
-                            $salesData = Sale::where('location_id', $location->id)->get()->last();
+                            $salesData = $location->active_sale;
                             $sales->push($salesData);
                             array_push($clients, json_decode($salesData->quotation->clients));
                         }

@@ -13,9 +13,9 @@
                     <label class="flex text-xs w-28">Nama Vendor</label>
                     <label class="flex text-xs">:</label>
                     @if ($vendor != null)
-                        <label class="flex text-xs ml-1 w-60">{{ $vendor->company }}</label>
+                        <label class="flex text-xs font-semibold ml-1 w-60">{{ $vendor->company }}</label>
                     @else
-                        <label class="flex text-xs ml-1 w-60"></label>
+                        <label class="flex text-xs font-semibold ml-1 w-60"></label>
                     @endif
                 </div>
                 <div class="flex mt-1">

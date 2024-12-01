@@ -47,28 +47,32 @@ class Sale extends Model
                     })
                     ->whereHas('media_category', function($query){
                                     $query->where('name', '!=', 'Service');
-                    })
-                    ->whereHas('media_category', function($query){
-                                    $query->where('name', '!=', 'Signage');
-                    })
-                    ->orWhereJsonContains('product->description->type','Neon Box')
-                    ->orWhereJsonContains('product->description->type','Papan');
+                    });
     }
     public function scopePrint($query){
         return $query->whereHas('media_category', function($query){
-                                    $query->where('name', '==', 'Service');
+                                    $query->where('name', '=', 'Service');
                     });
     }
-    public function scopeInstall($query){
+
+    public function scopePrintOrder($query){
         return $query->whereHas('media_category', function($query){
-                                    $query->where('name', '==', 'Service');
-                    });
+                                    $query->where('name', '=', 'Service');
+                    })
+                    ->whereDoesntHave('print_order');
     }
+
+    public function scopeInstallOrder($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '=', 'Service');
+                    })
+                    ->whereDoesntHave('install_order');
+    }
+
     public function scopeFree($query){
-        return $query->whereHas('quotation', function($query){
-                    $query->where('notes->freePrint', '>', 0);
-                });
+        return $query->where('end_at', '>', date('Y-m-d'));
     }
+
     public function scopeFreeInstall($query){
         return $query->whereHas('quotation', function($query){
                     $query->where('notes->freeInstall', '>', 0);

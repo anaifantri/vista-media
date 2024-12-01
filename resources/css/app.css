@@ -76,10 +76,10 @@
 
 /* Button */
 .btn-primary {
-    @apply p-2 w-max h-8 bg-amber-600 rounded-lg text-white hover:bg-amber-700 drop-shadow-md;
+    @apply p-2 w-max h-8 bg-teal-500 rounded-lg text-white hover:bg-teal-700 drop-shadow-md;
 }
 .btn-primary-small {
-    @apply p-2 w-max h-6 bg-amber-600 rounded-lg text-white hover:bg-amber-700 drop-shadow-md;
+    @apply p-2 w-max h-6 bg-teal-500 rounded-lg text-white hover:bg-teal-700 drop-shadow-md;
 }
 
 .btn-success {
@@ -373,11 +373,11 @@
 }
 
 .label-sale-01 {
-    @apply text-sm text-stone-900 w-28;
+    @apply text-xs text-stone-900 w-28;
 }
 
 .label-sale-02 {
-    @apply text-sm text-stone-900 ml-2;
+    @apply text-xs text-stone-900 ml-2;
 }
 
 .btn-sale {
@@ -397,15 +397,15 @@
 }
 
 .sale-note-title {
-    @apply text-sm font-semibold underline text-stone-900;
+    @apply text-xs font-semibold underline text-stone-900;
 }
 
 .label-sale-notes {
-    @apply flex text-sm text-stone-900 w-[340px];
+    @apply flex text-xs text-stone-900 w-[340px];
 }
 
 .label-number-notes {
-    @apply ml-1 flex text-sm text-stone-900 w-4;
+    @apply ml-1 flex text-xs text-stone-900 w-4;
 }
 
 .line-label {

@@ -1,5 +1,16 @@
 @php
     $descriptions = json_decode($products[0]->description);
+    $maxSlot = 3;
+    $slotQty = $descriptions->slots;
+    $videotronSales = $location->videotron_active_sales;
+    if (count($videotronSales) != 0) {
+        $clientSlots = 0;
+        foreach ($videotronSales as $videotronSale) {
+            $getPrice = json_decode($videotronSale->quotation->price);
+            $clientSlots = $clientSlots + $getPrice->slotQty;
+        }
+        $maxSlot = $slotQty - $clientSlots;
+    }
     foreach ($leds as $led) {
         if ($led->id == $descriptions->led_id) {
             $dataLed = $led;
@@ -111,9 +122,10 @@
                         <div class="flex items-center">
                             <input id="cbSharing" type="checkbox" onclick="sharingPrice(this)" checked>
                             <span class="flex ml-2">Harga Sharing </span>
+                            <input type="number" id="maxSlot" value="{{ $maxSlot }}" hidden>
                             <input id="slotQty"
                                 class="text-xs in-out-spin-none text-black w-7 text-center border rounded-md ml-2 outline-none bg-transparent"
-                                type="number" min="1" max="3" value="{{ $price->slotQty }}"
+                                type="number" min="1" max="{{ $maxSlot }}" value="{{ $price->slotQty }}"
                                 onkeyup="setSLot(this)" onchange="checkSlot(this)">
                             <span class="flex ml-2">Slot</span>
                         </div>

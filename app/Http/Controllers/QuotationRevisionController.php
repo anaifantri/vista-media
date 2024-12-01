@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\QuotationRevision;
 use App\Models\QuotRevisionStatus;
 use App\Models\Quotation;
+use App\Models\Location;
 use App\Models\Company;
 use App\Models\Led;
 use App\Models\PrintingProduct;
@@ -46,12 +47,21 @@ class QuotationRevisionController extends Controller
     public function revision(String $category, String $id): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
+            $quotation = Quotation::findOrFail($id);
+            $products = json_decode($quotation->products);
+            $dataDescription = json_decode($products[0]->description);
+            $location = null;
+            if($category == "Videotron" || ($category == "Signage" && $description->type == "Videotron")){
+                $location = Location::findOrFail($products[0]->id);
+            }
             $companies = Company::with('quotations')->get();
             $media_categories = MediaCategory::with('quotations')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
 
             return view('quotation-revisions.create', [
-                'quotation' => Quotation::findOrFail($id),
+                'quotation' => $quotation,
+                'location' => $location,
+                'products' => $products,
                 'printing_products'=>PrintingProduct::all(),
                 'installation_prices'=>InstallationPrice::all(),
                 'leds' => Led::all(),

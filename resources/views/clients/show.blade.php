@@ -30,16 +30,16 @@
                     </div>
                     <div class="mt-2 w-full">
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">Nama Klien</label>
-                            <h6 class="text-base font-semibold text-stone-900">{{ $client->name }}</h6>
+                            <h6 class="text-sm font-semibold text-stone-900">{{ $client->name }}</h6>
                         </div>
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">Nama Perusahaan</label>
-                            <h6 class="text-base font-semibold text-stone-900">{{ $client->company }}</h6>
+                            <h6 class="text-sm font-semibold text-stone-900">{{ $client->company }}</h6>
                         </div>
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">Alamat</label>
-                            <h6 class="text-base font-semibold text-stone-900">{{ $client->address }}</h6>
+                            <h6 class="text-sm font-semibold text-stone-900">{{ $client->address }}</h6>
                         </div>
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">Katagori</label>
-                            <h6 class="text-base font-semibold text-stone-900">
+                            <h6 class="text-sm font-semibold text-stone-900">
                                 @if ($client->client_category_id)
                                     {{ $client->client_category->name }}
                                 @else
@@ -49,29 +49,29 @@
                         </div>
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">Email</label>
                             @if ($client->email)
-                                <h6 class="text-base font-semibold text-stone-900">{{ $client->email }}</h6>
+                                <h6 class="text-sm font-semibold text-stone-900">{{ $client->email }}</h6>
                             @else
-                                <h6 class="text-base font-semibold text-stone-900">-</h6>
+                                <h6 class="text-sm font-semibold text-stone-900">-</h6>
                             @endif
                         </div>
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">No. Telepon</label>
                             @if ($client->phone)
-                                <h6 class="text-base font-semibold text-stone-900">{{ $client->phone }}</h6>
+                                <h6 class="text-sm font-semibold text-stone-900">{{ $client->phone }}</h6>
                             @else
-                                <h6 class="text-base font-semibold text-stone-900">-</h6>
+                                <h6 class="text-sm font-semibold text-stone-900">-</h6>
                             @endif
                         </div>
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">Dibuat Oleh</label>
-                            <h6 class="text-base font-semibold text-stone-900">{{ $client->user->name }}</h6>
+                            <h6 class="text-sm font-semibold text-stone-900">{{ $client->user->name }}</h6>
                         </div>
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">Tanggal Terdaftar</label>
-                            <h6 class="text-base font-semibold text-stone-900">{{ date('d', $createdDate) }}
+                            <h6 class="text-sm font-semibold text-stone-900">{{ date('d', $createdDate) }}
                                 {{ $bulan[(int) date('m', $createdDate)] }}
                                 {{ date('Y', $createdDate) }}
                             </h6>
                         </div>
                         <div class="border-b mt-1"><label class="text-sm text-stone-900">Tanggal Perubahan Terakhir</label>
-                            <h6 class="text-base font-semibold text-stone-900">{{ date('d', $updatedDate) }}
+                            <h6 class="text-sm font-semibold text-stone-900">{{ date('d', $updatedDate) }}
                                 {{ $bulan[(int) date('m', $updatedDate)] }}
                                 {{ date('Y', $updatedDate) }}
                             </h6>
@@ -229,7 +229,7 @@
                                                     $genders = ['Male', 'Female'];
                                                 @endphp
                                                 <select
-                                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                                                    class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
                                                     name="gender" value="{{ old('gender') }}" required>
                                                     <option value="pilih">Pilih Jenis Kelamin</option>
                                                     @foreach ($genders as $gender)
@@ -273,7 +273,7 @@
                                             <div class="flex mt-1 items-center">
                                                 <label class="text-sm text-stone-900 w-[150px]">No. Handphone</label>
                                                 <input
-                                                    class="flex px-2 text-base in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                                    class="flex px-2 text-sm in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                                     type="number" min="0" id="phone" name="phone"
                                                     placeholder="Input No. Handphone" value="{{ old('phone') }}"
                                                     required>
@@ -286,7 +286,7 @@
                                             <div class="flex mt-1 items-center">
                                                 <label class="text-sm text-stone-900 w-[150px]">Jabatan</label>
                                                 <input
-                                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                                    class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
                                                     type="text" id="position" name="position"
                                                     placeholder="Input Jabatan" value="{{ old('position') }}">
                                             </div>
@@ -365,7 +365,7 @@
                                                     $genders = ['Male', 'Female'];
                                                 @endphp
                                                 <select
-                                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
+                                                    class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('gender') is-invalid @enderror"
                                                     name="gender" value="{{ old('gender') }}" required>
                                                     <option value="pilih">Pilih Jenis Kelamin</option>
                                                     @foreach ($genders as $gender)
@@ -409,7 +409,7 @@
                                             <div class="flex mt-1 items-center">
                                                 <label class="text-sm text-stone-900 w-[150px]">No. Handphone</label>
                                                 <input
-                                                    class="flex px-2 text-base in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
+                                                    class="flex px-2 text-sm in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                                     type="number" min="0" id="phone" name="phone"
                                                     placeholder="Input No. Handphone" value="{{ old('phone') }}"
                                                     required>
@@ -422,7 +422,7 @@
                                             <div class="flex mt-1 items-center">
                                                 <label class="text-sm text-stone-900 w-[150px]">Jabatan</label>
                                                 <input
-                                                    class="flex px-2 text-base font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
+                                                    class="flex px-2 text-sm font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('position') is-invalid @enderror"
                                                     type="text" id="position" name="position"
                                                     placeholder="Input Jabatan" value="{{ old('position') }}">
                                             </div>

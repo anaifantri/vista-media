@@ -4,12 +4,12 @@
         <table class="table-sign">
             <thead>
                 <tr>
-                    <th class="text-teal-900 font-semibold text-sm border w-[260px]">Kode Lokasi :
+                    <th class="text-black font-semibold text-sm border w-[260px]">Kode Lokasi :
                         {{ $code }}-{{ $cityCode }}</th>
-                    @if ($orderType == 'sale')
-                        <th class="text-teal-900 text-sm font-semibold border">Data Penjualan</th>
+                    @if ($orderType == 'sales' || $orderType == 'free')
+                        <th class="text-black text-sm font-semibold border">Data Penjualan</th>
                     @else
-                        <th class="text-teal-900 font-semibold text-sm border">Google Maps</th>
+                        <th class="text-black font-semibold text-sm border">Google Maps</th>
                     @endif
                 </tr>
             </thead>
@@ -22,12 +22,14 @@
                         </div>
                     </td>
                     <td class="border p-1 text-center">
-                        @if ($orderType == 'sale')
-                            <label class="flex justify-center text-sm text-teal-900">No. Penjualan</label>
-                            <label class="flex justify-center text-sm text-teal-900">{{ $dataOrder->number }}</label>
+                        @if ($orderType == 'sales' || $orderType == 'free')
+                            <label class="flex justify-center text-sm text-black">No. Penjualan</label>
+                            <label id="saleNumber"
+                                class="flex justify-center text-sm text-black">{{ $dataOrder->number }}</label>
+                        @else
+                            <label id="saleNumber" class="hidden justify-center text-sm text-black"></label>
                         @endif
                         <div class="flex w-full justify-center items-center mt-4">
-                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/') }}
                         </div>
                     </td>
                 </tr>

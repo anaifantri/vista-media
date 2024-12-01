@@ -75,9 +75,9 @@ class ClientController extends Controller
                 $newCode = 1;
             }
             
-            if($newCode < 100 ){
+            if($newCode < 10 ){
                 $code = 'CLI-000'.$newCode;
-            } elseif($newCode < 10 ){
+            } elseif($newCode >= 10 && $newCode < 100){
                 $code = 'CLI-00'.$newCode;
             } else {
                 $code = 'CLI-0'.$newCode;

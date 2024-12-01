@@ -25,6 +25,14 @@ class PrintingPrice extends Model
         }
     }
 
+    public function scopeName($query){
+        if (request('productName')) {
+            return $query->whereHas('printing_product', function($query){
+                $query->where('name', 'like', '%' . request('productName') . '%');
+            });
+        }
+    }
+
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->WhereHas('printing_product', function($query) use ($search){

@@ -53,8 +53,7 @@
         <div id="paymentTerms">
             <div class="flex">
                 <label class="ml-1 text-sm">-</label>
-                <input class="text-sm ml-2 outline-none border rounded-md px-1 w-12" type="number" min="0"
-                    max="100" value="100">
+                <input class="term-of-payment" type="number" min="0" max="100" value="100">
                 <textarea class="text-area-notes" rows="1">% sebelum materi iklan tayang</textarea>
             </div>
         </div>

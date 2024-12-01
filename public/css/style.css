@@ -633,6 +633,14 @@ video {
   z-index: 50;
 }
 
+.col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+
 .m-1 {
   margin: 0.25rem;
 }
@@ -1042,6 +1050,10 @@ video {
   height: 430px;
 }
 
+.h-\[440px\] {
+  height: 440px;
+}
+
 .h-\[460px\] {
   height: 460px;
 }
@@ -1094,16 +1106,16 @@ video {
   height: 625px;
 }
 
-.h-\[675px\] {
-  height: 675px;
-}
-
 .h-\[72px\] {
   height: 72px;
 }
 
 .h-\[832px\] {
   height: 832px;
+}
+
+.h-\[840px\] {
+  height: 840px;
 }
 
 .h-\[850px\] {
@@ -1247,6 +1259,10 @@ video {
   width: 2rem;
 }
 
+.w-80 {
+  width: 20rem;
+}
+
 .w-96 {
   width: 24rem;
 }
@@ -1317,10 +1333,6 @@ video {
 
 .w-\[160px\] {
   width: 160px;
-}
-
-.w-\[165px\] {
-  width: 165px;
 }
 
 .w-\[175px\] {
@@ -1537,6 +1549,10 @@ video {
 
 .w-\[660px\] {
   width: 660px;
+}
+
+.w-\[68px\] {
+  width: 68px;
 }
 
 .w-\[700px\] {
@@ -2988,7 +3004,7 @@ video {
   width: max-content;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
-  background-color: rgb(217 119 6 / var(--tw-bg-opacity));
+  background-color: rgb(20 184 166 / var(--tw-bg-opacity));
   padding: 0.5rem;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -2998,7 +3014,7 @@ video {
 
 .btn-primary:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(180 83 9 / var(--tw-bg-opacity));
+  background-color: rgb(15 118 110 / var(--tw-bg-opacity));
 }
 
 .btn-primary-small {
@@ -3007,7 +3023,7 @@ video {
   width: max-content;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
-  background-color: rgb(217 119 6 / var(--tw-bg-opacity));
+  background-color: rgb(20 184 166 / var(--tw-bg-opacity));
   padding: 0.5rem;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -3017,7 +3033,7 @@ video {
 
 .btn-primary-small:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(180 83 9 / var(--tw-bg-opacity));
+  background-color: rgb(15 118 110 / var(--tw-bg-opacity));
 }
 
 .btn-success {
@@ -3796,16 +3812,16 @@ video {
 
 .label-sale-01 {
   width: 7rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
   --tw-text-opacity: 1;
   color: rgb(28 25 23 / var(--tw-text-opacity));
 }
 
 .label-sale-02 {
   margin-left: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
   --tw-text-opacity: 1;
   color: rgb(28 25 23 / var(--tw-text-opacity));
 }
@@ -3853,8 +3869,8 @@ video {
 }
 
 .sale-note-title {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
   font-weight: 600;
   --tw-text-opacity: 1;
   color: rgb(28 25 23 / var(--tw-text-opacity));
@@ -3864,8 +3880,8 @@ video {
 .label-sale-notes {
   display: flex;
   width: 340px;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
   --tw-text-opacity: 1;
   color: rgb(28 25 23 / var(--tw-text-opacity));
 }
@@ -3874,8 +3890,8 @@ video {
   margin-left: 0.25rem;
   display: flex;
   width: 1rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
   --tw-text-opacity: 1;
   color: rgb(28 25 23 / var(--tw-text-opacity));
 }

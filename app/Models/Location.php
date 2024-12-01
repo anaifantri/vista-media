@@ -48,16 +48,14 @@ class Location extends Model
     }
 
     public function scopeQuotationNew($query){
-        return $query->whereDoesntHave('sales')
-                    ->orWhereHas('latestSale', function($query){
-                        $query->where('end_at', '<', date('Y-m-d'));
-                    });
+        return $query->whereHas('media_category', function($query){
+            $query->where('name', '=', 'Videotron');
+            })
+                ->orWhereDoesntHave('active_sale');
     }
     
     public function scopeQuotationExtend($query){
-        return $query->whereHas('latestSale', function($query){
-                        $query->where('end_at', '>', date('Y-m-d'));
-                    });
+        return $query->whereHas('active_sale');
     }
 
     public function scopePrint($query){
@@ -67,15 +65,9 @@ class Location extends Model
                     ->whereHas('media_category', function($query){
                                     $query->where('name', '!=', 'Service');
                     })
-                    ->whereHas('media_category', function($query){
-                                    $query->where('name', '!=', 'Signage');
-                    })
-                    ->whereDoesntHave('sales')
-                    ->orWhereHas('sales', function($query){
-                        $query->where('end_at', '<', date('Y-m-d'));
-                    })
-                    ->orWhereJsonContains('description->type', 'Neon Box')
-                    ->orWhereJsonContains('description->type', 'Papan');
+                    ->whereDoesntHave('sales', function($query){
+                        $query->where('end_at', '>', date('Y-m-d'));
+                    });
     }
     
     public function scopeFilter($query, $filter){
@@ -130,6 +122,22 @@ class Location extends Model
         return $this->hasMany(Sale::class, 'location_id', 'id');
     }
 
+    public function active_sale(){
+        return $this->hasOne(Sale::class, 'location_id', 'id')->whereHas('media_category', function($query){
+            $query->where('name', '!=', 'Service');
+            })
+            ->where('end_at', '>', date('Y-m-d'));
+    }
+
+    public function videotron_active_sales(){
+        return $this->hasMany(Sale::class, 'location_id', 'id')->whereHas('media_category', function($query){
+            $query->where('name', '=', 'Videotron')
+                ->orWhere('name', '=', 'Signage');
+            })
+            ->where('end_at', '>', date('Y-m-d'));
+    }
+    
+
     public function latestSale() {
         return $this->hasOne(Sale::class)->latestOfMany();
     }
@@ -143,7 +151,7 @@ class Location extends Model
     }
 
     public function install_orders(){
-        return $this->hasMany(PrintOrder::class, 'location_id', 'id');
+        return $this->hasMany(InstallOrder::class, 'location_id', 'id');
     }
 
     public function licenses(){

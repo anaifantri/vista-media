@@ -56,11 +56,14 @@
             <label class="ml-1 text-sm text-black flex">Sistem pembayaran :</label>
         </div>
         <div id="paymentTerms">
-            <div class="flex">
-                <label class="ml-1 text-sm">-</label>
-                <input class="term-of-payment" type="number" min="0" max="100" value="100">
-                <textarea class="text-area-notes" rows="1">% sebelum materi iklan tayang</textarea>
-            </div>
+            @foreach ($payment_terms->dataPayments as $payment)
+                <div class="flex">
+                    <label class="ml-1 text-sm">-</label>
+                    <input class="term-of-payment" type="number" min="0" max="100"
+                        value="{{ $payment->term }}">
+                    <textarea class="text-area-notes" rows="1">{{ $payment->note }}</textarea>
+                </div>
+            @endforeach
         </div>
         <div>
             <div class="flex mt-2">

@@ -26,15 +26,15 @@
             @include('sales-report.c-header')
             <div id="chartReport" class="flex justify-center z-0">
                 <?php
-                if (fmod(count($sales), 5) == 0) {
-                    $pageQty = count($sales) / 5;
+                if (fmod(count($sales), 8) == 0) {
+                    $pageQty = count($sales) / 8;
                 } else {
-                    $pageQty = (count($sales) - fmod(count($sales), 5)) / 5 + 1;
+                    $pageQty = (count($sales) - fmod(count($sales), 8)) / 8 + 1;
                 }
                 ?>
                 <div id="pdfPreview">
                     @if (count($sales) == 0)
-                        <div class="w-[1580px] h-[1120px] px-10 mt-2 p-4 bg-white z-0">
+                        <div class="w-[1580px] h-[1120px] px-10 py-4 mt-2 bg-white z-0">
                             <div class="flex items-center border rounded-lg p-4 mt-8">
                                 <div class="w-44">
                                     <img class="ml-2" src="/img/logo-vm.png" alt="">
@@ -109,7 +109,7 @@
                         </div>
                     @else
                         @for ($i = 0; $i < $pageQty; $i++)
-                            <div class="w-[1580px] h-[1120px] px-10 mt-2 p-4 bg-white z-0">
+                            <div class="w-[1580px] h-[1120px] px-10 py-4 mt-2 bg-white z-0">
                                 <div class="flex items-center border rounded-lg p-4 mt-8">
                                     <div class="w-44">
                                         <img class="ml-2" src="/img/logo-vm.png" alt="">
@@ -167,55 +167,56 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="h-[850px] mt-2">
+                                <div class="h-[840px] mt-2">
                                     <table class="table-auto w-full">
                                         <thead>
                                             <tr class="bg-teal-100">
-                                                <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-6"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] w-6"
                                                     rowspan="2">
                                                     No.
                                                 </th>
-                                                <th class="text-teal-700 sticky top-0 border text-[0.65rem] text-center"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] text-center"
                                                     rowspan="2">
-                                                    <button class="flex justify-center items-center">@sortablelink('number', 'Data Penjualan')
+                                                    <button
+                                                        class="flex justify-center w-full items-center">@sortablelink('number', 'Data Penjualan')
                                                         <svg class="fill-current w-3 ml-1"
                                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                             <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                                         </svg>
                                                     </button>
                                                 </th>
-                                                <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-40"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] w-40"
                                                     rowspan="2">
                                                     Klien
                                                 </th>
-                                                <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-36"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] w-36"
                                                     rowspan="2">
                                                     Penawaran
                                                 </th>
-                                                <th class="text-teal-700 sticky top-0 border text-[0.65rem] w-[120px]"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] w-[120px]"
                                                     rowspan="2">
                                                     Harga
                                                 </th>
-                                                <th class="text-teal-700 sticky top-0 border text-[0.65rem]" colspan="5">
+                                                <th class="text-black sticky top-0 border text-[0.65rem]" colspan="5">
                                                     Termin Pembayaran
                                                 </th>
-                                                <th class="text-teal-700 sticky top-0 border text-[0.65rem]" colspan="2">
+                                                <th class="text-black sticky top-0 border text-[0.65rem]" colspan="2">
                                                     Penagihan
                                                 </th>
-                                                <th class="text-teal-700 sticky top-0 border text-[0.65rem]" colspan="2">
+                                                <th class="text-black sticky top-0 border text-[0.65rem]" colspan="2">
                                                     Pembayaran
                                                 </th>
                                             </tr>
                                             <tr class="bg-teal-100">
-                                                <th class="text-teal-700 border text-[0.65rem] w-10">Termin</th>
-                                                <th class="text-teal-700 border text-[0.65rem] w-20">Nominal (Rp.)</th>
-                                                <th class="text-teal-700 border text-[0.65rem] w-20">PPN (Rp.)</th>
-                                                <th class="text-teal-700 border text-[0.65rem] w-16">PPh (Rp.)</th>
-                                                <th class="text-teal-700 border text-[0.65rem] w-24">Total (Rp.)</th>
-                                                <th class="text-teal-700 border text-[0.65rem] w-20">No. Invoice</th>
-                                                <th class="text-teal-700 border text-[0.65rem] w-20">Tgl. Invoice</th>
-                                                <th class="text-teal-700 border text-[0.65rem] w-20">Jadwal Bayar</th>
-                                                <th class="text-teal-700 border text-[0.65rem] w-20">Tgl. Bayar</th>
+                                                <th class="text-black border text-[0.65rem] w-10">Termin</th>
+                                                <th class="text-black border text-[0.65rem] w-20">Nominal (Rp.)</th>
+                                                <th class="text-black border text-[0.65rem] w-20">PPN (Rp.)</th>
+                                                <th class="text-black border text-[0.65rem] w-16">PPh (Rp.)</th>
+                                                <th class="text-black border text-[0.65rem] w-24">Total (Rp.)</th>
+                                                <th class="text-black border text-[0.65rem] w-20">No. Invoice</th>
+                                                <th class="text-black border text-[0.65rem] w-20">Tgl. Invoice</th>
+                                                <th class="text-black border text-[0.65rem] w-20">Jadwal Bayar</th>
+                                                <th class="text-black border text-[0.65rem] w-20">Tgl. Bayar</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -261,13 +262,13 @@
                                                     }
                                                 @endphp
                                                 @if ($i == 0)
-                                                    @if ($loop->iteration < 6)
+                                                    @if ($loop->iteration < 9)
                                                         <tr>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 {{ $loop->iteration }}</td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-start align-top">
+                                                                class="text-black border text-[0.65rem] text-start align-top">
                                                                 <div>
                                                                     <div class="flex ml-1">
                                                                         <label class="w-10">No.</label>
@@ -316,7 +317,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-start align-top">
+                                                                class="text-black border text-[0.65rem] text-start align-top">
                                                                 <div>
                                                                     <div class="flex ml-1">
                                                                         <label class="w-10">Klien</label>
@@ -373,7 +374,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-start align-top">
+                                                                class="text-black border text-[0.65rem] text-start align-top">
                                                                 <div>
                                                                     <div class="flex ml-1">
                                                                         <label class="w-14">No.</label>
@@ -392,7 +393,9 @@
                                                                         <label
                                                                             class="ml-1">{{ date('d-M-Y', strtotime($created_at)) }}</label>
                                                                     </div>
-                                                                    @if ($sale->media_category->name == 'Billboard')
+                                                                    @if (
+                                                                        ($sale->media_category->name != 'Videotron' && $sale->media_category->name != 'Service') ||
+                                                                            ($sale->media_category->name == 'Signage' && $description->type != 'Videotron'))
                                                                         <div class="flex ml-1">
                                                                             <label class="w-14">Free Cetak</label>
                                                                             <label>:</label>
@@ -415,67 +418,50 @@
                                                                                 @endif
                                                                             </label>
                                                                         </div>
-                                                                    @elseif ($sale->media_category->name == 'Signage')
-                                                                        @if ($description->type != 'Videotron')
-                                                                            <div class="flex ml-1">
-                                                                                <label class="w-14">Free Cetak</label>
-                                                                                <label>:</label>
-                                                                                <label class="ml-1">
-                                                                                    @if ($notes->freePrint)
-                                                                                        {{ $notes->freePrint }} x
-                                                                                    @else
-                                                                                        -
-                                                                                    @endif
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="flex ml-1">
-                                                                                <label class="w-14">Free Pasang</label>
-                                                                                <label:< /label>
-                                                                                    <label class="ml-1">
-                                                                                        @if ($notes->freeInstall)
-                                                                                            {{ $notes->freeInstall }} x
-                                                                                        @else
-                                                                                            -
-                                                                                        @endif
-                                                                                    </label>
-                                                                            </div>
-                                                                        @endif
                                                                     @endif
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-start align-top px-1">
+                                                                class="text-black border text-[0.65rem] text-start align-top px-1">
                                                                 <div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-12">Harga (A)</label>
+                                                                        <label class="w-12">Harga</label>
                                                                         <label>:</label>
                                                                         <label class="ml-1 w-16 text-right">
                                                                             {{ number_format($sale->price) }}
                                                                         </label>
                                                                     </div>
+                                                                    @if ($sale->dpp != $sale->price)
+                                                                        <div class="flex ml-1">
+                                                                            <label class="w-12">DPP</label>
+                                                                            <label>:</label>
+                                                                            <label class="ml-1 w-16 text-right">
+                                                                                {{ number_format($sale->dpp) }}
+                                                                            </label>
+                                                                        </div>
+                                                                    @endif
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-12">DPP</label>
-                                                                        <label>:</label>
-                                                                        <label class="ml-1 w-16 text-right">
-                                                                            {{ number_format($sale->dpp) }}
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="flex ml-1">
-                                                                        <label class="w-12">PPN (B)</label>
+                                                                        <label class="w-12">PPN {{ $sale->ppn }}
+                                                                            %</label>
                                                                         <label>:</label>
                                                                         <label class="ml-1 w-16 text-right">
                                                                             {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
                                                                         </label>
                                                                     </div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-12">PPh (C)</label>
+                                                                        @if ($sale->pph)
+                                                                            <label class="w-12">PPh {{ $sale->pph }}
+                                                                                %</label>
+                                                                        @else
+                                                                            <label class="w-12">PPh</label>
+                                                                        @endif
                                                                         <label>:</label>
                                                                         <label class="ml-1 w-16 text-right">
                                                                             {{ number_format($sale->dpp * ($sale->pph / 100)) }}
                                                                         </label>
                                                                     </div>
                                                                     <div class="flex ml-1 border-t">
-                                                                        <label class="w-12">Total (A+B-C)</label>
+                                                                        <label class="w-12">Total</label>
                                                                         <label>:</label>
                                                                         <label class="ml-1 w-16 text-right">
                                                                             {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100)) }}
@@ -484,7 +470,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex ml-1 justify-center">
@@ -494,7 +480,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex mr-1 justify-end">
@@ -504,7 +490,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex mr-1 justify-end">
@@ -514,7 +500,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex mr-1 justify-end">
@@ -524,7 +510,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex mr-1 justify-end">
@@ -551,83 +537,76 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                             </td>
                                                         </tr>
                                                     @endif
                                                 @else
-                                                    @if ($loop->iteration > $i * 5 && $loop->iteration < ($i + 1) * 5 + 1)
+                                                    @if ($loop->iteration > $i * 8 && $loop->iteration < ($i + 1) * 8 + 1)
                                                         <tr>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 {{ $loop->iteration }}</td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-start align-top">
+                                                                class="text-black border text-[0.65rem] text-start align-top">
                                                                 <div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-8">No.</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2 w-32">{{ Str::substr($sale->number, 0, 4) }}</label>
+                                                                        <label class="w-10">No.</label>
+                                                                        <label>:</label>
+                                                                        <a href="/marketing/sales/{{ $sale->id }}"
+                                                                            class="ml-1 w-32">{{ $sale->number }}</a>
                                                                     </div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-8">Tgl.</label>
-                                                                        <label class="ml-1">:</label>
+                                                                        <label class="w-10">Tgl.</label>
+                                                                        <label>:</label>
                                                                         <label
-                                                                            class="ml-2 w-32">{{ date('d-M-Y', strtotime($sale->created_at)) }}</label>
+                                                                            class="ml-1 w-32">{{ date('d-M-Y', strtotime($sale->created_at)) }}</label>
                                                                     </div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-8">Oleh</label>
-                                                                        <label class="ml-1">:</label>
+                                                                        <label class="w-10">Oleh</label>
+                                                                        <label>:</label>
                                                                         <label
-                                                                            class="ml-2 w-32">{{ $created_by->name }}</label>
+                                                                            class="ml-1 w-32">{{ $created_by->name }}</label>
                                                                     </div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-8">Kode</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2 w-32">{{ $sale->product_code }}</label>
+                                                                        <label class="w-10">Kode</label>
+                                                                        <label>:</label>
+                                                                        <a href="/media/locations/preview/{{ $product->category }}/{{ $product->id }}"
+                                                                            class="ml-1">{{ $product->code }} -
+                                                                            {{ $product->city_code }}</a>
                                                                     </div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-8">Lokasi</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label class="ml-2 w-32">
-                                                                            @foreach ($products as $product)
-                                                                                @if ($product->code == $sale->product_code)
-                                                                                    {{ $product->address }}
-                                                                                @endif
-                                                                            @endforeach
+                                                                        <label class="w-10">Lokasi</label>
+                                                                        <label>:</label>
+                                                                        <label class="ml-1">
+                                                                            {{ $product->address }}
                                                                         </label>
                                                                     </div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-8">Size</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label class="ml-2 w-32">
-                                                                            @foreach ($products as $product)
-                                                                                @if ($product->code == $sale->product_code)
-                                                                                    {{ $product->size }}x{{ $product->side }}-
-                                                                                    @if ($product->orientation == 'Horizontal')
-                                                                                        H
-                                                                                    @elseif($product->orientation == 'Vertikal')
-                                                                                        V
-                                                                                    @endif
-                                                                                @endif
-                                                                            @endforeach
+                                                                        <label class="w-10">Size</label>
+                                                                        <label>:</label>
+                                                                        <label class="ml-1">
+                                                                            {{ $product->size }}x{{ $product->side }}-
+                                                                            @if ($product->orientation == 'Horizontal')
+                                                                                H
+                                                                            @elseif($product->orientation == 'Vertikal')
+                                                                                V
+                                                                            @endif
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-start align-top">
+                                                                class="text-black border text-[0.65rem] text-start align-top">
                                                                 <div>
                                                                     <div class="flex ml-1">
                                                                         <label class="w-8">Klien</label>
@@ -646,81 +625,70 @@
                                                                     <div class="flex ml-1">
                                                                         <label class="w-8">Jenis</label>
                                                                         <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2 w-28">{{ $sale->media_category->name }}</label>
-                                                                    </div>
-                                                                    <div class="flex ml-1">
-                                                                        <label class="w-8">Periode</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2 w-28">{{ $sale->duration }}</label>
-                                                                    </div>
-                                                                    <div class="flex ml-1">
-                                                                        <label class="w-8">Awal</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        @if ($sale->start_at)
-                                                                            <label
-                                                                                class="ml-2  w-28">{{ date('d-M-Y', strtotime($sale->start_at)) }}</label>
+                                                                        @if ($sale->media_category->name == 'Service')
+                                                                            <label class="ml-1 w-28">Cetak / Pasang</label>
                                                                         @else
-                                                                            <label class="ml-2 w-28">-</label>
+                                                                            <label
+                                                                                class="ml-1 w-28">{{ $sale->media_category->name }}</label>
                                                                         @endif
                                                                     </div>
-                                                                    <div class="flex ml-1">
-                                                                        <label class="w-8">Akhir</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        @if ($sale->end_at)
+                                                                    @if ($sale->media_category->name != 'Service')
+                                                                        <div class="flex ml-1">
+                                                                            <label class="w-8">Periode</label>
+                                                                            <label class="ml-1">:</label>
                                                                             <label
-                                                                                class="ml-2 w-28">{{ date('d-M-Y', strtotime($sale->end_at)) }}</label>
-                                                                        @else
-                                                                            <label class="ml-2 w-28">-</label>
-                                                                        @endif
-                                                                    </div>
+                                                                                class="ml-2 w-28">{{ $sale->duration }}</label>
+                                                                        </div>
+                                                                        <div class="flex ml-1">
+                                                                            <label class="w-8">Awal</label>
+                                                                            <label class="ml-1">:</label>
+                                                                            @if ($sale->start_at)
+                                                                                <label
+                                                                                    class="ml-2  w-28">{{ date('d-M-Y', strtotime($sale->start_at)) }}</label>
+                                                                            @else
+                                                                                <label class="ml-2 w-28">-</label>
+                                                                            @endif
+                                                                        </div>
+                                                                        <div class="flex ml-1">
+                                                                            <label class="w-8">Akhir</label>
+                                                                            <label class="ml-1">:</label>
+                                                                            @if ($sale->end_at)
+                                                                                <label
+                                                                                    class="ml-2 w-28">{{ date('d-M-Y', strtotime($sale->end_at)) }}</label>
+                                                                            @else
+                                                                                <label class="ml-2 w-28">-</label>
+                                                                            @endif
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-start align-top">
+                                                                class="text-black border text-[0.65rem] text-start align-top">
                                                                 <div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-8">No.</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2">{{ Str::substr($number, 0, 4) }}</label>
+                                                                        <label class="w-14">No.</label>
+                                                                        <label>:</label>
+                                                                        @if ($quotId != null)
+                                                                            <a href="/marketing/quotations/{{ $quotId }}"
+                                                                                class="ml-1">{{ Str::substr($number, 0, 10) }}..</a>
+                                                                        @elseif($quotRevisionId != null)
+                                                                            <a href="/marketing/quotation-revisions/{{ $quotRevisionId }}"
+                                                                                class="ml-1">{{ Str::substr($number, 0, 10) }}..</a>
+                                                                        @endif
                                                                     </div>
                                                                     <div class="flex ml-1">
-                                                                        <label class="w-8">Tgl.</label>
-                                                                        <label class="ml-1">:</label>
+                                                                        <label class="w-14">Tgl.</label>
+                                                                        <label>:</label>
                                                                         <label
-                                                                            class="ml-2">{{ date('d-M-Y', strtotime($created_at)) }}</label>
+                                                                            class="ml-1">{{ date('d-M-Y', strtotime($created_at)) }}</label>
                                                                     </div>
-                                                                    <div class="flex ml-1">
-                                                                        <label class="w-8">Harga</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2">{{ number_format($sale->price) }}</label>
-                                                                    </div>
-                                                                    <div class="flex ml-1">
-                                                                        <label class="w-8">DPP</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2">{{ number_format($sale->dpp) }}</label>
-                                                                    </div>
-                                                                    <div class="flex ml-1">
-                                                                        <label class="w-8">PPN</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2">{{ number_format($sale->dpp * ($sale->ppn / 100)) }}</label>
-                                                                    </div>
-                                                                    <div class="flex ml-1">
-                                                                        <label class="w-8">PPh</label>
-                                                                        <label class="ml-1">:</label>
-                                                                        <label
-                                                                            class="ml-2">{{ number_format($sale->dpp * ($sale->pph / 100)) }}</label>
-                                                                    </div>
-                                                                    @if ($sale->media_category->name == 'Billboard')
+                                                                    @if (
+                                                                        ($sale->media_category->name != 'Videotron' && $sale->media_category->name != 'Service') ||
+                                                                            ($sale->media_category->name == 'Signage' && $description->type != 'Videotron'))
                                                                         <div class="flex ml-1">
                                                                             <label class="w-14">Free Cetak</label>
-                                                                            <label class="ml-1">:</label>
-                                                                            <label class="ml-2">
+                                                                            <label>:</label>
+                                                                            <label class="ml-1">
                                                                                 @if ($notes->freePrint)
                                                                                     {{ $notes->freePrint }} x
                                                                                 @else
@@ -730,8 +698,8 @@
                                                                         </div>
                                                                         <div class="flex ml-1">
                                                                             <label class="w-14">Free Pasang</label>
-                                                                            <label class="ml-1">:</label>
-                                                                            <label class="ml-2">
+                                                                            <label>:</label>
+                                                                            <label class="ml-1">
                                                                                 @if ($notes->freeInstall)
                                                                                     {{ $notes->freeInstall }} x
                                                                                 @else
@@ -739,36 +707,59 @@
                                                                                 @endif
                                                                             </label>
                                                                         </div>
-                                                                    @elseif ($sale->media_category->name == 'Signage')
-                                                                        @if ($description->type != 'Videotron')
-                                                                            <div class="flex ml-1">
-                                                                                <label class="w-14">Free Cetak</label>
-                                                                                <label class="ml-1">:</label>
-                                                                                <label class="ml-2">
-                                                                                    @if ($notes->freePrint)
-                                                                                        {{ $notes->freePrint }} x
-                                                                                    @else
-                                                                                        -
-                                                                                    @endif
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="flex ml-1">
-                                                                                <label class="w-14">Free Pasang</label>
-                                                                                <label class="ml-1">:</label>
-                                                                                <label class="ml-2">
-                                                                                    @if ($notes->freeInstall)
-                                                                                        {{ $notes->freeInstall }} x
-                                                                                    @else
-                                                                                        -
-                                                                                    @endif
-                                                                                </label>
-                                                                            </div>
-                                                                        @endif
                                                                     @endif
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-start align-top px-1">
+                                                                <div>
+                                                                    <div class="flex ml-1">
+                                                                        <label class="w-12">Harga</label>
+                                                                        <label>:</label>
+                                                                        <label class="ml-1 w-16 text-right">
+                                                                            {{ number_format($sale->price) }}
+                                                                        </label>
+                                                                    </div>
+                                                                    @if ($sale->dpp != $sale->price)
+                                                                        <div class="flex ml-1">
+                                                                            <label class="w-12">DPP</label>
+                                                                            <label>:</label>
+                                                                            <label class="ml-1 w-16 text-right">
+                                                                                {{ number_format($sale->dpp) }}
+                                                                            </label>
+                                                                        </div>
+                                                                    @endif
+                                                                    <div class="flex ml-1">
+                                                                        <label class="w-12">PPN {{ $sale->ppn }}
+                                                                            %</label>
+                                                                        <label>:</label>
+                                                                        <label class="ml-1 w-16 text-right">
+                                                                            {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="flex ml-1">
+                                                                        @if ($sale->pph)
+                                                                            <label class="w-12">PPh {{ $sale->pph }}
+                                                                                %</label>
+                                                                        @else
+                                                                            <label class="w-12">PPh</label>
+                                                                        @endif
+                                                                        <label>:</label>
+                                                                        <label class="ml-1 w-16 text-right">
+                                                                            {{ number_format($sale->dpp * ($sale->pph / 100)) }}
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="flex ml-1 border-t">
+                                                                        <label class="w-12">Total</label>
+                                                                        <label>:</label>
+                                                                        <label class="ml-1 w-16 text-right">
+                                                                            {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100)) }}
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex ml-1 justify-center">
@@ -778,7 +769,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex mr-1 justify-end">
@@ -788,7 +779,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex mr-1 justify-end">
@@ -798,7 +789,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex mr-1 justify-end">
@@ -808,7 +799,7 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                                 <div>
                                                                     @foreach ($payment_terms->dataPayments as $terms)
                                                                         <div class="flex mr-1 justify-end">
@@ -835,16 +826,16 @@
                                                                 </div>
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                             </td>
                                                             <td
-                                                                class="text-teal-700 border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top">
                                                             </td>
                                                         </tr>
                                                     @endif
@@ -853,7 +844,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="flex justify-end mt-1 text-teal-900">
+                                <div class="flex justify-end mt-1 text-black">
                                     <label for="">Halaman {{ $i + 1 }} dari {{ $pageQty }}</label>
                                 </div>
                             </div>
@@ -862,5 +853,47 @@
                 </div>
             </div>
         </div>
+        <input id="saveName" type="text" value="Laporan C1 - {{ date('d-m-Y') }}" hidden>
     </div>
+
+
+    <!-- Script start -->
+    <script src="/js/html2canvas.min.js"></script>
+    <script src="/js/html2pdf.bundle.min.js"></script>
+    <script src="/js/qrcode.min.js"></script>
+
+    <script>
+        const saveName = document.querySelectorAll("[id=saveName]");
+        const pdfPreview = document.querySelectorAll("[id=pdfPreview]");
+        document.getElementById("btnCreatePdf").onclick = function() {
+            for (let i = 0; i < pdfPreview.length; i++) {
+                var element = document.getElementById('pdfPreview');
+                var opt = {
+                    margin: 0,
+                    filename: saveName[i].value,
+                    image: {
+                        type: 'jpeg',
+                        quality: 1
+                    },
+                    pagebreak: {
+                        mode: ['avoid-all', 'css', 'legacy']
+                    },
+                    html2canvas: {
+                        dpi: 192,
+                        scale: 2,
+                        letterRendering: true,
+                        useCORS: true
+                    },
+                    jsPDF: {
+                        unit: 'px',
+                        format: [1590, 1130],
+                        orientation: 'landscape',
+                        putTotalPages: true
+                    }
+                };
+                html2pdf().set(opt).from(element).save();
+            }
+        };
+    </script>
+    <!-- Script end -->
 @endsection

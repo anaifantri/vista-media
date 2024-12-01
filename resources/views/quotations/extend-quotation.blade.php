@@ -39,84 +39,255 @@
             @php
                 $description = json_decode($location->description);
             @endphp
-            <tr>
-                <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $loop->iteration }}
-                </td>
-                <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                    {{ $location->code }}
-                    -
-                    {{ $location->city->code }}</td>
-                <td class="text-stone-900 border border-stone-900 text-xs px-2">{{ $location->address }}
-                </td>
-                <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                    {{ $location->area->area }}</td>
-                <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                    {{ $location->city->city }}</td>
-                <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
-                    {{ $clients[$loop->iteration - 1]->name }}
-                </td>
-                <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
-                    {{ date('d-M-Y', strtotime($sales[$loop->iteration - 1]->start_at)) }}
-                </td>
-                <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
-                    {{ date('d-M-Y', strtotime($sales[$loop->iteration - 1]->end_at)) }}
-                </td>
-                @if ($category == 'Signage')
-                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                        {{ $description->type }}
-                    </td>
+            @if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron'))
+                @if (count($location->videotron_active_sales) > 1)
+                    @foreach ($location->videotron_active_sales as $location_sale)
+                        @php
+                            $client = json_decode($location_sale->quotation->clients);
+                            $start_at = $location_sale->start_at;
+                            $end_at = $location_sale->end_at;
+                        @endphp
+                        <tr>
+                            <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                {{ $loop->iteration }}
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                {{ $location->code }}
+                                -
+                                {{ $location->city->code }}</td>
+                            <td class="text-stone-900 border border-stone-900 text-xs px-2">{{ $location->address }}
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                {{ $location->area->area }}</td>
+                            <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                {{ $location->city->city }}</td>
+                            <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                                {{ $client->name }}
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                                {{ date('d-M-Y', strtotime($start_at)) }}
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                                {{ date('d-M-Y', strtotime($end_at)) }}
+                            </td>
+                            @if ($category == 'Signage')
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $description->type }}
+                                </td>
+                            @else
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $location->media_category->code }}
+                                </td>
+                            @endif
+                            <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                @if (
+                                    $location->media_category->name == 'Videotron' ||
+                                        ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                    -
+                                @else
+                                    @if ($description->lighting == 'Backlight')
+                                        BL
+                                    @elseif ($description->lighting == 'Frontlight')
+                                        FL
+                                    @elseif ($description->lighting == 'Nonlight')
+                                        NL
+                                    @endif
+                                @endif
+                            </td>
+                            @if ($category == 'Signage')
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $description->qty }}
+                                </td>
+                            @endif
+                            <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                {{ filter_var($location->side, FILTER_SANITIZE_NUMBER_INT) }}
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                {{ $location->media_size->size }}
+                                -
+                                @if ($location->orientation == 'Vertikal')
+                                    V
+                                @elseif ($location->orientation == 'Horizontal')
+                                    H
+                                @endif
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-center text-xs">
+                                @if ($location->media_category->name == 'Signage')
+                                    @if (request('type') == null || request('type') == 'All')
+                                        <input id="{{ $description->type }}" value="{{ $location_sale->id }}"
+                                            type="checkbox" title="pilih" onclick="getExtendLocation(this)" disabled>
+                                    @else
+                                        <input value="{{ $location_sale->id }}" type="checkbox" title="pilih"
+                                            onclick="getExtendLocation(this)">
+                                    @endif
+                                @else
+                                    <input value="{{ $location_sale->id }}" type="checkbox" title="pilih"
+                                        onclick="getExtendLocation(this)">
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 @else
-                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                        {{ $location->media_category->code }}
-                    </td>
-                @endif
-                <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                    @if (
-                        $location->media_category->name == 'Videotron' ||
-                            ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
-                        -
-                    @else
-                        @if ($description->lighting == 'Backlight')
-                            BL
-                        @elseif ($description->lighting == 'Frontlight')
-                            FL
-                        @elseif ($description->lighting == 'Nonlight')
-                            NL
+                    <tr>
+                        <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $loop->iteration }}
+                        </td>
+                        <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                            {{ $location->code }}
+                            -
+                            {{ $location->city->code }}</td>
+                        <td class="text-stone-900 border border-stone-900 text-xs px-2">{{ $location->address }}
+                        </td>
+                        <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                            {{ $location->area->area }}</td>
+                        <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                            {{ $location->city->city }}</td>
+                        <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                            {{ $clients[$loop->iteration - 1]->name }}
+                        </td>
+                        <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                            {{ date('d-M-Y', strtotime($sales[$loop->iteration - 1]->start_at)) }}
+                        </td>
+                        <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                            {{ date('d-M-Y', strtotime($sales[$loop->iteration - 1]->end_at)) }}
+                        </td>
+                        @if ($category == 'Signage')
+                            <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                {{ $description->type }}
+                            </td>
+                        @else
+                            <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                {{ $location->media_category->code }}
+                            </td>
                         @endif
-                    @endif
-                </td>
-                @if ($category == 'Signage')
-                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                        {{ $description->qty }}
-                    </td>
+                        <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                            @if (
+                                $location->media_category->name == 'Videotron' ||
+                                    ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                -
+                            @else
+                                @if ($description->lighting == 'Backlight')
+                                    BL
+                                @elseif ($description->lighting == 'Frontlight')
+                                    FL
+                                @elseif ($description->lighting == 'Nonlight')
+                                    NL
+                                @endif
+                            @endif
+                        </td>
+                        @if ($category == 'Signage')
+                            <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                {{ $description->qty }}
+                            </td>
+                        @endif
+                        <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                            {{ filter_var($location->side, FILTER_SANITIZE_NUMBER_INT) }}
+                        </td>
+                        <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                            {{ $location->media_size->size }}
+                            -
+                            @if ($location->orientation == 'Vertikal')
+                                V
+                            @elseif ($location->orientation == 'Horizontal')
+                                H
+                            @endif
+                        </td>
+                        <td class="text-stone-900 border border-stone-900 text-center text-xs">
+                            @if ($location->media_category->name == 'Signage')
+                                @if (request('type') == null || request('type') == 'All')
+                                    <input id="{{ $description->type }}"
+                                        value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
+                                        onclick="getExtendLocation(this)" disabled>
+                                @else
+                                    <input value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox"
+                                        title="pilih" onclick="getExtendLocation(this)">
+                                @endif
+                            @else
+                                <input value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
+                                    onclick="getExtendLocation(this)">
+                            @endif
+                        </td>
+                    </tr>
                 @endif
-                <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                    {{ filter_var($location->side, FILTER_SANITIZE_NUMBER_INT) }}
-                </td>
-                <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                    {{ $location->media_size->size }}
-                    -
-                    @if ($location->orientation == 'Vertikal')
-                        V
-                    @elseif ($location->orientation == 'Horizontal')
-                        H
+            @else
+                <tr>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $loop->iteration }}
+                    </td>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                        {{ $location->code }}
+                        -
+                        {{ $location->city->code }}</td>
+                    <td class="text-stone-900 border border-stone-900 text-xs px-2">{{ $location->address }}
+                    </td>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                        {{ $location->area->area }}</td>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                        {{ $location->city->city }}</td>
+                    <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                        {{ $clients[$loop->iteration - 1]->name }}
+                    </td>
+                    <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                        {{ date('d-M-Y', strtotime($sales[$loop->iteration - 1]->start_at)) }}
+                    </td>
+                    <td class="text-stone-900 border border-stone-900 text-xs px-2 text-center">
+                        {{ date('d-M-Y', strtotime($sales[$loop->iteration - 1]->end_at)) }}
+                    </td>
+                    @if ($category == 'Signage')
+                        <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                            {{ $description->type }}
+                        </td>
+                    @else
+                        <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                            {{ $location->media_category->code }}
+                        </td>
                     @endif
-                </td>
-                <td class="text-stone-900 border border-stone-900 text-center text-xs">
-                    @if ($location->media_category->name == 'Signage')
-                        @if (request('type') == null || request('type') == 'All')
-                            <input id="{{ $description->type }}" value="{{ $sales[$loop->iteration - 1]->id }}"
-                                type="checkbox" title="pilih" onclick="getExtendLocation(this)" disabled>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                        @if (
+                            $location->media_category->name == 'Videotron' ||
+                                ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                            -
+                        @else
+                            @if ($description->lighting == 'Backlight')
+                                BL
+                            @elseif ($description->lighting == 'Frontlight')
+                                FL
+                            @elseif ($description->lighting == 'Nonlight')
+                                NL
+                            @endif
+                        @endif
+                    </td>
+                    @if ($category == 'Signage')
+                        <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                            {{ $description->qty }}
+                        </td>
+                    @endif
+                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                        {{ filter_var($location->side, FILTER_SANITIZE_NUMBER_INT) }}
+                    </td>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                        {{ $location->media_size->size }}
+                        -
+                        @if ($location->orientation == 'Vertikal')
+                            V
+                        @elseif ($location->orientation == 'Horizontal')
+                            H
+                        @endif
+                    </td>
+                    <td class="text-stone-900 border border-stone-900 text-center text-xs">
+                        @if ($location->media_category->name == 'Signage')
+                            @if (request('type') == null || request('type') == 'All')
+                                <input id="{{ $description->type }}" value="{{ $sales[$loop->iteration - 1]->id }}"
+                                    type="checkbox" title="pilih" onclick="getExtendLocation(this)" disabled>
+                            @else
+                                <input value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
+                                    onclick="getExtendLocation(this)">
+                            @endif
                         @else
                             <input value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
                                 onclick="getExtendLocation(this)">
                         @endif
-                    @else
-                        <input value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
-                            onclick="getExtendLocation(this)">
-                    @endif
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            @endif
         @endforeach
     </tbody>
 </table>

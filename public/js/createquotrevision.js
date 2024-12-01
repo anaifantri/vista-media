@@ -727,7 +727,7 @@ cbBillboardCheck = (sel) => {
 // Function Input Slot Action --> start
 setSLot = (sel) => {
     const sharePrice = document.querySelectorAll('[id=sharePrice]');
-    if(Number(sel.value) < JSON.parse(objProducts[0].description).slots && Number(sel.value) > 0){
+    if(Number(sel.value) < document.getElementById("maxSlot").value && Number(sel.value) > 0){
         for(let i = 0; i < sharePrice.length; i++){
             if(i == 0){
                 sharePrice[i].value = ((objProducts[0].price * 0.275) / 10) * Number(sel.value);
@@ -749,8 +749,8 @@ setSLot = (sel) => {
         if(ppnYes.checked == true){
             countGrandTotal();
         }
-    }else if(sel.value > JSON.parse(objProducts[0].description).slots - 1){
-        alert('Jumlah slot maksimal ' + (JSON.parse(objProducts[0].description).slots - 1));
+    }else if(sel.value > document.getElementById("maxSlot").value){
+        alert('Jumlah slot maksimal ' + document.getElementById("maxSlot").value);
         sel.value = sel.defaultValue;
         for(let i = 0; i < sharePrice.length; i++){
             sharePrice[i].value = Number(sharePrice[i].defaultValue);

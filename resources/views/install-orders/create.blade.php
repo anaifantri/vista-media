@@ -17,29 +17,60 @@
             'Desember',
         ];
         $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
-        if ($orderType == 'sale') {
+        if ($orderType == 'free') {
+            $photo = $location->location_photos->where('set_default', true)->last();
             $location_id = $product->id;
-            $company_id = $dataOrder->company_id;
+            $location_photo = $product->photo;
+            $location_address = $product->address;
             $code = $product->code;
             $cityCode = $product->city_code;
             $side = $product->side;
             $size = $product->size;
-            $location_photo = $product->location_photo;
-            $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT);
             $width = $product->width;
             $height = $product->height;
+            if ($product->category == 'Signage') {
+                $description = json_decode($product->description);
+                $location_qty = $description->qty;
+            } else {
+                $location_qty = 1;
+            }
+            $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
+        } elseif ($orderType == 'sales') {
+            $location_id = $product->id;
+            $location_photo = $product->photo;
+            $location_address = $product->address;
+            $code = $product->code;
+            $cityCode = $product->city_code;
+            $side = $product->side;
+            $size = $product->size;
+            $width = $product->width;
+            $height = $product->height;
+            if ($product->category == 'Signage') {
+                $description = json_decode($product->description);
+                $location_qty = $description->qty;
+            } else {
+                $location_qty = 1;
+            }
+            $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         } elseif ($orderType == 'location') {
+            $photo = $location->location_photos->where('set_default', true)->last();
             $location_id = $location->id;
-            $company_id = $location->company_id;
+            $location_address = $location->address;
+            $location_photo = $photo->photo;
             $code = $location->code;
             $cityCode = $location->city->code;
             $side = $location->side;
             $size = $location->media_size->size;
-            $qty = (int) filter_var($location->side, FILTER_SANITIZE_NUMBER_INT);
             $width = $location->media_size->width;
             $height = $location->media_size->height;
             $description = json_decode($location->description);
             $productType = $description->lighting;
+            if ($location_category == 'Signage') {
+                $location_qty = $description->qty;
+            } else {
+                $location_qty = 1;
+            }
+            $qty = (int) filter_var($side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         }
 
         $created_by = new stdClass();
@@ -49,14 +80,39 @@
     @endphp
     <form method="post" action="/marketing/install-orders" enctype="multipart/form-data">
         @csrf
+        <input type="text" name="company_id" id="company_id" value="{{ $company->id }}" hidden>
+        @if ($orderType == 'free')
+            <input type="text" name="sale_id" id="sale_id" value="{{ $dataOrder->id }}" hidden>
+            <input type="text" name="main_sale_id" id="main_sale_id" hidden>
+        @elseif ($orderType == 'sales')
+            <input type="text" name="sale_id" id="sale_id" value="{{ $dataOrder->id }}" hidden>
+            <input type="text" name="main_sale_id" id="main_sale_id" value="{{ $product->sale_id }}" hidden>
+        @else
+            <input type="text" name="sale_id" id="sale_id" hidden>
+            <input type="text" name="main_sale_id" id="main_sale_id" hidden>
+        @endif
+        <input type="text" id="location_id" name="location_id" value="{{ $location_id }}" hidden>
+        <input type="text" id="location_photo" name="location_photo" value="{{ $location_photo }}" hidden>
+        <input type="text" id="location_address" name="location_address" value="{{ $location_address }}" hidden>
+        <input type="text" id="location_qty" value="{{ $location_qty }}" hidden>
+        <input type="number" id="location_side" value="{{ (int) filter_var($side, FILTER_SANITIZE_NUMBER_INT) }}" hidden>
+        <input type="text" id="location_code" value="{{ $code }}" hidden>
+        <input type="text" id="cityCode" value="{{ $cityCode }}" hidden>
+        <input type="text" id="side" value="{{ $side }}" hidden>
+        <input type="text" id="type" name="type" value="{{ $productType }}" hidden>
+        <input type="text" id="product" name="product" value="{{ old('product') }}" hidden>
+        <input type="text" id="orderType" value="{{ $orderType }}" hidden>
+        <input type="text" name="created_by" id="created_by" value="{{ json_encode($created_by) }}" hidden>
+        <input type="text" name="updated_by" id="updated_by" value="{{ json_encode($created_by) }}" hidden>
         <div class="flex justify-center w-full bg-black">
             <div class="mt-10">
                 <div class="flex items-center w-[950px] border-b px-2">
-                    <!-- Title Area start -->
+                    <!-- Title start -->
                     <h1 class="index-h1 w-[800px]">MENAMBAHKAN DATA SPK PASANG GAMBAR</h1>
-                    <!-- Title Area end -->
+                    <!-- Title end -->
                     <div class="flex w-[130px] justify-end items-center p-1">
-                        <button class="flex justify-center items-center mx-1 btn-success" title="Preview" type="submit">
+                        <button class="flex justify-center items-center mx-1 btn-success" title="Preview" type="submit"
+                            onclick="return fillData()">
                             <svg class="fill-current w-5 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -75,7 +131,7 @@
                     </div>
                 </div>
                 <div class="flex justify-center w-full">
-                    <div class="w-[950px] h-[675px] bg-white mb-10 p-2 mt-2">
+                    <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
                         <!-- SPK Header start-->
                         @include('install-orders.spk-header')
                         <!-- SPK Header end-->
@@ -84,7 +140,7 @@
                         @include('install-orders.spk-body')
                         <!-- SPK Body end-->
 
-                        {{-- <div class="flex w-full justify-center items-center pt-4">
+                        <div class="flex w-full justify-center items-center pt-4">
                             <div class="border-t h-2 border-slate-500 border-dashed w-full mt-2">
                             </div>
                             <svg class="fill-slate-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -92,14 +148,14 @@
                                 <path
                                     d="M14.686 13.646l-6.597 3.181c-1.438.692-2.755-1.124-2.755-1.124l6.813-3.287 2.539 1.23zm6.168 5.354c-.533 0-1.083-.119-1.605-.373-1.511-.731-2.296-2.333-1.943-3.774.203-.822-.23-.934-.891-1.253l-11.036-5.341s1.322-1.812 2.759-1.117c.881.427 4.423 2.136 7.477 3.617l.766-.368c.662-.319 1.094-.43.895-1.252-.351-1.442.439-3.043 1.952-3.77.521-.251 1.068-.369 1.596-.369 1.799 0 3.147 1.32 3.147 2.956 0 1.23-.766 2.454-2.032 3.091-1.266.634-2.15.14-3.406.75l-.394.19.431.21c1.254.614 2.142.122 3.404.759 1.262.638 2.026 1.861 2.026 3.088 0 1.64-1.352 2.956-3.146 2.956zm-1.987-9.967c.381.795 1.459 1.072 2.406.617.945-.455 1.405-1.472 1.027-2.267-.381-.796-1.46-1.073-2.406-.618-.946.455-1.408 1.472-1.027 2.268zm-2.834 2.819c0-.322-.261-.583-.583-.583-.321 0-.583.261-.583.583s.262.583.583.583c.322.001.583-.261.583-.583zm5.272 2.499c-.945-.457-2.025-.183-2.408.611-.381.795.078 1.814 1.022 2.271.945.458 2.024.184 2.406-.611.382-.795-.075-1.814-1.02-2.271zm-18.305-3.351h-3v2h3v-2zm4 0h-3v2h3v-2z" />
                             </svg>
-                        </div> --}}
+                        </div>
 
                         <!-- SPK Header start-->
-                        {{-- @include('install-orders.spk-header') --}}
+                        @include('install-orders.spk-header')
                         <!-- SPK Header end-->
 
                         <!-- SPK Body start-->
-                        {{-- @include('install-orders.spk-body-office') --}}
+                        @include('install-orders.spk-body-office')
                         <!-- SPK Body end-->
                     </div>
                 </div>

@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div id="divButton" class="flex justify-end w-full">
-                <button id="savePdf" class="flex justify-center items-center mx-1 btn-primary"
+                <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary"
                     title="Simpan dalam bentuk pdf" type="button">
                     <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24">

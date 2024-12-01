@@ -182,7 +182,10 @@
                                                 <div class="div-sale">
                                                     <label class="label-sale-01">No. Penawaran</label>
                                                     <label class="label-sale-02">:</label>
-                                                    <label class="label-sale-02 font-semibold">{{ $number }}</label>
+                                                    <label class="label-sale-02 font-semibold">
+                                                        <a
+                                                            href="/marketing/quotations/{{ $quot_id }}">{{ $number }}</a>
+                                                    </label>
                                                 </div>
                                                 <div class="div-sale">
                                                     <label class="label-sale-01">Tgl. Penawaran</label>
@@ -208,7 +211,8 @@
                                                 <div class="div-sale">
                                                     <label class="label-sale-01">Alamat</label>
                                                     <label class="label-sale-02">:</label>
-                                                    <textarea class="ml-1 w-[230px] outline-none border text-black text-sm p-1 font-semibold" rows="2" readonly>{{ $clients->address }}</textarea>
+                                                    <label
+                                                        class="ml-2 w-[230px] text-black text-sm font-semibold">{{ $clients->address }}</label>
                                                 </div>
                                                 @if ($clients->type == 'Perusahaan')
                                                     <div class="div-sale">
@@ -319,17 +323,14 @@
                                 <!-- sign area end -->
 
                                 <!-- photo start -->
-                                @if ($category != 'Service')
-                                    <div class="flex justify-center mt-2">
-                                        <div class="sale-detail">
-                                            <img class="img-location-sale"
-                                                src="{{ asset('storage/' . $product->photo) }}">
-                                        </div>
-                                        <div class="qr-code-sale ml-4">
-
-                                        </div>
+                                <div class="flex justify-center mt-2">
+                                    <div class="sale-detail">
+                                        <img class="img-location-sale" src="{{ asset('storage/' . $product->photo) }}">
                                     </div>
-                                @endif
+                                    <div class="qr-code-sale ml-4">
+
+                                    </div>
+                                </div>
                                 <!-- photo end -->
                             </div>
                             <!-- Body end -->
@@ -376,12 +377,12 @@
                                                         class="flex text-sm text-black h-6 items-center w-20 ml-6">Terpakai</label>
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ count($sales->print_orders) }}</label>
                                                     <label
                                                         class="flex text-sm text-black h-6 items-center w-10 ml-6">Sisa</label>
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freePrint - count($sales->print_orders) }}</label>
                                                 </div>
                                                 <div class="flex items-center">
                                                     <label
@@ -393,13 +394,15 @@
                                                         class="flex text-sm text-black h-6 items-center w-20 ml-6">Terpakai</label>
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ count($sales->install_orders) }}
                                                     </label>
                                                     <label
                                                         class="flex text-sm text-black h-6 items-center w-10 ml-6">Sisa</label>
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8"></label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">
+                                                        {{ $notes->freeInstall - count($sales->install_orders) }}
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -503,84 +506,169 @@
                                             <label class="text-sm font-semibold underline text-black">C. Data Cetak &
                                                 Pasang</label>
                                         </div>
-                                        <div class="border rounded-lg mt-1 w-[760px] p-2">
+                                        <div class="flex border rounded-lg mt-1 w-[760px] p-2">
                                             <div>
-                                                <table class="table-auto w-[740px] mt-1">
+                                                <table class="table-auto w-[360px] mt-1">
                                                     <thead>
                                                         <tr>
                                                             <th class="w-12 text-[0.65rem] text-black border"
-                                                                colspan="6">Detail Cetak</th>
-                                                            <th class="w-20 text-[0.65rem] text-black border"
-                                                                colspan="6">Detail Pasang</th>
+                                                                colspan="6">
+                                                                Detail Cetak</th>
                                                         </tr>
                                                         <tr>
                                                             <th class="w-6 text-[0.65rem] text-black border">No.</th>
-                                                            <th class="w-16 text-[0.65rem] text-black border">SPK Cetak
-                                                            </th>
+                                                            <th class="w-16 text-[0.65rem] text-black border">No. SPK</th>
                                                             <th class="w-16 text-[0.65rem] text-black border">Tgl. Cetak
                                                             </th>
-                                                            <th class="w-16 text-[0.65rem] text-black border">Design
-                                                            </th>
-                                                            <th class="w-12 text-[0.65rem] text-black border">Status
-                                                            </th>
-                                                            <th class="w-24 text-[0.65rem] text-black border">No.
-                                                                Penawaran
-                                                            </th>
-                                                            <th class="w-6 text-[0.65rem] text-black border">No.</th>
-                                                            <th class="w-16 text-[0.65rem] text-black border">SPK Pasang
-                                                            </th>
-                                                            <th class="w-16 text-[0.65rem] text-black border">Tgl.
-                                                                Pasang
-                                                            </th>
-                                                            <th class="w-16 text-[0.65rem] text-black border">Design
-                                                            </th>
-                                                            <th class="w-12 text-[0.65rem] text-black border">Status
-                                                            </th>
-                                                            <th class="w-24 text-[0.65rem] text-black border">No.
-                                                                Penawaran
+                                                            <th class="text-[0.65rem] text-black border">Design</th>
+                                                            <th class="w-12 text-[0.65rem] text-black border">Status</th>
+                                                            <th class="w-16 text-[0.65rem] text-black border">No. Penj.
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @for ($i = 0; $i < 36; $i++)
+                                                        @php
+                                                            $printNumber = 1;
+                                                        @endphp
+                                                        @foreach ($sales->print_orders as $print_order)
                                                             <tr>
                                                                 <td class="text-[0.65rem] text-black border text-center">
-                                                                    {{ $i + 1 }}</td>
+                                                                    {{ $printNumber++ }}</td>
                                                                 <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
+                                                                    <a
+                                                                        href="/marketing/print-orders/{{ $print_order->id }}">
+                                                                        {{ substr($print_order->number, 0, 8) }}..</a>
                                                                 </td>
                                                                 <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
+                                                                    {{ date('d-m-Y', strtotime($print_order->created_at)) }}
                                                                 </td>
                                                                 <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
+                                                                    @if (strlen($print_order->theme) > 15)
+                                                                        {{ substr($print_order->theme, 0, 15) }}..
+                                                                    @else
+                                                                        {{ $print_order->theme }}
+                                                                    @endif
                                                                 </td>
                                                                 <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
-                                                                </td>
-                                                                <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
-                                                                </td>
-                                                                <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
-                                                                </td>
-                                                                <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
-                                                                </td>
-                                                                <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
-                                                                </td>
-                                                                <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
-                                                                </td>
-                                                                <td class="text-[0.65rem] text-black border text-center">
-                                                                    -
+                                                                    Free
                                                                 </td>
                                                                 <td class="text-[0.65rem] text-black border text-center">
                                                                     -
                                                                 </td>
                                                             </tr>
-                                                        @endfor
+                                                        @endforeach
+                                                        @foreach ($paid_print_orders as $paid_print_order)
+                                                            <tr>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    {{ $printNumber++ }}</td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    <a
+                                                                        href="/marketing/print-orders/{{ $paid_print_order->id }}">
+                                                                        {{ substr($paid_print_order->number, 0, 8) }}..</a>
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    {{ date('d-m-Y', strtotime($paid_print_order->created_at)) }}
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    @if (strlen($paid_print_order->theme) > 15)
+                                                                        {{ substr($paid_print_order->theme, 0, 15) }}..
+                                                                    @else
+                                                                        {{ $paid_print_order->theme }}
+                                                                    @endif
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    Berbayar
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    <a
+                                                                        href="/marketing/sales/{{ $paid_print_order->sale->id }}">{{ substr($paid_print_order->sale->number, 0, 8) }}..</a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div>
+                                                <table class="table-auto w-[360px] mt-1 ml-4">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="w-12 text-[0.65rem] text-black border"
+                                                                colspan="6">
+                                                                Detail Pasang</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="w-6 text-[0.65rem] text-black border">No.</th>
+                                                            <th class="w-16 text-[0.65rem] text-black border">SPK Cetak
+                                                            </th>
+                                                            <th class="w-16 text-[0.65rem] text-black border">Tgl. Pasang
+                                                            </th>
+                                                            <th class="text-[0.65rem] text-black border">Design
+                                                            </th>
+                                                            <th class="w-12 text-[0.65rem] text-black border">Status
+                                                            </th>
+                                                            <th class="w-16 text-[0.65rem] text-black border">No. Penj.
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $installNumber = 1;
+                                                        @endphp
+                                                        @foreach ($sales->install_orders as $install_order)
+                                                            <tr>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    {{ $installNumber++ }}</td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    <a
+                                                                        href="/marketing/install-orders/{{ $install_order->id }}">
+                                                                        {{ substr($install_order->number, 0, 8) }}..</a>
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    {{ date('d-m-Y', strtotime($install_order->created_at)) }}
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    @if (strlen($install_order->theme) > 15)
+                                                                        {{ substr($install_order->theme, 0, 15) }}..
+                                                                    @else
+                                                                        {{ $install_order->theme }}
+                                                                    @endif
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    Free
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    -
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                        @foreach ($paid_install_orders as $paid_install_order)
+                                                            <tr>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    {{ $installNumber++ }}</td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    <a
+                                                                        href="/marketing/install-orders/{{ $paid_install_order->id }}">
+                                                                        {{ substr($paid_install_order->number, 0, 8) }}..</a>
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    {{ date('d-m-Y', strtotime($paid_install_order->created_at)) }}
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    @if (strlen($paid_install_order->theme) > 15)
+                                                                        {{ substr($paid_install_order->theme, 0, 15) }}..
+                                                                    @else
+                                                                        {{ $paid_install_order->theme }}
+                                                                    @endif
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    Berbayar
+                                                                </td>
+                                                                <td class="text-[0.65rem] text-black border text-center">
+                                                                    <a
+                                                                        href="/marketing/sales/{{ $paid_install_order->sale->id }}">{{ substr($paid_install_order->sale->number, 0, 8) }}..</a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -34,7 +34,8 @@
                         <div class="flex mt-2">
                             <input id="search" name="search"
                                 class="flex border rounded-l-lg p-1 outline-none text-base text-stone-900" type="text"
-                                placeholder="Search" value="{{ request('search') }}">
+                                placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                 type="submit">
                                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -209,7 +210,7 @@
                 </div>
             </div>
             <!-- View end -->
-            <div class="flex justify-center text-stone-100">
+            <div class="flex justify-center text-stone-100 mt-2">
                 {!! $clients->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>

@@ -430,7 +430,8 @@
             <!-- SPK Reports start -->
             @can('isOrderReport')
                 <li id="spkReports" title="Lap. SPK" class="group" onclick="childMenu(event,this)">
-                    <a class="nav-a ml-2 border-b-[1px]" href="#">
+                    <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/orders-report*') ? 'active' : '' }}"
+                        href="/marketing/orders-report">
                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -439,7 +440,7 @@
                         </svg>
                         <span class="flex w-36"> LAP. SPK </span>
                         <svg id="spkReportsArrow" name="spkReportsArrow"
-                            class="svg-arrow rotate-180 transition duration-300 ease-in-out" role="img"
+                            class="hidden rotate-180 transition duration-300 ease-in-out" role="img"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <title>Arrow</title>
                             <path
@@ -447,7 +448,7 @@
                         </svg>
                     </a>
                     <!-- SPK Reports Child Start -->
-                    <ul class="hidden" id="spkReportChild" name="spkReportChild">
+                    {{-- <ul class="hidden" id="spkReportChild" name="spkReportChild">
                         <li class="group">
                             <a class="nav-a ml-5" href="#">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -469,7 +470,7 @@
                                 <span class="flex w-40"> SPK Pasang </span>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                     <!-- SPK Reports Child End -->
                 </li>
             @endcan

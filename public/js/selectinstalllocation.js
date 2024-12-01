@@ -11,16 +11,12 @@ orderCreate = () => {
     if (locationId == "") {
         alert("Silahkan pilih lokasi terlebih dahulu...!!");
     } else {
-        if (orderType.value == "free" || orderType.value == "sale") {
-            btnCreate.setAttribute(
-                "href",
-                "/install-orders/create-order/" + locationId + "/sale"
-            );
+        if(orderType.value == "free"){
+            btnCreate.setAttribute("href", "/install-orders/create-order/" + locationId + "/free");
+        }else if (orderType.value == "sales") {
+            btnCreate.setAttribute("href", "/install-orders/create-order/" + locationId + "/sales");
         } else {
-            btnCreate.setAttribute(
-                "href",
-                "/install-orders/create-order/" + locationId + "/location"
-            );
+            btnCreate.setAttribute("href", "/install-orders/create-order/" + locationId + "/location");
         }
 
         btnCreate.click();

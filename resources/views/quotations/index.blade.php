@@ -161,7 +161,7 @@
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-20" rowspan="2">Jenis
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24" rowspan="2">Jenis
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-sm w-40 text-center" rowspan="2">
                                 <button class="flex justify-center items-center w-40">@sortablelink('number', 'Nomor')
@@ -205,7 +205,11 @@
                                 <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $number++ }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                    {{ $quotation->media_category->name }}
+                                    @if ($quotation->media_category->name == 'Service')
+                                        Cetak/Pasang
+                                    @else
+                                        {{ $quotation->media_category->name }}
+                                    @endif
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     {{ $quotation->number }}</td>

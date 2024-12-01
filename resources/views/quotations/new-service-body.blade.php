@@ -54,7 +54,7 @@
                                         <tr>
                                             <td class="w-full text-sm text-teal-700 px-2 hover:bg-slate-200"
                                                 id="{{ $client->id }}"
-                                                title="{{ $client->company }}-{{ $client->type }}-{{ $client->name }}-{{ $client->phone }}-{{ $client->email }}-{{ $client->address }}"
+                                                title="{{ $client->company }}*{{ $client->type }}*{{ $client->name }}*{{ $client->phone }}*{{ $client->email }}*{{ $client->address }}"
                                                 onclick="getSelect(this)">
                                                 {{ $client->name }}</td>
                                         </tr>

@@ -15,15 +15,27 @@
                         </div>
                         <div class="grid grid-cols-4 gap-2 w-[500px] p-2">
                             @foreach ($media_categories as $category)
-                                <a href="/marketing/quotations-report/reports/{{ $category->id }}"
-                                    class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
-                                    <div>
-                                        <label
-                                            class="flex justify-center font-serif text-md cursor-pointer">Katagori</label>
-                                        <label
-                                            class="flex justify-center text-yellow-400 font-serif text-md font-semibold cursor-pointer">{{ $category->name }}</label>
-                                    </div>
-                                </a>
+                                @if ($category->name == 'Service')
+                                    <a href="/marketing/quotations-report/reports/{{ $category->id }}"
+                                        class="flex col-span-2 justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                                        <div>
+                                            <label
+                                                class="flex justify-center font-serif text-md cursor-pointer">Katagori</label>
+                                            <label
+                                                class="flex justify-center text-yellow-400 font-serif text-md font-semibold cursor-pointer">Cetak/Pasang</label>
+                                        </div>
+                                    </a>
+                                @else
+                                    <a href="/marketing/quotations-report/reports/{{ $category->id }}"
+                                        class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                                        <div>
+                                            <label
+                                                class="flex justify-center font-serif text-md cursor-pointer">Katagori</label>
+                                            <label
+                                                class="flex justify-center text-yellow-400 font-serif text-md font-semibold cursor-pointer">{{ $category->name }}</label>
+                                        </div>
+                                    </a>
+                                @endif
                             @endforeach
                         </div>
                         <div class="grid grid-cols-2 gap-2 w-[500px] p-4 mt-4 border-t">

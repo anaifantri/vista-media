@@ -12,18 +12,17 @@
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">Nama Vendor</label>
                     <label class="flex text-xs">:</label>
-                    <label class="flex text-xs px-1 w-60 border-b">{{ $product->vendor_company }}</label>
+                    <label class="flex text-xs px-1 w-60">{{ $product->vendor_company }}</label>
                 </div>
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">Alamat</label>
                     <label class="flex text-xs">:</label>
-                    <label
-                        class="flex text-xs ml-1 w-60 border rounded-sm h-12 p-1">{{ $product->vendor_address }}</label>
+                    <label class="flex text-xs ml-1 w-60 px-1">{{ $product->vendor_address }}</label>
                 </div>
                 <div class="flex mt-1">
                     <label class="flex text-xs w-28">No. Telp</label>
                     <label class="flex text-xs">:</label>
-                    <label class="flex text-xs ml-1 w-60 border-b px-1">{{ $product->vendor_phone }}</label>
+                    <label class="flex text-xs ml-1 w-60 px-1">{{ $product->vendor_phone }}</label>
                 </div>
             </div>
         </div>

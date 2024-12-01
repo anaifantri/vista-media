@@ -9,6 +9,8 @@ use App\Models\Location;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\MediaSize;
+use App\Models\PrintOrder;
+use App\Models\InstallOrder;
 use App\Models\MediaCategory;
 use App\Models\QuotationOrder;
 use App\Models\QuotationStatus;
@@ -35,7 +37,8 @@ class SaleController extends Controller
         //
     }
 
-    public function getSales(String $id, String $scope){
+    public function getSales(String $id, String $scope)
+    {
         if($scope == "area"){
             $sales = Sale::where('end_at', '>', date('Y-m-d'))
             ->whereHas('location', function($query) use ($id){
@@ -344,6 +347,7 @@ class SaleController extends Controller
             $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
             if($revision){
                 $number = $revision->number;
+                $quotId = $revision->id;
                 $notes = json_decode($revision->notes);
                 $created_at = $revision->created_at;
                 $category = $quotation->media_category->name;
@@ -355,6 +359,7 @@ class SaleController extends Controller
                 $dataOrders = QuotationOrder::where('quotation_id', $sale->quotation->id)->get();
             } else{
                 $number = $quotation->number;
+                $quotId = $quotation->id;
                 $notes = json_decode($quotation->notes);
                 $created_at = $quotation->created_at;
                 $category = $quotation->media_category->name;
@@ -368,9 +373,14 @@ class SaleController extends Controller
             }
             $clients = json_decode($quotation->clients);
             $media_categories = MediaCategory::with('sales')->get();
+            $print_orders = PrintOrder::whereJsonContains('product->main_sale_id','')->get();
+            $install_orders = InstallOrder::whereJsonContains('product->main_sale_id','')->get();
+            $paid_print_orders = PrintOrder::whereJsonContains('product->main_sale_id',(string)$sale->id)->get();
+            $paid_install_orders = InstallOrder::whereJsonContains('product->main_sale_id',(string)$sale->id)->get();
             return response()->view('sales.show', [
                 'sales'=>$sale,
                 'quotation'=>$quotation,
+                'quot_id'=>$quotId,
                 'number'=>$number,
                 'notes'=>$notes,
                 'created_at'=>$created_at,
@@ -381,10 +391,11 @@ class SaleController extends Controller
                 'quotation_approvals'=>$dataApprovals,
                 'quotation_agreements'=>$dataAgreements,
                 'quotation_orders'=>$dataOrders,
+                'paid_print_orders' => $paid_print_orders,
+                'paid_install_orders' => $paid_install_orders,
                 'category'=>$category,
-                // 'categories'=>MediaCategory::all(),
                 'title' => 'Data Penjualan'.$category,
-                compact('media_categories')
+                compact('media_categories', 'print_orders', 'install_orders')
             ]);
         } else {
             abort(403);

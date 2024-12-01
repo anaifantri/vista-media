@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PrintOrder;
 use App\Models\MediaSize;
+use App\Models\MediaCategory;
 use App\Models\Sale;
 use App\Models\Company;
 use App\Models\Location;
@@ -20,6 +21,8 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Validator;
+use Gate;
 
 class PrintOrderController extends Controller
 {
@@ -28,15 +31,20 @@ class PrintOrderController extends Controller
      */
     public function index(): Response
     {
-        $sale = Sale::with('print_order')->get();
-        return response()-> view ('print-orders.index', [
-            'print_orders'=>PrintOrder::filter(request('search'))->sortable()->orderBy("number", "asc")->paginate(10)->withQueryString(),
-            'title' => 'Daftar SPK Cetak',
-            compact('sale')
-        ]);
+        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $sale = Sale::with('print_order')->get();
+            return response()-> view ('print-orders.index', [
+                'print_orders'=>PrintOrder::filter(request('search'))->sortable()->orderBy("number", "asc")->paginate(10)->withQueryString(),
+                'title' => 'Daftar SPK Cetak',
+                compact('sale')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
-    public function getPrintingPrices(String $vendorId, String $productType){
+    public function getPrintingPrices(String $vendorId, String $productType)
+    {
         $printingPrices = PrintingPrice::where('vendor_id', $vendorId)->whereHas('printing_product', function($query) use ($productType){
             $query->where('type', $productType);
         })->get();
@@ -47,30 +55,27 @@ class PrintOrderController extends Controller
 
     public function preview(String $id): View
     { 
-        $locations = Location::with('print_orders')->get();
-        $sales = Sale::with('print_orders')->get();
-        $companies = Company::with('print_orders')->get();
-        return view('print-orders.preview', [
-            'print_orders' => PrintOrder::findOrFail($id),
-            'title' => 'Preview SPK Cetak',
-            compact('companies', 'locations', 'sales')
-        ]);
+        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $locations = Location::with('print_orders')->get();
+            $sales = Sale::with('print_orders')->get();
+            $companies = Company::with('print_orders')->get();
+            $vendors = Vendor::with('print_orders')->get();
+            return view('print-orders.preview', [
+                'print_order' => PrintOrder::findOrFail($id),
+                'title' => 'Preview SPK Cetak',
+                compact('companies', 'locations', 'sales', 'vendors')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     public function selectLocations(Request $request): View
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
             if($request->orderType){
                 if($request->orderType == "locations"){
-                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
-                    return view ('print-orders.select-location', [
-                        'locations'=>$locations,
-                        'areas' => Area::all(),
-                        'cities' => City::all(),
-                        'title' => 'Pilih Lokasi',
-                    ]);
-                }else if($request->orderType == "sales"){
-                    $locations = Sale::print()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
                     return view ('print-orders.select-location', [
                         'locations'=>$locations,
                         'areas' => Area::all(),
@@ -78,7 +83,7 @@ class PrintOrderController extends Controller
                         'title' => 'Pilih Lokasi',
                     ]);
                 }else if($request->orderType == "free"){
-                    $locations = collect([]);
+                    $sales = collect([]);
                     $clients = [];
                     $usedPrints = [];
                     $freePrints = [];
@@ -95,32 +100,127 @@ class PrintOrderController extends Controller
                             $dataPrints = PrintOrder::where('sale_id', $dataSale->id)->get();
                         }
                         if($freePrint > count($dataPrints)){
-                            $locations->push($dataSale);
+                            $sales->push($dataSale);
                             array_push($clients,json_decode($dataSale->quotation->clients));
                             array_push($freePrints, $freePrint);
                             array_push($usedPrints, count($dataPrints));
                         }
                     }
+                    $locations = Location::with('sales')->get();
+                    $quotations = Quotation::with('sales')->get();
+                    $quotation_revisions = QuotationRevision::with('quotation')->get();
                     return view ('print-orders.select-location', [
-                        'locations'=>$locations,
+                        'sales'=>$sales,
                         'clients'=>$clients,
                         'freePrints'=>$freePrints,
                         'usedPrints'=>$usedPrints,
                         'areas' => Area::all(),
                         'cities' => City::all(),
                         'title' => 'Pilih Lokasi',
+                        compact('locations', 'quotations', 'quotation_revisions')
+                    ]);
+                }elseif($request->orderType == "sales"){
+                    $sales = collect([]);
+                    $clients = [];
+                    $usedPrints = [];
+                    $freePrints = [];
+                    $printProducts = [];
+                    $dataSales = Sale::printOrder()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                    foreach($dataSales as $dataSale){
+                        $product = json_decode($dataSale->product);
+                        $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
+                        if($revision){
+                            $notes = json_decode($revision->notes);
+                            $freePrint = $notes->freePrint;
+                            $dataPrints = PrintOrder::where('sale_id', $dataSale->id)->get();
+                            $price = json_decode($revision->price);
+                            foreach($price->objPrints as $print){
+                                if($print->code == $dataSale->product->code){
+                                    $printProduct = $print->printProduct;
+                                }
+                            }
+                        }else{
+                            $notes = json_decode($dataSale->quotation->notes);
+                            $freePrint = $notes->freePrint;
+                            $dataPrints = PrintOrder::where('sale_id', $dataSale->id)->get();
+                            $price = json_decode($dataSale->quotation->price);
+                            foreach($price->objPrints as $print){
+                                if($print->code == $product->code){
+                                    $printProduct = $print->printProduct;
+                                }
+                            }
+                        }
+                        if($freePrint < count($dataPrints) || $freePrint == 0){
+                            $sales->push($dataSale);
+                            array_push($clients,json_decode($dataSale->quotation->clients));
+                            array_push($freePrints, $freePrint);
+                            array_push($printProducts, $printProduct);
+                            array_push($usedPrints, count($dataPrints));
+                        }
+                    }
+                    $locations = Location::with('sales')->get();
+                    $quotations = Quotation::with('sales')->get();
+                    $quotation_revisions = QuotationRevision::with('quotation')->get();
+                    return view ('print-orders.select-location', [
+                        'sales'=>$sales,
+                        'clients'=>$clients,
+                        'print_products'=>$printProducts,
+                        'areas' => Area::all(),
+                        'cities' => City::all(),
+                        'title' => 'Pilih Lokasi',
+                        compact('locations', 'quotations', 'quotation_revisions')
                     ]);
                 }
             }else{
-                $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
-                $cities = City::with('locations')->get();
-                $areas = Area::with('locations')->get();
+                $sales = collect([]);
+                $clients = [];
+                $usedPrints = [];
+                $freePrints = [];
+                $printProducts = [];
+                $dataSales = Sale::printOrder()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                foreach($dataSales as $dataSale){
+                    $product = json_decode($dataSale->product);
+                    $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
+                    if($revision){
+                        $notes = json_decode($revision->notes);
+                        $freePrint = $notes->freePrint;
+                        $dataPrints = PrintOrder::where('sale_id', $dataSale->id)->get();
+                        $price = json_decode($revision->price);
+                        foreach($price->objPrints as $print){
+                            if($print->code == $dataSale->product->code){
+                                $printProduct = $print->printProduct;
+                            }
+                        }
+                    }else{
+                        $notes = json_decode($dataSale->quotation->notes);
+                        $freePrint = $notes->freePrint;
+                        $dataPrints = PrintOrder::where('sale_id', $dataSale->id)->get();
+                        $price = json_decode($dataSale->quotation->price);
+                        foreach($price->objPrints as $print){
+                            if($print->code == $product->code){
+                                $printProduct = $print->printProduct;
+                            }
+                        }
+                    }
+                    if($freePrint < count($dataPrints) || $freePrint == 0){
+                        $sales->push($dataSale);
+                        array_push($clients,json_decode($dataSale->quotation->clients));
+                        array_push($freePrints, $freePrint);
+                        array_push($printProducts, $printProduct);
+                        array_push($usedPrints, count($dataPrints));
+                    }
+                }
+                $locations = Location::with('sales')->get();
+                $quotations = Quotation::with('sales')->get();
+                $quotation_revisions = QuotationRevision::with('quotation')->get();
                 return view ('print-orders.select-location', [
-                    'locations'=>$locations,
+                    'sales'=>$sales,
+                    'clients'=>$clients,
+                    'print_products'=>$printProducts,
                     'areas' => Area::all(),
                     'cities' => City::all(),
                     'title' => 'Pilih Lokasi',
-                    compact('areas', 'cities')
+                    compact('locations', 'quotations', 'quotation_revisions')
                 ]);
             }
         } else {
@@ -130,88 +230,144 @@ class PrintOrderController extends Controller
 
     public function createOrder(String $dataId, String $orderType, Request $request): View
     {
-        if ($orderType == "sale"){
-            $dataOrder = Sale::findOrFail($dataId);
-            $saleNumber = $dataOrder->number;
-            $revision = QuotationRevision::where('quotation_id', $dataOrder->quotation->id)->get()->last();
-            if($revision){
-                $saleProducts = json_decode($revision->products);
-                $notes = json_decode($revision->notes);
-                $freePrint = $notes->freePrint;
-            }else{
-                $saleProducts = json_decode($dataOrder->quotation->products);
-                $notes = json_decode($dataOrder->quotation->notes);
-                $freePrint = $notes->freePrint;
-            }
-            
-            foreach($saleProducts as $saleProduct){
-                if($saleProduct->code == $dataOrder->product_code){
-                    $product = $saleProduct;
-                    $description = json_decode($saleProduct->description);
-                    $productType = $description->lighting;
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
+            if($orderType == "free"){
+                $dataOrder = Sale::findOrFail($dataId);
+                $saleNumber = $dataOrder->number;
+                $revision = QuotationRevision::where('quotation_id', $dataOrder->quotation->id)->get()->last();
+                $product = json_decode($dataOrder->product);
+                if($revision){
+                    $notes = json_decode($revision->notes);
+                    $freePrint = $notes->freePrint;
+                }else{
+                    $notes = json_decode($dataOrder->quotation->notes);
+                    $freePrint = $notes->freePrint;
                 }
-            }
-            $usedPrint = count(PrintOrder::where('sale_id', $dataOrder->id)->get());
-            $quotations = Quotation::with('sales')->get();
-            $media_categories = MediaCategory::with('sales')->get();
-            if(request('vendorId')){
-                if(request('vendorId') != "pilih"){
-                    $printing_prices = PrintingPrice::where('vendor_id', request('vendorId'))->product()->get();
-                    $vendor = Vendor::findOrFail(request('vendorId'));
+                $description = json_decode($product->description);
+                $productType = $description->lighting;
+                $usedPrint = count(PrintOrder::where('sale_id', $dataOrder->id)->get());
+                $quotations = Quotation::with('sales')->get();
+                $media_categories = MediaCategory::with('sales')->get();
+                if(request('vendorID')){
+                    if(request('vendorID') != "pilih"){
+                        $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->name()->product()->get();
+                        $vendor = Vendor::findOrFail(request('vendorID'));
+                    }else{
+                        $printing_prices = null;
+                        $vendor = null;
+                    }
                 }else{
                     $printing_prices = null;
                     $vendor = null;
                 }
-            }else{
-                $printing_prices = null;
-                $vendor = null;
-            }
-            $vendors = Vendor::print()->get();
-            $printing_products = PrintingProduct::with('printing_prices')->get();
-            return view('print-orders.create', [
-                'dataOrder'=>$dataOrder,
-                'product'=>$product,
-                'freePrint'=>$freePrint,
-                'usedPrint'=>$usedPrint,
-                'description'=>$description,
-                'title' => 'Tambah SPK Cetak Gambar',
-                'vendors' => $vendors,
-                'vendor' => $vendor,
-                'printing_prices' => $printing_prices,
-                'dataId'=>$dataId,
-                'orderType'=>$orderType,
-                'productType'=>$productType,
-                compact('quotations', 'media_categories', 'printing_products')
-            ]);
-        }else if($orderType == "location"){
-            $location = Location::findOrFail($dataId);
-            if(request('vendorId')){
-                if(request('vendorId') != "pilih"){
-                    $printing_prices = PrintingPrice::where('vendor_id', request('vendorId'))->product()->get();
-                    $vendor = Vendor::findOrFail(request('vendorId'));
+                $vendors = Vendor::print()->get();
+                $printing_products = PrintingProduct::with('printing_prices')->get();
+                return view('print-orders.create', [
+                    'dataOrder'=>$dataOrder,
+                    'product'=>$product,
+                    'freePrint'=>$freePrint,
+                    'usedPrint'=>$usedPrint,
+                    'description'=>$description,
+                    'title' => 'Tambah SPK Cetak Gambar',
+                    'vendors' => $vendors,
+                    'vendor' => $vendor,
+                    'printing_prices' => $printing_prices,
+                    'dataId'=>$dataId,
+                    'orderType'=>$orderType,
+                    'productType'=>$productType,
+                    compact('quotations', 'media_categories', 'printing_products')
+                ]);
+            }else if ($orderType == "sales"){
+                $dataOrder = Sale::findOrFail($dataId);
+                $saleNumber = $dataOrder->number;
+                $revision = QuotationRevision::where('quotation_id', $dataOrder->quotation->id)->get()->last();
+                $product = json_decode($dataOrder->product);
+                if($revision){
+                    $notes = json_decode($revision->notes);
+                    $freePrint = $notes->freePrint;
+                    $price = json_decode($revision->price);
+                    foreach($price->objPrints as $print){
+                        if($print->code == $dataSale->product->code){
+                            $printProduct = $print->printProduct;
+                        }
+                    }
+                }else{
+                    $notes = json_decode($dataOrder->quotation->notes);
+                    $freePrint = $notes->freePrint;
+                    $price = json_decode($dataOrder->quotation->price);
+                    foreach($price->objPrints as $print){
+                        if($print->code == $product->code){
+                            $printProduct = $print->printProduct;
+                        }
+                    }
+                }
+                $description = json_decode($product->description);
+                $productType = $description->lighting;
+                $usedPrint = count(PrintOrder::where('sale_id', $dataOrder->id)->get());
+                $quotations = Quotation::with('sales')->get();
+                $media_categories = MediaCategory::with('sales')->get();
+                if(request('vendorID')){
+                    if(request('vendorID') != "pilih"){
+                        $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->name()->product()->get();
+                        $vendor = Vendor::findOrFail(request('vendorID'));
+                    }else{
+                        $printing_prices = null;
+                        $vendor = null;
+                    }
                 }else{
                     $printing_prices = null;
                     $vendor = null;
                 }
-            }else{
-                $printing_prices = null;
-                $vendor = null;
+                $vendors = Vendor::print()->get();
+                $printing_products = PrintingProduct::with('printing_prices')->get();
+                return view('print-orders.create', [
+                    'dataOrder'=>$dataOrder,
+                    'product'=>$product,
+                    'print_product'=>$printProduct,
+                    'freePrint'=>$freePrint,
+                    'usedPrint'=>$usedPrint,
+                    'description'=>$description,
+                    'title' => 'Tambah SPK Cetak Gambar',
+                    'vendors' => $vendors,
+                    'vendor' => $vendor,
+                    'printing_prices' => $printing_prices,
+                    'dataId'=>$dataId,
+                    'orderType'=>$orderType,
+                    'productType'=>$productType,
+                    compact('quotations', 'media_categories', 'printing_products')
+                ]);
+            }else if($orderType == "location"){
+                $location = Location::findOrFail($dataId);
+                if(request('vendorID')){
+                    if(request('vendorID') != "pilih"){
+                        $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->product()->get();
+                        $vendor = Vendor::findOrFail(request('vendorID'));
+                    }else{
+                        $printing_prices = null;
+                        $vendor = null;
+                    }
+                }else{
+                    $printing_prices = null;
+                    $vendor = null;
+                }
+                $areas = Area::with('locations')->get();
+                $cities = City::with('locations')->get();
+                $media_sizes = MediaSize::with('locations')->get();
+                $media_categories = MediaCategory::with('locations')->get();
+                $vendors = Vendor::print()->get();
+                return view('print-orders.create', [
+                    'location'=>$location,
+                    'title' => 'Tambah SPK Cetak Gambar',
+                    'vendors' => $vendors,
+                    'vendor' => $vendor,
+                    'printing_prices' => $printing_prices,
+                    'orderType'=>$orderType,
+                    'dataId'=>$dataId,
+                    compact('areas', 'media_categories', 'cities', 'media_sizes')
+                ]);
             }
-            $areas = Area::with('locations')->get();
-            $cities = City::with('locations')->get();
-            $media_sizes = MediaSize::with('locations')->get();
-            $media_categories = MediaCategory::with('locations')->get();
-            $vendors = Vendor::print()->get();
-            return view('print-orders.create', [
-                'location'=>$location,
-                'title' => 'Tambah SPK Cetak Gambar',
-                'vendors' => $vendors,
-                'vendor' => $vendor,
-                'printing_prices' => $printing_prices,
-                'orderType'=>$orderType,
-                'dataId'=>$dataId,
-                compact('areas', 'media_categories', 'cities', 'media_sizes')
-            ]);
+        } else {
+            abort(403);
         }
     }
 
@@ -232,7 +388,12 @@ class PrintOrderController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
+            if($request->file('design')){
+                $request->validate([
+                    'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
+                ]);
+            }   
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             // Set number --> start
             $lastOrder = PrintOrder::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
@@ -290,14 +451,18 @@ class PrintOrderController extends Controller
      */
     public function show(PrintOrder $printOrder): Response
     {
-        $locations = Location::with('print_orders')->get();
-        $sales = Sale::with('print_orders')->get();
-        $companies = Company::with('print_orders')->get();
-        return response()-> view ('print-orders.show', [
-            'print_orders' => $printOrder,
-            'title' => 'Data SPK Cetak',
-            compact('companies', 'locations', 'sales')
-        ]);
+        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $locations = Location::with('print_orders')->get();
+            $sales = Sale::with('print_orders')->get();
+            $companies = Company::with('print_orders')->get();
+            return response()-> view ('print-orders.show', [
+                'print_order' => $printOrder,
+                'title' => 'Data SPK Cetak',
+                compact('companies', 'locations', 'sales')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -305,13 +470,13 @@ class PrintOrderController extends Controller
      */
     public function edit(PrintOrder $printOrder): Response
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit'))){
             $product = json_decode($printOrder->product);
             $locations = Location::with('print_orders')->get();
             $sales = Sale::with('print_orders')->get();
             $companies = Company::with('print_orders')->get();
             $vendors = Vendor::print()->get();
-            $printing_prices = PrintingPrice::where('vendor_id', $product->product_id)->whereHas('printing_product', function($query)use ($product){
+            $printing_prices = PrintingPrice::where('vendor_id', $product->vendor_id)->whereHas('printing_product', function($query)use ($product){
                 $query->where('type', $product->product_type);
             })->get();
             return response()-> view ('print-orders.edit', [
@@ -331,7 +496,12 @@ class PrintOrderController extends Controller
      */
     public function update(Request $request, PrintOrder $printOrder): RedirectResponse
     {
-        if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing'){
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit'))){
+            if($request->file('design')){
+                $request->validate([
+                    'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
+                ]);
+            }
             $rules = [
                 'vendor_id' => 'required',
                 'theme' => 'required',
@@ -364,6 +534,12 @@ class PrintOrderController extends Controller
      */
     public function destroy(PrintOrder $printOrder): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete'))){
+            Storage::delete($printOrder->design);
+            PrintOrder::destroy($printOrder->id);
+            return redirect('/marketing/print-orders')->with('success', 'Data SPK Cetak dengan nomor '.$printOrder->number.' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }

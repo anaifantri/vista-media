@@ -41,7 +41,11 @@
         $created_by->position = auth()->user()->position;
 
         $objPrice = $price;
-        $objPpn = $objPrice->objPpn;
+        if ($category == 'Service') {
+            $objPpn = $objPrice->objServicePpn;
+        } else {
+            $objPpn = $objPrice->objPpn;
+        }
 
         foreach ($products as $product) {
             $objSales = new stdClass();
@@ -57,6 +61,9 @@
             $objSales->note = '';
             $objSales->start_at = null;
             $objSales->end_at = null;
+            if ($product->type == 'extend' || $product->type == 'existing') {
+                $objSales->main_sale_id = $product->sale_id;
+            }
             $objSales->created_by = $created_by;
 
             array_push($salesData, $objSales);
@@ -395,17 +402,17 @@
                                     <!-- sign area end -->
 
                                     <!-- photo start -->
-                                    @if ($category != 'Service')
-                                        <div class="flex justify-center mt-2">
-                                            <div class="sale-detail">
-                                                <img class="img-location-sale"
-                                                    src="{{ asset('storage/' . $product->photo) }}">
-                                            </div>
-                                            <div class="qr-code-sale ml-4">
-
-                                            </div>
+                                    {{-- @if ($category != 'Service') --}}
+                                    <div class="flex justify-center mt-2">
+                                        <div class="sale-detail">
+                                            <img class="img-location-sale"
+                                                src="{{ asset('storage/' . $product->photo) }}">
                                         </div>
-                                    @endif
+                                        <div class="qr-code-sale ml-4">
+
+                                        </div>
+                                    </div>
+                                    {{-- @endif --}}
                                     <!-- photo end -->
                                 </div>
                                 <!-- Body end -->

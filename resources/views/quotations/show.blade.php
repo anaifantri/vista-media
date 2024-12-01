@@ -24,9 +24,12 @@
     $status = ['Created', 'Sent', 'Follow Up', 'Deal', 'Closed'];
     ?>
     <input type="text" id="price" value="{{ json_encode($price) }}" hidden>
-    <input type="text" id="category" value="{{ $quotation->media_category->name }}" hidden>
     @if ($quotation->media_category->name == 'Signage')
+        <input type="text" name="{{ $dataDescription->type }}" id="category" value="{{ $quotation->media_category->name }}"
+            hidden>
         <input type="text" id="type" value="{{ $dataDescription->type }}" hidden>
+    @else
+        <input type="text" id="category" value="{{ $quotation->media_category->name }}" hidden>
     @endif
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-4 border rounded-md">
@@ -688,8 +691,12 @@
     <!-- Add Approval start -->
     @include('dashboard.layouts.modal-add-document')
     <!-- Add Approval end -->
-    <input id="saveName" type="text"
-        value="{{ $number }}-{{ $quotation->media_category->name }}-{{ $client->name }}" hidden>
+    @if ($quotation->media_category->name == 'Service')
+        <input id="saveName" type="text" value="{{ $number }}-Cetak-Pasang-{{ $client->name }}" hidden>
+    @else
+        <input id="saveName" type="text"
+            value="{{ $number }}-{{ $quotation->media_category->name }}-{{ $client->name }}" hidden>
+    @endif
     <!-- Show Quotatin end -->
 
     <!-- Script start -->

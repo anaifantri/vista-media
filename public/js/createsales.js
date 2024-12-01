@@ -51,14 +51,23 @@ dppCheck = (sel) =>{
 insertSalesData = () =>{
     if(periodeCheck() == true){
         if(confirm('Apakah anda yakin data yang diinput sudah benar?')){
-            for(let i = 0; i < objSales.length; i++){
-                objSales[i].dpp = dppValue[i].value;
-                objSales[i].start_at = start[i].value;
-                objSales[i].end_at = end[i].value;
-                objSales[i].note = note[i].value;
-                objSales[i].duration = thTitle[i].innerText;
-                objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )));
-                objSales[i].ppn = inputPpn[i].value;
+            if(category.value == "Service"){
+                for(let i = 0; i < objSales.length; i++){
+                    objSales[i].dpp = dppValue[i].value;
+                    objSales[i].note = note[i].value;
+                    objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )));
+                    objSales[i].ppn = inputPpn[i].value;
+                }
+            }else{
+                for(let i = 0; i < objSales.length; i++){
+                    objSales[i].dpp = dppValue[i].value;
+                    objSales[i].start_at = start[i].value;
+                    objSales[i].end_at = end[i].value;
+                    objSales[i].note = note[i].value;
+                    objSales[i].duration = thTitle[i].innerText;
+                    objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )));
+                    objSales[i].ppn = inputPpn[i].value;
+                }
             }
             salesData.value = JSON.stringify(objSales);
         }else{
@@ -67,16 +76,6 @@ insertSalesData = () =>{
     }else{
         return false;
     }
-    for(let i = 0; i < objSales.length; i++){
-        objSales[i].dpp = dppValue[i].value;
-        objSales[i].start_at = start[i].value;
-        objSales[i].end_at = end[i].value;
-        objSales[i].note = note[i].value;
-        objSales[i].duration = thTitle[i].innerText;
-        objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )));
-        objSales[i].ppn = inputPpn[i].value;
-    }
-    salesData.value = JSON.stringify(objSales);
 }
 
 //get start at --> start

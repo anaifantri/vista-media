@@ -3,32 +3,32 @@
 @section('container')
     <!-- Show Print Order start -->
     <?php
-    $product = json_decode($print_orders->product);
-    $created_by = json_decode($print_orders->created_by);
-    $notes = json_decode($print_orders->notes);
+    $product = json_decode($print_order->product);
+    $created_by = json_decode($print_order->created_by);
+    $notes = json_decode($print_order->notes);
     
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
-    <div class="flex justify-center bg-black p-10">
-        <div>
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <!-- Title Show Print Order start -->
             <div class="flex border-b">
                 <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary mb-2" title="Create PDF"
                     type="button">
-                    <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24">
+                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24">
                         <path
                             d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                     </svg>
-                    <span class="ml-2 text-white">Save PDF</span>
+                    <span class="mx-1">Save PDF</span>
                 </button>
-                <a class="flex justify-center items-center ml-1 xl:mx-2 2xl:h-10 btn-danger" href="/marketing/print-orders">
+                <a class="flex justify-center items-center mx-1 btn-danger" href="/marketing/print-orders">
                     <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
                         <path
                             d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
                     </svg>
-                    <span class="ml-1 xl:mx-2 text-xs xl:text-sm 2xl:text-md">Close</span>
+                    <span class="mx-1">Close</span>
                 </a>
                 @if (session()->has('success'))
                     <div class="ml-2 flex alert-success">
@@ -44,7 +44,7 @@
             <div id="pdfPreview">
                 <div class="flex justify-center w-full">
                     <div class="flex justify-center w-full">
-                        <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
+                        <div class="w-[950px] h-[1345px] bg-white p-4 mt-2">
                             <!-- SPK Header start-->
                             @include('print-orders.header-preview')
                             <!-- SPK Header end-->
@@ -83,12 +83,8 @@
                 </div>
             </div>
         </div>
-        {{-- @if ($category == 'Service')
-            <input id="saveName" type="text" value="{{ $number }}-Cetak-Pasang-{{ $client->name }}" hidden>
-        @else
-            <input id="saveName" type="text" value="{{ $number }}-{{ $category }}-{{ $client->name }}"
-                hidden>
-        @endif --}}
+        <input id="saveName" type="text"
+            value="{{ substr($print_order->number, 0, 4) }}-SPK Cetak-{{ $print_order->vendor->name }}" hidden>
     </div>
     <!-- Show Print Order end -->
 
@@ -113,7 +109,7 @@
                 },
                 html2canvas: {
                     dpi: 192,
-                    scale: 4,
+                    scale: 2,
                     letterRendering: true,
                     useCORS: true
                 },

@@ -7,10 +7,11 @@ const vendorId = document.getElementById("vendorId");
 const selectProduct = document.getElementById("selectProduct");
 const inputFinishing = document.getElementById("inputFinishing");
 const inputTheme = document.getElementById("inputTheme");
-const inputDesign = document.getElementById("inputDesign");
 const design = document.getElementById("design");
 const price = document.getElementById("price");
 const orderStatus = document.getElementById("orderStatus");
+const product = document.getElementById("product");
+const notes = document.getElementById("notes");
 
 let objProducts = {
     product_id : "",
@@ -25,13 +26,17 @@ let objProducts = {
     location_code : "",
     city_code : "",
     location_side : "",
+    location_qty : "",
+    location_address : "",
     location_size : "",
     location_width : "",
     location_height : "",
     sale_id : "",
+    main_sale_id : "",
     sale_number : "",
     order_type : "",
     status : "",
+    qty : 0,
     side_right : false,
     side_left : true
 }
@@ -39,6 +44,22 @@ let objProducts = {
 let objNotes = {
     finishing : "",
     note : "",
+}
+
+if(product.value != ""){
+    objProducts = JSON.parse(product.value);
+    if(objProducts.side_left == false){
+        document.getElementById("cbLeft").checked = false;
+        document.getElementById("cbLeftCopy").checked = false;
+    }
+    if(objProducts.side_right == false){
+        document.getElementById("cbRight").checked = false;
+        document.getElementById("cbRightCopy").checked = false;
+    }
+}
+
+if(notes.value != ""){
+    objNotes = JSON.parse(notes.value);
 }
 
 vendorCheck = () =>{
@@ -63,7 +84,7 @@ productCheck = () =>{
 
 finishingCheck = () =>{
     if(inputFinishing.value == ""){
-        alert('Silahkan pilih input finishing terlebih dahulu..!!');
+        alert('Silahkan input finishing terlebih dahulu..!!');
         inputFinishing.classList.add("is-invalid");
         inputFinishing.focus();
     }else{
@@ -73,7 +94,7 @@ finishingCheck = () =>{
 
 themeCheck = () =>{
     if(inputTheme.value == ""){
-        alert('Silahkan pilih input tema design terlebih dahulu..!!');
+        alert('Silahkan input tema design terlebih dahulu..!!');
         inputTheme.classList.add("is-invalid");
         inputTheme.focus();
     }else{
@@ -82,10 +103,10 @@ themeCheck = () =>{
 }
 
 designCheck = () =>{
-    if(inputDesign.files.length == 0){
+    if(design.files.length == 0){
         alert('Silahkan pilih pilih file design terlebih dahulu..!!');
-        inputDesign.classList.add("is-invalid");
-        inputDesign.focus();
+        design.classList.add("is-invalid");
+        design.focus();
     }else{
         return true;
     }
@@ -94,10 +115,6 @@ designCheck = () =>{
 function previewImage(sel) {
     const imgPreview = document.querySelector('.img-preview');
     const imgPreviewCopy = document.querySelector('.img-preview-copy');
-    const imgPreviewCopySave = document.querySelector('.img-preview-copy-save');
-    const imgPreviewSave = document.querySelector('.img-preview-save');
-
-    // imgPreview.style.display = 'block';
 
     const oFReader = new FileReader();
 
@@ -106,11 +123,7 @@ function previewImage(sel) {
     oFReader.onload = function(oFREvent) {
         imgPreview.src = oFREvent.target.result;
         imgPreviewCopy.src = oFREvent.target.result;
-        imgPreviewCopySave.src = oFREvent.target.result;
-        imgPreviewSave.src = oFREvent.target.result;
     }
-    design.files = sel.files;
-    console.log(design.value);
 }
 
 countTotal = () =>{
@@ -124,17 +137,13 @@ countTotal = () =>{
     total.value = getTotal;
     totalCopy.value = getTotal;
     price.value = getTotal;
-    document.getElementById("totalPreview").innerHTML = getTotal.toLocaleString();
-    document.getElementById("copyTotalPreview").innerHTML = getTotal.toLocaleString();
     
 }
 
 if(vendorId.value != "pilih"){
     const inputVendorId = document.getElementById("vendor_id");
     document.getElementById("vendorSign").innerHTML = vendorId.options[vendorId.selectedIndex].text;
-    document.getElementById("vendorSignPreview").innerHTML = vendorId.options[vendorId.selectedIndex].text;
     document.getElementById("vendorSignCopy").innerHTML = vendorId.options[vendorId.selectedIndex].text;
-    document.getElementById("vendorSignCopyPreview").innerHTML = vendorId.options[vendorId.selectedIndex].text;
     inputVendorId.value = vendorId.value;
     objProducts.vendor_id = vendorId.value;
     objProducts.vendor_address = document.getElementById("vendorAddress").value;
@@ -145,54 +154,51 @@ if(vendorId.value != "pilih"){
 getPrintProduct = (sel) =>{
     if(sel.value != "pilih"){
         document.getElementById("copyProduct").value = sel.options[sel.selectedIndex].text;
-        document.getElementById("copyProductPreview").innerHTML = sel.options[sel.selectedIndex].text;
-        document.getElementById("productPreview").innerHTML = sel.options[sel.selectedIndex].text;
         document.getElementById("productPrice").value = sel.options[sel.selectedIndex].value;
-        document.getElementById("pricePreview").innerHTML = Number(sel.options[sel.selectedIndex].value).toLocaleString();
         document.getElementById("copyPrice").value = sel.options[sel.selectedIndex].value;
-        document.getElementById("copyPricePreview").innerHTML = Number(sel.options[sel.selectedIndex].value).toLocaleString();
         objProducts.product_id = sel.options[sel.selectedIndex].id;
         objProducts.product_name = sel.options[sel.selectedIndex].text;
         objProducts.product_price = Number(sel.options[sel.selectedIndex].value);
         objProducts.product_type = document.getElementById("productType").value;
+        countTotal();
+    }else{
+        document.getElementById("copyProduct").value = "";
+        document.getElementById("productPrice").value = "";
+        document.getElementById("copyPrice").value = "";
+        objProducts.product_id = "";
+        objProducts.product_name = "";
+        objProducts.product_price = "";
+        objProducts.product_type = "";
         countTotal();
     }
 }
 
 getFinishing = (sel) =>{
     document.getElementById("copyFinishing").value = sel.value;
-    document.getElementById("finishingPreview").innerHTML = sel.value;
-    document.getElementById("copyFinishingPreview").innerHTML = sel.value;
     objNotes.finishing = sel.value;
 }
 
 getNotes = (sel) =>{
     document.getElementById("copyNotes").value = sel.value;
-    document.getElementById("notesPreview").innerHTML = sel.value;
-    document.getElementById("copyNotesPreview").innerHTML = sel.value;
     objNotes.note = sel.value;
 }
 
 getDesign = (sel) =>{
     document.getElementById("copyDesign").value = sel.value;
-    document.getElementById("designPreview").innerHTML = sel.value;
-    document.getElementById("copyDesignPreview").innerHTML = sel.value;
     document.getElementById("theme").value = sel.value;
 }
 
 cbRightAction = (sel) =>{
     if(sel.checked == true){
         if(document.getElementById("cbLeft").checked == false){
-            qty.value = 1;
-            qtyCopy.value = 1;
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.value = document.getElementById("location_qty").value * 1;
             document.getElementById("cbRightCopy").checked = sel.checked;
-            objProducts.side_right = true;
             countTotal();
         }else{
-            qty.value = 2;
-            qtyCopy.value = 2;
+            qty.value = document.getElementById("location_qty").value * 2;
+            qtyCopy.value = document.getElementById("location_qty").value * 2;
             document.getElementById("cbRightCopy").checked = sel.checked;
-            objProducts.side_right = true;
             countTotal();
         }
 
@@ -200,13 +206,11 @@ cbRightAction = (sel) =>{
         if(document.getElementById("cbLeft").checked == false){
             alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
             sel.checked = true;
-            objProducts.side_right = true;
             document.getElementById("cbRightCopy").checked = sel.checked;
         }else{
-            qty.value = 1;
-            qtyCopy.value = 1;
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.value = document.getElementById("location_qty").value * 1;
             document.getElementById("cbRightCopy").checked = sel.checked;
-            objProducts.side_right = false;
             countTotal();
         }
     }
@@ -215,16 +219,14 @@ cbRightAction = (sel) =>{
 cbLeftAction = (sel) =>{
     if(sel.checked == true){
         if(document.getElementById("cbRight").checked == false){
-            qty.value = 1;
-            qtyCopy.value = 1;
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.value = document.getElementById("location_qty").value * 1;
             document.getElementById("cbLeftCopy").checked = sel.checked;
-            objProducts.side_left = true;
             countTotal();
         }else{
-            qty.value = 2;
-            qtyCopy.value = 2;
+            qty.value = document.getElementById("location_qty").value * 2;
+            qtyCopy.value = document.getElementById("location_qty").value * 2;
             document.getElementById("cbLeftCopy").checked = sel.checked;
-            objProducts.side_left = true;
             countTotal();
         }
 
@@ -233,46 +235,46 @@ cbLeftAction = (sel) =>{
             alert('Pilih salah satu sisi atau pilih kedua sisi..!!');
             sel.checked = true;
             document.getElementById("cbLeftCopy").checked = sel.checked;
-            objProducts.side_left = true;
         }else{
-            qty.value = 1;
-            qtyCopy.value = 1;
+            qty.value = document.getElementById("location_qty").value * 1;
+            qtyCopy.value = document.getElementById("location_qty").value * 1;
             document.getElementById("cbLeftCopy").checked = sel.checked;
-            objProducts.side_left = false;
             countTotal();
         }
     }
 }
 
-btnPreviewAction = () =>{
+fillData = () =>{
     if(vendorCheck() == true && productCheck() == true && themeCheck() == true && designCheck() == true && finishingCheck() == true){
-        fillPreviewData();
-        document.getElementById("modalPreview").classList.remove("hidden");
-        document.getElementById("modalPreview").classList.add("flex");
+        if(confirm('Apakah anda yakin data yang diinput sudah benar?')){
+            objProducts.sale_id = document.getElementById("sale_id").value;
+            objProducts.sale_number = document.getElementById("thSaleNumber").innerText;
+            objProducts.location_width = sizeWidth.value;
+            objProducts.location_height = sizeHeight.value;
+            objProducts.location_side = document.getElementById("location_side").value;
+            objProducts.location_size = size.value;
+            objProducts.location_id = document.getElementById("location_id").value;
+            objProducts.location_qty = document.getElementById("location_qty").value;
+            objProducts.location_address = document.getElementById("location_address").value;
+            objProducts.location_code = document.getElementById("location_code").value;
+            objProducts.city_code = document.getElementById("cityCode").value;
+            objProducts.order_type = document.getElementById("orderType").value;
+            objProducts.status = orderStatus.value;
+            objProducts.qty = qty.value;
+            objProducts.main_sale_id = document.getElementById("main_sale_id").value;
+            objProducts.side_left = document.getElementById("cbLeft").checked;
+            objProducts.side_right = document.getElementById("cbRight").checked;
+            product.value = JSON.stringify(objProducts);
+            notes.value = JSON.stringify(objNotes);
+        }else{
+            return false;
+        }
+    }else{
+        return false;
     }
 }
 
-fillPreviewData = () =>{
-    document.getElementById("qtyPreview").innerHTML = qty.value + " Lembar";
-    document.getElementById("copyQtyPreview").innerHTML = qty.value + " Lembar";
-    objProducts.sale_id = document.getElementById("sale_id").value;
-    objProducts.sale_number = document.getElementById("thSaleNumber").innerText;
-    objProducts.location_width = sizeWidth.value;
-    objProducts.location_height = sizeHeight.value;
-    objProducts.location_side = qty.value;
-    objProducts.location_size = size.value;
-    objProducts.location_id = document.getElementById("location_id").value;
-    objProducts.location_code = document.getElementById("location_code").value;
-    objProducts.city_code = document.getElementById("cityCode").value;
-    objProducts.order_type = document.getElementById("orderType").value;
-    objProducts.status = orderStatus.value;
-    document.getElementById("product").value = JSON.stringify(objProducts);
-    document.getElementById("notes").value = JSON.stringify(objNotes);
+formVendorSubmit = (sel) =>{
+    document.getElementById("vendorID").value = sel.value;
+    document.getElementById("formVendor").submit();
 }
-
-// Button Close Action --> start
-btnClose.addEventListener("click", function(){
-    modalPreview.classList.add("hidden");
-    modalPreview.classList.remove("flex");
-})
-// Button Close Action --> end

@@ -36,6 +36,16 @@ class SalesReportController extends Controller
     public function chartReports(String $areaId, Request $request): View
     {
         if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
+            if($request->media_category_id){
+                if($request->media_category_id != "All"){
+                    $dataCategory = MediaCategory::findOrFail($request->media_category_id);
+                    $category = $dataCategory->name;
+                }else{
+                    $category = "All";
+                }
+            }else{
+                $category = "All";
+            }
             $area = Area::findOrFail($areaId);
             $sales_categories = MediaCategory::with('sales')->get();
             $areas = Area::with('locations')->get();
@@ -46,8 +56,9 @@ class SalesReportController extends Controller
             $quotations = Quotation::with('sales')->get();
             $sales = Sale::with('location')->get();
             return view ('sales-report.chart-reports', [
-                'locations'=>Location::where('area_id', $areaId)->sortable()->orderBy("code", "asc")->get(),
+                'locations'=>Location::where('area_id', $areaId)->category()->sortable()->orderBy("code", "asc")->get(),
                 'area'=>$area,
+                'category'=>$category,
                 'title' => 'Grafik Periode Kontrak',
                 compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'sales')
             ]);

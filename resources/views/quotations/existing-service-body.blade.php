@@ -125,8 +125,8 @@
                     @endif
                 </div>
             @else
-                <div class="hidden mt-4">
-                    <div class="flex">
+                <div class="mt-4">
+                    <div class="hidden">
                         <label class="ml-1 text-sm text-teal-700 flex w-20">Ganti Klien</label>
                         <label class="ml-1 text-sm text-teal-700 flex">:</label>
                         <div>
@@ -169,7 +169,7 @@
                         </div>
                     </div>
                     @if ($dataClient->type == 'Perusahaan')
-                        <div id="divContact" class="flex ml-4 p-1">
+                        <div id="divContact" class="flex p-1">
                             <label class="text-sm text-teal-700 flex w-20">Ganti Kontak</label>
                             <label class="ml-1 text-sm text-teal-700 flex">:</label>
                             <select

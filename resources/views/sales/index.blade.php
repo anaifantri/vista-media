@@ -256,12 +256,13 @@
                                     }
                                     $clients = json_decode($sale->quotation->clients);
                                     $product = json_decode($sale->product);
-                                    $description = json_decode($sale->description);
+                                    $description = json_decode($product->description);
                                 @endphp
                                 <tr>
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">
-                                        {{ $index++ }}</td>
+                                        {{ $index++ }}
+                                    </td>
                                     <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-start align-top">
                                         <div>
                                             <div class="flex ml-1">
@@ -342,17 +343,56 @@
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-start align-top">
                                         <div>
-                                            <div class="flex ml-1">
-                                                <label class="w-10">Jenis</label>
-                                                <label>:</label>
-                                                @if ($sale->media_category->name == 'Service')
-                                                    <label class="ml-1">Cetak / Pasang</label>
-                                                @else
-                                                    <label
-                                                        class="ml-1">{{ $sale->quotation->media_category->name }}</label>
+                                            @if ($sale->media_category->name == 'Service')
+                                                @if ($price->objServiceType->print == true)
+                                                    <div class="flex ml-1">
+                                                        <label class="w-10">Jenis</label>
+                                                        <label>:</label>
+                                                        <label class="ml-1">Cetak</label>
+                                                    </div>
+                                                    <div class="flex ml-1">
+                                                        <label class="w-10">Bahan</label>
+                                                        <label>:</label>
+                                                        <label class="ml-1">
+                                                            @foreach ($price->objPrints as $objPrint)
+                                                                @if ($objPrint->code == $product->code)
+                                                                    {{ $objPrint->printProduct }}
+                                                                @endif
+                                                            @endforeach
+                                                        </label>
+                                                    </div>
                                                 @endif
-                                            </div>
-                                            @if ($sale->media_category->name != 'Service')
+                                                @if ($price->objServiceType->install == true)
+                                                    <div class="flex ml-1 mt-2">
+                                                        <label class="w-10">Jenis</label>
+                                                        <label>:</label>
+                                                        <label class="ml-1">Pasang</label>
+                                                    </div>
+                                                    <div class="flex ml-1">
+                                                        <label class="w-10">Bahan</label>
+                                                        <label>:</label>
+                                                        <label class="ml-1">
+                                                            @foreach ($price->objInstalls as $objInstall)
+                                                                @if ($objInstall->code == $product->code)
+                                                                    {{ $objInstall->type }}
+                                                                @endif
+                                                            @endforeach
+                                                        </label>
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="flex ml-1">
+                                                    <label class="w-10">Jenis</label>
+                                                    <label>:</label>
+                                                    <label class="ml-1">{{ $product->category }}</label>
+                                                </div>
+                                                @if ($product->category == 'Signage')
+                                                    <div class="flex ml-1">
+                                                        <label class="w-10">Bentuk</label>
+                                                        <label>:</label>
+                                                        <label class="ml-1">{{ $description->type }}</label>
+                                                    </div>
+                                                @endif
                                                 <div class="flex ml-1">
                                                     <label class="w-10">Periode</label>
                                                     <label>:</label>
@@ -453,7 +493,10 @@
                                                 <label>:</label>
                                                 <label class="ml-1">{{ date('d-M-Y', strtotime($created_at)) }}</label>
                                             </div>
-                                            @if ($sale->media_category->name == 'Billboard')
+                                            @if (
+                                                $sale->media_category->name != 'Videotron' &&
+                                                    $sale->media_category->name != 'Service' &&
+                                                    ($sale->media_category->name == 'Signage' && $description->type != 'Videotron'))
                                                 <div class="flex ml-1">
                                                     <label class="w-14">Free Cetak</label>
                                                     <label>:</label>

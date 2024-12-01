@@ -110,10 +110,13 @@
                                     value="{{ request('media_category_id') }}">
                                     <option value="All">All</option>
                                     @foreach ($categories as $category)
-                                        @if (request('media_category_id') == $category->id)
-                                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                                        @else
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @if ($category->name != 'Service')
+                                            @if (request('media_category_id') == $category->id)
+                                                <option value="{{ $category->id }}" selected>{{ $category->name }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endif
                                         @endif
                                     @endforeach
                                 </select>
@@ -242,23 +245,25 @@
                         @foreach ($locations as $location)
                             @php
                                 $description = json_decode($location->description);
-                                if ($location->media_category->name == 'Videotron') {
-                                    $videotronSales = $location->sales->where('end_at', '>', date('Y-m-d'));
+                                if (
+                                    $location->media_category->name == 'Videotron' ||
+                                    ($location->media_category->name == 'Signage' && $description->type == 'Videotron')
+                                ) {
+                                    // $videotronSales = $location->sales->where('end_at', '>', date('Y-m-d'));
+                                    $videotronSales = $location->videotron_active_sales;
                                     $slots = $description->slots;
                                 } else {
-                                    $sale = $location->sales->last();
+                                    $sale = $location->active_sale;
                                     if ($sale) {
-                                        if ($sale->end_at > date('Y-m-d')) {
-                                            $status = 'Sold';
-                                        } else {
-                                            $status = 'Available';
-                                        }
+                                        $status = 'Sold';
                                     } else {
                                         $status = 'Available';
                                     }
                                 }
                             @endphp
-                            @if ($location->media_category->name == 'Videotron')
+                            @if (
+                                $location->media_category->name == 'Videotron' ||
+                                    ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
                                 <tr>
                                     <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
                                         {{ $number++ }}
@@ -278,20 +283,10 @@
                                         {{ $location->media_category->code }}
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
-                                        @if ($location->media_category->name == 'Videotron')
+                                        @if (
+                                            $location->media_category->name == 'Videotron' ||
+                                                ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
                                             -
-                                        @elseif ($location->media_category->name == 'Signage')
-                                            @if ($description->type == 'Videotron')
-                                                -
-                                            @else
-                                                @if ($description->lighting == 'Backlight')
-                                                    BL
-                                                @elseif ($description->lighting == 'Frontlight')
-                                                    FL
-                                                @elseif ($description->lighting == 'Nonlight')
-                                                    NL
-                                                @endif
-                                            @endif
                                         @else
                                             @if ($description->lighting == 'Backlight')
                                                 BL

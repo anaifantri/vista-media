@@ -50,6 +50,10 @@ class Vendor extends Model
         return $this->hasMany(PrintingPrice::class, 'vendor_id', 'id');
     }
 
+    public function print_orders(){
+        return $this->hasMany(PrintOrder::class, 'vendor_id', 'id');
+    }
+
     // public static function boot(){
     //     parent::boot();
 
