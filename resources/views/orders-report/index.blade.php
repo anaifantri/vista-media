@@ -32,8 +32,8 @@
                                 <div>
                                     <label
                                         class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
-                                    <label class="flex justify-center items-center font-serif text-md cursor-pointer">Dari
-                                        Penjualan</label>
+                                    <label
+                                        class="flex justify-center items-center font-serif text-md cursor-pointer">Penjualan</label>
                                 </div>
                             </a>
                             <a href="#"
@@ -114,8 +114,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-center items-center w-[650px] mx-4 m-1 border rounded-lg bg-stone-300">
-                    <div class="w-[600px] h-[460px] bg-stone-300 border rounded-lg m-4">
+                <div class="flex justify-center items-center w-[650px] mx-4 m-1 border rounded-lg bg-stone-300 p-4">
+                    <div class="w-full h-full bg-stone-300 border rounded-lg">
+                        <div id="print-pie-chart" class="flex justify-center items-center w-full h-[250px]"></div>
+                        <div id="print-line-chart" class="flex justify-center items-center w-full h-[250px] mt-4"></div>
                     </div>
                 </div>
             </div>
@@ -226,8 +228,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-center items-center w-[650px] mx-4 m-1 border rounded-lg bg-stone-300">
-                    <div class="w-[600px] h-[460px] bg-stone-300 border rounded-lg m-4">
+                <div class="flex justify-center items-center w-[650px] mx-4 m-1 border rounded-lg bg-stone-300 p-4">
+                    <div class="w-full h-full bg-stone-300 border rounded-lg">
+                        <div id="install-pie-chart" class="flex justify-center items-center w-full h-[250px]"></div>
+                        <div id="install-line-chart" class="flex justify-center items-center w-full h-[250px] mt-4"></div>
                     </div>
                 </div>
             </div>
@@ -236,5 +240,150 @@
     <!-- Container end -->
 
     <!-- Script start -->
+    <script src="{{ asset('js/apexcharts.min.js') }}"></script>
+    <script>
+        var options = {
+            series: [{
+                name: "Jumlah SPK Cetak",
+                data: @json($printOrderQty)
+            }],
+            chart: {
+                height: 220,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: 'SPK Cetak Bulanan',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: @json($monthData),
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#print-line-chart"), options);
+        chart.render();
+
+        var options = {
+            series: @json($printOrderData),
+            chart: {
+                width: 380,
+                type: 'pie',
+            },
+            labels: @json($labelData),
+            legend: {
+                show: true,
+                showForSingleSeries: false,
+                showForNullSeries: true,
+                showForZeroSeries: true,
+                position: 'bottom',
+                horizontalAlign: 'center',
+                fontSize: '14px',
+                fontFamily: 'Helvetica, Arial',
+                fontWeight: 400,
+                itemMargin: {
+                    horizontal: 6,
+                    vertical: 0
+                },
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#print-pie-chart"), options);
+        chart.render();
+
+
+        var options = {
+            series: [{
+                name: "Jumlah SPK Pasang",
+                data: @json($installOrderQty)
+            }],
+            chart: {
+                height: 220,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: 'SPK Pasang Bulanan',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: @json($monthData),
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#install-line-chart"), options);
+        chart.render();
+
+        var options = {
+            series: @json($installOrderData),
+            chart: {
+                width: 380,
+                type: 'pie',
+            },
+            labels: @json($labelData),
+            legend: {
+                show: true,
+                showForSingleSeries: false,
+                showForNullSeries: true,
+                showForZeroSeries: true,
+                position: 'bottom',
+                horizontalAlign: 'center',
+                fontSize: '14px',
+                fontFamily: 'Helvetica, Arial',
+                fontWeight: 400,
+                itemMargin: {
+                    horizontal: 6,
+                    vertical: 0
+                },
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#install-pie-chart"), options);
+        chart.render();
+    </script>
     <!-- Script end -->
 @endsection

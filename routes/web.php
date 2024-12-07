@@ -161,6 +161,7 @@ Route::resource('/media/leds', LedController::class)->middleware(['auth','user_a
 // Route Area & City --> start
 Route::resource('/media/area', AreaController::class)->middleware(['auth','user_access']);
 Route::resource('/media/cities', CityController::class)->middleware(['auth','user_access']);
+Route::get('/media/show-maps/{id}', [AreaController::class,'showMaps'])->middleware(['auth','user_access']);
 // Route Area & City --> end
 
 // Route Location --> start
@@ -180,9 +181,15 @@ Route::resource('/media/licensing-categories', LicensingCategoryController::clas
 Route::resource('/media/land-agreements', LandAgreementController::class)->middleware(['auth','user_access']);
 Route::get('/create-land-agreement/{locationId}', [LandAgreementController::class,'createLandAgreement'])->middleware(['auth','user_access']);
 Route::get('/show-land-agreement/{locationId}', [LandAgreementController::class,'showLandAgreement'])->middleware(['auth','user_access']);
+Route::get('/media/active-agreements', [LandAgreementController::class,'activeAgreement'])->middleware(['auth','user_access']);
+Route::get('/media/expired-agreements', [LandAgreementController::class,'expiredAgreement'])->middleware(['auth','user_access']);
+Route::get('/media/expired-soon-agreements', [LandAgreementController::class,'expiredSoonAgreement'])->middleware(['auth','user_access']);
 Route::resource('/media/licenses', LicenseController::class)->middleware(['auth','user_access']);
 Route::get('/create-license/{locationId}', [LicenseController::class,'createLicense'])->middleware(['auth','user_access']);
 Route::get('/show-license/{locationId}', [LicenseController::class,'showLicense'])->middleware(['auth','user_access']);
+Route::get('/media/active-licenses', [LicenseController::class,'activeLicenses'])->middleware(['auth','user_access']);
+Route::get('/media/expired-licenses', [LicenseController::class,'expiredLicenses'])->middleware(['auth','user_access']);
+Route::get('/media/expired-soon-licenses', [LicenseController::class,'expiredSoonLicenses'])->middleware(['auth','user_access']);
 Route::resource('/media/license-documents', LicenseDocumentController::class)->middleware(['auth','user_access']);
 Route::get('/create-license-documents/{licenseId}', [LicenseDocumentController::class,'createDocuments'])->middleware(['auth','user_access']);
 Route::resource('/media/land-documents', LandDocumentController::class)->middleware(['auth','user_access']);

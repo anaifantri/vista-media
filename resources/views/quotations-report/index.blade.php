@@ -238,8 +238,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-center items-center w-[650px] mx-4 m-1 border rounded-lg bg-stone-300">
-                    <div class="w-[600px] h-[460px] bg-stone-300 border rounded-lg m-4">
+                <div class="flex justify-center items-center w-[650px] mx-4 m-1 border rounded-lg bg-stone-300 p-4">
+                    <div class="w-full h-full bg-stone-300 border rounded-lg">
+                        <div id="pie-chart" class="flex justify-center items-center w-full h-[250px]"></div>
+                        <div id="line-chart" class="flex justify-center items-center w-full h-[250px] mt-4"></div>
                     </div>
                 </div>
             </div>
@@ -248,5 +250,78 @@
     <!-- Container end -->
 
     <!-- Script start -->
+    <script src="{{ asset('js/apexcharts.min.js') }}"></script>
+    <script>
+        var options = {
+            series: [{
+                name: "Total Penawaran",
+                data: @json($thisYearTotal)
+            }],
+            chart: {
+                height: 220,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: 'Penawaran Bulanan',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: @json($monthData),
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#line-chart"), options);
+        chart.render();
+
+        var options = {
+            series: @json($quotationData),
+            chart: {
+                width: 380,
+                type: 'pie',
+            },
+            labels: @json($labelData),
+            legend: {
+                show: true,
+                showForSingleSeries: false,
+                showForNullSeries: true,
+                showForZeroSeries: true,
+                position: 'bottom',
+                horizontalAlign: 'center',
+                fontSize: '14px',
+                fontFamily: 'Helvetica, Arial',
+                fontWeight: 400,
+                itemMargin: {
+                    horizontal: 6,
+                    vertical: 0
+                },
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#pie-chart"), options);
+        chart.render();
+    </script>
     <!-- Script end -->
 @endsection

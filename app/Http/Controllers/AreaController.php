@@ -32,6 +32,18 @@ class AreaController extends Controller
         return response()->json(['dataArea'=> $dataArea]);
     }
 
+    public function showMaps(String $id){
+        if(Gate::allows('isArea') && Gate::allows('isMediaRead')){
+            $area = Area::where('id', $id)->firstOrFail();
+            return response()-> view ('areas.show-maps', [
+                'area' => $area,
+                'title' => 'Peta Area ' . $area->area
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */

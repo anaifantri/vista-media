@@ -23,7 +23,36 @@ class OrderReportController extends Controller
     public function index(): View
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $year = date('Y');
+            $month = date('m');
+            $mm = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+            for ($i=1; $i <= $month; $i++) { 
+                $printOrders = PrintOrder::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
+                $monthData[] = $mm[$i];
+                $printOrderQty[] = count($printOrders);
+            }
+            $printSales = PrintOrder::sales()->get();
+            $freePrintSales = PrintOrder::freeSales()->get();
+            $freePrintOther = PrintOrder::freeOther()->get();
+            $printOrderData = [count($printSales), count($freePrintSales), count($freePrintOther)];
+
+            for ($i=1; $i <= $month; $i++) { 
+                $installOrders = InstallOrder::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
+                $installOrderQty[] = count($installOrders);
+            }
+            $installSales = InstallOrder::sales()->get();
+            $freeInstallSales = InstallOrder::freeSales()->get();
+            $freeInstallOther = InstallOrder::freeOther()->get();
+            $installOrderData = [count($installSales), count($freeInstallSales), count($freeInstallOther)];
+
+            $labelData = ['Berbayar', 'Gratis Penjualan', 'Gratis Lain-Lain'];
             return view ('orders-report.index', [
+                'printOrderQty' => $printOrderQty,
+                'installOrderQty' => $installOrderQty,
+                'monthData' => $monthData,
+                'printOrderData' => $printOrderData,
+                'installOrderData' => $installOrderData,
+                'labelData' => $labelData,
                 'todaysPrint' => Quotation::whereDate('created_at', Carbon::today())->get(),
                 'weekdayPrints' => PrintOrder::whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
                 'monthPrints' => PrintOrder::whereMonth('created_at', Carbon::now()->month)->get(),

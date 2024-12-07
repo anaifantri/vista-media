@@ -14,9 +14,46 @@ class Quotation extends Model
 
     public function scopeCategory($query){
         if (request('media_category_id') != "All") {
-            return $query->where('media_category_id', 'like', '%' . request('media_category_id') . '%');
+            return $query->where('quot_revision_statuses', 'like', '%' . request('media_category_id') . '%');
         }
     }
+
+    public function scopeDeal($query){
+            return $query->whereHas('quotation_status', function($query){
+                $query->where('status', '=', 'Deal');
+            })
+            ->orWhereHas('quot_revision_status', function($query){
+                $query->where('status', '=', 'Deal');
+            });
+    }
+
+    public function scopeClosed($query){
+            return $query->whereHas('quot_revision_status', function($query){
+                $query->where('status', '=', 'Closed');
+            })
+            ->whereHas('quotation_status', function($query){
+                $query->where('status', '=', 'Closed');
+            });
+    }
+
+    public function scopeSent($query){
+            return $query->whereHas('quotation_status', function($query){
+                $query->where('status', '=', 'Sent');
+            })
+            ->whereHas('quot_revision_status', function($query){
+                $query->where('status', '=', 'Sent');
+            });
+    }
+
+    public function scopeFollowUp($query){
+        return $query->whereHas('quot_revision_status', function($query){
+            $query->where('status', '=', 'Follow Up');
+        })
+        // ->orWhereDoesntHave('quot_revision_status')
+        ->whereHas('quotation_status', function($query){
+            $query->where('status', '=', 'Follow Up');
+        });
+}
 
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
@@ -63,8 +100,16 @@ class Quotation extends Model
         return $this->hasMany(QuotationStatus::class, 'quotation_id', 'id');
     }
 
+    public function quotation_status(){
+        return $this->hasOne(QuotationStatus::class)->latestOfMany();
+    }
+
     public function quot_revision_statuses(){
         return $this->hasMany(QuotRevisionStatus::class, 'quotation_id', 'id');
+    }
+
+    public function quot_revision_status(){
+        return $this->hasOne(QuotRevisionStatus::class)->latestOfMany();
     }
 
     public function quotation_approvals(){

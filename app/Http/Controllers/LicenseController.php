@@ -54,6 +54,106 @@ class LicenseController extends Controller
             abort(403);
         }
     }
+
+    public function activeLicenses(): View
+    { 
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            $prinsip = LicensingCategory::where('name', 'Prinsip')->get()->last();
+            $pbg = LicensingCategory::where('name', 'PBG')->get()->last();
+            $slf = LicensingCategory::where('name', 'SLF')->get()->last();
+            $ipr = LicensingCategory::where('name', 'IPR')->get()->last();
+            $skpd = LicensingCategory::where('name', 'SKPD')->get()->last();
+            $sspd = LicensingCategory::where('name', 'SSPD')->get()->last();
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $licenses = License::with('location')->get();
+            $licensing_categories = LicensingCategory::with('licenses')->get();
+            return view ('licenses.active-licenses', [
+                'locations'=>Location::activeLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'prinsip'=>$prinsip->id,
+                'pbg'=>$pbg->id,
+                'slf'=>$slf->id,
+                'ipr'=>$ipr->id,
+                'skpd'=>$skpd->id,
+                'sspd'=>$sspd->id,
+                'title' => 'Daftar Data Perizinan',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'licenses', 'licensing_categories')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function expiredLicenses(): View
+    { 
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            $prinsip = LicensingCategory::where('name', 'Prinsip')->get()->last();
+            $pbg = LicensingCategory::where('name', 'PBG')->get()->last();
+            $slf = LicensingCategory::where('name', 'SLF')->get()->last();
+            $ipr = LicensingCategory::where('name', 'IPR')->get()->last();
+            $skpd = LicensingCategory::where('name', 'SKPD')->get()->last();
+            $sspd = LicensingCategory::where('name', 'SSPD')->get()->last();
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $licenses = License::with('location')->get();
+            $licensing_categories = LicensingCategory::with('licenses')->get();
+            return view ('licenses.expired-licenses', [
+                'locations'=>Location::expiredLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'prinsip'=>$prinsip->id,
+                'pbg'=>$pbg->id,
+                'slf'=>$slf->id,
+                'ipr'=>$ipr->id,
+                'skpd'=>$skpd->id,
+                'sspd'=>$sspd->id,
+                'title' => 'Daftar Data Perizinan',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'licenses', 'licensing_categories')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function expiredSoonLicenses(): View
+    { 
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            $prinsip = LicensingCategory::where('name', 'Prinsip')->get()->last();
+            $pbg = LicensingCategory::where('name', 'PBG')->get()->last();
+            $slf = LicensingCategory::where('name', 'SLF')->get()->last();
+            $ipr = LicensingCategory::where('name', 'IPR')->get()->last();
+            $skpd = LicensingCategory::where('name', 'SKPD')->get()->last();
+            $sspd = LicensingCategory::where('name', 'SSPD')->get()->last();
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $licenses = License::with('location')->get();
+            $licensing_categories = LicensingCategory::with('licenses')->get();
+            return view ('licenses.expired-soon-licenses', [
+                'locations'=>Location::expiredSoonLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'prinsip'=>$prinsip->id,
+                'pbg'=>$pbg->id,
+                'slf'=>$slf->id,
+                'ipr'=>$ipr->id,
+                'skpd'=>$skpd->id,
+                'sspd'=>$sspd->id,
+                'title' => 'Daftar Data Perizinan',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'licenses', 'licensing_categories')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
     public function createLicense(String $locationId): View
     { 
         if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
@@ -66,6 +166,7 @@ class LicenseController extends Controller
             abort(403);
         }
     }
+
     public function showLicense(String $locationId): View
     { 
         if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
@@ -122,7 +223,7 @@ class LicenseController extends Controller
                 return back()->withErrors(['licensing_category_id' => ['Silahkan pilih katagori izin']])->withInput();
             }
             $request->validate([
-                'legal_documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
+                'legal_documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
                 'legal_documents' => 'required',
             ]);
             $request->request->add(['user_id' => auth()->user()->id]);
@@ -150,6 +251,7 @@ class LicenseController extends Controller
                     $documentLicense = [];
                     $documentLicense = [
                         'license_id' => $dataLicense->id,
+                        'user_id' => auth()->user()->id,
                         'licensing_category_id' => $validateData['licensing_category_id'],
                         'name' => $name,
                         'image' => $image->store('license-images')

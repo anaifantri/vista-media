@@ -21,10 +21,23 @@ class SalesReportController extends Controller
     public function index(): View
     {
         if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
+            $year = date('Y');
+            $month = date('m');
+            $mm = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+            for ($i=1; $i <= $month; $i++) { 
+                $thisYearSales = Sale::whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('price');
+                $prevYearSales = Sale::whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price');
+                $monthData[] = $mm[$i];
+                $thisYearTotal[] = $thisYearSales;
+                $prevYearTotal[] = $prevYearSales;
+            }
             return view ('sales-report.index', [
                 'areas' => Area::all(),
+                'thisYearTotal' => $thisYearTotal,
+                'prevYearTotal' => $prevYearTotal,
+                'monthData' => $monthData,
                 'weekSales' => Sale::whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->sum('price'),
-                'monthSales' => Sale::whereMonth('created_at', Carbon::now()->month)->sum('price'),
+                'monthSales' => Sale::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price'),
                 'yearSales' => Sale::whereYear('created_at', Carbon::now()->year)->sum('price'),
                 'title' => 'Laporan Penjualan'
             ]);

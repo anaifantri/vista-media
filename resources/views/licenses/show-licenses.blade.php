@@ -93,7 +93,7 @@
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">Nomor
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">Nomor
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
                             </th>
@@ -207,7 +207,7 @@
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">
                                 Nomor</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
                             </th>
@@ -321,7 +321,7 @@
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">
                                 Nomor</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
                             </th>
@@ -435,7 +435,7 @@
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">
                                 Nomor</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
                             </th>
@@ -549,7 +549,7 @@
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">
                                 Nomor</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Penerbit
                             </th>

@@ -9,12 +9,12 @@
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
-                <h1 class="index-h1">DAFTAR DATA PERIZINAN</h1>
+                <h1 class="index-h1">DAFTAR DATA PERIZINAN YANG SEGERA BERAKHIR</h1>
                 <!-- Title end -->
             </div>
             <div>
                 <!-- Form search start -->
-                <form action="/media/licenses/">
+                <form action="/media/expired-soon-licenses/">
                     <div class="flex mt-1 ml-2">
                         <div class="w-36">
                             <span class="text-base text-stone-100">Area</span>

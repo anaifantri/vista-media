@@ -63,7 +63,6 @@ function showMarker(){
                 }
             }
             if(saleStatus == true){
-                console.log(dataLocations[i].code);
                 addMarker(posisi, title = "Kode : " + dataLocations[i].code + " \nLokasi : " + dataLocations[i].address, icon = "/img/marker-red.png", id = dataLocations[i].id);
             }else{
                 addMarker(posisi, title = "Kode : " + dataLocations[i].code + " \nLokasi : " + dataLocations[i].address, icon = "/img/marker-green.png", id = dataLocations[i].id);

@@ -45,6 +45,69 @@ class LandAgreementController extends Controller
         }
     }
 
+    public function activeAgreement(): View
+    { 
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $land_agreements = LandAgreement::with('location')->get();
+            $land_documents = LandDocument::with('land_agreement')->get();
+            return view ('land-agreements.active-agreements', [
+                'locations'=>Location::activeAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'title' => 'Daftar Perjanjian Sewa',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'land_agreements', 'land_documents')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function expiredAgreement(): View
+    { 
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $land_agreements = LandAgreement::with('location')->get();
+            $land_documents = LandDocument::with('land_agreement')->get();
+            return view ('land-agreements.expired-agreements', [
+                'locations'=>Location::expiredAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'title' => 'Daftar Perjanjian Sewa',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'land_agreements', 'land_documents')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function expiredSoonAgreement(): View
+    { 
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $land_agreements = LandAgreement::with('location')->get();
+            $land_documents = LandDocument::with('land_agreement')->get();
+            return view ('land-agreements.expired-soon-agreements', [
+                'locations'=>Location::expiredSoonAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'title' => 'Daftar Perjanjian Sewa',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'land_agreements', 'land_documents')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
     public function createLandAgreement(String $locationId): View
     { 
         if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){

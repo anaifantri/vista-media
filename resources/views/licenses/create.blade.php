@@ -137,7 +137,7 @@
                         <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4 bg-stone-300">
                             <div class="w-[750px]">
                                 <div class="flex w-full justify-center">
-                                    <input id="legalDocuments" name="legal_docments[]" type="file"
+                                    <input id="legalDocuments" name="legal_documents[]" type="file"
                                         accept="image/png, image/jpg, image/jpeg" onchange="imagePreview(this)" multiple
                                         hidden>
                                     <button id="btnChooseImages"
@@ -159,7 +159,7 @@
                                     <label id="numberImagesFile" class="text-sm text-stone-900 ml-2"> 0 file yang
                                         dipilih</label>
                                 </div>
-                                @error('legal_docments')
+                                @error('legal_documents')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

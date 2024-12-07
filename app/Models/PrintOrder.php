@@ -12,6 +12,16 @@ class PrintOrder extends Model
     use Sortable;
     protected $guarded = ['id'];
 
+    public function scopeSales($query){
+        return $query->where('product->order_type', '=', 'sales');
+    }
+    public function scopeFreeSales($query){
+        return $query->where('product->order_type', '=', 'free');
+    }
+    public function scopeFreeOther($query){
+        return $query->where('product->order_type', '=', 'location');
+    }
+
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('theme', 'like', '%' . $search . '%')

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
+use Carbon\Carbon;
 
 class Location extends Model
 {
@@ -94,6 +95,43 @@ class Location extends Model
                 );
     }
 
+    public function scopeActiveLicenses($query){
+        return $query->whereHas('latestIpr', function($query){
+                                    $query->where('end_at', '>', date('Y-m-d'))
+                                    ;
+                    });
+    }
+    public function scopeExpiredLicenses($query){
+        return $query->whereHas('latestIpr', function($query){
+                                    $query->where('end_at', '<', date('Y-m-d'));
+                    });
+    }
+
+    public function scopeExpiredSoonLicenses($query){
+        return $query->whereHas('latestIpr', function($query){
+                                    $query->where('end_at', '>', date('Y-m-d'))
+                                    ->where('end_at', '<', date('Y-m-d', strtotime("+30 days")));
+                    });
+    }
+
+    public function scopeActiveAgreements($query){
+        return $query->whereHas('latestAgreement', function($query){
+                                    $query->where('end_at', '>', date('Y-m-d'))
+                                    ;
+                    });
+    }
+    public function scopeExpiredAgreements($query){
+        return $query->whereHas('latestAgreement', function($query){
+                                    $query->where('end_at', '<', date('Y-m-d'))
+                                    ;
+                    });
+    }
+    public function scopeExpiredSoonAgreements($query){
+        return $query->whereHas('latestAgreement', function($query){
+                                    $query->where('end_at', '<', date('Y-m-d', strtotime("+30 days")));
+                    });
+    }
+
     public function area(){
         return $this->belongsTo(Area::class);
     }
@@ -146,6 +184,10 @@ class Location extends Model
         return $this->hasMany(LandAgreement::class, 'location_id', 'id');
     }
 
+    public function latestAgreement(){
+        return $this->hasOne(LandAgreement::class)->latestOfMany();
+    }
+
     public function print_orders(){
         return $this->hasMany(PrintOrder::class, 'location_id', 'id');
     }
@@ -156,6 +198,12 @@ class Location extends Model
 
     public function licenses(){
         return $this->hasMany(License::class, 'location_id', 'id');
+    }
+
+    public function latestIpr() {
+        return $this->hasOne(License::class)->whereHas('licensing_category', function($query){
+                $query->where('name', '=', 'IPR');
+            })->latestOfMany();
     }
 
     public function electrical_power(){
