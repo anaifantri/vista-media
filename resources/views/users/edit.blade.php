@@ -68,7 +68,7 @@
                     </div>
                 @endif
                 <div class="flex justify-center w-[1140px] mt-4">
-                    <div class="flex justify-center border rounded-lg bg-stone-400 p-4 w-96">
+                    <div class="flex justify-center border rounded-lg bg-stone-200 p-4 w-96">
                         <div>
                             <label class="flex justify-center text-sm text-stone-900 mt-2">Photo Profile</label>
                             <input type="hidden" name="oldAvatar" value="{{ $user->avatar }}">
@@ -89,7 +89,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="flex w-[280px] border rounded-lg bg-stone-400 p-4 ml-4">
+                    <div class="flex w-[280px] border rounded-lg bg-stone-200 p-4 ml-4">
                         <div class="w-full">
                             <div class="w-full">
                                 <div class="mt-2"><label class="text-sm text-stone-900">Nama</label>
@@ -171,7 +171,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex w-[280px] border rounded-lg bg-stone-400 p-4 ml-4">
+                    <div class="flex w-[280px] border rounded-lg bg-stone-200 p-4 ml-4">
                         <div class="w-full">
                             @can('isAdmin')
                                 <div class="mt-2"><label class="text-sm text-stone-900">Divisi</label>
@@ -299,7 +299,7 @@
                     </div>
                 </div>
                 @can('isAdmin')
-                    <div class="flex justify-center w-[1140px] border rounded-lg bg-stone-400 p-4 mt-4">
+                    <div class="flex justify-center w-[1140px] border rounded-lg bg-stone-200 p-4 mt-4">
                         <div>
                             <label class="text-sm text-stone-900">Hak Akses</label>
                             @if (old('user_access'))

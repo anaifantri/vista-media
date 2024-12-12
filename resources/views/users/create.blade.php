@@ -37,7 +37,7 @@
                 <div class="flex w-full justify-center">
                     <div class="w-[1000px]">
                         <div class="flex justify-center mt-4">
-                            <div class="flex justify-center border rounded-lg bg-stone-400 p-4  w-96">
+                            <div class="flex justify-center border rounded-lg bg-stone-200 p-4  w-96">
                                 <div>
                                     <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
                                         src="/img/photo_profile.png">
@@ -52,7 +52,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="flex w-[280px] border rounded-lg bg-stone-400 p-4 ml-4">
+                            <div class="flex w-[280px] border rounded-lg bg-stone-200 p-4 ml-4">
                                 <div class="w-full">
                                     <div class="mt-2">
                                         <label class="text-sm text-stone-900">Nama</label>
@@ -135,7 +135,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex w-[280px] border rounded-lg bg-stone-400 p-4  ml-4">
+                            <div class="flex w-[280px] border rounded-lg bg-stone-200 p-4  ml-4">
                                 <div class="w-full">
                                     <div class="mt-2"><label class="text-sm text-stone-900">Divisi</label>
                                         <input type="text" id="level" name="level" value="{{ old('level') }}"
@@ -231,7 +231,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex justify-center mt-2 border rounded-lg bg-stone-400 p-4 ">
+                        <div class="flex justify-center mt-2 border rounded-lg bg-stone-200 p-4 ">
                             <div>
                                 <label class="text-sm text-stone-900">Hak Akses</label>
                                 <input type="text" id="user_access" name="user_access"

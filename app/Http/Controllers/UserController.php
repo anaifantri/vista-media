@@ -258,16 +258,24 @@ class UserController extends Controller
                     $dataUsers = User::where('level', 'Administrator')->get();
                     if(count($dataUsers) == 1){
                         return back()->withErrors(['delete' => ['Gagal untuk menghapus data pengguna, minimal harus ada 1 pengguna dengan level Administrator']]);
-                    }
-                }
+                    }else{
+                        if($user->avatar){
+                            Storage::delete($user->avatar);
+                        }
                 
-                if($user->avatar){
-                    Storage::delete($user->avatar);
-                }
-        
-                User::destroy($user->id);
-        
-                return redirect('/user/users')->with('success','Data penggunan dengan nama ' . $user->name . ' berhasil dihapus');
+                        User::destroy($user->id);
+                
+                        return redirect('/user/users')->with('success','Data penggunan dengan nama ' . $user->name . ' berhasil dihapus');
+                    }
+                }else {
+                    if($user->avatar){
+                        Storage::delete($user->avatar);
+                    }
+            
+                    User::destroy($user->id);
+            
+                    return redirect('/user/users')->with('success','Data penggunan dengan nama ' . $user->name . ' berhasil dihapus');
+                }                
             }
             
         } else {

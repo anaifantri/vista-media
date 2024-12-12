@@ -102,7 +102,7 @@
             @enderror
             <!-- Alert Delet end -->
             <div class="flex justify-center w-[1140px] mt-4">
-                <div class="d-flex justify-center items-center border rounded-lg bg-stone-400 p-4 w-96">
+                <div class="d-flex justify-center items-center border rounded-lg bg-stone-300 p-4 w-96">
                     @if ($user->avatar)
                         <img class="m-auto img-preview flex rounded-full items-center w-48 h-48"
                             src="{{ asset('storage/' . $user->avatar) }}">
@@ -113,7 +113,7 @@
                     <span class="flex justify-center font-semibold text-stone-900 border-b mt-3">{{ $user->name }}</span>
                     <span class="flex justify-center text-stone-900 text-sm">{{ $user->email }}</span>
                 </div>
-                <div class="flex w-[280px] border rounded-lg bg-stone-400 p-4 ml-4">
+                <div class="flex w-[280px] border rounded-lg bg-stone-300 p-4 ml-4">
                     <div class="w-full">
                         <div class="border-b">
                             <label class="text-sm text-stone-900">Nama</label>
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex w-[280px] border rounded-lg bg-stone-400 p-4 ml-4">
+                <div class="flex w-[280px] border rounded-lg bg-stone-300 p-4 ml-4">
                     <div class="w-full">
                         <div class="border-b">
                             <label class="text-sm text-stone-900">Divisi</label>
@@ -168,7 +168,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center w-[1140px] border rounded-lg bg-stone-400 p-4 mt-2">
+            <div class="flex justify-center w-[1140px] border rounded-lg bg-stone-300 p-4 mt-2">
                 <div>
                     <label class="text-sm text-stone-900">Hak Akses</label>
                     <div class="flex justify-center mt-2">

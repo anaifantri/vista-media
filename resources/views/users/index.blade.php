@@ -35,7 +35,8 @@
                         <form class="flex" action="/user/users/">
                             <input id="search" name="search"
                                 class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
-                                type="text" placeholder="Search" value="{{ request('search') }}">
+                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                 type="submit">
                                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -78,7 +79,7 @@
                             <tr class="h-10 bg-stone-400">
                                 <th class="th-table border-stone-900 w-5">No.</th>
                                 <th class="th-table border-stone-900 w-40">
-                                    <button class="flex justify-center items-center w-40">
+                                    <button class="flex justify-center items-center w-full">
                                         @sortablelink('name', 'Nama')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
@@ -87,7 +88,7 @@
                                     </button>
                                 </th>
                                 <th class="th-table border-stone-900 w-28">
-                                    <button class="flex justify-center items-center w-28">
+                                    <button class="flex justify-center items-center w-full">
                                         @sortablelink('username', 'Username')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
