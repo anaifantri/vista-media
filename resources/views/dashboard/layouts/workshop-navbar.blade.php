@@ -85,6 +85,68 @@
                 </li>
             </ul>
         @endcan
+        @can('isComplaint')
+            <ul id="complaintNav" class="relative group transition duration-300 ease-in-out"
+                onclick="headerDropdown(event, this)">
+                <a class="right-nav w-max p-1 h-6 text-stone-100 {{ Request::is('workshop/complaints*') ? 'active' : '' }}"
+                    href="#">
+                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M21.169 19.754c.522-.79.831-1.735.831-2.754 0-2.761-2.238-5-5-5s-5 2.239-5 5 2.238 5 5 5c1.019 0 1.964-.309 2.755-.832l2.831 2.832 1.414-1.414-2.831-2.832zm-4.169.246c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3zm-4.89 2h-7.11l2.599-3h2.696c.345 1.152.976 2.18 1.815 3zm-2.11-5h-10v-17h22v12.11c-.574-.586-1.251-1.068-2-1.425v-8.685h-18v13h8.295c-.19.634-.295 1.305-.295 2zm-2.131-4.372l.945-5.759.965 4.145c.096.425.686.473.847.063l.895-2.328.479.974c.08.169.164.277.438.277h1.208v-.877h-.921l-.836-1.624c-.156-.364-.677-.356-.82.014l-.741 1.895-1.144-5.062c-.052-.232-.242-.346-.43-.346-.2 0-.4.127-.44.373l-.948 5.847-.969-3.6c-.109-.43-.715-.455-.853-.029l-.721 2.545h-.823v.864h1.172c.16 0 .334-.13.38-.284l.406-1.257 1.043 4.206c.117.468.791.437.868-.037z" />
+                    </svg>
+                    <span class="flex"> Komplain </span>
+                    <svg id="complaintArrowNav" class="ml-1 fill-current transition duration-300 ease-in-out w-5"
+                        role="img" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
+                    </svg>
+                </a>
+                <li id="complaintChildNav"
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md hidden">
+                    <!-- Child Complaint Start -->
+                    <ul>
+                        <li class="group">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('workshop/complaints*') ? 'active' : '' }}"
+                                href="/workshop/Complaints">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex font-semibold"> Data Komplain </span>
+                            </a>
+                        </li>
+                        <li class="group">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('workshop/complaints*') ? 'active' : '' }}"
+                                href="/workshop/Complaints">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex font-semibold"> Data Respons </span>
+                            </a>
+                        </li>
+                        <li class="group">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]" href="#">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex font-semibold"> Laporan </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Child Complaint End -->
+                </li>
+            </ul>
+        @endcan
         @can('isMonitoring')
             <ul id="monitoringNav" class="relative group transition duration-300 ease-in-out"
                 onclick="headerDropdown(event, this)">
@@ -97,8 +159,8 @@
                     </svg>
                     <span class="flex"> Pemantauan </span>
                     <svg id="monitoringArrowNav" class="ml-1 fill-current transition duration-300 ease-in-out w-5"
-                        role="img" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        role="img" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
                     </svg>
@@ -182,6 +244,68 @@
                         </li>
                     </ul>
                     <!-- Child Documentation End -->
+                </li>
+            </ul>
+        @endcan
+        @can('isContent')
+            <ul id="contentNav" class="relative group transition duration-300 ease-in-out"
+                onclick="headerDropdown(event, this)">
+                <a class="right-nav w-max p-1 h-6 text-stone-100 {{ Request::is('workshop/contents*') ? 'active' : '' }}"
+                    href="#">
+                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M9 12c0-.552.448-1 1.001-1s.999.448.999 1-.446 1-.999 1-1.001-.448-1.001-1zm6.2 0l-1.7 2.6-1.3-1.6-3.2 4h10l-3.8-5zm5.8-7v-2h-21v15h2v-13h19zm3 2v14h-20v-14h20zm-2 2h-16v10h16v-10z" />
+                    </svg>
+                    <span class="flex"> Konten LED </span>
+                    <svg id="contentArrowNav" class="ml-1 fill-current transition duration-300 ease-in-out w-5"
+                        role="img" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
+                    </svg>
+                </a>
+                <li id="contentChildNav"
+                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md hidden">
+                    <!-- Child Content Start -->
+                    <ul>
+                        <li class="group">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('workshop/contents*') ? 'active' : '' }}"
+                                href="#">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex font-semibold"> Publish Konten </span>
+                            </a>
+                        </li>
+                        <li class="group">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('workshop/contents*') ? 'active' : '' }}"
+                                href="#">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex font-semibold"> Take Out Konten </span>
+                            </a>
+                        </li>
+                        <li class="group">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]" href="#">
+                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                </svg>
+                                <span class="flex font-semibold"> Laporan </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Child Content End -->
                 </li>
             </ul>
         @endcan

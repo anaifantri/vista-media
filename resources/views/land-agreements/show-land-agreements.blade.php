@@ -3,7 +3,7 @@
 @section('container')
     <?php
     $description = json_decode($location->description);
-    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10">
@@ -135,9 +135,7 @@
                                     @endif
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
-                                    {{ date('d', strtotime($agreement->published)) }}
-                                    {{ $bulan[(int) date('m', strtotime($agreement->published))] }}
-                                    {{ date('Y', strtotime($agreement->published)) }}
+                                    {{ date('d', strtotime($agreement->published)) }}-{{ $bulan[(int) date('m', strtotime($agreement->published))] }}-{{ date('Y', strtotime($agreement->published)) }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if (strlen($secondParty->name) > 20)
@@ -151,18 +149,14 @@
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($agreement->start_at)
-                                        {{ date('d', strtotime($agreement->start_at)) }}
-                                        {{ $bulan[(int) date('m', strtotime($agreement->start_at))] }}
-                                        {{ date('Y', strtotime($agreement->start_at)) }}
+                                        {{ date('d', strtotime($agreement->start_at)) }}-{{ $bulan[(int) date('m', strtotime($agreement->start_at))] }}-{{ date('Y', strtotime($agreement->start_at)) }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     @if ($agreement->end_at)
-                                        {{ date('d', strtotime($agreement->end_at)) }}
-                                        {{ $bulan[(int) date('m', strtotime($agreement->end_at))] }}
-                                        {{ date('Y', strtotime($agreement->end_at)) }}
+                                        {{ date('d', strtotime($agreement->end_at)) }}-{{ $bulan[(int) date('m', strtotime($agreement->end_at))] }}-{{ date('Y', strtotime($agreement->end_at)) }}
                                     @else
                                         -
                                     @endif

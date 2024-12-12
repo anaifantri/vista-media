@@ -141,7 +141,7 @@
                             <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Nominal</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-stone-300">
+                    <tbody class="bg-stone-200">
                         @php
                             $number = 1 + ($locations->currentPage() - 1) * $locations->perPage();
                         @endphp
@@ -157,7 +157,7 @@
                                     $client = null;
                                 }
                             @endphp
-                            <tr class="bg-teal-50">
+                            <tr>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $number++ }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
@@ -239,7 +239,7 @@
             </div>
             <!-- View end -->
             <!-- Pagination start -->
-            <div class="flex justify-center text-stone-900 mt-2">
+            <div class="flex justify-center text-stone-100 mt-2">
                 {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
             <!-- Pagination end -->

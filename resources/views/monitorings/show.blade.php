@@ -6,10 +6,10 @@
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
-    <div class="flex justify-center mt-10">
-        <div class="p-4 w-[1000px] border rounded-lg">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="w-[1000px] z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex items-center border-b">
-                <h4 class="text-xl font-semibold tracking-wider text-teal-900 w-[600px]">DETAIL FOTO PEMANTAUAN
+                <h4 class="text-xl font-semibold tracking-wider text-stone-100 w-[800px]">DETAIL FOTO PEMANTAUAN
                     {{ strtoupper($bulan[(int) date('m', strtotime($monitoring->month))]) }}
                     {{ date('Y', strtotime($monitoring->month)) }}</h4>
                 <div class="flex items-center w-full justify-end">
@@ -63,44 +63,44 @@
 
             <!-- View start -->
             <div class="flex w-full justify-center mt-4">
-                <div class="flex w-[485px] border rounded-lg p-2 bg-teal-50">
+                <div class="flex w-[485px] border rounded-lg p-2 bg-stone-200">
                     <div>
                         <div>
-                            <label class="text-sm text-teal-700">Bulan</label>
+                            <label class="text-sm text-stone-900">Bulan</label>
                             <label
-                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">
+                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
                                 {{ $bulan[(int) date('m', strtotime($monitoring->month))] }}
                                 {{ date('Y', strtotime($monitoring->month)) }}
                             </label>
                         </div>
                         <div>
-                            <label class="text-sm text-teal-700">Tanggal Foto</label>
+                            <label class="text-sm text-stone-900">Tanggal Foto</label>
                             <label
-                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">
+                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
                                 {{ date('d', strtotime($monitoring->monitoring_date)) }}
                                 {{ $bulan[(int) date('m', strtotime($monitoring->monitoring_date))] }}
                                 {{ date('Y', strtotime($monitoring->monitoring_date)) }}
                             </label>
                         </div>
                         <div>
-                            <label class="text-sm text-teal-700">Keterangan</label>
+                            <label class="text-sm text-stone-900">Keterangan</label>
                             <textarea rows="6"
-                                class=" flex w-[450px] text-sm in-out-spin-none font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('notes') is-invalid @enderror"
+                                class=" flex w-[450px] text-sm in-out-spin-none font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('notes') is-invalid @enderror"
                                 readonly>{{ $monitoring->notes }}</textarea>
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-center w-[485px] border rounded-lg p-2 bg-teal-50 ml-4">
+                <div class="flex justify-center w-[485px] border rounded-lg p-2 bg-stone-200 ml-4">
                     <div>
                         <div class="w-[460px] h-max">
                             <div class="flex justify-center">
                                 <div class="w-[460px]">
                                     <div class="mt-1  border-b-2 border-teal-700 py-2">
                                         <div class="flex justify-center w-full">
-                                            <label class="text-sm text-teal-700">FOTO PEMANTAUAN</label>
+                                            <label class="text-sm text-stone-900">FOTO PEMANTAUAN</label>
                                         </div>
                                         <div class="flex items-center w-full justify-center">
-                                            <label id="numberImagesFile" class="text-sm text-teal-700 ml-2">Jumlah :
+                                            <label id="numberImagesFile" class="text-sm text-stone-900 ml-2">Jumlah :
                                                 {{ count($photos) }} foto</label>
                                         </div>
                                     </div>
@@ -149,47 +149,47 @@
             <!-- Location start -->
             <div class="flex w-full justify-center mt-1">
                 <div class="flex w-full justify-center mt-1">
-                    <div class="w-[485px] border rounded-lg p-2 bg-teal-50">
+                    <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
                         <div>
-                            <label class="text-sm text-teal-700">Kode Lokasi</label>
+                            <label class="text-sm text-stone-900">Kode Lokasi</label>
                             <label
-                                class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
+                                class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
                         </div>
                         <div>
-                            <label class="text-sm text-teal-700">Alamat</label>
-                            <textarea class="flex w-[460px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none"
+                            <label class="text-sm text-stone-900">Alamat</label>
+                            <textarea class="flex w-[460px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none"
                                 rows="2" readonly>{{ $location->address }}</textarea>
                         </div>
                         <div class="flex">
                             <div>
                                 <div>
-                                    <label class="text-sm text-teal-700">Jenis</label>
+                                    <label class="text-sm text-stone-900">Jenis</label>
                                     <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->media_category->name }}
+                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_category->name }}
                                         - {{ $description->lighting }}</label>
                                 </div>
                                 <div>
-                                    <label class="text-sm text-teal-700">Ukuran</label>
+                                    <label class="text-sm text-stone-900">Ukuran</label>
                                     <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->media_size->size }}
+                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_size->size }}
                                         - {{ $location->orientation }}</label>
                                 </div>
                             </div>
                             <div class="ml-4">
                                 <div>
-                                    <label class="text-sm text-teal-700">Area</label>
+                                    <label class="text-sm text-stone-900">Area</label>
                                     <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->area->area }}</label>
+                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->area->area }}</label>
                                 </div>
                                 <div>
-                                    <label class="text-sm text-teal-700">Kota</label>
+                                    <label class="text-sm text-stone-900">Kota</label>
                                     <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->city->city }}</label>
+                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->city->city }}</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-teal-50 ml-4">
+                    <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-200 ml-4">
                         <img class="w-[420px] border rounded-lg" src="{{ asset('storage/' . $location_photo->photo) }}"
                             alt="">
                     </div>

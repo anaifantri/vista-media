@@ -55,49 +55,6 @@
             <div>
                 <form action="/marketing/quotations/home/{{ $category }}">
                     <div class="flex mt-1 ml-2">
-                        {{-- <div class="w-36">
-                            <span class="text-base text-stone-900">Area</span>
-                            <select class="w-full border rounded-lg text-base text-stone-900 outline-none" name="area"
-                                id="area" onchange="submit()" value="{{ request('area') }}">
-                                <option value="All">All</option>
-                                @foreach ($areas as $area)
-                                    @if (request('area') == $area->id)
-                                        <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
-                                    @else
-                                        <option value="{{ $area->id }}">{{ $area->area }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div> --}}
-                        {{-- @if (request('area') && request('area') != 'All')
-                            <div class="w-36 ml-2">
-                                <span class="text-base text-stone-900">Kota</span>
-                                <select id="city" name="city"
-                                    class="flex text-base text-stone-900 w-full border rounded-lg px-1 outline-none"
-                                    type="text" value="{{ request('city') }}" onchange="submit()">
-                                    <option value="All">All</option>
-                                    @foreach ($cities as $city)
-                                        @if (request('area') == $city->area_id)
-                                            @if (request('city'))
-                                                @if (request('city') == $city->id)
-                                                    <option value="{{ $city->id }}" selected>
-                                                        {{ $city->city }}
-                                                    </option>
-                                                @else
-                                                    <option value="{{ $city->id }}">
-                                                        {{ $city->city }}
-                                                    </option>
-                                                @endif
-                                            @else
-                                                <option value="{{ $city->id }}">
-                                                    {{ $city->city }}
-                                                </option>
-                                            @endif
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif --}}
                         @if ($category == 'All')
                             <div class="w-36">
                                 <span class="text-base text-stone-100">Katagori</span>
@@ -107,34 +64,45 @@
                                     <option value="All">All</option>
                                     @foreach ($categories as $category)
                                         @if (request('media_category_id') == $category->id)
-                                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}" selected>
+                                                @if ($category->name == 'Service')
+                                                    Cetak/Pasang
+                                                @else
+                                                    {{ $category->name }}
+                                                @endif
+                                            </option>
                                         @else
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}">
+                                                @if ($category->name == 'Service')
+                                                    Cetak/Pasang
+                                                @else
+                                                    {{ $category->name }}
+                                                @endif
+                                            </option>
                                         @endif
                                     @endforeach
                                 </select>
                             </div>
                         @endif
-                        {{-- <div class="w-36 ml-2">
-                            <span class="text-base text-stone-900">Kondisi</span>
-                            <select class="w-full border rounded-lg text-base text-stone-900 outline-none" name="condition"
-                                id="condition" onchange="submit()">
-                                <?php $condition = ['All', 'Terbangun', 'Rencana']; ?>
-                                @for ($i = 0; $i < count($condition); $i++)
-                                    @if (request('condition') == $condition[$i])
-                                        <option value="{{ $condition[$i] }}" selected> {{ $condition[$i] }} </option>
-                                    @else
-                                        <option value="{{ $condition[$i] }}"> {{ $condition[$i] }} </option>
-                                    @endif
-                                @endfor
-                            </select>
-                        </div> --}}
                     </div>
+                    @if (request('todays'))
+                        <input type="text" name="todays" value="{{ request('todays') }}" hidden>
+                    @endif
+                    @if (request('weekday'))
+                        <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
+                    @endif
+                    @if (request('monthly'))
+                        <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
+                    @endif
+                    @if (request('annual'))
+                        <input type="text" name="annual" value="{{ request('annual') }}" hidden>
+                    @endif
                     <div class="md:flex mt-2">
                         <div class="flex">
                             <input id="search" name="search"
                                 class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
-                                type="text" placeholder="Search" value="{{ request('search') }}">
+                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                 type="submit">
                                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -215,7 +183,8 @@
                                     {{ $quotation->number }}</td>
                                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     {{ date('d-m-Y', strtotime($quotation->created_at)) }}</td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $clients->name }}
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $clients->name }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                     @if ($clients->type == 'Perusahaan')

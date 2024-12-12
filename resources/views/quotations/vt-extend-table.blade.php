@@ -1,5 +1,22 @@
 @php
     $descriptions = json_decode($products[0]->description);
+    $maxSlot = 3;
+    $slotQty = $descriptions->slots;
+    $videotronSales = $extend_location->videotron_active_sales;
+    if (count($videotronSales) != 0) {
+        $clientSlots = 0;
+        $existingSlots = 0;
+        foreach ($videotronSales as $videotronSale) {
+            if ($videotronSale->id == $locations[0]->id) {
+                $getPrice = json_decode($videotronSale->quotation->price);
+                $existingSlots = $getPrice->slotQty;
+            } else {
+                $getPrice = json_decode($videotronSale->quotation->price);
+                $clientSlots = $clientSlots + $getPrice->slotQty;
+            }
+        }
+        $maxSlot = $slotQty - $clientSlots;
+    }
     foreach ($leds as $led) {
         if ($led->id == $descriptions->led_id) {
             $dataLed = $led;
@@ -77,10 +94,11 @@
                     <div class="flex items-center">
                         <input id="cbSharing" type="checkbox" onclick="sharingPrice(this)" checked>
                         <span class="flex ml-2">Harga Sharing Untuk </span>
+                        <input type="number" id="maxSlot" value="{{ $maxSlot }}" hidden>
                         <input id="slotQty"
                             class="text-xs in-out-spin-none text-black w-7 text-center border rounded-md ml-2 outline-none bg-transparent"
-                            type="number" min="1" max="3" value="1" onkeyup="setSLot(this)"
-                            onchange="checkSlot(this)">
+                            type="number" min="1" max="{{ $maxSlot }}" value="{{ $existingSlots }}"
+                            onkeyup="setSLot(this)" onchange="checkSlot(this)">
                         <span class="flex ml-2">Slot</span>
                     </div>
                 </td>

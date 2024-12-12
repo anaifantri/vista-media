@@ -45,7 +45,7 @@ class QuotationsReportController extends Controller
                 'labelData' => $labelData,
                 'todays' => Quotation::whereDate('created_at', Carbon::today())->get(),
                 'weekday' => Quotation::whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
-                'monthQuots' => Quotation::whereMonth('created_at', Carbon::now()->month)->get(),
+                'monthQuots' => Quotation::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
                 'yearQuots' => Quotation::whereYear('created_at', Carbon::now()->year)->get(),
                 'title' => 'Laporan Penawaran',
                 compact('quotation_revisions', 'quotation_statuses', 'quot_revision_statuses')

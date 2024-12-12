@@ -25,7 +25,7 @@
                                 <label class="flex text-sm text-black w-24">Ukuran</label>
                                 <label class="flex text-sm text-black">:</label>
                                 <input id="size" type="text" value="{{ $size }}"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1">
+                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1" readonly>
                             </div>
                             @if ((int) filter_var($side, FILTER_SANITIZE_NUMBER_INT) == 2)
                                 <div class="flex mt-1">

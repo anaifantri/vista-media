@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
+use Carbon\Carbon;
 
 class Sale extends Model
 {
@@ -14,6 +15,24 @@ class Sale extends Model
     public function scopeCategory($query){
         if (request('media_category_id') != "All") {
             return $query->where('media_category_id', 'like', '%' . request('media_category_id') . '%');
+        }
+    }
+
+    public function scopeWeekday($query){
+        if (request('weekday') == true) {
+            return $query->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)]);
+        }
+    }
+
+    public function scopeMonthly($query){
+        if (request('monthly') == true) {
+            return $query->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month);
+        }
+    }
+
+    public function scopeAnnual($query){
+        if (request('annual') == true) {
+            return $query->whereYear('created_at', Carbon::now()->year);
         }
     }
 

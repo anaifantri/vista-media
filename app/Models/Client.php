@@ -34,13 +34,13 @@ class Client extends Model
         return $this->belongsTo(ClientCategory::class);
     }
 
-    public function quotations(){
-        return $this->hasMany(Quotation::class, 'client_id', 'id');
-    }
+    // public function quotations(){
+    //     return $this->hasMany(Quotation::class, 'client_id', 'id');
+    // }
 
-    public function sales(){
-        return $this->hasMany(Sale::class, 'client_id', 'id');
-    }
+    // public function sales(){
+    //     return $this->hasMany(Sale::class, 'client_id', 'id');
+    // }
 
     // public static function boot(){
     //     parent::boot();

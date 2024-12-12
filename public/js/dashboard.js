@@ -167,12 +167,18 @@ navBarChildHidden = () =>{
         document.getElementById("electricityChildNav").classList.add('hidden');
         document.getElementById("electricityNav").classList.add('group');
         document.getElementById("electricityArrowNav").classList.remove('rotate-180');
+        document.getElementById("complaintChildNav").classList.add('hidden');
+        document.getElementById("complaintNav").classList.add('group');
+        document.getElementById("complaintArrowNav").classList.remove('rotate-180');
         document.getElementById("monitoringChildNav").classList.add('hidden');
         document.getElementById("monitoringNav").classList.add('group');
         document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
         document.getElementById("documentationChildNav").classList.add('hidden');
         document.getElementById("documentationNav").classList.add('group');
         document.getElementById("documentationArrowNav").classList.remove('rotate-180');
+        document.getElementById("contentChildNav").classList.add('hidden');
+        document.getElementById("contentNav").classList.add('group');
+        document.getElementById("contentArrowNav").classList.remove('rotate-180');
     }else if(document.getElementById("collectNav")){
         document.getElementById("collectChildNav").classList.add('hidden');
         document.getElementById("collectNav").classList.add('group');
@@ -226,26 +232,70 @@ function headerDropdown(e, sel) {
         }
     }else if(document.getElementById("electricityNav")){
         if(sel.id == "electricityNav"){
+            document.getElementById("complaintNav").classList.add('group');
+            document.getElementById("complaintChildNav").classList.add('hidden');
+            document.getElementById("complaintArrowNav").classList.remove('rotate-180');
             document.getElementById("monitoringNav").classList.add('group');
             document.getElementById("monitoringChildNav").classList.add('hidden');
             document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
             document.getElementById("documentationNav").classList.add('group');
             document.getElementById("documentationChildNav").classList.add('hidden');
             document.getElementById("documentationArrowNav").classList.remove('rotate-180');
+            document.getElementById("contentNav").classList.add('group');
+            document.getElementById("contentChildNav").classList.add('hidden');
+            document.getElementById("contentArrowNav").classList.remove('rotate-180');
+        }else if(sel.id == "complaintNav"){
+            document.getElementById("electricityNav").classList.add('group');
+            document.getElementById("electricityChildNav").classList.add('hidden');
+            document.getElementById("electricityArrowNav").classList.remove('rotate-180');
+            document.getElementById("monitoringNav").classList.add('group');
+            document.getElementById("monitoringChildNav").classList.add('hidden');
+            document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
+            document.getElementById("documentationNav").classList.add('group');
+            document.getElementById("documentationChildNav").classList.add('hidden');
+            document.getElementById("documentationArrowNav").classList.remove('rotate-180');
+            document.getElementById("contentNav").classList.add('group');
+            document.getElementById("contentChildNav").classList.add('hidden');
+            document.getElementById("contentArrowNav").classList.remove('rotate-180');
         }else if(sel.id == "monitoringNav"){
             document.getElementById("electricityNav").classList.add('group');
             document.getElementById("electricityChildNav").classList.add('hidden');
             document.getElementById("electricityArrowNav").classList.remove('rotate-180');
+            document.getElementById("complaintNav").classList.add('group');
+            document.getElementById("complaintChildNav").classList.add('hidden');
+            document.getElementById("complaintArrowNav").classList.remove('rotate-180');
             document.getElementById("documentationNav").classList.add('group');
             document.getElementById("documentationChildNav").classList.add('hidden');
             document.getElementById("documentationArrowNav").classList.remove('rotate-180');
+            document.getElementById("contentNav").classList.add('group');
+            document.getElementById("contentChildNav").classList.add('hidden');
+            document.getElementById("contentArrowNav").classList.remove('rotate-180');
         }else if(sel.id == "documentationNav"){
             document.getElementById("electricityNav").classList.add('group');
             document.getElementById("electricityChildNav").classList.add('hidden');
             document.getElementById("electricityArrowNav").classList.remove('rotate-180');
+            document.getElementById("complaintNav").classList.add('group');
+            document.getElementById("complaintChildNav").classList.add('hidden');
+            document.getElementById("complaintArrowNav").classList.remove('rotate-180');
             document.getElementById("monitoringNav").classList.add('group');
             document.getElementById("monitoringChildNav").classList.add('hidden');
             document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
+            document.getElementById("contentNav").classList.add('group');
+            document.getElementById("contentChildNav").classList.add('hidden');
+            document.getElementById("contentArrowNav").classList.remove('rotate-180');
+        }else if(sel.id == "contentNav"){
+            document.getElementById("electricityNav").classList.add('group');
+            document.getElementById("electricityChildNav").classList.add('hidden');
+            document.getElementById("electricityArrowNav").classList.remove('rotate-180');
+            document.getElementById("complaintNav").classList.add('group');
+            document.getElementById("complaintChildNav").classList.add('hidden');
+            document.getElementById("complaintArrowNav").classList.remove('rotate-180');
+            document.getElementById("monitoringNav").classList.add('group');
+            document.getElementById("monitoringChildNav").classList.add('hidden');
+            document.getElementById("monitoringArrowNav").classList.remove('rotate-180');
+            document.getElementById("documentationNav").classList.add('group');
+            document.getElementById("documentationChildNav").classList.add('hidden');
+            document.getElementById("documentationArrowNav").classList.remove('rotate-180');
         }
     }else if(document.getElementById("collectNav")){
         if(sel.id == "collectNav"){

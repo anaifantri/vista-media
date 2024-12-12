@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('license_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('licensing_category_id')->constrained();
             $table->string('name');
             $table->string('image');
             $table->timestamps();

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->json('first_party');
             $table->json('second_party');
-            $table->string('notes');
+            $table->string('notes')->nullable();
             $table->date('published');
             $table->string('duration');
             $table->date('start_at');

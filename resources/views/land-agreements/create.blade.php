@@ -153,9 +153,9 @@
                                         </div>
                                         <div class="flex mt-2">
                                             <label class="text-xs text-stone-900 w-16">Alamat</label>
-                                            <input type="text" id="addressFirst" name="addressFirst"
+                                            <textarea id="addressFirst" name="addressFirst" rows="5"
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('addressFirst') is-invalid @enderror"
-                                                value="{{ old('addressFirst') }}" placeholder="Input Alamat" required>
+                                                placeholder="Input Alamat" required>{{ old('addressFirst') }}</textarea>
                                             @error('addressFirst')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -235,10 +235,9 @@
                                         </div>
                                         <div class="flex mt-2">
                                             <label class="text-xs text-stone-900 w-16">Alamat</label>
-                                            <input
+                                            <textarea
                                                 class="flex text-semibold w-48 border rounded-lg px-1 outline-none @error('addressSecond') is-invalid @enderror"
-                                                type="text" id="addressSecond" name="addressSecond"
-                                                value="{{ old('addressSecond') }}" placeholder="Input Alamat" required>
+                                                id="addressSecond" name="addressSecond" rows="5" placeholder="Input Alamat" required>{{ old('addressSecond') }}</textarea>
                                             @error('addressSecond')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}

@@ -92,7 +92,7 @@
             <!-- Location end -->
             <!-- View start -->
             <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-stone-900 test-sm font-semibold mt-2">DATA PEMBAYARAN LISTRIK</label>
+                <label class="lex text-stone-100 test-sm font-semibold mt-2">DATA PEMBAYARAN LISTRIK</label>
                 <table class="table-auto w-full mt-2">
                     <thead>
                         <tr class="bg-stone-400">

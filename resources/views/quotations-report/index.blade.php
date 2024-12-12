@@ -294,6 +294,10 @@
                 width: 380,
                 type: 'pie',
             },
+            title: {
+                text: 'Persentase Penawaran',
+                align: 'center'
+            },
             labels: @json($labelData),
             legend: {
                 show: true,

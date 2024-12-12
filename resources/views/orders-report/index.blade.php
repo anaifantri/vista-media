@@ -14,7 +14,7 @@
                             <label class="text-lg text-stone-800 font-bold">Data SPK Cetak</label>
                         </div>
                         <div class="grid grid-cols-3 gap-2 w-[500px] p-2">
-                            <a href="/marketing/orders-report/print_orders"
+                            <a href="/marketing/orders-report/print-orders"
                                 class="flex col-span-3 justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                                 <div>
                                     <label class="flex justify-center font-serif text-md cursor-pointer">SPK Cetak</label>
@@ -128,7 +128,7 @@
                             <label class="text-lg text-stone-800 font-bold">Data SPK Pasang</label>
                         </div>
                         <div class="grid grid-cols-3 gap-2 w-[500px] p-2">
-                            <a href="/marketing/orders-report/install_orders"
+                            <a href="/marketing/orders-report/install-orders"
                                 class="flex col-span-3 justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                                 <div>
                                     <label class="flex justify-center font-serif text-md cursor-pointer">SPK Pasang</label>

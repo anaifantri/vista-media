@@ -36,9 +36,33 @@ class InstallOrderController extends Controller
             $print_order = PrintOrder::with('install_order')->get();
             $locations = Location::with('install_orders')->get();
             return response()-> view ('install-orders.index', [
-                'install_orders'=>InstallOrder::filter(request('search'))->sortable()->orderBy("number", "asc")->paginate(15)->withQueryString(),
+                'install_orders'=>InstallOrder::filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->paginate(15)->withQueryString(),
                 'title' => 'Daftar SPK Pemasangan Gambar',
                 compact('sale', 'print_order', 'locations')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function installOrders(String $status)
+    { 
+        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            if($status == "install-sales"){
+                $getStatus = "Berbayar";
+                $install_orders = InstallOrder::filter(request('search'))->sales()->orderBy("number", "asc")->paginate(10)->withQueryString();
+            }else if($status == "free-sales"){
+                $getStatus = "Gratis Penjualan";
+                $install_orders = InstallOrder::filter(request('search'))->freeSales()->orderBy("number", "asc")->paginate(10)->withQueryString();
+            }else if($status == "free-other"){
+                $getStatus = "Gratis Lain-Lain";
+                $install_orders = InstallOrder::filter(request('search'))->freeOther()->orderBy("number", "asc")->paginate(10)->withQueryString();
+            }
+            return view ('install-orders.install-orders', [
+                'install_orders'=> $install_orders,
+                'status'=>$status,
+                'getStatus'=>$getStatus,
+                'title' => 'Daftar SPK Pasang '.$getStatus
             ]);
         } else {
             abort(403);

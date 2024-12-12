@@ -82,10 +82,21 @@
                                         <option value="All">All</option>
                                         @foreach ($categories as $dataCategory)
                                             @if (request('media_category_id') == $dataCategory->id)
-                                                <option value="{{ $dataCategory->id }}" selected>{{ $dataCategory->name }}
+                                                <option value="{{ $dataCategory->id }}" selected>
+                                                    @if ($dataCategory->name == 'Service')
+                                                        Cetak/Pasang
+                                                    @else
+                                                        {{ $dataCategory->name }}
+                                                    @endif
                                                 </option>
                                             @else
-                                                <option value="{{ $dataCategory->id }}">{{ $dataCategory->name }}</option>
+                                                <option value="{{ $dataCategory->id }}">
+                                                    @if ($dataCategory->name == 'Service')
+                                                        Cetak/Pasang
+                                                    @else
+                                                        {{ $dataCategory->name }}
+                                                    @endif
+                                                </option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -102,6 +113,15 @@
                                         type="month" name="monthSearch" onchange="submit()">
                                 @endif
                             </div>
+                            @if (request('weekday'))
+                                <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
+                            @endif
+                            @if (request('monthly'))
+                                <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
+                            @endif
+                            @if (request('annual'))
+                                <input type="text" name="annual" value="{{ request('annual') }}" hidden>
+                            @endif
                             <div class="ml-2">
                                 <span class="text-base text-stone-100">Search</span>
                                 <div class="flex">

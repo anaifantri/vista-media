@@ -2254,6 +2254,10 @@ video {
   fill: #fff;
 }
 
+.fill-red-800 {
+  fill: #991b1b;
+}
+
 .stroke-gray-400 {
   stroke: #9ca3af;
 }
@@ -4430,6 +4434,11 @@ video {
   background-color: rgb(231 229 228 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-stone-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(120 113 108 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-stone-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(68 64 60 / var(--tw-bg-opacity));
@@ -4448,16 +4457,6 @@ video {
 .hover\:bg-teal-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(15 118 110 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-stone-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(87 83 78 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-stone-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(120 113 108 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-opacity-75:hover {

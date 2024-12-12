@@ -34,9 +34,33 @@ class PrintOrderController extends Controller
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             $sale = Sale::with('print_order')->get();
             return response()-> view ('print-orders.index', [
-                'print_orders'=>PrintOrder::filter(request('search'))->sortable()->orderBy("number", "asc")->paginate(10)->withQueryString(),
+                'print_orders'=>PrintOrder::filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->paginate(10)->withQueryString(),
                 'title' => 'Daftar SPK Cetak',
                 compact('sale')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function printOrders(String $status)
+    { 
+        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            if($status == "print-sales"){
+                $getStatus = "Berbayar";
+                $print_orders = PrintOrder::filter(request('search'))->sales()->orderBy("number", "asc")->paginate(10)->withQueryString();
+            }else if($status == "free-sales"){
+                $getStatus = "Gratis Penjualan";
+                $print_orders = PrintOrder::filter(request('search'))->freeSales()->orderBy("number", "asc")->paginate(10)->withQueryString();
+            }else if($status == "free-other"){
+                $getStatus = "Gratis Lain-Lain";
+                $print_orders = PrintOrder::filter(request('search'))->freeOther()->orderBy("number", "asc")->paginate(10)->withQueryString();
+            }
+            return view ('print-orders.print-orders', [
+                'print_orders'=> $print_orders,
+                'status'=>$status,
+                'getStatus'=>$getStatus,
+                'title' => 'Daftar SPK Cetak '.$getStatus
             ]);
         } else {
             abort(403);

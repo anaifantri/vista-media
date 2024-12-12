@@ -139,12 +139,12 @@
                             <th class="text-stone-900 border border-stone-900 text-xs text-center w-16">Daya (VA)</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-stone-300">
+                    <tbody class="bg-stone-200">
                         @php
                             $number = 1 + ($locations->currentPage() - 1) * $locations->perPage();
                         @endphp
                         @foreach ($locations as $location)
-                            <tr class="bg-teal-50">
+                            <tr>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $number++ }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">

@@ -2,51 +2,22 @@
 
 @section('container')
     <?php
-    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
                 <div class="w-[1200px] p-2">
                     <div class="flex border-b">
-                        <h1 class="index-h1">Daftar SPK Pemasangan Gambar</h1>
-                        @canany(['isAdmin', 'isMarketing'])
-                            @can('isOrder')
-                                @can('isMarketingCreate')
-                                    <div class="flex">
-                                        <a href="/install-orders/select-locations" class="index-link btn-primary">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                                    fill-rule="nonzero" />
-                                            </svg>
-                                            <span class="mx-1">Tambah SPK</span>
-                                        </a>
-                                    </div>
-                                @endcan
-                            @endcan
-                        @endcanany
+                        <h1 class="index-h1">Daftar SPK Cetak {{ $getStatus }}</h1>
                     </div>
-                    <form class="flex mt-2" action="/marketing/install-orders">
-                        @if (request('todays'))
-                            <input type="text" name="todays" value="{{ request('todays') }}" hidden>
-                        @endif
-                        @if (request('weekday'))
-                            <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
-                        @endif
-                        @if (request('monthly'))
-                            <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
-                        @endif
-                        @if (request('annual'))
-                            <input type="text" name="annual" value="{{ request('annual') }}" hidden>
-                        @endif
+                    <form class="flex mt-2" action="/print-orders/{{ $status }}">
                         <div class="flex">
                             <input id="search" name="search"
-                                class="flex border rounded-l-lg p-1 outline-none text-base text-teal-900" type="text"
-                                placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
+                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
                                 onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
-                            <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                            <button class="flex border p-1 rounded-r-lg text-stone-900 justify-center w-10 bg-slate-50"
                                 type="submit">
                                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path
@@ -55,94 +26,79 @@
                             </button>
                         </div>
                     </form>
-                    @if (session()->has('success'))
-                        <div class="mt-2 flex alert-success">
-                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                            </svg>
-                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
-                        </div>
-                    @endif
                 </div>
             </div>
-            <div class="flex justify-center w-full mt-2">
+            <div class="flex justify-center w-full">
                 <div class="w-[1200px]">
                     <table class="table-auto w-full">
                         <thead>
-                            <tr class="bg-stone-400">
-                                <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" rowspan="2">
-                                    No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center" rowspan="2">
-                                    Kode</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi
-                                </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20" rowspan="2">
-                                    Ukuran
-                                </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">
-                                    Jenis</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="4">Data
-                                    SPK</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28" rowspan="2">
-                                    Action</th>
-                            </tr>
-                            <tr class="bg-stone-400">
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
-                                    <button class="flex justify-center items-center w-24">@sortablelink('number', 'No. SPK')
+                            <tr class="bg-stone-400 h-10">
+                                <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center">No.</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-44">
+                                    <button class="flex justify-center items-center w-44">@sortablelink('number', 'Nomor SPK')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
                                             <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                         </svg>
                                     </button>
                                 </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center">Nama Vendor</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-32">Tgl. Cetak</th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center">Tema/Design</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-16">Jenis</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">Bahan</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">Ukuran</th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-10">Qty</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">Jwl. Tayang
-                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-16">Harga</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">Total</th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Action</th>
                             </tr>
                         </thead>
                         <tbody class="bg-stone-200">
                             @php
-                                $number = 1 + ($install_orders->currentPage() - 1) * $install_orders->perPage();
+                                $number = 1 + ($print_orders->currentPage() - 1) * $print_orders->perPage();
                             @endphp
-                            @foreach ($install_orders as $order)
+                            @foreach ($print_orders as $order)
                                 @php
                                     $product = json_decode($order->product);
+                                    $created_by = json_decode($order->created_by);
+                                    $notes = json_decode($order->notes);
                                 @endphp
                                 <tr>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center">
-                                        {{ $number++ }}
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm  text-center">
+                                        {{ $number++ }}</td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                        {{ $order->number }}</td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                        {{ $product->vendor_company }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ $product->location_code }}-{{ $product->city_code }}
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                        {{ date('d', strtotime($order->created_at)) }}
+                                        {{ $bulan[(int) date('m', strtotime($order->created_at))] }}
+                                        {{ date('Y', strtotime($order->created_at)) }}</td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                        {{ $order->theme }}</td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                        {{ $product->product_type }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm">
-                                        {{ $order->location->address }}
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                        {{ $product->product_name }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
                                         {{ $product->location_size }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ $order->type }}
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ substr($order->number, 0, 8) }}..
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ $order->theme }}
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
                                         {{ $product->qty }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ date('d', strtotime($order->install_at)) }}
-                                        {{ $bulan[(int) date('m', strtotime($order->install_at))] }}
-                                        {{ date('Y', strtotime($order->install_at)) }}
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                        {{ number_format($product->product_price) }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                        {{ number_format($order->price) }}
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
                                         <div class="flex justify-center items-center">
-                                            <a href="/marketing/install-orders/{{ $order->id }}"
+                                            <a href="/marketing/print-orders/{{ $order->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">
                                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -155,7 +111,7 @@
                                             @canany(['isAdmin', 'isMarketing'])
                                                 @can('isOrder')
                                                     @can('isMarketingEdit')
-                                                        <a href="/marketing/install-orders/{{ $order->id }}/edit"
+                                                        <a href="/marketing/print-orders/{{ $order->id }}/edit"
                                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md ml-1">
                                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -171,13 +127,13 @@
                                             @canany(['isAdmin', 'isMarketing'])
                                                 @can('isOrder')
                                                     @can('isMarketingDelete')
-                                                        <form action="/marketing/install-orders/{{ $order->id }}" method="post"
+                                                        <form action="/marketing/print-orders/{{ $order->id }}" method="post"
                                                             class="d-inline m-1">
                                                             @method('delete')
                                                             @csrf
                                                             <button
                                                                 class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                                onclick="return confirm('Apakah anda yakin ingin menghapus data SPK Pasang dengan nomor {{ $order->number }} ?')">
+                                                                onclick="return confirm('Apakah anda yakin ingin menghapus data SPK Cetak dengan nomor {{ $order->number }} ?')">
                                                                 <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                                                     width="24" height="24" viewBox="0 0 24 24">
                                                                     <title>DELETE</title>
@@ -197,8 +153,8 @@
                     </table>
                 </div>
             </div>
-            <div class="flex justify-center text-teal-900">
-                {!! $install_orders->appends(Request::query())->render('dashboard.layouts.pagination') !!}
+            <div class="flex justify-center text-stone-100">
+                {!! $print_orders->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>
     </div>

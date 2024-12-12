@@ -155,11 +155,11 @@ class LandAgreementController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
             $request->validate([
-                'legal_documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
+                'legal_documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
                 'legal_documents' => 'required',
-                'ktpFirst.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
+                'ktpFirst.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
                 'ktpFirst' => 'required',
-                'ktpSecond.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
+                'ktpSecond.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
                 'ktpSecond' => 'required'
             ]);
             $firstParty = new stdClass();

@@ -9,10 +9,10 @@
         @csrf
         <input name="location_id" value="{{ $location_id }}" type="text" hidden>
         <input name="user_id" value="{{ auth()->user()->id }}" type="text" hidden>
-        <div class="flex justify-center mt-10">
-            <div class="p-4 w-[1000px] border rounded-lg">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="w-[1000px] z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <div class="flex items-center justify-center border-b p-1">
-                    <h4 class="text-xl font-semibold tracking-wider text-teal-900 w-[950px]">UPLOAD FOTO MONITORING</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-100 w-[950px]">UPLOAD FOTO MONITORING</h4>
                     <div class="flex justify-end w-full">
                         <button class="flex items-center justify-center btn-primary mx-1" type="submit" id="btnSubmit"
                             name="btnSubmit">
@@ -36,12 +36,12 @@
                 </div>
                 <!-- View Create start -->
                 <div class="flex w-full justify-center mt-4">
-                    <div class="flex w-[485px] border rounded-lg p-2 bg-teal-50">
+                    <div class="flex w-[485px] border rounded-lg p-2 bg-stone-200">
                         <div>
                             <div>
-                                <span class="text-sm text-teal-700">Bulan</span>
+                                <span class="text-sm text-stone-900">Bulan</span>
                                 <input name="month"
-                                    class="flex w-[150px] text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('month') is-invalid @enderror"
+                                    class="flex w-[150px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('month') is-invalid @enderror"
                                     value="{{ old('month') }}" type="month" autofocus required>
                             </div>
                             @error('month')
@@ -50,9 +50,9 @@
                                 </div>
                             @enderror
                             <div class="mt-2">
-                                <span class="text-sm text-teal-700">Tgl. Foto</span>
+                                <span class="text-sm text-stone-900">Tgl. Foto</span>
                                 <input name="monitoring_date"
-                                    class="flex w-[150px] text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('monitoring_date') is-invalid @enderror"
+                                    class="flex w-[150px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('monitoring_date') is-invalid @enderror"
                                     value="{{ old('monitoring_date') }}" type="date" required>
                             </div>
                             @error('monitoring_date')
@@ -61,9 +61,9 @@
                                 </div>
                             @enderror
                             <div class="mt-2">
-                                <span class="text-sm text-teal-700">Keterangan</span>
+                                <span class="text-sm text-stone-900">Keterangan</span>
                                 <textarea name="notes" rows="6"
-                                    class=" flex w-[450px] text-sm in-out-spin-none font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('notes') is-invalid @enderror"
+                                    class=" flex w-[450px] text-sm in-out-spin-none font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('notes') is-invalid @enderror"
                                     required>{{ old('notes') }}</textarea>
                             </div>
                             @error('notes')
@@ -73,7 +73,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="flex justify-center w-[485px] border rounded-lg p-2 bg-teal-50 ml-4">
+                    <div class="flex justify-center w-[485px] border rounded-lg p-2 bg-stone-200 ml-4">
                         <div>
                             <div class="w-[460px] h-max">
                                 <div class="flex justify-center">
@@ -97,7 +97,7 @@
                                                 </button>
                                             </div>
                                             <div class="flex items-center w-full justify-center">
-                                                <label id="numberImagesFile" class="text-sm text-teal-700 ml-2">Tidak Ada
+                                                <label id="numberImagesFile" class="text-sm text-stone-900 ml-2">Tidak Ada
                                                     File Yang Dipilih</label>
                                             </div>
                                             @error('photos')
@@ -147,47 +147,47 @@
                 <!-- Location start -->
                 <div class="flex w-full justify-center mt-4">
                     <div class="flex w-full justify-center mt-1">
-                        <div class="w-[485px] border rounded-lg p-2 bg-teal-50">
+                        <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
                             <div>
-                                <label class="text-sm text-teal-700">Kode Lokasi</label>
+                                <label class="text-sm text-stone-900">Kode Lokasi</label>
                                 <label
-                                    class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
+                                    class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
                             </div>
                             <div>
-                                <label class="text-sm text-teal-700">Alamat</label>
-                                <textarea class="flex w-[460px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1 outline-none"
+                                <label class="text-sm text-stone-900">Alamat</label>
+                                <textarea class="flex w-[460px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none"
                                     rows="2" readonly>{{ $location->address }}</textarea>
                             </div>
                             <div class="flex">
                                 <div>
                                     <div>
-                                        <label class="text-sm text-teal-700">Jenis</label>
+                                        <label class="text-sm text-stone-900">Jenis</label>
                                         <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->media_category->name }}
+                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_category->name }}
                                             - {{ $description->lighting }}</label>
                                     </div>
                                     <div>
-                                        <label class="text-sm text-teal-700">Ukuran</label>
+                                        <label class="text-sm text-stone-900">Ukuran</label>
                                         <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->media_size->size }}
+                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_size->size }}
                                             - {{ $location->orientation }}</label>
                                     </div>
                                 </div>
                                 <div class="ml-4">
                                     <div>
-                                        <label class="text-sm text-teal-700">Area</label>
+                                        <label class="text-sm text-stone-900">Area</label>
                                         <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->area->area }}</label>
+                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->area->area }}</label>
                                     </div>
                                     <div>
-                                        <label class="text-sm text-teal-700">Kota</label>
+                                        <label class="text-sm text-stone-900">Kota</label>
                                         <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-teal-900 border rounded-lg p-1">{{ $location->city->city }}</label>
+                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->city->city }}</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-teal-50 ml-4">
+                        <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-200 ml-4">
                             <img class="w-[420px] border rounded-lg"
                                 src="{{ asset('storage/' . $location_photo->photo) }}" alt="">
                         </div>

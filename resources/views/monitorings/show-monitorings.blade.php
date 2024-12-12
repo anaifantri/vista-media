@@ -6,8 +6,8 @@
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
-    <div class="flex justify-center pl-14 py-10">
-        <div class="z-0 mb-8">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
                 <h1 class="index-h1 w-[400px]">DAFTAR PEMANTAUAN BULANAN</h1>
@@ -48,13 +48,13 @@
             <!-- Alert end -->
             <!-- Location start -->
             <div class="flex w-full justify-center mt-2">
-                <div class="w-[485px] border rounded-lg p-2 bg-teal-50">
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Kode Lokasi</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->code }}-{{ $location->city->code }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Lokasi</label>
                         <label>:</label>
                         <label class="ml-1">
@@ -65,24 +65,24 @@
                             @endif
                         </label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Ukuran</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
                     </div>
                 </div>
-                <div class="w-[485px] border rounded-lg p-2 bg-teal-50 ml-4">
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                <div class="w-[485px] border rounded-lg p-2 bg-stone-200 ml-4">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Jenis</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->media_category->name }}-{{ $description->lighting }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Area</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->area->area }}</label>
                     </div>
-                    <div class="flex text-teal-900 text-sm font-semibold">
+                    <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Kota</label>
                         <label>:</label>
                         <label class="ml-1">{{ $location->city->city }}</label>
@@ -92,36 +92,40 @@
             <!-- Location end -->
             <!-- View start -->
             <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-teal-900 test-sm font-semibold mt-2">DATA PEMANTAUAN</label>
+                <label class="lex text-stone-100 test-sm font-semibold mt-2">DATA PEMANTAUAN</label>
                 <table class="table-auto w-full mt-2">
                     <thead>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="3">Data Pemantauan</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Action</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="3">Data
+                                Pemantauan</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-50">
-                            <th class="text-teal-700 border text-xs text-center w-24">Bulan</th>
-                            <th class="text-teal-700 border text-xs text-center w-28">Tgl. Foto</th>
-                            <th class="text-teal-700 border text-xs text-center">Keterangan</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Bulan</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Tgl. Foto</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center">Keterangan</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-200">
                         @foreach ($monitorings as $monitoring)
                             <tr>
-                                <td class="text-teal-700 border text-xs px-1 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $loop->iteration }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ $bulan[(int) date('m', strtotime($monitoring->month))] }}
                                     {{ date('Y', strtotime($monitoring->month)) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1 text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ date('d', strtotime($monitoring->monitoring_date)) }}
                                     {{ $bulan[(int) date('m', strtotime($monitoring->monitoring_date))] }}
                                     {{ date('Y', strtotime($monitoring->monitoring_date)) }}
                                 </td>
-                                <td class="text-teal-700 border text-xs px-1">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1">
                                     {{ $monitoring->notes }}</td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/workshop/monitorings/{{ $monitoring->id }}"
                                             class="index-link text-white m-1 w-7 h-5 bg-cyan-400 rounded-md hover:bg-cyan-500">

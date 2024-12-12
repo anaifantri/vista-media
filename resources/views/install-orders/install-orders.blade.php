@@ -9,38 +9,9 @@
             <div class="flex justify-center w-full">
                 <div class="w-[1200px] p-2">
                     <div class="flex border-b">
-                        <h1 class="index-h1">Daftar SPK Pemasangan Gambar</h1>
-                        @canany(['isAdmin', 'isMarketing'])
-                            @can('isOrder')
-                                @can('isMarketingCreate')
-                                    <div class="flex">
-                                        <a href="/install-orders/select-locations" class="index-link btn-primary">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                                    fill-rule="nonzero" />
-                                            </svg>
-                                            <span class="mx-1">Tambah SPK</span>
-                                        </a>
-                                    </div>
-                                @endcan
-                            @endcan
-                        @endcanany
+                        <h1 class="index-h1">Daftar SPK Pemasangan Gambar {{ $getStatus }}</h1>
                     </div>
-                    <form class="flex mt-2" action="/marketing/install-orders">
-                        @if (request('todays'))
-                            <input type="text" name="todays" value="{{ request('todays') }}" hidden>
-                        @endif
-                        @if (request('weekday'))
-                            <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
-                        @endif
-                        @if (request('monthly'))
-                            <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
-                        @endif
-                        @if (request('annual'))
-                            <input type="text" name="annual" value="{{ request('annual') }}" hidden>
-                        @endif
+                    <form class="flex mt-2" action="/install-orders/{{ $status }}">
                         <div class="flex">
                             <input id="search" name="search"
                                 class="flex border rounded-l-lg p-1 outline-none text-base text-teal-900" type="text"
@@ -55,15 +26,6 @@
                             </button>
                         </div>
                     </form>
-                    @if (session()->has('success'))
-                        <div class="mt-2 flex alert-success">
-                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                            </svg>
-                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
-                        </div>
-                    @endif
                 </div>
             </div>
             <div class="flex justify-center w-full mt-2">

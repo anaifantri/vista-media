@@ -5,8 +5,8 @@
     $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
     ?>
     <!-- Container start -->
-    <div class="flex justify-center pl-14 py-10">
-        <div class="z-0 mb-8">
+    <div class="flex justify-center pl-14 py-10 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
                 <h1 class="index-h1">DAFTAR PEMANTAUAN BULANAN</h1>
@@ -17,8 +17,8 @@
                 <form action="/workshop/monitorings/">
                     <div class="flex mt-1 ml-2">
                         <div class="w-36">
-                            <span class="text-base text-teal-900">Area</span>
-                            <select class="w-full border rounded-lg text-base text-teal-900 outline-none" name="area"
+                            <span class="text-base text-stone-100">Area</span>
+                            <select class="w-full border rounded-lg text-base text-stone-900 outline-none" name="area"
                                 id="area" onchange="submit()" value="{{ request('area') }}">
                                 <option value="All">All</option>
                                 @foreach ($areas as $area)
@@ -32,9 +32,9 @@
                         </div>
                         @if (request('area') && request('area') != 'All')
                             <div class="w-36 ml-2">
-                                <span class="text-base text-teal-900">Kota</span>
+                                <span class="text-base text-stone-100">Kota</span>
                                 <select id="city" name="city"
-                                    class="flex text-base text-teal-900 w-full border rounded-lg px-1 outline-none"
+                                    class="flex text-base text-stone-900 w-full border rounded-lg px-1 outline-none"
                                     type="text" value="{{ request('city') }}" onchange="submit()">
                                     <option value="All">All</option>
                                     @foreach ($cities as $city)
@@ -60,8 +60,8 @@
                             </div>
                         @endif
                         <div class="ml-2 w-36">
-                            <span class="text-base text-teal-900">Katagori</span>
-                            <select class="w-full border rounded-lg text-base text-teal-900 outline-none"
+                            <span class="text-base text-stone-100">Katagori</span>
+                            <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
                                 name="media_category_id" id="media_category_id" onchange="submit()"
                                 value="{{ request('media_category_id') }}">
                                 <option value="All">All</option>
@@ -80,7 +80,7 @@
                     <div class="flex mt-2">
                         <div class="flex">
                             <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900"
+                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
                                 type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
                                 onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
@@ -110,9 +110,10 @@
             <div class="w-[1250px] mt-2">
                 <table class="table-auto w-full">
                     <thead>
-                        <tr class="bg-teal-100">
-                            <th class="text-teal-700 border text-xs w-8 text-center" rowspan="2">No</th>
-                            <th class="text-teal-700 border text-xs w-20 text-center" rowspan="2">
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs w-20 text-center" rowspan="2">
                                 <button class="flex justify-center items-center w-20">@sortablelink('code', 'Kode')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
@@ -120,20 +121,26 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-teal-700 border text-xs text-center" rowspan="2">Lokasi</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Area</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Kota</th>
-                            <th class="text-teal-700 border text-xs text-center w-32" rowspan="2">Klien</th>
-                            <th class="text-teal-700 border text-xs text-center" colspan="3">Data Pemantauan</th>
-                            <th class="text-teal-700 border text-xs text-center w-24" rowspan="2">Action</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Lokasi
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">Area
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">Kota
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">Klien
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="3">Data
+                                Pemantauan</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Action</th>
                         </tr>
-                        <tr class="bg-teal-100">
-                            <th class="text-teal-700 border text-xs text-center w-16">Bulan</th>
-                            <th class="text-teal-700 border text-xs text-center w-20">Tgl. Foto</th>
-                            <th class="text-teal-700 border text-xs text-center w-40">Keterangan</th>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-16">Bulan</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Tgl. Foto</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-40">Keterangan</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-stone-200">
                         @php
                             $number = 1 + ($locations->currentPage() - 1) * $locations->perPage();
                         @endphp
@@ -149,21 +156,26 @@
                                     $client = null;
                                 }
                             @endphp
-                            <tr class="bg-teal-50">
-                                <td class="text-teal-700 border text-xs text-center">{{ $number++ }}</td>
-                                <td class="text-teal-700 border text-xs text-center">{{ $location->code }} -
+                            <tr>
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $number++ }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                    {{ $location->code }} -
                                     {{ $location->city->code }}</td>
-                                <td class="text-teal-700 border text-xs px-1">{{ $location->address }}</td>
-                                <td class="text-teal-700 border text-xs text-center">{{ $location->area->area }}</td>
-                                <td class="text-teal-700 border text-xs text-center">{{ $location->city->city }}</td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1">{{ $location->address }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                    {{ $location->area->area }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                    {{ $location->city->city }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     @if ($client)
                                         {{ $client->name }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     @if ($last_monitoring)
                                         {{ $bulan[(int) date('m', strtotime($last_monitoring->month))] }}
                                         {{ date('Y', strtotime($last_monitoring->month)) }}
@@ -171,14 +183,14 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     @if ($last_monitoring)
                                         {{ date('d-m-Y', strtotime($last_monitoring->monitoring_date)) }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     @if ($last_monitoring)
                                         @if (strlen($last_monitoring->notes) > 25)
                                             {{ substr($last_monitoring->notes, 0, 25) }}..
@@ -189,7 +201,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-teal-700 border text-xs text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/show-monitoring/{{ $location->id }}" title="Lihat Foto Monitoring"
                                             class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
@@ -226,7 +238,7 @@
             </div>
             <!-- View end -->
             <!-- Pagination start -->
-            <div class="flex justify-center text-teal-900 mt-2">
+            <div class="flex justify-center text-stone-100 mt-2">
                 {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
             <!-- Pagination end -->

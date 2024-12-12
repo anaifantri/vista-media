@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
+use Carbon\Carbon;
 
 class Quotation extends Model
 {
@@ -14,42 +15,79 @@ class Quotation extends Model
 
     public function scopeCategory($query){
         if (request('media_category_id') != "All") {
-            return $query->where('quot_revision_statuses', 'like', '%' . request('media_category_id') . '%');
+            return $query->where('media_category_id', 'like', '%' . request('media_category_id') . '%');
+        }
+    }
+
+    public function scopeTodays($query){
+        if (request('todays')) {
+            return $query->whereDate('created_at', request('todays'));
+        }
+    }
+
+    public function scopeWeekday($query){
+        if (request('weekday') == true) {
+            return $query->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)]);
+        }
+    }
+
+    public function scopeMonthly($query){
+        if (request('monthly') == true) {
+            return $query->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month);
+        }
+    }
+
+    public function scopeAnnual($query){
+        if (request('annual') == true) {
+            return $query->whereYear('created_at', Carbon::now()->year);
         }
     }
 
     public function scopeDeal($query){
-            return $query->whereHas('quotation_status', function($query){
-                $query->where('status', '=', 'Deal');
-            })
-            ->orWhereHas('quot_revision_status', function($query){
-                $query->where('status', '=', 'Deal');
-            });
+        return $query->whereHas('quot_revision_status', function($query){
+            $query->where('status', '=', 'Deal');
+        })
+        ->orWhereDoesntHave('quot_revision_status')
+        ->whereHas('quotation_status', function($query){
+            $query->where('status', '=', 'Deal');
+        });
+    }
+
+    public function scopeCreateds($query){
+        return $query->whereHas('quot_revision_status', function($query){
+            $query->where('status', '=', 'Created');
+        })
+        ->orWhereDoesntHave('quot_revision_status')
+        ->whereHas('quotation_status', function($query){
+            $query->where('status', '=', 'Created');
+        });
     }
 
     public function scopeClosed($query){
-            return $query->whereHas('quot_revision_status', function($query){
-                $query->where('status', '=', 'Closed');
-            })
-            ->whereHas('quotation_status', function($query){
-                $query->where('status', '=', 'Closed');
-            });
+        return $query->whereHas('quot_revision_status', function($query){
+            $query->where('status', '=', 'Closed');
+        })
+        ->orWhereDoesntHave('quot_revision_status')
+        ->whereHas('quotation_status', function($query){
+            $query->where('status', '=', 'Closed');
+        });
     }
 
     public function scopeSent($query){
-            return $query->whereHas('quotation_status', function($query){
-                $query->where('status', '=', 'Sent');
-            })
-            ->whereHas('quot_revision_status', function($query){
-                $query->where('status', '=', 'Sent');
-            });
+        return $query->whereHas('quot_revision_status', function($query){
+            $query->where('status', '=', 'Sent');
+        })
+        ->orWhereDoesntHave('quot_revision_status')
+        ->whereHas('quotation_status', function($query){
+            $query->where('status', '=', 'Sent');
+        });
     }
 
     public function scopeFollowUp($query){
         return $query->whereHas('quot_revision_status', function($query){
             $query->where('status', '=', 'Follow Up');
         })
-        // ->orWhereDoesntHave('quot_revision_status')
+        ->orWhereDoesntHave('quot_revision_status')
         ->whereHas('quotation_status', function($query){
             $query->where('status', '=', 'Follow Up');
         });
@@ -77,9 +115,9 @@ class Quotation extends Model
         return $this->belongsTo(MediaCategory::class);
     }
 
-    public function client(){
-        return $this->belongsTo(Client::class);
-    }
+    // public function client(){
+    //     return $this->belongsTo(Client::class);
+    // }
 
     public function contact(){
         return $this->belongsTo(Contact::class);

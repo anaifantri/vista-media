@@ -29,10 +29,23 @@
                         </div>
                     </div>
                     <form class="flex mt-2" action="/marketing/print-orders">
+                        @if (request('todays'))
+                            <input type="text" name="todays" value="{{ request('todays') }}" hidden>
+                        @endif
+                        @if (request('weekday'))
+                            <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
+                        @endif
+                        @if (request('monthly'))
+                            <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
+                        @endif
+                        @if (request('annual'))
+                            <input type="text" name="annual" value="{{ request('annual') }}" hidden>
+                        @endif
                         <div class="flex">
                             <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-teal-900"
-                                type="text" placeholder="Search" value="{{ request('search') }}">
+                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
+                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                             <button class="flex border p-1 rounded-r-lg text-stone-900 justify-center w-10 bg-slate-50"
                                 type="submit">
                                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -178,8 +191,7 @@
                     </table>
                 </div>
             </div>
-            <div class="flex justify-center text-teal-900">
-                {{-- {{ $print_orders->links() }} --}}
+            <div class="flex justify-center text-stone-100">
                 {!! $print_orders->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>

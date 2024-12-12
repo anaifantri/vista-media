@@ -45,11 +45,11 @@ class QuotationController extends Controller
         if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
             if($category == "All"){
                 $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-                $dataQuotations = Quotation::filter(request('search'))->sortable()->category()->paginate(15)->withQueryString();
+                $dataQuotations = Quotation::filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->category()->paginate(15)->withQueryString();
             }else{
                 $dataCategory = MediaCategory::where('name', $category)->get()->last();
                 $media_category_id = $dataCategory->id;
-                $dataQuotations = Quotation::where('media_category_id', $dataCategory->id)->filter(request('search'))->sortable()->paginate(15)->withQueryString();
+                $dataQuotations = Quotation::where('media_category_id', $dataCategory->id)->filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->paginate(15)->withQueryString();
             }
     
             $media_categories = MediaCategory::with('quotations')->get();
@@ -202,6 +202,7 @@ class QuotationController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
             $dataId = json_decode($locationId);
+            $extendLocation = null;
             $mediaCategory = MediaCategory::where('name', $category)->firstOrFail();
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
@@ -209,6 +210,10 @@ class QuotationController extends Controller
                 $dataQuotations = Location::whereIn('id', $dataId)->get();
             }else if($type == "extend" || $type == "existing"){
                 $dataQuotations = Sale::whereIn('id', $dataId)->get();
+                if($type == "extend"){
+                    $product = json_decode($dataQuotations[0]->product);
+                    $extendLocation = Location::findOrFail($product->id);
+                }
             }
             $sales = Sale::with('location')->get();
             $printing_products = PrintingProduct::with('printing_prices')->get();
@@ -217,6 +222,7 @@ class QuotationController extends Controller
             $company = Company::where('name', 'PT. Vista Media')->get()->last();
             return response()-> view ('quotations.create', [
                 'locations'=>$dataQuotations,
+                'extend_location' => $extendLocation,
                 'quotation_type'=>$type,
                 'company'=>$company,
                 'clients'=>Client::orderBy("name", "asc")->get(),
