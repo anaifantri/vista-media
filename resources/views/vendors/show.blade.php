@@ -166,7 +166,7 @@
                                             Profile</label>
                                         <input
                                             class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full mt-5 @error('avatar') is-invalid @enderror"
-                                            type="file" id="photo" name="photo" onchange="previewImage(this)">
+                                            type="file" id="photo" name="photo" onchange="previewPhoto(this)">
                                         @error('logo')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -265,7 +265,7 @@
                                             Profile</label>
                                         <input
                                             class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full mt-5 @error('avatar') is-invalid @enderror"
-                                            type="file" id="photo" name="photo" onchange="previewImage(this)">
+                                            type="file" id="photo" name="photo" onchange="previewPhoto(this)">
                                         @error('logo')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -448,6 +448,20 @@
 
         closeAddContact = (sel) => {
             document.getElementById("divAddContact").setAttribute('hidden', 'hidden');
+        }
+
+        function previewPhoto(sel) {
+            const photoPreview = document.querySelector('.photo-preview');
+
+            // photoPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+
+            oFReader.readAsDataURL(sel.files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                photoPreview.src = oFREvent.target.result;
+            }
         }
     </script>
 @endsection
