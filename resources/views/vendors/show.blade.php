@@ -166,7 +166,7 @@
                                             Profile</label>
                                         <input
                                             class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full mt-5 @error('avatar') is-invalid @enderror"
-                                            type="file" id="photo" name="photo" onchange="previewPhoto(this)">
+                                            type="file" id="photo" name="photo" onchange="previewImage(this)">
                                         @error('logo')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -265,7 +265,7 @@
                                             Profile</label>
                                         <input
                                             class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full mt-5 @error('avatar') is-invalid @enderror"
-                                            type="file" id="photo" name="photo" onchange="previewPhoto(this)">
+                                            type="file" id="photo" name="photo" onchange="previewImage(this)">
                                         @error('logo')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
