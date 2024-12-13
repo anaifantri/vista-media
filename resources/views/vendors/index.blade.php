@@ -111,29 +111,33 @@
                         <tbody class="bg-stone-300">
                             @foreach ($vendors as $vendor)
                                 <tr>
-                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm  text-center">
+                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm align-top text-center">
                                         {{ $loop->iteration }}</td>
-                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm text-center">
+                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm align-top text-center">
                                         {{ $vendor->code }}</td>
-                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm text-center">
+                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm align-top text-center">
                                         {{ $vendor->name }}</td>
-                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm text-center">
+                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm align-top text-center">
                                         {{ $vendor->company }}</td>
-                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm">{{ $vendor->address }}
+                                    <td class="text-stone-900 border-stone-900 p-1 border align-top text-sm">
+                                        {{ $vendor->address }}
                                     </td>
-                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm text-center">
+                                    <td class="text-stone-900 border-stone-900 p-1 border align-top text-sm text-center">
                                         {{ $vendor->vendor_category->name }}
                                     </td>
                                     @if ($vendor->email)
-                                        <td class="text-stone-900 border-stone-900 p-1 border text-sm text-center">
+                                        <td
+                                            class="text-stone-900 border-stone-900 p-1 border align-top text-sm text-center">
                                             {{ $vendor->email }}</td>
                                     @else
-                                        <td class="text-stone-900 border-stone-900 p-1 border text-sm text-center">-</td>
+                                        <td
+                                            class="text-stone-900 border-stone-900 p-1 border align-top text-sm text-center">
+                                            -</td>
                                     @endif
-                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm text-center">
+                                    <td class="text-stone-900 border-stone-900 p-1 border align-top text-sm text-center">
                                         {{ $vendor->phone }}</td>
 
-                                    <td class="text-stone-900 border-stone-900 p-1 border text-sm text-center">
+                                    <td class="text-stone-900 border-stone-900 p-1 border align-top text-sm text-center">
                                         <div class="flex justify-center items-center">
                                             <a href="/marketing/vendors/{{ $vendor->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">

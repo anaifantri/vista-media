@@ -92,7 +92,7 @@
                             </svg>
                             <span class="mx-2"> Update </span>
                         </button>
-                        <a href="/vendors/{{ $contact->vendor_id }}"
+                        <a href="/marketing/vendors/{{ $contact->vendor_id }}"
                             class="flex items-center justify-center btn-danger mx-1" id="editCancel" name="editCancel">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
