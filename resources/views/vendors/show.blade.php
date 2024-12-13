@@ -156,7 +156,7 @@
                     @endif
                     @if ($errors->any(['name', 'email', 'phone']))
                         <div id="divAddContact">
-                            <form method="post" action="/vendor-contacts" enctype="multipart/form-data">
+                            <form method="post" action="/marketing/vendor-contacts" enctype="multipart/form-data">
                                 @csrf
                                 <div class="flex justify-center w-full mt-2">
                                     <div>
@@ -255,7 +255,7 @@
                         </div>
                     @else
                         <div id="divAddContact" hidden>
-                            <form method="post" action="/vendor-contacts" enctype="multipart/form-data">
+                            <form method="post" action="/marketing/vendor-contacts" enctype="multipart/form-data">
                                 @csrf
                                 <div class="flex justify-center w-full mt-2">
                                     <div>
@@ -402,7 +402,7 @@
                                     @endif
                                 </div>
                                 <div class="flex mt-2">
-                                    <a href="/vendor-contacts/{{ $contact->id, $vendor->id }}/edit"
+                                    <a href="/marketing/vendor-contacts/{{ $contact->id, $vendor->id }}/edit"
                                         class="flex items-center justify-center btn-warning mx-1" name="btnEdit"
                                         id="btnEdit">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
@@ -414,7 +414,8 @@
                                         </svg>
                                         <span class="mx-1"> Edit </span>
                                     </a>
-                                    <form action="/vendor-contacts/{{ $contact->id }}" method="post" class="d-inline">
+                                    <form action="/marketing/vendor-contacts/{{ $contact->id }}" method="post"
+                                        class="d-inline">
                                         @method('delete')
                                         @csrf
                                         <button class="flex items-center justify-center btn-danger mx-1"
