@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('licensing_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('licensing_category_id')->constrained();
             $table->string('code')->unique();
             $table->string('name')->unique();
             $table->string('description');

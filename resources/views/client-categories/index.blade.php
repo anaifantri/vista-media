@@ -68,7 +68,7 @@
             </div>
             <!-- Alert end -->
             <!-- View start -->
-            <div class="flex justify-center w-full">
+            <div class="flex justify-center w-full mt-2">
                 <div class="w-[1000px]">
                     <table class="table-auto w-full">
                         <thead>
@@ -167,7 +167,7 @@
                     </table>
                 </div>
             </div>
-            <div class="flex justify-center text-stone-100">
+            <div class="flex justify-center text-stone-100 mt-2">
                 {!! $client_categories->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
             <!-- View end -->
