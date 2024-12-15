@@ -349,6 +349,7 @@
         }
 
         function initMap() {
+            console.log(myLatLng);
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 16,
                 center: myLatLng,
@@ -367,6 +368,7 @@
                     });
                 }
             } else {
+                console.log(myLatLng);
                 const marker = new google.maps.Marker({
                     position: myLatLng,
                     map,
