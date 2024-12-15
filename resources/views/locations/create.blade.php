@@ -8,7 +8,7 @@
         $created_by->position = auth()->user()->position;
     @endphp
     <!-- Create New Location start -->
-    <form action="/media/locations/" method="post" enctype="multipart/form-data">
+    <form method="post" action="/media/locations/" enctype="multipart/form-data">
         @csrf
         <input id="description" type="text" value="{{ old('description') }}" hidden>
         <input name="created_by" type="text" value="{{ json_encode($created_by) }}" hidden>
