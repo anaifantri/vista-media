@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use \stdClass;
 use Gate;
+use Illuminate\Support\Facades\Crypt;
 
 class LocationController extends Controller
 {
@@ -73,6 +74,24 @@ class LocationController extends Controller
         } else {
             abort(403);
         }
+    }
+
+    public function guestPreview(String $id): View
+    { 
+        $location = Location::findOrFail(Crypt::decrypt($id));
+        $areas = Area::with('locations')->get();
+        $cities = City::with('locations')->get();
+        $media_sizes = MediaSize::with('locations')->get();
+        $media_categories = MediaCategory::with('locations')->get();
+
+        return view('locations.guest-preview', [
+            'location' => $location,
+            'title' => 'Detail Lokasi',
+            'leds'=>Led::all(),
+            'category'=>$location->media_category->name,
+            'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
+            compact('areas', 'cities', 'media_sizes', 'media_categories')
+        ]);
     }
 
     public function preview(String $category, String $id): View

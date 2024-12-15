@@ -171,10 +171,11 @@ Route::resource('/media/location-photos', LocationPhotoController::class)->middl
 Route::resource('/media/media-categories', MediaCategoryController::class)->middleware(['auth','user_access']);
 Route::resource('/media/media-sizes', MediaSizeController::class)->middleware(['auth','user_access']);
 Route::get('/get-media-sizes/{category}', [MediaSizeController::class,'getMediaSizes'])->middleware(['auth','user_access']);
-Route::resource('/media/locations', LocationController::class)->middleware(['auth','user_access']);
-Route::get('/media/locations/preview/{category}/{id}', [LocationController::class,'preview']);
-Route::get('/media/locations/create-location/{category}', [LocationController::class,'createLocation']);
-Route::get('/media/locations/home/{category}', [LocationController::class,'home']);
+Route::resource('/media/locations', LocationController::class)->middleware(['auth','user_access'])->middleware(['auth','user_access']);
+Route::get('/media/locations/preview/{category}/{id}', [LocationController::class,'preview'])->middleware(['auth','user_access']);
+Route::get('/media/locations/guest-preview/{id}', [LocationController::class,'guestPreview']);
+Route::get('/media/locations/create-location/{category}', [LocationController::class,'createLocation'])->middleware(['auth','user_access']);
+Route::get('/media/locations/home/{category}', [LocationController::class,'home'])->middleware(['auth','user_access']);
 Route::get('/get-locations/{id}/{scope}', [LocationController::class,'getLocations'])->middleware(['auth','user_access']);
 // Route Location --> end
 

@@ -12,7 +12,7 @@ savePdf = () => {
             mode: ['avoid-all', 'css', 'legacy']
         },
         html2canvas: {
-            dpi: 300,
+            dpi: 90,
             scale: 2,
             letterRendering: true,
             useCORS: true
