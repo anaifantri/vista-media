@@ -38,7 +38,7 @@
             @include('dashboard.layouts.select-sector')
             @canany(['isAdmin', 'isMarketing', 'isMedia'])
                 <div id="price" name="price" class="mt-1">
-                    <label class="text-sm text-teal-700">Harga</label>
+                    <label class="text-sm text-stone-900">Harga</label>
                     <input
                         class="flex w-[218px] text-semibold border mt-1 in-out-spin-none rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                         type="number" id="price" name="price" value="{{ old('price') }}" placeholder="Input Harga">

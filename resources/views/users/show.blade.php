@@ -4,7 +4,7 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <!-- Show Title start -->
-            <div class="flex w-[1140px] items-center border-b">
+            <div class="flex w-[1140px] items-center border-b p-1">
                 <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[550px]"> DETAIL DATA PENGGUNA </h1>
                 <div class="flex w-full justify-end items-center">
                     @if (auth()->user()->level === 'Administrator')

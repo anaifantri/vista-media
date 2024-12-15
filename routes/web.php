@@ -227,8 +227,14 @@ Route::get('/', function () {
     ]);   
 });
 
-Route::get('/dashboard/users/notifications', function () {
-    return view('dashboard.users.notifications.index',[
-        'title' => 'Notifications'
+Route::get('/media', function () {
+    return view('home.media-home',[
+        'title' => 'Data Media'
+    ]);   
+})->middleware(['auth','user_access']);
+
+Route::get('/marketing', function () {
+    return view('home.marketing-home',[
+        'title' => 'Data Pemasaran'
     ]);   
 })->middleware(['auth','user_access']);

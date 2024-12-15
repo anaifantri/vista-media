@@ -9,6 +9,10 @@
             @can('isMarketing')
                 @include('dashboard.marketing')
             @endcan
+            @can('isAdmin')
+                @include('dashboard.media')
+                @include('dashboard.marketing')
+            @endcan
         </div>
 
         <!-- Script start -->

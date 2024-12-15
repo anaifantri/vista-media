@@ -1,5 +1,5 @@
 <div class="div-nav-a" title="Data Pemasaran">
-    <a class="nav-a {{ Request::is('marketing*') ? 'active' : '' }}" href="">
+    <a class="nav-a {{ Request::is('marketing*') ? 'active' : '' }}" href="/marketing">
         <svg role="img" class="nav-svg transition duration-300 ease-in-out" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
             <title>PEMASARAN</title>
