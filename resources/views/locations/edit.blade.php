@@ -112,7 +112,7 @@
                 <div>
                     <span id="divTitle"
                         class="border-b flex justify-center text-base text-white font-semibold w-full"></span>
-                    <form action="/media/location-photos/" method="post" enctype="multipart/form-data">
+                    <form action="/media/location-photos" method="post" enctype="multipart/form-data">
                         @csrf
                         <input name="location_id" type="text" value="{{ $location->id }}" hidden>
                         <input name="company_id" type="text" value="{{ $location->company->id }}" hidden>
