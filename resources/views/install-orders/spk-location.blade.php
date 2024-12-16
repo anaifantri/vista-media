@@ -19,6 +19,7 @@
                     </td>
                     <td class="border p-1 text-center">
                         <div class="flex w-full justify-center items-center">
+                            QR CODE
                         </div>
                     </td>
                 </tr>

@@ -181,6 +181,54 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="flex justify-center w-full">
+                    <div class="flex border-b w-[950px] mt-8">
+                        <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary mb-2"
+                            title="Create PDF" type="button" onclick="savePdf()">
+                            <svg class="fill-current w-4 ml-1 xl:ml-2 2xl:ml-3" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                            </svg>
+                            <span class="ml-2 text-white">Save PDF</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex justify-center w-full">
+                    <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 bg-white">
+                        <!-- Header start -->
+                        @include('dashboard.layouts.letter-header')
+                        <!-- Header end -->
+                        <!-- Body start -->
+                        <div class="h-[1125px]">
+                            <div class="flex justify-center w-full">
+                                <div class="grid grid-cols-2 gap-2 w-[800px] p-2">
+                                    @foreach ($monitorings as $monitoring)
+                                        @if ($loop->iteration < 13)
+                                            <div>
+                                                <label class="ml-2 font-semibold">
+                                                    {{ $bulan[(int) date('m', strtotime($monitoring->month))] }}
+                                                    {{ date('Y', strtotime($monitoring->month)) }}</label>
+                                                <div
+                                                    class="flex justify-center items-center p-2 border rounded-lg w-[380px] h-[150px]">
+                                                    <img class="w-[250px] h-[140px] border rounded-lg"
+                                                        src="{{ asset('storage/' . $monitoring->monitoring_photos[0]->photo) }}"
+                                                        alt="">
+                                                    <label
+                                                        class="w-[130px] h-[140px] ml-2 text-[0.7rem] text-justify">{{ $monitoring->notes }}</label>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Body start -->
+                        <!-- Footer start -->
+                        @include('dashboard.layouts.letter-footer')
+                        <!-- Footer end -->
+                    </div>
+                </div>
             </div>
             <!-- View end -->
         </div>

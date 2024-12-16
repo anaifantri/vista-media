@@ -6,11 +6,11 @@
         @csrf
         <input type="text" name="monitoring_id" value="{{ $monitoring_id }}" hidden>
         <input type="text" name="user_id" value="{{ auth()->user()->id }}" hidden>
-        <div class="flex justify-center">
-            <div class="mt-10">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <!-- Title start -->
                 <div class="flex w-[780px] items-center border-b p-1">
-                    <label class="flex text-xl text-cyan-800 font-bold w-[850px]"> MENAMBAHKAN FOTO PEMANTAUAN</label>
+                    <label class="flex text-xl text-stone-100 font-bold w-[850px]"> MENAMBAHKAN FOTO PEMANTAUAN</label>
                     <div class="flex items-center w-full justify-end">
                         <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
                             type="submit">
@@ -22,7 +22,7 @@
                             <span class="ml-1 w-10 text-xs">Save</span>
                         </button>
                         <a class="flex justify-center items-center ml-1 btn-danger"
-                            href="/media/monitorings/{{ $monitoring_id }}/edit">
+                            href="/workshop/monitorings/{{ $monitoring_id }}/edit">
                             <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path
@@ -52,9 +52,9 @@
                                 </button>
                             </div>
                             <div class="flex items-center mt-2 w-full justify-center border rounded-lg">
-                                <label class="text-sm text-slate-500 w-20">Jumlah File</label>
-                                <label class="text-sm text-slate-500 ml-2">:</label>
-                                <label id="numberImagesFile" class="text-sm text-slate-500 ml-2"> 0 file yang
+                                <label class="text-sm text-stone-100 w-20">Jumlah File</label>
+                                <label class="text-sm text-stone-100 ml-2">:</label>
+                                <label id="numberImagesFile" class="text-sm text-stone-100 ml-2"> 0 file yang
                                     dipilih</label>
                             </div>
                             @error('photos')
@@ -67,7 +67,7 @@
                                     Ukuran file max 1024 kb, tipe file jpeg/jpg/png
                                 </div>
                             @enderror
-                            <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700 mt-2"
+                            <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border mt-2"
                                 id="figureImages">
 
                             </figure>

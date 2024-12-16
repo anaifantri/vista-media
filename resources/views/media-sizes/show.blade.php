@@ -80,7 +80,7 @@
                                     @method('delete')
                                     @csrf
                                     <button class="flex items-center justify-center btn-danger mx-1"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus area {{ $media_size->size }} ?')">
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus ukuran {{ $media_size->size }} ?')">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path

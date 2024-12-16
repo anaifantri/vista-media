@@ -5,11 +5,11 @@
     <form method="post" action="/workshop/monitoring-photos/{{ $monitoring_photo->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center">
-            <div class="mt-10">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <!-- Title start -->
                 <div class="flex w-[780px] items-center border-b p-1">
-                    <label class="flex text-xl text-cyan-800 font-bold w-[850px]"> MENGGANTI FOTO PEMANTAUAN</label>
+                    <label class="flex text-xl text-stone-100 font-bold w-[850px]"> MENGGANTI FOTO PEMANTAUAN</label>
                     <div class="flex items-center w-full justify-end">
                         <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
                             type="submit">
@@ -35,7 +35,7 @@
 
                 <!-- Edit Photo start -->
                 <div class="flex justify-center w-full mt-2">
-                    <div class="flex justify-start border rounded-lg w-[780px] p-4">
+                    <div class="flex justify-start border rounded-lg w-[780px] bg-stone-400 p-4">
                         <div class="w-[750px]">
                             <div class="flex w-full justify-center">
                                 <input type="hidden" name="oldPhoto" value="{{ $monitoring_photo->photo }}">

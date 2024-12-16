@@ -5,11 +5,11 @@
     <form method="post" action="/media/license-documents/{{ $license_document->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
-        <div class="flex justify-center">
-            <div class="mt-10">
+        <div class="flex justify-center pl-14 py-10 bg-stone-800">
+            <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <!-- Title start -->
                 <div class="flex w-[780px] items-center border-b p-1">
-                    <label class="flex text-xl text-cyan-800 font-bold w-[850px]"> MENGGANTI DOKUMEN IZIN
+                    <label class="flex text-xl text-stone-100 font-bold w-[850px]"> MENGGANTI DOKUMEN IZIN
                         {{ strtoupper($license_document->license->licensing_category->name) }}</label>
                     <div class="flex items-center w-full justify-end">
                         <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"

@@ -52,6 +52,9 @@
                                 <label class="flex text-sm text-black w-14">Bahan</label>
                                 <label class="flex text-sm text-black">:</label>
                                 @if ($printing_prices != null)
+                                    @php
+                                        $getType = '';
+                                    @endphp
                                     <select id="selectProduct" name="selectProduct" value="{{ old('selectProduct') }}"
                                         title="Pilih Bahan Cetak"
                                         class="ml-1 text-sm text-black border rounded-sm outline-none px-1 w-[175px]"

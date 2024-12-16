@@ -5,6 +5,8 @@
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     $firstParty = json_decode($land_agreement->first_party);
     $secondParty = json_decode($land_agreement->second_party);
+    $location = $land_agreement->location;
+    $description = json_decode($location->description);
     ?>
     <!-- Container start -->
     <form action="/media/land-agreements/{{ $land_agreement->id }}" method="post" enctype="multipart/form-data">
@@ -41,8 +43,53 @@
                 <!-- View Input start -->
                 <div class="flex justify-center w-full mt-2">
                     <div class="w-[1200px]">
+                        <!-- Location start -->
+                        <div class="grid grid-cols-2 gap-2 w-full justify-center mt-2 p-2">
+                            <div class="border rounded-lg p-2 bg-stone-200">
+                                <div class="flex text-stone-900 text-sm font-semibold">
+                                    <label class="w-24">Kode Lokasi</label>
+                                    <label>:</label>
+                                    <label class="ml-1">{{ $location->code }}-{{ $location->city->code }}</label>
+                                </div>
+                                <div class="flex text-stone-900 text-sm font-semibold">
+                                    <label class="w-24">Lokasi</label>
+                                    <label>:</label>
+                                    <label class="ml-1">
+                                        @if (strlen($location->address) > 65)
+                                            {{ substr($location->address, 0, 65) }}..
+                                        @else
+                                            {{ $location->address }}
+                                        @endif
+                                    </label>
+                                </div>
+                                <div class="flex text-stone-900 text-sm font-semibold">
+                                    <label class="w-24">Ukuran</label>
+                                    <label>:</label>
+                                    <label class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg p-2 bg-stone-200 ml-4">
+                                <div class="flex text-stone-900 text-sm font-semibold">
+                                    <label class="w-24">Jenis</label>
+                                    <label>:</label>
+                                    <label
+                                        class="ml-1">{{ $location->media_category->name }}-{{ $description->lighting }}</label>
+                                </div>
+                                <div class="flex text-stone-900 text-sm font-semibold">
+                                    <label class="w-24">Area</label>
+                                    <label>:</label>
+                                    <label class="ml-1">{{ $location->area->area }}</label>
+                                </div>
+                                <div class="flex text-stone-900 text-sm font-semibold">
+                                    <label class="w-24">Kota</label>
+                                    <label>:</label>
+                                    <label class="ml-1">{{ $location->city->city }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Location end -->
                         <div>
-                            <div class="flex justify-center border rounded-lg w-[1200px] p-2">
+                            <div class="flex justify-center border rounded-lg w-[1200px] p-2 mt-2">
                                 <div class="w-[580px] p-2 border rounded-lg bg-stone-300">
                                     <div class="flex">
                                         <label class="text-xs text-stone-900 w-36">Nomor Perjanjian</label>

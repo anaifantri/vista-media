@@ -18,7 +18,7 @@
         ];
         $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
         if ($orderType == 'free') {
-            $photo = $location->location_photos->where('set_default', true)->last();
+            // $photo = $location->location_photos->where('set_default', true)->last();
             $location_id = $product->id;
             $location_photo = $product->photo;
             $location_address = $product->address;
@@ -100,6 +100,11 @@
         <input type="text" id="cityCode" value="{{ $cityCode }}" hidden>
         <input type="text" id="side" value="{{ $side }}" hidden>
         <input type="text" id="type" name="type" value="{{ $productType }}" hidden>
+        {{-- @if (old('product'))
+            <input type="text" id="product" name="product" value="{{ old('product') }}" hidden>
+        @else
+            <input type="text" id="product" name="product" value="{{ json_encode($product) }}" hidden>
+        @endif --}}
         <input type="text" id="product" name="product" value="{{ old('product') }}" hidden>
         <input type="text" id="orderType" value="{{ $orderType }}" hidden>
         <input type="text" name="created_by" id="created_by" value="{{ json_encode($created_by) }}" hidden>

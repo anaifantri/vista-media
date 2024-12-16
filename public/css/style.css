@@ -945,6 +945,10 @@ video {
   height: 136px;
 }
 
+.h-\[140px\] {
+  height: 140px;
+}
+
 .h-\[1500px\] {
   height: 1500px;
 }
@@ -1432,6 +1436,10 @@ video {
 
 .w-\[370px\] {
   width: 370px;
+}
+
+.w-\[380px\] {
+  width: 380px;
 }
 
 .w-\[400px\] {
@@ -2272,6 +2280,10 @@ video {
 
 .text-right {
   text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 .text-start {

@@ -20,7 +20,7 @@
                                     <path
                                         d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                                 </svg>
-                                <label class="mx-1">Save</label>
+                                <span class="mx-1">Save</span>
                             </button>
                             <a class="flex justify-center items-center mx-1 btn-danger" href="/media/area">
                                 <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -28,7 +28,7 @@
                                     <path
                                         d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
                                 </svg>
-                                <label class="mx-1">Cancel</label>
+                                <span class="mx-1">Cancel</span>
                             </a>
                         </div>
                     </div>

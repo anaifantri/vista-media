@@ -48,6 +48,8 @@ class InstallOrderController extends Controller
     public function installOrders(String $status)
     { 
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            // $install_orders = null;
+            // $getStatus = "";
             if($status == "install-sales"){
                 $getStatus = "Berbayar";
                 $install_orders = InstallOrder::filter(request('search'))->sales()->orderBy("number", "asc")->paginate(10)->withQueryString();

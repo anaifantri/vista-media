@@ -62,6 +62,15 @@
                                         onclick="cbLeftAction(this)" checked>
                                     <label class="flex ml-1 text-sm text-black w-16">Kiri</label>
                                 </div>
+                            @else
+                                <div hidden>
+                                    <input id="cbRight" class="outline-none" type="checkbox"
+                                        onclick="cbRightAction(this)">
+                                    <label class="flex ml-1 text-sm text-black w-16">Kanan</label>
+                                    <input id="cbLeft" class="ml-2 outline-none" type="checkbox"
+                                        onclick="cbLeftAction(this)" checked>
+                                    <label class="flex ml-1 text-sm text-black w-16">Kiri</label>
+                                </div>
                             @endif
                         </div>
                     </div>

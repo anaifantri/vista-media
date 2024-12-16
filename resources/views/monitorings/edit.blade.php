@@ -119,7 +119,7 @@
                                         {{ count($photos) }} foto</label>
                                 </div>
                             </div>
-                            <div class="relative m-auto w-[450px] h-[300px]">
+                            <div class="relative m-auto w-[450px]">
                                 <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
                                     <button
                                         class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
@@ -197,7 +197,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <img src="{{ asset('storage/' . $photo->photo) }}" alt="">
+                                                <img class="m-auto flex border rounded-lg items-center w-[450px]"
+                                                    src="{{ asset('storage/' . $photo->photo) }}" alt="">
                                             </div>
                                         @else
                                             <div class="divImage" hidden>

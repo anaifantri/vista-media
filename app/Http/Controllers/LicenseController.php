@@ -15,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 use Gate;
 
 class LicenseController extends Controller
@@ -349,12 +350,12 @@ class LicenseController extends Controller
     public function destroy(License $license): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaDelete'))){
-            if($license->license_documents()->exists()){
-                return back()->withErrors(['delete' => ['Gagal untuk menghapus data izin, terdapat relasi dengan data pada tabel data lainnya']]);
-            }else{
-                License::destroy($license->id);
-                return redirect('/show-license/'.$license->location->id)->with('success', 'Dokumen izin '.$license->licensing_category->name.' dengan nomor'.$license->number.' berhasil dihapus');
+            foreach($license->license_documents as $document){
+                Storage::delete($document->image);
+                LicenseDocument::destroy($document->id);
             }
+            License::destroy($license->id);
+            return redirect('/show-license/'.$license->location->id)->with('success', 'Dokumen izin '.$license->licensing_category->name.' dengan nomor'.$license->number.' berhasil dihapus');
         } else {
             abort(403);
         }

@@ -111,8 +111,10 @@ class LandAgreementController extends Controller
     public function createLandAgreement(String $locationId): View
     { 
         if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
+            $location = Location::findOrFail($locationId);
             return view ('land-agreements.create', [
                 'location_id' => $locationId,
+                'location'=>$location,
                 'title' => 'Menambahkan Data Sewa Lahan'
             ]);
         } else {
@@ -342,6 +344,15 @@ class LandAgreementController extends Controller
      */
     public function destroy(LandAgreement $landAgreement): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaDelete'))){
+            foreach($landAgreement->land_documents as $document){
+                Storage::delete($document->image);
+                LandDocument::destroy($document->id);
+            }
+            LandAgreement::destroy($landAgreement->id);
+            return redirect('/show-land-agreement/'.$landAgreement->location->id)->with('success', 'Dokumen sewa lahan dengan nomor '.$landAgreement->number.' berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }

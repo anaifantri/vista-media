@@ -4,16 +4,16 @@
             <img src="/img/line-bottom.png" alt="">
         </div>
         <div class="flex items-center w-full justify-center">
-            <span class="text-sm font-semibold">PT. Vista Media</span>
+            <span class="text-sm font-semibold">{{ $company->name }}</span>
         </div>
         <div class="flex items-center w-full justify-center">
-            <span class="text-xs">Jl. Pulau Kawe No. 40 - Denpasar | Bali - Indonesia</span>
+            <span class="text-xs">{{ $company->address }}</span>
         </div>
         <div class="flex items-center w-full justify-center">
-            <span class="text-xs">Ph. +62 361 230000 | Fax. +62 361 237800 </span>
+            <span class="text-xs">Ph. {{ $company->phone }} | Mobile. {{ $company->m_phone }} </span>
         </div>
         <div class="flex items-center w-full justify-center">
-            <span class="text-xs">e-mail : info@vistamedia.co.id | www.vistamedia.co.id</span>
+            <span class="text-xs">e-mail : {{ $company->email }} | {{ $company->website }}</span>
         </div>
     </div>
 </div>
