@@ -6,6 +6,8 @@
     $published = date('d', strtotime($license->published)) . ' ' . $bulan[(int) date('m', strtotime($license->published))] . ' ' . date('Y', strtotime($license->published));
     $start_at = date('d', strtotime($license->start_at)) . ' ' . $bulan[(int) date('m', strtotime($license->start_at))] . ' ' . date('Y', strtotime($license->start_at));
     $end_at = date('d', strtotime($license->end_at)) . ' ' . $bulan[(int) date('m', strtotime($license->end_at))] . ' ' . date('Y', strtotime($license->end_at));
+    $location = $license->location;
+    $description = json_decode($location->description);
     ?>
     <!-- Container start -->
     <div class="flex justify-center bg-stone-800 p-10">
@@ -66,223 +68,284 @@
 
             <!-- New Licenses Input start -->
             <div class="flex justify-center w-full mt-2">
-                <div class="flex justify-center">
-                    <div class="flex justify-center border rounded-lg w-[400px] h-[550px] p-2 bg-stone-300">
-                        <div class="w-[350px]">
-                            <div class="mt-2">
-                                <label class="flex text-sm text-stone-900">Jenis Izin</label>
-                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
-                                    type="text" value="{{ $license->licensing_category->name }}" readonly>
+                <div class="w-[1200px]">
+                    <!-- Location start -->
+                    <div class="grid grid-cols-2 gap-2 w-full justify-center mt-2 p-2">
+                        <div class="border rounded-lg p-2 bg-stone-200">
+                            <div class="flex text-stone-900 text-sm font-semibold">
+                                <label class="w-24">Kode Lokasi</label>
+                                <label>:</label>
+                                <label class="ml-1">{{ $location->code }}-{{ $location->city->code }}</label>
                             </div>
-                            <div class="mt-2">
-                                <label class="flex text-sm text-stone-900">Nomor Izin</label>
-                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
-                                    type="text" value="{{ $license->number }}" readonly>
+                            <div class="flex text-stone-900 text-sm font-semibold">
+                                <label class="w-24">Lokasi</label>
+                                <label>:</label>
+                                <label class="ml-1">
+                                    @if (strlen($location->address) > 65)
+                                        {{ substr($location->address, 0, 65) }}..
+                                    @else
+                                        {{ $location->address }}
+                                    @endif
+                                </label>
                             </div>
-                            <div class="mt-2">
-                                <label class="flex text-sm text-stone-900">Penerbit Izin</label>
-                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
-                                    type="text" value="{{ $license->government }}" readonly>
+                            <div class="flex text-stone-900 text-sm font-semibold">
+                                <label class="w-24">Ukuran</label>
+                                <label>:</label>
+                                <label class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
                             </div>
-                            <div class="mt-2">
-                                <label class="flex text-sm text-stone-900">Tanggal Terbit</label>
-                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
-                                    type="text" value="{{ $published }}" readonly>
+                        </div>
+                        <div class="border rounded-lg p-2 bg-stone-200 ml-4">
+                            <div class="flex text-stone-900 text-sm font-semibold">
+                                <label class="w-24">Jenis</label>
+                                <label>:</label>
+                                <label class="ml-1">
+                                    {{ $location->media_category->name }}
+                                    @if (
+                                        $location->media_category->name != 'Videotron' ||
+                                            ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
+                                        - {{ $description->lighting }}
+                                    @endif
+                                </label>
                             </div>
-                            <div class="mt-2">
-                                <label class="flex text-sm text-stone-900">Tanggal Awal Izin</label>
-                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
-                                    type="text" value="{{ $start_at }}" readonly>
+                            <div class="flex text-stone-900 text-sm font-semibold">
+                                <label class="w-24">Area</label>
+                                <label>:</label>
+                                <label class="ml-1">{{ $location->area->area }}</label>
                             </div>
-                            <div class="mt-2">
-                                <label class="flex text-sm text-stone-900">Tanggal Akhir Izin</label>
-                                <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
-                                    type="text" value="{{ $end_at }}" readonly>
-                            </div>
-                            <div class="mt-2">
-                                <label class="flex text-sm text-stone-900">Keterangan</label>
-                                <textarea class="flex text-semibold mt-1 w-full  border rounded-lg p-1 outline-none" rows="8" readonly>{{ $license->notes }}</textarea>
+                            <div class="flex text-stone-900 text-sm font-semibold">
+                                <label class="w-24">Kota</label>
+                                <label>:</label>
+                                <label class="ml-1">{{ $location->city->city }}</label>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4 bg-stone-300">
-                        <div class="w-[750px]">
-                            <div class="flex items-center w-full justify-center font-semibold border-b">
-                                <label class="text-sm text-stone-900">Dokumen Izin
-                                    {{ $license->licensing_category->name }}</label>
+                    <!-- Location end -->
+                    <div class="flex justify-center mt-2">
+                        <div class="flex justify-center border rounded-lg w-[400px] h-[550px] p-2 bg-stone-300">
+                            <div class="w-[350px]">
+                                <div class="mt-2">
+                                    <label class="flex text-sm text-stone-900">Jenis Izin</label>
+                                    <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                        type="text" value="{{ $license->licensing_category->name }}" readonly>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="flex text-sm text-stone-900">Nomor Izin</label>
+                                    <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                        type="text" value="{{ $license->number }}" readonly>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="flex text-sm text-stone-900">Penerbit Izin</label>
+                                    <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                        type="text" value="{{ $license->government }}" readonly>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="flex text-sm text-stone-900">Tanggal Terbit</label>
+                                    <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                        type="text" value="{{ $published }}" readonly>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="flex text-sm text-stone-900">Tanggal Awal Izin</label>
+                                    <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                        type="text" value="{{ $start_at }}" readonly>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="flex text-sm text-stone-900">Tanggal Akhir Izin</label>
+                                    <input class="flex text-semibold mt-1 w-full border rounded-lg px-1 outline-none"
+                                        type="text" value="{{ $end_at }}" readonly>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="flex text-sm text-stone-900">Keterangan</label>
+                                    <textarea class="flex text-semibold mt-1 w-full  border rounded-lg p-1 outline-none" rows="8" readonly>{{ $license->notes }}</textarea>
+                                </div>
                             </div>
-                            <figure class="flex w-[750px] justify-center overflow-x-auto rounded-lg bg-stone-800 mt-2"
-                                id="figure">
-                                @foreach ($license_documents as $document)
-                                    @if (count($license_documents) > 2)
-                                        @if ($loop->iteration - 1 == intdiv(count($license_documents), 2))
-                                            <img id="{{ $document->id }}" class="photo-active"
-                                                src="{{ asset('storage/' . $document->image) }}" alt=""
-                                                onclick="figureAction(this)">
-                                        @else
-                                            <img id="{{ $document->id }}" class="photo"
-                                                src="{{ asset('storage/' . $document->image) }}" alt=""
-                                                onclick="figureAction(this)">
-                                        @endif
-                                    @else
-                                        @if ($loop->iteration == 1)
-                                            <img id="{{ $document->id }}" class="photo-active"
-                                                src="{{ asset('storage/' . $document->image) }}" alt=""
-                                                onclick="figureAction(this)">
-                                        @else
-                                            <img id="{{ $document->id }}" class="photo"
-                                                src="{{ asset('storage/' . $document->image) }}" alt=""
-                                                onclick="figureAction(this)">
-                                        @endif
-                                    @endif
-                                @endforeach
-                            </figure>
-                            <div class="relative m-auto w-[750px] h-max mt-2">
-                                <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto">
-                                    <button
-                                        class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                        type="button" onclick="buttonPrev()">
-                                        <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                            fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                            <path
-                                                d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-                                        </svg>
-                                    </button>
+                        </div>
+                        <div class="flex justify-start border rounded-lg w-[780px] p-4 ml-4 bg-stone-300">
+                            <div class="w-[750px]">
+                                <div class="flex items-center w-full justify-center font-semibold border-b">
+                                    <label class="text-sm text-stone-900">Dokumen Izin
+                                        {{ $license->licensing_category->name }}</label>
                                 </div>
-                                <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto">
-                                    <button type="button"
-                                        class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                        onclick="buttonNext()">
-                                        <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                            fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                            <path
-                                                d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-                                        </svg>
-                                    </button>
+                                <figure class="flex w-[750px] justify-center overflow-x-auto rounded-lg bg-stone-800 mt-2"
+                                    id="figure">
+                                    @foreach ($license_documents as $document)
+                                        @if (count($license_documents) > 2)
+                                            @if ($loop->iteration - 1 == intdiv(count($license_documents), 2))
+                                                <img id="{{ $document->id }}" class="photo-active"
+                                                    src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                    onclick="figureAction(this)">
+                                            @else
+                                                <img id="{{ $document->id }}" class="photo"
+                                                    src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                    onclick="figureAction(this)">
+                                            @endif
+                                        @else
+                                            @if ($loop->iteration == 1)
+                                                <img id="{{ $document->id }}" class="photo-active"
+                                                    src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                    onclick="figureAction(this)">
+                                            @else
+                                                <img id="{{ $document->id }}" class="photo"
+                                                    src="{{ asset('storage/' . $document->image) }}" alt=""
+                                                    onclick="figureAction(this)">
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </figure>
+                                <div class="relative m-auto w-[750px] h-max mt-2">
+                                    <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto">
+                                        <button
+                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                            type="button" onclick="buttonPrev()">
+                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto">
+                                        <button type="button"
+                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-slate-200 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                            onclick="buttonNext()">
+                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    @foreach ($license_documents as $document)
+                                        @if (count($license_documents) > 2)
+                                            @if ($loop->iteration - 1 == intdiv(count($license_documents), 2))
+                                                <div class="divImage">
+                                                    <div
+                                                        class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                        <div class="flex items-center">
+                                                            <div class="w-64">
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                        Upload</label>
+                                                                    <label class="text-sm text-yellow-400">:</label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ date('d', strtotime($document->created_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                        {{ date('Y', strtotime($document->created_at)) }}
+                                                                    </label>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                        Oleh</label>
+                                                                    <label class="text-sm text-yellow-400">: </label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ $license->user->name }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                                </div>
+                                            @else
+                                                <div class="divImage" hidden>
+                                                    <div
+                                                        class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                        <div class="flex items-center">
+                                                            <div class="w-64">
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                        Upload</label>
+                                                                    <label class="text-sm text-yellow-400">:</label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ date('d', strtotime($document->created_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                        {{ date('Y', strtotime($document->created_at)) }}
+                                                                    </label>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                        Oleh</label>
+                                                                    <label class="text-sm text-yellow-400">: </label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ $license->user->name }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                                </div>
+                                            @endif
+                                        @else
+                                            @if ($loop->iteration == 1)
+                                                <div class="divImage">
+                                                    <div
+                                                        class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                        <div class="flex items-center">
+                                                            <div class="w-64">
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                        Upload</label>
+                                                                    <label class="text-sm text-yellow-400">:</label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ date('d', strtotime($document->created_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                        {{ date('Y', strtotime($document->created_at)) }}
+                                                                    </label>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                        Oleh</label>
+                                                                    <label class="text-sm text-yellow-400">: </label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ $document->user->name }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                                </div>
+                                            @else
+                                                <div class="divImage" hidden>
+                                                    <div
+                                                        class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
+                                                        <div class="flex items-center">
+                                                            <div class="w-64">
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Tanggal
+                                                                        Upload</label>
+                                                                    <label class="text-sm text-yellow-400">:</label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ date('d', strtotime($document->created_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
+                                                                        {{ date('Y', strtotime($document->created_at)) }}
+                                                                    </label>
+                                                                </div>
+                                                                <div class="flex">
+                                                                    <label
+                                                                        class="text-sm text-yellow-400 w-28 mx-1">Diupload
+                                                                        Oleh</label>
+                                                                    <label class="text-sm text-yellow-400">: </label>
+                                                                    <label class="text-sm text-yellow-400 ml-2 w-40">
+                                                                        {{ $document->user->name }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="{{ asset('storage/' . $document->image) }}" alt="">
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endforeach
                                 </div>
-                                @foreach ($license_documents as $document)
-                                    @if (count($license_documents) > 2)
-                                        @if ($loop->iteration - 1 == intdiv(count($license_documents), 2))
-                                            <div class="divImage">
-                                                <div
-                                                    class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
-                                                    <div class="flex items-center">
-                                                        <div class="w-64">
-                                                            <div class="flex">
-                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
-                                                                    Upload</label>
-                                                                <label class="text-sm text-yellow-400">:</label>
-                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ date('d', strtotime($document->created_at)) }}
-                                                                    {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
-                                                                    {{ date('Y', strtotime($document->created_at)) }}
-                                                                </label>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
-                                                                    Oleh</label>
-                                                                <label class="text-sm text-yellow-400">: </label>
-                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ $license->user->name }}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <img src="{{ asset('storage/' . $document->image) }}" alt="">
-                                            </div>
-                                        @else
-                                            <div class="divImage" hidden>
-                                                <div
-                                                    class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
-                                                    <div class="flex items-center">
-                                                        <div class="w-64">
-                                                            <div class="flex">
-                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
-                                                                    Upload</label>
-                                                                <label class="text-sm text-yellow-400">:</label>
-                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ date('d', strtotime($document->created_at)) }}
-                                                                    {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
-                                                                    {{ date('Y', strtotime($document->created_at)) }}
-                                                                </label>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
-                                                                    Oleh</label>
-                                                                <label class="text-sm text-yellow-400">: </label>
-                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ $license->user->name }}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <img src="{{ asset('storage/' . $document->image) }}" alt="">
-                                            </div>
-                                        @endif
-                                    @else
-                                        @if ($loop->iteration == 1)
-                                            <div class="divImage">
-                                                <div
-                                                    class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
-                                                    <div class="flex items-center">
-                                                        <div class="w-64">
-                                                            <div class="flex">
-                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
-                                                                    Upload</label>
-                                                                <label class="text-sm text-yellow-400">:</label>
-                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ date('d', strtotime($document->created_at)) }}
-                                                                    {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
-                                                                    {{ date('Y', strtotime($document->created_at)) }}
-                                                                </label>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
-                                                                    Oleh</label>
-                                                                <label class="text-sm text-yellow-400">: </label>
-                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ $document->user->name }}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <img src="{{ asset('storage/' . $document->image) }}" alt="">
-                                            </div>
-                                        @else
-                                            <div class="divImage" hidden>
-                                                <div
-                                                    class="absolute bottom-2 left-0 w-full h-14 bg-black bg-opacity-80 p-2">
-                                                    <div class="flex items-center">
-                                                        <div class="w-64">
-                                                            <div class="flex">
-                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
-                                                                    Upload</label>
-                                                                <label class="text-sm text-yellow-400">:</label>
-                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ date('d', strtotime($document->created_at)) }}
-                                                                    {{ $bulan[(int) date('m', strtotime($document->created_at))] }}
-                                                                    {{ date('Y', strtotime($document->created_at)) }}
-                                                                </label>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
-                                                                    Oleh</label>
-                                                                <label class="text-sm text-yellow-400">: </label>
-                                                                <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                                    {{ $document->user->name }}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <img src="{{ asset('storage/' . $document->image) }}" alt="">
-                                            </div>
-                                        @endif
-                                    @endif
-                                @endforeach
                             </div>
                         </div>
                     </div>

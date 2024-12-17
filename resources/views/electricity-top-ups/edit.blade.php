@@ -217,8 +217,14 @@
                                     <div>
                                         <label class="text-sm text-stone-900">Jenis</label>
                                         <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_category->name }}
-                                            - {{ $description->lighting }}</label>
+                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
+                                            {{ $location->media_category->name }}
+                                            @if (
+                                                $location->media_category->name != 'Videotron' ||
+                                                    ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
+                                                - {{ $description->lighting }}
+                                            @endif
+                                        </label>
                                     </div>
                                     <div>
                                         <label class="text-sm text-stone-900">Ukuran</label>

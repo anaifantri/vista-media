@@ -49,7 +49,7 @@
                             class="text-teal-400 w-full bg-stone-900 hover:bg-stone-800 border rounded-lg shadow-lg p-2">
                             <span class="flex justify-center font-serif text-md">Katagori</span>
                             <span
-                                class="flex justify-center text-stone-200 font-serif text-md font-semibold">Cetal/Pasang</span>
+                                class="flex justify-center text-stone-200 font-serif text-md font-semibold">Cetak/Pasang</span>
                         </a>
                     @else
                         <a href="/marketing/quotations/home/{{ $category->name }}"
@@ -80,7 +80,7 @@
                             class="text-teal-400 w-full bg-stone-900 hover:bg-stone-800 border rounded-lg shadow-lg p-2">
                             <span class="flex justify-center font-serif text-md">Katagori</span>
                             <span
-                                class="flex justify-center text-stone-200 font-serif text-md font-semibold">Cetal/Pasang</span>
+                                class="flex justify-center text-stone-200 font-serif text-md font-semibold">Cetak/Pasang</span>
                         </a>
                     @else
                         <a href="/marketing/sales/home/{{ $category->name }}"

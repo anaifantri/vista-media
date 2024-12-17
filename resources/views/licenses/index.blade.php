@@ -125,12 +125,32 @@
                         @endphp
                         @foreach ($locations as $location)
                             @php
-                                $dataPrinsip = $location->licenses->where('licensing_category_id', $prinsip)->last();
-                                $dataPbg = $location->licenses->where('licensing_category_id', $pbg)->last();
-                                $dataSlf = $location->licenses->where('licensing_category_id', $slf)->last();
-                                $dataIpr = $location->licenses->where('licensing_category_id', $ipr)->last();
-                                $dataSkpd = $location->licenses->where('licensing_category_id', $skpd)->last();
-                                $dataSspd = $location->licenses->where('licensing_category_id', $sspd)->last();
+                                $dataPrinsip = null;
+                                $dataPbg = null;
+                                $dataSlf = null;
+                                $dataIpr = null;
+                                $dataSkpd = null;
+                                $dataSspd = null;
+                                if ($prinsip) {
+                                    $dataPrinsip = $location->licenses
+                                        ->where('licensing_category_id', $prinsip->id)
+                                        ->last();
+                                }
+                                if ($pbg) {
+                                    $dataPbg = $location->licenses->where('licensing_category_id', $pbg->id)->last();
+                                }
+                                if ($slf) {
+                                    $dataSlf = $location->licenses->where('licensing_category_id', $slf->id)->last();
+                                }
+                                if ($ipr) {
+                                    $dataIpr = $location->licenses->where('licensing_category_id', $ipr->id)->last();
+                                }
+                                if ($skpd) {
+                                    $dataSkpd = $location->licenses->where('licensing_category_id', $skpd->id)->last();
+                                }
+                                if ($sspd) {
+                                    $dataSspd = $location->licenses->where('licensing_category_id', $sspd->id)->last();
+                                }
                             @endphp
                             @if ($number % 2 == 0)
                                 <tr class="bg-stone-100">
@@ -157,7 +177,7 @@
                                                 @if ($dataPrinsip)
                                                     @if ($dataPrinsip->number)
                                                         @if (strlen($dataPrinsip->number) > 10)
-                                                            {{ substr($dataPrinsip->number, 0, 11) }}...
+                                                            {{ substr($dataPrinsip->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataPrinsip->number, 0, 10) }}
                                                         @endif
@@ -209,7 +229,7 @@
                                                 @if ($dataPbg)
                                                     @if ($dataPbg->number)
                                                         @if (strlen($dataPbg->number) > 10)
-                                                            {{ substr($dataPbg->number, 0, 11) }}...
+                                                            {{ substr($dataPbg->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataPbg->number, 0, 10) }}
                                                         @endif
@@ -219,7 +239,7 @@
                                                 @elseif ($dataSlf)
                                                     @if ($dataSlf->number)
                                                         @if (strlen($dataSlf->number) > 10)
-                                                            {{ substr($dataSlf->number, 0, 11) }}...
+                                                            {{ substr($dataSlf->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataSlf->number, 0, 10) }}
                                                         @endif
@@ -339,7 +359,7 @@
                                                 @if ($dataSkpd)
                                                     @if ($dataSkpd->number)
                                                         @if (strlen($dataSkpd->number) > 10)
-                                                            {{ substr($dataSkpd->number, 0, 11) }}...
+                                                            {{ substr($dataSkpd->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataSkpd->number, 0, 10) }}
                                                         @endif
@@ -391,7 +411,7 @@
                                                 @if ($dataSspd)
                                                     @if ($dataSspd->number)
                                                         @if (strlen($dataSspd->number) > 10)
-                                                            {{ substr($dataSspd->number, 0, 11) }}...
+                                                            {{ substr($dataSspd->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataSspd->number, 0, 10) }}
                                                         @endif
@@ -492,7 +512,7 @@
                                                 @if ($dataPrinsip)
                                                     @if ($dataPrinsip->number)
                                                         @if (strlen($dataPrinsip->number) > 10)
-                                                            {{ substr($dataPrinsip->number, 0, 11) }}...
+                                                            {{ substr($dataPrinsip->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataPrinsip->number, 0, 10) }}
                                                         @endif
@@ -544,7 +564,7 @@
                                                 @if ($dataPbg)
                                                     @if ($dataPbg->number)
                                                         @if (strlen($dataPbg->number) > 10)
-                                                            {{ substr($dataPbg->number, 0, 11) }}...
+                                                            {{ substr($dataPbg->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataPbg->number, 0, 10) }}
                                                         @endif
@@ -554,7 +574,7 @@
                                                 @elseif ($dataSlf)
                                                     @if ($dataSlf->number)
                                                         @if (strlen($dataSlf->number) > 10)
-                                                            {{ substr($dataSlf->number, 0, 11) }}...
+                                                            {{ substr($dataSlf->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataSlf->number, 0, 10) }}
                                                         @endif
@@ -674,7 +694,7 @@
                                                 @if ($dataSkpd)
                                                     @if ($dataSkpd->number)
                                                         @if (strlen($dataSkpd->number) > 10)
-                                                            {{ substr($dataSkpd->number, 0, 11) }}...
+                                                            {{ substr($dataSkpd->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataSkpd->number, 0, 10) }}
                                                         @endif
@@ -726,7 +746,7 @@
                                                 @if ($dataSspd)
                                                     @if ($dataSspd->number)
                                                         @if (strlen($dataSspd->number) > 10)
-                                                            {{ substr($dataSspd->number, 0, 11) }}...
+                                                            {{ substr($dataSspd->number, 0, 10) }}...
                                                         @else
                                                             {{ substr($dataSspd->number, 0, 10) }}
                                                         @endif

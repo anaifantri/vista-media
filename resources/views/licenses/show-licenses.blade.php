@@ -70,7 +70,14 @@
                     <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Jenis</label>
                         <label>:</label>
-                        <label class="ml-2">{{ $location->media_category->name }}-{{ $description->lighting }}</label>
+                        <label class="ml-2">
+                            {{ $location->media_category->name }}
+                            @if (
+                                $location->media_category->name != 'Videotron' ||
+                                    ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
+                                - {{ $description->lighting }}
+                            @endif
+                        </label>
                     </div>
                     <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Area</label>

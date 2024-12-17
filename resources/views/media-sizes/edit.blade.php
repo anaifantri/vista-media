@@ -44,12 +44,14 @@
                             class="flex text-sm w-full font-semibold text-teal-900 border rounded-lg p-1 outline-none @error('media_category_id') is-invalid @enderror"
                             type="text" value="{{ $media_size->media_category_id }}">
                             @foreach ($categories as $category)
-                                @if ($media_size->media_category_id == $category->id)
-                                    <option class="text-semibold" value="{{ $category->id }}" selected>
-                                        {{ $category->name }}</option>
-                                @else
-                                    <option class="text-semibold" value="{{ $category->id }}">{{ $category->name }}
-                                    </option>
+                                @if ($category->name != 'Service')
+                                    @if ($media_size->media_category_id == $category->id)
+                                        <option class="text-semibold" value="{{ $category->id }}" selected>
+                                            {{ $category->name }}</option>
+                                    @else
+                                        <option class="text-semibold" value="{{ $category->id }}">{{ $category->name }}
+                                        </option>
+                                    @endif
                                 @endif
                             @endforeach
                         </select>

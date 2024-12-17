@@ -39,12 +39,14 @@
                                 type="text" value="{{ old('media_category_id') }}">
                                 <option class="text-semibold" value="pilih">-- pilih --</option>
                                 @foreach ($categories as $category)
-                                    @if (old('media_category_id') == $category->id)
-                                        <option class="text-semibold" value="{{ $category->id }}" selected>
-                                            {{ $category->name }}</option>
-                                    @else
-                                        <option class="text-semibold" value="{{ $category->id }}">{{ $category->name }}
-                                        </option>
+                                    @if ($category->name != 'Service')
+                                        @if (old('media_category_id') == $category->id)
+                                            <option class="text-semibold" value="{{ $category->id }}" selected>
+                                                {{ $category->name }}</option>
+                                        @else
+                                            <option class="text-semibold" value="{{ $category->id }}">{{ $category->name }}
+                                            </option>
+                                        @endif
                                     @endif
                                 @endforeach
                             </select>

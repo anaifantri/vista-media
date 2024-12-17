@@ -42,12 +42,12 @@ class LicenseController extends Controller
                 'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'prinsip'=>$prinsip->id,
-                'pbg'=>$pbg->id,
-                'slf'=>$slf->id,
-                'ipr'=>$ipr->id,
-                'skpd'=>$skpd->id,
-                'sspd'=>$sspd->id,
+                'prinsip'=>$prinsip,
+                'pbg'=>$pbg,
+                'slf'=>$slf,
+                'ipr'=>$ipr,
+                'skpd'=>$skpd,
+                'sspd'=>$sspd,
                 'title' => 'Daftar Data Perizinan',
                 compact('areas', 'cities', 'media_sizes', 'media_categories', 'licenses', 'licensing_categories')
             ]);
@@ -158,9 +158,11 @@ class LicenseController extends Controller
     public function createLicense(String $locationId): View
     { 
         if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
+            $location = Location::findOrFail($locationId);
             return view ('licenses.create', [
                 'licensing_categories' => LicensingCategory::all(),
                 'location_id' => $locationId,
+                'location' => $location,
                 'title' => 'Menambahkan Data Izin'
             ]);
         } else {
