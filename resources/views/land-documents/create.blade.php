@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Container start -->
-    <form action="/media/land-documents/" method="post" enctype="multipart/form-data">
+    <form action="/media/land-documents" method="post" enctype="multipart/form-data">
         @csrf
         <input type="text" name="name" value="{{ $name }}" hidden>
         <input type="text" name="land_agreement_id" value="{{ $land_agreement_id }}" hidden>

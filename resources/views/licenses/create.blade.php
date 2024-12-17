@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Container start -->
-    <form action="/media/licenses/" method="post" enctype="multipart/form-data">
+    <form action="/media/licenses" method="post" enctype="multipart/form-data">
         @csrf
         <div class="flex justify-center p-10 bg-stone-800">
             <div class="bg-stone-700 p-2 border rounded-md">

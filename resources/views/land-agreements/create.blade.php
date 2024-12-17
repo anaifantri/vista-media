@@ -5,7 +5,7 @@
     <?php
     $description = json_decode($location->description);
     ?>
-    <form action="/media/land-agreements/" method="post" enctype="multipart/form-data">
+    <form action="/media/land-agreements" method="post" enctype="multipart/form-data">
         @csrf
         <input type="text" name="company_id" value="{{ $company->id }}" hidden>
         <input type="text" name="location_id" value="{{ $location_id }}" hidden>

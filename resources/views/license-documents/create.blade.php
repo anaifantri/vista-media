@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Container start -->
-    <form action="/media/license-documents/" method="post" enctype="multipart/form-data">
+    <form action="/media/license-documents" method="post" enctype="multipart/form-data">
         @csrf
         <input type="text" name="name" value="{{ $name }}" hidden>
         <input type="text" name="license_id" value="{{ $license_id }}" hidden>
