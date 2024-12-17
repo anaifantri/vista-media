@@ -30,10 +30,11 @@ class QuotationsReportController extends Controller
             }
             $deals = Quotation::deal()->get();
             $closeds = Quotation::closed()->get();
+            $createds = Quotation::createds()->get();
             $followups = Quotation::followUp()->get();
             $sents = Quotation::sent()->get();
-            $quotationData = [count($deals), count($closeds), count($followups), count($sents)];
-            $labelData = ['Deal', 'Closed', 'Follow Up', 'Sent'];
+            $quotationData = [count($createds), count($sents), count($followups),count($deals), count($closeds)];
+            $labelData = ['Created', 'Sent', 'Follow Up', 'Deal', 'Closed'];
             $quotation_revisions = QuotationRevision::with('quotation')->get();
             $quot_revision_statuses = QuotRevisionStatus::with('quotation_revision')->get();
             $quotation_statuses = QuotationStatus::with('quotation')->get();
