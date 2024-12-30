@@ -98,7 +98,7 @@ btnDelNote.addEventListener("click", function() {
 
 // Button Add Payment Action --> start
 btnAddPayment.addEventListener("click", function() {
-    if (paymentTerms.children.length < 4) {
+    if (paymentTerms.children.length < 5) {
         const divPayment = document.createElement("div");
         const labelPayment = document.createElement("label");
         const termOfPayment = document.createElement("input");
@@ -127,7 +127,7 @@ btnAddPayment.addEventListener("click", function() {
         paymentTerms.appendChild(divPayment);
         termOfPayment.focus();
     } else {
-        alert("Maksimal 4 termin pembayaran");
+        alert("Maksimal 5 termin pembayaran");
     }
 });
 // Button Add Payment Action --> end
