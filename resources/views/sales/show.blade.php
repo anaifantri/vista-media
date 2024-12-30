@@ -328,7 +328,7 @@
                                         <img class="img-location-sale" src="{{ asset('storage/' . $product->photo) }}">
                                     </div>
                                     <div class="qr-code-sale ml-4">
-                                        {{ QrCode::size(100)->generate('http://vistamedia.co.id/marketing/sales/' . $sale->id) }}
+                                        {{ QrCode::size(100)->generate('http://vistamedia.co.id/marketing/sales/' . $sales->id) }}
                                     </div>
                                 </div>
                                 <!-- photo end -->
