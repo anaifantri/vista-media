@@ -197,7 +197,7 @@
                     @if ($quotation_type == 'new')
                         @include('quotations.locations-view')
                     @else
-                        {{-- @include('quotations.locations-extend-view') --}}
+                        @include('quotations.locations-extend-view')
                     @endif
                 @endif
                 <!-- View Location end -->

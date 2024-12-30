@@ -22,7 +22,7 @@
             </div>
             <div class="flex w-full h-[570px] justify-center mt-2">
                 <div class="flex w-[800px] h-[570px] justify-center items-center bg-slate-50 border rounded-b-xl">
-                    <img class="m-auto w-[770px] h-[540px]" src="{{ asset('storage/' . $location->location_photo) }}"
+                    <img class="m-auto w-[770px] h-[540px]" src="{{ asset('storage/' . $location->photo) }}"
                         alt="">
                 </div>
             </div>
@@ -90,7 +90,7 @@
                         <div class="flex">
                             <span class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                 <br><br><br>
-                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/dashboard/media/videotrons/preview/' . $location->id) }}
+                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/locations/guest-preview/' . $category . '/' . Crypt::encrypt($location->id)) }}
                             </span>
                             <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
                                 <div>:</div>
