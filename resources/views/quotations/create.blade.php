@@ -79,6 +79,7 @@
     $created_by->id = auth()->user()->id;
     $created_by->name = auth()->user()->name;
     $created_by->position = auth()->user()->position;
+    $created_by->phone = auth()->user()->phone;
     
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];

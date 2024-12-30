@@ -89,6 +89,7 @@ Route::resource('/marketing/vendor-categories', VendorCategoryController::class)
 // Route Quotations --> start
 Route::resource('/marketing/quotations', QuotationController::class)->middleware(['auth','user_access']);
 Route::get('/marketing/quotations/preview/{category}/{id}', [QuotationController::class,'preview']);
+Route::get('/quotations/preview/{category}/{id}', [QuotationController::class,'guestPreview']);
 Route::get('/marketing/quotations/select-location/{category}', [QuotationController::class,'selectLocation']);
 Route::get('/marketing/quotations/create-quotation/{category}/{type}/{id}/{city}/{area}', [QuotationController::class,'createQuotation']);
 Route::get('/marketing/quotations/home/{category}', [QuotationController::class,'home']);
@@ -99,6 +100,7 @@ Route::resource('/marketing/quotation-statuses', QuotationStatusController::clas
 Route::resource('/marketing/quotation-revisions', QuotationRevisionController::class)->middleware(['auth','user_access']);
 Route::get('/marketing/quotation-revisions/revision/{category}/{id}', [QuotationRevisionController::class,'revision']);
 Route::get('/marketing/quotation-revisions/preview/{category}/{id}', [QuotationRevisionController::class,'preview']);
+Route::get('/quotation-revisions/preview/{category}/{id}', [QuotationRevisionController::class,'guestPreview']);
 Route::resource('/marketing/quot-revision-statuses', QuotRevisionStatusController::class)->middleware(['auth','user_access']);
 // Route Quotation Revisions --> end
 
@@ -173,7 +175,7 @@ Route::resource('/media/media-sizes', MediaSizeController::class)->middleware(['
 Route::get('/get-media-sizes/{category}', [MediaSizeController::class,'getMediaSizes'])->middleware(['auth','user_access']);
 Route::resource('/media/locations', LocationController::class)->middleware(['auth','user_access'])->middleware(['auth','user_access']);
 Route::get('/media/locations/preview/{category}/{id}', [LocationController::class,'preview'])->middleware(['auth','user_access']);
-Route::get('/media/locations/guest-preview/{id}', [LocationController::class,'guestPreview']);
+Route::get('/locations/guest-preview/{category}/{id}', [LocationController::class,'guestPreview']);
 Route::get('/media/locations/create-location/{category}', [LocationController::class,'createLocation'])->middleware(['auth','user_access']);
 Route::get('/media/locations/home/{category}', [LocationController::class,'home'])->middleware(['auth','user_access']);
 Route::get('/get-locations/{id}/{scope}', [LocationController::class,'getLocations'])->middleware(['auth','user_access']);

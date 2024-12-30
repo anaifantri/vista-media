@@ -17,6 +17,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Gate;
+use Illuminate\Support\Facades\Crypt;
 
 class QuotationRevisionController extends Controller
 {
@@ -26,6 +27,19 @@ class QuotationRevisionController extends Controller
     public function index(): Response
     {
         //
+    }
+
+    public function guestPreview(String $category, String $id): View
+    { 
+        $quotation_revision = QuotationRevision::findOrFail(Crypt::decrypt($id));
+        $quotation = Quotation::with('quotation_revisions')->get();
+        return view('quotation-revisions.preview', [
+            'quotation_revision' => $quotation_revision,
+            'title' => 'Detail Revisi Penawaran',
+            'category'=>$category,
+            'leds' => Led::all(),
+            compact('quotation')
+        ]);
     }
 
     public function preview(String $category, String $id): View

@@ -196,7 +196,7 @@
                     </div>
                 </form>
             </div>
-            <div class="w-[1100px] mt-4">
+            <div class="w-[1100px] h-[500px] overflow-y-auto mt-4">
                 @if ($category == 'Service')
                     @if (request('serviceType'))
                         @if (request('serviceType') == 'new')
@@ -219,11 +219,11 @@
                     @endif
                 @endif
             </div>
-            <div class="flex justify-center text-stone-100 mt-2">
+            {{-- <div class="flex justify-center text-stone-100 mt-2">
                 @if ($category != 'Service' || ($category == 'Service' && request('serviceType') == 'new'))
                     {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
                 @endif
-            </div>
+            </div> --}}
         </div>
     </div>
 

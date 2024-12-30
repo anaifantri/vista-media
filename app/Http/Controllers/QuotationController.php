@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Carbon\Carbon;
 use Gate;
+use Illuminate\Support\Facades\Crypt;
 
 class QuotationController extends Controller
 {
@@ -69,6 +70,19 @@ class QuotationController extends Controller
         }
     }
 
+    public function guestPreview(String $category, String $id): View
+    { 
+        $quotation = Quotation::findOrFail(Crypt::decrypt($id));
+        $media_categories = MediaCategory::with('quotations')->get();
+        return view('quotations.preview', [
+            'quotation' => $quotation,
+            'title' => 'Detail Penawaran',
+            'category'=>$category,
+            'leds' => Led::all(),
+            compact('media_categories')
+        ]);
+    }
+
     public function preview(String $category, String $id): View
     { 
         if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
@@ -98,9 +112,9 @@ class QuotationController extends Controller
             if($category == "Service"){
                 if($request->serviceType){
                     if($request->serviceType == "new"){
-                        $dataLocations = Location::filter(request('search'))->area()->city()->print()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+                        $dataLocations = Location::filter(request('search'))->area()->city()->category()->print()->sortable()->orderBy("code", "asc")->get();
                     }else if($request->serviceType == "existing"){
-                        $dataSales = Sale::filter(request('search'))->service()->area()->city()->sortable()->paginate(15)->withQueryString();
+                        $dataSales = Sale::filter(request('search'))->service()->area()->city()->category()->sortable()->get();
                         // $sales = $dataSales;
                         foreach ($dataSales as $sale) {
                             $product = json_decode($sale->product);
@@ -132,7 +146,7 @@ class QuotationController extends Controller
                         }
                     }
                 }else{
-                    $dataSales = Sale::filter(request('search'))->service()->area()->city()->sortable()->paginate(15)->withQueryString();
+                    $dataSales = Sale::filter(request('search'))->service()->area()->city()->category()->sortable()->get();
                     // $sales = $dataSales;
                     foreach ($dataSales as $sale) {
                         $product = json_decode($sale->product);
@@ -166,9 +180,9 @@ class QuotationController extends Controller
             }else{
                 if($request->quotationType){
                     if($request->quotationType == "new"){
-                        $dataLocations = Location::quotationNew()->categoryName($category)->filter(request('search'))->area()->city()->type()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+                        $dataLocations = Location::quotationNew()->categoryName($category)->filter(request('search'))->area()->city()->type()->sortable()->orderBy("code", "asc")->get();
                     }else if($request->quotationType == "extend"){
-                        $dataLocations = Location::categoryName($category)->quotationExtend()->filter(request('search'))->area()->city()->type()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+                        $dataLocations = Location::categoryName($category)->quotationExtend()->filter(request('search'))->area()->city()->type()->sortable()->orderBy("code", "asc")->get();
                         foreach ($dataLocations as $location) {
                             $salesData = $location->active_sale;
                             $sales->push($salesData);
@@ -176,7 +190,7 @@ class QuotationController extends Controller
                         }
                     }
                 }else{
-                    $dataLocations = Location::quotationNew()->categoryName($category)->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+                    $dataLocations = Location::quotationNew()->categoryName($category)->sortable()->orderBy("code", "asc")->get();
                 }
             }
             $media_categories = MediaCategory::with('locations')->get();

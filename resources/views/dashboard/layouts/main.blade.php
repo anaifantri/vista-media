@@ -35,10 +35,12 @@
     <!-- Main end-->
 
     <!-- Footer start-->
-    <div
-        class="w-full fixed fixed-bottom bg-stone-900 items-center text-center bottom-0 z-50 p-1 drop-shadow-xl shadow-inner">
-        <h1 class="text-center text-white font-sans text-sm">&copy 2023 PT. Vista Media | www.vistamedia.co.id</h1>
-    </div>
+    @if (auth()->check())
+        <div
+            class="w-full fixed fixed-bottom bg-stone-900 items-center text-center bottom-0 z-50 p-1 drop-shadow-xl shadow-inner">
+            <h1 class="text-center text-white font-sans text-sm">&copy 2023 PT. Vista Media | www.vistamedia.co.id</h1>
+        </div>
+    @endif
     <!-- Footer end-->
 
     <!-- Javascript start-->

@@ -258,8 +258,8 @@ document.getElementById("btnCreatePdf").onclick = function() {
             mode: ['avoid-all', 'css', 'legacy']
         },
         html2canvas: {
-            dpi: 192,
-            scale: 2,
+            dpi: 300,
+            scale: 1,
             letterRendering: true,
             useCORS: true
         },

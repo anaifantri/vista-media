@@ -108,13 +108,13 @@
                         <tbody class="bg-stone-300">
                             @foreach ($clients as $client)
                                 <tr>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         {{ $loop->iteration }}</td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         {{ $client->code }}</td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         {{ $client->name }}</td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         @if ($client->company)
                                             {{ $client->company }}
                                         @else
@@ -123,23 +123,23 @@
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm px-1">{{ $client->address }}
                                     </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center px-1">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center px-1 align-top">
                                         {{ $client->type }}</td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         @if ($client->client_category_id)
                                             {{ $client->client_category->name }}
                                         @else
                                             -
                                         @endif
                                     </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         @if ($client->phone)
                                             {{ $client->phone }}
                                         @else
                                             -
                                         @endif
                                     </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         <div class="flex justify-center items-center">
                                             <a href="/marketing/clients/{{ $client->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mr-1">

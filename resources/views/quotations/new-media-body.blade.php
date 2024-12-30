@@ -160,12 +160,17 @@
         <div class="flex justify-center">
             <div class="w-[725px] mt-6">
                 <label id="salesUser"
-                    class="ml-1 text-sm text-black flex font-semibold">{{ auth()->user()->name }}</label>
+                    class="ml-1 text-sm text-black flex font-semibold"><u>{{ auth()->user()->name }}</u></label>
             </div>
         </div>
         <div class="flex justify-center">
             <div class="w-[725px]">
-                <label id="salesPotition" class="ml-1 text-sm text-black flex">{{ auth()->user()->level }}</label>
+                <label id="salesPotition" class="ml-1 text-sm text-black flex">{{ auth()->user()->position }}</label>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <div class="w-[725px]">
+                <label id="salesPhone" class="ml-1 text-sm text-black flex">Hp. {{ auth()->user()->phone }}</label>
             </div>
         </div>
     </div>

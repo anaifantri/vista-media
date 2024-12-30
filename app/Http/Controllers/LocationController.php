@@ -76,7 +76,7 @@ class LocationController extends Controller
         }
     }
 
-    public function guestPreview(String $id): View
+    public function guestPreview(String $category, String $id): View
     { 
         $location = Location::findOrFail(Crypt::decrypt($id));
         $areas = Area::with('locations')->get();
@@ -84,12 +84,12 @@ class LocationController extends Controller
         $media_sizes = MediaSize::with('locations')->get();
         $media_categories = MediaCategory::with('locations')->get();
 
-        return view('locations.guest-preview', [
+        return view('locations.preview', [
             'location' => $location,
-            'title' => 'Detail Lokasi',
-            'leds'=>Led::all(),
-            'category'=>$location->media_category->name,
-            'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
+            'leds' => Led::all(),
+            'title' => 'Detail Location',
+            'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('set_default', true)->get()->last(),
+            'category'=>$category,
             compact('areas', 'cities', 'media_sizes', 'media_categories')
         ]);
     }

@@ -294,7 +294,7 @@
                                                     <div class="div-sale">
                                                         <label class="label-sale-01">Alamat</label>
                                                         <label class="label-sale-02">:</label>
-                                                        <textarea class="ml-1 w-[230px] outline-none border text-black text-sm" rows="2" readonly>{{ $clients->address }}</textarea>
+                                                        <textarea class="text-xs ml-1 w-[230px] outline-none border text-stone-900" rows="3" readonly>{{ $clients->address }}</textarea>
                                                     </div>
                                                     @if ($clients->type == 'Perusahaan')
                                                         <div class="div-sale">

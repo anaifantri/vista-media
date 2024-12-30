@@ -223,7 +223,7 @@
                                                     <label class="label-sale-01">Alamat</label>
                                                     <label class="label-sale-02">:</label>
                                                     <label
-                                                        class="ml-2 w-[230px] text-black text-sm font-semibold">{{ $clients->address }}</label>
+                                                        class="ml-2 w-[230px] text-stone-900 text-xs font-semibold">{{ $clients->address }}</label>
                                                 </div>
                                                 @if ($clients->type == 'Perusahaan')
                                                     <div class="div-sale">
@@ -337,7 +337,7 @@
                                         <img class="img-location-sale" src="{{ asset('storage/' . $product->photo) }}">
                                     </div>
                                     <div class="qr-code-sale ml-4">
-
+                                        {{ QrCode::size(100)->generate('http://vistamedia.co.id/marketing/sales/' . $sale->id) }}
                                     </div>
                                 </div>
                                 <!-- photo end -->
@@ -385,8 +385,8 @@
                         mode: ['avoid-all', 'css', 'legacy']
                     },
                     html2canvas: {
-                        dpi: 192,
-                        scale: 2,
+                        dpi: 300,
+                        scale: 1.5,
                         letterRendering: true,
                         useCORS: true
                     },

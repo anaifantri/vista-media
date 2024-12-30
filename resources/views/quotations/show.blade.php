@@ -489,22 +489,20 @@
                                         </div>
                                     </div>
                                     <div class="flex justify-center">
-                                        <div class="w-[725px]">
-                                            <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista
-                                                Media</label>
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-center">
-                                        <div class="w-[725px] mt-10">
-                                            <input
-                                                class="ml-1 text-sm text-black flex font-semibold"value="{{ $created_by->name }}"
-                                                type="text">
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-center">
-                                        <div class="w-[725px]">
-                                            <input class="ml-1 text-sm text-black flex"
-                                                value="{{ $created_by->position }}" type="text">
+                                        <div class="flex w-[725px]">
+                                            <div class="mt-2">
+                                                <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista
+                                                    Media</label>
+                                                <label
+                                                    class="ml-1 mt-10 text-sm text-black flex font-semibold"><u>{{ $created_by->name }}</u></label>
+                                                <label
+                                                    class="flex ml-1 text-sm text-black">{{ $created_by->position }}</label>
+                                                <label class="flex ml-1 text-sm text-black">Hp.
+                                                    {{ $created_by->phone }}</label>
+                                            </div>
+                                            <div class="flex ml-4 mt-2">
+                                                {{ QrCode::size(100)->generate('http://vistamedia.co.id/quotations/preview/' . $category . '/' . Crypt::encrypt($quotation->id)) }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -655,7 +653,7 @@
                                                                 class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                             </span>
                                                             <span class="w-[100px] flex mt-[40px] ml-2">
-                                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/marketing/quotations/preview/' . $quotation->media_category->name . '/' . $product->id) }}
+                                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/locations/guest-preview/' . $category . '/' . Crypt::encrypt($product->id)) }}
                                                             </span>
                                                         </div>
                                                         <span

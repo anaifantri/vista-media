@@ -14,6 +14,7 @@
     $modified_by->id = auth()->user()->id;
     $modified_by->name = auth()->user()->name;
     $modified_by->position = auth()->user()->position;
+    $modified_by->phone = auth()->user()->phone;
     
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
@@ -218,7 +219,13 @@
                                 <div class="flex justify-center">
                                     <div class="w-[725px]">
                                         <label id="salesPotition"
-                                            class="ml-1 text-sm text-black flex">{{ auth()->user()->level }}</label>
+                                            class="ml-1 text-sm text-black flex">{{ auth()->user()->position }}</label>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center">
+                                    <div class="w-[725px]">
+                                        <label id="salesPhone" class="ml-1 text-sm text-black flex">Hp.
+                                            {{ auth()->user()->phone }}</label>
                                     </div>
                                 </div>
                             </div>
@@ -365,7 +372,7 @@
                                                             class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                         </span>
                                                         <span class="w-[100px] flex mt-[40px] ml-2">
-                                                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/marketing/quotations/preview/' . $category . '/' . $product->id) }}
+                                                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/locations/guest-preview/' . $category . '/' . Crypt::encrypt($product->id)) }}
                                                         </span>
                                                     </div>
                                                     <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">

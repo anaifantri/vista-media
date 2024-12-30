@@ -29,15 +29,17 @@
                     </svg>
                     <span class="mx-1">Save PDF</span>
                 </button>
-                <a class="flex justify-center items-center mx-1 btn-danger"
-                    href="/marketing/quotations/{{ $quotation_revision->quotation->id }}">
-                    <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24">
-                        <path
-                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                    </svg>
-                    <span class="mx-1">Close</span>
-                </a>
+                @if (auth()->check())
+                    <a class="flex justify-center items-center mx-1 btn-danger"
+                        href="/marketing/quotations/{{ $quotation_revision->quotation->id }}">
+                        <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                        </svg>
+                        <span class="mx-1">Close</span>
+                    </a>
+                @endif
                 @if (session()->has('success'))
                     <div class="ml-2 flex alert-success">
                         <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -221,21 +223,20 @@
                                     </div>
                                 </div>
                                 <div class="flex justify-center">
-                                    <div class="w-[725px]">
-                                        <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista Media</label>
-                                    </div>
-                                </div>
-                                <div class="flex justify-center">
-                                    <div class="w-[725px] mt-10">
-                                        <input
-                                            class="ml-1 text-sm text-black flex font-semibold"value="{{ $modified_by->name }}"
-                                            type="text">
-                                    </div>
-                                </div>
-                                <div class="flex justify-center">
-                                    <div class="w-[725px]">
-                                        <input class="ml-1 text-sm text-black flex" value="{{ $modified_by->position }}"
-                                            type="text">
+                                    <div class="flex w-[725px]">
+                                        <div class="mt-2">
+                                            <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista
+                                                Media</label>
+                                            <label
+                                                class="ml-1 mt-10 text-sm text-black flex font-semibold"><u>{{ $modified_by->name }}</u></label>
+                                            <label
+                                                class="flex ml-1 text-sm text-black">{{ $modified_by->position }}</label>
+                                            <label class="flex ml-1 text-sm text-black">Hp.
+                                                {{ $modified_by->phone }}</label>
+                                        </div>
+                                        <div class="flex ml-4 mt-2">
+                                            {{ QrCode::size(100)->generate('http://vistamedia.co.id/quotation-revisions/preview/' . $category . '/' . Crypt::encrypt($quotation_revision->id)) }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -382,7 +383,7 @@
                                                             class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                         </span>
                                                         <span class="w-[100px] flex mt-[40px] ml-2">
-                                                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/marketing/quotations/preview/' . $category . '/' . $product->id) }}
+                                                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/locations/guest-preview/' . $category . '/' . Crypt::encrypt($product->id)) }}
                                                         </span>
                                                     </div>
                                                     <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
