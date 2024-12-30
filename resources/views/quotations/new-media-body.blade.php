@@ -165,12 +165,12 @@
         </div>
         <div class="flex justify-center">
             <div class="w-[725px]">
-                <label id="salesPotition" class="ml-1 text-sm text-black flex">{{ auth()->user()->position }}</label>
+                <label id="salesPotition" class="ml-1 text-xs text-black flex">{{ auth()->user()->position }}</label>
             </div>
         </div>
         <div class="flex justify-center">
             <div class="w-[725px]">
-                <label id="salesPhone" class="ml-1 text-sm text-black flex">Hp. {{ auth()->user()->phone }}</label>
+                <label id="salesPhone" class="ml-1 text-xs text-black flex">Hp. {{ auth()->user()->phone }}</label>
             </div>
         </div>
     </div>

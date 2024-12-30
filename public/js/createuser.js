@@ -246,7 +246,7 @@ function selectDivision(sel, e){
   };
   let marketing = {
     name : "Marketing",
-    position : ["Manager", "Marcomm", "Admin", "Staff"]
+    position : ["Manager", "Sales & Marketing", "Admin", "Staff"]
   };
   let accounting = {
     name : "Accounting",

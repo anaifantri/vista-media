@@ -226,8 +226,8 @@
                                                 Media</label>
                                             <label
                                                 class="ml-1 mt-10 text-sm text-black flex font-semibold"><u>{{ $created_by->name }}</u></label>
-                                            <label class="flex ml-1 text-sm text-black">{{ $created_by->position }}</label>
-                                            <label class="flex ml-1 text-sm text-black">Hp.
+                                            <label class="flex ml-1 text-xs text-black">{{ $created_by->position }}</label>
+                                            <label class="flex ml-1 text-xs text-black">Hp.
                                                 {{ $created_by->phone }}</label>
                                         </div>
                                         <div class="flex ml-4 mt-2">
