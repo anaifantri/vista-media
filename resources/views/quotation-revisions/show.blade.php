@@ -439,22 +439,20 @@
                                         </div>
                                     </div>
                                     <div class="flex justify-center">
-                                        <div class="w-[725px]">
-                                            <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista
-                                                Media</label>
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-center">
-                                        <div class="w-[725px] mt-10">
-                                            <input
-                                                class="ml-1 text-sm text-black flex font-semibold"value="{{ $modified_by->name }}"
-                                                type="text">
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-center">
-                                        <div class="w-[725px]">
-                                            <input class="ml-1 text-sm text-black flex"
-                                                value="{{ $modified_by->position }}" type="text">
+                                        <div class="flex w-[725px]">
+                                            <div class="mt-2">
+                                                <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista
+                                                    Media</label>
+                                                <label
+                                                    class="ml-1 mt-10 text-sm text-black flex font-semibold"><u>{{ $modified_by->name }}</u></label>
+                                                <label
+                                                    class="flex ml-1 text-sm text-black">{{ $modified_by->position }}</label>
+                                                <label class="flex ml-1 text-sm text-black">Hp.
+                                                    {{ $modified_by->phone }}</label>
+                                            </div>
+                                            <div class="flex ml-4 mt-2">
+                                                {{ QrCode::size(100)->generate('http://vistamedia.co.id/quotation-revisions/preview/' . $category . '/' . Crypt::encrypt($quotation_revision->id)) }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
