@@ -112,7 +112,7 @@
                             @foreach ($clients as $client)
                                 <tr>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
-                                        {{ $number }}</td>
+                                        {{ $number++ }}</td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         {{ $client->code }}</td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
