@@ -71,87 +71,79 @@
                         </tr>
                     </thead>
                     <tbody class="bg-stone-300">
-                        @php
+                        {{-- @php
                             $number = 1 + ($quotations->currentPage() - 1) * $quotations->perPage();
-                            $dealQty = 0;
-                        @endphp
+                        @endphp --}}
                         @foreach ($quotations as $quotation)
                             @php
                                 $clients = json_decode($quotation->clients);
                                 if (!$quotation->quotation_revisions->isEmpty()) {
                                     $lastRevision = $quotation->quotation_revisions->last();
-                                    $status = $quotation->quot_revision_statuses->last();
                                     $products = json_decode($lastRevision->products);
                                 } else {
                                     $status = $quotation->quotation_statuses->last();
                                     $products = json_decode($quotation->products);
                                 }
                             @endphp
-                            @if ($status->status == 'Deal' && count($quotation->sales) == 0)
-                                <tr>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        {{ $number++ }}</td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        {{ $quotation->media_category->name }}
-                                    </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        @if (!$quotation->quotation_revisions->isEmpty())
-                                            {{ $lastRevision->number }}
-                                        @else
-                                            {{ $quotation->number }}
-                                        @endif
-                                    </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        @if (!$quotation->quotation_revisions->isEmpty())
-                                            {{ date('d-m-Y', strtotime($lastRevision->created_at)) }}
-                                        @else
-                                            {{ date('d-m-Y', strtotime($quotation->created_at)) }}
-                                        @endif
-                                    </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        {{ $clients->name }}</td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        @if ($clients->type == 'Perusahaan')
-                                            {{ $clients->company }}
-                                        @else
-                                            -
-                                        @endif
+                            <tr>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $loop->iteration }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $quotation->media_category->name }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    @if (!$quotation->quotation_revisions->isEmpty())
+                                        {{ $lastRevision->number }}
+                                    @else
+                                        {{ $quotation->number }}
+                                    @endif
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    @if (!$quotation->quotation_revisions->isEmpty())
+                                        {{ date('d-m-Y', strtotime($lastRevision->created_at)) }}
+                                    @else
+                                        {{ date('d-m-Y', strtotime($quotation->created_at)) }}
+                                    @endif
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $clients->name }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    @if ($clients->type == 'Perusahaan')
+                                        {{ $clients->company }}
+                                    @else
+                                        -
+                                    @endif
 
-                                    </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        @foreach ($products as $product)
-                                            @if ($loop->iteration != count($products))
-                                                {{ $product->code }},
-                                            @else
-                                                {{ $product->code }}
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        {{ $status->status }}</td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        <input name="choose_quotation" value="{{ $quotation->id }}" type="radio"
-                                            title="pilih" onclick="getQuotation(this)">
-                                    </td>
-                                </tr>
-                                @php
-                                    $dealQty++;
-                                @endphp
-                            @endif
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    @foreach ($products as $product)
+                                        @if ($loop->iteration != count($products))
+                                            {{ $product->code }},
+                                        @else
+                                            {{ $product->code }}
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $status->status }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    <input name="choose_quotation" value="{{ $quotation->id }}" type="radio"
+                                        title="pilih" onclick="getQuotation(this)">
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            @if ($dealQty == 0)
+            @if (count($quotations) == 0)
                 <div class="flex justify-center items-center h-16 text-amber-500">
                     ~~ Tidak ada penawaran {{ $data_category->name }} dengan status deal yang belum dimaksukkan kedalam
-                    data
-                    penjualan ~~
+                    data penjualan ~~
                 </div>
             @endif
-            <div class="flex justify-center text-stone-100">
+            {{-- <div class="flex justify-center text-stone-100">
                 {!! $quotations->appends(Request::query())->render() !!}
-            </div>
+            </div> --}}
         </div>
     </div>
 

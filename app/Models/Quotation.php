@@ -43,6 +43,10 @@ class Quotation extends Model
         }
     }
 
+    public function scopeDealSales($query){
+        return $query->whereDoesntHave('sales');
+    }
+
     public function scopeDeal($query){
         return $query->whereHas('quot_revision_status', function($query){
             $query->where('status', '=', 'Deal');

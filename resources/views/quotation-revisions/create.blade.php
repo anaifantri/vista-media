@@ -7,7 +7,10 @@
     $price = json_decode($quotation->price);
     $payment_terms = json_decode($quotation->payment_terms);
     $notes = json_decode($quotation->notes);
-    $number = Str::substr($quotation->number, 0, 4);
+    $first_number = Str::substr($quotation->number, 0, 4);
+    $middle_number = '_Rev' . count($quotation->quotation_revisions) + 1;
+    $last_number = Str::substr($quotation->number, 4);
+    $number = $first_number . $middle_number . $last_number;
     $dataDescription = json_decode($products[0]->description);
     
     $modified_by = new stdClass();
@@ -22,9 +25,7 @@
     <!-- Quotation Revision start -->
     <form id="formCreate" action="/marketing/quotation-revisions" method="post" enctype="multipart/form-data">
         @csrf
-        <input type="text" name="number" id="number"
-            value="{{ $number }}_Rev{{ count($quotation->quotation_revisions) + 1 }}/SPH/VM/{{ $romawi[(int) date('m')] }}-{{ date('Y') }}"
-            hidden>
+        <input type="text" name="number" id="number" value="{{ $number }}" hidden>
         @if ($category == 'Signage')
             @php
                 $dataDescription = json_decode($products[0]->description);
@@ -88,8 +89,7 @@
                                     <div class="flex">
                                         <label class="ml-1 text-sm text-black flex w-20">Nomor</label>
                                         <label class="ml-1 text-sm text-black">:</label>
-                                        <label
-                                            class="ml-1 text-sm text-slate-500">{{ $number }}_Rev{{ count($quotation->quotation_revisions) + 1 }}/SPH/VM/{{ $romawi[(int) date('m')] }}-{{ date('Y') }}</label>
+                                        <label class="ml-1 text-sm text-slate-500">{{ $number }}</label>
                                     </div>
                                     <div class="flex">
                                         <label class="ml-1 text-sm text-black flex w-20">Lampiran</label>

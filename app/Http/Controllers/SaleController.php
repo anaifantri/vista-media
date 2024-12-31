@@ -171,17 +171,13 @@ class SaleController extends Controller
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
             $mediaCategory = MediaCategory::where('name', $category)->firstOrFail();
             $media_categories = MediaCategory::with('quotations')->get();
-            $companies = Company::with('quotations')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
-            $quotation_statuses = QuotationStatus::with('quotation')->get();
-            $quot_revision_statuses = QuotRevisionStatus::with('quotation')->get();
-            $sales = Sale::with('quotation')->get();
             return view ('sales.select-quotation', [
                 'categories'=>MediaCategory::all(),
-                'quotations'=>Quotation::where('media_category_id', $mediaCategory->id)->filter(request('search'))->sortable()->paginate(10)->withQueryString(),
+                'quotations'=>Quotation::where('media_category_id', $mediaCategory->id)->dealSales()->deal()->filter(request('search'))->sortable()->get(),
                 'title' => 'Pilih Penawaran',
                 'data_category' => $mediaCategory,
-                compact('media_categories', 'companies', 'quotation_statuses', 'quotation_revisions', 'quot_revision_statuses', 'sales')
+                compact('media_categories', 'quotation_revisions')
             ]);
         } else {
             abort(403);

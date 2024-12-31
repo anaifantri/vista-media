@@ -128,7 +128,15 @@
                                     </div>
                                 @elseif($i == $start + 4)
                                     @if (strtotime($locationSale->end_at) > strtotime(date($thisYear . '-01-01')))
-                                        <a href="/marketing/sales/{{ $locationSale->id }}">{{ $clients->name }}</a>
+                                        @if ($lineWidth <= 31)
+                                            <a
+                                                href="/marketing/sales/{{ $locationSale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
+                                        @else
+                                            <a
+                                                href="/marketing/sales/{{ $locationSale->id }}">{{ $clients->name }}</a>
+                                        @endif
+                                        {{-- <a
+                                            href="/marketing/sales/{{ $locationSale->id }}">{{ $clients->name }}{{ $lineWidth }}</a> --}}
                                     @endif
                                 @endif
                             @endfor
