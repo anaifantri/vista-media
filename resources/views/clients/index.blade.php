@@ -106,10 +106,13 @@
                             </tr>
                         </thead>
                         <tbody class="bg-stone-300">
+                            @php
+                                $number = 1 + ($clients->currentPage() - 1) * $clients->perPage();
+                            @endphp
                             @foreach ($clients as $client)
                                 <tr>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
-                                        {{ $loop->iteration }}</td>
+                                        {{ $number }}</td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">
                                         {{ $client->code }}</td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center align-top">

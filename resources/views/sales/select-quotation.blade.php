@@ -79,6 +79,7 @@
                                 $clients = json_decode($quotation->clients);
                                 if (!$quotation->quotation_revisions->isEmpty()) {
                                     $lastRevision = $quotation->quotation_revisions->last();
+                                    $status = $quotation->quot_revision_statuses->last();
                                     $products = json_decode($lastRevision->products);
                                 } else {
                                     $status = $quotation->quotation_statuses->last();
