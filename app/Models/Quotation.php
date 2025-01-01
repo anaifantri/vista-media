@@ -43,6 +43,16 @@ class Quotation extends Model
         }
     }
 
+    public function scopeYear($query){
+        return $query->whereYear('created_at', request('year'));
+    }
+
+    public function scopeMonth($query){
+        if(request('month') != 'All'){
+            return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+        }
+    }
+
     public function scopeDealSales($query){
         return $query->whereDoesntHave('sales');
     }

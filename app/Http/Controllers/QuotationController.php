@@ -46,11 +46,11 @@ class QuotationController extends Controller
         if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
             if($category == "All"){
                 $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-                $dataQuotations = Quotation::filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->category()->paginate(15)->withQueryString();
+                $dataQuotations = Quotation::filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->sortable()->category()->orderBy("number", "desc")->paginate(15)->withQueryString();
             }else{
                 $dataCategory = MediaCategory::where('name', $category)->get()->last();
                 $media_category_id = $dataCategory->id;
-                $dataQuotations = Quotation::where('media_category_id', $dataCategory->id)->filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->paginate(15)->withQueryString();
+                $dataQuotations = Quotation::where('media_category_id', $dataCategory->id)->filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->orderBy("number", "desc")->sortable()->paginate(15)->withQueryString();
             }
     
             $media_categories = MediaCategory::with('quotations')->get();

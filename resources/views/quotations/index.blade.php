@@ -1,6 +1,9 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
+    <?php
+    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    ?>
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
@@ -100,8 +103,8 @@
                     <div class="md:flex mt-2">
                         <div class="flex">
                             <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
-                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-sm text-stone-900" type="text"
+                                placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
                                 onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                 type="submit">
@@ -111,19 +114,60 @@
                                 </svg>
                             </button>
                         </div>
-                        @if (session()->has('success'))
-                            <div class="ml-2 flex alert-success">
-                                <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                                </svg>
-                                <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
-                            </div>
-                        @endif
+                        <div class="flex ml-2">
+                            <label for="month" class="text-base text-stone-100 p-1">Bulan</label>
+                            <select name="month"
+                                class="p-1 outline-none border w-24 text-sm text-stone-900 rounded-md ml-2 bg-stone-100"
+                                onchange="submit()">
+                                <option value="All">All</option>
+                                @if (request('month'))
+                                    @for ($i = 1; $i < 13; $i++)
+                                        @if ($i == request('month'))
+                                            <option value="{{ $i }}" selected>{{ $bulan[$i] }}</option>
+                                        @else
+                                            <option value="{{ $i }}">{{ $bulan[$i] }}</option>
+                                        @endif
+                                    @endfor
+                                @else
+                                    @for ($i = 1; $i < 13; $i++)
+                                        <option value="{{ $i }}">{{ $bulan[$i] }}</option>
+                                    @endfor
+                                @endif
+                            </select>
+                        </div>
+                        <div class="flex ml-2">
+                            <label for="year" class="text-base text-stone-100 p-1">Tahun</label>
+                            <select name="year"
+                                class="p-1 text-center outline-none border w-24 text-sm text-stone-900 rounded-md ml-2 bg-stone-100"
+                                onchange="submit()">
+                                @if (request('year'))
+                                    @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                        @if ($i == request('year'))
+                                            <option value="{{ $i }}" selected>{{ $i }}</option>
+                                        @else
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endif
+                                    @endfor
+                                @else
+                                    @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                @endif
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
-            <div class="w-[1200px]">
+            @if (session()->has('success'))
+                <div class="ml-2 flex alert-success">
+                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                    </svg>
+                    <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                </div>
+            @endif
+            <div class="w-[1200px] mt-2">
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="bg-stone-400">
@@ -141,7 +185,8 @@
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-24" rowspan="2">
                                 Tanggal</th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="2">Data Klien
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="2">Data
+                                Klien
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi
                             </th>
