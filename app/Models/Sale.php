@@ -20,7 +20,7 @@ class Sale extends Model
 
     public function scopeWeekday($query){
         if (request('weekday') == true) {
-            return $query->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)]);
+            return $query->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)]);
         }
     }
 
@@ -36,8 +36,14 @@ class Sale extends Model
         }
     }
 
+    public function scopeYear($query){
+        return $query->whereYear('created_at', request('year'));
+    }
+
     public function scopeMonth($query){
-        return $query->where('created_at', 'like', '%' . request('monthSearch') . '%');
+        if(request('month') != 'All'){
+            return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+        }
     }
 
     public function scopeArea($query){

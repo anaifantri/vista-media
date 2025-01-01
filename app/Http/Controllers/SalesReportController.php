@@ -22,9 +22,9 @@ class SalesReportController extends Controller
     {
         if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
             $year = date('Y');
-            $month = date('m');
+            // $month = date('m');
             $mm = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-            for ($i=1; $i <= $month; $i++) { 
+            for ($i=1; $i <= 12; $i++) { 
                 $thisYearSales = Sale::whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('price');
                 $prevYearSales = Sale::whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price');
                 $monthData[] = $mm[$i];
@@ -36,7 +36,7 @@ class SalesReportController extends Controller
                 'thisYearTotal' => $thisYearTotal,
                 'prevYearTotal' => $prevYearTotal,
                 'monthData' => $monthData,
-                'weekSales' => Sale::whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->sum('price'),
+                'weekSales' => Sale::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->sum('price'),
                 'monthSales' => Sale::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price'),
                 'yearSales' => Sale::whereYear('created_at', Carbon::now()->year)->sum('price'),
                 'title' => 'Laporan Penjualan'
@@ -92,7 +92,7 @@ class SalesReportController extends Controller
             $quotations = Quotation::with('sales')->get();
             $locations = Location::with('sales')->get();
             return view ('sales-report.c-reports', [
-                'sales'=>Sale::filter(request('search'))->sortable()->orderBy("number", "asc")->get(),
+                'sales'=>Sale::filter(request('search'))->year()->month()->sortable()->orderBy("number", "asc")->get(),
                 'title' => 'Data Penjualan',
                 compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations')
             ]);

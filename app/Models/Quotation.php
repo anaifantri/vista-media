@@ -27,7 +27,7 @@ class Quotation extends Model
 
     public function scopeWeekday($query){
         if (request('weekday') == true) {
-            return $query->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)]);
+            return $query->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)]);
         }
     }
 
@@ -111,10 +111,11 @@ class Quotation extends Model
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('number', 'like', '%' . $search . '%')
                     ->orWhere('products', 'like', '%' . $search . '%')
-                    ->orWhere('clients', 'like', '%' . $search . '%')
-                    ->orWhere('created_by', 'like', '%' . $search . '%')
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(clients, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(clients, "$.company")) like ?', ['"%' . strtolower($search) . '%"'])
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(created_by, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
                     ->orWhere('created_at', 'like', '%' . $search . '%')
-                    ->orWhere('modified_by', 'like', '%' . $search . '%')
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(modified_by, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
                 );
     }
 

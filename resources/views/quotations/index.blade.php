@@ -7,12 +7,84 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex p-1 w-full border-b">
-                @if ($category == 'All')
-                    <h1 class="index-h1">Daftar Surat Penawaran</h1>
-                @elseif ($category == 'Service')
-                    <h1 class="index-h1">Daftar Surat Penawaran Cetak & Pasang</h1>
+                @if (request('media_category_id'))
+                    @if (request('media_category_id') == 'All')
+                        <h1 class="index-h1">Daftar Surat Penawaran
+                            @if (request('todays'))
+                                Hari Ini
+                            @elseif (request('weekday'))
+                                Minggu Ini
+                            @elseif (request('monthly'))
+                                Bulan Ini
+                            @elseif (request('annual'))
+                                Tahun Ini
+                            @endif
+                        </h1>
+                    @else
+                        @if ($data_category->name == 'Service')
+                            <h1 class="index-h1">Daftar Surat Penawaran Cetak & Pasang
+                                @if (request('todays'))
+                                    Hari Ini
+                                @elseif (request('weekday'))
+                                    Minggu Ini
+                                @elseif (request('monthly'))
+                                    Bulan Ini
+                                @elseif (request('annual'))
+                                    Tahun Ini
+                                @endif
+                            </h1>
+                        @else
+                            <h1 class="index-h1">Daftar Surat Penawaran {{ $data_category->name }}
+                                @if (request('todays'))
+                                    Hari Ini
+                                @elseif (request('weekday'))
+                                    Minggu Ini
+                                @elseif (request('monthly'))
+                                    Bulan Ini
+                                @elseif (request('annual'))
+                                    Tahun Ini
+                                @endif
+                            </h1>
+                        @endif
+                    @endif
                 @else
-                    <h1 class="index-h1">Daftar Surat Penawaran {{ $category }}</h1>
+                    @if ($category == 'All')
+                        <h1 class="index-h1">Daftar Surat Penawaran
+                            @if (request('todays'))
+                                Hari Ini
+                            @elseif (request('weekday'))
+                                Minggu Ini
+                            @elseif (request('monthly'))
+                                Bulan Ini
+                            @elseif (request('annual'))
+                                Tahun Ini
+                            @endif
+                        </h1>
+                    @elseif ($category == 'Service')
+                        <h1 class="index-h1">Daftar Surat Penawaran Cetak & Pasang
+                            @if (request('todays'))
+                                Hari Ini
+                            @elseif (request('weekday'))
+                                Minggu Ini
+                            @elseif (request('monthly'))
+                                Bulan Ini
+                            @elseif (request('annual'))
+                                Tahun Ini
+                            @endif
+                        </h1>
+                    @else
+                        <h1 class="index-h1">Daftar Surat Penawaran {{ $category }}
+                            @if (request('todays'))
+                                Hari Ini
+                            @elseif (request('weekday'))
+                                Minggu Ini
+                            @elseif (request('monthly'))
+                                Bulan Ini
+                            @elseif (request('annual'))
+                                Tahun Ini
+                            @endif
+                        </h1>
+                    @endif
                 @endif
                 @if ($category == 'All')
                     @if (request('media_category_id') != '' && request('media_category_id') != 'All')
@@ -22,8 +94,9 @@
                                     <div>
                                         <a href="/marketing/quotations/select-location/{{ $data_category->name }}"
                                             class="index-link btn-primary">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                                     fill-rule="nonzero" />
@@ -57,11 +130,23 @@
             </div>
             <div>
                 <form action="/marketing/quotations/home/{{ $category }}">
+                    @if (request('todays'))
+                        <input type="text" name="todays" value="{{ request('todays') }}" hidden>
+                    @endif
+                    @if (request('weekday'))
+                        <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
+                    @endif
+                    @if (request('monthly'))
+                        <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
+                    @endif
+                    @if (request('annual'))
+                        <input type="text" name="annual" value="{{ request('annual') }}" hidden>
+                    @endif
                     <div class="flex mt-1 ml-2">
                         @if ($category == 'All')
-                            <div class="w-36">
+                            <div class="w-28">
                                 <span class="text-base text-stone-100">Katagori</span>
-                                <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
+                                <select class="w-full p-1 border rounded-lg text-sm text-stone-900 outline-none"
                                     name="media_category_id" id="media_category_id" onchange="submit()"
                                     value="{{ request('media_category_id') }}">
                                     <option value="All">All</option>
@@ -87,73 +172,64 @@
                                 </select>
                             </div>
                         @endif
-                    </div>
-                    @if (request('todays'))
-                        <input type="text" name="todays" value="{{ request('todays') }}" hidden>
-                    @endif
-                    @if (request('weekday'))
-                        <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
-                    @endif
-                    @if (request('monthly'))
-                        <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
-                    @endif
-                    @if (request('annual'))
-                        <input type="text" name="annual" value="{{ request('annual') }}" hidden>
-                    @endif
-                    <div class="md:flex mt-2">
-                        <div class="flex">
-                            <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-sm text-stone-900" type="text"
-                                placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
-                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
-                            <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
-                                type="submit">
-                                <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="flex ml-2">
-                            <label for="month" class="text-base text-stone-100 p-1">Bulan</label>
-                            <select name="month"
-                                class="p-1 outline-none border w-24 text-sm text-stone-900 rounded-md ml-2 bg-stone-100"
-                                onchange="submit()">
-                                <option value="All">All</option>
-                                @if (request('month'))
-                                    @for ($i = 1; $i < 13; $i++)
-                                        @if ($i == request('month'))
-                                            <option value="{{ $i }}" selected>{{ $bulan[$i] }}</option>
-                                        @else
+                        @if (!request('todays') && !request('weekday') && !request('monthly') && !request('annual'))
+                            <div class="ml-2 w-24">
+                                <span class="text-base text-stone-100">Bulan</span>
+                                <select name="month"
+                                    class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                    onchange="submit()">
+                                    <option value="All">All</option>
+                                    @if (request('month'))
+                                        @for ($i = 1; $i < 13; $i++)
+                                            @if ($i == request('month'))
+                                                <option value="{{ $i }}" selected>{{ $bulan[$i] }}</option>
+                                            @else
+                                                <option value="{{ $i }}">{{ $bulan[$i] }}</option>
+                                            @endif
+                                        @endfor
+                                    @else
+                                        @for ($i = 1; $i < 13; $i++)
                                             <option value="{{ $i }}">{{ $bulan[$i] }}</option>
-                                        @endif
-                                    @endfor
-                                @else
-                                    @for ($i = 1; $i < 13; $i++)
-                                        <option value="{{ $i }}">{{ $bulan[$i] }}</option>
-                                    @endfor
-                                @endif
-                            </select>
-                        </div>
-                        <div class="flex ml-2">
-                            <label for="year" class="text-base text-stone-100 p-1">Tahun</label>
-                            <select name="year"
-                                class="p-1 text-center outline-none border w-24 text-sm text-stone-900 rounded-md ml-2 bg-stone-100"
-                                onchange="submit()">
-                                @if (request('year'))
-                                    @for ($i = date('Y'); $i > date('Y') - 5; $i--)
-                                        @if ($i == request('year'))
-                                            <option value="{{ $i }}" selected>{{ $i }}</option>
-                                        @else
+                                        @endfor
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="ml-2 w-20">
+                                <span class="text-base text-stone-100">Tahun</span>
+                                <select name="year"
+                                    class="p-1 text-center outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                    onchange="submit()">
+                                    @if (request('year'))
+                                        @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                            @if ($i == request('year'))
+                                                <option value="{{ $i }}" selected>{{ $i }}</option>
+                                            @else
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endif
+                                        @endfor
+                                    @else
+                                        @for ($i = date('Y'); $i > date('Y') - 5; $i--)
                                             <option value="{{ $i }}">{{ $i }}</option>
-                                        @endif
-                                    @endfor
-                                @else
-                                    @for ($i = date('Y'); $i > date('Y') - 5; $i--)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                @endif
-                            </select>
+                                        @endfor
+                                    @endif
+                                </select>
+                            </div>
+                        @endif
+                        <div class="ml-2 w-40">
+                            <span class="text-base text-stone-100">Pencarian</span>
+                            <div class="flex">
+                                <input id="search" name="search"
+                                    class="flex border rounded-l-lg p-1 outline-none text-sm text-stone-900" type="text"
+                                    placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                    onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
+                                <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                                    type="submit">
+                                    <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -171,33 +247,35 @@
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="bg-stone-400">
-                            <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" rowspan="2">No
+                            <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24" rowspan="2">Jenis
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-20" rowspan="2">Jenis
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm w-40 text-center" rowspan="2">
-                                <button class="flex justify-center items-center w-40">@sortablelink('number', 'Nomor')
+                            <th class="text-stone-900 border border-stone-900 text-xs w-36 text-center" rowspan="2">
+                                <button class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-20" rowspan="2">
                                 Tanggal</th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="2">Data
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="2">Data
                                 Klien
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Lokasi
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-36" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
                                 status</th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                Dibuat Oleh</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-16" rowspan="2">
                                 Action</th>
                         </tr>
                         <tr class="bg-stone-400">
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-32">Nama</th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-60">Perusahaan</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32">Nama</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-60">Perusahaan</th>
                         </tr>
                     </thead>
                     <tbody class="bg-stone-300">
@@ -213,25 +291,26 @@
                                     $products = json_decode($quotation->products);
                                 }
                                 $clients = json_decode($quotation->clients);
+                                $created_by = json_decode($quotation->created_by);
                             @endphp
                             <tr>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $number++ }}
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $number++ }}
                                 </td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     @if ($quotation->media_category->name == 'Service')
                                         Cetak/Pasang
                                     @else
                                         {{ $quotation->media_category->name }}
                                     @endif
                                 </td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     {{ $quotation->number }}</td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     {{ date('d-m-Y', strtotime($quotation->created_at)) }}</td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     {{ $clients->name }}
                                 </td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     @if ($clients->type == 'Perusahaan')
                                         {{ $clients->company }}
                                     @else
@@ -239,7 +318,7 @@
                                     @endif
 
                                 </td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     @foreach ($products as $product)
                                         @if ($loop->iteration != count($products))
                                             {{ $product->code }},
@@ -248,7 +327,7 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     @if (count($quotation->quotation_revisions) != 0)
                                         Revisi ke {{ count($quotation->quotation_revisions) }} :
                                         {{ $quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->status }}
@@ -257,7 +336,10 @@
                                         {{ $quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->status }}
                                     @endif
                                 </td>
-                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                    {{ $created_by->name }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/marketing/quotations/{{ $quotation->id }}"
                                             class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">

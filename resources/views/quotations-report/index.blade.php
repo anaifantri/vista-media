@@ -39,7 +39,7 @@
                             @endforeach
                         </div>
                         <div class="grid grid-cols-2 gap-2 w-[500px] p-4 mt-4 border-t">
-                            <div
+                            <a href="/marketing/quotations/home/All?todays={{ date('Y-m-d') }}"
                                 class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
@@ -87,8 +87,8 @@
                                         {{ $counter }}
                                     </label>
                                 </div>
-                            </div>
-                            <div
+                            </a>
+                            <a href="/marketing/quotations/home/All?weekday=true"
                                 class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
@@ -136,8 +136,8 @@
                                         {{ $counter }}
                                     </label>
                                 </div>
-                            </div>
-                            <div
+                            </a>
+                            <a href="/marketing/quotations/home/All?monthly=true"
                                 class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
@@ -185,8 +185,8 @@
                                         {{ $counter }}
                                     </label>
                                 </div>
-                            </div>
-                            <div
+                            </a>
+                            <a href="/marketing/quotations/home/All?annual=true"
                                 class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
@@ -234,7 +234,7 @@
                                         {{ $counter }}
                                     </label>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -268,10 +268,11 @@
                 enabled: false
             },
             stroke: {
-                curve: 'straight'
+                curve: 'straight',
+                width: 2
             },
             title: {
-                text: 'Penawaran Bulanan',
+                text: 'Penawaran Bulanan Tahun ' + @json(date('Y')),
                 align: 'left'
             },
             grid: {

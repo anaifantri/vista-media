@@ -157,10 +157,11 @@
                 enabled: false
             },
             stroke: {
-                curve: 'straight'
+                curve: 'straight',
+                width: 2
             },
             title: {
-                text: 'Penjualan Bulanan',
+                text: 'Penjualan Bulanan Tahun ' + @json(date('Y')),
                 align: 'left'
             },
             grid: {

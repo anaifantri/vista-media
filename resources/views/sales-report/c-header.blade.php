@@ -2,8 +2,49 @@
     <div class="flex justify-center">
         <div class="flex justify-center items-center border rounded-lg mt-2 p-2 w-[1580px]">
             <div>
-                <div class="flex h-[22px]">
-                    <span class="text-sm  text-stone-100 font-semibold w-24">Periode</span>
+                <div class="flex h-14">
+                    <div class="w-24">
+                        <span class="text-base text-stone-100">Bulan</span>
+                        <select name="month"
+                            class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                            onchange="submit()">
+                            <option value="All">All</option>
+                            @if (request('month'))
+                                @for ($i = 1; $i < 13; $i++)
+                                    @if ($i == request('month'))
+                                        <option value="{{ $i }}" selected>{{ $bulan[$i] }}</option>
+                                    @else
+                                        <option value="{{ $i }}">{{ $bulan[$i] }}</option>
+                                    @endif
+                                @endfor
+                            @else
+                                @for ($i = 1; $i < 13; $i++)
+                                    <option value="{{ $i }}">{{ $bulan[$i] }}</option>
+                                @endfor
+                            @endif
+                        </select>
+                    </div>
+                    <div class="ml-2 w-20">
+                        <span class="text-base text-stone-100">Tahun</span>
+                        <select name="year"
+                            class="p-1 text-center outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                            onchange="submit()">
+                            @if (request('year'))
+                                @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                    @if ($i == request('year'))
+                                        <option value="{{ $i }}" selected>{{ $i }}</option>
+                                    @else
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endif
+                                @endfor
+                            @else
+                                @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            @endif
+                        </select>
+                    </div>
+                    {{-- <span class="text-sm  text-stone-100 font-semibold w-24">Periode</span>
                     <span class="text-sm  text-stone-100 font-semibold ml-2">:</span>
                     @if (request('search'))
                         <input class="ml-2 outline-none text-sm text-stone-900 border rounded-lg w-36 p-1" type="month"
@@ -11,7 +52,7 @@
                     @else
                         <input class="ml-2 outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
                             type="month" name="search" id="search" onchange="submit()">
-                    @endif
+                    @endif --}}
                 </div>
             </div>
             <div id="divButton" class="flex justify-end w-full">

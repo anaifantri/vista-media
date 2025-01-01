@@ -68,19 +68,28 @@
                                             <label class="text-sm text-center"></label>
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md">
-                                            @if (request('search'))
-                                                <?php
-                                                $searchDate = strtotime(request('search'));
-                                                ?>
-                                                <label id="labelPeriode"
-                                                    class="month-report text-xl font-semibold text-center">
-                                                    {{ $bulan[(int) date('m', $searchDate)] }}
-                                                    {{ date('Y', $searchDate) }}
-                                                </label>
+                                            @if (request('month'))
+                                                @if (request('month') != 'All')
+                                                    <label id="labelPeriode"
+                                                        class="month-report text-xl font-semibold text-center">
+                                                        {{ $bulan[request('month')] }}
+                                                        {{ request('year') }}
+                                                    </label>
+                                                @else
+                                                    <label id="labelPeriode"
+                                                        class="month-report text-xl font-semibold text-center">JAN - DES
+                                                        {{ request('year') }}</label>
+                                                @endif
                                             @else
-                                                <label id="labelPeriode"
-                                                    class="month-report text-xl font-semibold text-center">JAN - DES
-                                                    {{ date('Y') }}</label>
+                                                @if (request('year'))
+                                                    <label id="labelPeriode"
+                                                        class="month-report text-xl font-semibold text-center">JAN - DES
+                                                        {{ request('year') }}</label>
+                                                @else
+                                                    <label id="labelPeriode"
+                                                        class="month-report text-xl font-semibold text-center">JAN - DES
+                                                        {{ date('Y') }}</label>
+                                                @endif
                                             @endif
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -93,17 +102,33 @@
                                 </div>
                             </div>
                             <div class="flex justify-center h-[875px] mt-2">
-                                @if (request('search'))
-                                    <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada data
-                                        penjualan pada
-                                        bulan
-                                        {{ $bulan[(int) date('m', strtotime(request('search')))] }}
-                                        {{ date('Y', strtotime(request('search'))) }} ~~
-                                    </label>
+                                @if (request('month'))
+                                    @if (request('month') != 'All')
+                                        <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada
+                                            data
+                                            penjualan pada
+                                            bulan
+                                            {{ $bulan[request('month')] }}
+                                            {{ request('year') }} ~~
+                                        </label>
+                                    @else
+                                        <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada
+                                            data
+                                            penjualan pada tahun {{ request('year') }} ~~
+                                        </label>
+                                    @endif
                                 @else
-                                    <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada data
-                                        penjualan pada tahun {{ date('Y', strtotime(date('Y-m-d'))) }} ~~
-                                    </label>
+                                    @if (request('year'))
+                                        <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada
+                                            data
+                                            penjualan pada tahun {{ request('year') }} ~~
+                                        </label>
+                                    @else
+                                        <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada
+                                            data
+                                            penjualan pada tahun {{ date('Y', strtotime(date('Y-m-d'))) }} ~~
+                                        </label>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -144,18 +169,28 @@
                                                 <label class="text-sm text-center"></label>
                                             </div>
                                             <div class="flex justify-center w-56 border rounded-md">
-                                                @if (request('search'))
-                                                    <?php
-                                                    $searchDate = strtotime(request('search'));
-                                                    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-                                                    ?>
-                                                    <label id="labelPeriode"
-                                                        class="month-report text-xl font-semibold text-center">{{ $bulan[(int) date('m', $searchDate)] }}
-                                                        {{ date('Y', $searchDate) }}</label>
+                                                @if (request('month'))
+                                                    @if (request('month') != 'All')
+                                                        <label id="labelPeriode"
+                                                            class="month-report text-xl font-semibold text-center">
+                                                            {{ $bulan[request('month')] }}
+                                                            {{ request('year') }}
+                                                        </label>
+                                                    @else
+                                                        <label id="labelPeriode"
+                                                            class="month-report text-xl font-semibold text-center">JAN - DES
+                                                            {{ date('Y') }}</label>
+                                                    @endif
                                                 @else
-                                                    <label id="labelPeriode"
-                                                        class="month-report text-xl font-semibold text-center">JAN
-                                                        - DES {{ date('Y') }}</label>
+                                                    @if (request('year'))
+                                                        <label id="labelPeriode"
+                                                            class="month-report text-xl font-semibold text-center">JAN - DES
+                                                            {{ request('year') }}</label>
+                                                    @else
+                                                        <label id="labelPeriode"
+                                                            class="month-report text-xl font-semibold text-center">JAN - DES
+                                                            {{ date('Y') }}</label>
+                                                    @endif
                                                 @endif
                                             </div>
                                             <div class="flex justify-center w-56 border rounded-md mt-2">

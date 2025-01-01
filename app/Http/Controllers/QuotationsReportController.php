@@ -21,18 +21,18 @@ class QuotationsReportController extends Controller
     {
         if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
             $year = date('Y');
-            $month = date('m');
+            // $month = date('m');
             $mm = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-            for ($i=1; $i <= $month; $i++) { 
+            for ($i=1; $i <= 12; $i++) { 
                 $thisYearQuotation = Quotation::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
                 $monthData[] = $mm[$i];
                 $thisYearTotal[] = count($thisYearQuotation);
             }
-            $deals = Quotation::deal()->get();
-            $closeds = Quotation::closed()->get();
-            $createds = Quotation::createds()->get();
-            $followups = Quotation::followUp()->get();
-            $sents = Quotation::sent()->get();
+            $deals = Quotation::year()->deal()->get();
+            $closeds = Quotation::year()->closed()->get();
+            $createds = Quotation::year()->createds()->get();
+            $followups = Quotation::year()->followUp()->get();
+            $sents = Quotation::year()->sent()->get();
             $quotationData = [count($createds), count($sents), count($followups),count($deals), count($closeds)];
             $labelData = ['Created', 'Sent', 'Follow Up', 'Deal', 'Closed'];
             $quotation_revisions = QuotationRevision::with('quotation')->get();
@@ -45,7 +45,7 @@ class QuotationsReportController extends Controller
                 'quotationData' => $quotationData,
                 'labelData' => $labelData,
                 'todays' => Quotation::whereDate('created_at', Carbon::today())->get(),
-                'weekday' => Quotation::whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
+                'weekday' => Quotation::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
                 'monthQuots' => Quotation::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
                 'yearQuots' => Quotation::whereYear('created_at', Carbon::now()->year)->get(),
                 'title' => 'Laporan Penawaran',

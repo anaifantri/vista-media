@@ -22,10 +22,24 @@
             <div class="flex justify-center w-full">
                 <div class="w-[1200px]">
                     <div class="flex  border-b">
-                        @if ($category == 'All')
-                            <h1 class="index-h1"> DAFTAR PENJUALAN</h1>
+                        @if (request('media_category_id'))
+                            @if (request('media_category_id') == 'All')
+                                <h1 class="index-h1"> DAFTAR PENJUALAN</h1>
+                            @else
+                                @if ($data_category->name == 'Service')
+                                    <h1 class="index-h1">DAFTAR PENJUALAN CETAK / PASANG</h1>
+                                @else
+                                    <h1 class="index-h1">DAFTAR PENJUALAN {{ strtoupper($data_category->name) }}</h1>
+                                @endif
+                            @endif
                         @else
-                            <h1 class="index-h1">DAFTAR PENJUALAN {{ strtoupper($category) }}</h1>
+                            @if ($category == 'All')
+                                <h1 class="index-h1"> DAFTAR PENJUALAN</h1>
+                            @elseif ($category == 'Service')
+                                <h1 class="index-h1">DAFTAR PENJUALAN CETAK / PASANG</h1>
+                            @else
+                                <h1 class="index-h1">DAFTAR PENJUALAN {{ strtoupper($category) }}</h1>
+                            @endif
                         @endif
                         @if ($category == 'All')
                             @if (request('media_category_id') != '' && request('media_category_id') != 'All')
@@ -72,11 +86,20 @@
                         @endif
                     </div>
                     <form action="/marketing/sales/home/{{ $category }}">
+                        @if (request('weekday'))
+                            <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
+                        @endif
+                        @if (request('monthly'))
+                            <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
+                        @endif
+                        @if (request('annual'))
+                            <input type="text" name="annual" value="{{ request('annual') }}" hidden>
+                        @endif
                         <div class="flex items-center mt-1">
                             @if ($category == 'All')
-                                <div>
+                                <div class="w-32">
                                     <span class="text-base text-stone-100">Katagori</span>
-                                    <select class="w-full border rounded-lg text-base text-teal-900 outline-none"
+                                    <select class="w-full border rounded-lg text-sm p-1 text-teal-900 outline-none"
                                         name="media_category_id" id="media_category_id" onchange="submit()"
                                         value="{{ request('media_category_id') }}">
                                         <option value="All">All</option>
@@ -102,35 +125,56 @@
                                     </select>
                                 </div>
                             @endif
-                            <div class="ml-2">
-                                <span class="flex text-base text-stone-100">Bulan</span>
-                                @if (request('monthSearch'))
-                                    <input class="outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
-                                        type="month" name="monthSearch" value="{{ request('monthSearch') }}"
-                                        onchange="submit()">
-                                @else
-                                    <input class="outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
-                                        type="month" name="monthSearch" onchange="submit()">
-                                @endif
+                            <div class="ml-2 w-24">
+                                <span class="text-base text-stone-100">Bulan</span>
+                                <select name="month"
+                                    class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                    onchange="submit()">
+                                    <option value="All">All</option>
+                                    @if (request('month'))
+                                        @for ($i = 1; $i < 13; $i++)
+                                            @if ($i == request('month'))
+                                                <option value="{{ $i }}" selected>{{ $bulan[$i] }}</option>
+                                            @else
+                                                <option value="{{ $i }}">{{ $bulan[$i] }}</option>
+                                            @endif
+                                        @endfor
+                                    @else
+                                        @for ($i = 1; $i < 13; $i++)
+                                            <option value="{{ $i }}">{{ $bulan[$i] }}</option>
+                                        @endfor
+                                    @endif
+                                </select>
                             </div>
-                            @if (request('weekday'))
-                                <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
-                            @endif
-                            @if (request('monthly'))
-                                <input type="text" name="monthly" value="{{ request('monthly') }}" hidden>
-                            @endif
-                            @if (request('annual'))
-                                <input type="text" name="annual" value="{{ request('annual') }}" hidden>
-                            @endif
+                            <div class="ml-2 w-20">
+                                <span class="text-base text-stone-100">Tahun</span>
+                                <select name="year"
+                                    class="p-1 text-center outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                    onchange="submit()">
+                                    @if (request('year'))
+                                        @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                            @if ($i == request('year'))
+                                                <option value="{{ $i }}" selected>{{ $i }}</option>
+                                            @else
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endif
+                                        @endfor
+                                    @else
+                                        @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    @endif
+                                </select>
+                            </div>
                             <div class="ml-2">
-                                <span class="text-base text-stone-100">Search</span>
+                                <span class="text-base text-stone-100">Pencarian</span>
                                 <div class="flex">
                                     <input id="search" name="search"
-                                        class="border text-base rounded-l-lg px-1 outline-none text-teal-900" type="text"
+                                        class="border text-sm rounded-l-lg p-1 outline-none text-teal-900" type="text"
                                         placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
                                         onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                                     <button
-                                        class="flex border text-base rounded-r-lg text-stone-900 justify-center w-10 bg-stone-100"
+                                        class="flex border text-sm rounded-r-lg text-stone-900 items-center justify-center w-10 bg-stone-100"
                                         type="submit">
                                         <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
