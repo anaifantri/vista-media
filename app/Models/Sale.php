@@ -37,12 +37,18 @@ class Sale extends Model
     }
 
     public function scopeYear($query){
-        return $query->whereYear('created_at', request('year'));
+        if(request('year')){
+            return $query->whereYear('created_at', request('year'));
+        }else{
+            return $query->whereYear('created_at',  Carbon::now()->year);
+        }
     }
 
     public function scopeMonth($query){
-        if(request('month') != 'All'){
-            return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+        if(request('month')){
+            if(request('month') != 'All'){
+                return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+            }
         }
     }
 
