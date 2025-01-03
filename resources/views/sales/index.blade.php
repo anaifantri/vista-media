@@ -558,8 +558,7 @@
                                                 <label class="ml-1">{{ date('d-M-Y', strtotime($created_at)) }}</label>
                                             </div>
                                             @if (
-                                                $sale->media_category->name != 'Videotron' &&
-                                                    $sale->media_category->name != 'Service' &&
+                                                ($sale->media_category->name != 'Videotron' && $sale->media_category->name != 'Service') ||
                                                     ($sale->media_category->name == 'Signage' && $description->type != 'Videotron'))
                                                 <div class="flex ml-1">
                                                     <label class="w-14">Free Cetak</label>

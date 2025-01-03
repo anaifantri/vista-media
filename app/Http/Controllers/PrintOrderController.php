@@ -111,7 +111,7 @@ class PrintOrderController extends Controller
                     $clients = [];
                     $usedPrints = [];
                     $freePrints = [];
-                    $dataSales = Sale::free()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                    $dataSales = Sale::free()->filter(request('search'))->area()->city()->category()->sortable()->get();
                     foreach($dataSales as $dataSale){
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
                         if($revision){

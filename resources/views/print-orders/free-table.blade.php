@@ -19,17 +19,17 @@
         </tr>
     </thead>
     <tbody class="bg-stone-200">
-        @php
-            // $number = 1 + ($sales->currentPage() - 1) * $sales->perPage();
+        {{-- @php
+            $number = 1 + ($sales->currentPage() - 1) * $sales->perPage();
             $number = 0;
-        @endphp
+        @endphp --}}
         @foreach ($sales as $sale)
             @php
                 $product = json_decode($sale->product);
                 $description = json_decode($product->description);
             @endphp
             <tr>
-                <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $number + 1 }}
+                <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $loop->iteration }}
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $product->code }}
                     -

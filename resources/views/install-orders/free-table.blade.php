@@ -5,7 +5,7 @@
             <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center" rowspan="2">Kode</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="3">Deskripsi</th>
-            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="4">Detail Cetak</th>
+            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="4">Detail Pasang</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">Action</th>
         </tr>
         <tr class="bg-stone-400">
@@ -19,16 +19,16 @@
         </tr>
     </thead>
     <tbody class="bg-stone-200">
-        @php
+        {{-- @php
             $number = 0;
-        @endphp
+        @endphp --}}
         @foreach ($sales as $sale)
             @php
                 $product = json_decode($sale->product);
                 $description = json_decode($product->description);
             @endphp
             <tr>
-                <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $number + 1 }}
+                <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $loop->iteration }}
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">{{ $product->code }}
                     -
