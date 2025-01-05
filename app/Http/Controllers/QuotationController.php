@@ -212,14 +212,20 @@ class QuotationController extends Controller
         }
     }
 
-    public function createQuotation(String $category, String $type, String $locationId, String $city, String $area)
+    public function createQuotation(String $category, String $type, String $locationId, String $area, String $city)
     {
         if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
             $dataId = json_decode($locationId);
             $extendLocation = null;
             $mediaCategory = MediaCategory::where('name', $category)->firstOrFail();
-            $areas = Area::with('locations')->get();
-            $cities = City::with('locations')->get();
+            if($area != "All"){
+                $data_area = Area::where('id', $area)->firstOrFail();
+                $area = $data_area->area;
+            }
+            if($city != "All"){
+                $data_city = City::where('id', $city)->firstOrFail();
+                $city = $data_city->city;
+            }
             if($type == "new"){
                 $dataQuotations = Location::whereIn('id', $dataId)->get();
             }else if($type == "extend" || $type == "existing"){
@@ -251,7 +257,7 @@ class QuotationController extends Controller
                 'data_category' => $mediaCategory,
                 'location_photos' => LocationPhoto::whereIn('location_id', $dataId)->where('set_default', true)->get(),
                 'title' => 'Membuat Penawaran'.$category,
-                compact('areas', 'cities', 'sales', 'quotations', 'quotation_revisions','printing_products')
+                compact('sales', 'quotations', 'quotation_revisions','printing_products')
             ]);
         } else {
             abort(403);

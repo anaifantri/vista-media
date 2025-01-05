@@ -33,12 +33,13 @@ class InstallOrderController extends Controller
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             $sale = Sale::with('install_order')->get();
+            $quotations = Quotation::with('sales')->get();
             $print_order = PrintOrder::with('install_order')->get();
             $locations = Location::with('install_orders')->get();
             return response()-> view ('install-orders.index', [
-                'install_orders'=>InstallOrder::filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->paginate(15)->withQueryString(),
+                'install_orders'=>InstallOrder::filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->paginate(15)->withQueryString(),
                 'title' => 'Daftar SPK Pemasangan Gambar',
-                compact('sale', 'print_order', 'locations')
+                compact('sale', 'print_order', 'locations', 'quotations')
             ]);
         } else {
             abort(403);
@@ -143,7 +144,7 @@ class InstallOrderController extends Controller
                     $usedInstalls = [];
                     $freeInstalls = [];
                     $installTypes = [];
-                    $dataSales = Sale::installOrder()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                    $dataSales = Sale::installOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
                     foreach($dataSales as $dataSale){
                         $product = json_decode($dataSale->product);
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
@@ -154,7 +155,7 @@ class InstallOrderController extends Controller
                             $price = json_decode($revision->price);
                             foreach($price->objInstalls as $install){
                                 if($install->code == $dataSale->product->code){
-                                    $installType = $install->ptype;
+                                    $installType = $install->type;
                                 }
                             }
                         }else{
@@ -195,7 +196,7 @@ class InstallOrderController extends Controller
                 $usedInstalls = [];
                 $freeInstalls = [];
                 $installTypes = [];
-                $dataSales = Sale::installOrder()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                $dataSales = Sale::installOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
                 foreach($dataSales as $dataSale){
                     $product = json_decode($dataSale->product);
                     $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
@@ -206,7 +207,7 @@ class InstallOrderController extends Controller
                         $price = json_decode($revision->price);
                         foreach($price->objInstalls as $install){
                             if($install->code == $dataSale->product->code){
-                                $installType = $install->ptype;
+                                $installType = $install->type;
                             }
                         }
                     }else{
@@ -379,7 +380,7 @@ class InstallOrderController extends Controller
                 'location_id' => 'required',
                 'theme' => 'required',
                 'install_at' => 'required',
-                'notes' => 'required',
+                'notes' => 'nullable',
                 'type' => 'required',
                 'product' => 'required',
                 'created_by' => 'required',

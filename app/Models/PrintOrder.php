@@ -13,6 +13,14 @@ class PrintOrder extends Model
     use Sortable;
     protected $guarded = ['id'];
 
+    public function scopePeriode($query){
+        if(request('periode')){
+            if(request('periode') != ""){
+                return $query->whereDate('created_at', request('periode'));
+            }
+        }
+    }
+
     public function scopeTodays($query){
         if (request('todays')) {
             return $query->whereDate('created_at', request('todays'));
@@ -52,14 +60,14 @@ class PrintOrder extends Model
                 $query->where('theme', 'like', '%' . $search . '%')
                     ->orWhere('created_at', 'like', '%' . $search . '%')
                     ->orWhereHas('sale', function($query) use ($search){
-                        $query->WhereHas('quotation', function($query) use ($search){
-                            $query->where('clients', 'like', '%' . $search . '%')
-                            ->orWhere('products', 'like', '%' . $search . '%');
+                        $query->whereHas('quotation', function($query) use ($search){
+                            $query->whereRaw('LOWER(JSON_EXTRACT(clients, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
+                            ->orWhereRaw('LOWER(JSON_EXTRACT(clients, "$.company")) like ?', ['"%' . strtolower($search) . '%"']);
                         });
                     })
                     ->orWhereHas('vendor', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%')
-                              ->orWhere('company', 'like', '%' . $search . '%');
+                            ->orWhere('company', 'like', '%' . $search . '%');
                     })
                 );
     }

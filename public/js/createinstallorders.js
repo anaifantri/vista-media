@@ -25,6 +25,9 @@ let objProducts = {
     location_id : "",
     location_code : "",
     location_address : "",
+    location_lat : "",
+    location_lng : "",
+    location_category : "",
     location_photo : "",
     city_code : "",
     location_side : "",
@@ -164,6 +167,9 @@ fillData = () =>{
             objProducts.location_id = locationId.value;
             objProducts.location_code = locationCode.value;
             objProducts.location_address = locationAddress.value;
+            objProducts.location_lat = document.getElementById("location_lat").value;
+            objProducts.location_lng = document.getElementById("location_lng").value;
+            objProducts.location_category = document.getElementById("location_category").value;
             objProducts.location_photo = locationPhoto.value;
             objProducts.city_code = cityCode.value;
             objProducts.qty = qty.value;

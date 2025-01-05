@@ -33,10 +33,13 @@ class PrintOrderController extends Controller
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             $sale = Sale::with('print_order')->get();
+            $quotations = Quotation::with('sales')->get();
+            $vendors = Vendor::with('print_orders')->get();
             return response()-> view ('print-orders.index', [
-                'print_orders'=>PrintOrder::filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->paginate(10)->withQueryString(),
+                'print_orders'=>PrintOrder::filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->paginate(15)->withQueryString(),
+                'amount'=>PrintOrder::filter(request('search'))->periode()->sum('price'),
                 'title' => 'Daftar SPK Cetak',
-                compact('sale')
+                compact('sale', 'vendors', 'quotations')
             ]);
         } else {
             abort(403);
@@ -149,7 +152,7 @@ class PrintOrderController extends Controller
                     $usedPrints = [];
                     $freePrints = [];
                     $printProducts = [];
-                    $dataSales = Sale::printOrder()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                    $dataSales = Sale::printOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
                     foreach($dataSales as $dataSale){
                         $product = json_decode($dataSale->product);
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
@@ -201,7 +204,7 @@ class PrintOrderController extends Controller
                 $usedPrints = [];
                 $freePrints = [];
                 $printProducts = [];
-                $dataSales = Sale::printOrder()->filter(request('search'))->area()->city()->category()->sortable()->paginate(15)->withQueryString();
+                $dataSales = Sale::printOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
                 foreach($dataSales as $dataSale){
                     $product = json_decode($dataSale->product);
                     $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
@@ -448,7 +451,7 @@ class PrintOrderController extends Controller
                 'sale_id' => 'nullable',
                 'location_id' => 'required',
                 'theme' => 'required',
-                'notes' => 'required',
+                'notes' => 'nullable',
                 'product' => 'required',
                 'created_by' => 'required',
                 'updated_by' => 'required',

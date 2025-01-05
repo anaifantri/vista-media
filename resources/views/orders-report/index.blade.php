@@ -258,7 +258,8 @@
                 enabled: false
             },
             stroke: {
-                curve: 'straight'
+                curve: 'straight',
+                width: 2
             },
             title: {
                 text: 'SPK Cetak Bulanan',
@@ -330,7 +331,8 @@
                 enabled: false
             },
             stroke: {
-                curve: 'straight'
+                curve: 'straight',
+                width: 2
             },
             title: {
                 text: 'SPK Pasang Bulanan',

@@ -1,4 +1,4 @@
-<form action="/marketing/orders-report/print_orders">
+<form action="/marketing/orders-report/print-orders">
     <div class="flex justify-center">
         <div class="flex justify-center items-center border rounded-lg mt-2 p-2 w-[1280px]">
             <div>

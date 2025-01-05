@@ -101,10 +101,10 @@
                     @if ($city != 'All')
                         <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran penggunaan media reklame {{ $category }} area {{ $area }}  kota {{ $city }}  dengan spesifikasi sebagai berikut :</textarea>
                     @else
-                        <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran penggunaan media reklame {{ $category }} area  {{ $area }} dengan spesifikasi sebagai berikut :</textarea>
+                        <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran penggunaan media reklame {{ $category }} area {{ $area }} dengan spesifikasi sebagai berikut :</textarea>
                     @endif
                 @else
-                    <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran penggunaan media reklame {{ $category }} dengan rincian sebagai berikut :</textarea>
+                    <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran penggunaan media reklame {{ $category }} dengan rincian sebagai berikut : </textarea>
                 @endif
             </div>
         </div>

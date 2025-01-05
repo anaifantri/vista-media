@@ -152,7 +152,15 @@
                 <label class="ml-1 text-sm text-black flex">Dengan hormat,</label>
             </div>
             <div class="flex mt-2">
-                <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran perpanjangan penggunaan media reklame {{ $category }} dengan rincian sebagai berikut :</textarea>
+                @if ($area != 'All')
+                    @if ($city != 'All')
+                        <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran perpanjangan penggunaan media reklame {{ $category }} area {{ $area }}  kota {{ $city }}  dengan spesifikasi sebagai berikut :</textarea>
+                    @else
+                        <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran perpanjangan penggunaan media reklame {{ $category }} area {{ $area }} dengan spesifikasi sebagai berikut :</textarea>
+                    @endif
+                @else
+                    <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm">Bersama ini kami menyampaikan surat penawaran perpanjangan penggunaan media reklame {{ $category }} dengan rincian sebagai berikut : </textarea>
+                @endif
             </div>
         </div>
     </div>

@@ -12,6 +12,14 @@ class InstallOrder extends Model
     use Sortable;
     protected $guarded = ['id'];
 
+    public function scopePeriode($query){
+        if(request('periode')){
+            if(request('periode') != ""){
+                return $query->whereDate('install_at', request('periode'));
+            }
+        }
+    }
+
     public function scopeTodays($query){
         if (request('todays')) {
             return $query->whereDate('created_at', request('todays'));
@@ -51,9 +59,9 @@ class InstallOrder extends Model
                 $query->where('theme', 'like', '%' . $search . '%')
                     ->orWhere('type', 'like', '%' . $search . '%')
                     ->orWhereHas('sale', function($query) use ($search){
-                        $query->WhereHas('quotation', function($query) use ($search){
-                            $query->where('clients', 'like', '%' . $search . '%')
-                            ->orWhere('products', 'like', '%' . $search . '%');
+                        $query->whereHas('quotation', function($query) use ($search){
+                            $query->whereRaw('LOWER(JSON_EXTRACT(clients, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
+                            ->orWhereRaw('LOWER(JSON_EXTRACT(clients, "$.company")) like ?', ['"%' . strtolower($search) . '%"']);
                         });
                     })
                     ->orWhereHas('location', function($query) use ($search){

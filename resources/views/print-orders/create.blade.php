@@ -18,6 +18,7 @@
         ];
         $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
         if ($orderType == 'free') {
+            $description = json_decode($product->description);
             $location_id = $product->id;
             $location_address = $product->address;
             $location_category = $product->category;
@@ -29,13 +30,17 @@
             $width = $product->width;
             $height = $product->height;
             if ($product->category == 'Signage') {
-                $description = json_decode($product->description);
                 $location_qty = $description->qty;
+                $location_lat = $description->lat[0];
+                $location_lng = $description->lng[0];
             } else {
                 $location_qty = 1;
+                $location_lat = $description->lat;
+                $location_lng = $description->lng;
             }
             $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         } elseif ($orderType == 'sales') {
+            $description = json_decode($product->description);
             $location_id = $product->id;
             $location_address = $product->address;
             $location_category = $product->category;
@@ -47,13 +52,17 @@
             $width = $product->width;
             $height = $product->height;
             if ($product->category == 'Signage') {
-                $description = json_decode($product->description);
                 $location_qty = $description->qty;
+                $location_lat = $description->lat[0];
+                $location_lng = $description->lng[0];
             } else {
                 $location_qty = 1;
+                $location_lat = $description->lat;
+                $location_lng = $description->lng;
             }
             $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         } elseif ($orderType == 'location') {
+            $description = json_decode($location->description);
             $location_id = $location->id;
             $location_address = $location->address;
             $location_category = $location->media_category->name;
@@ -64,12 +73,15 @@
             $size = $location->media_size->size;
             $width = $location->media_size->width;
             $height = $location->media_size->height;
-            $description = json_decode($location->description);
             $productType = $description->lighting;
             if ($location_category == 'Signage') {
                 $location_qty = $description->qty;
+                $location_lat = $description->lat[0];
+                $location_lng = $description->lng[0];
             } else {
                 $location_qty = 1;
+                $location_lat = $description->lat;
+                $location_lng = $description->lng;
             }
             $qty = (int) filter_var($side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         }
@@ -98,6 +110,9 @@
         <input type="text" id="location_qty" value="{{ $location_qty }}" hidden>
         <input type="number" id="location_side" value="{{ (int) filter_var($side, FILTER_SANITIZE_NUMBER_INT) }}" hidden>
         <input type="text" id="location_address" value="{{ $location_address }}" hidden>
+        <input type="text" id="location_lat" value="{{ $location_lat }}" hidden>
+        <input type="text" id="location_lng" value="{{ $location_lng }}" hidden>
+        <input type="text" id="location_category" value="{{ $location_category }}" hidden>
         <input type="text" id="cityCode" value="{{ $cityCode }}" hidden>
         <input type="text" id="orderType" value="{{ $orderType }}" hidden>
         <input type="number" id="price" name="price" value="{{ old('price') }}" hidden>
@@ -112,12 +127,12 @@
                     <h1 class="index-h1 w-[500px] text-stone-100"> MENAMBAHKAN DATA SPK CETAK</h1>
                     <!-- Title Area end -->
                     <div class="flex w-full justify-end items-center p-1">
-                        <button class="flex justify-center items-center mx-1 btn-success" title="Preview" type="submit"
+                        <button class="flex justify-center items-center mx-1 btn-primary" title="Preview" type="submit"
                             onclick="return fillData()">
-                            <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path
-                                    d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z" />
+                                    d="M15.003 3h2.997v5h-2.997v-5zm8.997 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9z" />
                             </svg>
                             <span class="mx-1">save</span>
                         </button>

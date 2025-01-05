@@ -174,9 +174,11 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="text-black font-semibold text-sm border w-[260px]">
-                                                                Kode Lokasi : {{ $product->location_code }}</th>
-                                                            <th class="text-black font-semibold text-sm border">Google
-                                                                Maps</th>
+                                                                Kode Lokasi :
+                                                                {{ $product->location_code }}-{{ $product->city_code }}
+                                                            </th>
+                                                            <th class="text-black font-semibold text-sm border">Google Maps
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -190,7 +192,7 @@
                                                             </td>
                                                             <td class="border p-1 text-center">
                                                                 <div class="flex w-full justify-center items-center">
-                                                                    {{ QrCode::size(100)->generate('https://vistamedia.co.id/') }}
+                                                                    {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $product->location_lat . ',' . $product->location_lng . '/@' . $product->location_lat . ',' . $product->location_lng . ',16z') }}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -424,9 +426,9 @@
                                                                 @endif
                                                                 <div class="flex w-full justify-center items-center mt-4">
                                                                     @if ($product->order_type == 'sales' || $product->order_type == 'free')
-                                                                        {{ QrCode::size(100)->generate('vista-app.test/marketing/sales/' . $install_order->sale->id) }}
+                                                                        {{ QrCode::size(100)->generate('https://vistamedia.co.id/marketing/sales/' . $install_order->sale->id) }}
                                                                     @else
-                                                                        {{ QrCode::size(100)->generate('vista-app.test/media/locations/' . $product->location_id) }}
+                                                                        {{ QrCode::size(100)->generate('https://vistamedia.co.id/media/locations/' . $product->location_id) }}
                                                                     @endif
                                                                 </div>
                                                             </td>

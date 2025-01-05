@@ -28,6 +28,8 @@ let objProducts = {
     location_side : "",
     location_qty : "",
     location_address : "",
+    location_lat : "",
+    location_lng : "",
     location_size : "",
     location_width : "",
     location_height : "",
@@ -256,6 +258,9 @@ fillData = () =>{
             objProducts.location_id = document.getElementById("location_id").value;
             objProducts.location_qty = document.getElementById("location_qty").value;
             objProducts.location_address = document.getElementById("location_address").value;
+            objProducts.location_lat = document.getElementById("location_lat").value;
+            objProducts.location_lng = document.getElementById("location_lng").value;
+            objProducts.location_category = document.getElementById("location_category").value;
             objProducts.location_code = document.getElementById("location_code").value;
             objProducts.city_code = document.getElementById("cityCode").value;
             objProducts.order_type = document.getElementById("orderType").value;

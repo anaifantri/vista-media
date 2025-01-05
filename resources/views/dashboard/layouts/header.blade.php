@@ -26,9 +26,9 @@
             @can('isWorkshop')
                 @include('dashboard.layouts.workshop-navbar')
             @endcan
-            @can('isAdmin')
+            @canany(['isAdmin', 'isOwner'])
                 @include('dashboard.layouts.admin-navbar')
-            @endcan
+            @endcanany
 
             <!-- Navbar End-->
             <!-- Right Nav Start-->

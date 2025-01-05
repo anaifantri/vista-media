@@ -181,21 +181,22 @@
                                                 </th>
                                                 <th class="text-black sticky top-0 border text-[0.65rem] w-20"
                                                     rowspan="2">
-                                                    Tanggal
+                                                    Tgl. SPK
                                                 </th>
-                                                <th class="text-black sticky top-0 border text-[0.65rem]" colspan="8">
+                                                <th class="text-black border text-[0.65rem] w-16" rowspan="2">Kode</th>
+                                                <th class="text-black border text-[0.65rem]" rowspan="2">Lokasi</th>
+                                                <th class="text-black sticky top-0 border text-[0.65rem]" colspan="6">
                                                     Deskripsi
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="text-black border text-[0.65rem] w-24">Status</th>
-                                                <th class="text-black border text-[0.65rem] w-36">Klien</th>
-                                                <th class="text-black border text-[0.65rem] w-40">Tema</th>
+                                                <th class="text-black border text-[0.65rem] w-24">Klien</th>
+                                                <th class="text-black border text-[0.65rem] w-32">Tema</th>
                                                 <th class="text-black border text-[0.65rem] w-16">Jenis</th>
-                                                <th class="text-black border text-[0.65rem] w-16">Kode</th>
-                                                <th class="text-black border text-[0.65rem]">Lokasi</th>
                                                 <th class="text-black border text-[0.65rem] w-16">Size</th>
                                                 <th class="text-black border text-[0.65rem] w-10">Qty</th>
+                                                <th class="text-black border text-[0.65rem] w-20">Tgl. Tayang</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -227,6 +228,13 @@
                                                                 {{ date('d-M-Y', strtotime($order->created_at)) }}
                                                             </td>
                                                             <td
+                                                                class="text-black border text-[0.65rem] align-top px-1 text-center">
+                                                                {{ $product->location_code }}-{{ $product->city_code }}
+                                                            </td>
+                                                            <td class="text-black border text-[0.65rem] align-top px-1">
+                                                                {{ $product->location_address }}
+                                                            </td>
+                                                            <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
                                                                 {{ $product->status }}
                                                             </td>
@@ -246,18 +254,15 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] align-top px-1 text-center">
-                                                                {{ $product->location_code }}-{{ $product->city_code }}
-                                                            </td>
-                                                            <td class="text-black border text-[0.65rem] align-top px-1">
-                                                                {{ $product->location_address }}
-                                                            </td>
-                                                            <td
-                                                                class="text-black border text-[0.65rem] align-top px-1 text-center">
                                                                 {{ $product->location_size }}
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] align-top px-1 text-center">
                                                                 {{ $product->qty }}
+                                                            </td>
+                                                            <td
+                                                                class="text-black border text-[0.65rem] text-center align-top">
+                                                                {{ date('d-M-Y', strtotime($order->install_at)) }}
                                                             </td>
                                                         </tr>
                                                     @endif

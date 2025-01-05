@@ -24,9 +24,8 @@ class OrderReportController extends Controller
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             $year = date('Y');
-            $month = date('m');
             $mm = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-            for ($i=1; $i <= $month; $i++) { 
+            for ($i=1; $i <= 12; $i++) { 
                 $printOrders = PrintOrder::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
                 $monthData[] = $mm[$i];
                 $printOrderQty[] = count($printOrders);
@@ -36,7 +35,7 @@ class OrderReportController extends Controller
             $freePrintOther = PrintOrder::freeOther()->get();
             $printOrderData = [count($printSales), count($freePrintSales), count($freePrintOther)];
 
-            for ($i=1; $i <= $month; $i++) { 
+            for ($i=1; $i <= 12; $i++) { 
                 $installOrders = InstallOrder::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
                 $installOrderQty[] = count($installOrders);
             }
@@ -73,6 +72,7 @@ class OrderReportController extends Controller
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             return view ('orders-report.print-reports', [
                 'print_orders'=>PrintOrder::filter(request('search'))->sortable()->orderBy("number", "asc")->get(),
+                'amount'=>PrintOrder::filter(request('search'))->sum('price'),
                 'sales' => Sale::all(),
                 'title' => 'Laporan SPK Cetak'
             ]);

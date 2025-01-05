@@ -18,10 +18,11 @@
         ];
         $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
         if ($orderType == 'free') {
-            // $photo = $location->location_photos->where('set_default', true)->last();
+            $description = json_decode($product->description);
             $location_id = $product->id;
             $location_photo = $product->photo;
             $location_address = $product->address;
+            $location_category = $product->category;
             $code = $product->code;
             $cityCode = $product->city_code;
             $side = $product->side;
@@ -29,16 +30,21 @@
             $width = $product->width;
             $height = $product->height;
             if ($product->category == 'Signage') {
-                $description = json_decode($product->description);
                 $location_qty = $description->qty;
+                $location_lat = $description->lat[0];
+                $location_lng = $description->lng[0];
             } else {
                 $location_qty = 1;
+                $location_lat = $description->lat;
+                $location_lng = $description->lng;
             }
             $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         } elseif ($orderType == 'sales') {
+            $description = json_decode($product->description);
             $location_id = $product->id;
             $location_photo = $product->photo;
             $location_address = $product->address;
+            $location_category = $product->category;
             $code = $product->code;
             $cityCode = $product->city_code;
             $side = $product->side;
@@ -46,16 +52,21 @@
             $width = $product->width;
             $height = $product->height;
             if ($product->category == 'Signage') {
-                $description = json_decode($product->description);
                 $location_qty = $description->qty;
+                $location_lat = $description->lat[0];
+                $location_lng = $description->lng[0];
             } else {
                 $location_qty = 1;
+                $location_lat = $description->lat;
+                $location_lng = $description->lng;
             }
             $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         } elseif ($orderType == 'location') {
+            $description = json_decode($location->description);
             $photo = $location->location_photos->where('set_default', true)->last();
             $location_id = $location->id;
             $location_address = $location->address;
+            $location_category = $location->media_category->name;
             $location_photo = $photo->photo;
             $code = $location->code;
             $cityCode = $location->city->code;
@@ -63,12 +74,15 @@
             $size = $location->media_size->size;
             $width = $location->media_size->width;
             $height = $location->media_size->height;
-            $description = json_decode($location->description);
             $productType = $description->lighting;
             if ($location_category == 'Signage') {
                 $location_qty = $description->qty;
+                $location_lat = $description->lat[0];
+                $location_lng = $description->lng[0];
             } else {
                 $location_qty = 1;
+                $location_lat = $description->lat;
+                $location_lng = $description->lng;
             }
             $qty = (int) filter_var($side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         }
@@ -94,6 +108,9 @@
         <input type="text" id="location_id" name="location_id" value="{{ $location_id }}" hidden>
         <input type="text" id="location_photo" name="location_photo" value="{{ $location_photo }}" hidden>
         <input type="text" id="location_address" name="location_address" value="{{ $location_address }}" hidden>
+        <input type="text" id="location_lat" value="{{ $location_lat }}" hidden>
+        <input type="text" id="location_lng" value="{{ $location_lng }}" hidden>
+        <input type="text" id="location_category" value="{{ $location_category }}" hidden>
         <input type="text" id="location_qty" value="{{ $location_qty }}" hidden>
         <input type="number" id="location_side" value="{{ (int) filter_var($side, FILTER_SANITIZE_NUMBER_INT) }}" hidden>
         <input type="text" id="location_code" value="{{ $code }}" hidden>

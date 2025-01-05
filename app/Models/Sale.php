@@ -90,12 +90,18 @@ class Sale extends Model
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '=', 'Service');
                     })
+                    ->whereHas('quotation', function($query){
+                        $query->where('price->objServiceType->print', '=', true);
+                    })
                     ->whereDoesntHave('print_order');
     }
 
     public function scopeInstallOrder($query){
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '=', 'Service');
+                    })
+                    ->whereHas('quotation', function($query){
+                        $query->where('price->objServiceType->install', '=', true);
                     })
                     ->whereDoesntHave('install_order');
     }

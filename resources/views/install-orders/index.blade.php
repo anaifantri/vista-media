@@ -2,33 +2,58 @@
 
 @section('container')
     <?php
-    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $daftar_hari = [
+        'Sunday' => 'Minggu',
+        'Monday' => 'Senin',
+        'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu',
+        'Thursday' => 'Kamis',
+        'Friday' => 'Jumat',
+        'Saturday' => 'Sabtu',
+    ];
+    $name = 'DAFTAR SPK PASANG - ' . date('d', strtotime(request('periode'))) . ' ' . $bulan_full[(int) date('m', strtotime(request('periode')))] . ' ' . date('Y', strtotime(request('periode')));
     ?>
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
-                <div class="w-[1200px] p-2">
+                <div class="w-[1200px]">
                     <div class="flex border-b">
                         <h1 class="index-h1">Daftar SPK Pemasangan Gambar</h1>
-                        @canany(['isAdmin', 'isMarketing'])
-                            @can('isOrder')
-                                @can('isMarketingCreate')
-                                    <div class="flex">
+                        <div class="flex">
+                            @if (request('periode'))
+                                @if (request('periode') != '' && count($install_orders) != 0)
+                                    <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-success"
+                                        title="Simpan PDF" type="button" onclick="savePdf()">
+                                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24">
+                                            <path
+                                                d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                        </svg>
+                                        <span class="mx-1">Save PDF</span>
+                                    </button>
+                                @endif
+                            @endif
+                            @canany(['isAdmin', 'isMarketing'])
+                                @can('isOrder')
+                                    @can('isMarketingCreate')
                                         <a href="/install-orders/select-locations" class="index-link btn-primary">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                                     fill-rule="nonzero" />
                                             </svg>
                                             <span class="mx-1">Tambah SPK</span>
                                         </a>
-                                    </div>
+                                    @endcan
                                 @endcan
-                            @endcan
-                        @endcanany
+                            @endcanany
+                        </div>
                     </div>
-                    <form class="flex mt-2" action="/marketing/install-orders">
+                    <form action="/marketing/install-orders">
                         @if (request('todays'))
                             <input type="text" name="todays" value="{{ request('todays') }}" hidden>
                         @endif
@@ -42,17 +67,35 @@
                             <input type="text" name="annual" value="{{ request('annual') }}" hidden>
                         @endif
                         <div class="flex">
-                            <input id="search" name="search"
-                                class="flex border rounded-l-lg p-1 outline-none text-base text-teal-900" type="text"
-                                placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
-                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
-                            <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
-                                type="submit">
-                                <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
-                                </svg>
-                            </button>
+                            <div class="w-40">
+                                <span class="text-base  text-stone-100">Tgl. Tayang</span>
+                                @if (request('periode'))
+                                    <input class="outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
+                                        type="date" name="periode" id="periode" value="{{ request('periode') }}"
+                                        onchange="submit()">
+                                @else
+                                    <input class="outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
+                                        type="date" name="periode" id="periode" onchange="submit()">
+                                @endif
+                            </div>
+                            <div class="w-48 ml-2">
+                                <span class="text-base text-stone-100">Pencarian</span>
+                                <div class="flex">
+                                    <input id="search" name="search"
+                                        class="border rounded-l-lg p-1 outline-none text-sm text-stone-900" type="text"
+                                        placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                        onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
+                                    <button
+                                        class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                                        type="submit">
+                                        <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                     @if (session()->has('success'))
@@ -71,34 +114,36 @@
                     <table class="table-auto w-full">
                         <thead>
                             <tr class="bg-stone-400">
-                                <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" rowspan="2">
+                                <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">
                                     No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center" rowspan="2">
+                                <th class="text-stone-900 border border-stone-900 text-xs w-16 text-center" rowspan="2">
                                     Kode</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Lokasi
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20" rowspan="2">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
+                                    Klien</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20" rowspan="2">
                                     Ukuran
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-10" rowspan="2">
                                     Jenis</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="4">Data
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="4">Data
                                     SPK</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28" rowspan="2">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-28" rowspan="2">
                                     Action</th>
                             </tr>
                             <tr class="bg-stone-400">
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
-                                    <button class="flex justify-center items-center w-24">@sortablelink('number', 'No. SPK')
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">
+                                    <button class="flex justify-center items-center w-full">@sortablelink('number', 'No. SPK')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
                                             <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                         </svg>
                                     </button>
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center">Tema/Design</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-10">Qty</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">Jwl. Tayang
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center">Tema/Design</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-10">Qty</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Jwl. Tayang
                                 </th>
                             </tr>
                         </thead>
@@ -108,39 +153,66 @@
                             @endphp
                             @foreach ($install_orders as $order)
                                 @php
+                                    $client = '-';
                                     $product = json_decode($order->product);
+                                    if ($order->sale) {
+                                        $client = json_decode($order->sale->quotation->clients);
+                                    }
                                 @endphp
                                 <tr>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
                                         {{ $number++ }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ $product->location_code }}-{{ $product->city_code }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs">
                                         {{ $order->location->address }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        @if ($order->sale)
+                                            @if (strlen($client->name) > 15)
+                                                <a href="/marketing/clients/{{ $client->id }}">
+                                                    {{ substr($client->name, 0, 15) }}..
+                                                </a>
+                                            @else
+                                                <a href="/marketing/clients/{{ $client->id }}">
+                                                    {{ $client->name }}
+                                                </a>
+                                            @endif
+                                        @else
+                                            {{ $client }}
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
                                         {{ $product->location_size }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ $order->type }}
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        @if ($order->type == 'Frontlight')
+                                            FL
+                                        @elseif ($order->type == 'Backlight')
+                                            BL
+                                        @endif
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ substr($order->number, 0, 8) }}..
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        <a href="/marketing/install-orders/{{ $order->id }}">
+                                            {{ substr($order->number, 0, 8) }}..
+                                        </a>
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ $order->theme }}
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        @if (strlen($order->theme) > 20)
+                                            {{ substr($order->theme, 0, 20) }}..
+                                        @else
+                                            {{ $order->theme }}
+                                        @endif
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ $product->qty }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ date('d', strtotime($order->install_at)) }}
-                                        {{ $bulan[(int) date('m', strtotime($order->install_at))] }}
-                                        {{ date('Y', strtotime($order->install_at)) }}
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        {{ date('d', strtotime($order->install_at)) }}-{{ $bulan[(int) date('m', strtotime($order->install_at))] }}-{{ date('Y', strtotime($order->install_at)) }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
                                             <a href="/marketing/install-orders/{{ $order->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">
@@ -202,4 +274,170 @@
             </div>
         </div>
     </div>
+    <div class="bg-black p-10" hidden>
+        <div class="flex justify-center w-full">
+            <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 bg-white p-4">
+                <!-- Header start -->
+                @include('dashboard.layouts.letter-header')
+                <!-- Header end -->
+                <!-- Body start -->
+                <div class="h-[1080px]">
+                    <label class="flex text-md font-semibold justify-center w-full mt-6"><u>DAFTAR SPK PEMASANGAN
+                            GAMBAR</u></label>
+                    <label class="flex text-md justify-center w-full">
+                        <b class="ml-2">
+                            Jadwal Tayang :
+                            @if (request('periode'))
+                                @if (request('periode') != '')
+                                    {{ $daftar_hari[date('l', strtotime(request('periode')))] }},
+                                    {{ date('d', strtotime(request('periode'))) }}
+                                    {{ $bulan_full[(int) date('m', strtotime(request('periode')))] }}
+                                    {{ date('Y', strtotime(request('periode'))) }}
+                                @endif
+                            @endif
+                        </b>
+                    </label>
+                    <div class="flex justify-center w-full mt-8">
+                        <div class="w-[850px]">
+                            <table class="table-auto w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] w-8 text-center"
+                                            rowspan="2">
+                                            No.</th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] w-16 text-center"
+                                            rowspan="2">
+                                            Kode</th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center"
+                                            rowspan="2">Lokasi
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-16"
+                                            rowspan="2">
+                                            Ukuran
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-10"
+                                            rowspan="2">
+                                            Jenis</th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center"
+                                            colspan="4">Data
+                                            SPK</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-20">
+                                            No. SPK
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24">
+                                            Klien</th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-32">
+                                            Tema/Design
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-12">
+                                            Jumlah
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $number = 1 + ($install_orders->currentPage() - 1) * $install_orders->perPage();
+                                    @endphp
+                                    @foreach ($install_orders as $order)
+                                        @php
+                                            $client = '-';
+                                            $product = json_decode($order->product);
+                                            if ($order->sale) {
+                                                $client = json_decode($order->sale->quotation->clients);
+                                            }
+                                        @endphp
+                                        <tr>
+                                            <td
+                                                class="text-stone-900 px-1 border border-stone-900 text-[0.7rem]  text-center">
+                                                {{ $number++ }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
+                                                {{ $product->location_code }}-{{ $product->city_code }}
+                                            </td>
+                                            <td class="text-stone-900 px-1 border border-stone-900 text-[0.7rem]">
+                                                {{ $order->location->address }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-stone-900 text-[0.7rem]  text-center">
+                                                {{ $product->location_size }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
+                                                @if ($order->type == 'Frontlight')
+                                                    FL
+                                                @elseif ($order->type == 'Backlight')
+                                                    BL
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
+                                                {{ substr($order->number, 0, 8) }}..
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                @if ($order->sale)
+                                                    @if (strlen($client->name) > 15)
+                                                        {{ substr($client->name, 0, 15) }}..
+                                                    @else
+                                                        {{ $client->name }}
+                                                    @endif
+                                                @else
+                                                    {{ $client }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
+                                                @if (strlen($order->theme) > 20)
+                                                    {{ substr($order->theme, 0, 20) }}..
+                                                @else
+                                                    {{ $order->theme }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
+                                                {{ $product->qty }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="mt-8">
+                                <div class="flex justify-center">
+                                    <div class="w-[725px]">
+                                        <label class="text-sm text-black flex font-semibold">Denpasar,
+                                            {{ date('d') }}
+                                            {{ $bulan_full[(int) date('m')] }}
+                                            {{ date('Y') }}
+                                        </label>
+                                        <label class="text-sm text-black flex font-semibold">PT. Vista Media</label>
+                                        <label class="mt-12 text-sm text-black flex font-semibold">
+                                            <u>{{ auth()->user()->name }}</u>
+                                        </label>
+                                        <label class="text-xs text-black flex">{{ auth()->user()->position }}</label>
+                                        <label class="text-xs text-black flex">Hp.
+                                            {{ auth()->user()->phone }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Body start -->
+                <!-- Footer start -->
+                @include('dashboard.layouts.letter-footer')
+                <!-- Footer end -->
+            </div>
+        </div>
+    </div>
+
+    <input id="saveName" type="text" value="{{ $name }}" hidden>
+
+    <!-- Script start -->
+    <script src="/js/html2canvas.min.js"></script>
+    <script src="/js/html2pdf.bundle.min.js"></script>
+    <script src="/js/savepdf.js"></script>
+    <!-- Script end -->
 @endsection

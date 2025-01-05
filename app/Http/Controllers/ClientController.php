@@ -96,7 +96,7 @@ class ClientController extends Controller
             if($request->email){
                 $rules['email'] = 'email:dns|unique:clients';
             }
-            if($request->email){
+            if($request->phone){
                 $rules['phone'] = 'min:8|unique:clients';
             }
             $validateData = $request->validate($rules);

@@ -136,8 +136,8 @@ Route::get('/marketing/quotations-report/reports/{categoryId}', [QuotationsRepor
 
 // Route Order Report --> start
 Route::get('/marketing/orders-report', [OrderReportController::class,'index'])->middleware(['auth','user_access']);
-Route::get('/marketing/orders-report/print_orders', [OrderReportController::class,'printReports'])->middleware(['auth','user_access']);
-Route::get('/marketing/orders-report/install_orders', [OrderReportController::class,'installReports'])->middleware(['auth','user_access']);
+Route::get('/marketing/orders-report/print-orders', [OrderReportController::class,'printReports'])->middleware(['auth','user_access']);
+Route::get('/marketing/orders-report/install-orders', [OrderReportController::class,'installReports'])->middleware(['auth','user_access']);
 // Route Order Report --> end
 
 // Route Service --> start

@@ -925,6 +925,10 @@ video {
   height: 100px;
 }
 
+.h-\[1080px\] {
+  height: 1080px;
+}
+
 .h-\[1100px\] {
   height: 1100px;
 }

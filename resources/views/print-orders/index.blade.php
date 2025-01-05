@@ -2,7 +2,18 @@
 
 @section('container')
     <?php
-    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $daftar_hari = [
+        'Sunday' => 'Minggu',
+        'Monday' => 'Senin',
+        'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu',
+        'Thursday' => 'Kamis',
+        'Friday' => 'Jumat',
+        'Saturday' => 'Sabtu',
+    ];
+    $name = 'DAFTAR SPK CETAK - ' . date('d', strtotime(request('periode'))) . ' ' . $bulan_full[(int) date('m', strtotime(request('periode')))] . ' ' . date('Y', strtotime(request('periode')));
     ?>
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
@@ -11,12 +22,26 @@
                     <div class="flex border-b">
                         <h1 class="index-h1">Daftar SPK Cetak</h1>
                         <div class="flex">
+                            @if (request('periode'))
+                                @if (request('periode') != '' && count($print_orders) != 0)
+                                    <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-success"
+                                        title="Simpan PDF" type="button" onclick="savePdf()">
+                                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24">
+                                            <path
+                                                d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                        </svg>
+                                        <span class="mx-1">Save PDF</span>
+                                    </button>
+                                @endif
+                            @endif
                             @canany(['isAdmin', 'isMarketing'])
                                 @can('isOrder')
                                     @can('isMarketingCreate')
                                         <a href="/print-orders/select-locations" class="index-link btn-primary">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                                     fill-rule="nonzero" />
@@ -42,28 +67,46 @@
                             <input type="text" name="annual" value="{{ request('annual') }}" hidden>
                         @endif
                         <div class="flex">
-                            <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
-                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
-                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
-                            <button class="flex border p-1 rounded-r-lg text-stone-900 justify-center w-10 bg-slate-50"
-                                type="submit">
-                                <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
-                                </svg>
-                            </button>
-                        </div>
-                        @if (session()->has('success'))
-                            <div class="ml-2 flex alert-success">
-                                <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                                </svg>
-                                <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                            <div class="w-40">
+                                <span class="text-base  text-stone-100">Tgl. Cetak</span>
+                                @if (request('periode'))
+                                    <input class="outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
+                                        type="date" name="periode" id="periode" value="{{ request('periode') }}"
+                                        onchange="submit()">
+                                @else
+                                    <input class="outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
+                                        type="date" name="periode" id="periode" onchange="submit()">
+                                @endif
                             </div>
-                        @endif
+                            <div class="w-48 ml-2">
+                                <span class="text-base text-stone-100">Pencarian</span>
+                                <div class="flex">
+                                    <input id="search" name="search"
+                                        class="border rounded-l-lg p-1 outline-none text-sm text-stone-900" type="text"
+                                        placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                        onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
+                                    <button
+                                        class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                                        type="submit">
+                                        <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </form>
+                    @if (session()->has('success'))
+                        <div class="ml-2 flex alert-success">
+                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                            </svg>
+                            <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="flex justify-center w-full">
@@ -71,25 +114,27 @@
                     <table class="table-auto w-full">
                         <thead>
                             <tr class="bg-stone-400 h-10">
-                                <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center">No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-44">
-                                    <button class="flex justify-center items-center w-44">@sortablelink('number', 'Nomor SPK')
+                                <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center">No.</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-36">
+                                    <button class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor SPK')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
                                             <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                         </svg>
                                     </button>
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center">Nama Vendor</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-32">Tgl. Cetak</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center">Tema/Design</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-16">Jenis</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">Bahan</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">Ukuran</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-10">Qty</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-16">Harga</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">Total</th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Action</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Vendor</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Tgl. Cetak</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Klien</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center">Status</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center">Tema/Design</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-10">Jenis</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Bahan</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Ukuran</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-10">Qty</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-16">Harga</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Total</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Action</th>
                             </tr>
                         </thead>
                         <tbody class="bg-stone-200">
@@ -98,43 +143,71 @@
                             @endphp
                             @foreach ($print_orders as $order)
                                 @php
+                                    $client = '-';
                                     $product = json_decode($order->product);
                                     $created_by = json_decode($order->created_by);
                                     $notes = json_decode($order->notes);
+                                    if ($order->sale) {
+                                        $client = json_decode($order->sale->quotation->clients);
+                                    }
                                 @endphp
                                 <tr>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm  text-center">
-                                        {{ $number++ }}</td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
-                                        {{ $order->number }}</td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
-                                        {{ $product->vendor_company }}
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs  text-center">
+                                        {{ $number++ }}
                                     </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        <a href="/marketing/print-orders/{{ $order->id }}">
+                                            {{ $order->number }}
+                                        </a>
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        <a href="/marketing/vendors/{{ $order->vendor->id }}">
+                                            {{ $order->vendor->name }}
+                                        </a>
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ date('d', strtotime($order->created_at)) }}
                                         {{ $bulan[(int) date('m', strtotime($order->created_at))] }}
-                                        {{ date('Y', strtotime($order->created_at)) }}</td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
-                                        {{ $order->theme }}</td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
-                                        {{ $product->product_type }}
+                                        {{ date('Y', strtotime($order->created_at)) }}
                                     </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        @if ($order->sale)
+                                            <a href="/marketing/clients/{{ $client->id }}">
+                                                {{ $client->name }}
+                                            </a>
+                                        @else
+                                            {{ $client }}
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        {{ $product->status }}
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        {{ $order->theme }}
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        @if ($product->product_type == 'Frontlight')
+                                            FL
+                                        @elseif ($product->product_type == 'Backlight')
+                                            BL
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ $product->product_name }}
                                     </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ $product->location_size }}
                                     </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ $product->qty }}
                                     </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ number_format($product->product_price) }}
                                     </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ number_format($order->price) }}
                                     </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
                                             <a href="/marketing/print-orders/{{ $order->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">
@@ -196,4 +269,199 @@
             </div>
         </div>
     </div>
+
+    <div class="bg-black p-10" hidden>
+        <div class="flex justify-center w-full">
+            <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 bg-white p-4">
+                <!-- Header start -->
+                @include('dashboard.layouts.letter-header')
+                <!-- Header end -->
+                <!-- Body start -->
+                <div class="h-[1080px]">
+                    <label class="flex text-md font-semibold justify-center w-full mt-6"><u>DAFTAR SPK CETAK
+                            GAMBAR</u></label>
+                    <label class="flex text-md justify-center w-full">
+                        <b class="ml-2">
+                            Tanggal Cetak :
+                            @if (request('periode'))
+                                @if (request('periode') != '')
+                                    {{ $daftar_hari[date('l', strtotime(request('periode')))] }},
+                                    {{ date('d', strtotime(request('periode'))) }}
+                                    {{ $bulan_full[(int) date('m', strtotime(request('periode')))] }}
+                                    {{ date('Y', strtotime(request('periode'))) }}
+                                @endif
+                            @endif
+                        </b>
+                    </label>
+                    <div class="flex justify-center w-full mt-8">
+                        <div class="w-[850px]">
+                            <table class="table-auto w-full">
+                                <thead>
+                                    <tr class="h-10">
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] w-8 text-center">
+                                            No.</th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-16">
+                                            No. SPK</th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-20">
+                                            Vendor
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24">
+                                            Klien
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24">
+                                            Status
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-32">
+                                            Tema/Design
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-10">
+                                            Jenis
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24">
+                                            Bahan
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-16">
+                                            Ukuran
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-8">
+                                            Qty
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-12">
+                                            Harga
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-20">
+                                            Total
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $number = 1 + ($print_orders->currentPage() - 1) * $print_orders->perPage();
+                                    @endphp
+                                    @foreach ($print_orders as $order)
+                                        @php
+                                            $client = '-';
+                                            $product = json_decode($order->product);
+                                            $created_by = json_decode($order->created_by);
+                                            $notes = json_decode($order->notes);
+                                            if ($order->sale) {
+                                                $client = json_decode($order->sale->quotation->clients);
+                                            }
+                                        @endphp
+                                        <tr>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem]  text-center">
+                                                {{ $number++ }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                {{ substr($order->number, 0, 8) }}..
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                @if (strlen($order->vendor->name) > 10)
+                                                    {{ substr($order->vendor->name, 0, 10) }}..
+                                                @else
+                                                    {{ $order->vendor->name }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                @if ($order->sale)
+                                                    {{ $client->name }}
+                                                @else
+                                                    {{ $client }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                {{ $product->status }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                @if (strlen($order->theme) > 15)
+                                                    {{ substr($order->theme, 0, 15) }}..
+                                                @else
+                                                    {{ $order->theme }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                @if ($product->product_type == 'Frontlight')
+                                                    FL
+                                                @elseif ($product->product_type == 'Backlight')
+                                                    BL
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                @if (strlen($product->product_name) > 15)
+                                                    {{ substr($product->product_name, 0, 15) }}..
+                                                @else
+                                                    {{ $product->product_name }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                {{ $product->location_size }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                {{ $product->qty }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
+                                                {{ number_format($product->product_price) }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-right">
+                                                {{ number_format($order->price) }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] font-semibold text-right"
+                                            colspan="11">Total</td>
+                                        <td
+                                            class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] font-semibold text-right">
+                                            {{ number_format($amount) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="mt-8">
+                                <div class="flex justify-center">
+                                    <div class="w-[725px]">
+                                        <label class="text-sm text-black flex font-semibold">Denpasar,
+                                            {{ date('d') }}
+                                            {{ $bulan_full[(int) date('m')] }}
+                                            {{ date('Y') }}
+                                        </label>
+                                        <label class="text-sm text-black flex font-semibold">PT. Vista Media</label>
+                                        <label class="mt-12 text-sm text-black flex font-semibold">
+                                            <u>{{ auth()->user()->name }}</u>
+                                        </label>
+                                        <label class="text-xs text-black flex">{{ auth()->user()->position }}</label>
+                                        <label class="text-xs text-black flex">Hp.
+                                            {{ auth()->user()->phone }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Body start -->
+                <!-- Footer start -->
+                @include('dashboard.layouts.letter-footer')
+                <!-- Footer end -->
+            </div>
+        </div>
+    </div>
+
+    <input id="saveName" type="text" value="{{ $name }}" hidden>
+
+    <!-- Script start -->
+    <script src="/js/html2canvas.min.js"></script>
+    <script src="/js/html2pdf.bundle.min.js"></script>
+    <script src="/js/savepdf.js"></script>
+    <!-- Script end -->
 @endsection

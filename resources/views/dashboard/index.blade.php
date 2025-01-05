@@ -9,10 +9,10 @@
             @can('isMarketing')
                 @include('dashboard.marketing')
             @endcan
-            @can('isAdmin')
+            @canany(['isAdmin', 'isOwner'])
                 @include('dashboard.media')
                 @include('dashboard.marketing')
-            @endcan
+            @endcanany
         </div>
 
         <!-- Script start -->

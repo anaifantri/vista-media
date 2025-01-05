@@ -84,7 +84,8 @@
             </div>
         </div>
         <input id="saveName" type="text"
-            value="{{ substr($print_order->number, 0, 4) }}-SPK Cetak-{{ $print_order->vendor->name }}" hidden>
+            value="{{ substr($print_order->number, 0, 4) }}-{{ $bulan[(int) date('m', strtotime($print_order->created_at))] }}-SPK Cetak-{{ $print_order->vendor->name }}"
+            hidden>
     </div>
     <!-- Show Print Order end -->
 

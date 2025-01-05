@@ -40,7 +40,7 @@
                                         class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
                                         readonly>
                                 @else
-                                    <input id="orderStatus" type="text" value="Free"
+                                    <input id="orderStatus" type="text" value="Free lain-lain"
                                         class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
                                         readonly>
                                 @endif

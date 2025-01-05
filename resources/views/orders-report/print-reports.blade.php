@@ -182,7 +182,8 @@
                                                     rowspan="2">
                                                     Tanggal
                                                 </th>
-                                                <th class="text-black sticky top-0 border text-[0.65rem]" rowspan="2">
+                                                <th class="text-black sticky top-0 border text-[0.65rem] w-28"
+                                                    rowspan="2">
                                                     Vendor
                                                 </th>
                                                 <th class="text-black sticky top-0 border text-[0.65rem]" colspan="9">
@@ -191,10 +192,10 @@
                                             </tr>
                                             <tr>
                                                 <th class="text-black border text-[0.65rem] w-24">Status</th>
-                                                <th class="text-black border text-[0.65rem] w-40">Klien</th>
-                                                <th class="text-black border text-[0.65rem] w-24">Tema</th>
+                                                <th class="text-black border text-[0.65rem] w-28">Klien</th>
+                                                <th class="text-black border text-[0.65rem] w-32">Tema</th>
                                                 <th class="text-black border text-[0.65rem] w-16">Jenis</th>
-                                                <th class="text-black border text-[0.65rem] w-20">Bahan</th>
+                                                <th class="text-black border text-[0.65rem] w-24">Bahan</th>
                                                 <th class="text-black border text-[0.65rem] w-16">Size</th>
                                                 <th class="text-black border text-[0.65rem] w-10">Qty</th>
                                                 <th class="text-black border text-[0.65rem] w-16">Harga</th>
@@ -231,7 +232,7 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $product->vendor_company }}
+                                                                {{ $order->vendor->name }}
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
@@ -334,6 +335,13 @@
                                                     @endif
                                                 @endif
                                             @endforeach
+                                            <tr>
+                                                <td class="text-stone-900 px-2 border text-[0.7rem] font-semibold text-right"
+                                                    colspan="12">Total</td>
+                                                <td
+                                                    class="text-stone-900 px-2 border text-[0.7rem] font-semibold text-right">
+                                                    {{ number_format($amount) }}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
