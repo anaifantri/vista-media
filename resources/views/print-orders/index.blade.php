@@ -115,7 +115,7 @@
                         <thead>
                             <tr class="bg-stone-400 h-10">
                                 <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center">No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-36">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-40">
                                     <button class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor SPK')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
@@ -166,9 +166,7 @@
                                         </a>
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                        {{ date('d', strtotime($order->created_at)) }}
-                                        {{ $bulan[(int) date('m', strtotime($order->created_at))] }}
-                                        {{ date('Y', strtotime($order->created_at)) }}
+                                        {{ date('d', strtotime($order->created_at)) }}-{{ $bulan[(int) date('m', strtotime($order->created_at))] }}-{{ date('Y', strtotime($order->created_at)) }}
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         @if ($order->sale)
@@ -264,7 +262,7 @@
                     </table>
                 </div>
             </div>
-            <div class="flex justify-center text-stone-100">
+            <div class="flex justify-center text-stone-100 mt-2">
                 {!! $print_orders->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>

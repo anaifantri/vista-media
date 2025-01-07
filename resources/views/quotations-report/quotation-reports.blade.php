@@ -81,8 +81,8 @@
                                                 </label>
                                             @else
                                                 <label id="labelPeriode"
-                                                    class="month-report text-xl font-semibold text-center">JAN - DES
-                                                    {{ date('Y') }}</label>
+                                                    class="month-report text-xl font-semibold text-center">SEMUA
+                                                    DATA</label>
                                             @endif
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -158,8 +158,8 @@
                                                         {{ date('Y', $searchDate) }}</label>
                                                 @else
                                                     <label id="labelPeriode"
-                                                        class="month-report text-xl font-semibold text-center">JAN
-                                                        - DES {{ date('Y') }}</label>
+                                                        class="month-report text-xl font-semibold text-center">SEMUA
+                                                        DATA</label>
                                                 @endif
                                             </div>
                                             <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -199,7 +199,7 @@
                                                 <th class="text-black sticky top-0 border text-[0.65rem]" colspan="2">
                                                     Data Klien
                                                 </th>
-                                                <th class="text-black sticky top-0 border text-[0.65rem] w-32"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] w-44"
                                                     rowspan="2">
                                                     Lokasi
                                                 </th>
@@ -221,7 +221,7 @@
                                                     $products = json_decode($quotation->products);
                                                 @endphp
                                                 @if ($i == 0)
-                                                    @if ($loop->iteration < 30)
+                                                    @if ($loop->iteration <= 30)
                                                         <tr>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
@@ -252,7 +252,7 @@
                                                                 {{ $client->contact_name }}
                                                             </td>
                                                             <td
-                                                                class="text-black border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-center align-top px-1">
                                                                 @foreach ($products as $product)
                                                                     @if ($loop->iteration != count($products))
                                                                         {{ $product->code }},

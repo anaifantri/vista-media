@@ -44,6 +44,10 @@ class InstallOrder extends Model
         }
     }
 
+    public function scopeYear($query){
+        return $query->whereYear('created_at', Carbon::now()->year);
+    }
+
     public function scopeSales($query){
         return $query->where('product->order_type', '=', 'sales');
     }
@@ -58,6 +62,7 @@ class InstallOrder extends Model
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('theme', 'like', '%' . $search . '%')
                     ->orWhere('type', 'like', '%' . $search . '%')
+                    ->orWhere('created_at', 'like', '%' . $search . '%')
                     ->orWhereHas('sale', function($query) use ($search){
                         $query->whereHas('quotation', function($query) use ($search){
                             $query->whereRaw('LOWER(JSON_EXTRACT(clients, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])

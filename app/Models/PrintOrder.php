@@ -45,6 +45,10 @@ class PrintOrder extends Model
         }
     }
 
+    public function scopeYear($query){
+        return $query->whereYear('created_at', Carbon::now()->year);
+    }
+
     public function scopeSales($query){
         return $query->where('product->order_type', '=', 'sales');
     }

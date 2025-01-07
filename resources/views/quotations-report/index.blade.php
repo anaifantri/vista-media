@@ -296,7 +296,7 @@
                 type: 'pie',
             },
             title: {
-                text: 'Persentase Penawaran',
+                text: 'Penawaran Tahun Ini',
                 align: 'center'
             },
             labels: @json($labelData),

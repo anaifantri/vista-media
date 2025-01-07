@@ -62,18 +62,18 @@ class DashboardController extends Controller
             $printOrders = PrintOrder::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
             $printOrderQty[] = count($printOrders);
         }
-        $printSales = PrintOrder::sales()->get();
-        $freePrintSales = PrintOrder::freeSales()->get();
-        $freePrintOther = PrintOrder::freeOther()->get();
+        $printSales = PrintOrder::sales()->year()->get();
+        $freePrintSales = PrintOrder::freeSales()->year()->get();
+        $freePrintOther = PrintOrder::freeOther()->year()->get();
         $printOrderData = [count($printSales), count($freePrintSales), count($freePrintOther)];
 
         for ($i=1; $i <= 12; $i++) { 
             $installOrders = InstallOrder::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
             $installOrderQty[] = count($installOrders);
         }
-        $installSales = InstallOrder::sales()->get();
-        $freeInstallSales = InstallOrder::freeSales()->get();
-        $freeInstallOther = InstallOrder::freeOther()->get();
+        $installSales = InstallOrder::sales()->year()->get();
+        $freeInstallSales = InstallOrder::freeSales()->year()->get();
+        $freeInstallOther = InstallOrder::freeOther()->year()->get();
         $installOrderData = [count($installSales), count($freeInstallSales), count($freeInstallOther)];
 
         $labelDataOrder = ['Berbayar', 'Gratis Penjualan', 'Gratis Lain-Lain'];

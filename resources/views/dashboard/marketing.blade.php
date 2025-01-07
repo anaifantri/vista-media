@@ -412,42 +412,42 @@
                         </div>
                     </a>
                     <a href="/print-orders/print-sales"
-                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Cetak</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Berbayar</label>
-                            <label
+                            {{-- <label
                                 class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
                                 {{ number_format($printSales->sum('price')) }}
-                            </label>
+                            </label> --}}
                         </div>
                     </a>
                     <a href="/print-orders/free-sales"
-                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Penjualan</label>
-                            <label
+                            {{-- <label
                                 class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
                                 {{ number_format($freePrintSales->sum('price')) }}
-                            </label>
+                            </label> --}}
                         </div>
                     </a>
                     <a href="/print-orders/free-other"
-                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Lain-Lain</label>
-                            <label
+                            {{-- <label
                                 class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
                                 {{ number_format($freePrintOther->sum('price')) }}
-                            </label>
+                            </label> --}}
                         </div>
                     </a>
                 </div>
@@ -572,42 +572,42 @@
                         </div>
                     </a>
                     <a href="/install-orders/install-sales"
-                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Pasang</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Berbayar</label>
-                            <label
+                            {{-- <label
                                 class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
                                 {{ count($installSales) }}
-                            </label>
+                            </label> --}}
                         </div>
                     </a>
                     <a href="/install-orders/free-sales"
-                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
                             <label class="flex justify-center items-center font-serif text-md cursor-pointer">Dari
                                 Penjualan</label>
-                            <label
+                            {{-- <label
                                 class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
                                 {{ count($freeInstallSales) }}
-                            </label>
+                            </label> --}}
                         </div>
                     </a>
                     <a href="/install-orders/free-other"
-                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                        class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Lain-Lain</label>
-                            <label
+                            {{-- <label
                                 class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
                                 {{ count($freeInstallOther) }}
-                            </label>
+                            </label> --}}
                         </div>
                     </a>
                 </div>

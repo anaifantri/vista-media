@@ -79,8 +79,8 @@
                                                 </label>
                                             @else
                                                 <label id="labelPeriode"
-                                                    class="month-report text-xl font-semibold text-center">JAN - DES
-                                                    {{ date('Y') }}</label>
+                                                    class="month-report text-xl font-semibold text-center">SEMUA
+                                                    DATA</label>
                                             @endif
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -148,8 +148,8 @@
                                                         {{ date('Y', $searchDate) }}</label>
                                                 @else
                                                     <label id="labelPeriode"
-                                                        class="month-report text-xl font-semibold text-center">JAN
-                                                        - DES {{ date('Y') }}</label>
+                                                        class="month-report text-xl font-semibold text-center">SEMUA
+                                                        DATA</label>
                                                 @endif
                                             </div>
                                             <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -169,37 +169,40 @@
                                                     rowspan="2">
                                                     No.
                                                 </th>
-                                                <th class="text-black sticky top-0 border text-[0.65rem] text-center w-32"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] text-center w-24"
                                                     rowspan="2">
-                                                    <button class="flex justify-center items-center w-32">@sortablelink('number', 'Nomor SPK')
+                                                    <button
+                                                        class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor SPK')
                                                         <svg class="fill-current w-3 ml-1"
                                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                             <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                                         </svg>
                                                     </button>
                                                 </th>
-                                                <th class="text-black sticky top-0 border text-[0.65rem] w-20"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] w-16"
                                                     rowspan="2">
                                                     Tanggal
                                                 </th>
-                                                <th class="text-black sticky top-0 border text-[0.65rem] w-28"
+                                                <th class="text-black sticky top-0 border text-[0.65rem] w-20"
                                                     rowspan="2">
                                                     Vendor
                                                 </th>
-                                                <th class="text-black sticky top-0 border text-[0.65rem]" colspan="9">
+                                                <th class="text-black sticky top-0 border text-[0.65rem]" colspan="11">
                                                     Deskripsi
                                                 </th>
                                             </tr>
                                             <tr>
+                                                <th class="text-black border text-[0.65rem] w-16">Kode</th>
+                                                <th class="text-black border text-[0.65rem]">Lokasi</th>
+                                                <th class="text-black border text-[0.65rem] w-24">Klien</th>
+                                                <th class="text-black border text-[0.65rem] w-28">Tema</th>
                                                 <th class="text-black border text-[0.65rem] w-24">Status</th>
-                                                <th class="text-black border text-[0.65rem] w-28">Klien</th>
-                                                <th class="text-black border text-[0.65rem] w-32">Tema</th>
-                                                <th class="text-black border text-[0.65rem] w-16">Jenis</th>
-                                                <th class="text-black border text-[0.65rem] w-24">Bahan</th>
-                                                <th class="text-black border text-[0.65rem] w-16">Size</th>
-                                                <th class="text-black border text-[0.65rem] w-10">Qty</th>
-                                                <th class="text-black border text-[0.65rem] w-16">Harga</th>
-                                                <th class="text-black border text-[0.65rem] w-[72px]">Total</th>
+                                                <th class="text-black border text-[0.65rem] w-8">Jenis</th>
+                                                <th class="text-black border text-[0.65rem] w-20">Bahan</th>
+                                                <th class="text-black border text-[0.65rem] w-14">Size</th>
+                                                <th class="text-black border text-[0.65rem] w-8">Qty</th>
+                                                <th class="text-black border text-[0.65rem] w-14">Harga</th>
+                                                <th class="text-black border text-[0.65rem] w-20">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -216,7 +219,7 @@
                                                     }
                                                 @endphp
                                                 @if ($i == 0)
-                                                    @if ($loop->iteration < 30)
+                                                    @if ($loop->iteration <= 30)
                                                         <tr>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
@@ -224,19 +227,26 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $order->number }}
+                                                                {{ substr($order->number, 0, 15) }}..
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ date('d-M-Y', strtotime($order->created_at)) }}
+                                                                {{ date('d-m-Y', strtotime($order->created_at)) }}
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
                                                                 {{ $order->vendor->name }}
                                                             </td>
                                                             <td
-                                                                class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $product->status }}
+                                                                class="text-black border text-[0.65rem] align-top px-1 text-center">
+                                                                {{ $product->location_code }}-{{ $product->city_code }}
+                                                            </td>
+                                                            <td class="text-black border text-[0.65rem] align-top px-1">
+                                                                @if (strlen($product->location_address) > 45)
+                                                                    {{ substr($product->location_address, 0, 45) }}..
+                                                                @else
+                                                                    {{ $product->location_address }}
+                                                                @endif
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] align-top text-center px-1">
@@ -250,7 +260,15 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $product->product_type }}
+                                                                {{ $product->status }}
+                                                            </td>
+                                                            <td
+                                                                class="text-black border text-[0.65rem] text-center align-top">
+                                                                @if ($product->product_type == 'Frontlight')
+                                                                    FL
+                                                                @elseif ($product->product_type == 'Backlight')
+                                                                    BL
+                                                                @endif
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] align-top px-1 text-center">
@@ -283,19 +301,26 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $order->number }}
+                                                                {{ substr($order->number, 0, 15) }}..
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ date('d-M-Y', strtotime($order->created_at)) }}
+                                                                {{ date('d-m-Y', strtotime($order->created_at)) }}
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $product->vendor_company }}
+                                                                {{ $order->vendor->name }}
                                                             </td>
                                                             <td
-                                                                class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $product->status }}
+                                                                class="text-black border text-[0.65rem] align-top px-1 text-center">
+                                                                {{ $product->location_code }}-{{ $product->city_code }}
+                                                            </td>
+                                                            <td class="text-black border text-[0.65rem] align-top px-1">
+                                                                @if (strlen($product->location_address) > 45)
+                                                                    {{ substr($product->location_address, 0, 45) }}..
+                                                                @else
+                                                                    {{ $product->location_address }}
+                                                                @endif
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] align-top text-center px-1">
@@ -309,7 +334,15 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $product->product_type }}
+                                                                {{ $product->status }}
+                                                            </td>
+                                                            <td
+                                                                class="text-black border text-[0.65rem] text-center align-top">
+                                                                @if ($product->product_type == 'Frontlight')
+                                                                    FL
+                                                                @elseif ($product->product_type == 'Backlight')
+                                                                    BL
+                                                                @endif
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] align-top px-1 text-center">
@@ -337,7 +370,7 @@
                                             @endforeach
                                             <tr>
                                                 <td class="text-stone-900 px-2 border text-[0.7rem] font-semibold text-right"
-                                                    colspan="12">Total</td>
+                                                    colspan="14">Total</td>
                                                 <td
                                                     class="text-stone-900 px-2 border text-[0.7rem] font-semibold text-right">
                                                     {{ number_format($amount) }}</td>

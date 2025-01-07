@@ -37,7 +37,7 @@ class InstallOrderController extends Controller
             $print_order = PrintOrder::with('install_order')->get();
             $locations = Location::with('install_orders')->get();
             return response()-> view ('install-orders.index', [
-                'install_orders'=>InstallOrder::filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->paginate(15)->withQueryString(),
+                'install_orders'=>InstallOrder::filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("install_at", "desc")->paginate(20)->withQueryString(),
                 'title' => 'Daftar SPK Pemasangan Gambar',
                 compact('sale', 'print_order', 'locations', 'quotations')
             ]);
@@ -99,7 +99,7 @@ class InstallOrderController extends Controller
                         'locations'=>$locations,
                         'areas' => Area::all(),
                         'cities' => City::all(),
-                        'title' => 'Pilih Lokasi',
+                        'title' => 'Pilih Lokasi Pemasangan',
                     ]);
                 }else if($request->orderType == "free"){
                     $sales = collect([]);
@@ -135,7 +135,7 @@ class InstallOrderController extends Controller
                         'usedInstalls'=>$usedInstalls,
                         'areas' => Area::all(),
                         'cities' => City::all(),
-                        'title' => 'Pilih Lokasi',
+                        'title' => 'Pilih Lokasi Pemasangan',
                         compact('locations', 'quotations', 'quotation_revisions')
                     ]);
                 }elseif($request->orderType == "sales"){
@@ -186,7 +186,7 @@ class InstallOrderController extends Controller
                         'installTypes'=>$installTypes,
                         'areas' => Area::all(),
                         'cities' => City::all(),
-                        'title' => 'Pilih Lokasi',
+                        'title' => 'Pilih Lokasi Pemasangan',
                         compact('locations', 'quotations', 'quotation_revisions')
                     ]);
                 }
@@ -238,7 +238,7 @@ class InstallOrderController extends Controller
                     'installTypes'=>$installTypes,
                     'areas' => Area::all(),
                     'cities' => City::all(),
-                    'title' => 'Pilih Lokasi',
+                    'title' => 'Pilih Lokasi Pemasangan',
                     compact('locations', 'quotations', 'quotation_revisions')
                 ]);
             }
@@ -317,7 +317,7 @@ class InstallOrderController extends Controller
                 $media_categories = MediaCategory::with('locations')->get();
                 return view('install-orders.create', [
                     'location'=>$location,
-                    'title' => 'Tambah SPK Cetak Gambar',
+                    'title' => 'Tambah SPK Pasang Gambar',
                     'orderType'=>$orderType,
                     'dataId'=>$dataId,
                     compact('areas', 'media_categories', 'cities', 'media_sizes', 'location_photos')
@@ -334,7 +334,7 @@ class InstallOrderController extends Controller
     public function create(): Response
     {
         return response()->view('install-orders.create', [
-            'title' => 'Tambah SPK Psang Gambar',
+            'title' => 'Tambah SPK Pasang Gambar',
             'categories' => MediaCategory::all()
         ]);
     }
@@ -414,7 +414,7 @@ class InstallOrderController extends Controller
             $print_order = PrintOrder::with('install_order')->get();
             return response()-> view ('install-orders.show', [
                 'install_order' => $installOrder,
-                'title' => 'Data SPK Cetak',
+                'title' => 'Data SPK Pasang',
                 compact('companies', 'locations', 'sale', 'print_order')
             ]);
         } else {

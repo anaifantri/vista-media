@@ -174,7 +174,7 @@
                                     <div class="flex mt-1">
                                         <label class="flex text-sm text-black w-14">Catatan</label>
                                         <label class="flex text-sm text-black">:</label>
-                                        <label class="flex w-[425px] ml-1 text-sm text-black border rounded-sm px-1">
+                                        <label class="flex h-12 w-[425px] ml-1 text-sm text-black border rounded-sm px-1">
                                             {{ $install_order->notes }}
                                         </label>
                                     </div>
@@ -374,7 +374,7 @@
                                     <div class="flex mt-1">
                                         <label class="flex text-sm text-black w-14">Catatan</label>
                                         <label class="flex text-sm text-black">:</label>
-                                        <label class="flex w-[425px] ml-1 text-sm text-black border rounded-sm px-1">
+                                        <label class="flex h-12 w-[425px] ml-1 text-sm text-black border rounded-sm px-1">
                                             {{ $install_order->notes }}
                                         </label>
                                     </div>

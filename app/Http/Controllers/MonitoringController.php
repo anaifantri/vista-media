@@ -34,7 +34,7 @@ class MonitoringController extends Controller
             $media_categories = MediaCategory::with('locations')->get();
             $monitorings = Monitoring::with('location')->get();
             return response()-> view ('monitorings.index', [
-                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(30)->withQueryString(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
                 'title' => 'Daftar Data Pembayaran Tagihan Listrik',

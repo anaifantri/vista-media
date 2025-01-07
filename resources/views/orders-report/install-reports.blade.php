@@ -21,9 +21,9 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center m-2 w-[1280px]">
-                <h1 class="text-xl text-stone-100 font-bold tracking-wider w-[1580px] border-b">LAPORAN SPK CETAK</h1>
+                <h1 class="text-xl text-stone-100 font-bold tracking-wider w-[1580px] border-b">LAPORAN SPK PASANG</h1>
             </div>
-            @include('orders-report.print-header')
+            @include('orders-report.install-header')
             <div id="chartReport" class="flex justify-center z-0">
                 <?php
                 if (fmod(count($install_orders), 30) == 0) {
@@ -79,8 +79,8 @@
                                                 </label>
                                             @else
                                                 <label id="labelPeriode"
-                                                    class="month-report text-xl font-semibold text-center">JAN - DES
-                                                    {{ date('Y') }}</label>
+                                                    class="month-report text-xl font-semibold text-center">SEMUA
+                                                    DATA</label>
                                             @endif
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -148,8 +148,8 @@
                                                         {{ date('Y', $searchDate) }}</label>
                                                 @else
                                                     <label id="labelPeriode"
-                                                        class="month-report text-xl font-semibold text-center">JAN
-                                                        - DES {{ date('Y') }}</label>
+                                                        class="month-report text-xl font-semibold text-center">SEMUA
+                                                        DATA</label>
                                                 @endif
                                             </div>
                                             <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -191,8 +191,8 @@
                                             </tr>
                                             <tr>
                                                 <th class="text-black border text-[0.65rem] w-24">Status</th>
-                                                <th class="text-black border text-[0.65rem] w-24">Klien</th>
-                                                <th class="text-black border text-[0.65rem] w-32">Tema</th>
+                                                <th class="text-black border text-[0.65rem] w-28">Klien</th>
+                                                <th class="text-black border text-[0.65rem] w-40">Tema</th>
                                                 <th class="text-black border text-[0.65rem] w-16">Jenis</th>
                                                 <th class="text-black border text-[0.65rem] w-16">Size</th>
                                                 <th class="text-black border text-[0.65rem] w-10">Qty</th>
@@ -213,7 +213,7 @@
                                                     }
                                                 @endphp
                                                 @if ($i == 0)
-                                                    @if ($loop->iteration < 30)
+                                                    @if ($loop->iteration <= 30)
                                                         <tr>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
@@ -221,7 +221,7 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $order->number }}
+                                                                {{ substr($order->number, 0, 15) }}..
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
@@ -235,7 +235,7 @@
                                                                 {{ $product->location_address }}
                                                             </td>
                                                             <td
-                                                                class="text-black border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-left align-top px-1">
                                                                 {{ $product->status }}
                                                             </td>
                                                             <td
@@ -245,7 +245,7 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-black border text-[0.65rem] text-center align-top">
+                                                                class="text-black border text-[0.65rem] text-left align-top px-1">
                                                                 {{ $order->theme }}
                                                             </td>
                                                             <td
@@ -275,29 +275,11 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $order->number }}
+                                                                {{ substr($order->number, 0, 15) }}..
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
                                                                 {{ date('d-M-Y', strtotime($order->created_at)) }}
-                                                            </td>
-                                                            <td
-                                                                class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $product->status }}
-                                                            </td>
-                                                            <td
-                                                                class="text-black border text-[0.65rem] align-top text-center px-1">
-                                                                @if ($client)
-                                                                    {{ $client->name }}
-                                                                @endif
-                                                            </td>
-                                                            <td
-                                                                class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $order->theme }}
-                                                            </td>
-                                                            <td
-                                                                class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $order->type }}
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] align-top px-1 text-center">
@@ -307,12 +289,34 @@
                                                                 {{ $product->location_address }}
                                                             </td>
                                                             <td
+                                                                class="text-black border text-[0.65rem] text-left align-top px-1">
+                                                                {{ $product->status }}
+                                                            </td>
+                                                            <td
+                                                                class="text-black border text-[0.65rem] align-top text-center px-1">
+                                                                @if ($client)
+                                                                    {{ $client->name }}
+                                                                @endif
+                                                            </td>
+                                                            <td
+                                                                class="text-black border text-[0.65rem] text-left align-top px-1">
+                                                                {{ $order->theme }}
+                                                            </td>
+                                                            <td
+                                                                class="text-black border text-[0.65rem] text-center align-top">
+                                                                {{ $order->type }}
+                                                            </td>
+                                                            <td
                                                                 class="text-black border text-[0.65rem] align-top px-1 text-center">
                                                                 {{ $product->location_size }}
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] align-top px-1 text-center">
                                                                 {{ $product->qty }}
+                                                            </td>
+                                                            <td
+                                                                class="text-black border text-[0.65rem] text-center align-top">
+                                                                {{ date('d-M-Y', strtotime($order->install_at)) }}
                                                             </td>
                                                         </tr>
                                                     @endif

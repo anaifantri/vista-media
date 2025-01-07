@@ -36,7 +36,7 @@ class PrintOrderController extends Controller
             $quotations = Quotation::with('sales')->get();
             $vendors = Vendor::with('print_orders')->get();
             return response()-> view ('print-orders.index', [
-                'print_orders'=>PrintOrder::filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->paginate(15)->withQueryString(),
+                'print_orders'=>PrintOrder::filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("created_at", "desc")->paginate(20)->withQueryString(),
                 'amount'=>PrintOrder::filter(request('search'))->periode()->sum('price'),
                 'title' => 'Daftar SPK Cetak',
                 compact('sale', 'vendors', 'quotations')

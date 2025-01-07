@@ -269,7 +269,7 @@
                     </table>
                 </div>
             </div>
-            <div class="flex justify-center text-teal-900">
+            <div class="flex justify-center text-stone-100 mt-2">
                 {!! $install_orders->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>

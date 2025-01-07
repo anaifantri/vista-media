@@ -20,15 +20,17 @@
                                     <label class="flex justify-center font-serif text-md cursor-pointer">SPK Cetak</label>
                                 </div>
                             </a>
-                            <a href="#"
-                                class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                            <a href="/print-orders/print-sales"
+                                class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
+                                    <label
+                                        class="flex justify-center items-center font-serif text-md cursor-pointer">Cetak</label>
                                     <label
                                         class="flex justify-center items-center font-serif text-md cursor-pointer">Berbayar</label>
                                 </div>
                             </a>
-                            <a href="#"
-                                class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                            <a href="/print-orders/free-sales"
+                                class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
                                         class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
@@ -36,8 +38,8 @@
                                         class="flex justify-center items-center font-serif text-md cursor-pointer">Penjualan</label>
                                 </div>
                             </a>
-                            <a href="#"
-                                class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                            <a href="/print-orders/free-other"
+                                class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
                                         class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
@@ -134,15 +136,17 @@
                                     <label class="flex justify-center font-serif text-md cursor-pointer">SPK Pasang</label>
                                 </div>
                             </a>
-                            <a href="#"
-                                class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                            <a href="/install-orders/install-sales"
+                                class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
+                                    <label
+                                        class="flex justify-center items-center font-serif text-md cursor-pointer">Pasang</label>
                                     <label
                                         class="flex justify-center items-center font-serif text-md cursor-pointer">Berbayar</label>
                                 </div>
                             </a>
-                            <a href="#"
-                                class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                            <a href="/install-orders/free-sales"
+                                class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
                                         class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
@@ -150,8 +154,8 @@
                                         Penjualan</label>
                                 </div>
                             </a>
-                            <a href="#"
-                                class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                            <a href="/install-orders/free-other"
+                                class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
                                         class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
@@ -301,6 +305,10 @@
                     vertical: 0
                 },
             },
+            title: {
+                text: 'SPK Cetak Tahun Ini',
+                align: 'center'
+            },
             responsive: [{
                 breakpoint: 480,
                 options: {
@@ -373,6 +381,10 @@
                     horizontal: 6,
                     vertical: 0
                 },
+            },
+            title: {
+                text: 'SPK Pasang Tahun Ini',
+                align: 'center'
             },
             responsive: [{
                 breakpoint: 480,

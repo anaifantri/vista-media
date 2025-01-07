@@ -62,7 +62,7 @@
                     type: 'pie',
                 },
                 title: {
-                    text: 'Persentase Penawaran',
+                    text: 'Penawaran Tahun Ini',
                     align: 'center'
                 },
                 labels: @json($labelData),
@@ -268,6 +268,10 @@
                         vertical: 0
                     },
                 },
+                title: {
+                    text: 'SPK Cetak Tahun Ini',
+                    align: 'center'
+                },
                 responsive: [{
                     breakpoint: 480,
                     options: {
@@ -339,6 +343,10 @@
                         horizontal: 6,
                         vertical: 0
                     },
+                },
+                title: {
+                    text: 'SPK Pasang Tahun Ini',
+                    align: 'center'
                 },
                 responsive: [{
                     breakpoint: 480,

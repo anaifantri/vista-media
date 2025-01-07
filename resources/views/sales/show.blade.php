@@ -598,7 +598,7 @@
                                                         </tr>
                                                         <tr>
                                                             <th class="w-6 text-[0.65rem] text-black border">No.</th>
-                                                            <th class="w-16 text-[0.65rem] text-black border">SPK Cetak
+                                                            <th class="w-16 text-[0.65rem] text-black border">No. SPK
                                                             </th>
                                                             <th class="w-16 text-[0.65rem] text-black border">Tgl. Pasang
                                                             </th>
@@ -624,7 +624,7 @@
                                                                         {{ substr($install_order->number, 0, 8) }}..</a>
                                                                 </td>
                                                                 <td class="text-[0.65rem] text-black border text-center">
-                                                                    {{ date('d-m-Y', strtotime($install_order->created_at)) }}
+                                                                    {{ date('d-m-Y', strtotime($install_order->install_at)) }}
                                                                 </td>
                                                                 <td class="text-[0.65rem] text-black border text-center">
                                                                     @if (strlen($install_order->theme) > 15)
