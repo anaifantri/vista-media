@@ -1,6 +1,20 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
+    <?php
+    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $daftar_hari = [
+        'Sunday' => 'Minggu',
+        'Monday' => 'Senin',
+        'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu',
+        'Thursday' => 'Kamis',
+        'Friday' => 'Jumat',
+        'Saturday' => 'Sabtu',
+    ];
+    // $name = 'DAFTAR SPK CETAK - ' . date('d', strtotime(request('periode'))) . ' ' . $bulan_full[(int) date('m', strtotime(request('periode')))] . ' ' . date('Y', strtotime(request('periode')));
+    ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
@@ -12,33 +26,41 @@
                     <h1 class="index-h1">Daftar Lokasi Media {{ $category }}</h1>
                 @endif
                 <!-- Title end -->
-                <!-- Button Create start -->
-                @if ($category == 'All')
-                    @if (request('media_category_id') != '' && request('media_category_id') != 'All')
-                        @canany(['isAdmin', 'isMedia'])
-                            @can('isLocation')
-                                @can('isMediaCreate')
-                                    <div>
+                <div class="flex">
+                    <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-warning"
+                        title="Simpan dalam bentuk pdf" type="button">
+                        <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z" />
+                        </svg>
+                        <span class="mx-1">Save PDF</span>
+                    </button>
+                    <!-- Button Create start -->
+                    @if ($category == 'All')
+                        @if (request('media_category_id') != '' && request('media_category_id') != 'All')
+                            @canany(['isAdmin', 'isMedia'])
+                                @can('isLocation')
+                                    @can('isMediaCreate')
                                         <a href="/media/locations/create-location/{{ $data_categories->name }}"
                                             class="index-link btn-primary">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                                     fill-rule="nonzero" />
                                             </svg>
                                             <span class="mx-1 hidden sm:flex">Tambah Lokasi</span>
                                         </a>
-                                    </div>
+                                    @endcan
                                 @endcan
-                            @endcan
-                        @endcanany
-                    @endif
-                @else
-                    @canany(['isAdmin', 'isMedia'])
-                        @can('isLocation')
-                            @can('isMediaCreate')
-                                <div>
+                            @endcanany
+                        @endif
+                    @else
+                        @canany(['isAdmin', 'isMedia'])
+                            @can('isLocation')
+                                @can('isMediaCreate')
                                     <a href="/media/locations/create-location/{{ $category }}" class="index-link btn-primary">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -48,11 +70,11 @@
                                         </svg>
                                         <span class="mx-1 hidden sm:flex">Tambah Lokasi</span>
                                     </a>
-                                </div>
+                                @endcan
                             @endcan
-                        @endcan
-                    @endcanany
-                @endif
+                        @endcanany
+                    @endif
+                </div>
                 <!-- Button Create end -->
             </div>
             <div>
@@ -245,6 +267,7 @@
                         @foreach ($locations as $location)
                             @php
                                 $description = json_decode($location->description);
+                                $created_by = json_decode($location->created_by);
                                 if (
                                     $location->media_category->name == 'Videotron' ||
                                     ($location->media_category->name == 'Signage' && $description->type == 'Videotron')
@@ -654,4 +677,394 @@
         </div>
     </div>
     <!-- Container end -->
+
+    {{-- <div class="bg-black p-10">
+        <div class="flex justify-center w-full">
+            <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 bg-white p-4">
+                <!-- Header start -->
+                @include('dashboard.layouts.letter-header')
+                <!-- Header end -->
+                <!-- Body start -->
+                <div class="h-[1080px]">
+                    <label class="flex text-md font-semibold justify-center w-full mt-6">
+                        <u>
+                            DAFTAR HARGA
+                            @if ($data_categories)
+                                {{ strtoupper($data_categories->name) }}
+                            @endif
+                        </u>
+                    </label>
+                    <div class="flex justify-center w-full mt-6">
+                        <div class="w-[725px]">
+                            <div class="flex">
+                                <label class="text-md w-28">Area</label>
+                                <label class="text-md">:</label>
+                                <label class="text-md px-2">
+                                    @if (request('area'))
+                                        @if (request('area') != 'All')
+                                            @php
+                                                $getArea = $areas->where('id', request('area'))->last();
+                                            @endphp
+                                            {{ $getArea->area }}
+                                        @else
+                                            Semua
+                                        @endif
+                                    @else
+                                        Semua
+                                    @endif
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <label class="text-md w-28">Kota</label>
+                                <label class="text-md">:</label>
+                                <label class="text-md px-2">
+                                    @if (request('city'))
+                                        @if (request('city') != 'All')
+                                            @php
+                                                $getCity = $cities->where('id', request('city'))->last();
+                                            @endphp
+                                            {{ $getCity->city }}
+                                        @else
+                                            Semua
+                                        @endif
+                                    @else
+                                        Semua
+                                    @endif
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center w-full mt-8">
+                        <div class="w-[850px]">
+                            <table class="table-auto w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-6 text-center"
+                                            rowspan="2">No
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-16 text-center"
+                                            rowspan="2">
+                                            <button class="flex justify-center items-center w-full">@sortablelink('code', 'Kode')
+                                                <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24">
+                                                    <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                                </svg>
+                                            </button>
+                                        </th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                            rowspan="2" colspan="2">
+                                            Lokasi
+                                        </th>
+                                        @if ($location->media_category->name == 'Videotron' || ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                            <th class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                colspan="4">
+                                                Deskripsi Reklame
+                                            </th>
+                                        @else
+                                            <th class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                colspan="5">
+                                                Deskripsi Reklame
+                                            </th>
+                                        @endif
+                                        @if ($location->media_category->name == 'Videotron' || ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                            <th class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                colspan="5">Harga
+                                            </th>
+                                        @else
+                                            <th class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                colspan="4">Harga
+                                            </th>
+                                        @endif
+                                    </tr>
+                                    <tr>
+                                        @if ($location->media_category->name != 'Videotron' || ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-8">
+                                                Jenis</th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-10">
+                                                BL/FL</th>
+                                        @endif
+                                        <th class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-8">
+                                            Side</th>
+                                        <th class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-8">
+                                            Qty</th>
+                                        <th
+                                            class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-[72px]">
+                                            Size - V/H
+                                        </th>
+                                        @if ($location->media_category->name == 'Videotron' || ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                            <th class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-8"
+                                                rowspan="2">
+                                                Slot</th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-10">
+                                                Jenis
+                                            </th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-16">
+                                                1 Bulan
+                                            </th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-16">
+                                                3 Bulan
+                                            </th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-16">
+                                                6 Bulan
+                                            </th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-20">
+                                                1 Tahun
+                                            </th>
+                                        @else
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-16">
+                                                1 Bulan
+                                            </th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-16">
+                                                3 Bulan
+                                            </th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-16">
+                                                6 Bulan
+                                            </th>
+                                            <th
+                                                class="text-stone-900 border border-stone-900 text-[0.65rem] text-center w-20">
+                                                1 Tahun
+                                            </th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $number = 1 + ($locations->currentPage() - 1) * $locations->perPage();
+                                    @endphp
+                                    @foreach ($locations as $location)
+                                        @php
+                                            $description = json_decode($location->description);
+                                            $created_by = json_decode($location->created_by);
+                                            if (
+                                                $location->media_category->name == 'Videotron' ||
+                                                ($location->media_category->name == 'Signage' &&
+                                                    $description->type == 'Videotron')
+                                            ) {
+                                                // $videotronSales = $location->sales->where('end_at', '>', date('Y-m-d'));
+                                                $videotronSales = $location->videotron_active_sales;
+                                                $slots = $description->slots;
+                                            } else {
+                                                $sale = $location->active_sale;
+                                                if ($sale) {
+                                                    $status = 'Sold';
+                                                } else {
+                                                    $status = 'Available';
+                                                }
+                                            }
+                                        @endphp
+                                        @if ($location->media_category->name == 'Videotron' || ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                            <tr>
+                                                <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                    rowspan="2">
+                                                    {{ $number++ }}
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                    rowspan="2">
+                                                    {{ $location->code }} -
+                                                    {{ $location->city->code }}
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-[0.65rem] px-2"
+                                                    rowspan="2" colspan="2">
+                                                    {{ $location->address }}
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                    rowspan="2">
+                                                    {{ (int) filter_var($location->side, FILTER_SANITIZE_NUMBER_INT) }}
+                                                </td>
+                                                @if ($location->media_category->name == 'Signage')
+                                                    <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                        rowspan="2">
+                                                        {{ $description->qty }}</td>
+                                                @else
+                                                    <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                        rowspan="2">
+                                                        1
+                                                    </td>
+                                                @endif
+                                                <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center"
+                                                    rowspan="2">
+                                                    {{ $location->media_size->size }}
+                                                    -
+                                                    @if ($location->orientation == 'Vertikal')
+                                                        V
+                                                    @elseif ($location->orientation == 'Horizontal')
+                                                        H
+                                                    @endif
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-center px-1"
+                                                    rowspan="2">
+                                                    {{ $slots }}
+                                                </td>
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-center px-1">
+                                                    Sharing/Slot
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price / 10 / $slots) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format(($location->price * (27.5 / 100)) / $slots) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format(($location->price * (52.5 / 100)) / $slots) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price / $slots) }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-center px-1">
+                                                    Eksklusif
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price / 10) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price * (27.5 / 100)) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price * (52.5 / 100)) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price) }}
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
+                                                    {{ $number++ }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
+                                                    {{ $location->code }} -
+                                                    {{ $location->city->code }}
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-[0.65rem] px-2"
+                                                    colspan="2">
+                                                    {{ $location->address }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
+                                                    {{ $location->media_category->code }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
+                                                    @if ($location->media_category->name == 'Videotron')
+                                                        -
+                                                    @elseif ($location->media_category->name == 'Signage')
+                                                        @if ($description->type == 'Videotron')
+                                                            -
+                                                        @else
+                                                            @if ($description->lighting == 'Backlight')
+                                                                BL
+                                                            @elseif ($description->lighting == 'Frontlight')
+                                                                FL
+                                                            @elseif ($description->lighting == 'Nonlight')
+                                                                NL
+                                                            @endif
+                                                        @endif
+                                                    @else
+                                                        @if ($description->lighting == 'Backlight')
+                                                            BL
+                                                        @elseif ($description->lighting == 'Frontlight')
+                                                            FL
+                                                        @elseif ($description->lighting == 'Nonlight')
+                                                            NL
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
+                                                    {{ (int) filter_var($location->side, FILTER_SANITIZE_NUMBER_INT) }}
+                                                </td>
+                                                @if ($location->media_category->name == 'Signage')
+                                                    <td
+                                                        class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
+                                                        {{ $description->qty }}</td>
+                                                @else
+                                                    <td
+                                                        class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
+                                                        1
+                                                    </td>
+                                                @endif
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-center">
+                                                    {{ $location->media_size->size }}
+                                                    -
+                                                    @if ($location->orientation == 'Vertikal')
+                                                        V
+                                                    @elseif ($location->orientation == 'Horizontal')
+                                                        H
+                                                    @endif
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price / 10) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price * (27.5 / 100)) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price * (52.5 / 100)) }}
+                                                </td>
+                                                <td
+                                                    class="text-stone-900 border border-stone-900 text-[0.65rem] text-right px-1">
+                                                    {{ number_format($location->price) }}
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="mt-8">
+                                <div class="flex justify-center">
+                                    <div class="w-[725px]">
+                                        <label class="text-sm text-black flex font-semibold">Denpasar,
+                                            {{ date('d') }}
+                                            {{ $bulan_full[(int) date('m')] }}
+                                            {{ date('Y') }}
+                                        </label>
+                                        <label class="text-sm text-black flex font-semibold">PT. Vista Media</label>
+                                        <label class="mt-12 text-sm text-black flex font-semibold">
+                                            <u>{{ auth()->user()->name }}</u>
+                                        </label>
+                                        <label class="text-xs text-black flex">{{ auth()->user()->position }}</label>
+                                        <label class="text-xs text-black flex">Hp.
+                                            {{ auth()->user()->phone }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Body start -->
+                <!-- Footer start -->
+                @include('dashboard.layouts.letter-footer')
+                <!-- Footer end -->
+            </div>
+        </div>
+    </div> --}}
 @endsection

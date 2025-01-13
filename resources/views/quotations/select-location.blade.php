@@ -181,10 +181,13 @@
                     </div>
                     <div class="flex mt-2">
                         <div class="flex">
-                            <input id="search" name="search"
+                            <input
+                                id="search"class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
+                                type="text" placeholder="Search"onkeyup="searchTable()" autofocus>
+                            {{-- <input id="search" name="search"
                                 class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
                                 type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
-                                autofocus onfocus="this.setSelectionRange(this.value.length,this.value.length);">
+                                autofocus onfocus="this.setSelectionRange(this.value.length,this.value.length);"> --}}
                             <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                 type="submit">
                                 <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

@@ -135,8 +135,6 @@
                                             <a
                                                 href="/marketing/sales/{{ $locationSale->id }}">{{ $clients->name }}</a>
                                         @endif
-                                        {{-- <a
-                                            href="/marketing/sales/{{ $locationSale->id }}">{{ $clients->name }}{{ $lineWidth }}</a> --}}
                                     @endif
                                 @endif
                             @endfor
@@ -147,8 +145,13 @@
                                     <div class="h-[2px] w-[1px]">
                                     </div>
                                 @elseif($i >= $start && $i <= $lineWidth + $start)
-                                    <div class="h-[2px] bg-red-700 w-[1px]">
-                                    </div>
+                                    @if ($counter % 2 == 0)
+                                        <div class="h-[2px] bg-stone-700 w-[1px]">
+                                        </div>
+                                    @else
+                                        <div class="h-[2px] bg-red-700 w-[1px]">
+                                        </div>
+                                    @endif
                                 @endif
                             @endfor
                         </div>
@@ -170,7 +173,7 @@
                         } else {
                             $start = 0;
                             $lineWidth =
-                                (strtotime(date($locationSale->end_at)) - strtotime($locationSale->start_at)) /
+                                (strtotime(date($locationSale->end_at)) - strtotime(date($thisYear . '-01-01'))) /
                                 60 /
                                 60 /
                                 24;

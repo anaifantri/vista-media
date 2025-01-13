@@ -1,4 +1,4 @@
-<table class="table-auto w-full">
+<table class="table-auto w-full" id="locationsTable">
     <thead>
         <tr class="bg-stone-400">
             <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No</th>

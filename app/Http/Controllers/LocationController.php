@@ -50,11 +50,11 @@ class LocationController extends Controller
         if(Gate::allows('isLocation') && Gate::allows('isMediaRead')){
             if($category == "All"){
                 $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-                $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+                $dataLocations = Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy("code", "asc")->paginate(35)->withQueryString();
             }else{
                 $dataCategory = MediaCategory::where('name', $category)->get()->last();
                 $media_category_id = $dataCategory->id;
-                $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+                $dataLocations = Location::where('media_category_id', $media_category_id)->filter(request('search'))->area()->city()->condition()->sortable()->orderBy("code", "asc")->paginate(35)->withQueryString();
             }
     
             $areas = Area::with('locations')->get();

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>VISTA MEDIA | {{ $title }}</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body class="container bg-stone-700 mx-auto flex h-screen w-full position-relative">

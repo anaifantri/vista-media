@@ -9,7 +9,7 @@
     $price = json_decode($quotation_revision->price);
     $payment_terms = json_decode($quotation_revision->payment_terms);
     $notes = json_decode($quotation_revision->notes);
-    $number = Str::substr($quotation_revision->number, 0, 8);
+    $number = Str::substr($quotation_revision->number, 0, 9);
     if ($category == 'Signage') {
         $dataDescription = json_decode($products[0]->description);
     }
