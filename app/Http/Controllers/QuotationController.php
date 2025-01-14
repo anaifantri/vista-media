@@ -120,7 +120,6 @@ class QuotationController extends Controller
                             $product = json_decode($sale->product);
                             $description = json_decode($product->description);
                             if($product->category != "Signage" || ($product->category == "Signage" && $description->type != "Videotron")){
-                                $sales->push($sale);
                                 $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
                                 if($revision){
                                     $notes = json_decode($revision->notes);
@@ -137,6 +136,7 @@ class QuotationController extends Controller
                                 }
     
                                 if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
+                                    $sales->push($sale);
                                     $dataLocations->push(json_decode($sale->product));
                                     array_push($clients,json_decode($sale->quotation->clients));
                                     array_push($freePrints, $freePrint);
@@ -152,7 +152,6 @@ class QuotationController extends Controller
                         $product = json_decode($sale->product);
                         $description = json_decode($product->description);
                         if($product->category != "Signage" || ($product->category == "Signage" && $description->type != "Videotron")){
-                            $sales->push($sale);
                             $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
                             if($revision){
                                 $notes = json_decode($revision->notes);
@@ -169,6 +168,7 @@ class QuotationController extends Controller
                             }
 
                             if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
+                                $sales->push($sale);
                                 $dataLocations->push(json_decode($sale->product));
                                 array_push($clients,json_decode($sale->quotation->clients));
                                 array_push($freePrints, $freePrint);

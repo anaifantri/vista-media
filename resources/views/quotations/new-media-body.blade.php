@@ -110,6 +110,16 @@
         </div>
     </div>
     <!-- table start -->
+    {{-- @if (count($products) <= 3)
+        <div class="flex justify-center mt-2">
+            <div class="flex w-[725px]">
+                <input class="text-xs" type="checkbox">
+                <label class="text-xs ml-2">Include Biaya Cetak</label>
+                <input class="text-xs ml-4" type="checkbox">
+                <label class="text-xs ml-2">Include Biaya Pasang</label>
+            </div>
+        </div>
+    @endif --}}
     <div class="flex justify-center">
         @php
             $dataDescription = json_decode($locations[0]->description);

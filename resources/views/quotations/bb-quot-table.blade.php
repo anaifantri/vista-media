@@ -132,7 +132,7 @@
                         </div>
                     </td>
                     <td class="border text-center">
-                        <div class="flex w-[72px] justify-center items-center">
+                        <div class="flex w-full justify-center items-center">
                             <input id="billboardPrice3" name="{{ $product->code }}"
                                 class="input-on-td in-out-spin-none w-[72px]" type="number" min="0"
                                 value="{{ $product->price }}" onkeyup="inputPriceChange(this)"
@@ -140,6 +140,44 @@
                         </div>
                     </td>
                 </tr>
+                {{-- <tr>
+                    <td class="text-[0.7rem] text-black border text-center"></td>
+                    <td class="text-[0.7rem] text-black border text-center"></td>
+                    @if ($category == 'Signage')
+                        <td class="text-[0.7rem] text-black border px-2" colspan="4">Biaya Cetak</td>
+                    @else
+                        <td class="text-[0.7rem] text-black border px-2" colspan="3">Biaya Cetak</td>
+                    @endif
+                    <td class="text-[0.7rem] text-black border text-center">
+                        {{ $product->size }} -
+                        @if ($product->orientation == 'Vertikal')
+                            V
+                        @elseif ($product->orientation == 'Horizontal')
+                            H
+                        @endif
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-center" colspan="3"></td>
+                    <td class="text-[0.7rem] text-black border text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-[0.7rem] text-black border text-center"></td>
+                    <td class="text-[0.7rem] text-black border text-center"></td>
+                    @if ($category == 'Signage')
+                        <td class="text-[0.7rem] text-black border px-2" colspan="4">Biaya Pasang</td>
+                    @else
+                        <td class="text-[0.7rem] text-black border px-2" colspan="3">Biaya Pasang</td>
+                    @endif
+                    <td class="text-[0.7rem] text-black border text-center">
+                        {{ $product->size }} -
+                        @if ($product->orientation == 'Vertikal')
+                            V
+                        @elseif ($product->orientation == 'Horizontal')
+                            H
+                        @endif
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-center" colspan="3"></td>
+                    <td class="text-[0.7rem] text-black border text-center"></td>
+                </tr> --}}
             @endforeach
             @if ($category == 'Signage')
                 <tr>

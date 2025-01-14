@@ -20,13 +20,9 @@ if(requestService.value){
     if (requestService.value == "new") {
         document.getElementById("newRadioService").checked = true;
         document.getElementById("existingRadioService").checked = false;
-        // document.getElementById("newService").removeAttribute('hidden');
-        // document.getElementById("existingService").setAttribute('hidden', 'hidden');
     } else if (requestService.value == "exisiting") {
         document.getElementById("newRadioService").checked = false;
         document.getElementById("existingRadioService").checked = true;
-        // document.getElementById("newService").setAttribute('hidden', 'hidden');
-        // document.getElementById("existingService").removeAttribute('hidden');
     }
 }
 
@@ -35,13 +31,9 @@ if(requestType.value){
     if (requestType.value == "new") {
         document.getElementById("newType").checked = true;
         document.getElementById("extendType").checked = false;
-        // document.getElementById("newQuotation").removeAttribute('hidden');
-        // document.getElementById("extendQuotation").setAttribute('hidden', 'hidden');
     } else if (requestType.value == "extend") {
         document.getElementById("newType").checked = false;
         document.getElementById("extendType").checked = true;
-        // document.getElementById("newQuotation").setAttribute('hidden', 'hidden');
-        // document.getElementById("extendQuotation").removeAttribute('hidden');
     }
 }
 
@@ -62,6 +54,7 @@ getExtendLocation = (sel) =>{
                 inputs[i].setAttribute('disabled', 'disabled');
             }
         }
+        document.getElementById("search").removeAttribute('disabled');
     } else {
         for (let i = 0; i < inputs.length; i++) {
             if (inputs[i].checked == false) {
@@ -96,6 +89,7 @@ getExistingLocation = (sel) =>{
             if (inputs[i].checked == false) {
                 inputs[i].setAttribute('disabled', 'disabled');
             }
+            document.getElementById("search").removeAttribute('disabled');
         }
     } else {
         for (let i = 0; i < inputs.length; i++) {
@@ -137,6 +131,7 @@ getLocation = (sel) => {
                     inputs[i].setAttribute('disabled', 'disabled');
                 }
             }
+            document.getElementById("search").removeAttribute('disabled');
         } else {
             for (let i = 0; i < inputs.length; i++) {
                 if (inputs[i].checked == false) {
@@ -161,27 +156,13 @@ quotationCreate = () => {
 
 typeCheck = (sel) => {
     getType = sel.value;
-    // if (sel.value == "new") {
-    //     document.getElementById("newQuotation").removeAttribute('hidden');
-    //     document.getElementById("extendQuotation").setAttribute('hidden', 'hidden');
-    // } else if (sel.value == "extend") {
-    //     document.getElementById("newQuotation").setAttribute('hidden', 'hidden');
-    //     document.getElementById("extendQuotation").removeAttribute('hidden');
-    // }
 }
 
 typeServiceCheck = (sel) => {
     getType = sel.value;
-    // if (sel.value == "new") {
-    //     document.getElementById("newService").removeAttribute('hidden');
-    //     document.getElementById("existingService").setAttribute('hidden', 'hidden');
-    // } else if (sel.value == "existing") {
-    //     document.getElementById("newService").setAttribute('hidden', 'hidden');
-    //     document.getElementById("existingService").removeAttribute('hidden');
-    // }
 }
 
-// Search Client --> start
+// Search Table --> start
 function searchTable() {
     const search = document.getElementById("search");
     const locationsTable = document.getElementById("locationsTable");
@@ -203,4 +184,4 @@ function searchTable() {
         }
     }
 }
-// Search Client --> end
+// Search Table --> end
