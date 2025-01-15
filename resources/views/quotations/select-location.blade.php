@@ -10,8 +10,12 @@
                         <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi Cetak /
                             Pasang</h1>
                     @else
-                        <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi
-                            {{ $category }}</h1>
+                        @if ($category == 'All')
+                            <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi</h1>
+                        @else
+                            <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi
+                                {{ $category }}</h1>
+                        @endif
                     @endif
 
                     <div class="flex justify-end w-full">
@@ -27,7 +31,11 @@
                         </button>
                         <a id="btnCreate" hidden></a>
                         <input type="text" name="dataId" id="location_id" value="test" hidden>
-                        <input type="text" name="category" id="category" value="{{ $category }}" hidden>
+                        @if ($category == 'All')
+                            <input type="text" name="category" id="category" value="Billboard" hidden>
+                        @else
+                            <input type="text" name="category" id="category" value="{{ $category }}" hidden>
+                        @endif
 
                         <a class="flex justify-center items-center ml-1 btn-danger"
                             href="/marketing/quotations/home/{{ $category }}">

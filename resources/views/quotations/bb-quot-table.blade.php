@@ -7,7 +7,10 @@
                 </th>
                 <th class="text-[0.7rem] text-black border" rowspan="2">Lokasi
                 </th>
-                @if ($category == 'Signage')
+                <th class="text-[0.7rem] text-black border" colspan="4">
+                    Deskripsi
+                </th>
+                {{-- @if ($category == 'Signage')
                     <th class="text-[0.7rem] text-black border" colspan="4">
                         Deskripsi
                     </th>
@@ -15,12 +18,15 @@
                     <th class="text-[0.7rem] text-black border" colspan="3">
                         Deskripsi
                     </th>
-                @endif
+                @endif --}}
                 <th class="text-[0.7rem] text-black border" colspan="4">Harga
                     (Rp.)
                 </th>
             </tr>
             <tr>
+                @if ($category != 'Signage')
+                    <th class="text-[0.7rem] text-black border w-10">Jenis</th>
+                @endif
                 @if ($category == 'Signage')
                     <th class="text-[0.7rem] text-black border w-16">Bentuk</th>
                 @else
@@ -80,6 +86,19 @@
                     <td class="text-[0.7rem] text-black border text-center">
                         {{ $product->code }}-{{ $product->city_code }}</td>
                     <td class="text-[0.7rem] text-black border px-1">{{ $product->address }}</td>
+                    @if ($category != 'Signage')
+                        <td class="text-[0.7rem] text-black border text-center">
+                            @if ($product->category == 'Billboard')
+                                BB
+                            @elseif($product->category == 'Bando')
+                                BD
+                            @elseif($product->category == 'Baliho')
+                                BLH
+                            @elseif($product->category == 'Midiboard')
+                                MB
+                            @endif
+                        </td>
+                    @endif
                     @if ($category == 'Signage')
                         <td class="text-[0.7rem] text-black border text-center">{{ $description->type }}</td>
                     @else
@@ -230,7 +249,7 @@
                 </tr>
             @else
                 <tr>
-                    <td class="border px-2 text-right text-xs text-black font-semibold" colspan="10">
+                    <td class="border px-2 text-right text-xs text-black font-semibold" colspan="11">
                         <div class="flex items-center justify-end">
                             <label> Include PPN..? </label>
                             <input id="ppnYes" class="ml-2" type="radio" name="ppnCheck" value="yes"
@@ -243,13 +262,13 @@
                     </td>
                 </tr>
                 <tr hidden>
-                    <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="9">Sub
+                    <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="10">Sub
                         Total
                     </td>
                     <td id="subTotal" class="text-[0.7rem] text-black border text-right font-semibold px-2"></td>
                 </tr>
                 <tr hidden>
-                    <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="9">
+                    <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="10">
                         <div class="flex items-center justify-end">
                             <label class="text-[0.7rem] text-black ml-1" for="cbPpn">PPN</label>
                             <input id="ppnValue"
@@ -273,7 +292,7 @@
                     <td id="ppnNominal" class="text-[0.7rem] text-black border text-right font-semibold px-2"></td>
                 </tr>
                 <tr hidden>
-                    <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="9">Grand
+                    <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="10">Grand
                         Total</td>
                     <td id="grandTotal" class="text-[0.7rem] text-black border text-right font-semibold px-2"></td>
                 </tr>

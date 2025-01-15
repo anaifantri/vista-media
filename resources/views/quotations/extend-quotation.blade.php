@@ -275,14 +275,17 @@
                     <td class="text-stone-900 border border-stone-900 text-center text-xs">
                         @if ($location->media_category->name == 'Signage')
                             @if (request('type') == null || request('type') == 'All')
-                                <input id="{{ $description->type }}" value="{{ $sales[$loop->iteration - 1]->id }}"
+                                <input name="{{ $clients[$loop->iteration - 1]->name }}"
+                                    id="{{ $description->type }}" value="{{ $sales[$loop->iteration - 1]->id }}"
                                     type="checkbox" title="pilih" onclick="getExtendLocation(this)" disabled>
                             @else
-                                <input value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
+                                <input name="{{ $clients[$loop->iteration - 1]->name }}"
+                                    value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
                                     onclick="getExtendLocation(this)">
                             @endif
                         @else
-                            <input value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
+                            <input name="{{ $clients[$loop->iteration - 1]->name }}"
+                                value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
                                 onclick="getExtendLocation(this)">
                         @endif
                     </td>

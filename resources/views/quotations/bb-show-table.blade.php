@@ -22,16 +22,15 @@
                 </th>
                 <th class="text-[0.7rem] text-black border" rowspan="2">Lokasi
                 </th>
-                @if ($category == 'Signage')
-                    <th class="text-[0.7rem] text-black border" colspan="4">Deskripsi</th>
-                @else
-                    <th class="text-[0.7rem] text-black border" colspan="3">Deskripsi</th>
-                @endif
+                <th class="text-[0.7rem] text-black border" colspan="4">Deskripsi</th>
                 <th class="text-[0.7rem] text-black border" colspan="{{ $cbTitle }}">Harga
                     (Rp.)
                 </th>
             </tr>
             <tr>
+                @if ($category != 'Signage')
+                    <th class="text-[0.7rem] text-black border w-10">Jenis</th>
+                @endif
                 @if ($category == 'Signage')
                     <th class="text-[0.7rem] text-black border w-16" rowspan="2">Bentuk</th>
                 @else
@@ -68,6 +67,19 @@
                     <td class="text-[0.7rem] text-black border px-2">
                         {{ $product->address }}
                     </td>
+                    @if ($category != 'Signage')
+                        <td class="text-[0.7rem] text-black border text-center">
+                            @if ($product->category == 'Billboard')
+                                BB
+                            @elseif($product->category == 'Bando')
+                                BD
+                            @elseif($product->category == 'Baliho')
+                                BLH
+                            @elseif($product->category == 'Midiboard')
+                                MB
+                            @endif
+                        </td>
+                    @endif
                     @if ($category == 'Signage')
                         <td class="text-[0.7rem] text-black border text-center">{{ $description->type }}</td>
                     @else
@@ -123,51 +135,30 @@
                     @endforeach
                 @endforeach
                 <tr>
-                    @if ($category == 'Signage')
-                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
-                            Total (A)</td>
-                    @else
-                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="6">Sub
-                            Total (A)</td>
-                    @endif
+                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
+                        Total (A)</td>
                     <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
                         {{ number_format($subTotal) }}
                     </td>
                 </tr>
                 @if ($price->objPpn->dpp != $subTotal)
                     <tr>
-                        @if ($category == 'Signage')
-                            <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">DPP
-                            </td>
-                        @else
-                            <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="6">DPP
-                            </td>
-                        @endif
+                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">DPP
+                        </td>
                         <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
                             {{ number_format($price->objPpn->dpp) }}</td>
                     </tr>
                 @endif
                 <tr>
-                    @if ($category == 'Signage')
-                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">PPN
-                            {{ $price->objPpn->value }} % (B)
-                        </td>
-                    @else
-                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="6">PPN
-                            {{ $price->objPpn->value }} % (B)
-                        </td>
-                    @endif
+                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">PPN
+                        {{ $price->objPpn->value }} % (B)
+                    </td>
                     <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
                         {{ number_format($price->objPpn->dpp * ($price->objPpn->value / 100)) }}</td>
                 </tr>
                 <tr>
-                    @if ($category == 'Signage')
-                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">
-                            Grand Total (A + B)</td>
-                    @else
-                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="6">
-                            Grand Total (A + B)</td>
-                    @endif
+                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">
+                        Grand Total (A + B)</td>
                     <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
                         @if ($price->objPpn->dpp != $subTotal)
                             {{ number_format($subTotal + $price->objPpn->dpp * ($price->objPpn->value / 100)) }}

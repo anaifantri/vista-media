@@ -405,6 +405,7 @@
     <script src="/js/qrcode.min.js"></script>
 
     <script>
+        // Save PDF --> start
         const saveName = document.querySelectorAll("[id=saveName]");
         const pdfPreview = document.querySelectorAll("[id=pdfPreview]");
         document.getElementById("btnCreatePdf").onclick = function() {
@@ -436,6 +437,48 @@
                 html2pdf().set(opt).from(element).save();
             }
         };
+        // Save PDF --> end
+
+        const categories = JSON.parse(document.getElementById("getCategories").value);
+        const formFilter = document.getElementById("formFilter");
+        // getCategory --> start
+        function setCategories(sel) {
+            if (categories.length == 1) {
+                if (sel.value == categories[0]) {
+                    alert("Minimal satu katagori harus terpilih");
+                    sel.checked = true;
+                } else {
+                    if (sel.checked == false) {
+                        for (let i = 0; i < categories.length; i++) {
+                            if (categories[i] == sel.value) {
+                                categories.splice(i, 1);
+                            }
+                        }
+                        document.getElementById("getCategories").value = JSON.stringify(categories);
+                        formFilter.submit();
+                    } else {
+                        categories.push(sel.value);
+                        document.getElementById("getCategories").value = JSON.stringify(categories);
+                        formFilter.submit();
+                    }
+                }
+            } else {
+                if (sel.checked == false) {
+                    for (let i = 0; i < categories.length; i++) {
+                        if (categories[i] == sel.value) {
+                            categories.splice(i, 1);
+                        }
+                    }
+                    document.getElementById("getCategories").value = JSON.stringify(categories);
+                    formFilter.submit();
+                } else {
+                    categories.push(sel.value);
+                    document.getElementById("getCategories").value = JSON.stringify(categories);
+                    formFilter.submit();
+                }
+            }
+        }
+        // getCategory --> end
     </script>
     <!-- Script end -->
 @endsection

@@ -37,9 +37,19 @@ class Location extends Model
         }
     }
     public function scopeCategoryName($query, $category){
+        if ($category == "All") {
+            return $query->whereHas('media_category', function($query){
+                $query->where('name', '=', "Billboard")
+                    ->orWhere('name', '=', "Baliho")
+                    ->orWhere('name', '=', "Bando")
+                    ->orWhere('name', '=', "Midiboard")
+                ;
+            });
+        }else{
             return $query->whereHas('media_category', function($query) use ($category){
                 $query->where('name', '=', $category);
             });
+        }
     }
 
     public function scopeCondition($query){

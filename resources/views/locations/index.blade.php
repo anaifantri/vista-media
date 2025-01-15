@@ -27,7 +27,7 @@
                 @endif
                 <!-- Title end -->
                 <div class="flex">
-                    <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-warning"
+                    {{-- <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-warning"
                         title="Simpan dalam bentuk pdf" type="button">
                         <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24">
@@ -35,7 +35,7 @@
                                 d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z" />
                         </svg>
                         <span class="mx-1">Save PDF</span>
-                    </button>
+                    </button> --}}
                     <!-- Button Create start -->
                     @if ($category == 'All')
                         @if (request('media_category_id') != '' && request('media_category_id') != 'All')
@@ -44,9 +44,8 @@
                                     @can('isMediaCreate')
                                         <a href="/media/locations/create-location/{{ $data_categories->name }}"
                                             class="index-link btn-primary">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                                     fill-rule="nonzero" />

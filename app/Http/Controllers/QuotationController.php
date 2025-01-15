@@ -193,9 +193,11 @@ class QuotationController extends Controller
                     $dataLocations = Location::quotationNew()->categoryName($category)->sortable()->orderBy("code", "asc")->get();
                 }
             }
+            // if($category == "All"){
+            //     $category = "Billboard";
+            // }
             $media_categories = MediaCategory::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
-            // $sales = Sale::with('location')->get();
             $quotations = Quotation::with('sales')->get();
             return view ('quotations.select-location', [
                 'areas' => Area::all(),

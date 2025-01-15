@@ -1,4 +1,4 @@
-<form action="/marketing/sales-report/chart-report/{{ $area->id }}">
+<form id="formFilter" action="/marketing/sales-report/chart-report/{{ $area->id }}">
     <div class="flex justify-center">
         <div class="flex items-center border rounded-lg mt-2 p-2 w-[1580px]">
             <input id="search" name="search" type="text" value="{{ request('search') }}" hidden>
@@ -43,27 +43,44 @@
                             @endfor
                         </select>
                     </div>
-                    <!-- Form search start -->
-                    <form action="/marketing/sales-report/chart-report/{{ $area->id }}">
-                        <div class="flex ml-8">
-                            <span class="text-base text-stone-200">Katagori</span>
-                            <select class="outline-none border w-24 text-sm text-stone-900 rounded-md ml-2 bg-stone-100"
-                                name="media_category_id" id="media_category_id" onchange="submit()"
-                                value="{{ request('media_category_id') }}">
-                                <option value="All">All</option>
-                                @foreach ($categories as $category)
-                                    @if ($category->name != 'Service')
-                                        @if (request('media_category_id') == $category->id)
-                                            <option value="{{ $category->id }}" selected>{{ $category->name }}
-                                            </option>
-                                        @else
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endif
+                    <div class="flex ml-8 items-center">
+                        <span class="text-base text-stone-200 w-20">Katagori : </span>
+                        @if (request('get_categories'))
+                            @php
+                                $getCategories = [];
+                                $getCategories = json_decode(request('get_categories'));
+                            @endphp
+                            @foreach ($categories as $category)
+                                @if ($category->name != 'Service')
+                                    @if (in_array($category->id, $getCategories))
+                                        <input class="outline-none ml-4" type="checkbox" id="category_id"
+                                            value="{{ $category->id }}" onclick="setCategories(this)" checked>
+                                        <span class="text-base text-stone-200 ml-1">{{ $category->name }}</span>
+                                    @else
+                                        <input class="outline-none ml-4" type="checkbox" id="category_id"
+                                            value="{{ $category->id }}" onclick="setCategories(this)">
+                                        <span class="text-base text-stone-200 ml-1">{{ $category->name }}</span>
                                     @endif
-                                @endforeach
-                            </select>
-                        </div>
-                    </form>
+                                @endif
+                            @endforeach
+                        @else
+                            @php
+                                $getCategories = [];
+                            @endphp
+                            @foreach ($categories as $category)
+                                @if ($category->name != 'Service')
+                                    <input class="outline-none ml-4" type="checkbox" id="category_id"
+                                        value="{{ $category->id }}" onclick="setCategories(this)" checked>
+                                    <span class="text-base text-stone-200 ml-1">{{ $category->name }}</span>
+                                    @php
+                                        array_push($getCategories, $category->id);
+                                    @endphp
+                                @endif
+                            @endforeach
+                        @endif
+                        <input type="text" id="getCategories" name="get_categories"
+                            value="{{ json_encode($getCategories) }}" hidden>
+                    </div>
                     <!-- Form search end -->
                 </div>
             </div>

@@ -107,6 +107,55 @@
                                 @endcan
                             @endcan
                         @endcanany
+                    @else
+                        @canany(['isAdmin', 'isMarketing'])
+                            @can('isQuotation')
+                                @can('isMarketingCreate')
+                                    <div class="flex">
+                                        <a href="/marketing/quotations/select-location/All" class="index-link btn-primary">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                            <span class="mx-1 hidden sm:flex">Billboard</span>
+                                        </a>
+                                        <a href="/marketing/quotations/select-location/Signage" class="index-link btn-warning ml-2">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                            <span class="mx-1 hidden sm:flex">Signage</span>
+                                        </a>
+                                        <a href="/marketing/quotations/select-location/Videotron" class="index-link btn-primary ml-2">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                            <span class="mx-1 hidden sm:flex">Videotron</span>
+                                        </a>
+                                        <a href="/marketing/quotations/select-location/Service" class="index-link btn-warning ml-2">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                            <span class="mx-1 hidden sm:flex">Cetak/Pasang</span>
+                                        </a>
+                                    </div>
+                                @endcan
+                            @endcan
+                        @endcanany
                     @endif
                 @else
                     @canany(['isAdmin', 'isMarketing'])
@@ -219,8 +268,9 @@
                             <span class="text-base text-stone-100">Pencarian</span>
                             <div class="flex">
                                 <input id="search" name="search"
-                                    class="flex border rounded-l-lg p-1 outline-none text-sm text-stone-900" type="text"
-                                    placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                    class="flex border rounded-l-lg p-1 outline-none text-sm text-stone-900"
+                                    type="text" placeholder="Search" value="{{ request('search') }}"
+                                    onkeyup="submit()"
                                     onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                                 <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
                                     type="submit">
@@ -249,7 +299,8 @@
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-20" rowspan="2">Jenis
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-20" rowspan="2">
+                                Jenis
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-xs w-36 text-center" rowspan="2">
                                 <button class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor')
