@@ -90,6 +90,7 @@
         @method('put')
         @csrf
         <input type="text" name="setDefault" value="true" hidden>
+        <input name="company_id" type="text" value="{{ $company->id }}" hidden>
     </form>
     <div id="modal" name="modal"
         class="absolute justify-center top-0 w-full h-[1500px] bg-black bg-opacity-90 z-50 hidden">
@@ -115,7 +116,7 @@
                     <form action="/media/location-photos" method="post" enctype="multipart/form-data">
                         @csrf
                         <input name="location_id" type="text" value="{{ $location->id }}" hidden>
-                        <input name="company_id" type="text" value="{{ $location->company->id }}" hidden>
+                        <input name="company_id" type="text" value="{{ $company->id }}" hidden>
                         <input name="media_category_id" type="text" value="{{ $location->media_category->id }}" hidden>
                         <input name="location_code" type="text" value="{{ $location->code }}" hidden>
                         <div>
@@ -149,6 +150,7 @@
                         <div>
                             <div id="divUpdate" class="hidden w-[600px] justify-center items-center mt-2">
                                 <input type="text" id="old_photo" name="old_photo" hidden>
+                                <input name="company_id" type="text" value="{{ $company->id }}" hidden>
                                 <input
                                     class="flex w-full h-8 border-t border-b border-r bg-white cursor-pointer text-gray-500"
                                     type="file" id="update_photo" name="update_photo"

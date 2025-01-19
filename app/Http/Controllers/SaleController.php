@@ -184,7 +184,8 @@ class SaleController extends Controller
         }
     }
 
-    public function createSales(String $category, String $quotationId){
+    public function createSales(String $category, String $quotationId)
+    {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
             $quotation = Quotation::findOrFail($quotationId);
             $revision = QuotationRevision::where('quotation_id', $quotationId)->get()->last();
@@ -248,13 +249,15 @@ class SaleController extends Controller
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
             $sales = json_decode($request->salesData);
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $dataCompany = Company::where('id', $sales[0]->company_id)->firstOrFail();
             $request->validate([
                 'document_po.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
                 'document_agreement.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
             ]);
+            // dd($request);
             foreach($sales as $sale){
                 // Set number --> start
-                $lastSales = Sale::where('company_id', $sale->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
+                $lastSales = Sale::where('company_id', $sale->company_id)->whereYear('created_at', Carbon::now()->year)->orderBy("number", "asc")->get()->last();
                 if($lastSales){
                     $lastNumber = (int)substr($lastSales->number,0,4);
                     $newNumber = $lastNumber + 1;
@@ -263,13 +266,13 @@ class SaleController extends Controller
                 }
                 
                 if($newNumber > 0 && $newNumber < 10){
-                    $number = '000'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'.date('Y');
+                    $number = '000'.$newNumber.'/PJ/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'.date('Y');
                 }else if($newNumber >= 10 && $newNumber < 100 ){
-                    $number = '00'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'.date('Y');
+                    $number = '00'.$newNumber.'/PJ/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'.date('Y');
                 }else if($newNumber >= 100 && $newNumber < 1000 ){
-                    $number = '0'.$newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'.date('Y');
+                    $number = '0'.$newNumber.'/PJ/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'.date('Y');
                 } else {
-                    $number = $newNumber.'/PJ/VM/'.$romawi[(int) date('m')].'-'.date('Y');
+                    $number = $newNumber.'/PJ/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'.date('Y');
                 }
                 // Set number --> end
                 

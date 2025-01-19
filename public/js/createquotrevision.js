@@ -10,6 +10,13 @@ const category = document.getElementById("category");
 let objProducts = JSON.parse(document.getElementById("products").value);
 let productsQty = JSON.parse(document.getElementById("products").value);
 
+let includedPrint = {
+    checked : false
+};
+let includedInstall = {
+    checked : false
+};
+
 
 // Button Add Note Action --> start
 btnAddNote.addEventListener("click", function() {
@@ -156,15 +163,28 @@ submitAction = () =>{
             }
         }
     }else{
-        if (paymentCheck() == true) {
-            getNotes();
-            getPayments();
-            if(category.value == "Videotron" || (category.value == "Signage" && category.name == "Videotron")){
-                getVideotronPrice();
-            }else{
-                getBillboardPrice();
+        if(document.getElementById("cbIncludeInstall")){
+            if (paymentCheck() == true && includeServiceChecking() == true) {
+                getNotes();
+                getPayments();
+                if(category.value == "Videotron" || (category.value == "Signage" && category.name == "Videotron")){
+                    getVideotronPrice();
+                }else{
+                    getBillboardPrice();
+                }
+                formCreate.submit();
             }
-            formCreate.submit();
+        }else{
+            if (paymentCheck() == true) {
+                getNotes();
+                getPayments();
+                if(category.value == "Videotron" || (category.value == "Signage" && category.name == "Videotron")){
+                    getVideotronPrice();
+                }else{
+                    getBillboardPrice();
+                }
+                formCreate.submit();
+            }
         }
     }
 }
@@ -260,7 +280,8 @@ getNotes = () => {
         divNotes.appendChild(labelNotes);
     }
 
-    objNotes = {dataNotes, freePrint, freeInstall};
+    // objNotes = {dataNotes, freePrint, freeInstall};
+    objNotes = {dataNotes, freePrint, freeInstall, includedPrint, includedInstall};
     notes.value = JSON.stringify(objNotes);
 }
 // Function Get Note --> end
@@ -835,6 +856,12 @@ countTotalPrice = ()=>{
         if( cbBillboardTitle[i].checked == true ){
             for(let n = 0; n < objPrice.dataPrice[i].length; n++){
                 totalPrice = totalPrice + objPrice.dataPrice[i][n].price;
+                if(document.getElementById("totalPrint") && document.getElementById("cbIncludePrint").checked == true){
+                    totalPrice = totalPrice + Number(document.getElementById("totalPrint").innerText);
+                }
+                if(document.getElementById("totalInstall") && document.getElementById("cbIncludeInstall").checked == true){
+                    totalPrice = totalPrice + Number(document.getElementById("totalInstall").innerText);
+                }
             }
         }
     }
@@ -897,10 +924,11 @@ ppnCheckAction = (sel) =>{
                 ppnNominal.innerHTML = ppn.toLocaleString();
                 grandTotal.innerHTML = (totalPrice + ppn).toLocaleString();
                 for(let i = 0; i < rows.length; i++){
-                    if(i > rows.length - 4){
+                    if(i > rows.length - 3){
                         rows[i].removeAttribute("hidden");
                     }
                 }
+                rowSubTotal.removeAttribute('hidden');
                 document.getElementById("ppnNote").value = "- Harga di atas sudah termasuk PPN";
             }
         }
@@ -914,9 +942,16 @@ ppnCheckAction = (sel) =>{
             document.getElementById("ppnNote").value =  "- Harga di atas belum termasuk PPN";
         }else{
             for(let i = 0; i < rows.length; i++){
-                if(i > rows.length - 4){
+                if(i > rows.length - 3){
                     rows[i].setAttribute('hidden', 'hidden');
                 }
+            }
+            if(document.getElementById("cbIncludeInstall")){
+                if(document.getElementById("cbIncludeInstall").checked == false && document.getElementById("cbIncludePrint").checked == false){
+                    rowSubTotal.setAttribute('hidden', 'hidden');
+                }
+            }else{
+                rowSubTotal.setAttribute('hidden', 'hidden');
             }
             document.getElementById("ppnNote").value =  "- Harga di atas belum termasuk PPN";
         }
@@ -1062,3 +1097,319 @@ periodeTitleCheck = (sel) =>{
         sel.value = sel.defaultValue;
     }
 }
+
+//Checkbox include print action --> start
+cbIncludePrintAction = (sel) => {
+    const cbBillboardTitle = document.querySelectorAll('[id=cbBillboardTitle]');
+    const rowPrint = document.getElementById("rowPrint");
+    const rowSubTotal = document.getElementById("rowSubTotal");
+    const cbIncludeInstall = document.getElementById("cbIncludeInstall");
+    const printNote = document.getElementById("printNote");
+    const includePrintQty = document.getElementById("includePrintQty");
+    const printQty = document.getElementById("printQty");
+    const printPrice = document.getElementById("printPrice");
+    const totalPrint = document.getElementById("totalPrint");
+    const printProduct = document.getElementById("printProduct");
+    let index = 0;
+
+    for(let i = 0; i < cbBillboardTitle.length; i++){
+        if( cbBillboardTitle[i].checked == true ){
+            index++;
+        }
+    }
+    if(index > 1){
+        alert('Pilih salah satu harga saja');
+        sel.checked = false;
+    }else{
+        if(sel.checked == true){
+            printNote.innerText = "• Include cetak materi visual";
+            printQty.value = includePrintQty.value;
+            printQty.setAttribute('readonly', 'readonly');
+            rowPrint.removeAttribute('hidden');
+            if(cbIncludeInstall.checked == false && document.getElementById("ppnYes").checked == false){
+                rowSubTotal.removeAttribute('hidden');
+            }
+            subTotal.innerText = countTotalPrice();
+            dppValue.value = countTotalPrice();
+            countGrandTotal();
+        }else{
+            printNote.innerText = "• Free cetak materi visual";
+            printQty.value = "";
+            printQty.removeAttribute('readonly');
+            rowPrint.setAttribute('hidden', 'hidden');
+            if(cbIncludeInstall.checked == false && document.getElementById("ppnYes").checked == false){
+                rowSubTotal.setAttribute('hidden', 'hidden');
+            }
+            printPrice.value = printPrice.defaultValue;
+            printQty.value = printQty.defaultValue;
+            includePrintQty.value = includePrintQty.defaultValue;
+            printProduct.options.selectedIndex = 0;
+            totalPrint.innerHTML = 0;
+            subTotal.innerText = countTotalPrice();
+            dppValue.value = countTotalPrice();
+            countGrandTotal();
+        }
+    }
+}
+//Checkbox include print action --> end
+
+//Checkbox include install action --> start
+cbIncludeInstallAction = (sel) => {
+    const cbBillboardTitle = document.querySelectorAll('[id=cbBillboardTitle]');
+    const rowInstall = document.getElementById("rowInstall");
+    const totalInstall = document.getElementById("totalInstall");
+    const installPrice = document.getElementById("installPrice");
+    const installWide = document.getElementById("installWide");
+    const rowSubTotal = document.getElementById("rowSubTotal");
+    const cbIncludePrint = document.getElementById("cbIncludePrint");
+    const installNote = document.getElementById("installNote");
+    const installQty = document.getElementById("installQty");
+    const includeInstallQty = document.getElementById("includeInstallQty");
+    let index = 0;
+
+    for(let i = 0; i < cbBillboardTitle.length; i++){
+        if( cbBillboardTitle[i].checked == true ){
+            index++;
+        }
+    }
+    if(index > 1){
+        alert('Pilih salah satu harga saja');
+        sel.checked = false;
+    }else{
+        if(sel.checked == true){
+            installNote.innerText = "• Include pemasangan materi visual";
+            installQty.value = includeInstallQty.value;
+            installQty.setAttribute('readonly', 'readonly');
+            rowInstall.removeAttribute('hidden');
+            if(cbIncludePrint.checked == false && document.getElementById("ppnYes").checked == false){
+                rowSubTotal.removeAttribute('hidden');
+            }
+            subTotal.innerText = countTotalPrice();
+            dppValue.value = countTotalPrice();
+            countGrandTotal();
+        }else{
+            installNote.innerText = "• Free pemasangan materi visual";
+            installQty.value = "";
+            installQty.removeAttribute('readonly');
+            rowInstall.setAttribute('hidden', 'hidden');
+            if(cbIncludePrint.checked == false && document.getElementById("ppnYes").checked == false){
+                rowSubTotal.setAttribute('hidden', 'hidden');
+            }
+            installPrice.value = installPrice.defaultValue;
+            includeInstallQty.value = includeInstallQty.defaultValue;
+            totalInstall.innerText = installPrice.value * includeInstallQty.value * installWide.value;
+            subTotal.innerText = countTotalPrice();
+            dppValue.value = countTotalPrice();
+            countGrandTotal();
+        }
+    }
+}
+//Checkbox include install action --> end
+
+//Select print product action --> start
+selectProduct = (sel) => {
+    const printPrice = document.getElementById("printPrice");
+    const includePrintQty = document.getElementById("includePrintQty");
+    const printWide = document.getElementById("printWide");
+    const totalPrint = document.getElementById("totalPrint");
+    const subTotal = document.getElementById("subTotal");
+
+    if(sel.options[sel.selectedIndex].value != "pilih"){
+        printPrice.value = Number(sel.options[sel.selectedIndex].id);
+        totalPrint.innerHTML = printPrice.value * includePrintQty.value * printWide.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+        printPrice.removeAttribute('readonly');
+    }else{
+        printPrice.setAttribute('readonly', 'readonly');
+        printPrice.value = printPrice.defaultValue;
+        totalPrint.innerHTML = 0;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    }
+
+}
+//Select print product action --> end
+
+//Print price check & change --> start
+inputPrintPriceChange = (sel) => {
+    const includePrintQty = document.getElementById("includePrintQty");
+    const printWide = document.getElementById("printWide");
+    const totalPrint = document.getElementById("totalPrint");
+    const subTotal = document.getElementById("subTotal");
+    const printProduct = document.getElementById("printProduct");
+    if(sel.value == 0 || sel.value == ""){
+        alert ("Harga tidak boleh kosong");
+        sel.value = Number(printProduct.options[printProduct.selectedIndex].id);
+        totalPrint.innerHTML = sel.value * includePrintQty.value * printWide.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    } else{
+        totalPrint.innerHTML = sel.value * includePrintQty.value * printWide.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    }
+}
+
+inputPrintPriceCheck = (sel) => {
+    const includePrintQty = document.getElementById("includePrintQty");
+    const printWide = document.getElementById("printWide");
+    const totalPrint = document.getElementById("totalPrint");
+    const subTotal = document.getElementById("subTotal");
+    totalPrint.innerHTML = sel.value * includePrintQty.value * printWide.value;
+    subTotal.innerText = countTotalPrice();
+    dppValue.value = countTotalPrice();
+    countGrandTotal();
+}
+//Print price check --> end
+
+//Install price check & change --> start
+inputInstallPriceChange = (sel) => {
+    const includeInstallQty = document.getElementById("includeInstallQty");
+    const installWide = document.getElementById("installWide");
+    const totalInstall = document.getElementById("totalInstall");
+    const subTotal = document.getElementById("subTotal");
+    if(sel.value == 0 || sel.value == ""){
+        alert ("Harga tidak boleh kosong");
+        sel.value = sel.defaultValue;
+        totalInstall.innerHTML = sel.value * includeInstallQty.value * installWide.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    } else{
+        totalInstall.innerHTML = sel.value * includeInstallQty.value * installWide.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    }
+}
+
+inputInstallPriceCheck = (sel) => {
+    const includeInstallQty = document.getElementById("includeInstallQty");
+    const installWide = document.getElementById("installWide");
+    const totalInstall = document.getElementById("totalInstall");
+    const subTotal = document.getElementById("subTotal");
+    totalInstall.innerHTML = sel.value * includeInstallQty.value * installWide.value;
+    subTotal.innerText = countTotalPrice();
+    dppValue.value = countTotalPrice();
+    countGrandTotal();
+}
+//Install price check & change --> end
+
+//Print qty check & change --> start
+inputPrintQtyChange = (sel) => {
+    const printPrice = document.getElementById("printPrice");
+    const printWide = document.getElementById("printWide");
+    const totalPrint = document.getElementById("totalPrint");
+    const subTotal = document.getElementById("subTotal");
+    const printQty = document.getElementById("printQty");
+    if(sel.value == 0 || sel.value == ""){
+        alert ("Jumlah tidak boleh kosong");
+        sel.value = sel.defaultValue;
+        printQty.value = sel.value;
+        totalPrint.innerHTML = sel.value * printPrice.value * printWide.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    } else{
+        totalPrint.innerHTML = sel.value * printPrice.value * printWide.value;
+        printQty.value = sel.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    }
+}
+
+inputPrintQtyCheck = (sel) => {
+    const printPrice = document.getElementById("printPrice");
+    const printWide = document.getElementById("printWide");
+    const totalPrint = document.getElementById("totalPrint");
+    const subTotal = document.getElementById("subTotal");
+    const printQty = document.getElementById("printQty");
+    printQty.value = sel.value;
+    totalPrint.innerHTML = sel.value * printPrice.value * printWide.value;
+    subTotal.innerText = countTotalPrice();
+    dppValue.value = countTotalPrice();
+    countGrandTotal();
+}
+//Print qty check & change --> end
+
+//install qty check & change --> start
+inputInstallQtyChange = (sel) => {
+    const installPrice = document.getElementById("installPrice");
+    const installWide = document.getElementById("installWide");
+    const totalInstall = document.getElementById("totalInstall");
+    const subTotal = document.getElementById("subTotal");
+    const installQty = document.getElementById("installQty");
+    if(sel.value == 0 || sel.value == ""){
+        alert ("Jumlah tidak boleh kosong");
+        sel.value = sel.defaultValue;
+        installQty.value = sel.value;
+        totalInstall.innerHTML = sel.value * installPrice.value * installWide.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    } else{
+        totalInstall.innerHTML = sel.value * installPrice.value * installWide.value;
+        installQty.value = sel.value;
+        subTotal.innerText = countTotalPrice();
+        dppValue.value = countTotalPrice();
+        countGrandTotal();
+    }
+}
+
+inputInstallQtyCheck = (sel) => {
+    const installPrice = document.getElementById("installPrice");
+    const installWide = document.getElementById("installWide");
+    const totalInstall = document.getElementById("totalInstall");
+    const subTotal = document.getElementById("subTotal");
+    const installQty = document.getElementById("installQty");
+    installQty.value = sel.value;
+    totalInstall.innerHTML = sel.value * installPrice.value * installWide.value;
+    subTotal.innerText = countTotalPrice();
+    dppValue.value = countTotalPrice();
+    countGrandTotal();
+}
+//install qty check & change --> end
+
+//Include service check --> start
+includeServiceChecking = () => {
+    const cbIncludePrint = document.getElementById("cbIncludePrint");
+    const cbIncludeInstall = document.getElementById("cbIncludeInstall");
+    const printProduct = document.getElementById("printProduct");
+    const printPrice = document.getElementById("printPrice");
+    const printQty = document.getElementById("printQty");
+    if(cbIncludePrint.checked == true){
+        if(printProduct.value == "pilih"){
+            alert("Silahkan pilih bahan cetak terlebih dahulu..!!");
+            return false;
+        }else if(cbIncludeInstall.checked == true){
+            includedPrint.checked = true;
+            includedPrint.product = printProduct.value;
+            includedPrint.qty = printQty.value;
+            includedPrint.price = printPrice.value;
+            includedInstall.checked = true;
+            includedInstall.qty = installQty.value;
+            includedInstall.price = installPrice.value;
+            return true;
+        }else{
+            includedPrint.checked = true;
+            includedPrint.product = printProduct.value;
+            includedPrint.qty = printQty.value;
+            includedPrint.price = printPrice.value;
+            return true;
+        }
+    }else if(cbIncludeInstall.checked == true){
+        includedInstall.checked = true;
+        includedInstall.qty = installQty.value;
+        includedInstall.price = installPrice.value;
+        return true;
+    }else{
+        return true;
+    }
+}
+//Include service check --> end

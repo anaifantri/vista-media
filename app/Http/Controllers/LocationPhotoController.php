@@ -36,7 +36,7 @@ class LocationPhotoController extends Controller
             if($request->add_default == "Yes"){
                 $set_default = true;
                 $validateData['set_default'] = false;
-                $setDefaultUpdate = LocationPhoto::where('id', $request->location_id)->update($validateData);
+                $setDefaultUpdate = LocationPhoto::where('location_id', $request->location_id)->where('company_id', $request->company_id)->update($validateData);
             } else {
                 $set_default = false;
             }
@@ -89,7 +89,7 @@ class LocationPhotoController extends Controller
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Media' || auth()->user()->level === 'Marketing' ){
             if($request->setDefault){
                 $validateData['set_default'] = false;
-                LocationPhoto::where('location_id', $locationPhoto->location_id)->update($validateData);
+                LocationPhoto::where('location_id', $locationPhoto->location_id)->where('company_id', $request->company_id)->update($validateData);
                 
                 $validateData['set_default'] = true;
 
@@ -101,7 +101,7 @@ class LocationPhotoController extends Controller
                     if($request->update_default == "Yes"){
                         $set_default = true;
                         $validateData['set_default'] = false;
-                        LocationPhoto::where('location_id', $locationPhoto->location_id)->update($validateData);
+                        LocationPhoto::where('location_id', $locationPhoto->location_id)->where('company_id', $request->company_id)->update($validateData);
                     } else{
                         if($locationPhoto->set_default == true){
                             $set_default = true;

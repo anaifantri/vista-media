@@ -50,6 +50,13 @@
         ];
         $product = json_decode($sales->product);
         $description = json_decode($product->description);
+        $totalInstall = 0;
+        $totalPrint = 0;
+        if ($product->category == 'Signage') {
+            $wide = $product->width * $product->height * (int) $product->side * $description->qty;
+        } else {
+            $wide = $product->width * $product->height * (int) $product->side;
+        }
     @endphp
     <!-- Show Sales Data start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -368,8 +375,13 @@
                                         <div class="flex border rounded-lg mt-1 w-[760px] p-1">
                                             <div>
                                                 <div class="flex items-center">
-                                                    <label class="text-sm text-black h-6 items-center w-28">Free
-                                                        cetak</label>
+                                                    @if ($notes->includedPrint->checked == true)
+                                                        <label class="text-sm text-black h-6 items-center w-28">Include
+                                                            cetak</label>
+                                                    @else
+                                                        <label class="text-sm text-black h-6 items-center w-28">Free
+                                                            cetak</label>
+                                                    @endif
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
                                                         class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freePrint }}</label>
@@ -385,8 +397,13 @@
                                                         class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freePrint - count($sales->print_orders) }}</label>
                                                 </div>
                                                 <div class="flex items-center">
-                                                    <label
-                                                        class="text-sm text-black h-6 items-center w-28">FreePasang</label>
+                                                    @if ($notes->includedInstall->checked == true)
+                                                        <label class="text-sm text-black h-6 items-center w-28">Include
+                                                            Pasang</label>
+                                                    @else
+                                                        <label class="text-sm text-black h-6 items-center w-28">Free
+                                                            Pasang</label>
+                                                    @endif
                                                     <label class="flex text-sm text-black h-6 items-center">:</label>
                                                     <label
                                                         class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freeInstall }}</label>

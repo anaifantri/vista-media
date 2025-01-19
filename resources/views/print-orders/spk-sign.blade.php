@@ -8,7 +8,7 @@
                     <th colspan="2"></th>
                 </tr>
                 <tr>
-                    <th class="text-black font-semibold text-sm border">PT. Vista Media,</th>
+                    <th class="text-black font-semibold text-sm border">{{ $company->name }},</th>
                     <th id="vendorSign" class="text-black font-semibold text-sm border"></th>
                     <th></th>
                     <th></th>

@@ -202,12 +202,12 @@
                     </div>
                 </div>
                 <div class="flex justify-center w-full">
-                    <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 bg-white">
+                    <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 p-4 bg-white">
                         <!-- Header start -->
                         @include('dashboard.layouts.letter-header')
                         <!-- Header end -->
                         <!-- Body start -->
-                        <div class="h-[1125px]">
+                        <div class="h-[1110px]">
                             <div class="flex justify-center w-full">
                                 <div class="grid grid-cols-2 gap-2 w-[800px] p-2">
                                     @foreach ($monitorings as $monitoring)

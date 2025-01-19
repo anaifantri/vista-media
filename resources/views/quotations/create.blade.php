@@ -3,6 +3,12 @@
 @section('container')
     <?php
     $dataProducts = [];
+    $location_photos = [];
+    foreach ($data_photos as $photo) {
+        if ($photo->company_id == $company->id) {
+            array_push($location_photos, $photo->photo);
+        }
+    }
     if ($quotation_type == 'new') {
         $i = 0;
         foreach ($locations as $location) {
@@ -14,7 +20,11 @@
             $dataProduct->city = $location->city->city;
             $dataProduct->city_code = $location->city->code;
             $dataProduct->address = $location->address;
-            $dataProduct->photo = $location_photos[$i]->photo;
+            if (count($location_photos) > 0) {
+                $dataProduct->photo = $location_photos[$i];
+            } else {
+                $dataProduct->photo = '';
+            }
             $dataProduct->description = $location->description;
             $dataProduct->size = $location->media_size->size;
             $dataProduct->width = $location->media_size->width;
@@ -155,15 +165,29 @@
                                     @endcan
                                 @endcan
                             @endcanany
-                            <a class="flex justify-center items-center ml-1 btn-danger"
-                                href="/marketing/quotations/select-location/All">
-                                <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2" xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
-                                </svg>
-                                <span class="ml-1 xl:mx-2 text-sm">Cancel</span>
-                            </a>
+                            @if ($category == 'Service' || $category == 'Videotron' || $category == 'Signage')
+                                <a class="flex justify-center items-center ml-1 btn-danger"
+                                    href="/marketing/quotations/select-location/{{ $category }}">
+                                    <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                                    </svg>
+                                    <span class="ml-1 xl:mx-2 text-sm">Cancel</span>
+                                </a>
+                            @else
+                                <a class="flex justify-center items-center ml-1 btn-danger"
+                                    href="/marketing/quotations/select-location/All">
+                                    <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                                    </svg>
+                                    <span class="ml-1 xl:mx-2 text-sm">Cancel</span>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>

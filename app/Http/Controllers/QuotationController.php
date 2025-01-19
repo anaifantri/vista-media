@@ -46,11 +46,11 @@ class QuotationController extends Controller
         if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
             if($category == "All"){
                 $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-                $dataQuotations = Quotation::filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->sortable()->category()->orderBy("number", "desc")->paginate(15)->withQueryString();
+                $dataQuotations = Quotation::filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->sortable()->category()->orderBy("number", "desc")->paginate(30)->withQueryString();
             }else{
                 $dataCategory = MediaCategory::where('name', $category)->get()->last();
                 $media_category_id = $dataCategory->id;
-                $dataQuotations = Quotation::where('media_category_id', $dataCategory->id)->filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->orderBy("number", "desc")->sortable()->paginate(15)->withQueryString();
+                $dataQuotations = Quotation::where('media_category_id', $dataCategory->id)->filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->orderBy("number", "desc")->sortable()->paginate(30)->withQueryString();
             }
     
             $media_categories = MediaCategory::with('quotations')->get();
@@ -241,12 +241,10 @@ class QuotationController extends Controller
             $printing_products = PrintingProduct::with('printing_prices')->get();
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
-            $company = Company::where('name', 'PT. Vista Media')->get()->last();
             return response()-> view ('quotations.create', [
                 'locations'=>$dataQuotations,
                 'extend_location' => $extendLocation,
                 'quotation_type'=>$type,
-                'company'=>$company,
                 'clients'=>Client::orderBy("name", "asc")->get(),
                 'client_groups'=>ClientGroup::orderBy("group", "asc")->get(),
                 'contacts'=>Contact::orderBy("name", "asc")->get(),
@@ -257,7 +255,7 @@ class QuotationController extends Controller
                 'city'=>$city,
                 'category'=>$category,
                 'data_category' => $mediaCategory,
-                'location_photos' => LocationPhoto::whereIn('location_id', $dataId)->where('set_default', true)->get(),
+                'data_photos' => LocationPhoto::whereIn('location_id', $dataId)->where('set_default', true)->get(),
                 'title' => 'Membuat Penawaran'.$category,
                 compact('sales', 'quotations', 'quotation_revisions','printing_products')
             ]);
@@ -281,8 +279,9 @@ class QuotationController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
-            $lastQuotation = Quotation::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
+            $lastQuotation = Quotation::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->orderBy("number", "asc")->get()->last();
             if($lastQuotation){
                 $lastNumber = (int)substr($lastQuotation->number,0,4);
                 $newNumber = $lastNumber + 1;
@@ -291,23 +290,24 @@ class QuotationController extends Controller
             }
             
             if($newNumber > 0 && $newNumber < 10){
-                $number = '000'.$newNumber.'/SPH/VM/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '000'.$newNumber.'/SPH/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 10 && $newNumber < 100 ){
-                $number = '00'.$newNumber.'/SPH/VM/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '00'.$newNumber.'/SPH/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 100 && $newNumber < 1000 ){
-                $number = '0'.$newNumber.'/SPH/VM/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '0'.$newNumber.'/SPH/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             } else {
-                $number = $newNumber.'/SPH/VM/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = $newNumber.'/SPH/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }
             // Set number --> end
             $request->request->add(['number' => $number]);
+            // dd(request('number'));
             $validateData = $request->validate([
                 'number' => 'required|unique:quotations',
                 'media_category_id' => 'required',
                 'company_id' => 'required',
                 'attachment' => 'required',
                 'subject' => 'required',
-                'body_top' => 'required',
+                'body_top' => 'required|max:255',
                 'body_end' => 'required',
                 'clients' => 'required',
                 'notes' => 'required',
@@ -359,7 +359,7 @@ class QuotationController extends Controller
                 'title' => 'Data Penawaran',
                 'data_revisions' => $dataRevisions,
                 'leds' => Led::all(),
-                'last_status' => QuotationStatus::where('quotation_id', $quotation->id)->get()->last(),
+                'last_status' => QuotationStatus::where('quotation_id', $quotation->id)->orderBy("id", "asc")->get()->last(),
                 compact('companies', 'media_categories', 'quotation_revisions')
             ]);
         } else {

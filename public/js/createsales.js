@@ -65,7 +65,15 @@ insertSalesData = () =>{
                     objSales[i].end_at = end[i].value;
                     objSales[i].note = note[i].value;
                     objSales[i].duration = thTitle[i].innerText;
-                    objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )));
+                    if(document.getElementById("totalPrint") && document.getElementById("totalInstall")){
+                        objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )) + parseInt(document.getElementById("totalPrint").innerText.replace ( /[^\d.]/g, '' ))  + parseInt(document.getElementById("totalInstall").innerText.replace ( /[^\d.]/g, '' )));
+                    }else if(document.getElementById("totalPrint")){
+                        objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )) + parseInt(document.getElementById("totalPrint").innerText.replace ( /[^\d.]/g, '' )));
+                    }else if(document.getElementById("totalInstall")){
+                        objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )) + parseInt(document.getElementById("totalInstall").innerText.replace ( /[^\d.]/g, '' )));
+                    }else{
+                        objSales[i].price = Number(parseInt(priceValue[i].innerText.replace ( /[^\d.]/g, '' )));
+                    }
                     objSales[i].ppn = inputPpn[i].value;
                 }
             }

@@ -102,6 +102,7 @@ class QuotationRevisionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
+            // dd($request->notes);
             $validateData = $request->validate([
                 'number' => 'required|unique:quotation_revisions',
                 'quotation_id' => 'required',

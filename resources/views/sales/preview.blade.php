@@ -99,6 +99,13 @@
                 @php
                     $product = json_decode($sale->product);
                     $description = json_decode($product->description);
+                    $totalInstall = 0;
+                    $totalPrint = 0;
+                    if ($product->category == 'Signage') {
+                        $wide = $product->width * $product->height * (int) $product->side * $description->qty;
+                    } else {
+                        $wide = $product->width * $product->height * (int) $product->side;
+                    }
                 @endphp
                 <div id="pdfPreview">
                     <div class="flex justify-center w-full">

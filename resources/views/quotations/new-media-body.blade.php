@@ -38,14 +38,15 @@
                                 <path d="M12 21l-12-18h24z" />
                             </svg>
                         </div>
-                        <div id="clientList" class="absolute bg-white w-[180px] border rounded-b-lg ml-1 p-2 hidden"
+                        <div id="clientList"
+                            class="absolute bg-white w-[180px] h-[300px] overflow-y-scroll border rounded-b-lg ml-1 p-2 hidden"
                             onclick="event.stopPropagation()">
                             <table id="clientListTable" class="table-auto">
                                 <thead>
                                     <tr>
                                         <th>
                                             <input id="search" name="search"
-                                                class="text-sm text-black flex font-semibold outline-none border rounded-lg w-40 px-2"
+                                                class="text-sm text-black flex font-semibold outline-none border rounded-lg w-36 px-2"
                                                 type="text" placeholder="Search" onkeyup="searchTable()">
                                         </th>
                                     </tr>
@@ -96,6 +97,11 @@
             <div class="flex mt-4">
                 <label class="ml-1 text-sm text-black flex">Dengan hormat,</label>
             </div>
+            @error('body_top')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
             <div class="flex mt-2">
                 @if ($area != 'All')
                     @if ($city != 'All')
@@ -110,16 +116,16 @@
         </div>
     </div>
     <!-- table start -->
-    {{-- @if (count($products) <= 3)
+    @if (count($products) == 1)
         <div class="flex justify-center mt-2">
             <div class="flex w-[725px]">
-                <input class="text-xs" type="checkbox">
-                <label class="text-xs ml-2">Include Biaya Cetak</label>
-                <input class="text-xs ml-4" type="checkbox">
+                <input id="cbIncludeInstall" class="text-xs" type="checkbox" onclick="cbIncludeInstallAction(this)">
                 <label class="text-xs ml-2">Include Biaya Pasang</label>
+                <input id="cbIncludePrint" class="text-xs ml-4" type="checkbox" onclick="cbIncludePrintAction(this)">
+                <label class="text-xs ml-2">Include Biaya Cetak</label>
             </div>
         </div>
-    @endif --}}
+    @endif
     <div class="flex justify-center">
         @php
             $dataDescription = json_decode($locations[0]->description);

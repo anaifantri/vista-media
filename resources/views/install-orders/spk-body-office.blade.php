@@ -1,7 +1,7 @@
-<div class="h-[520px] mt-4">
+<div class="h-[490px] mt-4">
     <div class="flex w-full px-10">
         <div class="w-[950px]">
-            <label class="flex text-md font-semibold justify-center w-full mt-6"><u>SPK PEMASANGAN GAMBAR</u></label>
+            <label class="flex text-md font-semibold justify-center w-full"><u>SPK PEMASANGAN GAMBAR</u></label>
             <label class="flex text-md text-slate-500 justify-center w-full">Nomor : penomoroan otomatis </label>
             <div class="flex justify-center w-full">
                 <div class="w-[500px] h-[430px] border p-2">

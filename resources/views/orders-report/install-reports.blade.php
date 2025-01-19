@@ -37,23 +37,29 @@
                         <div class="w-[1280px] h-[900px] px-10 mt-2 p-4 bg-white z-0">
                             <div class="flex items-center border rounded-lg p-4 mt-8">
                                 <div class="w-44">
-                                    <img class="ml-2" src="/img/logo-vm.png" alt="">
+                                    <img class="ml-2 w-[125px]" src="{{ asset('storage/' . $company->logo) }}"
+                                        alt="">
                                 </div>
-                                <div class="w-[450px] ml-6">
+                                <div class="w-[750px] ml-6">
                                     <div>
-                                        <span class="text-sm font-semibold">PT. Vista Media</span>
+                                        <span class="text-sm font-semibold">{{ $company->name }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-xs">Jl. Pulau Kawe No. 40 - Dauh Puri Kauh</span>
+                                        <span class="text-xs">{{ $company->address }}, Desa/Kel. {{ $company->village }},
+                                            Kec.
+                                            {{ $company->district }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-xs">Kota Denpasar, Bali 80114</span>
+                                        <span class="text-xs">{{ $company->city }} - {{ $company->province }}
+                                            {{ $company->post_code }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-xs">Ph. +62 361 230000 | Fax. +62 361 237800 </span>
+                                        <span class="text-xs">Ph. {{ $company->phone }} | Mobile.
+                                            {{ $company->m_phone }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-xs">e-mail : info@vistamedia.co.id | www.vistamedia.co.id</span>
+                                        <span class="text-xs">e-mail : {{ $company->email }} | website :
+                                            {{ $company->website }}</span>
                                     </div>
                                 </div>
                                 <div class="flex w-full justify-end">
@@ -106,24 +112,33 @@
                             <div class="w-[1280px] h-[900px] px-10 mt-2 p-4 bg-white z-0">
                                 <div class="flex items-center border rounded-lg p-4 mt-8">
                                     <div class="w-44">
-                                        <img class="ml-2" src="/img/logo-vm.png" alt="">
+                                        <img class="ml-2 w-[125px]" src="{{ asset('storage/' . $company->logo) }}"
+                                            alt="">
                                     </div>
-                                    <div class="w-[450px] ml-6">
+                                    <div class="w-[750px] ml-6">
                                         <div>
-                                            <span class="text-sm font-semibold">PT. Vista Media</span>
+                                            <span class="text-sm font-semibold">{{ $company->name }}</span>
                                         </div>
                                         <div>
-                                            <span class="text-xs">Jl. Pulau Kawe No. 40 - Dauh Puri Kauh</span>
+                                            <span class="text-xs">
+                                                {{ $company->address }}, Desa/Kel. {{ $company->village }}, Kec.
+                                                {{ $company->district }}
+                                            </span>
                                         </div>
                                         <div>
-                                            <span class="text-xs">Kota Denpasar, Bali 80114</span>
+                                            <span class="text-xs">
+                                                {{ $company->city }} - {{ $company->province }} {{ $company->post_code }}
+                                            </span>
                                         </div>
                                         <div>
-                                            <span class="text-xs">Ph. +62 361 230000 | Fax. +62 361 237800 </span>
+                                            <span class="text-xs">
+                                                Ph. {{ $company->phone }} | Mobile. {{ $company->m_phone }}
+                                            </span>
                                         </div>
                                         <div>
-                                            <span class="text-xs">e-mail : info@vistamedia.co.id |
-                                                www.vistamedia.co.id</span>
+                                            <span class="text-xs">
+                                                e-mail : {{ $company->email }} | website : {{ $company->website }}
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="flex w-full justify-end">

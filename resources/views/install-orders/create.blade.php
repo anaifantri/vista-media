@@ -63,7 +63,10 @@
             $qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) * $location_qty;
         } elseif ($orderType == 'location') {
             $description = json_decode($location->description);
-            $photo = $location->location_photos->where('set_default', true)->last();
+            $photo = $location->location_photos
+                ->where('set_default', true)
+                ->where('company_id', $company->id)
+                ->last();
             $location_id = $location->id;
             $location_address = $location->address;
             $location_category = $location->media_category->name;

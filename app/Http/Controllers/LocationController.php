@@ -29,7 +29,8 @@ class LocationController extends Controller
         //
     }
 
-    public function getLocations(String $id, String $scope){
+    public function getLocations(String $id, String $scope)
+    {
         if($scope == "area"){
             $locations = Location::where('area_id', '=', $id)
             ->whereHas('media_category', function($query){
@@ -106,7 +107,7 @@ class LocationController extends Controller
                 'location' => Location::findOrFail($id),
                 'leds' => Led::all(),
                 'title' => 'Detail Location',
-                'location_photos'=>LocationPhoto::where('location_id', $id)->where('set_default', true)->get()->last(),
+                'data_photos'=>LocationPhoto::where('location_id', $id)->where('set_default', true)->get(),
                 'category'=>$category,
                 compact('areas', 'cities', 'media_sizes', 'media_categories')
             ]);

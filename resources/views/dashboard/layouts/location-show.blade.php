@@ -145,6 +145,7 @@
     <div class="flex justify-center bg-stone-300 w-[650px] p-4 ml-4">
         <div>
             <div>
+                <!-- Location Photo start -->
                 <span class="flex justify-center border-b text-base font-semibold">Foto Lokasi</span>
                 <figure id="figure"
                     class="flex w-[600px] bg-stone-800 rounded-lg justify-center overflow-x-auto border-b-2 border-stone-900">
@@ -208,14 +209,6 @@
                     @endforeach
                 </div>
             </div>
-            <!-- Location Photo start -->
-            {{-- <div>
-                <span class="border-b flex justify-center text-base font-semibold w-full">Photo Lokasi</span>
-            </div>
-            <div class="flex lg-photo-product border mt-2">
-                <img class="img-preview lg-photo-product" src="{{ asset('storage/' . $location_photos->photo) }}"
-                    alt="">
-            </div> --}}
             <!-- Location Photo end -->
 
             <!-- Location Maps start -->

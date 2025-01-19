@@ -189,6 +189,73 @@
                 @endif
             </td>
         </tr>
+        @if ($category != 'Videotron' || ($category != 'Signage' && $description->type == 'Videotron'))
+            @php
+                if ($category == 'Signage') {
+                    $colSpan = 6;
+                } else {
+                    $colSpan = 5;
+                }
+            @endphp
+            @if ($notes->includedPrint->checked == true)
+                <!-- Row include print start -->
+                <tr>
+                    <td class="text-xs text-black border border-black px-2" colspan="{{ $colSpan }}">
+                        <div class="flex">
+                            <span class="w-20">Biaya Cetak</span>
+                            <span>-> Bahan</span>
+                            <span class="ml-2">:</span>
+                            <span class="ml-2">{{ $notes->includedPrint->product }}</span>
+                            <span class="ml-4">-> Harga/m2</span>
+                            <span class="ml-2">:</span>
+                            <span class="ml-2">Rp. {{ number_format($notes->includedPrint->price) }},-</span>
+                            <span class="ml-4">-> Jumlah : </span>
+                            <span class="ml-2">{{ $notes->includedPrint->qty }}</span>
+                            <span class="ml-4">-> Luas media : </span>
+                            <span class="ml-2">:</span>
+                            <span class="ml-2">{{ $wide }}</span>
+                            <span class="ml-2">m2</span>
+                        </div>
+                    </td>
+                    <td id="totalPrint" class="text-xs text-black border border-black text-right px-2">
+                        @php
+                            $totalPrint = $notes->includedPrint->price * $notes->includedPrint->qty * $wide;
+                        @endphp
+                        {{ number_format($totalPrint) }}
+                    </td>
+                </tr>
+                <!-- Row include print end -->
+            @endif
+            @if ($notes->includedInstall->checked == true)
+                <!-- Row include print start -->
+                <tr>
+                    <td class="text-xs text-black border border-black px-2" colspan="{{ $colSpan }}">
+                        <div class="flex">
+                            <span class="w-20">Biaya Pasang</span>
+                            <span>-> Bahan</span>
+                            <span class="ml-2">:</span>
+                            <span class="ml-2">{{ $description->lighting }}</span>
+                            <span class="ml-4">-> Harga/m2</span>
+                            <span class="ml-2">:</span>
+                            <span class="ml-2">Rp. {{ number_format($notes->includedInstall->price) }},-</span>
+                            <span class="ml-4">-> Jumlah : </span>
+                            <span class="ml-2">{{ $notes->includedInstall->qty }}</span>
+                            <span class="ml-4">-> Luas media : </span>
+                            <span class="ml-2">:</span>
+                            <span class="ml-2">{{ $wide }}</span>
+                            <span class="ml-2">m2</span>
+                        </div>
+                    </td>
+                    <td id="totalInstall" class="text-xs text-black border border-black text-right px-2">
+                        @php
+                            $totalInstall = $notes->includedInstall->price * $notes->includedInstall->qty * $wide;
+                        @endphp
+                        {{ number_format($totalInstall) }}
+                    </td>
+                </tr>
+                <!-- Row include print end -->
+            @endif
+        @endif
         @if ($sales->dpp)
             <tr>
                 @if ($category == 'Signage')
@@ -240,7 +307,7 @@
                         A - B)</td>
                 @endif
                 <td class="text-xs text-black border border-black text-right px-2">
-                    {{ number_format($getPrice + $sales->dpp * ($sales->ppn / 100) - $sales->dpp * ($sales->pph / 100)) }}
+                    {{ number_format($getPrice + $sales->dpp * ($sales->ppn / 100) - $sales->dpp * ($sales->pph / 100) + $totalPrint + $totalInstall) }}
                 </td>
             </tr>
         @endif

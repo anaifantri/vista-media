@@ -58,8 +58,10 @@ class SalesReportController extends Controller
                 }else{
                     $category = "All";
                 }
+                $data_locations = Location::where('area_id', $areaId)->whereIn('media_category_id', $categories_id)->sortable()->orderBy("code", "asc")->get();
             }else{
                 $category = "All";
+                $data_locations = Location::where('area_id', $areaId)->sortable()->orderBy("code", "asc")->get();
             }
             $area = Area::findOrFail($areaId);
             $sales_categories = MediaCategory::with('sales')->get();
@@ -71,7 +73,7 @@ class SalesReportController extends Controller
             $quotations = Quotation::with('sales')->get();
             $sales = Sale::with('location')->get();
             return view ('sales-report.chart-reports', [
-                'locations'=>Location::where('area_id', $areaId)->whereIn('media_category_id', $categories_id)->sortable()->orderBy("code", "asc")->get(),
+                'locations'=>$data_locations,
                 'area'=>$area,
                 'category'=>$category,
                 'categories_id'=>$categories_id,

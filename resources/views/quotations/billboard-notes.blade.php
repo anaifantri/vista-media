@@ -15,14 +15,16 @@
                     readonly></input>
             </div>
             <div class="flex">
-                <label class="ml-4 text-sm text-black flex">• Free pemasangan materi visual</label>
-                <input id="inputBBNote-3" class="ml-1 text-sm text-black in-out-spin-none outline-none w-8 text-center"
+                <label id="installNote" class="ml-4 text-sm text-black flex">• Free pemasangan materi visual</label>
+                <input id="installQty"
+                    class="ml-1 text-sm text-black in-out-spin-none outline-none w-8 text-center border rounded-md"
                     placeholder="0" type="number" value="" min="0">
                 <label id="labelBBNote-3" class="ml-1 text-sm text-black flex">x selama kontrak</label>
             </div>
             <div class="flex">
-                <label class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
-                <input id="inputBBNote-3" class="ml-1 text-sm text-black in-out-spin-none outline-none w-8 text-center"
+                <label id="printNote" class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
+                <input id="printQty"
+                    class="ml-1 text-sm text-black in-out-spin-none outline-none w-8 text-center border rounded-md"
                     placeholder="0" type="number" value="" min="0">
                 <label id="labelBBNote-3" class="ml-1 text-sm text-black flex">x selama kontrak</label>
             </div>

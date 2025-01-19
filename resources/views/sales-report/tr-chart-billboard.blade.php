@@ -140,20 +140,34 @@
                             @endfor
                         </div>
                         <div class="flex">
-                            @for ($i = 0; $i < 365; $i++)
-                                @if ($i < $start)
-                                    <div class="h-[2px] w-[1px]">
-                                    </div>
-                                @elseif($i >= $start && $i <= $lineWidth + $start)
-                                    @if ($counter % 2 == 0)
-                                        <div class="h-[2px] bg-stone-700 w-[1px]">
+                            @if ($locationSale->start_at < date('Y-m-d'))
+                                @for ($i = 0; $i < 365; $i++)
+                                    @if ($i < $start)
+                                        <div class="h-[2px] w-[1px]">
                                         </div>
-                                    @else
+                                    @elseif($i >= $start && $i <= $lineWidth + $start)
                                         <div class="h-[2px] bg-red-700 w-[1px]">
                                         </div>
+                                        {{-- @if ($counter % 2 == 0)
+                                            <div class="h-[2px] bg-stone-700 w-[1px]">
+                                            </div>
+                                        @else
+                                            <div class="h-[2px] bg-red-700 w-[1px]">
+                                            </div>
+                                        @endif --}}
                                     @endif
-                                @endif
-                            @endfor
+                                @endfor
+                            @else
+                                @for ($i = 0; $i < 365; $i++)
+                                    @if ($i < $start)
+                                        <div class="h-[2px] w-[1px]">
+                                        </div>
+                                    @elseif($i >= $start && $i <= $lineWidth + $start)
+                                        <div class="h-[2px] bg-stone-700 w-[1px]">
+                                        </div>
+                                    @endif
+                                @endfor
+                            @endif
                         </div>
                     </div>
                 @elseif (strtotime(date($locationSale->end_at)) > strtotime(date($thisYear . '-01-01')) &&

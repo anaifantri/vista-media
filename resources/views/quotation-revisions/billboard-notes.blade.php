@@ -15,14 +15,25 @@
                     readonly></input>
             </div>
             <div class="flex">
-                <label class="ml-4 text-sm text-black flex">• Free pemasangan materi visual</label>
-                <input class="ml-1 text-sm text-black in-out-spin-none border rounded-md outline-none w-8 text-center"
+                @if ($notes->includedInstall->checked == true)
+                    <label id="installNote" class="ml-4 text-sm text-black flex">• Include pemasangan materi
+                        visual</label>
+                @else
+                    <label id="installNote" class="ml-4 text-sm text-black flex">• Free pemasangan materi visual</label>
+                @endif
+                <input id="installQty"
+                    class="ml-1 text-sm text-black in-out-spin-none border rounded-md outline-none w-8 text-center"
                     type="number" value="{{ $notes->freeInstall }}" min="0">
                 <label class="ml-1 text-sm text-black flex">x selama kontrak</label>
             </div>
             <div class="flex">
-                <label class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
-                <input class="ml-1 text-sm text-black in-out-spin-none border rounded-md outline-none w-8 text-center"
+                @if ($notes->includedPrint->checked == true)
+                    <label id="printNote" class="ml-4 text-sm text-black flex">• Include cetak materi visual</label>
+                @else
+                    <label id="printNote" class="ml-4 text-sm text-black flex">• Free cetak materi visual</label>
+                @endif
+                <input id="printQty"
+                    class="ml-1 text-sm text-black in-out-spin-none border rounded-md outline-none w-8 text-center"
                     type="number" value="{{ $notes->freePrint }}" min="0">
                 <label class="ml-1 text-sm text-black flex">x selama kontrak</label>
             </div>

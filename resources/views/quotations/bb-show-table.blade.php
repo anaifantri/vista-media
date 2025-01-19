@@ -57,7 +57,14 @@
             @foreach ($products as $product)
                 <?php
                 $row = $loop->iteration - 1;
+                $totalPrint = 0;
+                $totalInstall = 0;
                 $description = json_decode($product->description);
+                if ($product->category == 'Signage') {
+                    $wide = $product->width * $product->height * (int) $product->side * $description->qty;
+                } else {
+                    $wide = $product->width * $product->height * (int) $product->side;
+                }
                 ?>
                 <tr>
                     <td class="text-[0.7rem] text-black border text-center">
@@ -117,6 +124,66 @@
                         @endif
                     @endforeach
                 </tr>
+                @if ($notes->includedPrint->checked == true)
+                    <!-- Row include print start -->
+                    <tr>
+                        <td class="text-[0.7rem] text-black border text-center"></td>
+                        <td class="text-[0.7rem] text-black border px-2" colspan="6">
+                            <div class="flex">
+                                <span class="w-20">Biaya Cetak</span>
+                                <span>-> Bahan</span>
+                                <span class="ml-2">:</span>
+                                <span class="ml-2">{{ $notes->includedPrint->product }}</span>
+                                <span class="ml-4">-> Harga/m2</span>
+                                <span class="ml-2">:</span>
+                                <span class="ml-2">Rp. {{ number_format($notes->includedPrint->price) }},-</span>
+                                <span class="ml-4">-> Jumlah : </span>
+                                <span class="ml-2">{{ $notes->includedPrint->qty }}</span>
+                                <span class="ml-4">-> Luas media : </span>
+                                <span class="ml-2">:</span>
+                                <span class="ml-2">{{ $wide }}</span>
+                                <span class="ml-2">m2</span>
+                            </div>
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-right px-1">
+                            @php
+                                $totalPrint = $notes->includedPrint->price * $notes->includedPrint->qty * $wide;
+                            @endphp
+                            {{ number_format($totalPrint) }}
+                        </td>
+                    </tr>
+                    <!-- Row include print end -->
+                @endif
+                @if ($notes->includedInstall->checked == true)
+                    <!-- Row include print start -->
+                    <tr>
+                        <td class="text-[0.7rem] text-black border text-center"></td>
+                        <td class="text-[0.7rem] text-black border px-2" colspan="6">
+                            <div class="flex">
+                                <span class="w-20">Biaya Pasang</span>
+                                <span>-> Bahan</span>
+                                <span class="ml-2">:</span>
+                                <span class="ml-2">{{ $description->lighting }}</span>
+                                <span class="ml-4">-> Harga/m2</span>
+                                <span class="ml-2">:</span>
+                                <span class="ml-2">Rp. {{ number_format($notes->includedInstall->price) }},-</span>
+                                <span class="ml-4">-> Jumlah : </span>
+                                <span class="ml-2">{{ $notes->includedInstall->qty }}</span>
+                                <span class="ml-4">-> Luas media : </span>
+                                <span class="ml-2">:</span>
+                                <span class="ml-2">{{ $wide }}</span>
+                                <span class="ml-2">m2</span>
+                            </div>
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-right px-1">
+                            @php
+                                $totalInstall = $notes->includedInstall->price * $notes->includedInstall->qty * $wide;
+                            @endphp
+                            {{ number_format($totalInstall) }}
+                        </td>
+                    </tr>
+                    <!-- Row include print end -->
+                @endif
             @endforeach
             @if ($price->objPpn->checked == true)
                 @php
@@ -134,13 +201,38 @@
                         @endif
                     @endforeach
                 @endforeach
-                <tr>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
-                        Total (A)</td>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
-                        {{ number_format($subTotal) }}
-                    </td>
-                </tr>
+                @if ($notes->includedInstall->checked == true || $notes->includedPrint->checked == true)
+                    <tr>
+                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
+                            Total</td>
+                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
+                            @if ($notes->includedInstall->checked == true && $notes->includedPrint->checked == true)
+                                @php
+                                    $subTotal = $subTotal + $totalPrint + $totalInstall;
+                                @endphp
+                                {{ number_format($subTotal) }}
+                            @elseif ($notes->includedPrint->checked == true)
+                                @php
+                                    $subTotal = $subTotal + $totalPrint;
+                                @endphp
+                                {{ number_format($subTotal) }}
+                            @elseif ($notes->includedInstall->checked == true)
+                                @php
+                                    $subTotal = $subTotal + $totalInstall;
+                                @endphp
+                                {{ number_format($subTotal) }}
+                            @endif
+                        </td>
+                    </tr>
+                @else
+                    <tr>
+                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
+                            Total (A)</td>
+                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
+                            {{ number_format($subTotal) }}
+                        </td>
+                    </tr>
+                @endif
                 @if ($price->objPpn->dpp != $subTotal)
                     <tr>
                         <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">DPP
@@ -167,6 +259,37 @@
                         @endif
                     </td>
                 </tr>
+            @else
+                @if ($notes->includedInstall->checked == true || $notes->includedPrint->checked == true)
+                    @php
+                        $subTotal = 0;
+                    @endphp
+                    @foreach ($products as $product)
+                        @php
+                            $row = $loop->iteration - 1;
+                        @endphp
+                        @foreach ($price->dataPrice as $ppnPrice)
+                            @if ($price->dataTitle[$loop->iteration - 1]->checkbox == true)
+                                @php
+                                    $subTotal = $subTotal + $ppnPrice[$row]->price;
+                                @endphp
+                            @endif
+                        @endforeach
+                    @endforeach
+                    <tr>
+                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
+                            Total</td>
+                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
+                            @if ($notes->includedInstall->checked == true && $notes->includedPrint->checked == true)
+                                {{ number_format($subTotal + $totalPrint + $totalInstall) }}
+                            @elseif ($notes->includedPrint->checked == true)
+                                {{ number_format($subTotal + $totalPrint) }}
+                            @elseif ($notes->includedInstall->checked == true)
+                                {{ number_format($subTotal + $totalInstall) }}
+                            @endif
+                        </td>
+                    </tr>
+                @endif
             @endif
         </tbody>
     </table>

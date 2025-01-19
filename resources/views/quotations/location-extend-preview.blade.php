@@ -2,7 +2,7 @@
 
 <!-- Title Preview end -->
 <div class="flex justify-center w-full">
-    <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 bg-white">
+    <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 p-4 bg-white">
         <!-- Header start -->
         @include('dashboard.layouts.letter-header')
         <!-- Header end -->
@@ -26,7 +26,7 @@
                         alt="">
                 </div>
             </div>
-            <div class="flex w-full justify-center mt-4 h-[470px] bg-white">
+            <div class="flex w-full justify-center mt-2 h-[470px] bg-white">
                 <div class="w-[544px] h-[470px] bg-white justify-center">
                     <div
                         class="flex w-[544px] h-10 bg-slate-50 items-center border justify-center rounded-t-lg text-sm font-bold font-mono text-teal-900">

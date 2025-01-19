@@ -151,6 +151,11 @@
             <div class="flex mt-4">
                 <label class="ml-1 text-sm text-black flex">Dengan hormat,</label>
             </div>
+            @error('body_top')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
             <div class="flex mt-2">
                 @if ($area != 'All')
                     @if ($city != 'All')
@@ -165,6 +170,17 @@
         </div>
     </div>
     <!-- table start -->
+    @if (count($products) == 1)
+        <div class="flex justify-center mt-2">
+            <div class="flex w-[725px]">
+                <input id="cbIncludeInstall" class="text-xs" type="checkbox" onclick="cbIncludeInstallAction(this)">
+                <label class="text-xs ml-2">Include Biaya Pasang</label>
+                <input id="cbIncludePrint" class="text-xs ml-4" type="checkbox"
+                    onclick="cbIncludePrintAction(this)">
+                <label class="text-xs ml-2">Include Biaya Cetak</label>
+            </div>
+        </div>
+    @endif
     <div class="flex justify-center ml-2">
         @if ($category == 'Videotron' || ($category == 'Signage' && $dataDescription->type == 'Videotron'))
             @include('quotations.vt-extend-table')

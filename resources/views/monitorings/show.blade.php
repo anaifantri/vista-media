@@ -23,7 +23,7 @@
                         <span class="mx-1"> Back </span>
                     </a>
                     @canany(['isAdmin', 'isWorkshop'])
-                        @can('isElectricity')
+                        @can('isMonitoring')
                             @can('isWorkshopEdit')
                                 <a href="/workshop/monitorings/{{ $monitoring->id }}/edit"
                                     class="flex items-center justify-center btn-warning">
@@ -39,7 +39,7 @@
                         @endcan
                     @endcanany
                     @canany(['isAdmin', 'isWorkshop'])
-                        @can('isElectricity')
+                        @can('isMonitoring')
                             @can('isWorkshopDelete')
                                 <form action="/workshop/monitorings/{{ $monitoring->id }}" method="post" class="d-inline m-1">
                                     @method('delete')

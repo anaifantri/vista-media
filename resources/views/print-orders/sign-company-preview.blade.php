@@ -13,7 +13,7 @@
                     @endif
                 </tr>
                 <tr>
-                    <th class="text-black font-semibold text-sm border">PT. Vista Media,</th>
+                    <th class="text-black font-semibold text-sm border">{{ $company->name }},</th>
                     <th class="text-black font-semibold text-sm border">{{ $product->vendor_company }}</th>
                     <th class="text-black text-sm font-semibold border">Kode : {{ $product->location_code }} -
                         {{ $product->city_code }}</th>
@@ -50,6 +50,6 @@
     </div>
 </div>
 <div class="text-slate-500 text-xs ml-20">
-    <i>* Lembar untuk PT. Vista Media</i>
+    <i>* Lembar untuk {{ $company->name }}</i>
 </div>
 <!-- sign area end -->
