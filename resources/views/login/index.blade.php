@@ -51,6 +51,7 @@
                 <!-- Input username start-->
                 <div
                     class="h-10 sm:w-[238px] w-[192px] sm:h-12 shadow-inner inset-10 sm:mt-6 rounded-2xl items-center justify-center flex">
+                    <input type="text" name="company_id" value="{{ $company->id }}" hidden>
                     <input name="username" id="username"
                         class="shadow-inner sm:w-[230px] sm:h-10 tracking-wider text-stone-900 h-8 rounded-xl pl-2 outline-none w-[184px]"
                         type="text" placeholder="Username" autofocus required>
