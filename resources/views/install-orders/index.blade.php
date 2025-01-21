@@ -53,7 +53,7 @@
                             @endcanany
                         </div>
                     </div>
-                    <form action="/marketing/install-orders">
+                    <form action="/install-orders/index/{{ $company->id }}">
                         @if (request('todays'))
                             <input type="text" name="todays" value="{{ request('todays') }}" hidden>
                         @endif

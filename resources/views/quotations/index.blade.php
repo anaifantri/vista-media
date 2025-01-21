@@ -92,7 +92,7 @@
                             @can('isQuotation')
                                 @can('isMarketingCreate')
                                     <div>
-                                        <a href="/marketing/quotations/select-location/{{ $data_category->name }}"
+                                        <a href="/marketing/quotations/select-location/{{ $data_category->name }}/{{ $company->id }}"
                                             class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -112,7 +112,8 @@
                             @can('isQuotation')
                                 @can('isMarketingCreate')
                                     <div class="flex">
-                                        <a href="/marketing/quotations/select-location/All" class="index-link btn-primary">
+                                        <a href="/marketing/quotations/select-location/All/{{ $company->id }}"
+                                            class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -122,7 +123,8 @@
                                             </svg>
                                             <span class="mx-1 hidden sm:flex">Billboard</span>
                                         </a>
-                                        <a href="/marketing/quotations/select-location/Signage" class="index-link btn-warning ml-2">
+                                        <a href="/marketing/quotations/select-location/Signage/{{ $company->id }}"
+                                            class="index-link btn-warning ml-2">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -132,7 +134,8 @@
                                             </svg>
                                             <span class="mx-1 hidden sm:flex">Signage</span>
                                         </a>
-                                        <a href="/marketing/quotations/select-location/Videotron" class="index-link btn-primary ml-2">
+                                        <a href="/marketing/quotations/select-location/Videotron/{{ $company->id }}"
+                                            class="index-link btn-primary ml-2">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +145,8 @@
                                             </svg>
                                             <span class="mx-1 hidden sm:flex">Videotron</span>
                                         </a>
-                                        <a href="/marketing/quotations/select-location/Service" class="index-link btn-warning ml-2">
+                                        <a href="/marketing/quotations/select-location/Service/{{ $company->id }}"
+                                            class="index-link btn-warning ml-2">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -162,7 +166,8 @@
                         @can('isQuotation')
                             @can('isMarketingCreate')
                                 <div>
-                                    <a href="/marketing/quotations/select-location/{{ $category }}" class="index-link btn-primary">
+                                    <a href="/marketing/quotations/select-location/{{ $category }}/{{ $company->id }}"
+                                        class="index-link btn-primary">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -178,7 +183,7 @@
                 @endif
             </div>
             <div>
-                <form action="/marketing/quotations/home/{{ $category }}">
+                <form action="/marketing/quotations/home/{{ $category }}/{{ $company->id }}">
                     @if (request('todays'))
                         <input type="text" name="todays" value="{{ request('todays') }}" hidden>
                     @endif

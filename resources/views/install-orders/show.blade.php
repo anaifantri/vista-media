@@ -25,7 +25,8 @@
             <div class="flex w-[950px] items-center border-b p-1">
                 <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[800px]">DATA SPK PASANG</h1>
                 <div class="flex w-full justify-end items-center">
-                    <a href="/marketing/install-orders" class="flex items-center justify-center btn-primary mx-1">
+                    <a href="/install-orders/index/{{ $company->id }}"
+                        class="flex items-center justify-center btn-primary mx-1">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path

@@ -26,7 +26,7 @@
                     <input type="text" name="category" id="category" value="{{ $data_category->name }}" hidden>
                     <input type="text" name="quotation_id" id="quotation_id" hidden>
                     <a class="flex justify-center items-center ml-1 btn-danger"
-                        href="/marketing/sales/home/{{ $data_category->name }}">
+                        href="/marketing/sales/home/{{ $data_category->name }}/{{ $company->id }}">
                         <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" viewBox="0 0 24 24">
                             <path

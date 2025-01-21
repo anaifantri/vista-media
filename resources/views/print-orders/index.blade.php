@@ -53,7 +53,7 @@
                             @endcanany
                         </div>
                     </div>
-                    <form class="flex mt-2" action="/marketing/print-orders">
+                    <form class="flex mt-2" action="/print-orders/index/{{ $company->id }}">
                         @if (request('todays'))
                             <input type="text" name="todays" value="{{ request('todays') }}" hidden>
                         @endif

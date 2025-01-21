@@ -41,16 +41,16 @@ class QuotationController extends Controller
         //
     }
 
-    public function home(String $category, Request $request): View
+    public function home(String $category, String $company_id, Request $request): View
     {
         if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
             if($category == "All"){
                 $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-                $dataQuotations = Quotation::filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->sortable()->category()->orderBy("number", "desc")->paginate(30)->withQueryString();
+                $dataQuotations = Quotation::where('company_id', $company_id)->filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->sortable()->category()->orderBy("number", "desc")->paginate(30)->withQueryString();
             }else{
                 $dataCategory = MediaCategory::where('name', $category)->get()->last();
                 $media_category_id = $dataCategory->id;
-                $dataQuotations = Quotation::where('media_category_id', $dataCategory->id)->filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->orderBy("number", "desc")->sortable()->paginate(30)->withQueryString();
+                $dataQuotations = Quotation::where('company_id', $company_id)->where('media_category_id', $dataCategory->id)->filter(request('search'))->todays()->weekday()->monthly()->annual()->year()->month()->orderBy("number", "desc")->sortable()->paginate(30)->withQueryString();
             }
     
             $media_categories = MediaCategory::with('quotations')->get();
@@ -99,7 +99,7 @@ class QuotationController extends Controller
         }
     }
 
-    public function selectLocation(String $category, Request $request): View
+    public function selectLocation(String $category, String $company_id, Request $request): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
             $sales = collect([]);
@@ -114,7 +114,7 @@ class QuotationController extends Controller
                     if($request->serviceType == "new"){
                         $dataLocations = Location::filter(request('search'))->area()->city()->category()->print()->sortable()->orderBy("code", "asc")->get();
                     }else if($request->serviceType == "existing"){
-                        $dataSales = Sale::filter(request('search'))->service()->area()->city()->category()->sortable()->get();
+                        $dataSales = Sale::where('company_id', $company_id)->filter(request('search'))->service()->area()->city()->category()->sortable()->get();
                         // $sales = $dataSales;
                         foreach ($dataSales as $sale) {
                             $product = json_decode($sale->product);
@@ -146,7 +146,7 @@ class QuotationController extends Controller
                         }
                     }
                 }else{
-                    $dataSales = Sale::filter(request('search'))->service()->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->filter(request('search'))->service()->area()->city()->category()->sortable()->get();
                     // $sales = $dataSales;
                     foreach ($dataSales as $sale) {
                         $product = json_decode($sale->product);
@@ -300,7 +300,7 @@ class QuotationController extends Controller
             }
             // Set number --> end
             $request->request->add(['number' => $number]);
-            // dd(request('price'));
+            // dd(request('clients'));
             $validateData = $request->validate([
                 'number' => 'required|unique:quotations',
                 'media_category_id' => 'required',

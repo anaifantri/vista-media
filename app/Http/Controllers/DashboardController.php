@@ -23,7 +23,7 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    public function index(String $company_id){
         $locations = Location::with('area')->get();
         $cities = City::with('area')->get();
         $active_licenses = count(Location::activeLicenses()->get());
@@ -36,15 +36,15 @@ class DashboardController extends Controller
         $year = date('Y');
         $mm = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
         for ($i=1; $i <= 12; $i++) { 
-            $thisYearQuotation = Quotation::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
+            $thisYearQuotation = Quotation::where('company_id', $company_id)->whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
             $monthData[] = $mm[$i];
             $thisYearQty[] = count($thisYearQuotation);
         }
-        $deals = Quotation::year()->deal()->get();
-        $closeds = Quotation::year()->closed()->get();
-        $followups = Quotation::year()->followUp()->get();
-        $createds = Quotation::year()->createds()->get();
-        $sents = Quotation::year()->sent()->get();
+        $deals = Quotation::where('company_id', $company_id)->year()->deal()->get();
+        $closeds = Quotation::where('company_id', $company_id)->year()->closed()->get();
+        $followups = Quotation::where('company_id', $company_id)->year()->followUp()->get();
+        $createds = Quotation::where('company_id', $company_id)->year()->createds()->get();
+        $sents = Quotation::where('company_id', $company_id)->year()->sent()->get();
         $quotationData = [count($createds), count($sents), count($followups), count($deals), count($closeds)];
         $labelData = ['Created', 'Sent', 'Follow Up','Deal', 'Closed'];
         $quotation_revisions = QuotationRevision::with('quotation')->get();
@@ -52,28 +52,28 @@ class DashboardController extends Controller
         $quotation_statuses = QuotationStatus::with('quotation')->get();
 
         for ($i=1; $i <= 12; $i++) { 
-            $thisYearSales = Sale::whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('price');
-            $prevYearSales = Sale::whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price');
+            $thisYearSales = Sale::where('company_id', $company_id)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('price');
+            $prevYearSales = Sale::where('company_id', $company_id)->whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price');
             $thisYearTotal[] = $thisYearSales;
             $prevYearTotal[] = $prevYearSales;
         }
 
         for ($i=1; $i <= 12; $i++) { 
-            $printOrders = PrintOrder::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
+            $printOrders = PrintOrder::where('company_id', $company_id)->whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
             $printOrderQty[] = count($printOrders);
         }
-        $printSales = PrintOrder::sales()->year()->get();
-        $freePrintSales = PrintOrder::freeSales()->year()->get();
-        $freePrintOther = PrintOrder::freeOther()->year()->get();
+        $printSales = PrintOrder::where('company_id', $company_id)->sales()->year()->get();
+        $freePrintSales = PrintOrder::where('company_id', $company_id)->freeSales()->year()->get();
+        $freePrintOther = PrintOrder::where('company_id', $company_id)->freeOther()->year()->get();
         $printOrderData = [count($printSales), count($freePrintSales), count($freePrintOther)];
 
         for ($i=1; $i <= 12; $i++) { 
-            $installOrders = InstallOrder::whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
+            $installOrders = InstallOrder::where('company_id', $company_id)->whereYear('created_at', $year)->whereMonth('created_at', $i)->get();
             $installOrderQty[] = count($installOrders);
         }
-        $installSales = InstallOrder::sales()->year()->get();
-        $freeInstallSales = InstallOrder::freeSales()->year()->get();
-        $freeInstallOther = InstallOrder::freeOther()->year()->get();
+        $installSales = InstallOrder::where('company_id', $company_id)->sales()->year()->get();
+        $freeInstallSales = InstallOrder::where('company_id', $company_id)->freeSales()->year()->get();
+        $freeInstallOther = InstallOrder::where('company_id', $company_id)->freeOther()->year()->get();
         $installOrderData = [count($installSales), count($freeInstallSales), count($freeInstallOther)];
 
         $labelDataOrder = ['Berbayar', 'Gratis Penjualan', 'Gratis Lain-Lain'];
@@ -81,10 +81,10 @@ class DashboardController extends Controller
             'title' => "Dashboard",
             'printOrderQty' => $printOrderQty,
             'printOrderData' => $printOrderData,
-            'todaysPrint' => PrintOrder::whereDate('created_at', Carbon::today())->get(),
-            'weekdayPrints' => PrintOrder::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
-            'monthPrints' => PrintOrder::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
-            'yearPrints' => PrintOrder::whereYear('created_at', Carbon::now()->year)->get(),
+            'todaysPrint' => PrintOrder::where('company_id', $company_id)->whereDate('created_at', Carbon::today())->get(),
+            'weekdayPrints' => PrintOrder::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
+            'monthPrints' => PrintOrder::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
+            'yearPrints' => PrintOrder::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->get(),
             'printSales' => $printSales,
             'freePrintSales' => $freePrintSales,
             'freePrintOther' => $freePrintOther,
@@ -93,10 +93,10 @@ class DashboardController extends Controller
 
             'installOrderQty' => $installOrderQty,
             'installOrderData' => $installOrderData,
-            'todaysInstall' => InstallOrder::whereDate('created_at', Carbon::today())->get(),
-            'weekdayInstalls' => InstallOrder::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
-            'monthInstalls' => InstallOrder::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
-            'yearInstalls' => InstallOrder::whereYear('created_at', Carbon::now()->year)->get(),
+            'todaysInstall' => InstallOrder::where('company_id', $company_id)->whereDate('created_at', Carbon::today())->get(),
+            'weekdayInstalls' => InstallOrder::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
+            'monthInstalls' => InstallOrder::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
+            'yearInstalls' => InstallOrder::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->get(),
             'installSales' => $installSales,
             'freeInstallSales' => $freeInstallSales,
             'freeInstallOther' => $freeInstallOther,
@@ -113,15 +113,15 @@ class DashboardController extends Controller
             'monthData' => $monthData,
             'quotationData' => $quotationData,
             'labelData' => $labelData,
-            'todays' => Quotation::whereDate('created_at', Carbon::today())->get(),
-            'weekday' => Quotation::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
-            'monthQuots' => Quotation::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
-            'yearQuots' => Quotation::whereYear('created_at', Carbon::now()->year)->get(),
+            'todays' => Quotation::where('company_id', $company_id)->whereDate('created_at', Carbon::today())->get(),
+            'weekday' => Quotation::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->get(),
+            'monthQuots' => Quotation::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
+            'yearQuots' => Quotation::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->get(),
             
-            'weekSales' => Sale::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->sum('price'),
-            'monthSales' => Sale::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price'),
-            'yearSales' => Sale::whereYear('created_at', Carbon::now()->year)->sum('price'),
-            'sales' => Sale::whereYear('created_at', Carbon::now()->year)->get(),
+            'weekSales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->sum('price'),
+            'monthSales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price'),
+            'yearSales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->sum('price'),
+            'sales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->get(),
             'thisYearTotal' => $thisYearTotal,
             'prevYearTotal' => $prevYearTotal,
             compact('locations', 'cities', 'quotation_revisions', 'quotation_statuses', 'quot_revision_statuses')

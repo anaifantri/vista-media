@@ -67,7 +67,7 @@
                 </div>
                 <div class="flex justify-end w-[660px]">
                     <a class="flex justify-center items-center ml-1 btn-success"
-                        href="/marketing/sales/home/{{ $category }}">
+                        href="/marketing/sales/home/{{ $category }}/{{ $company->id }}">
                         <svg class="fill-current w-4 ml-1" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path

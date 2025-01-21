@@ -1,7 +1,8 @@
 <div class="justify-start items-center px-2 w-full hidden sm:flex">
     <nav class="sm:flex w-full hidden">
         <ul class="flex justify-start group w-max  h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-stone-200 {{ Request::is('dashboard') ? 'active' : '' }}" href="/dashboard">
+            <a class="right-nav text-stone-200 {{ Request::is('dashboard') ? 'active' : '' }}"
+                href="/dashboard/{{ $company->id }}">
                 <svg class="fill-current w-5 mx-2" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <title>DASHBOARD</title>
                     <path
@@ -34,7 +35,7 @@
                     <ul>
                         <li class="group">
                             <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/quotations/home/All*') ? 'active' : '' }}"
-                                href="/marketing/quotations/home/All">
+                                href="/marketing/quotations/home/All/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +49,7 @@
                             @if ($category->name == 'Service')
                                 <li class="group">
                                     <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/quotations/home/' . $category->name . '*') ? 'active' : '' }}"
-                                        href="/marketing/quotations/home/{{ $category->name }}">
+                                        href="/marketing/quotations/home/{{ $category->name }}/{{ $company->id }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +62,7 @@
                             @else
                                 <li class="group">
                                     <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/quotations/home/' . $category->name . '*') ? 'active' : '' }}"
-                                        href="/marketing/quotations/home/{{ $category->name }}">
+                                        href="/marketing/quotations/home/{{ $category->name }}/{{ $company->id }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -101,7 +102,7 @@
                     <ul>
                         <li class="group">
                             <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/sales/home/All*') ? 'active' : '' }}"
-                                href="/marketing/sales/home/All">
+                                href="/marketing/sales/home/All/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +116,7 @@
                             @if ($category->name == 'Service')
                                 <li class="group">
                                     <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/sales/home/' . $category->name . '*') ? 'active' : '' }}"
-                                        href="/marketing/sales/home/{{ $category->name }}">
+                                        href="/marketing/sales/home/{{ $category->name }}/{{ $company->id }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -128,7 +129,7 @@
                             @else
                                 <li class="group">
                                     <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('marketing/sales/home/' . $category->name . '*') ? 'active' : '' }}"
-                                        href="/marketing/sales/home/{{ $category->name }}">
+                                        href="/marketing/sales/home/{{ $category->name }}/{{ $company->id }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -161,7 +162,7 @@
         @can('isOrder')
             <ul class="flex group w-max  ml-4 h-6 transition duration-300 ease-in-out">
                 <a class="right-nav text-stone-200 {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
-                    href="/marketing/print-orders">
+                    href="/print-orders/index/{{ $company->id }}">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                         viewBox="0 0 24 24">
                         <path
@@ -174,7 +175,7 @@
         @can('isMarketingSetting')
             <ul id="setting" name="setting" class="flex group w-max transition duration-300 ease-in-out">
                 <a class="right-nav w-max p-2 h-6 text-stone-200 {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
-                    href="/marketing/install-orders">
+                    href="/install-orders/index/{{ $company->id }}">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path
                             d="M9 3h6v2h-6v-2zm3 15l7-8h-4v-4h-6v4h-4l7 8zm3-16v-2h-6v2h6zm3.213-.246l-1.213 1.599c2.984 1.732 5 4.955 5 8.647 0 5.514-4.486 10-10 10s-10-4.486-10-10c0-3.692 2.016-6.915 5-8.647l-1.213-1.599c-3.465 2.103-5.787 5.897-5.787 10.246 0 6.627 5.373 12 12 12s12-5.373 12-12c0-4.349-2.322-8.143-5.787-10.246z" />

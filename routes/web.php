@@ -64,7 +64,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 // Route login - logout --> end
 
 // Route dashboard --> start
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard/{companyid}', [DashboardController::class, 'index'])->middleware('auth');
 // Route dashboard --> end
 
 // Route users --> start
@@ -90,9 +90,9 @@ Route::resource('/marketing/vendor-categories', VendorCategoryController::class)
 Route::resource('/marketing/quotations', QuotationController::class)->middleware(['auth','user_access']);
 Route::get('/marketing/quotations/preview/{category}/{id}', [QuotationController::class,'preview']);
 Route::get('/quotations/preview/{category}/{id}', [QuotationController::class,'guestPreview']);
-Route::get('/marketing/quotations/select-location/{category}', [QuotationController::class,'selectLocation']);
+Route::get('/marketing/quotations/select-location/{category}/{companyid}', [QuotationController::class,'selectLocation']);
 Route::get('/marketing/quotations/create-quotation/{category}/{type}/{id}/{city}/{area}', [QuotationController::class,'createQuotation']);
-Route::get('/marketing/quotations/home/{category}', [QuotationController::class,'home']);
+Route::get('/marketing/quotations/home/{category}/{companyid}', [QuotationController::class,'home']);
 Route::resource('/marketing/quotation-statuses', QuotationStatusController::class)->middleware(['auth','user_access']);
 // Route Quotations --> end
 
@@ -115,23 +115,23 @@ Route::get('/marketing/quotation-orders/show-orders/{category}/{id}', [Quotation
 
 // Route Sales --> start
 Route::resource('/marketing/sales', SaleController::class)->middleware(['auth','user_access']);
-Route::get('/marketing/sales/home/{category}', [SaleController::class,'home'])->middleware(['auth','user_access']);
+Route::get('/marketing/sales/home/{category}/{companyid}', [SaleController::class,'home'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales/report/{category}', [SaleController::class,'report'])->middleware(['auth','user_access']);
-Route::get('/marketing/sales/select-quotation/{category}', [SaleController::class,'selectQuotation'])->middleware(['auth','user_access']);
+Route::get('/marketing/sales/select-quotation/{category}/{companyid}', [SaleController::class,'selectQuotation'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales/create-sales/{category}/{id}', [SaleController::class,'createSales'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales/preview/{category}/{id}', [SaleController::class,'preview'])->middleware(['auth','user_access']);
 Route::get('/get-sales/{id}/{scope}', [SaleController::class,'getSales'])->middleware(['auth','user_access']);
 // Route Sales --> end
 
 // Route Sales Report --> start
-Route::get('/marketing/sales-report', [SalesReportController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/marketing/sales-report/{companyid}', [SalesReportController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales-report/chart-report/{areaId}', [SalesReportController::class,'chartReports'])->middleware(['auth','user_access']);
-Route::get('/marketing/sales-report/c-report', [SalesReportController::class,'cReports'])->middleware(['auth','user_access']);
+Route::get('/marketing/sales-report/c-report/{companyid}', [SalesReportController::class,'cReports'])->middleware(['auth','user_access']);
 // Route Sales Report --> end
 
 // Route Quotation Report --> start
-Route::get('/marketing/quotations-report', [QuotationsReportController::class,'index'])->middleware(['auth','user_access']);
-Route::get('/marketing/quotations-report/reports/{categoryId}', [QuotationsReportController::class,'quotationReports'])->middleware(['auth','user_access']);
+Route::get('/marketing/quotations-report/{companyid}', [QuotationsReportController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/marketing/quotations-report/reports/{categoryId}/{companyid}', [QuotationsReportController::class,'quotationReports'])->middleware(['auth','user_access']);
 // Route Quotation Report --> end
 
 // Route Order Report --> start
@@ -144,12 +144,16 @@ Route::get('/marketing/orders-report/install-orders', [OrderReportController::cl
 Route::resource('/marketing/printing-products', PrintingProductController::class)->middleware(['auth','user_access']);
 Route::resource('/marketing/printing-prices', PrintingPriceController::class)->middleware(['auth','user_access']);
 Route::resource('/marketing/installation-prices', InstallationPriceController::class)->middleware(['auth','user_access']);
-Route::resource('/marketing/install-orders', InstallOrderController::class)->middleware(['auth','user_access']);
+
+Route::resource('/marketing/install-orders', InstallOrderController::class)->except(['index'])->middleware(['auth','user_access']);
+Route::get('/install-orders/index/{companyid}', [InstallOrderController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/install-orders/select-locations', [InstallOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
 Route::get('/install-orders/{status}', [InstallOrderController::class,'installOrders'])->middleware(['auth','user_access']);
 Route::get('/install-orders/create-order/{id}/{type}', [InstallOrderController::class,'createOrder'])->middleware(['auth','user_access']);
 Route::get('/marketing/install-orders/preview/{id}', [InstallOrderController::class,'preview'])->middleware(['auth','user_access']);
-Route::resource('/marketing/print-orders', PrintOrderController::class)->middleware(['auth','user_access']);
+
+Route::resource('/marketing/print-orders', PrintOrderController::class)->except(['index'])->middleware(['auth','user_access']);
+Route::get('/print-orders/index/{companyid}', [PrintOrderController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/print-orders/select-locations', [PrintOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
 Route::get('/print-orders/create-order/{id}/{type}', [PrintOrderController::class,'createOrder'])->middleware(['auth','user_access']);
 Route::get('/marketing/print-orders/preview/{id}', [PrintOrderController::class,'preview'])->middleware(['auth','user_access']);

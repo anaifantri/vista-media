@@ -157,7 +157,7 @@
                     <ul class="hidden">
                         <li class="group">
                             <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/quotations/home/All*') ? 'active' : '' }}"
-                                href="/marketing/quotations/home/All">
+                                href="/marketing/quotations/home/All/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -171,7 +171,7 @@
                             @if ($category->name == 'Service')
                                 <li class="group">
                                     <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/quotations/home/' . $category->name . '*') ? 'active' : '' }}"
-                                        href="/marketing/quotations/home/{{ $category->name }}">
+                                        href="/marketing/quotations/home/{{ $category->name }}/{{ $company->id }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -184,7 +184,7 @@
                             @else
                                 <li class="group">
                                     <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/quotations/home/' . $category->name . '*') ? 'active' : '' }}"
-                                        href="/marketing/quotations/home/{{ $category->name }}">
+                                        href="/marketing/quotations/home/{{ $category->name }}/{{ $company->id }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -225,7 +225,7 @@
                     <ul class="hidden">
                         <li class="group">
                             <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/sales/home/All*') ? 'active' : '' }}"
-                                href="/marketing/sales/home/All">
+                                href="/marketing/sales/home/All/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -239,7 +239,7 @@
                             @if ($category->name == 'Service')
                                 <li class="group">
                                     <a class="nav-a ml-5 border-b-[1px] {{ Request::is('marketing/sales/home/' . $category->name . '*') ? 'active' : '' }}"
-                                        href="/marketing/sales/home/{{ $category->name }}">
+                                        href="/marketing/sales/home/{{ $category->name }}/{{ $company->id }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -252,7 +252,7 @@
                             @else
                                 <li class="group">
                                     <a class="nav-a ml-5 {{ Request::is('marketing/sales/home/' . $category->name . '*') ? 'active' : '' }}"
-                                        href="/marketing/sales/home/{{ $category->name }}">
+                                        href="/marketing/sales/home/{{ $category->name }}/{{ $company->id }}">
                                         <svg class="child-nav-svg" role="img" clip-rule="evenodd"
                                             fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -295,7 +295,7 @@
                     <ul class="hidden" id="materiChild" name="materiChild">
                         <li class="group">
                             <a class="nav-a ml-5 {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
-                                href="/marketing/print-orders">
+                                href="/print-orders/index/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
@@ -306,7 +306,7 @@
                         </li>
                         <li class="group">
                             <a class="nav-a ml-5 {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
-                                href="/marketing/install-orders">
+                                href="/install-orders/index/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
@@ -325,7 +325,7 @@
             @can('isQuotationReport')
                 <li id="quotReport" title="Lap. Penawaran" class="group" onclick="childMenu(event,this)">
                     <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/quotations-report*') ? 'active' : '' }}"
-                        href="/marketing/quotations-report">
+                        href="/marketing/quotations-report/{{ $company->id }}">
                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -341,34 +341,6 @@
                                 d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
                         </svg>
                     </a>
-                    <!-- Quotation Reports Child Start -->
-                    {{-- <ul class="hidden" id="quotReportChild" name="quotReportChild">
-                        <li class="group">
-                            <a class="nav-a ml-5" href="#">
-                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                </svg>
-                                <span class="flex w-40"> Semua Katagori </span>
-                            </a>
-                        </li>
-                        @foreach ($categories as $category)
-                            <li class="group">
-                                <a class="nav-a ml-5" href="#">
-                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                    </svg>
-                                    <span class="flex w-40"> {{ $category->name }} </span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul> --}}
-                    <!-- Quotation Reports Child End -->
                 </li>
             @endcan
             <!-- Quotation Reports end -->
@@ -377,7 +349,7 @@
             @can('isSaleReport')
                 <li id="saleReports" title="Lap. Penjualan" class="group" onclick="childMenu(event,this)">
                     <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/sales-report*') ? 'active' : '' }}"
-                        href="/marketing/sales-report">
+                        href="/marketing/sales-report/{{ $company->id }}">
                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
@@ -393,36 +365,6 @@
                                 d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
                         </svg>
                     </a>
-                    <!-- Sales Reports Child Start -->
-                    {{-- <ul class="hidden" id="saleReportChild" name="saleReportChild">
-                        <li class="group">
-                            <a class="nav-a ml-5 {{ Request::is('marketing/sales-report*') ? 'active' : '' }}"
-                                href="/marketing/sales-report">
-                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                </svg>
-                                <span class="flex w-40"> Semua Katagori </span>
-                            </a>
-                        </li>
-                        @foreach ($categories as $category)
-                            <li class="group">
-                                <a class="nav-a ml-5 {{ Request::is('marketing/sales/report/' . $category->name . '*') ? 'active' : '' }}"
-                                    href="/marketing/sales/report/{{ $category->name }}">
-                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                    </svg>
-                                    <span class="flex w-40"> {{ $category->name }} </span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul> --}}
-                    <!-- Sales Reports Child End -->
                 </li>
             @endcan
             <!-- Sales Reports end -->
@@ -447,31 +389,6 @@
                                 d="M12.468.186a.7.7 0 0 0-.95 0L1.924 9.193a1.705 1.705 0 0 0-.475 1.095v3.59c0 .358.214.452.475.207l9.601-9.01a.705.705 0 0 1 .95 0l9.603 9.01c.262.245.475.151.475-.207v-3.59a1.71 1.71 0 0 0-.475-1.095zm0 9.783a.705.705 0 0 0-.95 0l-9.595 9.002a1.705 1.705 0 0 0-.475 1.094v3.59c0 .358.214.453.475.208l9.601-9.007a.701.701 0 0 1 .95 0l9.603 9.008c.262.244.475.15.475-.208v-3.59a1.71 1.71 0 0 0-.475-1.094Z" />
                         </svg>
                     </a>
-                    <!-- SPK Reports Child Start -->
-                    {{-- <ul class="hidden" id="spkReportChild" name="spkReportChild">
-                        <li class="group">
-                            <a class="nav-a ml-5" href="#">
-                                <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                </svg>
-                                <span class="flex w-40"> SPK Cetak </span>
-                            </a>
-                        </li>
-                        <li class="group">
-                            <a class="nav-a ml-5" href="#">
-                                <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
-                                    stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
-                                </svg>
-                                <span class="flex w-40"> SPK Pasang </span>
-                            </a>
-                        </li>
-                    </ul> --}}
-                    <!-- SPK Reports Child End -->
                 </li>
             @endcan
             <!-- SPK Reports end -->

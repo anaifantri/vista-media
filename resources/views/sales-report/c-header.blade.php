@@ -1,4 +1,4 @@
-<form action="/marketing/sales-report/c-report">
+<form action="/marketing/sales-report/c-report/{{ $company->id }}">
     <div class="flex justify-center">
         <div class="flex justify-center items-center border rounded-lg mt-2 p-2 w-[1580px]">
             <div>
@@ -44,15 +44,6 @@
                             @endif
                         </select>
                     </div>
-                    {{-- <span class="text-sm  text-stone-100 font-semibold w-24">Periode</span>
-                    <span class="text-sm  text-stone-100 font-semibold ml-2">:</span>
-                    @if (request('search'))
-                        <input class="ml-2 outline-none text-sm text-stone-900 border rounded-lg w-36 p-1" type="month"
-                            name="search" id="search" value="{{ request('search') }}" onchange="submit()">
-                    @else
-                        <input class="ml-2 outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
-                            type="month" name="search" id="search" onchange="submit()">
-                    @endif --}}
                 </div>
             </div>
             <div id="divButton" class="flex justify-end w-full">
@@ -65,7 +56,8 @@
                     </svg>
                     <span class="mx-1">Save PDF</span>
                 </button>
-                <a class="flex justify-center items-center mx-1 btn-danger" href="/marketing/sales-report">
+                <a class="flex justify-center items-center mx-1 btn-danger"
+                    href="/marketing/sales-report/{{ $company->id }}">
                     <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24">
                         <path

@@ -30,7 +30,8 @@
                     <span class="mx-1 text-white">Save PDF</span>
                 </button>
                 @if (auth()->check())
-                    <a class="flex justify-center items-center mx-1 btn-danger" href="/marketing/quotations/home/All">
+                    <a class="flex justify-center items-center mx-1 btn-danger"
+                        href="/marketing/quotations/home/All/{{ $company->id }}">
                         <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24">
                             <path

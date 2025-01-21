@@ -8,7 +8,7 @@
                 <div class="grid grid-cols-4 gap-2 w-[500px] p-2">
                     @foreach ($categories as $category)
                         @if ($category->name == 'Service')
-                            <a href="/marketing/quotations/home/{{ $category->name }}"
+                            <a href="/marketing/quotations/home/{{ $category->name }}/{{ $company->id }}"
                                 class="flex col-span-2 justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                                 <div>
                                     <label class="flex justify-center font-serif text-md cursor-pointer">Katagori</label>
@@ -17,7 +17,7 @@
                                 </div>
                             </a>
                         @else
-                            <a href="/marketing/quotations/home/{{ $category->name }}"
+                            <a href="/marketing/quotations/home/{{ $category->name }}/{{ $company->id }}"
                                 class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                                 <div>
                                     <label
@@ -30,7 +30,7 @@
                     @endforeach
                 </div>
                 <div class="grid grid-cols-2 gap-2 w-[500px] p-4 mt-4 border-t">
-                    <a href="/marketing/quotations/home/All?todays={{ date('Y-m-d') }}"
+                    <a href="/marketing/quotations/home/All/{{ $company->id }}?todays={{ date('Y-m-d') }}"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -79,7 +79,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/quotations/home/All?weekday=true"
+                    <a href="/marketing/quotations/home/All/{{ $company->id }}?weekday=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -128,7 +128,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/quotations/home/All?monthly=true"
+                    <a href="/marketing/quotations/home/All/{{ $company->id }}?monthly=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -177,7 +177,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/quotations/home/All?annual=true"
+                    <a href="/marketing/quotations/home/All/{{ $company->id }}?annual=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -245,7 +245,7 @@
                 <div class="grid grid-cols-4 gap-2 w-[500px] p-2">
                     @foreach ($categories as $category)
                         @if ($category->name == 'Service')
-                            <a href="/marketing/sales/home/{{ $category->name }}"
+                            <a href="/marketing/sales/home/{{ $category->name }}/{{ $company->id }}"
                                 class="flex justify-center  col-span-2 text-teal-400 items-center py-4 bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                                 <div>
                                     <label
@@ -270,7 +270,7 @@
                                 </div>
                             </a>
                         @else
-                            <a href="/marketing/sales/home/{{ $category->name }}"
+                            <a href="/marketing/sales/home/{{ $category->name }}/{{ $company->id }}"
                                 class="flex justify-center text-teal-400 items-center py-4 bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                                 <div>
                                     <label
@@ -301,7 +301,7 @@
                     <label class="text-lg text-stone-800 font-bold">Data Penjualan Berdasarkan Periode</label>
                 </div>
                 <div class="grid grid-cols-3 gap-2 w-[500px] p-4">
-                    <a href="/marketing/sales/home/All?weekday=true"
+                    <a href="/marketing/sales/home/All/{{ $company->id }}?weekday=true"
                         class="flex justify-center text-teal-400 h-[200px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -330,7 +330,7 @@
                             @endif
                         </div>
                     </a>
-                    <a href="/marketing/sales/home/All?monthly=true"
+                    <a href="/marketing/sales/home/All/{{ $company->id }}?monthly=true"
                         class="flex justify-center text-teal-400 h-[200px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -359,7 +359,7 @@
                             @endif
                         </div>
                     </a>
-                    <a href="/marketing/sales/home/All?annual=true"
+                    <a href="/marketing/sales/home/All/{{ $company->id }}?annual=true"
                         class="flex justify-center text-teal-400 h-[200px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -405,7 +405,7 @@
                     <label class="text-lg text-stone-800 font-bold">Data SPK Cetak</label>
                 </div>
                 <div class="grid grid-cols-3 gap-2 w-[500px] p-2">
-                    <a href="/marketing/print-orders"
+                    <a href="/print-orders/index/{{ $company->id }}"
                         class="flex col-span-3 justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                         <div>
                             <label class="flex justify-center font-serif text-md cursor-pointer">SPK Cetak</label>
@@ -452,7 +452,7 @@
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-2 w-[500px] p-4 mt-4 border-t">
-                    <a href="/marketing/print-orders?todays={{ date('Y-m-d') }}"
+                    <a href="/print-orders/index/{{ $company->id }}?todays={{ date('Y-m-d') }}"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -476,7 +476,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/print-orders?weekday=true"
+                    <a href="/print-orders/index/{{ $company->id }}?weekday=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -500,7 +500,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/print-orders?monthly=true"
+                    <a href="/print-orders/index/{{ $company->id }}?monthly=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -524,7 +524,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/print-orders?annual=true"
+                    <a href="/print-orders/index/{{ $company->id }}?annual=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -565,7 +565,7 @@
                     <label class="text-lg text-stone-800 font-bold">Data SPK Pasang</label>
                 </div>
                 <div class="grid grid-cols-3 gap-2 w-[500px] p-2">
-                    <a href="/marketing/install-orders"
+                    <a href="/install-orders/index/{{ $company->id }}"
                         class="flex col-span-3 justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                         <div>
                             <label class="flex justify-center font-serif text-md cursor-pointer">SPK Pasang</label>
@@ -612,7 +612,7 @@
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-2 w-[500px] p-4 mt-4 border-t">
-                    <a href="/marketing/install-orders?todays={{ date('Y-m-d') }}"
+                    <a href="/install-orders/index/{{ $company->id }}?todays={{ date('Y-m-d') }}"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -628,7 +628,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/install-orders?weekday=true"
+                    <a href="/install-orders/index/{{ $company->id }}?weekday=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -644,7 +644,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/install-orders?monthly=true"
+                    <a href="/install-orders/index/{{ $company->id }}?monthly=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -660,7 +660,7 @@
                             </label>
                         </div>
                     </a>
-                    <a href="/marketing/install-orders?annual=true"
+                    <a href="/install-orders/index/{{ $company->id }}?annual=true"
                         class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label

@@ -22,7 +22,7 @@
                     </svg>
                     <span class="mx-1">Save PDF</span>
                 </button>
-                <a class="flex justify-center items-center mx-1 btn-danger" href="/marketing/print-orders">
+                <a class="flex justify-center items-center mx-1 btn-danger" href="/print-orders/index/{{ $company->id }}">
                     <svg class="fill-white w-4 m-auto hover:fill-red-600" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
                         <path

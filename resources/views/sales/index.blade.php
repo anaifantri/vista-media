@@ -47,7 +47,7 @@
                                     @can('isQuotation')
                                         @can('isMarketingCreate')
                                             <div>
-                                                <a href="/marketing/sales/select-quotation/{{ $data_category->name }}"
+                                                <a href="/marketing/sales/select-quotation/{{ $data_category->name }}/{{ $company->id }}"
                                                     class="index-link btn-primary">
                                                     <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                         stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -68,7 +68,7 @@
                                 @can('isQuotation')
                                     @can('isMarketingCreate')
                                         <div>
-                                            <a href="/marketing/sales/select-quotation/{{ $category }}"
+                                            <a href="/marketing/sales/select-quotation/{{ $category }}/{{ $company->id }}"
                                                 class="index-link btn-primary">
                                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -85,7 +85,7 @@
                             @endcanany
                         @endif
                     </div>
-                    <form action="/marketing/sales/home/{{ $category }}">
+                    <form action="/marketing/sales/home/{{ $category }}/{{ $company->id }}">
                         @if (request('weekday'))
                             <input type="text" name="weekday" value="{{ request('weekday') }}" hidden>
                         @endif

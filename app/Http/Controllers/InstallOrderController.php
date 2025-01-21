@@ -29,7 +29,7 @@ class InstallOrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(String $company_id): Response
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             $sale = Sale::with('install_order')->get();
@@ -37,7 +37,7 @@ class InstallOrderController extends Controller
             $print_order = PrintOrder::with('install_order')->get();
             $locations = Location::with('install_orders')->get();
             return response()-> view ('install-orders.index', [
-                'install_orders'=>InstallOrder::filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("install_at", "desc")->paginate(20)->withQueryString(),
+                'install_orders'=>InstallOrder::where('company_id', $company_id)->filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("install_at", "desc")->paginate(20)->withQueryString(),
                 'title' => 'Daftar SPK Pemasangan Gambar',
                 compact('sale', 'print_order', 'locations', 'quotations')
             ]);

@@ -16,7 +16,7 @@
                         <div class="grid grid-cols-4 gap-2 w-[500px] p-2">
                             @foreach ($media_categories as $category)
                                 @if ($category->name == 'Service')
-                                    <a href="/marketing/quotations-report/reports/{{ $category->id }}"
+                                    <a href="/marketing/quotations-report/reports/{{ $category->id }}/{{ $company->id }}"
                                         class="flex col-span-2 justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                                         <div>
                                             <label
@@ -26,7 +26,7 @@
                                         </div>
                                     </a>
                                 @else
-                                    <a href="/marketing/quotations-report/reports/{{ $category->id }}"
+                                    <a href="/marketing/quotations-report/reports/{{ $category->id }}/{{ $company->id }}"
                                         class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                                         <div>
                                             <label
@@ -39,7 +39,7 @@
                             @endforeach
                         </div>
                         <div class="grid grid-cols-2 gap-2 w-[500px] p-4 mt-4 border-t">
-                            <a href="/marketing/quotations/home/All?todays={{ date('Y-m-d') }}"
+                            <a href="/marketing/quotations/home/All/{{ $company->id }}?todays={{ date('Y-m-d') }}"
                                 class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
@@ -88,7 +88,7 @@
                                     </label>
                                 </div>
                             </a>
-                            <a href="/marketing/quotations/home/All?weekday=true"
+                            <a href="/marketing/quotations/home/All/{{ $company->id }}?weekday=true"
                                 class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
@@ -137,7 +137,7 @@
                                     </label>
                                 </div>
                             </a>
-                            <a href="/marketing/quotations/home/All?monthly=true"
+                            <a href="/marketing/quotations/home/All/{{ $company->id }}?monthly=true"
                                 class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label
@@ -186,7 +186,7 @@
                                     </label>
                                 </div>
                             </a>
-                            <a href="/marketing/quotations/home/All?annual=true"
+                            <a href="/marketing/quotations/home/All/{{ $company->id }}?annual=true"
                                 class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                                 <div>
                                     <label

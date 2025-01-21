@@ -139,16 +139,16 @@ class SaleController extends Controller
         ]);
     }
 
-    public function home(String $category, Request $request): View
+    public function home(String $category, String $company_id, Request $request): View
     {
         if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
             if($category == "All"){
                 $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-                $sales = Sale::filter(request('search'))->weekday()->monthly()->annual()->category()->month()->year()->sortable()->orderBy("number", "desc")->paginate(8)->withQueryString();
+                $sales = Sale::where('company_id', $company_id)->filter(request('search'))->weekday()->monthly()->annual()->category()->month()->year()->sortable()->orderBy("number", "desc")->paginate(8)->withQueryString();
             }else{
                 $dataCategory = MediaCategory::where('name', $category)->get()->last();
                 $media_category_id = $dataCategory->id;
-                $sales = Sale::where('media_category_id', $dataCategory->id)->filter(request('search'))->category()->weekday()->monthly()->annual()->month()->year()->sortable()->orderBy("number", "desc")->paginate(8)->withQueryString();
+                $sales = Sale::where('company_id', $company_id)->where('media_category_id', $dataCategory->id)->filter(request('search'))->category()->weekday()->monthly()->annual()->month()->year()->sortable()->orderBy("number", "desc")->paginate(8)->withQueryString();
             }
     
             $media_categories = MediaCategory::with('sales')->get();
@@ -166,7 +166,7 @@ class SaleController extends Controller
         }
     }
 
-    public function selectQuotation(String $category): View
+    public function selectQuotation(String $category, String $company_id): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
             $mediaCategory = MediaCategory::where('name', $category)->firstOrFail();
@@ -174,7 +174,7 @@ class SaleController extends Controller
             $quotation_revisions = QuotationRevision::with('quotation')->get();
             return view ('sales.select-quotation', [
                 'categories'=>MediaCategory::all(),
-                'quotations'=>Quotation::where('media_category_id', $mediaCategory->id)->dealSales()->deal()->filter(request('search'))->sortable()->get(),
+                'quotations'=>Quotation::where('company_id', $company_id)->where('media_category_id', $mediaCategory->id)->dealSales()->deal()->filter(request('search'))->sortable()->get(),
                 'title' => 'Pilih Penawaran',
                 'data_category' => $mediaCategory,
                 compact('media_categories', 'quotation_revisions')

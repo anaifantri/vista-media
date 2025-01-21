@@ -115,7 +115,7 @@
                             <span class="mx-1">Save</span>
                         </button>
                         <a class="flex justify-center items-center mx-1 btn-danger"
-                            href="/marketing/sales/select-quotation/{{ $category }}">
+                            href="/marketing/sales/select-quotation/{{ $category }}/{{ $company->id }}">
                             <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <path

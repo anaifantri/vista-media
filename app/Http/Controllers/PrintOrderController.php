@@ -29,15 +29,15 @@ class PrintOrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(String $company_id): Response
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             $sale = Sale::with('print_order')->get();
             $quotations = Quotation::with('sales')->get();
             $vendors = Vendor::with('print_orders')->get();
             return response()-> view ('print-orders.index', [
-                'print_orders'=>PrintOrder::filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("created_at", "desc")->paginate(20)->withQueryString(),
-                'amount'=>PrintOrder::filter(request('search'))->periode()->sum('price'),
+                'print_orders'=>PrintOrder::where('company_id', $company_id)->filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("created_at", "desc")->paginate(20)->withQueryString(),
+                'amount'=>PrintOrder::where('company_id', $company_id)->filter(request('search'))->periode()->sum('price'),
                 'title' => 'Daftar SPK Cetak',
                 compact('sale', 'vendors', 'quotations')
             ]);

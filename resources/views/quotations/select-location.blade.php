@@ -38,7 +38,7 @@
                         @endif
 
                         <a class="flex justify-center items-center ml-1 btn-danger"
-                            href="/marketing/quotations/home/{{ $category }}">
+                            href="/marketing/quotations/home/{{ $category }}/{{ $company->id }}">
                             <svg class="fill-current w-4 xl:w-5 2xl:w-6 ml-1 xl:mx-2" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" viewBox="0 0 24 24">
                                 <path
@@ -48,7 +48,7 @@
                         </a>
                     </div>
                 </div>
-                <form action="/marketing/quotations/select-location/{{ $category }}">
+                <form action="/marketing/quotations/select-location/{{ $category }}/{{ $company->id }}">
                     <input id="requestService" type="text" value="{{ request('serviceType') }}" hidden>
                     <input id="requestType" type="text" value="{{ request('quotationType') }}" hidden>
                     <div class="flex mt-1 ml-2">

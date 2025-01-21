@@ -39,7 +39,7 @@
                     {{ substr($quotation->number, 0, 4) }}</h1>
                 <div class="flex justify-end p-1 w-full">
                     <a class="flex justify-center items-center mx-1 btn-success"
-                        href="/marketing/quotations/home/{{ $quotation->media_category->name }}">
+                        href="/marketing/quotations/home/{{ $quotation->media_category->name }}/{{ $company->id }}">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path

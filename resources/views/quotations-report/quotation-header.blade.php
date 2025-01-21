@@ -1,4 +1,4 @@
-<form action="/marketing/quotations-report/reports/{{ $quotation_category->id }}">
+<form action="/marketing/quotations-report/reports/{{ $quotation_category->id }}/{{ $company->id }}">
     <div class="flex justify-center">
         <div class="flex justify-center items-center border rounded-lg mt-2 p-2 w-[1280px]">
             <div>
@@ -24,7 +24,8 @@
                     </svg>
                     <span class="mx-1">Save PDF</span>
                 </button>
-                <a class="flex justify-center items-center mx-1 btn-danger" href="/marketing/quotations-report">
+                <a class="flex justify-center items-center mx-1 btn-danger"
+                    href="/marketing/quotations-report/{{ $company->id }}">
                     <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24">
                         <path
