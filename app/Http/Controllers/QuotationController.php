@@ -300,7 +300,7 @@ class QuotationController extends Controller
             }
             // Set number --> end
             $request->request->add(['number' => $number]);
-            // dd(request('number'));
+            // dd(request('price'));
             $validateData = $request->validate([
                 'number' => 'required|unique:quotations',
                 'media_category_id' => 'required',
@@ -346,7 +346,7 @@ class QuotationController extends Controller
     public function show(Quotation $quotation): Response
     {
         if(Gate::allows('isQuotation') && Gate::allows('isMarketingRead')){
-            $quotation_statuses = QuotationStatus::where('quotation_id', $quotation->id)->orderBy("created_at", "desc")->get();
+            $quotation_statuses = QuotationStatus::where('quotation_id', $quotation->id)->orderBy("id", "desc")->get();
             $companies = Company::with('quotations')->get();
             $media_categories = MediaCategory::with('quotations')->get();
             $quotation_revisions = Quotation::with('quotation_revisions');

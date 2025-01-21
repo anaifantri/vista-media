@@ -41,6 +41,7 @@
                     $clientGroup = $clients->whereIn('id', $clientId);
                 }
             @endphp
+            <input type="text" id="groupStatus" value="{{ $groupStatus }}" hidden>
             @if ($groupStatus == true)
                 <div class="flex mt-4">
                     <div class="flex">
@@ -75,7 +76,7 @@
                                             <tr>
                                                 <td class="w-full text-sm text-teal-700 px-2 hover:bg-slate-200"
                                                     id="{{ $client->id }}"
-                                                    title="{{ $client->company }}-{{ $client->type }}-{{ $client->name }}-{{ $client->phone }}-{{ $client->email }}-{{ $client->address }}"
+                                                    title="{{ $client->company }}*{{ $client->type }}*{{ $client->name }}*{{ $client->phone }}*{{ $client->email }}*{{ $client->address }}"
                                                     onclick="getSelect(this)">{{ $client->name }}</td>
                                             </tr>
                                         @endforeach
@@ -158,7 +159,7 @@
                                             <tr>
                                                 <td class="w-full text-sm text-teal-700 px-2 hover:bg-slate-200"
                                                     id="{{ $client->id }}"
-                                                    title="{{ $client->company }}-{{ $client->type }}-{{ $client->name }}-{{ $client->phone }}-{{ $client->email }}-{{ $client->address }}"
+                                                    title="{{ $client->company }}*{{ $client->type }}*{{ $client->name }}*{{ $client->phone }}*{{ $client->email }}*{{ $client->address }}"
                                                     onclick="getSelect(this)">
                                                     {{ $client->name }}</td>
                                             </tr>
@@ -209,56 +210,6 @@
                     @endif
                 </div>
             @endif
-            {{-- <div class="hidden mt-4">
-                <div class="flex">
-                    <label class="ml-1 text-sm text-teal-700 flex w-12">Klien</label>
-                    <label class="ml-1 text-sm text-teal-700 flex">:</label>
-                    <div>
-                        <div id="selectClient" class="flex" onclick="selectClientAction(event)">
-                            <input
-                                class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-tl-lg w-40 px-2 hover:cursor-default"
-                                type="text" id="dataClient" name="dataClient" placeholder="Pilih Klien" readonly>
-                            <svg class="flex items-center justify-center w-5 p-1 border rounded-tr-lg"
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M12 21l-12-18h24z" />
-                            </svg>
-                        </div>
-                        <div id="clientList" class="absolute bg-white w-[180px] border rounded-b-lg ml-1 p-2 hidden"
-                            onclick="event.stopPropagation()">
-                            <table id="clientListTable" class="table-auto">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <input id="search" name="search"
-                                                class="text-sm text-teal-700 flex font-semibold outline-none border rounded-lg w-40 px-2"
-                                                type="text" placeholder="Search" onkeyup="searchTable()">
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($clients as $client)
-                                        <tr>
-                                            <td class="w-full text-sm text-teal-700 px-2 hover:bg-slate-200"
-                                                id="{{ $client->id }}"
-                                                title="{{ $client->company }}-{{ $client->type }}-{{ $client->name }}-{{ $client->phone }}-{{ $client->email }}-{{ $client->address }}"
-                                                onclick="getSelect(this)">
-                                                {{ $client->name }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div id="divContact" class="hidden">
-                    <label class="ml-8 text-sm text-teal-700 flex w-12">Kontak</label>
-                    <label class="ml-1 text-sm text-teal-700 flex">:</label>
-                    <select class="ml-1 text-sm text-teal-700 flex font-semibold outline-none border rounded-lg w-40"
-                        name="contact_id" id="contact_id" onchange="getContact(this)" disabled>
-                        <option value="pilih">Pilih Kontak</option>
-                    </select>
-                </div>
-            </div> --}}
             <div class="flex mt-4">
                 <div>
                     <label class="ml-1 text-sm text-black flex w-20">Kepada Yth</label>

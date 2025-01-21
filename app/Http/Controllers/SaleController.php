@@ -144,11 +144,11 @@ class SaleController extends Controller
         if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
             if($category == "All"){
                 $dataCategory = MediaCategory::where('id', $request->media_category_id)->get()->last();
-                $sales = Sale::filter(request('search'))->weekday()->monthly()->annual()->category()->month()->year()->sortable()->paginate(8)->withQueryString();
+                $sales = Sale::filter(request('search'))->weekday()->monthly()->annual()->category()->month()->year()->sortable()->orderBy("number", "desc")->paginate(8)->withQueryString();
             }else{
                 $dataCategory = MediaCategory::where('name', $category)->get()->last();
                 $media_category_id = $dataCategory->id;
-                $sales = Sale::where('media_category_id', $dataCategory->id)->filter(request('search'))->category()->weekday()->monthly()->annual()->month()->year()->sortable()->paginate(8)->withQueryString();
+                $sales = Sale::where('media_category_id', $dataCategory->id)->filter(request('search'))->category()->weekday()->monthly()->annual()->month()->year()->sortable()->orderBy("number", "desc")->paginate(8)->withQueryString();
             }
     
             $media_categories = MediaCategory::with('sales')->get();

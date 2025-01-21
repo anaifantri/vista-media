@@ -25,14 +25,16 @@ let objServicePpn = {
 }
 let objSideView = {};
 let dataSideView = [];
-let objPrints = {};
-let dataPrints = [];
-let objInstalls = {};
-let dataInstalls = [];
+// let objPrints = {};
+let objPrints = [];
+// let objInstalls = {};
+let objInstalls = [];
+let dataServiceNotes = [];
 
 selectPrintProduct = (sel) =>{
     const printPrice = document.querySelectorAll('[id=printPrice]');
     const printTotal = document.querySelectorAll('[id=printTotal]');
+    const wide = document.querySelectorAll('[id=wide]');
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
     
     if(sel.value != "pilih"){
@@ -50,6 +52,12 @@ selectPrintProduct = (sel) =>{
 }
 
 getSideView = () =>{
+    const productSide = document.querySelectorAll('[id=productSide]');
+    const cbRight = document.querySelectorAll('[id=cbRight]');
+    const cbLeft = document.querySelectorAll('[id=cbLeft]');
+    const wide = document.querySelectorAll('[id=wide]');
+    const locationSide = document.querySelectorAll('[id=locationSide]');
+    
     for(let i = 0; i < Number(locationQty.value); i++){
         if(productSide[i].value = "2"){
             dataSideView[i] =  {
@@ -72,26 +80,31 @@ getSideView = () =>{
 getTotalInstall = () =>{
     const installPrice = document.querySelectorAll('[id=installPrice]');
     const installTotal = document.querySelectorAll('[id=installTotal]');
+    const freeInstalls = document.querySelectorAll('[id=freeInstalls]');
+    const locationCode = document.querySelectorAll('[id=locationCode]');
+    const installProduct = document.querySelectorAll('[id=installProduct]');
     let subTotalInstall = 0;
     for(let i = 0; i < Number(locationQty.value); i++){
         if(document.getElementById("cbInstall").checked == true){
-            dataInstalls[i] =  {
+            objInstalls[i] =  {
                 code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
                 price : installPrice[i].value,
                 type : installProduct[i].innerText,
+                freeInstall : freeInstalls[i].value
             }
         }else{
-            dataInstalls[i] =  {
+            objInstalls[i] =  {
                 code : "",
                 price : 0,
                 type : "",
+                freeInstall : freeInstalls[i].value
             }
         }
     
     subTotalInstall = subTotalInstall + Number(installTotal[i].value);
     }
 
-    objInstalls = dataInstalls
+    // objInstalls = objInstalls;
     return subTotalInstall;
 }
 
@@ -99,16 +112,17 @@ getTotalPrint = () =>{
     const printPrice = document.querySelectorAll('[id=printPrice]');
     const printTotal = document.querySelectorAll('[id=printTotal]');
     const selectPrint = document.querySelectorAll('[id=selectPrint]');
+    const locationCode = document.querySelectorAll('[id=locationCode]');
     let subTotalPrint = 0;
     for(let i = 0; i < Number(locationQty.value); i++){
         if(document.getElementById("cbPrint").checked == true){
-            dataPrints[i] =  {
+            objPrints[i] =  {
                 code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
                 price : printPrice[i].value,
                 printProduct : selectPrint[i].value
             }
         }else{
-            dataPrints[i] =  {
+            objPrints[i] =  {
                 code : "",
                 price : 0,
                 printProduct : ""
@@ -117,8 +131,20 @@ getTotalPrint = () =>{
         
         subTotalPrint = subTotalPrint + Number(printTotal[i].value);
     }
-    objPrints = dataPrints;
+    // objPrints = objPrints;
     return subTotalPrint;
+}
+
+getServiceNote = () => {
+    const serviceNotes = document.querySelectorAll('[id=serviceNotes]');
+    const locationCode = document.querySelectorAll('[id=locationCode]');
+
+    for(let i = 0; i < serviceNotes.length; i++){
+        dataServiceNotes[i] = {
+            code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
+            serviceNote : serviceNotes[i].value
+        }
+    }
 }
 
 cbPrintAction = (sel) =>{
@@ -283,8 +309,8 @@ countServicePrice = () =>{
 printProductCheck = () =>{
     if(document.getElementById("cbPrint").checked == true){
         getTotalPrint();
-        for(let i = 0; i < dataPrints.length; i++){
-            if(dataPrints[i].price == 0){
+        for(let i = 0; i < objPrints.length; i++){
+            if(objPrints[i].price == 0){
                 return false;
             }
         }
@@ -294,8 +320,8 @@ printProductCheck = () =>{
 installPriceCheck = () =>{
     if(document.getElementById("cbInstall").checked == true){
         getTotalInstall();
-        for(let i = 0; i < dataInstalls.length; i++){
-            if(dataInstalls[i].price == 0){
+        for(let i = 0; i < objInstalls.length; i++){
+            if(objInstalls[i].price == 0 && objInstalls[i].freeInstall == false){
                 return false;
             }
         }
@@ -309,8 +335,9 @@ fillServiceData = () =>{
     getTotalInstall();
     getTotalPrint();
     getSideView();
+    getServiceNote();
 
-    objPrice = {objInstalls, objPrints, objServicePpn, objServiceType, objSideView};
+    objPrice = {objInstalls, objPrints, objServicePpn, objServiceType, objSideView, dataServiceNotes};
     price.value = JSON.stringify(objPrice);
 }
 
@@ -395,12 +422,14 @@ checkQty = (sel) =>{
 
 installPriceChanged = (sel) =>{
     const installTotal = document.querySelectorAll('[id=installTotal]');
+    const wide = document.querySelectorAll('[id=wide]');
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
     installTotal[index].value = Number(sel.value) * Number(wide[index].innerText);
     countServicePrice();
 }
 checkInstallPrice = (sel) =>{
     const installTotal = document.querySelectorAll('[id=installTotal]');
+    const wide = document.querySelectorAll('[id=wide]');
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
     if(sel.value == 0 || sel.value == null){
         alert('Harga pasang tidak boleh kosong');
@@ -413,6 +442,7 @@ checkInstallPrice = (sel) =>{
 checkPrintPrice = (sel) =>{
     const selectPrint = document.querySelectorAll('[id=selectPrint]');
     const printTotal = document.querySelectorAll('[id=printTotal]');
+    const wide = document.querySelectorAll('[id=wide]');
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
     if(sel.value == 0 || sel.value == null){
         alert('Harga cetak tidak boleh kosong');
@@ -425,8 +455,51 @@ checkPrintPrice = (sel) =>{
 printPriceChanged = (sel) =>{
     const printTotal = document.querySelectorAll('[id=printTotal]');
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
+    const wide = document.querySelectorAll('[id=wide]');
 
     printTotal[index].value = Number(sel.value) * Number(wide[index].innerText);
 
     countServicePrice();
+}
+
+changeProductQty = (sel) => {
+    if(sel.value == 0){
+        alert("Jumlah minimal 1");
+        sel.value = 1;
+    }else if(locationQty.value < sel.value){
+        var node = serviceTbody.rows[0].cloneNode(true);
+        var node2 = serviceTbody.rows[1].cloneNode(true);
+        node.cells[0].innerText = sel.value;
+        serviceTbody.insertBefore(node2, serviceTbody.rows[2]);
+        serviceTbody.insertBefore(node, serviceTbody.rows[2]);
+        locationQty.value = sel.value;
+        
+        const installPrice = document.querySelectorAll('[id=installPrice]');
+        const selectPrint = document.querySelectorAll('[id=selectPrint]');
+        const printPrice = document.querySelectorAll('[id=printPrice]');
+        for(let i =0; i < sel.value; i++){
+            installPrice[i].name = "instalPrice" + i;
+            selectPrint[i].name = "printing_product" + i;
+            printPrice[i].name = "printPrice" + i;
+        }
+        countServicePrice();
+        objProducts.push(objProducts[0]);
+        document.getElementById("products").value = JSON.stringify(objProducts);
+    }else{
+        serviceTbody.removeChild(serviceTbody.children[serviceTbody.children.length - 4]);
+        serviceTbody.removeChild(serviceTbody.children[serviceTbody.children.length - 4]);
+        
+        locationQty.value = sel.value;
+        const installPrice = document.querySelectorAll('[id=installPrice]');
+        const selectPrint = document.querySelectorAll('[id=selectPrint]');
+        const printPrice = document.querySelectorAll('[id=printPrice]');
+        for(let i =0; i < sel.value; i++){
+            installPrice[i].name = "instalPrice" + i;
+            selectPrint[i].name = "printing_product" + i;
+            printPrice[i].name = "printPrice" + i;
+        }
+        countServicePrice();
+        objProducts.splice(objProducts.length - 1, 1);
+        document.getElementById("products").value = JSON.stringify(objProducts);
+    }
 }

@@ -93,7 +93,7 @@ getExistingLocation = (sel) =>{
         }
     }
 
-    if (locationId.length == 5) {
+    if (locationId.length == 8) {
         for (let i = 0; i < inputs.length; i++) {
             if (inputs[i].checked == false) {
                 inputs[i].setAttribute('disabled', 'disabled');

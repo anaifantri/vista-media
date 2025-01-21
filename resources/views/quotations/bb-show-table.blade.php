@@ -124,7 +124,7 @@
                         @endif
                     @endforeach
                 </tr>
-                @if ($notes->includedPrint->checked == true)
+                @if (isset($notes->includedPrint) && $notes->includedPrint->checked == true)
                     <!-- Row include print start -->
                     <tr>
                         <td class="text-[0.7rem] text-black border text-center"></td>
@@ -154,7 +154,7 @@
                     </tr>
                     <!-- Row include print end -->
                 @endif
-                @if ($notes->includedInstall->checked == true)
+                @if (isset($notes->includedInstall) && $notes->includedInstall->checked == true)
                     <!-- Row include print start -->
                     <tr>
                         <td class="text-[0.7rem] text-black border text-center"></td>
@@ -201,22 +201,26 @@
                         @endif
                     @endforeach
                 @endforeach
-                @if ($notes->includedInstall->checked == true || $notes->includedPrint->checked == true)
+                @if (
+                    (isset($notes->includedInstall) && $notes->includedInstall->checked == true) ||
+                        (isset($notes->includedPrint) && $notes->includedPrint->checked == true))
                     <tr>
                         <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
                             Total</td>
                         <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
-                            @if ($notes->includedInstall->checked == true && $notes->includedPrint->checked == true)
+                            @if (isset($notes->includedInstall) &&
+                                    $notes->includedInstall->checked == true &&
+                                    (isset($notes->includedPrint) && $notes->includedPrint->checked == true))
                                 @php
                                     $subTotal = $subTotal + $totalPrint + $totalInstall;
                                 @endphp
                                 {{ number_format($subTotal) }}
-                            @elseif ($notes->includedPrint->checked == true)
+                            @elseif (isset($notes->includedPrint) && $notes->includedPrint->checked == true)
                                 @php
                                     $subTotal = $subTotal + $totalPrint;
                                 @endphp
                                 {{ number_format($subTotal) }}
-                            @elseif ($notes->includedInstall->checked == true)
+                            @elseif (isset($notes->includedInstall) && $notes->includedInstall->checked == true)
                                 @php
                                     $subTotal = $subTotal + $totalInstall;
                                 @endphp
@@ -260,7 +264,9 @@
                     </td>
                 </tr>
             @else
-                @if ($notes->includedInstall->checked == true || $notes->includedPrint->checked == true)
+                @if (
+                    (isset($notes->includedInstall) && $notes->includedInstall->checked == true) ||
+                        (isset($notes->includedPrint) && $notes->includedPrint->checked == true))
                     @php
                         $subTotal = 0;
                     @endphp
@@ -280,11 +286,13 @@
                         <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
                             Total</td>
                         <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
-                            @if ($notes->includedInstall->checked == true && $notes->includedPrint->checked == true)
+                            @if (isset($notes->includedInstall) &&
+                                    $notes->includedInstall->checked == true &&
+                                    (isset($notes->includedPrint) && $notes->includedPrint->checked == true))
                                 {{ number_format($subTotal + $totalPrint + $totalInstall) }}
-                            @elseif ($notes->includedPrint->checked == true)
+                            @elseif (isset($notes->includedPrint) && $notes->includedPrint->checked == true)
                                 {{ number_format($subTotal + $totalPrint) }}
-                            @elseif ($notes->includedInstall->checked == true)
+                            @elseif (isset($notes->includedInstall) && $notes->includedInstall->checked == true)
                                 {{ number_format($subTotal + $totalInstall) }}
                             @endif
                         </td>

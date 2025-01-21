@@ -45,8 +45,18 @@
             if (count($sale->quotation->quotation_revisions) != 0) {
                 $dataRevisions = $sale->quotation->quotation_revisions->last();
                 $price = json_decode($dataRevisions->price);
+                $notes = json_decode($dataRevisions->notes);
+                $freePrint = $notes->freePrint;
+                $usedPrint = count($sale->print_orders);
+                $freeInstall = $notes->freeInstall;
+                $usedInstall = count($sale->install_orders);
             } else {
                 $price = json_decode($sale->quotation->price);
+                $notes = json_decode($sale->quotation->notes);
+                $freePrint = $notes->freePrint;
+                $usedPrint = count($sale->print_orders);
+                $freeInstall = $notes->freeInstall;
+                $usedInstall = count($sale->install_orders);
             }
             $getLocation = json_decode($sale->product);
             $dataProduct = new stdClass();
@@ -69,6 +79,12 @@
             $dataProduct->max_distance = $getLocation->max_distance;
             $dataProduct->speed_average = $getLocation->speed_average;
             $dataProduct->sector = $getLocation->sector;
+            $dataProduct->free_print = $freePrint;
+            $dataProduct->used_print = $usedPrint;
+            $dataProduct->get_print = $usedPrint + 1;
+            $dataProduct->free_install = $freeInstall;
+            $dataProduct->used_install = $usedInstall;
+            $dataProduct->get_install = $usedInstall + 1;
             if ($quotation_type == 'extend') {
                 $dataProduct->type = 'extend';
                 $dataProduct->sale_id = $sale->id;

@@ -51,6 +51,27 @@
                                 H
                             @endif
                         </label>
+                        @if ($product->side == '2 Sisi')
+                            @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
+                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)
+                                    dan Kiri (L)</label>
+                            @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
+                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kiri (L)</label>
+                            @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
+                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)</label>
+                            @endif
+                        @else
+                            <label class="text-[0.7rem] text-black ml-4"></label>
+                        @endif
+                    </div>
+                    <div class="flex">
+                        <label class="w-10 font-bold">Catatan</label>
+                        <label class="ml-2 font-bold">: </label>
+                        <label class="ml-1 font-bold">
+                            @if (isset($price->dataServiceNotes[$loop->iteration - 1]->serviceNote))
+                                {{ $price->dataServiceNotes[$loop->iteration - 1]->serviceNote }}
+                            @endif
+                        </label>
                     </div>
                 </td>
                 @php
@@ -96,8 +117,14 @@
                         <label class="ml-2">: {{ $product->code }} -
                             {{ $product->city_code }}</label>
                         @if ($product->side == '2 Sisi')
-                            <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
-                                dan Kiri</label>
+                            @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
+                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
+                                    dan Kiri</label>
+                            @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
+                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
+                            @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
+                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+                            @endif
                         @else
                             <label class="text-[0.7rem] text-black ml-4"></label>
                         @endif
@@ -113,6 +140,27 @@
                                 V
                             @elseif ($product->orientation == 'Horizontal')
                                 H
+                            @endif
+                        </label>
+                        @if ($product->side == '2 Sisi')
+                            @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
+                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)
+                                    dan Kiri (L)</label>
+                            @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
+                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kiri (L)</label>
+                            @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
+                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)</label>
+                            @endif
+                        @else
+                            <label class="text-[0.7rem] text-black ml-4"></label>
+                        @endif
+                    </div>
+                    <div class="flex">
+                        <label class="w-10 font-bold">Catatan</label>
+                        <label class="ml-2 font-bold">: </label>
+                        <label class="ml-1 font-bold">
+                            @if (isset($price->dataServiceNotes[$loop->iteration - 1]->serviceNote))
+                                {{ $price->dataServiceNotes[$loop->iteration - 1]->serviceNote }}
                             @endif
                         </label>
                     </div>

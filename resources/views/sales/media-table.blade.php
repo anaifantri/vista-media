@@ -161,7 +161,7 @@
                     $colSpan = 6;
                 }
             @endphp
-            @if ($notes->includedPrint->checked == true)
+            @if (isset($notes->includedPrint) && $notes->includedPrint->checked == true)
                 <!-- Row include print start -->
                 <tr>
                     <td class="text-xs text-black border border-black px-2" colspan="{{ $colSpan }}">
@@ -190,7 +190,7 @@
                 </tr>
                 <!-- Row include print end -->
             @endif
-            @if ($notes->includedInstall->checked == true)
+            @if (isset($notes->includedInstall) && $notes->includedInstall->checked == true)
                 <!-- Row include print start -->
                 <tr>
                     <td class="text-xs text-black border border-black px-2" colspan="{{ $colSpan }}">

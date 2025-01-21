@@ -275,8 +275,7 @@
                                                 <input
                                                     class="flex px-2 text-sm in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                                     type="number" min="0" id="phone" name="phone"
-                                                    placeholder="Input No. Handphone" value="{{ old('phone') }}"
-                                                    required>
+                                                    placeholder="Input No. Handphone" value="{{ old('phone') }}">
                                             </div>
                                             @error('phone')
                                                 <div class="invalid-feedback">
@@ -411,8 +410,7 @@
                                                 <input
                                                     class="flex px-2 text-sm in-out-spin-none font-semibold text-stone-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                                                     type="number" min="0" id="phone" name="phone"
-                                                    placeholder="Input No. Handphone" value="{{ old('phone') }}"
-                                                    required>
+                                                    placeholder="Input No. Handphone" value="{{ old('phone') }}">
                                             </div>
                                             @error('phone')
                                                 <div class="invalid-feedback">

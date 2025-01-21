@@ -375,7 +375,7 @@
                                         <div class="flex border rounded-lg mt-1 w-[760px] p-1">
                                             <div>
                                                 <div class="flex items-center">
-                                                    @if ($notes->includedPrint->checked == true)
+                                                    @if (isset($notes->includedPrint) && $notes->includedPrint->checked == true)
                                                         <label class="text-sm text-black h-6 items-center w-28">Include
                                                             cetak</label>
                                                     @else
@@ -397,7 +397,7 @@
                                                         class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freePrint - count($sales->print_orders) }}</label>
                                                 </div>
                                                 <div class="flex items-center">
-                                                    @if ($notes->includedInstall->checked == true)
+                                                    @if (isset($notes->includedInstall) && $notes->includedInstall->checked == true)
                                                         <label class="text-sm text-black h-6 items-center w-28">Include
                                                             Pasang</label>
                                                     @else

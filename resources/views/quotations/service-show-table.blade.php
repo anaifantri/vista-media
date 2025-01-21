@@ -1,4 +1,4 @@
-<div class="w-[725px]">
+<div class="w-[800px]">
     <table class="table-auto mt-2 w-full">
         <thead>
             <tr>
@@ -29,7 +29,7 @@
                         <td class="text-[0.7rem] text-black border text-center" rowspan="2">{{ $loop->iteration }}
                         </td>
                         <td class="text-[0.7rem] text-black border px-2" rowspan="2">
-                            <div class="flex">
+                            {{-- <div class="flex">
                                 <label class="w-10">Kode</label>
                                 <label>:</label>
                                 <label class="ml-1">{{ $location->code }} -
@@ -46,15 +46,28 @@
                                 @else
                                     <label class="text-[0.7rem] text-black ml-4"></label>
                                 @endif
-                            </div>
-                            <div class="flex">
+                            </div> --}}
+                            {{-- <div class="flex">
                                 <label class="w-10">Lokasi</label>
                                 <label>:</label>
                                 <label class="ml-1 w-72">{{ $location->address }}</label>
+                            </div> --}}
+                            <div class="flex">
+                                <label class="w-10">Lokasi</label>
+                                <label id="locationCode" class="ml-2">:
+                                    {{ $location->code }} - {{ $location->city_code }}
+                                </label>
+                                <label class="ml-2">|
+                                    @if (strlen($location->address) > 55)
+                                        {{ substr($location->address, 0, 55) }}..
+                                    @else
+                                        {{ $location->address }}
+                                    @endif
+                                </label>
                             </div>
                             <div class="flex items-center">
                                 <label class="w-10">Ukuran</label>
-                                <label>:</label>
+                                <label class="ml-2">:</label>
                                 <label class="ml-1">{{ $location->size }} x
                                     {{ $price->objSideView[$loop->iteration - 1]->side }} sisi -
                                     @if ($location->orientation == 'Vertikal')
@@ -67,6 +80,27 @@
                                     <label class="w-6 ml-2">Qty :</label>
                                     <label class="ml-1">{{ $description->qty }}</label>
                                 @endif
+                                @if ($location->side == '2 Sisi')
+                                    @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
+                                        <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)
+                                            dan Kiri (L)</label>
+                                    @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
+                                        <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kiri (L)</label>
+                                    @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
+                                        <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)</label>
+                                    @endif
+                                @else
+                                    <label class="text-[0.7rem] text-black ml-4"></label>
+                                @endif
+                            </div>
+                            <div class="flex">
+                                <label class="w-10 font-bold">Catatan</label>
+                                <label class="ml-2 font-bold">: </label>
+                                <label class="ml-1 font-bold">
+                                    @if (isset($price->dataServiceNotes[$loop->iteration - 1]->serviceNote))
+                                        {{ $price->dataServiceNotes[$loop->iteration - 1]->serviceNote }}
+                                    @endif
+                                </label>
                             </div>
                         </td>
                         @php
@@ -110,31 +144,21 @@
                         </td>
                         <td class="text-[0.7rem] text-black border px-2">
                             <div class="flex">
-                                <label class="w-10">Kode</label>
-                                <label>:</label>
-                                <label class="ml-1">{{ $location->code }} -
-                                    {{ $location->city_code }}</label>
-                                @if ($location->side == '2 Sisi')
-                                    @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
-                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
-                                            dan Kiri</label>
-                                    @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
-                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
-                                    @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
-                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
-                                    @endif
-                                @else
-                                    <label class="text-[0.7rem] text-black ml-4"></label>
-                                @endif
-                            </div>
-                            <div class="flex">
                                 <label class="w-10">Lokasi</label>
-                                <label>:</label>
-                                <label class="ml-1 w-72">{{ $location->address }}</label>
+                                <label id="locationCode" class="ml-2">:
+                                    {{ $location->code }} - {{ $location->city_code }}
+                                </label>
+                                <label class="ml-2">|
+                                    @if (strlen($location->address) > 55)
+                                        {{ substr($location->address, 0, 55) }}..
+                                    @else
+                                        {{ $location->address }}
+                                    @endif
+                                </label>
                             </div>
                             <div class="flex items-center">
                                 <label class="w-10">Ukuran</label>
-                                <label>:</label>
+                                <label class="ml-2">:</label>
                                 <label class="ml-1">{{ $location->size }} x
                                     {{ $price->objSideView[$loop->iteration - 1]->side }} sisi -
                                     @if ($location->orientation == 'Vertikal')
@@ -147,6 +171,27 @@
                                     <label class="w-6 ml-2">Qty :</label>
                                     <label class="ml-1">{{ $description->qty }}</label>
                                 @endif
+                                @if ($location->side == '2 Sisi')
+                                    @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
+                                        <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)
+                                            dan Kiri (L)</label>
+                                    @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
+                                        <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kiri (L)</label>
+                                    @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
+                                        <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)</label>
+                                    @endif
+                                @else
+                                    <label class="text-[0.7rem] text-black ml-4"></label>
+                                @endif
+                            </div>
+                            <div class="flex">
+                                <label class="w-10 font-bold">Catatan</label>
+                                <label class="ml-2 font-bold">: </label>
+                                <label class="ml-1 font-bold">
+                                    @if (isset($price->dataServiceNotes[$loop->iteration - 1]->serviceNote))
+                                        {{ $price->dataServiceNotes[$loop->iteration - 1]->serviceNote }}
+                                    @endif
+                                </label>
                             </div>
                         </td>
                         @if ($price->objServiceType->print == true)

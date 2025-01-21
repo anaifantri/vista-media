@@ -14,6 +14,7 @@ const btnAddPayment = document.getElementById("btnAddPayment");
 const btnDelPayment = document.getElementById("btnDelPayment");
 const paymentTerms = document.getElementById("paymentTerms");
 
+const groupStatus = document.getElementById("groupStatus");
 const selectClient = document.getElementById("selectClient");
 const clientList = document.getElementById("clientList");
 const dataClient = document.getElementById("dataClient");
@@ -92,15 +93,16 @@ function searchTable() {
 function selectClientAction(e){
     e.stopPropagation();
     clientList.classList.toggle("hidden");
+    document.getElementById("search").focus();
 }
 
-if(quotationType.value == "new"){
-    // if (quotationType.value == "existing") {
-    //     clientType = document.getElementById("client_type").value;
-    //     if(clientType == "Perusahaan"){
-    //         companyClient  = JSON.parse(document.getElementById("clients").value);
-    //     }
-    // }
+if(quotationType.value == "new" || ((quotationType.value == "extend" || quotationType.value == "existing") && groupStatus.value == true)){
+    if(quotationType.value == "extend" || quotationType.value == "existing"){
+        clientType = document.getElementById("client_type").value;
+        if(clientType == "Perusahaan"){
+            companyClient  = JSON.parse(document.getElementById("clients").value);
+        }
+    }
     var mainWrapper = document.getElementById("main-wrapper");
     var mainHeader = document.getElementById("main-header");
     
@@ -483,6 +485,7 @@ submitAction = () =>{
 
 // Function Client Check --> start
 clientCheck = () => {
+    console.log(clientType);
     if(clientType == ""){
         return false;
     } else if(clientType == "Perusahaan"){
