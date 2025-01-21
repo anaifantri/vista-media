@@ -96,8 +96,8 @@ function selectClientAction(e){
     document.getElementById("search").focus();
 }
 
-if(quotationType.value == "new" || ((quotationType.value == "extend" || quotationType.value == "existing") && groupStatus.value == true)){
-    if(quotationType.value == "extend" || quotationType.value == "existing"){
+if(quotationType.value == "new" || (quotationType.value == "existing" && groupStatus.value == true)){
+    if(quotationType.value == "existing"){
         clientType = document.getElementById("client_type").value;
         if(clientType == "Perusahaan"){
             companyClient  = JSON.parse(document.getElementById("clients").value);
