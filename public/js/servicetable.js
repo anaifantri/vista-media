@@ -311,7 +311,6 @@ printProductCheck = () =>{
         getTotalPrint();
         for(let i = 0; i < objPrints.length; i++){
             if(objPrints[i].price == 0){
-                console.log(objPrints);
                 return false;
             }
         }

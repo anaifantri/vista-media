@@ -102,7 +102,7 @@
                         <input
                             class="flex px-2 text-base font-semibold text-teal-900 w-full border rounded-lg p-1 outline-teal-300 @error('phone') is-invalid @enderror"
                             type="text" id="phone" name="phone" placeholder="Input No. Hp"
-                            value="{{ $contact->phone }}" required>
+                            value="{{ $contact->phone }}">
                         @error('phone')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -125,7 +125,7 @@
                             </svg>
                             <span class="mx-2"> Update </span>
                         </button>
-                        <a href="/clients/{{ $contact->client_id }}"
+                        <a href="/marketing/clients/{{ $contact->client_id }}"
                             class="flex items-center justify-center btn-danger mx-1" id="editCancel" name="editCancel">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

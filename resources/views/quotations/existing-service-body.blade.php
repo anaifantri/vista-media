@@ -216,8 +216,13 @@
                     @if ($dataClient->type == 'Perusahaan')
                         <label id="clientCompany"
                             class="ml-1 text-sm text-black font-semibold flex">{{ $dataClient->company }}</label>
-                        <label id="createClientContact"
-                            class="ml-1 text-sm text-black font-semibold flex">{{ $dataClient->contact_name }}</label>
+                        <label id="createClientContact" class="ml-1 text-sm text-black font-semibold flex">
+                            @if ($dataClient->contact_gender == 'Male')
+                                UP. Bapak {{ $dataClient->contact_name }}
+                            @else
+                                UP. Ibu {{ $dataClient->contact_name }}
+                            @endif
+                        </label>
                     @else
                         <label id="clientCompany"
                             class="ml-1 text-sm text-black font-semibold flex">{{ $dataClient->name }}</label>

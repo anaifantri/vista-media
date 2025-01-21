@@ -217,30 +217,45 @@ if(quotationType.value == "new" || ((quotationType.value == "extend" || quotatio
     
     // Get Contact --> start
     function getContact(sel) {
-        if(sel.options[sel.selectedIndex].value != "pilih"){
-            for (i = 0; i < dataContacts.length; i++) {
-                if (dataContacts[i]['name'] == sel.options[sel.selectedIndex].text) {
-                    if (dataContacts[i]['gender'] == 'Male') {
-                        createClientContact.innerHTML = 'UP. Bapak ' + sel.options[sel.selectedIndex].text;
-                    } else if (dataContacts[i]['gender'] == 'Female') {
-                        createClientContact.innerHTML = 'UP. Ibu ' + sel.options[sel.selectedIndex].text;
-                    }
-                    companyClient.contact_gender = dataContacts[i]['gender'];
-                    companyClient.contact_name = dataContacts[i]['name'];
-                    companyClient.contact_email = dataContacts[i]['email'];
-                    companyClient.contact_phone = dataContacts[i]['phone'];
-                    createContactEmail.innerHTML = dataContacts[i]['email'];
-                    createContactPhone.innerHTML = dataContacts[i]['phone'];
-                }
+        if(sel.options[sel.selectedIndex].id){
+            dataContacts = JSON.parse(sel.options[sel.selectedIndex].id);
+            if (dataContacts['gender'] == 'Male') {
+                createClientContact.innerHTML = 'UP. Bapak ' + sel.options[sel.selectedIndex].text;
+            } else if (dataContacts['gender'] == 'Female') {
+                createClientContact.innerHTML = 'UP. Ibu ' + sel.options[sel.selectedIndex].text;
             }
+            companyClient.contact_gender = dataContacts['gender'];
+            companyClient.contact_name = dataContacts['name'];
+            companyClient.contact_email = dataContacts['email'];
+            companyClient.contact_phone = dataContacts['phone'];
+            createContactEmail.innerHTML = dataContacts['email'];
+            createContactPhone.innerHTML = dataContacts['phone'];
         }else{
-            createClientContact.innerHTML = '-';
-            companyClient.contact_gender = "";
-            companyClient.contact_name = "";
-            companyClient.contact_email = "";
-            companyClient.contact_phone = "";
-            createContactEmail.innerHTML = '-';
-            createContactPhone.innerHTML = '-';
+            if(sel.options[sel.selectedIndex].value != "pilih"){
+                for (i = 0; i < dataContacts.length; i++) {
+                    if (dataContacts[i]['name'] == sel.options[sel.selectedIndex].text) {
+                        if (dataContacts[i]['gender'] == 'Male') {
+                            createClientContact.innerHTML = 'UP. Bapak ' + sel.options[sel.selectedIndex].text;
+                        } else if (dataContacts[i]['gender'] == 'Female') {
+                            createClientContact.innerHTML = 'UP. Ibu ' + sel.options[sel.selectedIndex].text;
+                        }
+                        companyClient.contact_gender = dataContacts[i]['gender'];
+                        companyClient.contact_name = dataContacts[i]['name'];
+                        companyClient.contact_email = dataContacts[i]['email'];
+                        companyClient.contact_phone = dataContacts[i]['phone'];
+                        createContactEmail.innerHTML = dataContacts[i]['email'];
+                        createContactPhone.innerHTML = dataContacts[i]['phone'];
+                    }
+                }
+            }else{
+                createClientContact.innerHTML = '-';
+                companyClient.contact_gender = "";
+                companyClient.contact_name = "";
+                companyClient.contact_email = "";
+                companyClient.contact_phone = "";
+                createContactEmail.innerHTML = '-';
+                createContactPhone.innerHTML = '-';
+            }
         }
     }
     // Get Contact --> end
@@ -485,7 +500,6 @@ submitAction = () =>{
 
 // Function Client Check --> start
 clientCheck = () => {
-    console.log(clientType);
     if(clientType == ""){
         return false;
     } else if(clientType == "Perusahaan"){
