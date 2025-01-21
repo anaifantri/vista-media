@@ -311,6 +311,7 @@ printProductCheck = () =>{
         getTotalPrint();
         for(let i = 0; i < objPrints.length; i++){
             if(objPrints[i].price == 0){
+                console.log(objPrints);
                 return false;
             }
         }
@@ -500,6 +501,8 @@ changeProductQty = (sel) => {
         }
         countServicePrice();
         objProducts.splice(objProducts.length - 1, 1);
+        objPrints.splice(objPrints.length - 1, 1);
+        objInstalls.splice(objInstalls.length - 1, 1);
         document.getElementById("products").value = JSON.stringify(objProducts);
     }
 }

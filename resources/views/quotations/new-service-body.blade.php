@@ -99,7 +99,11 @@
     </div>
     <!-- table start -->
     <div class="flex justify-center ml-2">
-        @include('quotations.service-table')
+        @if ($quotation_type == 'new')
+            @include('quotations.new-service-table')
+        @else
+            @include('quotations.service-table')
+        @endif
     </div>
     <!-- table end -->
 

@@ -300,7 +300,7 @@ class QuotationController extends Controller
             }
             // Set number --> end
             $request->request->add(['number' => $number]);
-            // dd(request('price'));
+            dd(request('price'));
             $validateData = $request->validate([
                 'number' => 'required|unique:quotations',
                 'media_category_id' => 'required',

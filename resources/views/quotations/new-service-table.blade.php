@@ -166,69 +166,38 @@
                         $freeInstall = false;
                     @endphp
                     <td id="installProduct" class="text-[0.7rem] text-black border border-black text-center">
-                        @if ($location->free_install <= $location->used_install)
-                            @php
-                                $freeInstall = false;
-                            @endphp
-                            {{ $description->lighting }}
-                        @else
-                            @php
-                                $freeInstall = true;
-                            @endphp
-                            Free ke {{ $location->get_install }} dari {{ $location->free_install }}
-                        @endif
+                        {{ $description->lighting }}
                         <input type="text" id="freeInstalls" value="{{ $freeInstall }}" hidden>
                     </td>
-                    @if ($location->free_install <= $location->used_install)
-                        @foreach ($installation_prices as $installationPrice)
-                            @if ($installationPrice->type == $description->lighting)
-                                <td class="text-[0.7rem] text-black border border-black text-center px-1">
-                                    <input id="installPrice" name="instalPrice{{ $indexInstall }}"
-                                        class="flex px-1 text-[0.7rem] text-black w-12 text-right border rounded-md outline-none in-out-spin-none"
-                                        type="number" min="0" value="{{ $installationPrice->price }}"
-                                        onkeyup="installPriceChanged(this)" onchange="checkInstallPrice(this)">
-                                </td>
-                                <td class="text-[0.7rem] text-black border border-black text-right px-1">
-                                    @php
-                                        if ($location->category == 'Signage') {
-                                            $installTotal =
-                                                $installationPrice->price *
-                                                ((int) $location->width *
-                                                    (int) $location->height *
-                                                    (int) $location->side) *
-                                                (int) $description->qty;
-                                            $subTotal = $subTotal + $installTotal;
-                                        } else {
-                                            $installTotal =
-                                                $installationPrice->price *
-                                                ((int) $location->width *
-                                                    (int) $location->height *
-                                                    (int) $location->side);
-                                            $subTotal = $subTotal + $installTotal;
-                                        }
-                                    @endphp
-                                    <input id="installTotal"
-                                        class="flex px-1 text-[0.7rem] text-black w-16 text-right outline-none in-out-spin-none"
-                                        type="number" min="0" value="{{ $installTotal }}" readonly>
-                                </td>
-                            @endif
-                        @endforeach
-                    @else
-                        <td class="text-[0.7rem] text-black border border-black text-center px-1">
-                            <input id="installPrice" name="instalPrice{{ $indexInstall }}"
-                                class="flex px-1 text-[0.7rem] text-black w-12 text-right border rounded-md outline-none in-out-spin-none"
-                                type="number" min="0" value="0" readonly>
-                        </td>
-                        <td class="text-[0.7rem] text-black border border-black text-right px-1">
-                            @php
-                                $installTotal = 0;
-                                $subTotal = $subTotal + $installTotal;
-                            @endphp
-                            <input id="installTotal"
-                                class="flex px-1 text-[0.7rem] text-black w-16 text-right outline-none in-out-spin-none"
-                                type="number" min="0" value="0" readonly>
-                        </td>
-                    @endif
+                    @foreach ($installation_prices as $installationPrice)
+                        @if ($installationPrice->type == $description->lighting)
+                            <td class="text-[0.7rem] text-black border border-black text-center px-1">
+                                <input id="installPrice" name="instalPrice{{ $indexInstall }}"
+                                    class="flex px-1 text-[0.7rem] text-black w-12 text-right border rounded-md outline-none in-out-spin-none"
+                                    type="number" min="0" value="{{ $installationPrice->price }}"
+                                    onkeyup="installPriceChanged(this)" onchange="checkInstallPrice(this)">
+                            </td>
+                            <td class="text-[0.7rem] text-black border border-black text-right px-1">
+                                @php
+                                    if ($location->category == 'Signage') {
+                                        $installTotal =
+                                            $installationPrice->price *
+                                            ((int) $location->width * (int) $location->height * (int) $location->side) *
+                                            (int) $description->qty;
+                                        $subTotal = $subTotal + $installTotal;
+                                    } else {
+                                        $installTotal =
+                                            $installationPrice->price *
+                                            ((int) $location->width * (int) $location->height * (int) $location->side);
+                                        $subTotal = $subTotal + $installTotal;
+                                    }
+                                @endphp
+                                <input id="installTotal"
+                                    class="flex px-1 text-[0.7rem] text-black w-16 text-right outline-none in-out-spin-none"
+                                    type="number" min="0" value="{{ $installTotal }}" readonly>
+                            </td>
+                        @endif
+                    @endforeach
                 </tr>
             @endforeach
             <tr>
