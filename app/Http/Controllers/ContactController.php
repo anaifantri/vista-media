@@ -46,10 +46,10 @@ class ContactController extends Controller
                 'photo' => 'image|file|max:1024'
             ];
             if($request->email){
-                $rules['email'] = 'email:dns|unique:contacts';
+                $rules['email'] = 'email:dns';
             }
             if($request->phone){
-                $rules['phone'] = 'min:10|max:15|unique:contacts';
+                $rules['phone'] = 'min:10|max:15';
             }
     
             $validateData = $request->validate($rules);
