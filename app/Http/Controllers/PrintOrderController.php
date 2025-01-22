@@ -433,9 +433,9 @@ class PrintOrderController extends Controller
             
             if($newNumber > 0 && $newNumber < 10){
                 $number = '000'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
-            }else if($newNumber > 10 && $newNumber < 100 ){
-                $number = '00'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')]- date('Y');
-            }else if($newNumber > 100 && $newNumber < 1000 ){
+            }else if($newNumber >= 10 && $newNumber < 100 ){
+                $number = '00'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+            }else if($newNumber >= 100 && $newNumber < 1000 ){
                 $number = '0'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
             } else {
                 $number = $newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
