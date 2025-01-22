@@ -169,7 +169,7 @@
                     </div>
                 </div>
             </form>
-            <div class="w-[1100px] mt-4">
+            <div class="w-[1200px] mt-4">
                 @if (request('orderType'))
                     @if (request('orderType') == 'locations')
                         @include('print-orders.locations-table')

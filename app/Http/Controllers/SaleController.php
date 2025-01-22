@@ -345,6 +345,7 @@ class SaleController extends Controller
             $quotation = Quotation::findOrFail($sale->quotation->id);
             $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
             if($revision){
+                $revisionStatus = true;
                 $number = $revision->number;
                 $quotId = $revision->id;
                 $notes = json_decode($revision->notes);
@@ -357,6 +358,7 @@ class SaleController extends Controller
                 $dataAgreements = QuotationAgreement::where('quotation_id', $sale->quotation->id)->get();
                 $dataOrders = QuotationOrder::where('quotation_id', $sale->quotation->id)->get();
             } else{
+                $revisionStatus = false;
                 $number = $quotation->number;
                 $quotId = $quotation->id;
                 $notes = json_decode($quotation->notes);
@@ -380,6 +382,7 @@ class SaleController extends Controller
                 'sales'=>$sale,
                 'quotation'=>$quotation,
                 'quot_id'=>$quotId,
+                'revision_status'=>$revisionStatus,
                 'number'=>$number,
                 'notes'=>$notes,
                 'created_at'=>$created_at,

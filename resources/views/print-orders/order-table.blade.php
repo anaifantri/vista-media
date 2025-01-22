@@ -5,15 +5,16 @@
             <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center" rowspan="2">Kode</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="3">Deskripsi</th>
-            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="2">Detail Cetak</th>
+            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="3">Detail Cetak</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">Action</th>
         </tr>
         <tr class="bg-stone-400">
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">Jenis</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Size - V/H</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-12">BL/FL</th>
-            <th class="text-stone-900 border border-stone-900 text-sm text-center w-36">Klien</th>
-            <th class="text-stone-900 border border-stone-900 text-sm text-center w-32">Bahan Cetak</th>
+            <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">No. Penjualan</th>
+            <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Klien</th>
+            <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Bahan Cetak</th>
         </tr>
     </thead>
     <tbody class="bg-stone-200">
@@ -66,6 +67,9 @@
                             NL
                         @endif
                     @endif
+                </td>
+                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                    {{ substr($sale->number, 0, 8) }}..
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
                     {{ $clients[$loop->iteration - 1]->name }}

@@ -160,7 +160,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="ml-4">
+                            <div class="ml-4" hidden>
                                 <span class="text-base text-stone-100">Jenis Penawaran</span>
                                 <div class="flex items-center">
                                     <input id="existingRadioService" class="outline-none" type="radio"
@@ -207,7 +207,7 @@
                     </div>
                 </form>
             </div>
-            <div class="w-[1100px] h-[500px] overflow-y-auto mt-4">
+            <div class="w-[1200px] h-[500px] overflow-y-auto mt-4">
                 @if ($category == 'Service')
                     @if (request('serviceType'))
                         @if (request('serviceType') == 'new')

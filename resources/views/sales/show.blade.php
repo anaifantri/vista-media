@@ -190,8 +190,13 @@
                                                     <label class="label-sale-01">No. Penawaran</label>
                                                     <label class="label-sale-02">:</label>
                                                     <label class="label-sale-02 font-semibold">
-                                                        <a
-                                                            href="/marketing/quotations/{{ $quot_id }}">{{ $number }}</a>
+                                                        @if ($revision_status == true)
+                                                            <a
+                                                                href="/marketing/quotation-revisions/{{ $quot_id }}">{{ $number }}</a>
+                                                        @else
+                                                            <a
+                                                                href="/marketing/quotations/{{ $quot_id }}">{{ $number }}</a>
+                                                        @endif
                                                     </label>
                                                 </div>
                                                 <div class="div-sale">
