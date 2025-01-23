@@ -136,7 +136,8 @@
                             </svg>
                             <span class="mx-1">save</span>
                         </button>
-                        <a class="flex justify-center items-center mx-1 btn-danger" href="/print-orders/select-locations">
+                        <a class="flex justify-center items-center mx-1 btn-danger"
+                            href="/print-orders/select-locations/{{ $company->id }}">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path

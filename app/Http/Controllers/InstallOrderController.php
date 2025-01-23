@@ -46,20 +46,20 @@ class InstallOrderController extends Controller
         }
     }
 
-    public function installOrders(String $status)
+    public function installOrders(String $status, String $company_id)
     { 
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             // $install_orders = null;
             // $getStatus = "";
             if($status == "install-sales"){
                 $getStatus = "Berbayar";
-                $install_orders = InstallOrder::filter(request('search'))->sales()->orderBy("number", "asc")->paginate(10)->withQueryString();
+                $install_orders = InstallOrder::where('company_id', $company_id)->filter(request('search'))->sales()->orderBy("number", "asc")->paginate(10)->withQueryString();
             }else if($status == "free-sales"){
                 $getStatus = "Gratis Penjualan";
-                $install_orders = InstallOrder::filter(request('search'))->freeSales()->orderBy("number", "asc")->paginate(10)->withQueryString();
+                $install_orders = InstallOrder::where('company_id', $company_id)->filter(request('search'))->freeSales()->orderBy("number", "asc")->paginate(10)->withQueryString();
             }else if($status == "free-other"){
                 $getStatus = "Gratis Lain-Lain";
-                $install_orders = InstallOrder::filter(request('search'))->freeOther()->orderBy("number", "asc")->paginate(10)->withQueryString();
+                $install_orders = InstallOrder::where('company_id', $company_id)->filter(request('search'))->freeOther()->orderBy("number", "asc")->paginate(10)->withQueryString();
             }
             return view ('install-orders.install-orders', [
                 'install_orders'=> $install_orders,
@@ -89,7 +89,7 @@ class InstallOrderController extends Controller
         }
     }
 
-    public function selectLocations(Request $request): View
+    public function selectLocations(String $company_id, Request $request): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
             if($request->orderType){
@@ -106,7 +106,7 @@ class InstallOrderController extends Controller
                     $clients = [];
                     $usedInstalls = [];
                     $freeInstalls = [];
-                    $dataSales = Sale::free()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->free()->filter(request('search'))->area()->city()->category()->sortable()->get();
                     foreach($dataSales as $dataSale){
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
                         if($revision){
@@ -144,7 +144,7 @@ class InstallOrderController extends Controller
                     $usedInstalls = [];
                     $freeInstalls = [];
                     $installTypes = [];
-                    $dataSales = Sale::installOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->installOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
                     foreach($dataSales as $dataSale){
                         $product = json_decode($dataSale->product);
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
@@ -351,6 +351,7 @@ class InstallOrderController extends Controller
                 ]);
             }
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
             $lastOrder = InstallOrder::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
             if($lastOrder){
@@ -361,13 +362,13 @@ class InstallOrderController extends Controller
             }
             
             if($newNumber > 0 && $newNumber < 10){
-                $number = '000'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '000'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 10 && $newNumber < 100 ){
-                $number = '00'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '00'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 100 && $newNumber < 1000 ){
-                $number = '0'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '0'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             } else {
-                $number = $newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = $newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }
             // Set number --> end
 

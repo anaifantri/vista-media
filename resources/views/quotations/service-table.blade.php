@@ -40,6 +40,8 @@
             @endphp
             <input type="text" id="locationQty" value="{{ count($products) }}" hidden>
             @foreach ($products as $location)
+                <input type="number" id="usedFree" value="{{ $location->used_install }}" hidden>
+                <input type="number" id="totalFree" value="{{ $location->free_install }}" hidden>
                 @php
                     $description = json_decode($location->description);
                 @endphp
@@ -160,7 +162,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="text-[0.7rem] text-black border border-black px-1 text-center">Pasang</td>
+                    <td class="text-[0.7rem] text-black border border-black px-1 text-center">Pasang
+                        <input type="text" id="freeInstalls" value="{{ $freeInstall }}" hidden>
+                    </td>
                     @php
                         $indexInstall = $loop->iteration - 1;
                         $freeInstall = false;
@@ -177,7 +181,6 @@
                             @endphp
                             Free ke {{ $location->get_install }} dari {{ $location->free_install }}
                         @endif
-                        <input type="text" id="freeInstalls" value="{{ $freeInstall }}" hidden>
                     </td>
                     @if ($location->free_install <= $location->used_install)
                         @foreach ($installation_prices as $installationPrice)

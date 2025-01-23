@@ -373,7 +373,7 @@
             @can('isOrderReport')
                 <li id="spkReports" title="Lap. SPK" class="group" onclick="childMenu(event,this)">
                     <a class="nav-a ml-2 border-b-[1px] {{ Request::is('marketing/orders-report*') ? 'active' : '' }}"
-                        href="/marketing/orders-report">
+                        href="/marketing/orders-report/{{ $company->id }}">
                         <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">

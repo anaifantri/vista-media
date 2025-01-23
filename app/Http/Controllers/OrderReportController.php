@@ -20,7 +20,7 @@ use Gate;
 
 class OrderReportController extends Controller
 {
-    public function index(): View
+    public function index(String $Company_id): View
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             $year = date('Y');

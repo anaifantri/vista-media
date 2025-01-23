@@ -420,7 +420,7 @@ class SaleController extends Controller
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingEdit'))){
             if($request->start_at && $request->end_at){
                 if($request->start_at > $request->end_at){
-                    return redirect('/marketing/sales/home/'.$request->category)->with('failed','Akhir kontrak harus lebih besar dari awal kontrak')->with('id', $request->sales_id);
+                    return redirect('/marketing/sales/home/'.$request->category.'/'.$request->company_id)->with('failed','Akhir kontrak harus lebih besar dari awal kontrak')->with('id', $request->sales_id);
                 }else{
                     $validateData['start_at'] = $request->start_at;
                     $validateData['end_at'] = $request->end_at;
@@ -429,9 +429,9 @@ class SaleController extends Controller
                         ->update($validateData);
                 }
                 
-                return redirect('/marketing/sales/home/'.$request->category)->with('success','Tanggal kontrak berhasil diupdate')->with('id', $request->sales_id);
+                return redirect('/marketing/sales/home/'.$request->category.'/'.$request->company_id)->with('success','Tanggal kontrak berhasil diupdate')->with('id', $request->sales_id);
             }else{
-                return redirect('/marketing/sales/home/'.$request->category)->with('failed','Terdapat tanggal yang belum diinput')->with('id', $request->sales_id);
+                return redirect('/marketing/sales/home/'.$request->category.'/'.$request->company_id)->with('failed','Terdapat tanggal yang belum diinput')->with('id', $request->sales_id);
             }
         } else {
             abort(403);

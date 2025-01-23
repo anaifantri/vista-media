@@ -28,7 +28,7 @@
                     </a>
                 </div>
             </div>
-            <form action="/print-orders/select-locations">
+            <form action="/print-orders/select-locations/{{ $company->id }}">
                 @if (request('orderType'))
                     <input id="orderType" type="text" value="{{ request('orderType') }}" hidden>
                 @else

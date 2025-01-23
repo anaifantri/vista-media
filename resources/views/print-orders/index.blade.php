@@ -38,7 +38,7 @@
                             @canany(['isAdmin', 'isMarketing'])
                                 @can('isOrder')
                                     @can('isMarketingCreate')
-                                        <a href="/print-orders/select-locations" class="index-link btn-primary">
+                                        <a href="/print-orders/select-locations/{{ $company->id }}" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -333,10 +333,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $number = 1 + ($print_orders->currentPage() - 1) * $print_orders->perPage();
-                                    @endphp
-                                    @foreach ($print_orders as $order)
+                                    @foreach ($data_prints as $order)
                                         @php
                                             $client = '-';
                                             $product = json_decode($order->product);
@@ -349,7 +346,7 @@
                                         <tr>
                                             <td
                                                 class="text-stone-900 p-1 border border-stone-900 text-[0.7rem]  text-center">
-                                                {{ $number++ }}
+                                                {{ $loop->iteration }}
                                             </td>
                                             <td
                                                 class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">

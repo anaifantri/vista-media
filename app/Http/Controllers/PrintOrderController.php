@@ -32,11 +32,13 @@ class PrintOrderController extends Controller
     public function index(String $company_id): Response
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $dataPrints = PrintOrder::where('company_id', $company_id)->filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("created_at", "asc")->get();
             $sale = Sale::with('print_order')->get();
             $quotations = Quotation::with('sales')->get();
             $vendors = Vendor::with('print_orders')->get();
             return response()-> view ('print-orders.index', [
                 'print_orders'=>PrintOrder::where('company_id', $company_id)->filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("created_at", "desc")->paginate(20)->withQueryString(),
+                'data_prints'=>$dataPrints,
                 'amount'=>PrintOrder::where('company_id', $company_id)->filter(request('search'))->periode()->sum('price'),
                 'title' => 'Daftar SPK Cetak',
                 compact('sale', 'vendors', 'quotations')
@@ -46,18 +48,18 @@ class PrintOrderController extends Controller
         }
     }
 
-    public function printOrders(String $status)
+    public function printOrders(String $status, String $company_id)
     { 
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
             if($status == "print-sales"){
                 $getStatus = "Berbayar";
-                $print_orders = PrintOrder::filter(request('search'))->sales()->orderBy("number", "asc")->paginate(10)->withQueryString();
+                $print_orders = PrintOrder::where('company_id', $company_id)->filter(request('search'))->sales()->orderBy("number", "asc")->paginate(10)->withQueryString();
             }else if($status == "free-sales"){
                 $getStatus = "Gratis Penjualan";
-                $print_orders = PrintOrder::filter(request('search'))->freeSales()->orderBy("number", "asc")->paginate(10)->withQueryString();
+                $print_orders = PrintOrder::where('company_id', $company_id)->filter(request('search'))->freeSales()->orderBy("number", "asc")->paginate(10)->withQueryString();
             }else if($status == "free-other"){
                 $getStatus = "Gratis Lain-Lain";
-                $print_orders = PrintOrder::filter(request('search'))->freeOther()->orderBy("number", "asc")->paginate(10)->withQueryString();
+                $print_orders = PrintOrder::where('company_id', $company_id)->filter(request('search'))->freeOther()->orderBy("number", "asc")->paginate(10)->withQueryString();
             }
             return view ('print-orders.print-orders', [
                 'print_orders'=> $print_orders,
@@ -97,7 +99,7 @@ class PrintOrderController extends Controller
         }
     }
 
-    public function selectLocations(Request $request): View
+    public function selectLocations(String $company_id, Request $request): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
             if($request->orderType){
@@ -114,7 +116,7 @@ class PrintOrderController extends Controller
                     $clients = [];
                     $usedPrints = [];
                     $freePrints = [];
-                    $dataSales = Sale::free()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->free()->filter(request('search'))->area()->city()->category()->sortable()->get();
                     foreach($dataSales as $dataSale){
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
                         if($revision){
@@ -152,10 +154,11 @@ class PrintOrderController extends Controller
                     $usedPrints = [];
                     $freePrints = [];
                     $printProducts = [];
-                    $dataSales = Sale::printOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->printOrderSide()->filter(request('search'))->area()->city()->category()->sortable()->get();
                     foreach($dataSales as $dataSale){
                         $product = json_decode($dataSale->product);
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
+                        $index = 0;
                         if($revision){
                             $notes = json_decode($revision->notes);
                             $freePrint = $notes->freePrint;
@@ -164,7 +167,10 @@ class PrintOrderController extends Controller
                             foreach($price->objPrints as $print){
                                 if($print->code == $dataSale->product->code){
                                     $printProduct = $print->printProduct;
+                                    $sideView = $price->objSideView[$index];
+                                    // dd($sideView);
                                 }
+                                $index++;
                             }
                         }else{
                             $notes = json_decode($dataSale->quotation->notes);
@@ -174,16 +180,37 @@ class PrintOrderController extends Controller
                             foreach($price->objPrints as $print){
                                 if($print->code == $product->code){
                                     $printProduct = $print->printProduct;
+                                    $sideView = $price->objSideView[$index];
+                                    // dd($sideView);
                                 }
+                                $index++;
                             }
                         }
-                        if($freePrint < count($dataPrints) || $freePrint == 0){
-                            $sales->push($dataSale);
-                            array_push($clients,json_decode($dataSale->quotation->clients));
-                            array_push($freePrints, $freePrint);
-                            array_push($printProducts, $printProduct);
-                            array_push($usedPrints, count($dataPrints));
+                        // dd(count($dataPrints));
+                        if($sideView->left == true && $sideView->right == true){
+                            if(($freePrint < count($dataPrints) || $freePrint == 0) && count($dataPrints) < 2){
+                                $sales->push($dataSale);
+                                array_push($clients,json_decode($dataSale->quotation->clients));
+                                array_push($freePrints, $freePrint);
+                                array_push($printProducts, $printProduct);
+                                array_push($usedPrints, count($dataPrints));
+                            }
+                        }else{
+                            if(($freePrint < count($dataPrints) || $freePrint == 0) && count($dataPrints) == 0){
+                                $sales->push($dataSale);
+                                array_push($clients,json_decode($dataSale->quotation->clients));
+                                array_push($freePrints, $freePrint);
+                                array_push($printProducts, $printProduct);
+                                array_push($usedPrints, count($dataPrints));
+                            }
                         }
+                        // if($freePrint < count($dataPrints) || $freePrint == 0){
+                        //     $sales->push($dataSale);
+                        //     array_push($clients,json_decode($dataSale->quotation->clients));
+                        //     array_push($freePrints, $freePrint);
+                        //     array_push($printProducts, $printProduct);
+                        //     array_push($usedPrints, count($dataPrints));
+                        // }
                     }
                     $locations = Location::with('sales')->get();
                     $quotations = Quotation::with('sales')->get();
@@ -422,6 +449,7 @@ class PrintOrderController extends Controller
                 ]);
             }   
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
             $lastOrder = PrintOrder::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
             if($lastOrder){
@@ -432,13 +460,13 @@ class PrintOrderController extends Controller
             }
             
             if($newNumber > 0 && $newNumber < 10){
-                $number = '000'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '000'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 10 && $newNumber < 100 ){
-                $number = '00'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '00'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 100 && $newNumber < 1000 ){
-                $number = '0'.$newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '0'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             } else {
-                $number = $newNumber.'/SPK/VISTA/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = $newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }
             // Set number --> end
 

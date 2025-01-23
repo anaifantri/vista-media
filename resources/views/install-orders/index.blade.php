@@ -38,7 +38,7 @@
                             @canany(['isAdmin', 'isMarketing'])
                                 @can('isOrder')
                                     @can('isMarketingCreate')
-                                        <a href="/install-orders/select-locations" class="index-link btn-primary">
+                                        <a href="/install-orders/select-locations/{{ $company->id }}" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">

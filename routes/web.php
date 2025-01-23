@@ -135,7 +135,7 @@ Route::get('/marketing/quotations-report/reports/{categoryId}/{companyid}', [Quo
 // Route Quotation Report --> end
 
 // Route Order Report --> start
-Route::get('/marketing/orders-report', [OrderReportController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/marketing/orders-report/{companyid}', [OrderReportController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/marketing/orders-report/print-orders', [OrderReportController::class,'printReports'])->middleware(['auth','user_access']);
 Route::get('/marketing/orders-report/install-orders', [OrderReportController::class,'installReports'])->middleware(['auth','user_access']);
 // Route Order Report --> end
@@ -148,16 +148,16 @@ Route::resource('/marketing/installation-prices', InstallationPriceController::c
 Route::resource('/marketing/install-orders', InstallOrderController::class)->except(['index'])->middleware(['auth','user_access']);
 Route::get('/install-orders/index/{companyid}', [InstallOrderController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/install-orders/select-locations', [InstallOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
-Route::get('/install-orders/{status}', [InstallOrderController::class,'installOrders'])->middleware(['auth','user_access']);
+Route::get('/install-orders/{status}/{companyid}', [InstallOrderController::class,'installOrders'])->middleware(['auth','user_access']);
 Route::get('/install-orders/create-order/{id}/{type}', [InstallOrderController::class,'createOrder'])->middleware(['auth','user_access']);
 Route::get('/marketing/install-orders/preview/{id}', [InstallOrderController::class,'preview'])->middleware(['auth','user_access']);
 
 Route::resource('/marketing/print-orders', PrintOrderController::class)->except(['index'])->middleware(['auth','user_access']);
 Route::get('/print-orders/index/{companyid}', [PrintOrderController::class,'index'])->middleware(['auth','user_access']);
-Route::get('/print-orders/select-locations', [PrintOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
+Route::get('/print-orders/select-locations/{companyid}', [PrintOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
 Route::get('/print-orders/create-order/{id}/{type}', [PrintOrderController::class,'createOrder'])->middleware(['auth','user_access']);
 Route::get('/marketing/print-orders/preview/{id}', [PrintOrderController::class,'preview'])->middleware(['auth','user_access']);
-Route::get('/print-orders/{status}', [PrintOrderController::class,'printOrders'])->middleware(['auth','user_access']);
+Route::get('/print-orders/{status}/{companyid}', [PrintOrderController::class,'printOrders'])->middleware(['auth','user_access']);
 Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'getPrintingPrices'])->middleware(['auth','user_access']);
 // Route Service --> end
 // Marketing Group --> end

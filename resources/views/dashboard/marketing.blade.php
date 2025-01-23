@@ -411,7 +411,7 @@
                             <label class="flex justify-center font-serif text-md cursor-pointer">SPK Cetak</label>
                         </div>
                     </a>
-                    <a href="/print-orders/print-sales"
+                    <a href="/print-orders/print-sales/{{ $company->id }}"
                         class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -424,7 +424,7 @@
                             </label> --}}
                         </div>
                     </a>
-                    <a href="/print-orders/free-sales"
+                    <a href="/print-orders/free-sales/{{ $company->id }}"
                         class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -437,7 +437,7 @@
                             </label> --}}
                         </div>
                     </a>
-                    <a href="/print-orders/free-other"
+                    <a href="/print-orders/free-other/{{ $company->id }}"
                         class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -571,7 +571,7 @@
                             <label class="flex justify-center font-serif text-md cursor-pointer">SPK Pasang</label>
                         </div>
                     </a>
-                    <a href="/install-orders/install-sales"
+                    <a href="/install-orders/install-sales/{{ $company->id }}"
                         class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -584,7 +584,7 @@
                             </label> --}}
                         </div>
                     </a>
-                    <a href="/install-orders/free-sales"
+                    <a href="/install-orders/free-sales/{{ $company->id }}"
                         class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
@@ -597,7 +597,7 @@
                             </label> --}}
                         </div>
                     </a>
-                    <a href="/install-orders/free-other"
+                    <a href="/install-orders/free-other/{{ $company->id }}"
                         class="flex justify-center text-teal-400 items-center bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label

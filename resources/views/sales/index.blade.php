@@ -467,6 +467,8 @@
                                                     enctype="multipart/form-data">
                                                     @method('put')
                                                     @csrf
+                                                    <input type="text" name="company_id" value="{{ $company->id }}"
+                                                        hidden>
                                                     <div>
                                                         <div class="flex ml-1">
                                                             <label class="w-10">Awal</label>
