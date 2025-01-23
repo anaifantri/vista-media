@@ -153,7 +153,7 @@
                 @endif
             </td>
         </tr>
-        @if ($category != 'Videotron' || ($category != 'Signage' && $description->type == 'Videotron'))
+        @if ($category != 'Videotron' || ($category == 'Signage' && $description->type != 'Videotron'))
             @php
                 if ($category == 'Signage') {
                     $colSpan = 7;
