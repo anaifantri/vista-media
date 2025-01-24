@@ -31,17 +31,18 @@ let objServicePpn = {
 }
 let objSideView = {};
 let dataSideView = [];
-let objPrints = {};
-let dataPrints = [];
-let objInstalls = {};
-let dataInstalls = [];
+// let objPrints = {};
+let objPrints = [];
+// let objInstalls = {};
+let objInstalls = [];
+let dataServiceNotes = [];
 
 selectPrintProduct = (sel) =>{
     var index = parseInt(sel.name.replace ( /[^\d.]/g, '' ));
     
     if(sel.value != "pilih"){
         printPrice[index].value = Number(sel.options[sel.selectedIndex].id);
-        var printTotalPrice = Number(sel.options[sel.selectedIndex].id) * Number(wide[index].innerHTML)
+        var printTotalPrice = Number(sel.options[sel.selectedIndex].id) * Number(wide[index].innerHTML);
         printTotal[index].innerHTML = printTotalPrice;
     }
 
@@ -71,25 +72,32 @@ getSideView = () =>{
     price.value = JSON.stringify(objPrice);
 }
 getTotalInstall = () =>{
+    const installPrice = document.querySelectorAll('[id=installPrice]');
+    const installTotal = document.querySelectorAll('[id=installTotal]');
+    const freeInstalls = document.querySelectorAll('[id=freeInstalls]');
+    const locationCode = document.querySelectorAll('[id=locationCode]');
+    const installProduct = document.querySelectorAll('[id=installProduct]');
     let subTotalInstall = 0;
     for(let i = 0; i < Number(locationQty.value); i++){
         if(document.getElementById("cbInstall").checked == true){
-            dataInstalls[i] =  {
+            objInstalls[i] =  {
                 code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
                 price : installPrice[i].value,
                 type : installProduct[i].innerText,
+                freeInstall : freeInstalls[i].value
             }
         }else{
-            dataInstalls[i] =  {
+            objInstalls[i] =  {
                 code : "",
                 price : 0,
                 type : "",
+                freeInstall : freeInstalls[i].value
             }
         }
     subTotalInstall = subTotalInstall + parseInt(installTotal[i].innerText.replace ( /[^\d.]/g, '' ));
     }
 
-    objInstalls = dataInstalls;
+    // objInstalls = objInstalls;
     objPrice.objInstalls = objInstalls;
     price.value = JSON.stringify(objPrice);
     
@@ -97,16 +105,20 @@ getTotalInstall = () =>{
 }
 
 getTotalPrint = () =>{
+    const printPrice = document.querySelectorAll('[id=printPrice]');
+    const printTotal = document.querySelectorAll('[id=printTotal]');
+    const selectPrint = document.querySelectorAll('[id=selectPrint]');
+    const locationCode = document.querySelectorAll('[id=locationCode]');
     let subTotalPrint = 0;
     for(let i = 0; i < Number(locationQty.value); i++){
         if(document.getElementById("cbPrint").checked == true){
-            dataPrints[i] =  {
+            objPrints[i] =  {
                 code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
                 price : printPrice[i].value,
                 printProduct : selectPrint[i].value
             }
         }else{
-            dataPrints[i] =  {
+            objPrints[i] =  {
                 code : "",
                 price : 0,
                 printProduct : ""
@@ -114,13 +126,28 @@ getTotalPrint = () =>{
         }
         subTotalPrint = subTotalPrint + parseInt(printTotal[i].innerText.replace ( /[^\d.]/g, '' ));
     }
-    objPrints = dataPrints;
+    // objPrints = objPrints;
     objPrice.objPrints = objPrints;
     price.value = JSON.stringify(objPrice);
     return subTotalPrint;
 }
 
+getServiceNote = () => {
+    const serviceNotes = document.querySelectorAll('[id=serviceNotes]');
+    const locationCode = document.querySelectorAll('[id=locationCode]');
+
+    for(let i = 0; i < serviceNotes.length; i++){
+        dataServiceNotes[i] = {
+            code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
+            serviceNote : serviceNotes[i].value
+        }
+    }
+}
+
 cbPrintAction = (sel) =>{
+    const printPrice = document.querySelectorAll('[id=printPrice]');
+    const printTotal = document.querySelectorAll('[id=printTotal]');
+    const selectPrint = document.querySelectorAll('[id=selectPrint]');
     if(document.getElementById("cbInstall").checked == false){
         alert("Pilih salah satu atau kedua opsi penawaran..!!");
         sel.checked = true;
@@ -128,6 +155,9 @@ cbPrintAction = (sel) =>{
         for(let i = 0; i < Number(locationQty.value);i++){
             if(sel.checked == true){
                 selectPrint[i].removeAttribute('disabled');
+                printPrice[i].value = printPrice[i].defaultValue;
+                printTotal[i].innerText = printPrice[i].value * Number(wide[i].innerHTML);
+                selectPrint[i].options[0].selected = true;
                 printPrice[i].removeAttribute('disabled');
             }else{
                 selectPrint[i].setAttribute('disabled', 'disabled');
@@ -158,7 +188,8 @@ cbPrintAction = (sel) =>{
                     serviceTBodyRows[i].cells[1].innerHTML = serviceTBodyRows[i-1].cells[1].innerHTML;
                     serviceTBodyRows[i].insertCell(4);
                     serviceTBodyRows[i].cells[4].classList.add("td-service-center");
-                    serviceTBodyRows[i].cells[4].setAttribute('id', 'side');
+                    serviceTBodyRows[i].cells[4].setAttribute('hidden', 'hidden');
+                    serviceTBodyRows[i].cells[4].setAttribute('hidden', 'hidden');
                     serviceTBodyRows[i].cells[4].innerHTML = serviceTBodyRows[i-1].cells[4].innerHTML;
                     serviceTBodyRows[i].insertCell(5);
                     serviceTBodyRows[i].cells[5].classList.add("td-service-center");
@@ -182,6 +213,8 @@ cbPrintAction = (sel) =>{
 }
 
 cbInstallAction = (sel) =>{
+    const installPrice = document.querySelectorAll('[id=installPrice]');
+    const installTotal = document.querySelectorAll('[id=installTotal]');
     if(document.getElementById("cbPrint").checked == false){
         alert("Pilih salah satu atau kedua opsi penawaran..!!");
         sel.checked = true;
@@ -190,7 +223,7 @@ cbInstallAction = (sel) =>{
             if(sel.checked == true){
                 installPrice[i].removeAttribute('disabled');
                 installPrice[i].value = installPrice[i].defaultValue;
-                installTotal[i].innerText = installTotal[i].defaultValue;
+                installTotal[i].innerText = installPrice[i].value * Number(wide[i].innerHTML);
             }else{
                 installPrice[i].setAttribute('disabled', 'disabled');
                 installPrice[i].value = 0;
@@ -270,8 +303,8 @@ countServicePrice = () =>{
 printProductCheck = () =>{
     if(document.getElementById("cbPrint").checked == true){
         getTotalPrint();
-        for(let i = 0; i < dataPrints.length; i++){
-            if(dataPrints[i].price == 0){
+        for(let i = 0; i < objPrints.length; i++){
+            if(objPrints[i].price == 0){
                 return false;
             }
         }
@@ -281,8 +314,8 @@ printProductCheck = () =>{
 installPriceCheck = () =>{
     if(document.getElementById("cbInstall").checked == true){
         getTotalInstall();
-        for(let i = 0; i < dataInstalls.length; i++){
-            if(dataInstalls[i].price == 0){
+        for(let i = 0; i < objInstalls.length; i++){
+            if(objInstalls[i].price == 0){
                 return false;
             }
         }
@@ -296,8 +329,9 @@ fillServiceData = () =>{
     getTotalInstall();
     getTotalPrint();
     getSideView();
+    getServiceNote();
 
-    objPrice = {objInstalls, objPrints, objServicePpn, objServiceType, objSideView};
+    objPrice = {objInstalls, objPrints, objServicePpn, objServiceType, objSideView, dataServiceNotes};
     price.value = JSON.stringify(objPrice);
 }
 
@@ -371,4 +405,101 @@ printPriceChanged = (sel) =>{
     printTotal[index].innerHTML = Number(sel.value) * Number(wide[index].innerText);
 
     countServicePrice();
+}
+
+
+changeProductQty = (sel) => {
+    const usedFree = document.getElementById("usedFree");
+    const totalFree = document.getElementById("totalFree");
+    var getFree = Number(usedFree.value)+Number(sel.value);
+    if(usedFree.value < totalFree.value){
+        if(sel.value == 0){
+            alert("Jumlah minimal 1");
+            sel.value = 1;
+        }else if(locationQty.value < sel.value && getFree <= totalFree.value){
+            var node = serviceTBody.rows[0].cloneNode(true);
+            var node2 = serviceTBody.rows[1].cloneNode(true);
+            node.cells[0].innerText = sel.value;
+            serviceTBody.insertBefore(node, serviceTBody.rows[serviceTBody.rows.length - 3]);
+            serviceTBody.insertBefore(node2, serviceTBody.rows[serviceTBody.rows.length - 3]);
+            locationQty.value = sel.value;
+            
+            const installPrice = document.querySelectorAll('[id=installPrice]');
+            const selectPrint = document.querySelectorAll('[id=selectPrint]');
+            const printPrice = document.querySelectorAll('[id=printPrice]');
+            for(let i =0; i < sel.value; i++){
+                installPrice[i].name = "instalPrice" + i;
+                selectPrint[i].name = "printing_product" + i;
+                printPrice[i].name = "printPrice" + i;
+            }
+            countServicePrice();
+            const installProduct = document.querySelectorAll('[id=installProduct]');
+            installProduct[sel.value - 1].innerText = "Free ke " + getFree + " dari " + totalFree.value;
+            objProducts.push(objProducts[0]);
+            document.getElementById("products").value = JSON.stringify(objProducts);
+        }else if(locationQty.value < sel.value && getFree > totalFree.value){
+            alert("Jumlah maksimal melebihi free pasang");
+            sel.value = sel.value - 1;
+        }else{
+            serviceTBody.removeChild(serviceTBody.children[serviceTBody.children.length - 4]);
+            serviceTBody.removeChild(serviceTBody.children[serviceTBody.children.length - 4]);
+            
+            locationQty.value = sel.value;
+            const installPrice = document.querySelectorAll('[id=installPrice]');
+            const selectPrint = document.querySelectorAll('[id=selectPrint]');
+            const printPrice = document.querySelectorAll('[id=printPrice]');
+            for(let i =0; i < sel.value; i++){
+                installPrice[i].name = "instalPrice" + i;
+                selectPrint[i].name = "printing_product" + i;
+                printPrice[i].name = "printPrice" + i;
+            }
+            countServicePrice();
+            objProducts.splice(objProducts.length - 1, 1);
+            objPrints.splice(objPrints.length - 1, 1);
+            objInstalls.splice(objInstalls.length - 1, 1);
+            document.getElementById("products").value = JSON.stringify(objProducts);
+        }
+    }else{
+        if(sel.value == 0){
+            alert("Jumlah minimal 1");
+            sel.value = 1;
+        }else if(locationQty.value < sel.value){
+            var node = serviceTBody.rows[0].cloneNode(true);
+            var node2 = serviceTBody.rows[1].cloneNode(true);
+            node.cells[0].innerText = sel.value;
+            serviceTBody.insertBefore(node, serviceTBody.rows[serviceTBody.rows.length - 3]);
+            serviceTBody.insertBefore(node2, serviceTBody.rows[serviceTBody.rows.length - 3]);
+            locationQty.value = sel.value;
+            
+            const installPrice = document.querySelectorAll('[id=installPrice]');
+            const selectPrint = document.querySelectorAll('[id=selectPrint]');
+            const printPrice = document.querySelectorAll('[id=printPrice]');
+            for(let i =0; i < sel.value; i++){
+                installPrice[i].name = "instalPrice" + i;
+                selectPrint[i].name = "printing_product" + i;
+                printPrice[i].name = "printPrice" + i;
+            }
+            countServicePrice();
+            objProducts.push(objProducts[0]);
+            document.getElementById("products").value = JSON.stringify(objProducts);
+        }else{
+            serviceTBody.removeChild(serviceTBody.children[serviceTBody.children.length - 4]);
+            serviceTBody.removeChild(serviceTBody.children[serviceTBody.children.length - 4]);
+            
+            locationQty.value = sel.value;
+            const installPrice = document.querySelectorAll('[id=installPrice]');
+            const selectPrint = document.querySelectorAll('[id=selectPrint]');
+            const printPrice = document.querySelectorAll('[id=printPrice]');
+            for(let i =0; i < sel.value; i++){
+                installPrice[i].name = "instalPrice" + i;
+                selectPrint[i].name = "printing_product" + i;
+                printPrice[i].name = "printPrice" + i;
+            }
+            countServicePrice();
+            objProducts.splice(objProducts.length - 1, 1);
+            objPrints.splice(objPrints.length - 1, 1);
+            objInstalls.splice(objInstalls.length - 1, 1);
+            document.getElementById("products").value = JSON.stringify(objProducts);
+        }
+    }
 }

@@ -751,13 +751,13 @@ setSLot = (sel) => {
     if(Number(sel.value) < document.getElementById("maxSlot").value && Number(sel.value) > 0){
         for(let i = 0; i < sharePrice.length; i++){
             if(i == 0){
-                sharePrice[i].value = ((objProducts[0].price * 0.275) / 10) * Number(sel.value);
+                sharePrice[i].value = ((objProducts[0].price *27.5/100) / 10) * Number(sel.value);
             }else if(i == 1){
-                sharePrice[i].value = ((objProducts[0].price * 0.275) * 0.275) * Number(sel.value);
+                sharePrice[i].value = ((objProducts[0].price *27.5/100) *27.5/100) * Number(sel.value);
             }else if(i == 2){
-                sharePrice[i].value = ((objProducts[0].price * 0.275) * 0.525) * Number(sel.value);
+                sharePrice[i].value = ((objProducts[0].price *27.5/100) * 52.5/100) * Number(sel.value);
             }else if(i == 3){
-                sharePrice[i].value = ((objProducts[0].price * 0.275)) * Number(sel.value);
+                sharePrice[i].value = ((objProducts[0].price *27.5/100)) * Number(sel.value);
             }
             
             if(ppnYes.checked == true){

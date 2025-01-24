@@ -6,14 +6,11 @@
             </th>
             <th class="text-xs text-black border border-black" rowspan="2">Lokasi
             </th>
-            @if ($category == 'Signage')
-                <th class="text-[0.7rem] text-black border border-black" colspan="4">Deskripsi</th>
-            @else
-                <th class="text-[0.7rem] text-black border border-black" colspan="3">Deskripsi</th>
-            @endif
+            <th class="text-[0.7rem] text-black border border-black" colspan="4">Deskripsi</th>
             <th class="text-xs text-black border border-black w-24">Harga (Rp.)</th>
         </tr>
         <tr>
+            <th class="text-[0.7rem] text-black border border-black w-10" rowspan="2">Jenis</th>
             @if ($category == 'Signage')
                 <th class="text-[0.7rem] text-black border border-black w-16" rowspan="2">Bentuk</th>
             @else
@@ -92,16 +89,35 @@
             <td class="text-xs text-black border border-black px-2">
                 {{ $product->address }}
             </td>
+            <td class="text-[0.7rem] text-black border border-black text-center">
+                @if ($product->category == 'Billboard')
+                    BB
+                @elseif($product->category == 'Videotron')
+                    VT
+                @elseif($product->category == 'Signage')
+                    SN
+                @elseif($product->category == 'Bando')
+                    BD
+                @elseif($product->category == 'Baliho')
+                    BLH
+                @elseif($product->category == 'Midiboard')
+                    MB
+                @endif
+            </td>
             @if ($category == 'Signage')
                 <td class="text-[0.7rem] text-black border border-black text-center">{{ $description->type }}</td>
             @else
-                <td class="text-[0.7rem] text-black border border-black text-center">
-                    @if ($description->lighting == 'Backlight')
-                        BL
-                    @elseif ($description->lighting == 'Frontlight')
-                        FL
-                    @endif
-                </td>
+                @if ($category == 'Videotron')
+                    <td class="text-[0.7rem] text-black border border-black text-center">-</td>
+                @else
+                    <td class="text-[0.7rem] text-black border border-black text-center">
+                        @if ($description->lighting == 'Backlight')
+                            BL
+                        @elseif ($description->lighting == 'Frontlight')
+                            FL
+                        @endif
+                    </td>
+                @endif
             @endif
             @if ($category == 'Signage')
                 <td class="text-[0.7rem] text-black border border-black text-center">
@@ -189,12 +205,12 @@
                 @endif
             </td>
         </tr>
-        @if ($category != 'Videotron' || ($category != 'Signage' && $description->type == 'Videotron'))
+        @if ($category != 'Videotron' || ($category == 'Signage' && $description->type != 'Videotron'))
             @php
                 if ($category == 'Signage') {
-                    $colSpan = 6;
+                    $colSpan = 7;
                 } else {
-                    $colSpan = 5;
+                    $colSpan = 6;
                 }
             @endphp
             @if (isset($notes->includedPrint) && $notes->includedPrint->checked == true)
@@ -259,10 +275,10 @@
         @if ($sales->dpp)
             <tr>
                 @if ($category == 'Signage')
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">DPP
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">DPP
                     </td>
                 @else
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="5">DPP
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">DPP
                     </td>
                 @endif
                 <td class="text-xs text-black border border-black text-right px-2">
@@ -270,11 +286,11 @@
             </tr>
             <tr>
                 @if ($category == 'Signage')
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">(A)
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">(A)
                         PPN
                         {{ $sales->ppn }}%</td>
                 @else
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="5">(A)
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">(A)
                         PPN
                         {{ $sales->ppn }}%</td>
                 @endif
@@ -284,11 +300,11 @@
             </tr>
             <tr>
                 @if ($category == 'Signage')
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">(B)
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">(B)
                         PPh
                         {{ $sales->pph }}%</td>
                 @else
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="5">(B)
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">(B)
                         PPh
                         {{ $sales->pph }}%</td>
                 @endif
@@ -298,11 +314,11 @@
             </tr>
             <tr>
                 @if ($category == 'Signage')
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">
                         TOTAL (Harga +
                         A - B)</td>
                 @else
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="5">
+                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">
                         TOTAL (Harga +
                         A - B)</td>
                 @endif

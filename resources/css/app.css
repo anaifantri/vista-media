@@ -560,9 +560,9 @@
 }
 
 .td-service-center {
-    @apply text-[0.7rem] text-stone-900 border text-center;
+    @apply text-[0.7rem] text-black border border-black text-center;
 }
 
 .td-service-normal {
-    @apply text-[0.7rem] text-stone-900 border px-2;
+    @apply text-[0.7rem] text-black border border-black px-2;
 }

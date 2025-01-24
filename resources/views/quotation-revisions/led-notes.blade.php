@@ -6,7 +6,28 @@
             <label class="ml-1 text-sm text-black flex">:</label>
         </div>
         <div id="notesQty">
-            <div class="flex">
+            @foreach ($notes->dataNotes as $note)
+                @if ($loop->iteration == 1)
+                    <div class="flex">
+                        <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
+                            value="{{ $note }}">
+                    </div>
+                @elseif ($loop->iteration == 2)
+                    <div class="flex">
+                        <input class="ml-1 text-sm text-black outline-none w-full" value="{{ $note }}"
+                            readonly></input>
+                    </div>
+                @elseif ($loop->iteration == 3 || $loop->iteration == 4)
+                    <div class="flex">
+                        <input class="ml-2 text-sm text-black outline-none w-full" value="{{ $note }}">
+                    </div>
+                @else
+                    <div class="flex">
+                        <input class="ml-1 text-sm text-black outline-none w-full" value="{{ $note }}">
+                    </div>
+                @endif
+            @endforeach
+            {{-- <div class="flex">
                 @if ($price->objPpn->checked == true)
                     <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
                         value="- Biaya di atas sudah termasuk PPN">
@@ -34,7 +55,7 @@
             <div class="flex">
                 <input class="ml-1 text-sm text-black outline-none w-full font-semibold"
                     value="- OOH Premium milik kami tersebar di Area Lombok, Bali, Jawa Timur dan Kalimantan">
-            </div>
+            </div> --}}
         </div>
         <div class="flex">
             <button id="btnAddNote" type="button" class="btn-add-note w-max h-5">

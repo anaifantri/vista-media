@@ -147,7 +147,7 @@ Route::resource('/marketing/installation-prices', InstallationPriceController::c
 
 Route::resource('/marketing/install-orders', InstallOrderController::class)->except(['index'])->middleware(['auth','user_access']);
 Route::get('/install-orders/index/{companyid}', [InstallOrderController::class,'index'])->middleware(['auth','user_access']);
-Route::get('/install-orders/select-locations', [InstallOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
+Route::get('/install-orders/select-locations/{companyid}', [InstallOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
 Route::get('/install-orders/{status}/{companyid}', [InstallOrderController::class,'installOrders'])->middleware(['auth','user_access']);
 Route::get('/install-orders/create-order/{id}/{type}', [InstallOrderController::class,'createOrder'])->middleware(['auth','user_access']);
 Route::get('/marketing/install-orders/preview/{id}', [InstallOrderController::class,'preview'])->middleware(['auth','user_access']);

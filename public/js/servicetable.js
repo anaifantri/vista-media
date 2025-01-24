@@ -158,6 +158,8 @@ cbPrintAction = (sel) =>{
         if(sel.checked == true){
             for(let i = 0; i < serviceTBodyRows.length; i++){
                 if(i % 2 != 0 && i < serviceTBodyRows.length - 3){
+                    serviceTBodyRows[i].cells[3].children[0].id = "installTotal";
+                    serviceTBodyRows[i].cells[2].children[0].id = "installPrice";
                     serviceTBodyRows[i-1].cells[2].innerHTML = serviceTBodyRows[i].cells[4].innerHTML;
                     serviceTBodyRows[i-1].cells[3].innerHTML = serviceTBodyRows[i].cells[5].innerHTML;
                     serviceTBodyRows[i-1].cells[6].innerHTML = serviceTBodyRows[i].cells[6].innerHTML;
@@ -197,6 +199,8 @@ cbPrintAction = (sel) =>{
                     serviceTBodyRows[i-1].cells[4].removeAttribute('rowspan');
                     serviceTBodyRows[i-1].cells[5].removeAttribute('rowspan');
                     serviceTBodyRows[i].setAttribute('hidden', 'hidden');
+                    serviceTBodyRows[i].cells[3].children[0].id = "";
+                    serviceTBodyRows[i].cells[2].children[0].id = "";
                 }
             }
         }
@@ -221,6 +225,8 @@ cbPrintAction = (sel) =>{
 }
 
 cbInstallAction = (sel) =>{
+    const installPrice = document.querySelectorAll('[id=installPrice]');
+    const installTotal = document.querySelectorAll('[id=installTotal]');
     if(document.getElementById("cbPrint").checked == false){
         alert("Pilih salah satu atau kedua opsi penawaran..!!");
         sel.checked = true;
@@ -402,6 +408,7 @@ qtyChangeAction = (sel) =>{
     }
     countServicePrice();
 }
+
 checkQty = (sel) =>{
     const printPrice = document.querySelectorAll('[id=printPrice]');
     const printTotal = document.querySelectorAll('[id=printTotal]');
@@ -518,7 +525,6 @@ changeProductQty = (sel) => {
             alert("Jumlah minimal 1");
             sel.value = 1;
         }else if(locationQty.value < sel.value){
-            console.log(usedFree.value);
             var node = serviceTbody.rows[0].cloneNode(true);
             var node2 = serviceTbody.rows[1].cloneNode(true);
             node.cells[0].innerText = sel.value;

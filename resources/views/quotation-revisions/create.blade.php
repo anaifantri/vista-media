@@ -78,12 +78,12 @@
                     </div>
                 </div>
                 <div class="flex justify-center w-full">
-                    <div class="w-[950px] h-[1345px] bg-white mb-10 mt-1">
+                    <div class="w-[950px] h-[1345px] bg-white p-4 mt-1">
                         <!-- Header start -->
                         @include('dashboard.layouts.letter-header')
                         <!-- Header end -->
                         <!-- Body start -->
-                        <div class="h-[1125px]">
+                        <div class="h-[1100px]">
                             <div class="flex justify-center">
                                 <div class="w-[725px] mt-2">
                                     <div class="flex">
@@ -275,12 +275,12 @@
                             }
                         @endphp
                         <div id="locationView" class="flex justify-center w-full">
-                            <div class="w-[950px] h-[1345px] mt-1 bg-white">
+                            <div class="w-[950px] h-[1345px] p-4 mt-1 bg-white">
                                 <!-- Header start -->
                                 @include('dashboard.layouts.letter-header')
                                 <!-- Header end -->
                                 <!-- Body start -->
-                                <div class="h-[1125px]">
+                                <div class="h-[1110px]">
                                     <div class="flex w-full h-[50px] justify-center items-center mt-1">
                                         <div
                                             class="flex w-[800px] h-[50px] justify-start items-center bg-slate-50 border rounded-t-xl">

@@ -420,6 +420,9 @@
                                                         @if ($loop->iteration == 3 || $loop->iteration == 4)
                                                             <label
                                                                 class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                        @elseif (count($notes->dataNotes) == $loop->iteration)
+                                                            <label
+                                                                class="ml-1 text-sm text-black flex font-semibold">{{ $note }}</label>
                                                         @else
                                                             <label
                                                                 class="ml-1 text-sm text-black flex">{{ $note }}</label>
@@ -429,6 +432,9 @@
                                                             @if ($loop->iteration == 3 || $loop->iteration == 4 || $loop->iteration == 5)
                                                                 <label
                                                                     class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                            @elseif (count($notes->dataNotes) == $loop->iteration)
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex font-semibold">{{ $note }}</label>
                                                             @else
                                                                 <label
                                                                     class="ml-1 text-sm text-black flex">{{ $note }}</label>
@@ -437,6 +443,9 @@
                                                             @if ($loop->iteration == 3 || $loop->iteration == 4)
                                                                 <label
                                                                     class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                            @elseif (count($notes->dataNotes) == $loop->iteration)
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex font-semibold">{{ $note }}</label>
                                                             @else
                                                                 <label
                                                                     class="ml-1 text-sm text-black flex">{{ $note }}</label>
@@ -445,13 +454,21 @@
                                                             @if ($loop->iteration == 3)
                                                                 <label
                                                                     class="ml-4 text-sm text-black flex">{{ $note }}</label>
+                                                            @elseif (count($notes->dataNotes) == $loop->iteration)
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex font-semibold">{{ $note }}</label>
                                                             @else
                                                                 <label
                                                                     class="ml-1 text-sm text-black flex">{{ $note }}</label>
                                                             @endif
                                                         @else
-                                                            <label
-                                                                class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                            @if (count($notes->dataNotes) == $loop->iteration)
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex font-semibold">{{ $note }}</label>
+                                                            @else
+                                                                <label
+                                                                    class="ml-1 text-sm text-black flex">{{ $note }}</label>
+                                                            @endif
                                                         @endif
                                                     @endif
                                                 @endif
