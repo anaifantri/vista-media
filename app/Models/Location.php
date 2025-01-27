@@ -69,6 +69,15 @@ class Location extends Model
         return $query->whereHas('active_sale');
     }
 
+    public function scopeTakedown($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '!=', 'Videotron');
+                    })
+                    ->whereHas('media_category', function($query){
+                                    $query->where('name', '!=', 'Service');
+                    });
+    }
+
     public function scopePrint($query){
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '!=', 'Videotron');
@@ -204,6 +213,10 @@ class Location extends Model
 
     public function install_orders(){
         return $this->hasMany(InstallOrder::class, 'location_id', 'id');
+    }
+
+    public function takedown_orders(){
+        return $this->hasMany(TakedownOrder::class, 'location_id', 'id');
     }
 
     public function licenses(){

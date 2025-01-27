@@ -56,6 +56,10 @@ class Company extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function takedown_orders(){
+        return $this->hasMany(TakedownOrder::class, 'company_id', 'id');
+    }
+
     // public static function boot(){
     //     parent::boot();
 

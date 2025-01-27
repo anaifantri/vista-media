@@ -31,7 +31,7 @@
             <div class="flex justify-center w-full">
                 <div class="w-[1200px]">
                     <div class="flex border-b">
-                        <h1 class="index-h1">Daftar SPK Pemasangan Gambar -
+                        <h1 class="index-h1">Daftar SPK Penurunan Gambar -
                             @if (request('todays'))
                                 Hari Ini
                             @elseif (request('weekday'))
@@ -69,7 +69,7 @@
                             @canany(['isAdmin', 'isMarketing'])
                                 @can('isOrder')
                                     @can('isMarketingCreate')
-                                        <a href="/install-orders/select-locations/{{ $company->id }}" class="index-link btn-primary">
+                                        <a href="/takedown-orders/select-locations" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -84,7 +84,7 @@
                             @endcanany
                         </div>
                     </div>
-                    <form action="/install-orders/index/{{ $company->id }}">
+                    <form action="/takedown-orders/index/{{ $company->id }}">
                         @if (request('todays'))
                             <input type="text" name="todays" value="{{ request('todays') }}" hidden>
                         @endif
@@ -242,15 +242,9 @@
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24"
                                     rowspan="2">
-                                    Tgl. Tayang</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24"
-                                    rowspan="2">
-                                    Klien</th>
+                                    Tgl. Turun</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">
                                     Tema/Design</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-12"
-                                    rowspan="2">
-                                    Jumlah</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="4">Data
                                     Lokasi</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-20"
@@ -271,15 +265,12 @@
                         </thead>
                         <tbody class="bg-stone-200">
                             @php
-                                $number = 1 + ($install_orders->currentPage() - 1) * $install_orders->perPage();
+                                $number = 1 + ($takedown_orders->currentPage() - 1) * $takedown_orders->perPage();
                             @endphp
-                            @foreach ($install_orders as $order)
+                            @foreach ($takedown_orders as $order)
                                 @php
-                                    $client = '-';
                                     $product = json_decode($order->product);
-                                    if ($order->sale) {
-                                        $client = json_decode($order->sale->quotation->clients);
-                                    }
+                                    $description = $product->description;
                                 @endphp
                                 <tr>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
@@ -289,22 +280,7 @@
                                         {{ substr($order->number, 0, 15) }}..
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ date('d', strtotime($order->install_at)) }}-{{ $bulan[(int) date('m', strtotime($order->install_at))] }}-{{ date('Y', strtotime($order->install_at)) }}
-                                    </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                        @if ($order->sale)
-                                            @if (strlen($client->name) > 15)
-                                                <a href="/marketing/clients/{{ $client->id }}">
-                                                    {{ substr($client->name, 0, 15) }}..
-                                                </a>
-                                            @else
-                                                <a href="/marketing/clients/{{ $client->id }}">
-                                                    {{ $client->name }}
-                                                </a>
-                                            @endif
-                                        @else
-                                            {{ $client }}
-                                        @endif
+                                        {{ date('d', strtotime($order->takedown_at)) }}-{{ $bulan[(int) date('m', strtotime($order->takedown_at))] }}-{{ date('Y', strtotime($order->takedown_at)) }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         @if (strlen($order->theme) > 20)
@@ -314,29 +290,26 @@
                                         @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ $product->qty }}
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        <a href="/media/locations/{{ $product->location_id }}">
-                                            {{ $product->location_code }}-{{ $product->city_code }}
+                                        <a href="/media/locations/{{ $product->id }}">
+                                            {{ $product->code }}-{{ $product->city_code }}
                                         </a>
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs">
-                                        {{ $order->location->address }}
+                                        {{ $product->address }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        @if ($order->type == 'Frontlight')
+                                        @if ($description->lighting == 'Frontlight')
                                             FL
-                                        @elseif ($order->type == 'Backlight')
+                                        @elseif ($description->lighting == 'Backlight')
                                             BL
                                         @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
-                                        {{ $product->location_size }}
+                                        {{ $product->size }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
-                                            <a href="/marketing/install-orders/{{ $order->id }}"
+                                            <a href="/marketing/takedown-orders/{{ $order->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">
                                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -349,7 +322,7 @@
                                             @canany(['isAdmin', 'isMarketing'])
                                                 @can('isOrder')
                                                     @can('isMarketingEdit')
-                                                        <a href="/marketing/install-orders/{{ $order->id }}/edit"
+                                                        <a href="/marketing/takedown-orders/{{ $order->id }}/edit"
                                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md ml-1">
                                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -363,13 +336,13 @@
                                                 @endcan
                                             @endcanany
                                             @can('isAdmin')
-                                                <form action="/marketing/install-orders/{{ $order->id }}" method="post"
+                                                <form action="/marketing/takedown-orders/{{ $order->id }}" method="post"
                                                     class="d-inline m-1">
                                                     @method('delete')
                                                     @csrf
                                                     <button
                                                         class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data SPK Pasang dengan nomor {{ $order->number }} ?')">
+                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data SPK Penurunan gambar dengan nomor {{ $order->number }} ?')">
                                                         <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                                             width="24" height="24" viewBox="0 0 24 24">
                                                             <title>DELETE</title>
@@ -385,7 +358,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    @if (count($install_orders) == 0)
+                    @if (count($takedown_orders) == 0)
                         <div class="flex justify-center items-center w-full h-16 bg-stone-200">
                             <label class="flex text-base text-red-600 font-serif tracking-wider">
                                 ~~ Tidak ada data SPK pemasangan gambar untuk periode {{ $periode }} ~~
@@ -395,12 +368,12 @@
                 </div>
             </div>
             <div class="flex justify-center text-stone-100 mt-2">
-                {!! $install_orders->appends(Request::query())->render('dashboard.layouts.pagination') !!}
+                {!! $takedown_orders->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
         </div>
     </div>
 
-    @include('install-orders.pdf-preview')
+    @include('takedown-orders.pdf-preview')
 
     <input id="saveName" type="text" value="{{ $name }}" hidden>
 

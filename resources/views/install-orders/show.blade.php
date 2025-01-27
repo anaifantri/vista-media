@@ -60,48 +60,34 @@
                             @endcan
                         @endcan
                     @endcanany
-                    @canany(['isAdmin', 'isMarketing'])
-                        @can('isOrder')
-                            @can('isMarketingDelete')
-                                <form action="/marketing/install-orders/{{ $install_order->id }}" method="post" class="d-inline my-1">
-                                    @method('delete')
-                                    @csrf
-                                    <button class="flex items-center justify-center btn-danger mx-1"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus data SPK pasang dengan nomor {{ $install_order->number }} ?')">
-                                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-                                                fill-rule="nonzero" />
-                                        </svg>
-                                        <span class="mx-1"> Delete </span>
-                                    </button>
-                                </form>
-                            @endcan
-                        @endcan
-                    @endcanany
+                    @can('isAdmin')
+                        <form action="/marketing/install-orders/{{ $install_order->id }}" method="post" class="d-inline my-1">
+                            @method('delete')
+                            @csrf
+                            <button class="flex items-center justify-center btn-danger mx-1"
+                                onclick="return confirm('Apakah anda yakin ingin menghapus data SPK pasang dengan nomor {{ $install_order->number }} ?')">
+                                <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <span class="mx-1"> Delete </span>
+                            </button>
+                        </form>
+                    @endcan
                 </div>
             </div>
             <div id="pdfPreview" class="w-[950px] h-[1345px] bg-white p-4 mt-2">
                 <!-- SPK Header start-->
-                <div class="h-24">
-                    <div class="flex w-full items-center px-10 pt-8 border-b pb-2">
-                        <img class="w-[72px]" src="/img/logo-vm.png" alt="">
-                        <div class="ml-4 w-[500px]">
-                            <span class="flex mt-1 text-sm font-semibold">PT. Vista Media</span>
-                            <span class="flex mt-1 text-xs">Jl. Pulau Kawe No. 40 - Denpasar | Bali - Indonesia</span>
-                            <span class="flex mt-1 text-xs">Ph. +62 361 230000 | Fax. +62 361 237800 </span>
-                            <span class="flex mt-1 text-xs">e-mail : info@vistamedia.co.id | www.vistamedia.co.id</span>
-                        </div>
-                    </div>
-                </div>
+                @include('install-orders.spk-header')
                 <!-- SPK Header end-->
 
                 <!-- SPK Body start-->
-                <div class="h-[500px] mt-4">
+                <div class="h-[490px] mt-4">
                     <div class="flex w-full items-center px-10">
                         <div class="w-[950px]">
-                            <label class="flex text-md font-semibold justify-center w-full mt-6"><u>SPK PEMASANGAN
+                            <label class="flex text-md font-semibold justify-center w-full mt-2"><u>SPK PEMASANGAN
                                     GAMBAR</u></label>
                             <label class="flex text-md text-slate-500 justify-center w-full">Nomor :
                                 {{ $install_order->number }}
@@ -160,16 +146,6 @@
                                                     {{ date('Y', strtotime($install_order->install_at)) }}
                                                 </label>
                                             </div>
-                                            {{-- @if ($side == 2)
-                                                <div class="flex mt-1">
-                                                    <input id="cbRight" class="outline-none" type="checkbox" checked
-                                                        readonly>
-                                                    <label class="flex ml-1 text-sm text-black w-16">Kanan</label>
-                                                    <input id="cbLeft" class="ml-2 outline-none" type="checkbox"
-                                                        checked readonly>
-                                                    <label class="flex ml-1 text-sm text-black w-16">Kiri</label>
-                                                </div>
-                                            @endif --}}
                                         </div>
                                     </div>
                                     <div class="flex mt-1">
@@ -178,6 +154,12 @@
                                         <label class="flex h-12 w-[425px] ml-1 text-sm text-black border rounded-sm px-1">
                                             {{ $install_order->notes }}
                                         </label>
+                                    </div>
+                                    <div class="flex mt-1">
+                                        <label class="flex text-sm text-black w-[68px]">Lokasi</label>
+                                        <label class="flex text-sm text-black">:</label>
+                                        <label
+                                            class="flex w-[400px] ml-1 text-sm text-black px-1">{{ $product->location_address }}</label>
                                     </div>
                                     <!-- SPK Sign start-->
                                     <div class="flex justify-center mt-1">
@@ -215,8 +197,15 @@
                                     <label
                                         class="flex text-sm text-black justify-center w-full px-1 font-semibold">Design</label>
                                     <div class="flex justify-center items-center border mt-3 p-1">
-                                        <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
-                                            src="{{ asset('storage/' . $install_order->design) }}">
+                                        @if ($install_order->design)
+                                            <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
+                                                src="{{ asset('storage/' . $install_order->design) }}">
+                                        @else
+                                            <div
+                                                class="flex justify-center items-center text-red-700 max-w-[260px] h-[120px]">
+                                                <label>~~ kosong ~~</label>
+                                            </div>
+                                        @endif
                                     </div>
                                     <!-- SPK Sign start-->
                                     <div class="flex justify-center h-40 mt-2">
@@ -267,25 +256,14 @@
                 </div>
 
                 <!-- SPK Header start-->
-                <div class="h-24">
-                    <div class="flex w-full items-center px-10 pt-8 border-b pb-2">
-                        <img class="w-[72px]" src="/img/logo-vm.png" alt="">
-                        <div class="ml-4 w-[500px]">
-                            <span class="flex mt-1 text-sm font-semibold">PT. Vista Media</span>
-                            <span class="flex mt-1 text-xs">Jl. Pulau Kawe No. 40 - Denpasar | Bali - Indonesia</span>
-                            <span class="flex mt-1 text-xs">Ph. +62 361 230000 | Fax. +62 361 237800 </span>
-                            <span class="flex mt-1 text-xs">e-mail : info@vistamedia.co.id |
-                                www.vistamedia.co.id</span>
-                        </div>
-                    </div>
-                </div>
+                @include('install-orders.spk-header')
                 <!-- SPK Header end-->
 
                 <!-- SPK Body start-->
-                <div class="h-[500px] mt-4">
+                <div class="h-[490px] mt-4">
                     <div class="flex w-full px-10">
                         <div class="w-[950px]">
-                            <label class="flex text-md font-semibold justify-center w-full mt-6"><u>SPK PEMASANGAN
+                            <label class="flex text-md font-semibold justify-center w-full mt-2"><u>SPK PEMASANGAN
                                     GAMBAR</u></label>
                             <label class="flex text-md text-slate-500 justify-center w-full">Nomor :
                                 {{ $install_order->number }} </label>
@@ -323,16 +301,6 @@
                                                     {{ $product->status }}
                                                 </label>
                                             </div>
-                                            {{-- @if ($side == 2)
-                                                <div class="flex mt-1">
-                                                    <input id="cbRight" class="outline-none" type="checkbox"
-                                                        checked readonly>
-                                                    <label class="flex ml-1 text-sm text-black w-16">Kanan</label>
-                                                    <input id="cbLeft" class="ml-2 outline-none" type="checkbox"
-                                                        checked readonly>
-                                                    <label class="flex ml-1 text-sm text-black w-16">Kiri</label>
-                                                </div>
-                                            @endif --}}
                                         </div>
                                         <div class="w-[240px] border rounded-md p-1 ml-1">
                                             <div class="flex mt-1">
@@ -360,16 +328,6 @@
                                                     {{ date('Y', strtotime($install_order->install_at)) }}
                                                 </label>
                                             </div>
-                                            {{-- @if ($side == 2)
-                                                <div class="flex mt-1">
-                                                    <input id="cbRight" class="outline-none" type="checkbox"
-                                                        checked readonly>
-                                                    <label class="flex ml-1 text-sm text-black w-16">Kanan</label>
-                                                    <input id="cbLeft" class="ml-2 outline-none" type="checkbox"
-                                                        checked readonly>
-                                                    <label class="flex ml-1 text-sm text-black w-16">Kiri</label>
-                                                </div>
-                                            @endif --}}
                                         </div>
                                     </div>
                                     <div class="flex mt-1">
@@ -378,6 +336,12 @@
                                         <label class="flex h-12 w-[425px] ml-1 text-sm text-black border rounded-sm px-1">
                                             {{ $install_order->notes }}
                                         </label>
+                                    </div>
+                                    <div class="flex mt-1">
+                                        <label class="flex text-sm text-black w-[68px]">Lokasi</label>
+                                        <label class="flex text-sm text-black">:</label>
+                                        <label
+                                            class="flex w-[400px] ml-1 text-sm text-black px-1">{{ $product->location_address }}</label>
                                     </div>
                                     <!-- SPK location start-->
                                     <div class="flex justify-center mt-1">
@@ -435,8 +399,15 @@
                                     <label
                                         class="flex text-sm text-black justify-center w-full px-1 font-semibold">Design</label>
                                     <div class="flex justify-center items-center border mt-3 p-1">
-                                        <img class="m-auto img-preview-copy flex items-center justify-center max-w-[260px] max-h-[180px]"
-                                            src="{{ asset('storage/' . $install_order->design) }}">
+                                        @if ($install_order->design)
+                                            <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
+                                                src="{{ asset('storage/' . $install_order->design) }}">
+                                        @else
+                                            <div
+                                                class="flex justify-center items-center text-red-700 max-w-[260px] h-[120px]">
+                                                <label>~~ kosong ~~</label>
+                                            </div>
+                                        @endif
                                     </div>
                                     <!-- SPK Sign start-->
                                     <div class="flex justify-center h-40 mt-2">

@@ -69,7 +69,8 @@
                     @endif
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                    {{ substr($sale->number, 0, 8) }}..
+                    <a href="/marketing/sales/{{ $sale->id }}"
+                        class="ml-1 w-32">{{ substr($sale->number, 0, 8) }}..</a>
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
                     {{ $clients[$loop->iteration - 1]->name }}

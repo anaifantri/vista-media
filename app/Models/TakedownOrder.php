@@ -7,20 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
 use Carbon\Carbon;
 
-
-class PrintOrder extends Model
+class TakedownOrder extends Model
 {
     use Sortable;
     protected $guarded = ['id'];
-
-    public function scopePeriode($query){
-        if(request('periode')){
-            if(request('periode') != ""){
-                return $query->whereDate('created_at', request('periode'));
-            }
-        }
-    }
-
+    
     public function scopeTodays($query){
         if (request('todays')) {
             return $query->whereDate('created_at', request('todays'));
@@ -68,30 +59,15 @@ class PrintOrder extends Model
             }
         }
     }
-
-    public function scopeSales($query){
-        return $query->where('product->order_type', '=', 'sales');
-    }
-    public function scopeFreeSales($query){
-        return $query->where('product->order_type', '=', 'free');
-    }
-    public function scopeFreeOther($query){
-        return $query->where('product->order_type', '=', 'location');
-    }
-
+    
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('theme', 'like', '%' . $search . '%')
+                    ->orWhere('takedown_at', 'like', '%' . $search . '%')
                     ->orWhere('created_at', 'like', '%' . $search . '%')
-                    ->orWhereHas('sale', function($query) use ($search){
-                        $query->whereHas('quotation', function($query) use ($search){
-                            $query->whereRaw('LOWER(JSON_EXTRACT(clients, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
-                            ->orWhereRaw('LOWER(JSON_EXTRACT(clients, "$.company")) like ?', ['"%' . strtolower($search) . '%"']);
-                        });
-                    })
-                    ->orWhereHas('vendor', function($query) use ($search){
-                        $query->where('name', 'like', '%' . $search . '%')
-                            ->orWhere('company', 'like', '%' . $search . '%');
+                    ->orWhereHas('location', function($query) use ($search){
+                        $query->where('code', 'like', '%' . $search . '%')
+                            ->orWhere('address', 'like', '%' . $search . '%');
                     })
                 );
     }
@@ -99,18 +75,13 @@ class PrintOrder extends Model
     public function company(){
         return $this->belongsTo(Company::class);
     }
-    public function sale(){
-        return $this->belongsTo(Sale::class);
-    }
+
     public function location(){
         return $this->belongsTo(Location::class);
     }
-    public function vendor(){
-        return $this->belongsTo(Vendor::class);
-    }
 
     public function install_order(){
-        return $this->hasOne(InstallOrder::class, 'print_order_id', 'id');
+        return $this->belongsTo(InstallOrder::class);
     }
 
     public $sortable = ['number'];

@@ -5,7 +5,8 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex w-[1200px] border-b">
-                <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi</h1>
+                <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi Cetak Gambar
+                </h1>
                 <div class="flex justify-end w-full">
                     <button class="flex justify-center items-center btn-primary w-44" type="button" onclick="orderCreate()">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"

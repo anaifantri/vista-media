@@ -27,6 +27,7 @@ use App\Http\Controllers\LandAgreementController;
 use App\Http\Controllers\LocationPhotoController;
 use App\Http\Controllers\MediaCategoryController;
 use App\Http\Controllers\PrintingPriceController;
+use App\Http\Controllers\TakedownOrderController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\ClientCategoryController;
 use App\Http\Controllers\QuotationOrderController;
@@ -144,6 +145,12 @@ Route::get('/marketing/orders-report/install-orders', [OrderReportController::cl
 Route::resource('/marketing/printing-products', PrintingProductController::class)->middleware(['auth','user_access']);
 Route::resource('/marketing/printing-prices', PrintingPriceController::class)->middleware(['auth','user_access']);
 Route::resource('/marketing/installation-prices', InstallationPriceController::class)->middleware(['auth','user_access']);
+
+Route::resource('/marketing/takedown-orders', TakedownOrderController::class)->except(['index'])->middleware(['auth','user_access']);
+Route::get('/takedown-orders/index/{companyid}', [TakedownOrderController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/takedown-orders/select-locations', [TakedownOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
+Route::get('/takedown-orders/create-order/{id}', [TakedownOrderController::class,'createOrder'])->middleware(['auth','user_access']);
+Route::get('/marketing/takedown-orders/preview/{id}', [TakedownOrderController::class,'preview'])->middleware(['auth','user_access']);
 
 Route::resource('/marketing/install-orders', InstallOrderController::class)->except(['index'])->middleware(['auth','user_access']);
 Route::get('/install-orders/index/{companyid}', [InstallOrderController::class,'index'])->middleware(['auth','user_access']);

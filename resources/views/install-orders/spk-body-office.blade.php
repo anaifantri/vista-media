@@ -93,7 +93,12 @@
                         <label class="flex text-sm text-black w-14">Catatan</label>
                         <label class="flex text-sm text-black">:</label>
                         <textarea id="notesCopy" placeholder="Terisi otomatis"
-                            class="flex w-[425px] ml-1 text-sm text-black border rounded-sm outline-none px-1" rows="3" readonly>{{ old('notes') }}</textarea>
+                            class="flex w-[425px] ml-1 text-sm text-black border rounded-sm outline-none px-1" rows="2" readonly>{{ old('notes') }}</textarea>
+                    </div>
+                    <div class="flex mt-1">
+                        <label class="flex text-sm text-black w-[68px]">Lokasi</label>
+                        <label class="flex text-sm text-black">:</label>
+                        <label class="flex w-[400px] ml-1 text-sm text-black px-1">{{ $location_address }}</label>
                     </div>
                     <!-- SPK Sign start-->
                     @include('install-orders.spk-location-office')

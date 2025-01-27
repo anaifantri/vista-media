@@ -32,14 +32,14 @@ class PrintOrderController extends Controller
     public function index(String $company_id): Response
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
-            $dataPrints = PrintOrder::where('company_id', $company_id)->filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("created_at", "asc")->get();
+            $dataPrints = PrintOrder::where('company_id', $company_id)->year()->month()->days()->filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->get();
             $sale = Sale::with('print_order')->get();
             $quotations = Quotation::with('sales')->get();
             $vendors = Vendor::with('print_orders')->get();
             return response()-> view ('print-orders.index', [
-                'print_orders'=>PrintOrder::where('company_id', $company_id)->filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("created_at", "desc")->paginate(20)->withQueryString(),
+                'print_orders'=>PrintOrder::where('company_id', $company_id)->year()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
                 'data_prints'=>$dataPrints,
-                'amount'=>PrintOrder::where('company_id', $company_id)->filter(request('search'))->periode()->sum('price'),
+                'amount'=>PrintOrder::where('company_id', $company_id)->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sum('price'),
                 'title' => 'Daftar SPK Cetak',
                 compact('sale', 'vendors', 'quotations')
             ]);
@@ -104,7 +104,7 @@ class PrintOrderController extends Controller
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
             if($request->orderType){
                 if($request->orderType == "locations"){
-                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(30)->withQueryString();
                     return view ('print-orders.select-location', [
                         'locations'=>$locations,
                         'areas' => Area::all(),
@@ -460,13 +460,13 @@ class PrintOrderController extends Controller
             }
             
             if($newNumber > 0 && $newNumber < 10){
-                $number = '000'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '000'.$newNumber.'/SPK-PR/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 10 && $newNumber < 100 ){
-                $number = '00'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '00'.$newNumber.'/SPK-PR/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 100 && $newNumber < 1000 ){
-                $number = '0'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '0'.$newNumber.'/SPK-PR/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             } else {
-                $number = $newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = $newNumber.'/SPK-PR/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }
             // Set number --> end
 

@@ -43,39 +43,28 @@
                             </svg>
                             <span class="ml-2 text-white">save</span>
                         </button>
-                        <a class="flex justify-center items-center mx-1 btn-danger" href="/marketing/install-orders">
+                        <a class="flex justify-center items-center mx-1 btn-danger"
+                            href="/install-orders/index/{{ $company->id }}">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path
                                     d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
                             </svg>
-                            <label class="mx-1">Cancel</label>
+                            <span class="mx-1">Cancel</span>
                         </a>
                     </div>
                 </div>
                 <div class="flex justify-center w-full">
-                    <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
+                    <div class="w-[950px] h-[1345px] bg-white mb-10 p-2">
                         <!-- SPK Header start-->
-                        <div class="h-24">
-                            <div class="flex w-full items-center px-10 pt-8 border-b pb-2">
-                                <img class="w-[72px]" src="/img/logo-vm.png" alt="">
-                                <div class="ml-4 w-[500px]">
-                                    <span class="flex mt-1 text-sm font-semibold">PT. Vista Media</span>
-                                    <span class="flex mt-1 text-xs">Jl. Pulau Kawe No. 40 - Denpasar | Bali -
-                                        Indonesia</span>
-                                    <span class="flex mt-1 text-xs">Ph. +62 361 230000 | Fax. +62 361 237800 </span>
-                                    <span class="flex mt-1 text-xs">e-mail : info@vistamedia.co.id |
-                                        www.vistamedia.co.id</span>
-                                </div>
-                            </div>
-                        </div>
+                        @include('install-orders.spk-header')
                         <!-- SPK Header end-->
 
                         <!-- SPK Body start-->
-                        <div class="h-[520px] mt-4">
+                        <div class="h-[500px]">
                             <div class="flex w-full items-center px-10">
                                 <div class="w-[950px]">
-                                    <label class="flex text-md font-semibold justify-center w-full mt-6"><u>SPK PEMASANGAN
+                                    <label class="flex text-md font-semibold justify-center w-full mt-2"><u>SPK PEMASANGAN
                                             GAMBAR</u>
                                     </label>
                                     <label class="flex text-md text-slate-500 justify-center w-full">Nomor :
@@ -155,6 +144,12 @@
                                                     class="flex w-[425px] ml-1 text-sm text-black border rounded-sm outline-none px-1" rows="3"
                                                     onkeyup="getNotes(this)">{{ $install_order->notes }}</textarea>
                                             </div>
+                                            <div class="flex mt-1">
+                                                <label class="flex text-sm text-black w-[68px]">Lokasi</label>
+                                                <label class="flex text-sm text-black">:</label>
+                                                <label
+                                                    class="flex w-[400px] ml-1 text-sm text-black px-1">{{ $product->location_address }}</label>
+                                            </div>
                                             <!-- SPK Sign start-->
                                             <div class="flex justify-center mt-1">
                                                 <div class="flex justify-center w-[790px] h-44">
@@ -192,8 +187,13 @@
                                         </div>
                                         <div class="w-[280px] border ml-2 p-1">
                                             <label
-                                                class="flex text-sm text-black justify-center w-full px-1 font-semibold">Ganti
-                                                Design</label>
+                                                class="flex text-sm text-black justify-center w-full px-1 font-semibold">
+                                                @if ($install_order->design)
+                                                    Ganti Design
+                                                @else
+                                                    Tambah Design
+                                                @endif
+                                            </label>
                                             <input type="text" name="oldDesign" value="{{ $install_order->design }}"
                                                 hidden>
                                             <input id="design" name="design"
@@ -205,8 +205,13 @@
                                                 </div>
                                             @enderror
                                             <div class="flex justify-center items-center border mt-3 p-1">
-                                                <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
-                                                    src="{{ asset('storage/' . $install_order->design) }}">
+                                                @if ($install_order->design)
+                                                    <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
+                                                        src="{{ asset('storage/' . $install_order->design) }}">
+                                                @else
+                                                    <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
+                                                        src="">
+                                                @endif
                                             </div>
                                             <!-- SPK Sign start-->
                                             <div class="flex justify-center h-40 mt-2">
@@ -257,26 +262,14 @@
                         </div>
 
                         <!-- SPK Header start-->
-                        <div class="h-24">
-                            <div class="flex w-full items-center px-10 pt-8 border-b pb-2">
-                                <img class="w-[72px]" src="/img/logo-vm.png" alt="">
-                                <div class="ml-4 w-[500px]">
-                                    <span class="flex mt-1 text-sm font-semibold">PT. Vista Media</span>
-                                    <span class="flex mt-1 text-xs">Jl. Pulau Kawe No. 40 - Denpasar | Bali -
-                                        Indonesia</span>
-                                    <span class="flex mt-1 text-xs">Ph. +62 361 230000 | Fax. +62 361 237800 </span>
-                                    <span class="flex mt-1 text-xs">e-mail : info@vistamedia.co.id |
-                                        www.vistamedia.co.id</span>
-                                </div>
-                            </div>
-                        </div>
+                        @include('install-orders.spk-header')
                         <!-- SPK Header end-->
 
                         <!-- SPK Body start-->
-                        <div class="h-[520px] mt-4">
+                        <div class="h-[500px] mt-4">
                             <div class="flex w-full px-10">
                                 <div class="w-[950px]">
-                                    <label class="flex text-md font-semibold justify-center w-full mt-6"><u>SPK PEMASANGAN
+                                    <label class="flex text-md font-semibold justify-center w-full"><u>SPK PEMASANGAN
                                             GAMBAR</u></label>
                                     <label class="flex text-md text-slate-500 justify-center w-full">Nomor :
                                         {{ $install_order->number }}</label>
@@ -366,7 +359,13 @@
                                                 <label class="flex text-sm text-black w-14">Catatan</label>
                                                 <label class="flex text-sm text-black">:</label>
                                                 <textarea id="notesCopy" placeholder="Terisi otomatis"
-                                                    class="flex w-[425px] ml-1 text-sm text-black border rounded-sm outline-none px-1" rows="3" readonly>{{ $install_order->notes }}</textarea>
+                                                    class="flex w-[425px] ml-1 text-sm text-black border rounded-sm outline-none px-1" rows="2" readonly>{{ $install_order->notes }}</textarea>
+                                            </div>
+                                            <div class="flex mt-1">
+                                                <label class="flex text-sm text-black w-[68px]">Lokasi</label>
+                                                <label class="flex text-sm text-black">:</label>
+                                                <label
+                                                    class="flex w-[400px] ml-1 text-sm text-black px-1">{{ $product->location_address }}</label>
                                             </div>
                                             <!-- SPK Sign start-->
                                             <div class="flex justify-center mt-1">
@@ -423,8 +422,13 @@
                                             <label
                                                 class="flex text-sm text-black justify-center w-full px-1 font-semibold">Design</label>
                                             <div class="flex justify-center items-center border mt-3 p-1">
-                                                <img class="m-auto img-preview-copy flex items-center justify-center max-w-[260px] max-h-[180px]"
-                                                    src="{{ asset('storage/' . $install_order->design) }}">
+                                                @if ($install_order->design)
+                                                    <img class="m-auto img-preview-copy flex items-center justify-center max-w-[260px] max-h-[180px]"
+                                                        src="{{ asset('storage/' . $install_order->design) }}">
+                                                @else
+                                                    <img class="m-auto img-preview-copy flex items-center justify-center max-w-[260px] max-h-[180px]"
+                                                        src="">
+                                                @endif
                                             </div>
                                             <!-- SPK Sign start-->
                                             <div class="flex justify-center h-40 mt-2">

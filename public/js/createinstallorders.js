@@ -57,15 +57,15 @@ themeCheck = () =>{
     }
 }
 
-designCheck = () =>{
-    if(design.files.length == 0){
-        alert('Silahkan pilih file design terlebih dahulu..!!');
-        design.classList.add("is-invalid");
-        design.focus();
-    }else{
-        return true;
-    }
-}
+// designCheck = () =>{
+//     if(design.files.length == 0){
+//         alert('Silahkan pilih file design terlebih dahulu..!!');
+//         design.classList.add("is-invalid");
+//         design.focus();
+//     }else{
+//         return true;
+//     }
+// }
 
 installAtCheck = () =>{
     if(installAt.value == ""){
@@ -155,7 +155,7 @@ cbLeftAction = (sel) =>{
 }
 
 fillData = () =>{
-    if(themeCheck() == true && designCheck() == true && installAtCheck() == true){
+    if(themeCheck() == true && installAtCheck() == true){
         if(confirm('Apakah anda yakin data yang diinput sudah benar?')){
             objProducts.sale_id = saleId.value;
             objProducts.main_sale_id = mainSaleId.value;

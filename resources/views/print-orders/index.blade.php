@@ -13,28 +13,59 @@
         'Friday' => 'Jumat',
         'Saturday' => 'Sabtu',
     ];
-    $name = 'DAFTAR SPK CETAK - ' . date('d', strtotime(request('periode'))) . ' ' . $bulan_full[(int) date('m', strtotime(request('periode')))] . ' ' . date('Y', strtotime(request('periode')));
+    if (request('days') && request('days') != 'All') {
+        $periode = request('days') . ' ' . $bulan_full[request('month')] . ' ' . request('year');
+    } elseif (request('todays')) {
+        $periode = (int) date('d', strtotime(request('todays'))) . ' ' . $bulan_full[(int) date('m', strtotime(request('todays')))] . ' ' . date('Y', strtotime(request('todays')));
+    } elseif (request('month') && request('month') != 'All') {
+        $periode = $bulan_full[request('month')] . ' ' . request('year');
+    } elseif (request('year')) {
+        $periode = 'Tahun ' . request('year');
+    } else {
+        $periode = 'Tahun ' . date('Y');
+    }
+    $name = 'Daftar SPK Cetak - ' . $periode;
     ?>
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
                 <div class="w-[1200px] p-2">
                     <div class="flex border-b">
-                        <h1 class="index-h1">Daftar SPK Cetak</h1>
-                        <div class="flex">
-                            @if (request('periode'))
-                                @if (request('periode') != '' && count($print_orders) != 0)
-                                    <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-success"
-                                        title="Simpan PDF" type="button" onclick="savePdf()">
-                                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" viewBox="0 0 24 24">
-                                            <path
-                                                d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
-                                        </svg>
-                                        <span class="mx-1">Save PDF</span>
-                                    </button>
+                        <h1 class="index-h1">Daftar SPK Cetak -
+                            @if (request('todays'))
+                                Hari Ini
+                            @elseif (request('weekday'))
+                                Minggu Ini
+                            @elseif (request('monthly'))
+                                Bulan Ini
+                            @elseif (request('annual'))
+                                Tahun Ini
+                            @else
+                                @if (request('days') || request('month'))
+                                    @if (request('days') && request('days') != 'All')
+                                        {{ request('days') }} {{ $bulan_full[request('month')] }} {{ request('year') }}
+                                    @elseif (request('month') && request('month') != 'All')
+                                        {{ $bulan_full[request('month')] }} {{ request('year') }}
+                                    @elseif (request('year'))
+                                        Tahun {{ request('year') }}
+                                    @endif
+                                @elseif (request('year'))
+                                    Tahun {{ request('year') }}
+                                @else
+                                    Tahun {{ date('Y') }}
                                 @endif
                             @endif
+                        </h1>
+                        <div class="flex">
+                            <button class="flex justify-center items-center mx-1 btn-success" title="preview PDF"
+                                type="button" onclick="pdfPreview()">
+                                <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24">
+                                    <path
+                                        d="M24 11v12h-24v-12h4v-10h10.328c1.538 0 5.672 4.852 5.672 6.031v3.969h4zm-6-3.396c0-1.338-2.281-1.494-3.25-1.229.453-.813.305-3.375-1.082-3.375h-7.668v13h12v-8.396zm-2 5.396h-8v-1h8v1zm0-3h-8v1h8v-1zm0-2h-8v1h8v-1z" />
+                                </svg>
+                                <span class="mx-1">Preview</span>
+                            </button>
                             @canany(['isAdmin', 'isMarketing'])
                                 @can('isOrder')
                                     @can('isMarketingCreate')
@@ -67,17 +98,101 @@
                             <input type="text" name="annual" value="{{ request('annual') }}" hidden>
                         @endif
                         <div class="flex">
-                            <div class="w-40">
-                                <span class="text-base  text-stone-100">Tgl. Cetak</span>
-                                @if (request('periode'))
-                                    <input class="outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
-                                        type="date" name="periode" id="periode" value="{{ request('periode') }}"
+                            @if (!request('todays') && !request('weekday') && !request('monthly') && !request('annual'))
+                                <div class="w-16">
+                                    @php
+                                        if (request('year')) {
+                                            $y = date('Y', request('year'));
+                                        } else {
+                                            $y = date('Y');
+                                        }
+                                        if (request('month')) {
+                                            if (request('month') != 'All') {
+                                                $m = date('m', request('month'));
+                                            } else {
+                                                $m = date('m');
+                                            }
+                                        } else {
+                                            $m = date('m');
+                                        }
+                                        $d = cal_days_in_month(CAL_GREGORIAN, $m, $y);
+                                    @endphp
+                                    <span class="flex text-base text-stone-100">Tanggal</span>
+                                    @if (request('month') && request('month') != 'All')
+                                        <select name="days" id="days"
+                                            class="flex outline-none text-sm text-stone-900 border rounded-lg w-14 p-1"
+                                            type="date" onchange="submit()">
+                                            <option value="All">All</option>
+                                            @if (request('days') && request('days') != 'All')
+                                                @for ($i = 1; $i <= $d; $i++)
+                                                    @if ($i == request('days'))
+                                                        <option value="{{ $i }}" selected>{{ $i }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                    @endif
+                                                @endfor
+                                            @else
+                                                @for ($i = 1; $i <= $d; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                            @endif
+                                        </select>
+                                    @else
+                                        <select name="days" id="days"
+                                            class="flex outline-none text-sm text-stone-900 border rounded-lg w-14 p-1"
+                                            type="date" onchange="submit()" disabled>
+                                            <option value="All">All</option>
+                                            @for ($i = 0; $i < $d; $i++)
+                                                <option value="{{ $i + 1 }}">{{ $i + 1 }}</option>
+                                            @endfor
+                                        </select>
+                                    @endif
+                                </div>
+                                <div class="ml-2 w-24">
+                                    <span class="text-base text-stone-100">Bulan</span>
+                                    <select name="month"
+                                        class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
                                         onchange="submit()">
-                                @else
-                                    <input class="outline-none text-sm text-stone-900 border rounded-lg w-36 p-1"
-                                        type="date" name="periode" id="periode" onchange="submit()">
-                                @endif
-                            </div>
+                                        <option value="All">All</option>
+                                        @if (request('month'))
+                                            @for ($i = 1; $i < 13; $i++)
+                                                @if ($i == request('month'))
+                                                    <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @for ($i = 1; $i < 13; $i++)
+                                                <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="ml-2 w-20">
+                                    <span class="text-base text-stone-100">Tahun</span>
+                                    <select name="year"
+                                        class="p-1 text-center outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        onchange="submit()">
+                                        @if (request('year'))
+                                            @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                                @if ($i == request('year'))
+                                                    <option value="{{ $i }}" selected>{{ $i }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                            @endif
                             <div class="w-48 ml-2">
                                 <span class="text-base text-stone-100">Pencarian</span>
                                 <div class="flex">
@@ -114,8 +229,10 @@
                     <table class="table-auto w-full">
                         <thead>
                             <tr class="bg-stone-400 h-10">
-                                <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center">No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-40">
+                                <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">
+                                    No.</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-28"
+                                    rowspan="2">
                                     <button class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor SPK')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
@@ -123,18 +240,27 @@
                                         </svg>
                                     </button>
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Vendor</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Tgl. Cetak</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24"
+                                    rowspan="2">Vendor</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20"
+                                    rowspan="2">Tgl. Cetak</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20"
+                                    colspan="10">Detail Cetak</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20"
+                                    rowspan="2">Action</th>
+                            </tr>
+                            <tr class="bg-stone-400 h-10">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">No. Penj.
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]">Lokasi</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Klien</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center">Status</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Status</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center">Tema/Design</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-10">Jenis</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Bahan</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Ukuran</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-10">Qty</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-16">Harga</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Total</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Action</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-14">Harga</th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]">Total</th>
                             </tr>
                         </thead>
                         <tbody class="bg-stone-200">
@@ -157,7 +283,7 @@
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         <a href="/marketing/print-orders/{{ $order->id }}">
-                                            {{ $order->number }}
+                                            {{ substr($order->number, 0, 15) }}..
                                         </a>
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
@@ -167,6 +293,14 @@
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ date('d', strtotime($order->created_at)) }}-{{ $bulan[(int) date('m', strtotime($order->created_at))] }}-{{ date('Y', strtotime($order->created_at)) }}
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        <a href="/marketing/sales/{{ $order->sale->id }}">
+                                            {{ substr($order->sale->number, 0, 8) }}..
+                                        </a>
+                                    </td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        {{ $product->location_code }} - {{ $product->city_code }}
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         @if ($order->sale)
@@ -182,13 +316,6 @@
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ $order->theme }}
-                                    </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                        @if ($product->product_type == 'Frontlight')
-                                            FL
-                                        @elseif ($product->product_type == 'Backlight')
-                                            BL
-                                        @endif
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ $product->product_name }}
@@ -233,33 +360,36 @@
                                                     @endcan
                                                 @endcan
                                             @endcanany
-                                            @canany(['isAdmin', 'isMarketing'])
-                                                @can('isOrder')
-                                                    @can('isMarketingDelete')
-                                                        <form action="/marketing/print-orders/{{ $order->id }}" method="post"
-                                                            class="d-inline m-1">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <button
-                                                                class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                                onclick="return confirm('Apakah anda yakin ingin menghapus data SPK Cetak dengan nomor {{ $order->number }} ?')">
-                                                                <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                                                                    width="24" height="24" viewBox="0 0 24 24">
-                                                                    <title>DELETE</title>
-                                                                    <path
-                                                                        d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                                                                </svg>
-                                                            </button>
-                                                        </form>
-                                                    @endcan
-                                                @endcan
-                                            @endcanany
+                                            @can('isAdmin')
+                                                <form action="/marketing/print-orders/{{ $order->id }}" method="post"
+                                                    class="d-inline m-1">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button
+                                                        class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
+                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data SPK Cetak dengan nomor {{ $order->number }} ?')">
+                                                        <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                            width="24" height="24" viewBox="0 0 24 24">
+                                                            <title>DELETE</title>
+                                                            <path
+                                                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    @if (count($print_orders) == 0)
+                        <div class="flex justify-center items-center w-full h-16 bg-stone-200">
+                            <label class="flex text-base text-red-600 font-serif tracking-wider">
+                                ~~ Tidak ada data SPK cetak untuk periode {{ $periode }} ~~
+                            </label>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="flex justify-center text-stone-100 mt-2">
@@ -267,196 +397,32 @@
             </div>
         </div>
     </div>
-
-    <div class="bg-black p-10" hidden>
-        <div class="flex justify-center w-full">
-            <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 bg-white p-4">
-                <!-- Header start -->
-                @include('dashboard.layouts.letter-header')
-                <!-- Header end -->
-                <!-- Body start -->
-                <div class="h-[1080px]">
-                    <label class="flex text-md font-semibold justify-center w-full mt-6"><u>DAFTAR SPK CETAK
-                            GAMBAR</u></label>
-                    <label class="flex text-md justify-center w-full">
-                        <b class="ml-2">
-                            Tanggal Cetak :
-                            @if (request('periode'))
-                                @if (request('periode') != '')
-                                    {{ $daftar_hari[date('l', strtotime(request('periode')))] }},
-                                    {{ date('d', strtotime(request('periode'))) }}
-                                    {{ $bulan_full[(int) date('m', strtotime(request('periode')))] }}
-                                    {{ date('Y', strtotime(request('periode'))) }}
-                                @endif
-                            @endif
-                        </b>
-                    </label>
-                    <div class="flex justify-center w-full mt-8">
-                        <div class="w-[850px]">
-                            <table class="table-auto w-full">
-                                <thead>
-                                    <tr class="h-10">
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] w-8 text-center">
-                                            No.</th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-16">
-                                            No. SPK</th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-20">
-                                            Vendor
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24">
-                                            Klien
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24">
-                                            Status
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-32">
-                                            Tema/Design
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-10">
-                                            Jenis
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24">
-                                            Bahan
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-16">
-                                            Ukuran
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-8">
-                                            Qty
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-12">
-                                            Harga
-                                        </th>
-                                        <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-20">
-                                            Total
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data_prints as $order)
-                                        @php
-                                            $client = '-';
-                                            $product = json_decode($order->product);
-                                            $created_by = json_decode($order->created_by);
-                                            $notes = json_decode($order->notes);
-                                            if ($order->sale) {
-                                                $client = json_decode($order->sale->quotation->clients);
-                                            }
-                                        @endphp
-                                        <tr>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem]  text-center">
-                                                {{ $loop->iteration }}
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                {{ substr($order->number, 0, 8) }}..
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                @if (strlen($order->vendor->name) > 10)
-                                                    {{ substr($order->vendor->name, 0, 10) }}..
-                                                @else
-                                                    {{ $order->vendor->name }}
-                                                @endif
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                @if ($order->sale)
-                                                    {{ $client->name }}
-                                                @else
-                                                    {{ $client }}
-                                                @endif
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                {{ $product->status }}
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                @if (strlen($order->theme) > 15)
-                                                    {{ substr($order->theme, 0, 15) }}..
-                                                @else
-                                                    {{ $order->theme }}
-                                                @endif
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                @if ($product->product_type == 'Frontlight')
-                                                    FL
-                                                @elseif ($product->product_type == 'Backlight')
-                                                    BL
-                                                @endif
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                @if (strlen($product->product_name) > 15)
-                                                    {{ substr($product->product_name, 0, 15) }}..
-                                                @else
-                                                    {{ $product->product_name }}
-                                                @endif
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                {{ $product->location_size }}
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                {{ $product->qty }}
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
-                                                {{ number_format($product->product_price) }}
-                                            </td>
-                                            <td
-                                                class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-right">
-                                                {{ number_format($order->price) }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    <tr>
-                                        <td class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] font-semibold text-right"
-                                            colspan="11">Total</td>
-                                        <td
-                                            class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] font-semibold text-right">
-                                            {{ number_format($amount) }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="mt-8">
-                                <div class="flex justify-center">
-                                    <div class="w-[725px]">
-                                        <label class="text-sm text-black flex font-semibold">Denpasar,
-                                            {{ date('d') }}
-                                            {{ $bulan_full[(int) date('m')] }}
-                                            {{ date('Y') }}
-                                        </label>
-                                        <label class="text-sm text-black flex font-semibold">PT. Vista Media</label>
-                                        <label class="mt-12 text-sm text-black flex font-semibold">
-                                            <u>{{ auth()->user()->name }}</u>
-                                        </label>
-                                        <label class="text-xs text-black flex">{{ auth()->user()->position }}</label>
-                                        <label class="text-xs text-black flex">Hp.
-                                            {{ auth()->user()->phone }}</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Body start -->
-                <!-- Footer start -->
-                @include('dashboard.layouts.letter-footer')
-                <!-- Footer end -->
-            </div>
-        </div>
-    </div>
-
+    @include('print-orders.pdf-preview')
     <input id="saveName" type="text" value="{{ $name }}" hidden>
 
     <!-- Script start -->
     <script src="/js/html2canvas.min.js"></script>
     <script src="/js/html2pdf.bundle.min.js"></script>
     <script src="/js/savepdf.js"></script>
+
+    <script>
+        pdfPreview = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            document.getElementById("modalPdfPreview").classList.add('flex');
+            document.getElementById("modalPdfPreview").classList.remove('hidden');
+        }
+
+        btnClosePreview = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            document.getElementById("modalPdfPreview").classList.remove('flex');
+            document.getElementById("modalPdfPreview").classList.add('hidden');
+        }
+    </script>
     <!-- Script end -->
 @endsection

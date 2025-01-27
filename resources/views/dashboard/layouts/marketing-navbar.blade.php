@@ -82,7 +82,7 @@
         @can('isSale')
             <ul id="saleNav" class="relative group transition duration-300 ease-in-out"
                 onclick="headerDropdown(event, this)">
-                <a class="right-nav w-40 p-1 h-6 text-stone-200 {{ Request::is('marketing/sales*') ? 'active' : '' }}"
+                <a class="right-nav w-40 p-1 h-6 text-stone-200 {{ Request::is('marketing/sales/*') ? 'active' : '' }}"
                     href="#">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                         viewBox="0 0 24 24">
@@ -146,6 +146,19 @@
                 </li>
             </ul>
         @endcan
+        @can('isSaleReport')
+            <ul class="flex group w-max  p-1 h-6 transition duration-300 ease-in-out">
+                <a class="right-nav text-stone-200 {{ Request::is('marketing/sales-report*') ? 'active' : '' }}"
+                    href="/marketing/sales-report/{{ $company->id }}">
+                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M22 13v-13h-20v24h8.409c4.857 0 3.335-8 3.335-8 3.009.745 8.256.419 8.256-3zm-4-7h-12v-1h12v1zm0 3h-12v-1h12v1zm0 3h-12v-1h12v1zm-2.091 6.223c2.047.478 4.805-.279 6.091-1.179-1.494 1.998-5.23 5.708-7.432 6.881 1.156-1.168 1.563-4.234 1.341-5.702z" />
+                    </svg>
+                    <span class="flex"> Lap. Penjualan </span>
+                </a>
+            </ul>
+        @endcan
         @can('isClient')
             <ul class="flex group w-max  p-1 h-6 transition duration-300 ease-in-out">
                 <a class="right-nav text-stone-200 {{ Request::is('marketing/clients*') ? 'active' : '' }}"
@@ -161,26 +174,38 @@
         @endcan
         @can('isOrder')
             <ul class="flex group w-max  ml-4 h-6 transition duration-300 ease-in-out">
-                <a class="right-nav text-stone-200 {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
+                <a class="right-nav text-stone-200 {{ Request::is('print-orders/index/*') ? 'active' : '' }}"
                     href="/print-orders/index/{{ $company->id }}">
                     <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
                         viewBox="0 0 24 24">
                         <path
                             d="M18 17l3 6h-18l3-6h2.203l-1.967 4h11.527l-1.956-4h2.193zm6-12v14h-2.764l-2-4h-14.472l-2 4h-2.764v-14h4v-4h16v4h4zm-6-2h-12v2h12v-2zm4 4.5c0-.276-.224-.5-.5-.5s-.5.224-.5.5.224.5.5.5.5-.224.5-.5z" />
                     </svg>
-                    <span class="lg:flex hidden"> SPK Cetak </span>
+                    <span class="flex"> SPK Cetak </span>
                 </a>
             </ul>
         @endcan
-        @can('isMarketingSetting')
-            <ul id="setting" name="setting" class="flex group w-max transition duration-300 ease-in-out">
-                <a class="right-nav w-max p-2 h-6 text-stone-200 {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
+        @can('isOrder')
+            <ul class="flex group w-max transition duration-300 ease-in-out">
+                <a class="right-nav w-max p-2 h-6 text-stone-200 {{ Request::is('install-orders/index/*') ? 'active' : '' }}"
                     href="/install-orders/index/{{ $company->id }}">
-                    <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <svg class="fill-current w-5 mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path
                             d="M9 3h6v2h-6v-2zm3 15l7-8h-4v-4h-6v4h-4l7 8zm3-16v-2h-6v2h6zm3.213-.246l-1.213 1.599c2.984 1.732 5 4.955 5 8.647 0 5.514-4.486 10-10 10s-10-4.486-10-10c0-3.692 2.016-6.915 5-8.647l-1.213-1.599c-3.465 2.103-5.787 5.897-5.787 10.246 0 6.627 5.373 12 12 12s12-5.373 12-12c0-4.349-2.322-8.143-5.787-10.246z" />
                     </svg>
-                    <Span class="lg:flex hidden">SPK Pasang</Span>
+                    <Span class="flex">SPK Pasang</Span>
+                </a>
+            </ul>
+        @endcan
+        @can('isOrder')
+            <ul class="flex group w-max transition duration-300 ease-in-out">
+                <a class="right-nav w-max p-2 h-6 text-stone-200 {{ Request::is('takedown-orders/index/*') ? 'active' : '' }}"
+                    href="/takedown-orders/index/{{ $company->id }}">
+                    <svg class="fill-current w-5 mx-2 rot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M9 3h6v2h-6v-2zm3 15l7-8h-4v-4h-6v4h-4l7 8zm3-16v-2h-6v2h6zm3.213-.246l-1.213 1.599c2.984 1.732 5 4.955 5 8.647 0 5.514-4.486 10-10 10s-10-4.486-10-10c0-3.692 2.016-6.915 5-8.647l-1.213-1.599c-3.465 2.103-5.787 5.897-5.787 10.246 0 6.627 5.373 12 12 12s12-5.373 12-12c0-4.349-2.322-8.143-5.787-10.246z" />
+                    </svg>
+                    <Span class="flex">SPK Penurunan</Span>
                 </a>
             </ul>
         @endcan

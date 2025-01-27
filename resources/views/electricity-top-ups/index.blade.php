@@ -147,6 +147,7 @@
                     <tbody class="bg-stone-300">
                         @php
                             $number = 1 + ($locations->currentPage() - 1) * $locations->perPage();
+                            $client = null;
                         @endphp
                         @foreach ($locations as $location)
                             @php

@@ -32,12 +32,14 @@ class InstallOrderController extends Controller
     public function index(String $company_id): Response
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+            $dataInstalls = InstallOrder::where('company_id', $company_id)->year()->month()->days()->filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->get();
             $sale = Sale::with('install_order')->get();
             $quotations = Quotation::with('sales')->get();
             $print_order = PrintOrder::with('install_order')->get();
             $locations = Location::with('install_orders')->get();
             return response()-> view ('install-orders.index', [
-                'install_orders'=>InstallOrder::where('company_id', $company_id)->filter(request('search'))->periode()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("install_at", "desc")->paginate(20)->withQueryString(),
+                'install_orders'=>InstallOrder::where('company_id', $company_id)->year()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
+                'data_installs'=>$dataInstalls,
                 'title' => 'Daftar SPK Pemasangan Gambar',
                 compact('sale', 'print_order', 'locations', 'quotations')
             ]);
@@ -94,7 +96,7 @@ class InstallOrderController extends Controller
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
             if($request->orderType){
                 if($request->orderType == "locations"){
-                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(15)->withQueryString();
+                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(30)->withQueryString();
                     return view ('install-orders.select-location', [
                         'locations'=>$locations,
                         'areas' => Area::all(),
@@ -170,11 +172,17 @@ class InstallOrderController extends Controller
                             }
                         }
                         if($freeInstall < count($dataInstalls) || $freeInstall == 0){
-                            $sales->push($dataSale);
-                            array_push($clients,json_decode($dataSale->quotation->clients));
-                            array_push($freeInstalls, $freeInstall);
-                            array_push($installTypes, $installType);
-                            array_push($usedInstalls, count($dataInstalls));
+                            foreach($price->objInstalls as $install){
+                                if($install->code == $product->code){
+                                    if($install->price != 0){
+                                        $sales->push($dataSale);
+                                        array_push($clients,json_decode($dataSale->quotation->clients));
+                                        array_push($freeInstalls, $freeInstall);
+                                        array_push($installTypes, $installType);
+                                        array_push($usedInstalls, count($dataInstalls));
+                                    }
+                                }
+                            }
                         }
                     }
                     $locations = Location::with('sales')->get();
@@ -222,11 +230,17 @@ class InstallOrderController extends Controller
                         }
                     }
                     if($freeInstall < count($dataInstalls) || $freeInstall == 0){
-                        $sales->push($dataSale);
-                        array_push($clients,json_decode($dataSale->quotation->clients));
-                        array_push($freeInstalls, $freeInstall);
-                        array_push($installTypes, $installType);
-                        array_push($usedInstalls, count($dataInstalls));
+                        foreach($price->objInstalls as $install){
+                            if($install->code == $product->code){
+                                if($install->price != 0){
+                                    $sales->push($dataSale);
+                                    array_push($clients,json_decode($dataSale->quotation->clients));
+                                    array_push($freeInstalls, $freeInstall);
+                                    array_push($installTypes, $installType);
+                                    array_push($usedInstalls, count($dataInstalls));
+                                }
+                            }
+                        }
                     }
                 }
                 $locations = Location::with('sales')->get();
@@ -362,13 +376,13 @@ class InstallOrderController extends Controller
             }
             
             if($newNumber > 0 && $newNumber < 10){
-                $number = '000'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '000'.$newNumber.'/SPK-PS/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 10 && $newNumber < 100 ){
-                $number = '00'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '00'.$newNumber.'/SPK-PS/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }else if($newNumber >= 100 && $newNumber < 1000 ){
-                $number = '0'.$newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = '0'.$newNumber.'/SPK-PS/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             } else {
-                $number = $newNumber.'/SPK/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+                $number = $newNumber.'/SPK-PS/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }
             // Set number --> end
 
@@ -386,7 +400,7 @@ class InstallOrderController extends Controller
                 'product' => 'required',
                 'created_by' => 'required',
                 'updated_by' => 'required',
-                'design' => 'required'
+                'design' => 'nullable'
             ]);
 
             if($request->file('design')){
