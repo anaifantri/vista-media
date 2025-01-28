@@ -89,7 +89,7 @@ class LocationController extends Controller
             'location' => $location,
             'leds' => Led::all(),
             'title' => 'Detail Location',
-            'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('set_default', true)->get()->last(),
+            'data_photos'=>LocationPhoto::where('location_id', $location->id)->where('set_default', true)->get(),
             'category'=>$category,
             compact('areas', 'cities', 'media_sizes', 'media_categories')
         ]);
@@ -306,7 +306,7 @@ class LocationController extends Controller
                 'title' => 'Detail Lokasi',
                 'leds'=>Led::all(),
                 'category'=>$location->media_category->name,
-                'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
+                'data_photos'=>LocationPhoto::where('location_id', $location->id)->get(),
                 compact('areas', 'cities', 'media_sizes', 'media_categories')
             ]);
         } else {
@@ -332,7 +332,7 @@ class LocationController extends Controller
                 'cities'=>City::all(),
                 'media_sizes'=>MediaSize::orderBy("size", "asc")->get(),
                 'category'=>$location->media_category->name,
-                'location_photos'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->get(),
+                'data_photos'=>LocationPhoto::where('location_id', $location->id)->get(),
                 compact('areas', 'media_sizes', 'media_categories')
             ]);
         } else {

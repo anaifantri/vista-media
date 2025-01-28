@@ -3,6 +3,7 @@
 @section('container')
     @php
         $description = json_decode($location->description);
+        $location_photos = $data_photos->where('company_id', $company->id);
         $sectors = json_decode($location->sector);
         $modified_by = new stdClass();
         $modified_by->id = auth()->user()->id;

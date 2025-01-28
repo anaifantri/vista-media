@@ -1,6 +1,7 @@
 <!-- Show Location start -->
 @php
     $description = json_decode($location->description);
+    $location_photos = $data_photos->where('company_id', $company->id);
 @endphp
 <div class="flex justify-center">
     <input type="text" name="description" id="description" hidden>
