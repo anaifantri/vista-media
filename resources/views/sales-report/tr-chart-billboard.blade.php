@@ -146,8 +146,16 @@
                                         <div class="h-[2px] w-[1px]">
                                         </div>
                                     @elseif($i >= $start && $i <= $lineWidth + $start)
-                                        <div class="h-[2px] bg-red-700 w-[1px]">
-                                        </div>
+                                        @if ($locationSale->company_id == '1')
+                                            <div class="h-[2px] bg-red-700 w-[1px]">
+                                            </div>
+                                        @elseif ($locationSale->company_id == '3')
+                                            <div class="h-[2px] bg-lime-700 w-[1px]">
+                                            </div>
+                                        @else
+                                            <div class="h-[2px] bg-blue-700 w-[1px]">
+                                            </div>
+                                        @endif
                                         {{-- @if ($counter % 2 == 0)
                                             <div class="h-[2px] bg-stone-700 w-[1px]">
                                             </div>

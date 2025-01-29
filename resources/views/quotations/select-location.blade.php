@@ -5,7 +5,7 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div>
-                <div class="flex w-[1100px] border-b">
+                <div class="flex w-[1200px] border-b">
                     @if ($category == 'Service')
                         <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi Cetak /
                             Pasang</h1>

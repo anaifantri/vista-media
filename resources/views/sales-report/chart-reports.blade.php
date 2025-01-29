@@ -302,8 +302,20 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="flex justify-end mt-1 text-teal-900">
-                                    <label for="">Halaman {{ $pageNumber + 1 }} dari {{ $totalPages }}</label>
+                                <div class="mt-2 flex items-center">
+                                    <div class="flex w-[700px] items-center">
+                                        <span class="text-sm font-semibold w-[120px]">Keterangan :</span>
+                                        <div class="ml-4 w-8 h-1 bg-red-700"></div>
+                                        <span class="ml-2 text-xs w-[200px]">Kontrak Aktif Vista Media</span>
+                                        <div class="ml-4 w-8 h-1 bg-lime-700"></div>
+                                        <span class="ml-2 text-xs w-[220px]">Kontrak Aktif Visual Mandiri</span>
+                                        <div class="ml-4 w-8 h-1 bg-blue-700"></div>
+                                        <span class="ml-2 text-xs w-[220px]">Kontrak Aktif SMP</span>
+                                    </div>
+                                    <div class="flex w-full justify-end mt-1 text-stone-900">
+                                        <label for="">Halaman {{ $pageNumber + 1 }} dari
+                                            {{ $totalPages }}</label>
+                                    </div>
                                 </div>
                             </div>
                             @php

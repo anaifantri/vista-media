@@ -53,12 +53,12 @@
             <!-- Title Show Quotatin end -->
             <div id="pdfPreview">
                 <div class="flex justify-center w-full">
-                    <div class="w-[950px] h-[1345px] mt-1 bg-white">
+                    <div class="w-[950px] h-[1345px] mt-1 bg-white p-4">
                         <!-- Header start -->
                         @include('dashboard.layouts.letter-header')
                         <!-- Header end -->
                         <!-- Body start -->
-                        <div class="h-[1125px]">
+                        <div class="h-[1110px]">
                             <div class="flex justify-center">
                                 <div class="w-[725px] mt-2">
                                     <div class="flex">
@@ -305,8 +305,8 @@
                                 @include('dashboard.layouts.letter-header')
                                 <!-- Header end -->
                                 <!-- Body start -->
-                                <div class="h-[1125px]">
-                                    <div class="flex w-full h-[50px] justify-center items-center mt-1">
+                                <div class="h-[1110px]">
+                                    <div class="flex w-full h-[50px] justify-center items-center">
                                         <div
                                             class="flex w-[800px] h-[50px] justify-start items-center bg-slate-50 border rounded-t-xl">
                                             <span
