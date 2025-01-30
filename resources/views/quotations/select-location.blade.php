@@ -160,7 +160,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="ml-4" hidden>
+                            <div class="ml-4">
                                 <span class="text-base text-stone-100">Jenis Penawaran</span>
                                 <div class="flex items-center">
                                     <input id="existingRadioService" class="outline-none" type="radio"
