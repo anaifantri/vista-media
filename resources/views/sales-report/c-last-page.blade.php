@@ -132,7 +132,7 @@
                             $quotRevisionId = $revision->id;
                             $notes = json_decode($revision->notes);
                             $created_at = $revision->created_at;
-                            $products = json_decode($revision->products);
+                            // $products = json_decode($revision->products);
                             $payment_terms = json_decode($revision->payment_terms);
                             $price = json_decode($revision->price);
                             $dataApprovals = $sale->quotation->quotation_approvals;
@@ -143,7 +143,7 @@
                             $quotId = $sale->quotation->id;
                             $notes = json_decode($sale->quotation->notes);
                             $created_at = $sale->quotation->created_at;
-                            $products = json_decode($sale->quotation->products);
+                            // $products = json_decode($sale->quotation->products);
                             $payment_terms = json_decode($sale->quotation->payment_terms);
                             $price = json_decode($sale->quotation->price);
                             $dataApprovals = $sale->quotation->quotation_approvals;
@@ -151,11 +151,13 @@
                             $dataOrders = $sale->quotation->quotation_orders;
                         }
                         $clients = json_decode($sale->quotation->clients);
-                        foreach ($products as $product) {
-                            if ($product->code == $sale->product_code) {
-                                $description = json_decode($product->description);
-                            }
-                        }
+                        // foreach ($products as $product) {
+                        //     if ($product->code == $sale->product_code) {
+                        //         $description = json_decode($product->description);
+                        //     }
+                        // }
+                        $product = json_decode($sale->product);
+                        $description = json_decode($product->description);
                     @endphp
                     @if ($loop->iteration > $i * 8 && $loop->iteration < ($i + 1) * 8 + 1)
                         <tr>

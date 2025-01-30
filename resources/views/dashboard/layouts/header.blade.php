@@ -3,7 +3,7 @@
         <div class="flex items-center relative justify-between">
             <!-- Logo & Tittle Start-->
             <div class="flex items-center ml-2 px-2 w-full sm:max-w-[180px]">
-                <a href="/dashboard" class="flex font-bold text-lg py-3">
+                <a href="/dashboard/{{ $company->id }}" class="flex font-bold text-lg py-3">
                     <div
                         class="flex mx-2 items-center w-[30px] h-[30px] rounded-full bg-white border border-slate-200 drop-shadow-xl shadow-inner">
                         <img class="sm:w-[26px] sm:h-[26px] flex m-auto" src="/img/logo-vista-media.png" alt="">
