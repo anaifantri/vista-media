@@ -116,16 +116,6 @@
         </div>
     </div>
     <!-- table start -->
-    @if (count($products) == 1)
-        <div class="flex justify-center mt-2">
-            <div class="flex w-[725px]">
-                <input id="cbIncludeInstall" class="text-xs" type="checkbox" onclick="cbIncludeInstallAction(this)">
-                <label class="text-xs ml-2">Include Biaya Pasang</label>
-                <input id="cbIncludePrint" class="text-xs ml-4" type="checkbox" onclick="cbIncludePrintAction(this)">
-                <label class="text-xs ml-2">Include Biaya Cetak</label>
-            </div>
-        </div>
-    @endif
     <div class="flex justify-center">
         @php
             $dataDescription = json_decode($locations[0]->description);
