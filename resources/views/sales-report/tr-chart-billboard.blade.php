@@ -131,6 +131,12 @@
                                         @if ($lineWidth <= 31)
                                             <a
                                                 href="/marketing/sales/{{ $locationSale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
+                                        @elseif ($lineWidth > 31 && $lineWidth <= 45)
+                                            <a
+                                                href="/marketing/sales/{{ $locationSale->id }}">{{ substr($clients->name, 0, 6) }}..</a>
+                                        @elseif ($lineWidth > 45 && $lineWidth <= 60)
+                                            <a
+                                                href="/marketing/sales/{{ $locationSale->id }}">{{ substr($clients->name, 0, 8) }}..</a>
                                         @else
                                             <a
                                                 href="/marketing/sales/{{ $locationSale->id }}">{{ $clients->name }}</a>
@@ -156,13 +162,6 @@
                                             <div class="h-[2px] bg-blue-700 w-[1px]">
                                             </div>
                                         @endif
-                                        {{-- @if ($counter % 2 == 0)
-                                            <div class="h-[2px] bg-stone-700 w-[1px]">
-                                            </div>
-                                        @else
-                                            <div class="h-[2px] bg-red-700 w-[1px]">
-                                            </div>
-                                        @endif --}}
                                     @endif
                                 @endfor
                             @else

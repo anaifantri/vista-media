@@ -90,12 +90,12 @@
             <div id="pdfPreview">
                 <div class="flex justify-center w-full">
                     <div>
-                        <div class="w-[950px] h-[1345px] bg-white mt-1">
+                        <div class="w-[950px] h-[1345px] bg-white mt-2 p-4">
                             <!-- Header start -->
                             @include('dashboard.layouts.letter-header')
                             <!-- Header end -->
                             <!-- Body start -->
-                            <div class="h-[1125px]">
+                            <div class="h-[1100px]">
                                 <div class="flex justify-center">
                                     <div class="w-[725px]">
                                         <div class="flex justify-center mt-5">
@@ -354,14 +354,14 @@
                 </div>
                 @if ($category != 'Service')
                     <div class="mt-2 w-[950px]">
-                        <div class="w-[950px] h-[1345px] mt-2 bg-white">
+                        <div class="w-[950px] h-[1345px] mt-1 bg-white p-4">
                             <!-- Header start -->
                             @include('dashboard.layouts.letter-header')
                             <!-- Header end -->
                             <!-- Body start -->
-                            <div class="h-[1125px]">
+                            <div class="h-[1100px]">
                                 <div>
-                                    <div class="flex justify-center mt-4 w-full">
+                                    <div class="flex justify-center mt-2 w-full">
                                         <label class="flex text-lg text-center font-bold underline text-black mt-4">DETAIL
                                             PENJUALAN</label>
                                     </div>
