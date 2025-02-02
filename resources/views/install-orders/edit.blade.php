@@ -21,7 +21,7 @@
         $updated_by->id = auth()->user()->id;
         $updated_by->name = auth()->user()->name;
         $updated_by->position = auth()->user()->position;
-        $photo = $install_order->location->location_photos->where('set_default', true)->last();
+        $photo = $product->location_photo;
     @endphp
     <form method="post" action="/marketing/install-orders/{{ $install_order->id }}" enctype="multipart/form-data">
         @method('put')
@@ -171,7 +171,7 @@
                                                                     <div
                                                                         class="flex justify-center items-center border mt-1 p-1">
                                                                         <img class="m-auto flex items-center justify-center max-w-[260px]"
-                                                                            src="{{ asset('storage/' . $photo->photo) }}">
+                                                                            src="{{ asset('storage/' . $photo) }}">
                                                                     </div>
                                                                 </td>
                                                                 <td class="border p-1 text-center">
@@ -393,7 +393,7 @@
                                                                     <div
                                                                         class="flex justify-center items-center border mt-1 p-1">
                                                                         <img class="m-auto flex items-center justify-center max-w-[260px]"
-                                                                            src="{{ asset('storage/' . $photo->photo) }}">
+                                                                            src="{{ asset('storage/' . $photo) }}">
                                                                     </div>
                                                                 </td>
                                                                 <td class="border p-1 text-center">

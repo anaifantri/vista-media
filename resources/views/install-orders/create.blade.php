@@ -100,7 +100,11 @@
             <input type="text" name="main_sale_id" id="main_sale_id" hidden>
         @elseif ($orderType == 'sales')
             <input type="text" name="sale_id" id="sale_id" value="{{ $dataOrder->id }}" hidden>
-            <input type="text" name="main_sale_id" id="main_sale_id" value="{{ $product->sale_id }}" hidden>
+            @if ($product->type == 'new')
+                <input type="text" name="main_sale_id" id="main_sale_id" hidden>
+            @else
+                <input type="text" name="main_sale_id" id="main_sale_id" value="{{ $product->sale_id }}" hidden>
+            @endif
         @else
             <input type="text" name="sale_id" id="sale_id" hidden>
             <input type="text" name="main_sale_id" id="main_sale_id" hidden>
