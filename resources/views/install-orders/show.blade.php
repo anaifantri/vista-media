@@ -18,7 +18,6 @@
         ];
         $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
         $product = json_decode($install_order->product);
-        $photo = $install_order->location->location_photos->where('set_default', true)->last();
     @endphp
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
@@ -178,7 +177,7 @@
                                                         <td class="border p-1 text-center">
                                                             <div class="flex justify-center items-center border mt-1 p-1">
                                                                 <img class="m-auto flex items-center justify-center max-w-[260px]"
-                                                                    src="{{ asset('storage/' . $photo->photo) }}">
+                                                                    src="{{ asset('storage/' . $product->location_photo) }}">
                                                             </div>
                                                         </td>
                                                         <td class="border p-1 text-center">
@@ -367,7 +366,7 @@
                                                         <td class="border p-1 text-center">
                                                             <div class="flex justify-center items-center border mt-1 p-1">
                                                                 <img class="m-auto flex items-center justify-center max-w-[260px]"
-                                                                    src="{{ asset('storage/' . $photo->photo) }}">
+                                                                    src="{{ asset('storage/' . $product->location_photo) }}">
                                                             </div>
                                                         </td>
                                                         <td class="border p-1 text-center">
