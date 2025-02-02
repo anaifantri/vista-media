@@ -51,8 +51,6 @@ class InstallOrderController extends Controller
     public function installOrders(String $status, String $company_id)
     { 
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
-            // $install_orders = null;
-            // $getStatus = "";
             if($status == "install-sales"){
                 $getStatus = "Berbayar";
                 $install_orders = InstallOrder::where('company_id', $company_id)->filter(request('search'))->sales()->orderBy("number", "asc")->paginate(10)->withQueryString();
@@ -172,14 +170,52 @@ class InstallOrderController extends Controller
                             }
                         }
                         if($freeInstall < count($dataInstalls) || $freeInstall == 0){
-                            foreach($price->objInstalls as $install){
-                                if($install->code == $product->code){
-                                    if($install->price != 0){
-                                        $sales->push($dataSale);
-                                        array_push($clients,json_decode($dataSale->quotation->clients));
-                                        array_push($freeInstalls, $freeInstall);
-                                        array_push($installTypes, $installType);
-                                        array_push($usedInstalls, count($dataInstalls));
+                            $getSales = Sale::where('quotation_id', $dataSale->quotation_id)->get();
+                            $sameCode = false;
+                            $index = 0;
+                            if (count($getSales) > 1) {
+                                foreach ($getSales as $getSale) {
+                                    $saleProduct = json_decode($getSale->product);
+                                    if ($saleProduct->code == $product->code) {
+                                        $sameCode = true;
+                                    } else {
+                                        $sameCode = false;
+                                    }
+                                }
+                                if ($sameCode == true) {
+                                    $i = 0;
+                                    foreach ($getSales as $getSale) {
+                                        if ($getSale->id == $dataSale->id) {
+                                            $index = $i;
+                                        }
+                                        $i++;
+                                    }
+                                }
+                            }
+                            if (count($getSales) > 1 && $sameCode == true){
+                                $i = 0;
+                                foreach($price->objInstalls as $install){
+                                    if($i == $index){
+                                        if($install->price != 0){
+                                            $sales->push($dataSale);
+                                            array_push($clients,json_decode($dataSale->quotation->clients));
+                                            array_push($freeInstalls, $freeInstall);
+                                            array_push($installTypes, $installType);
+                                            array_push($usedInstalls, count($dataInstalls));
+                                        }
+                                    }
+                                    $i++;
+                                }
+                            }else{
+                                foreach($price->objInstalls as $install){
+                                    if($install->code == $product->code){
+                                        if($install->price != 0){
+                                            $sales->push($dataSale);
+                                            array_push($clients,json_decode($dataSale->quotation->clients));
+                                            array_push($freeInstalls, $freeInstall);
+                                            array_push($installTypes, $installType);
+                                            array_push($usedInstalls, count($dataInstalls));
+                                        }
                                     }
                                 }
                             }

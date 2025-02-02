@@ -87,7 +87,9 @@ class PrintOrder extends Model
                         $query->whereHas('quotation', function($query) use ($search){
                             $query->whereRaw('LOWER(JSON_EXTRACT(clients, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
                             ->orWhereRaw('LOWER(JSON_EXTRACT(clients, "$.company")) like ?', ['"%' . strtolower($search) . '%"']);
-                        });
+                        })
+                        ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.address")) like ?', ['"%' . strtolower($search) . '%"'])
+                        ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.code")) like ?', ['"%' . strtolower($search) . '%"']);
                     })
                     ->orWhereHas('vendor', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%')

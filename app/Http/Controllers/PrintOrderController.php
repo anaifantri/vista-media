@@ -168,7 +168,6 @@ class PrintOrderController extends Controller
                                 if($print->code == $dataSale->product->code){
                                     $printProduct = $print->printProduct;
                                     $sideView = $price->objSideView[$index];
-                                    // dd($sideView);
                                 }
                                 $index++;
                             }
@@ -181,7 +180,6 @@ class PrintOrderController extends Controller
                                 if($print->code == $product->code){
                                     $printProduct = $print->printProduct;
                                     $sideView = $price->objSideView[$index];
-                                    // dd($sideView);
                                 }
                                 $index++;
                             }
@@ -204,13 +202,6 @@ class PrintOrderController extends Controller
                                 array_push($usedPrints, count($dataPrints));
                             }
                         }
-                        // if($freePrint < count($dataPrints) || $freePrint == 0){
-                        //     $sales->push($dataSale);
-                        //     array_push($clients,json_decode($dataSale->quotation->clients));
-                        //     array_push($freePrints, $freePrint);
-                        //     array_push($printProducts, $printProduct);
-                        //     array_push($usedPrints, count($dataPrints));
-                        // }
                     }
                     $locations = Location::with('sales')->get();
                     $quotations = Quotation::with('sales')->get();
