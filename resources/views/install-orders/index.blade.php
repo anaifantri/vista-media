@@ -98,8 +98,70 @@
                             <input type="text" name="annual" value="{{ request('annual') }}" hidden>
                         @endif
                         <div class="flex">
+                            <div class="w-36">
+                                <span class="text-base text-stone-100">Area</span>
+                                @if (request('area'))
+                                    <select class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                        name="area" id="area" onchange="submit()" value="{{ request('area') }}">
+                                        <option value="All">All</option>
+                                        @foreach ($areas as $area)
+                                            @if (request('area') == $area->id)
+                                                <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
+                                            @else
+                                                <option value="{{ $area->id }}">{{ $area->area }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <select class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                        name="area" id="area" onchange="submit()" value="{{ request('area') }}">
+                                        <option value="All">All</option>
+                                        @foreach ($areas as $area)
+                                            @if (request('area') == $area->id)
+                                                <option value="{{ $area->id }}">{{ $area->area }}</option>
+                                            @else
+                                                <option value="{{ $area->id }}">{{ $area->area }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </div>
+                            <div class="w-36 ml-2">
+                                <span class="text-base text-stone-100">Kota</span>
+                                @if (request('area'))
+                                    @if (request('area') != 'All')
+                                        <select id="city"
+                                            class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                            name="city" onchange="submit()">
+                                            <option value="All">All</option>
+                                            @foreach ($cities as $city)
+                                                @if (request('area') == $city->area_id)
+                                                    @if (request('city') == $city->id)
+                                                        <option value="{{ $city->id }}" selected>{{ $city->city }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $city->id }}">{{ $city->city }}</option>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    @else
+                                        <select id="city"
+                                            class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                            name="city" onchange="submit()" disabled>
+                                            <option value="All">All</option>
+                                        </select>
+                                    @endif
+                                @else
+                                    <select id="city"
+                                        class="w-full border rounded-lg text-sm text-stone-900 outline-none" name="city"
+                                        onchange="submit()" disabled>
+                                        <option value="All">All</option>
+                                    </select>
+                                @endif
+                            </div>
                             @if (!request('todays') && !request('weekday') && !request('monthly') && !request('annual'))
-                                <div class="w-16">
+                                <div class="w-16 ml-2">
                                     @php
                                         if (request('year')) {
                                             $y = date('Y', request('year'));

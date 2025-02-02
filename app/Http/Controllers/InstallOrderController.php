@@ -32,14 +32,16 @@ class InstallOrderController extends Controller
     public function index(String $company_id): Response
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
-            $dataInstalls = InstallOrder::where('company_id', $company_id)->year()->month()->days()->filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->get();
+            $dataInstalls = InstallOrder::where('company_id', $company_id)->area()->city()->year()->month()->days()->filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->get();
             $sale = Sale::with('install_order')->get();
             $quotations = Quotation::with('sales')->get();
             $print_order = PrintOrder::with('install_order')->get();
             $locations = Location::with('install_orders')->get();
             return response()-> view ('install-orders.index', [
-                'install_orders'=>InstallOrder::where('company_id', $company_id)->year()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
+                'install_orders'=>InstallOrder::where('company_id', $company_id)->area()->city()->year()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
                 'data_installs'=>$dataInstalls,
+                'areas' => Area::all(),
+                'cities' => City::all(),
                 'title' => 'Daftar SPK Pemasangan Gambar',
                 compact('sale', 'print_order', 'locations', 'quotations')
             ]);

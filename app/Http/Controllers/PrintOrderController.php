@@ -32,15 +32,17 @@ class PrintOrderController extends Controller
     public function index(String $company_id): Response
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
-            $dataPrints = PrintOrder::where('company_id', $company_id)->year()->month()->days()->filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->get();
+            $dataPrints = PrintOrder::where('company_id', $company_id)->area()->city()->year()->month()->days()->filter(request('search'))->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "asc")->get();
             $sale = Sale::with('print_order')->get();
             $quotations = Quotation::with('sales')->get();
             $vendors = Vendor::with('print_orders')->get();
             return response()-> view ('print-orders.index', [
-                'print_orders'=>PrintOrder::where('company_id', $company_id)->year()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
+                'print_orders'=>PrintOrder::where('company_id', $company_id)->area()->city()->year()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
                 'data_prints'=>$dataPrints,
-                'amount'=>PrintOrder::where('company_id', $company_id)->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sum('price'),
+                'amount'=>PrintOrder::where('company_id', $company_id)->area()->city()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sum('price'),
                 'title' => 'Daftar SPK Cetak',
+                'areas' => Area::all(),
+                'cities' => City::all(),
                 compact('sale', 'vendors', 'quotations')
             ]);
         } else {

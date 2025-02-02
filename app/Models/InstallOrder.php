@@ -12,6 +12,22 @@ class InstallOrder extends Model
     use Sortable;
     protected $guarded = ['id'];
 
+    public function scopeArea($query){
+        if (request('area') != 'All') {
+            return $query->whereHas('location', function($query){
+                    return $query->where('area_id', 'like', '%' . request('area') . '%');
+            });
+        }
+    }
+
+    public function scopeCity($query){
+        if (request('city') != 'All') {
+            return $query->whereHas('location', function($query){
+                    return $query->where('city_id', 'like', '%' . request('city') . '%');
+            });
+        }
+    }
+
     public function scopePeriode($query){
         if(request('periode')){
             if(request('periode') != ""){
@@ -91,7 +107,13 @@ class InstallOrder extends Model
                     })
                     ->orWhereHas('location', function($query) use ($search){
                         $query->where('code', 'like', '%' . $search . '%')
-                            ->orWhere('address', 'like', '%' . $search . '%');
+                            ->orWhere('address', 'like', '%' . $search . '%')
+                            ->orWhereHas('area', function($query) use ($search){
+                                $query->where('area', 'like', '%' . $search . '%');
+                            })
+                            ->orWhereHas('city', function($query) use ($search){
+                                $query->where('city', 'like', '%' . $search . '%');
+                            });
                     })
                 );
     }
