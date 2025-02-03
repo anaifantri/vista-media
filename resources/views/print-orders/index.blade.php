@@ -357,9 +357,13 @@
                                         {{ date('d', strtotime($order->created_at)) }}-{{ $bulan[(int) date('m', strtotime($order->created_at))] }}-{{ date('Y', strtotime($order->created_at)) }}
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                        <a href="/marketing/sales/{{ $order->sale->id }}">
-                                            {{ substr($order->sale->number, 0, 8) }}..
-                                        </a>
+                                        @if ($order->sale)
+                                            <a href="/marketing/sales/{{ $order->sale->id }}">
+                                                {{ substr($order->sale->number, 0, 8) }}..
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         {{ $product->location_code }} - {{ $product->city_code }}
