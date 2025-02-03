@@ -154,8 +154,8 @@
                                     @endif
                                 @else
                                     <select id="city"
-                                        class="w-full border rounded-lg text-sm text-stone-900 outline-none" name="city"
-                                        onchange="submit()" disabled>
+                                        class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                        name="city" onchange="submit()" disabled>
                                         <option value="All">All</option>
                                     </select>
                                 @endif

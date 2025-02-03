@@ -96,7 +96,7 @@ class InstallOrderController extends Controller
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
             if($request->orderType){
                 if($request->orderType == "locations"){
-                    $locations = Location::print()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(30)->withQueryString();
+                    $locations = Location::takedown()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(30)->withQueryString();
                     return view ('install-orders.select-location', [
                         'locations'=>$locations,
                         'areas' => Area::all(),
