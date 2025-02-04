@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('install_orders', function (Blueprint $table) {
-            $table->string('design')->nullable()->change();
+        Schema::table('print_orders', function (Blueprint $table) {
+            $table->date('print_at')->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('install_orders', function (Blueprint $table) {
-            $table->string('design')->nullable(false)->change();
+        Schema::table('print_orders', function (Blueprint $table) {
+            $table->dropColumn('print_at');
         });
     }
 };

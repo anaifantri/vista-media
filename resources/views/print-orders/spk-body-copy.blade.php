@@ -8,40 +8,34 @@
                     <div class="flex">
                         <div class="w-[240px] border rounded-md p-1">
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Tgl. SPK</label>
+                                <label class="flex text-sm text-black w-16">Tgl. Cetak</label>
                                 <label class="flex text-sm text-black">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
-                                    value="{{ $spkDate }}" readonly>
+                                <input id="printAtCopy" type="date"
+                                    class="flex ml-1 w-32 text-sm text-black border rounded-sm outline-none px-1"
+                                    readonly>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Design</label>
-                                <label class="flex text-sm text-black">:</label>
-                                <input id="copyDesign" type="text" placeholder="Terisi Otomatis"
-                                    value="{{ old('input_theme') }}"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1" readonly>
-                            </div>
-                            <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Ukuran</label>
+                                <label class="flex text-sm text-black w-16">Ukuran</label>
                                 <label class="flex text-sm text-black">:</label>
                                 <input type="text" value="{{ $size }}"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1" readonly>
+                                    class="flex ml-1 text-sm w-32 text-black border rounded-sm outline-none px-1"
+                                    readonly>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Status</label>
+                                <label class="flex text-sm text-black w-16">Status</label>
                                 <label class="flex text-sm text-black">:</label>
                                 @if ($orderType == 'free')
                                     <input id="orderStatus" type="text"
                                         value="Free ke {{ $usedPrint + 1 }} dari {{ $freePrint }}"
-                                        class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
+                                        class="flex ml-1 w-36 text-sm text-black border rounded-sm outline-none px-1"
                                         readonly>
                                 @elseif ($orderType == 'sales')
                                     <input id="orderStatus" type="text" value="Berbayar"
-                                        class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
+                                        class="flex ml-1 w-36 text-sm text-black border rounded-sm outline-none px-1"
                                         readonly>
                                 @else
                                     <input id="orderStatus" type="text" value="Free lain-lain"
-                                        class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
+                                        class="flex ml-1 w-36 text-sm text-black border rounded-sm outline-none px-1"
                                         readonly>
                                 @endif
                             </div>
@@ -102,6 +96,14 @@
                                     class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1" readonly>
                             </div>
                         </div>
+                    </div>
+                    <div class="flex mt-1">
+                        <label class="flex text-sm text-black w-24">Design</label>
+                        <label class="flex text-sm text-black">:</label>
+                        <input id="copyDesign" type="text" placeholder="Terisi Otomatis"
+                            value="{{ old('input_theme') }}"
+                            class="flex ml-1 text-sm w-[350px] text-black border rounded-sm outline-none px-1"
+                            readonly>
                     </div>
                     <div class="flex mt-1">
                         <label class="flex text-sm text-black w-24">Finishing</label>

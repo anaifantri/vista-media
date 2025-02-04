@@ -8,34 +8,24 @@
                     <div class="flex">
                         <div class="w-[240px] border rounded-md p-1">
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Tgl. SPK</label>
+                                <label class="flex text-sm text-black w-16">Tgl. Cetak</label>
                                 <label class="flex text-sm text-black">:</label>
-                                <label class="flex text-sm border rounded-sm px-1 w-[175px] text-black ml-1">
-                                    {{ date('d', strtotime($print_orders->created_at)) }}
-                                    {{ $bulan[(int) date('m', strtotime($print_orders->created_at))] }}
-                                    {{ date('Y', strtotime($print_orders->created_at)) }}
-                                </label>
+                                <input id="printAtCopy" type="date"
+                                    class="flex ml-1 w-36 text-sm text-black border rounded-sm outline-none px-1"
+                                    value="{{ $print_orders->print_at }}" readonly>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Design</label>
+                                <label class="flex text-sm text-black w-16">Ukuran</label>
                                 <label class="flex text-sm text-black">:</label>
-                                <label id="companyDesign"
-                                    class="flex text-sm border rounded-sm px-1 w-[175px] text-black ml-1">
-                                    {{ $print_orders->theme }}
-                                </label>
-                            </div>
-                            <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Ukuran</label>
-                                <label class="flex text-sm text-black">:</label>
-                                <label class="flex text-sm border rounded-sm px-1 w-[175px] text-black ml-1">
+                                <label class="flex text-sm border rounded-sm px-1 w-36 text-black ml-1">
                                     {{ $product->location_size }}
                                 </label>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Status</label>
+                                <label class="flex text-sm text-black w-16">Status</label>
                                 <label class="flex text-sm text-black">:</label>
                                 <label
-                                    class="flex text-sm border rounded-sm px-1 w-[175px] text-black ml-1">{{ $product->status }}</label>
+                                    class="flex text-sm border rounded-sm px-1 w-36 text-black ml-1">{{ $product->status }}</label>
                             </div>
                             @if ($product->location_side == 2)
                                 @if ($product->side_left == true && $product->side_right == true)
@@ -105,6 +95,13 @@
                                 </label>
                             </div>
                         </div>
+                    </div>
+                    <div class="flex mt-1">
+                        <label class="flex text-sm text-black w-24">Design</label>
+                        <label class="flex text-sm text-black">:</label>
+                        <label id="companyDesign" class="flex text-sm border rounded-sm px-1 w-[350px] text-black ml-1">
+                            {{ $print_orders->theme }}
+                        </label>
                     </div>
                     <div class="flex mt-1">
                         <label class="flex text-sm text-black w-24">Finishing</label>

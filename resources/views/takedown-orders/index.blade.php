@@ -13,8 +13,12 @@
         'Friday' => 'Jumat',
         'Saturday' => 'Sabtu',
     ];
-    if (request('days') && request('days') != 'All') {
-        $periode = request('days') . ' ' . $bulan_full[request('month')] . ' ' . request('year');
+    if (request('days') && request('month')) {
+        if (request('days') != 'All' && request('month') != 'All') {
+            $periode = request('days') . ' ' . $bulan_full[request('month')] . ' ' . request('year');
+        } else {
+            $periode = 'Tahun ' . request('year');
+        }
     } elseif (request('todays')) {
         $periode = (int) date('d', strtotime(request('todays'))) . ' ' . $bulan_full[(int) date('m', strtotime(request('todays')))] . ' ' . date('Y', strtotime(request('todays')));
     } elseif (request('month') && request('month') != 'All') {
@@ -41,8 +45,8 @@
                             @elseif (request('annual'))
                                 Tahun Ini
                             @else
-                                @if (request('days') || request('month'))
-                                    @if (request('days') && request('days') != 'All')
+                                @if (request('days') && request('month'))
+                                    @if (request('days') != 'All' && request('month') != 'All')
                                         {{ request('days') }} {{ $bulan_full[request('month')] }} {{ request('year') }}
                                     @elseif (request('month') && request('month') != 'All')
                                         {{ $bulan_full[request('month')] }} {{ request('year') }}
@@ -84,7 +88,7 @@
                             @endcanany
                         </div>
                     </div>
-                    <form action="/takedown-orders/index/{{ $company->id }}">
+                    <form id="formFilter" action="/takedown-orders/index/{{ $company->id }}">
                         @if (request('todays'))
                             <input type="text" name="todays" value="{{ request('todays') }}" hidden>
                         @endif
@@ -98,8 +102,70 @@
                             <input type="text" name="annual" value="{{ request('annual') }}" hidden>
                         @endif
                         <div class="flex">
+                            <div class="w-36">
+                                <span class="text-base text-stone-100">Area</span>
+                                @if (request('area'))
+                                    <select class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                        name="area" id="area" onchange="submit()" value="{{ request('area') }}">
+                                        <option value="All">All</option>
+                                        @foreach ($areas as $area)
+                                            @if (request('area') == $area->id)
+                                                <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
+                                            @else
+                                                <option value="{{ $area->id }}">{{ $area->area }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <select class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                        name="area" id="area" onchange="submit()" value="{{ request('area') }}">
+                                        <option value="All">All</option>
+                                        @foreach ($areas as $area)
+                                            @if (request('area') == $area->id)
+                                                <option value="{{ $area->id }}">{{ $area->area }}</option>
+                                            @else
+                                                <option value="{{ $area->id }}">{{ $area->area }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </div>
+                            <div class="w-36 ml-2">
+                                <span class="text-base text-stone-100">Kota</span>
+                                @if (request('area'))
+                                    @if (request('area') != 'All')
+                                        <select id="city"
+                                            class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                            name="city" onchange="submit()">
+                                            <option value="All">All</option>
+                                            @foreach ($cities as $city)
+                                                @if (request('area') == $city->area_id)
+                                                    @if (request('city') == $city->id)
+                                                        <option value="{{ $city->id }}" selected>{{ $city->city }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $city->id }}">{{ $city->city }}</option>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    @else
+                                        <select id="city"
+                                            class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                            name="city" onchange="submit()" disabled>
+                                            <option value="All">All</option>
+                                        </select>
+                                    @endif
+                                @else
+                                    <select id="city"
+                                        class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                                        name="city" onchange="submit()" disabled>
+                                        <option value="All">All</option>
+                                    </select>
+                                @endif
+                            </div>
                             @if (!request('todays') && !request('weekday') && !request('monthly') && !request('annual'))
-                                <div class="w-16">
+                                <div class="w-16 ml-2">
                                     @php
                                         if (request('year')) {
                                             $y = date('Y', request('year'));
@@ -118,26 +184,39 @@
                                         $d = cal_days_in_month(CAL_GREGORIAN, $m, $y);
                                     @endphp
                                     <span class="flex text-base text-stone-100">Tanggal</span>
-                                    @if (request('month') && request('month') != 'All')
-                                        <select name="days" id="days"
-                                            class="flex outline-none text-sm text-stone-900 border rounded-lg w-14 p-1"
-                                            type="date" onchange="submit()">
-                                            <option value="All">All</option>
-                                            @if (request('days') && request('days') != 'All')
-                                                @for ($i = 1; $i <= $d; $i++)
-                                                    @if ($i == request('days'))
-                                                        <option value="{{ $i }}" selected>{{ $i }}
-                                                        </option>
-                                                    @else
+                                    @if (request('month'))
+                                        @if (request('month') != 'All')
+                                            <select name="days" id="days"
+                                                class="flex outline-none text-sm text-stone-900 border rounded-lg w-14 p-1"
+                                                type="date" onchange="submit()">
+                                                <option value="All">All</option>
+                                                @if (request('days') && request('days') != 'All')
+                                                    @for ($i = 1; $i <= $d; $i++)
+                                                        @if ($i == request('days'))
+                                                            <option value="{{ $i }}" selected>
+                                                                {{ $i }}
+                                                            </option>
+                                                        @else
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                            </option>
+                                                        @endif
+                                                    @endfor
+                                                @else
+                                                    @for ($i = 1; $i <= $d; $i++)
                                                         <option value="{{ $i }}">{{ $i }}</option>
-                                                    @endif
+                                                    @endfor
+                                                @endif
+                                            </select>
+                                        @else
+                                            <select name="days" id="days"
+                                                class="flex outline-none text-sm text-stone-900 border rounded-lg w-14 p-1"
+                                                type="date" onchange="submit()" disabled>
+                                                <option value="All">All</option>
+                                                @for ($i = 0; $i < $d; $i++)
+                                                    <option value="{{ $i + 1 }}">{{ $i + 1 }}</option>
                                                 @endfor
-                                            @else
-                                                @for ($i = 1; $i <= $d; $i++)
-                                                    <option value="{{ $i }}">{{ $i }}</option>
-                                                @endfor
-                                            @endif
-                                        </select>
+                                            </select>
+                                        @endif
                                     @else
                                         <select name="days" id="days"
                                             class="flex outline-none text-sm text-stone-900 border rounded-lg w-14 p-1"
@@ -153,7 +232,7 @@
                                     <span class="text-base text-stone-100">Bulan</span>
                                     <select name="month"
                                         class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
-                                        onchange="submit()">
+                                        onchange="setDays(this)">
                                         <option value="All">All</option>
                                         @if (request('month'))
                                             @for ($i = 1; $i < 13; $i++)
@@ -383,6 +462,15 @@
     <script src="/js/savepdf.js"></script>
 
     <script>
+        setDays = (sel) => {
+            if (sel.value == "All") {
+                document.getElementById("days").value = "All";
+                document.getElementById("formFilter").submit();
+            } else {
+                document.getElementById("formFilter").submit();
+            }
+        }
+
         pdfPreview = () => {
             window.scrollTo({
                 top: 0,

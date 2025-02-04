@@ -34,6 +34,8 @@ class TakedownOrderController extends Controller
             return response()-> view ('takedown-orders.index', [
                 'takedown_orders'=>TakedownOrder::where('company_id', $company_id)->year()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
                 'data_takedowns'=>$dataTakedowns,
+                'areas' => Area::all(),
+                'cities' => City::all(),
                 'title' => 'Daftar SPK Penurunan Gambar',
                 compact('install_order', 'locations')
             ]);

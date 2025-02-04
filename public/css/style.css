@@ -1647,6 +1647,10 @@ video {
   width: max-content;
 }
 
+.w-\[135px\] {
+  width: 135px;
+}
+
 .max-w-\[260px\] {
   max-width: 260px;
 }

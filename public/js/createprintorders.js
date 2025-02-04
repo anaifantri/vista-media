@@ -283,3 +283,7 @@ formVendorSubmit = (sel) =>{
     document.getElementById("vendorID").value = sel.value;
     document.getElementById("formVendor").submit();
 }
+
+getPrintAt = (sel) => {
+    document.getElementById("printAtCopy").value = sel.value;
+}

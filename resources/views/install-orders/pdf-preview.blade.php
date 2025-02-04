@@ -100,16 +100,18 @@
                                                         rowspan="2">
                                                         No. SPK
                                                     </th>
-                                                    <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24"
+                                                    <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-[72px]"
+                                                        rowspan="2">Tgl. Tayang</th>
+                                                    {{-- <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-24"
                                                         rowspan="2">
-                                                        Klien</th>
+                                                        Klien</th> --}}
                                                     <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-32"
                                                         rowspan="2">
                                                         Tema/Design
                                                     </th>
-                                                    <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-12"
+                                                    <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center w-8"
                                                         rowspan="2">
-                                                        Jumlah
+                                                        Jml.
                                                     </th>
                                                     <th class="text-stone-900 border border-stone-900 text-[0.7rem] text-center"
                                                         colspan="4">Data Lokasi</th>
@@ -154,6 +156,10 @@
                                                                     {{ substr($order->number, 0, 8) }}..
                                                                 </td>
                                                                 <td
+                                                                    class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
+                                                                    {{ date('d', strtotime($order->install_at)) }}-{{ $bulan[(int) date('m', strtotime($order->install_at))] }}-{{ date('Y', strtotime($order->install_at)) }}
+                                                                </td>
+                                                                {{-- <td
                                                                     class="text-stone-900 p-1 border border-stone-900 text-[0.7rem] text-center">
                                                                     @if ($order->sale)
                                                                         @if (strlen($client->name) > 15)
@@ -164,7 +170,7 @@
                                                                     @else
                                                                         {{ $client }}
                                                                     @endif
-                                                                </td>
+                                                                </td> --}}
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
                                                                     @if (strlen($order->theme) > 20)

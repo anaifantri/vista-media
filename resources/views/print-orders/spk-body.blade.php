@@ -8,24 +8,18 @@
                     <div class="flex">
                         <div class="w-[240px] border rounded-md p-1">
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Tgl. SPK</label>
+                                <label class="flex text-sm text-black w-16">Tgl. Cetak</label>
                                 <label class="flex text-sm text-black">:</label>
-                                <input type="text"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
-                                    value="{{ $spkDate }}" readonly>
+                                <input id="printAt" name="print_at" type="date"
+                                    class="flex ml-1 w-32 text-sm text-black border rounded-sm outline-none px-1"
+                                    onchange="getPrintAt(this)" required>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Design</label>
-                                <label class="flex text-sm text-black">:</label>
-                                <input id="inputTheme" type="text" onkeyup="getDesign(this)" name="input_theme"
-                                    placeholder="Input Tema Design" value="{{ old('input_theme') }}"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1">
-                            </div>
-                            <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Ukuran</label>
+                                <label class="flex text-sm text-black w-16">Ukuran</label>
                                 <label class="flex text-sm text-black">:</label>
                                 <input id="size" type="text" value="{{ $size }}"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1" readonly>
+                                    class="flex ml-1 text-sm text-black border w-32 rounded-sm outline-none px-1"
+                                    readonly>
                             </div>
                             @if ((int) filter_var($side, FILTER_SANITIZE_NUMBER_INT) == 2)
                                 <div class="flex mt-1">
@@ -121,6 +115,13 @@
                                     class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1" readonly>
                             </div>
                         </div>
+                    </div>
+                    <div class="flex mt-1">
+                        <label class="flex text-sm text-black w-28">Design</label>
+                        <label class="flex text-sm text-black">:</label>
+                        <input id="inputTheme" type="text" onkeyup="getDesign(this)" name="input_theme"
+                            placeholder="Input Tema Design" value="{{ old('input_theme') }}"
+                            class="flex ml-1 text-sm w-[350px] text-black border rounded-sm outline-none px-1">
                     </div>
                     <div class="flex mt-1">
                         <label class="flex text-sm text-black w-28">Finishing</label>

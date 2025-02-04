@@ -8,31 +8,25 @@
                     <div class="flex">
                         <div class="w-[240px] border rounded-md p-1">
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Tgl. SPK</label>
+                                <label class="flex text-sm text-black w-20">Tgl. Cetak</label>
                                 <label class="flex text-sm text-black">:</label>
-                                <label class="flex border rounded-sm px-1 w-40 text-sm text-black ml-1">
-                                    {{ date('d', strtotime($print_order->created_at)) }}
-                                    {{ $bulan[(int) date('m', strtotime($print_order->created_at))] }}
-                                    {{ date('Y', strtotime($print_order->created_at)) }}
+                                <label class="flex text-sm border rounded-sm px-1 w-[135px] text-black ml-1">
+                                    {{ date('d', strtotime($print_order->print_at)) }}
+                                    {{ $bulan[(int) date('m', strtotime($print_order->print_at))] }}
+                                    {{ date('Y', strtotime($print_order->print_at)) }}
                                 </label>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Design</label>
+                                <label class="flex text-sm text-black w-20">Ukuran</label>
                                 <label class="flex text-sm text-black">:</label>
                                 <label
-                                    class="flex border rounded-sm px-1 w-40 text-sm text-black ml-1">{{ $print_order->theme }}</label>
+                                    class="flex text-sm border rounded-sm px-1 w-[135px] text-black ml-1">{{ $product->location_size }}</label>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Ukuran</label>
+                                <label class="flex text-sm text-black w-20">Status</label>
                                 <label class="flex text-sm text-black">:</label>
                                 <label
-                                    class="flex border rounded-sm px-1 w-40 text-sm text-black ml-1">{{ $product->location_size }}</label>
-                            </div>
-                            <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Status</label>
-                                <label class="flex text-sm text-black">:</label>
-                                <label
-                                    class="flex border rounded-sm px-1 w-40 text-sm text-black ml-1">{{ $product->status }}</label>
+                                    class="flex border rounded-sm px-1 w-[135px] text-sm text-black ml-1">{{ $product->status }}</label>
                             </div>
                         </div>
                         <div class="w-[240px] border rounded-md p-1 ml-1">
@@ -63,6 +57,12 @@
                                     class="flex border rounded-sm px-1 w-40 text-sm text-black ml-1">{{ number_format($print_order->price) }}</label>
                             </div>
                         </div>
+                    </div>
+                    <div class="flex mt-1">
+                        <label class="flex text-sm text-black w-28">Design</label>
+                        <label class="flex text-sm text-black">:</label>
+                        <label
+                            class="flex border rounded-sm px-1 w-[350px] text-sm text-black ml-1">{{ $print_order->theme }}</label>
                     </div>
                     <div class="flex mt-1">
                         <label class="flex text-sm text-black w-28">Finishing</label>

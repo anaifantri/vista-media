@@ -62,16 +62,16 @@ class InstallOrder extends Model
 
     public function scopeYear($query){
         if (request('year')) {
-            return $query->whereYear('created_at', request('year'));
+            return $query->whereYear('install_at', request('year'));
         }else{
-            return $query->whereYear('created_at', Carbon::now()->year);
+            return $query->whereYear('install_at', Carbon::now()->year);
         }
     }
 
     public function scopeMonth($query){
         if(request('month')){
             if(request('month') != 'All'){
-                return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+                return $query->whereYear('install_at', request('year'))->whereMonth('install_at', request('month'));
             }
         }
     }
@@ -79,7 +79,7 @@ class InstallOrder extends Model
     public function scopeDays($query){
         if(request('days')){
             if(request('days') != 'All'){
-                return $query->whereDate('created_at', request('year').'-'.request('month').'-'.request('days'));
+                return $query->whereDate('install_at', request('year').'-'.request('month').'-'.request('days'));
             }
         }
     }

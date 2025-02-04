@@ -31,6 +31,7 @@
                     <td class="td-sign">(___________________________)</td>
                     <td class="text-black text-sm border text-center">
                         <div class="flex w-full justify-center items-center">
+                            Lokasi : {{ $product->location_address }}
                         </div>
                     </td>
                     @if ($product->order_type == 'sales' || $product->order_type == 'free')

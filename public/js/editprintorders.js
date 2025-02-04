@@ -202,3 +202,7 @@ fillData = () =>{
         return false;
     }
 }
+
+getPrintAt = (sel) => {
+    document.getElementById("printAtCopy").value = sel.value;
+}

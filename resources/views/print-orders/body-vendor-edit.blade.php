@@ -8,27 +8,19 @@
                     <div class="flex">
                         <div class="w-[240px] border rounded-md p-1">
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-14">Tgl. SPK</label>
+                                <label class="flex text-sm text-black w-16">Tgl. Cetak</label>
                                 <label class="flex text-sm text-black">:</label>
-                                <label class="flex text-sm border rounded-sm px-1 w-[175px] text-black ml-1">
-                                    {{ date('d', strtotime($print_orders->created_at)) }}
-                                    {{ $bulan[(int) date('m', strtotime($print_orders->created_at))] }}
-                                    {{ date('Y', strtotime($print_orders->created_at)) }}
-                                </label>
+                                <input id="printAt" name="print_at" type="date"
+                                    class="flex ml-1 w-32 text-sm text-black border rounded-sm outline-none px-1"
+                                    value="{{ $print_orders->print_at }}" onchange="getPrintAt(this)" required>
                             </div>
                             <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Design</label>
-                                <label class="flex text-sm text-black">:</label>
-                                <input id="theme" name="theme" value="{{ $print_orders->theme }}"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1 @error('theme') is-invalid @enderror"
-                                    type="text" onkeyup="getTheme(this)" required>
-                            </div>
-                            <div class="flex mt-1">
-                                <label class="flex text-sm text-black w-24">Ukuran</label>
+                                <label class="flex text-sm text-black w-16">Ukuran</label>
                                 <label class="flex text-sm text-black">:</label>
                                 <input id="size" name="size" type="text"
                                     value="{{ $product->location_size }}"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1" disabled>
+                                    class="flex ml-1 w-32 text-sm text-black border rounded-sm outline-none px-1"
+                                    disabled>
                             </div>
                             @if ($product->location_side == 2)
                                 @if ($product->side_left == true && $product->side_right == true)
@@ -104,11 +96,18 @@
                             <div class="flex mt-1">
                                 <label class="flex text-sm text-black w-14">Total</label>
                                 <label class="flex text-sm text-black">:</label>
-                                <input id="price" name="price" value="{{ $print_orders->price }}"
-                                    type="number"
-                                    class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1" readonly>
+                                <input id="price" name="price" value="{{ $print_orders->price }}" type="number"
+                                    class="flex ml-1 w-[350px] text-sm text-black border rounded-sm outline-none px-1"
+                                    readonly>
                             </div>
                         </div>
+                    </div>
+                    <div class="flex mt-1">
+                        <label class="flex text-sm text-black w-28">Design</label>
+                        <label class="flex text-sm text-black">:</label>
+                        <input id="theme" name="theme" value="{{ $print_orders->theme }}"
+                            class="flex ml-1 w-[350px] text-sm text-black border rounded-sm outline-none px-1 @error('theme') is-invalid @enderror"
+                            type="text" onkeyup="getTheme(this)" required>
                     </div>
                     <div class="flex mt-1">
                         <label class="flex text-sm text-black w-28">Finishing</label>

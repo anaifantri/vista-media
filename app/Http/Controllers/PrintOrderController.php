@@ -471,6 +471,7 @@ class PrintOrderController extends Controller
                 'vendor_id' => 'required',
                 'sale_id' => 'nullable',
                 'location_id' => 'required',
+                'print_at' => 'required',
                 'theme' => 'required',
                 'notes' => 'nullable',
                 'product' => 'required',
@@ -479,7 +480,7 @@ class PrintOrderController extends Controller
                 'price' => 'required',
                 'design' => 'required'
             ]);
-
+            // dd($validateData);
             if($request->file('design')){
                 $validateData['design'] = $request->file('design')->store('print-designs');
             }
@@ -555,6 +556,7 @@ class PrintOrderController extends Controller
                 'theme' => 'required',
                 'product' => 'required',
                 'price' => 'required',
+                'print_at' => 'required',
                 'updated_by' => 'required',
                 'notes' => 'nullable'
             ];
