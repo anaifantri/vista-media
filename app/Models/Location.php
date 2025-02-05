@@ -62,7 +62,8 @@ class Location extends Model
         return $query->whereHas('media_category', function($query){
             $query->where('name', '=', 'Videotron');
             })
-                ->orWhereDoesntHave('active_sale');
+                ->orWhereDoesntHave('active_sale')
+                ->orWhereHas('end_sale_soon');
     }
     
     public function scopeQuotationExtend($query){
@@ -101,9 +102,6 @@ class Location extends Model
                     ->orWhereHas('city', function($query) use ($search){
                         $query->where('city', 'like', '%' . $search . '%');
                     })
-                    // ->orWhereHas('media_category', function($query) use ($search){
-                    //     $query->where('name', 'like', '%' . $search . '%');
-                    // })
                     ->orWhereHas('media_size', function($query) use ($search){
                         $query->where('size', 'like', '%' . $search . '%');
                     })
@@ -184,6 +182,13 @@ class Location extends Model
             $query->where('name', '!=', 'Service');
             })
             ->where('end_at', '>', date('Y-m-d'));
+    }
+
+    public function end_sale_soon(){
+        return $this->hasOne(Sale::class, 'location_id', 'id')->whereHas('media_category', function($query){
+            $query->where('name', '!=', 'Service');
+            })
+            ->where('end_at', '<', date('Y-m-d', strtotime("+30 days")));
     }
 
     public function videotron_active_sales(){

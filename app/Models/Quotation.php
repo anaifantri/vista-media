@@ -136,10 +136,6 @@ class Quotation extends Model
         return $this->belongsTo(MediaCategory::class);
     }
 
-    // public function client(){
-    //     return $this->belongsTo(Client::class);
-    // }
-
     public function contact(){
         return $this->belongsTo(Contact::class);
     }
