@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LicenseController;
@@ -168,6 +169,13 @@ Route::get('/print-orders/{status}/{companyid}', [PrintOrderController::class,'p
 Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'getPrintingPrices'])->middleware(['auth','user_access']);
 // Route Service --> end
 // Marketing Group --> end
+
+// Accounting Group --> start
+// Billing  --> start
+Route::resource('/accounting/billings', BillingController::class)->except(['index'])->middleware(['auth','user_access']);
+Route::get('/billings/index/{companyid}', [BillingController::class,'index'])->middleware(['auth','user_access']);
+// Billing  --> end
+// Accounting Group --> end
 
 // Media Group --> start
 Route::resource('/media/companies', CompanyController::class)->middleware(['auth','user_access']);

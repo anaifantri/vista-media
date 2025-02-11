@@ -33,7 +33,8 @@
                     <!-- Child Penagihan Start -->
                     <ul>
                         <li class="group">
-                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]" href="#">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                href="/billings/index/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +78,7 @@
                     </svg>
                 </a>
                 <li id="paymentChildNav"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child Pembayaran Start -->
                     <ul>
                         <li class="group">
@@ -125,7 +126,7 @@
                     </svg>
                 </a>
                 <li id="ppnChildNav"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child PPN Start -->
                     <ul>
                         <li class="group">

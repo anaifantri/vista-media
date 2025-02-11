@@ -161,6 +161,11 @@ class Sale extends Model
     public function install_order(){
         return $this->hasOne(InstallOrder::class, 'sale_id', 'id');
     }
+
+    public function billings(){
+        return $this->hasMany(Billing::class, 'sale_id', 'id');
+    }
+
     public function install_orders(){
         return $this->hasMany(InstallOrder::class, 'sale_id', 'id');
     }
