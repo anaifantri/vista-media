@@ -49,7 +49,7 @@
             -
         @endif
     </td>
-    <td class="text-black text-[0.65rem] border  bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="text-black text-[0.65rem] border  bg-blue-50" rowspan="{{ $slotQty }}">
         <div class="flex h-5 items-center relative">
             @php
                 if (strtotime($start_at) > strtotime(date($thisYear . '-01-01'))) {
@@ -123,26 +123,26 @@
             </div>
         </div>
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50" rowspan="{{ $slotQty }}">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center bg-lime-50" rowspan="{{ $slotQty }}">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50" rowspan="{{ $slotQty }}">
     </td>
 </tr>

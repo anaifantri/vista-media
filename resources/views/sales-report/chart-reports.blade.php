@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="h-[850px] mt-8">
                                     <table class="table-auto w-full">
-                                        <thead>
+                                        <thead class="bg-yellow-100">
                                             <tr>
                                                 <th class="text-black border text-[0.65rem] w-8 text-center" rowspan="2">
                                                     No.
@@ -446,7 +446,7 @@
                     },
                     html2canvas: {
                         dpi: 300,
-                        scale: 1.5,
+                        scale: 2,
                         letterRendering: true,
                         useCORS: true
                     },

@@ -49,26 +49,26 @@
     <td class="text-black border text-[0.65rem] text-center"></td>
     <td class="text-black border text-[0.65rem] text-center"></td>
     <td class="text-black border text-[0.65rem] text-center"></td>
-    <td class="text-black text-[0.65rem] border"></td>
-    <td class="relative text-black border text-[0.65rem] text-center"></td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="text-black text-[0.65rem] border bg-blue-50"></td>
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50"></td>
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
 </tr>

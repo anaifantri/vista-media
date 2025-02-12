@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Billing;
 use App\Models\Company;
 use App\Models\Sale;
+use App\Models\Quotation;
+use App\Models\QuotationRevision;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -36,11 +38,13 @@ class BillingController extends Controller
      */
     public function create(): Response
     {
-        
+        $quotations = Quotation::with('sales')->get();
+        $quotation_revisions = QuotationRevision::with('quotation')->get();
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             return response()-> view ('billings.create', [
                 'title' => 'Menambahkan Data Penagihan',
-                'data_sales' => Sale::all()
+                'data_sales' => Sale::all(),
+                compact('quotations', 'quotation_revisions')
             ]);
         } else {
             abort(403);

@@ -85,7 +85,7 @@
             -
         @endif
     </td>
-    <td class="text-black text-[0.65rem] border">
+    <td class="text-black text-[0.65rem] border bg-blue-50">
         <div class="flex h-5 items-center relative">
             @php
                 $counter = 0;
@@ -237,26 +237,26 @@
             @endforeach
         </div>
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-blue-50">
     </td>
-    <td class="relative text-black border text-[0.65rem] text-center">
+    <td class="relative text-black border text-[0.65rem] text-center bg-green-50">
     </td>
 </tr>

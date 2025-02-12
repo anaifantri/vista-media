@@ -75,7 +75,7 @@
                     <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Jenis</label>
                         <label>:</label>
-                        <label class="ml-1">{{ $location->media_category->name }}-{{ $description->lighting }}</label>
+                        <label class="ml-1">{{ $location->media_category->name }}</label>
                     </div>
                     <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Area</label>
