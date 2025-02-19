@@ -167,7 +167,7 @@ class PrintOrderController extends Controller
                             $dataPrints = PrintOrder::where('sale_id', $dataSale->id)->get();
                             $price = json_decode($revision->price);
                             foreach($price->objPrints as $print){
-                                if($print->code == $dataSale->product->code){
+                                if($print->code == $product->code){
                                     $printProduct = $print->printProduct;
                                     $sideView = $price->objSideView[$index];
                                 }
@@ -234,7 +234,7 @@ class PrintOrderController extends Controller
                         $dataPrints = PrintOrder::where('sale_id', $dataSale->id)->get();
                         $price = json_decode($revision->price);
                         foreach($price->objPrints as $print){
-                            if($print->code == $dataSale->product->code){
+                            if($print->code == $product->code){
                                 $printProduct = $print->printProduct;
                             }
                         }

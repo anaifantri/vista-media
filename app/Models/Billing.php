@@ -30,8 +30,8 @@ class Billing extends Model
     public function company(){
         return $this->belongsTo(Company::class);
     }
-    public function sale(){
-        return $this->belongsTo(Sale::class);
+    public function vat_tax_invoice(){
+        return $this->hasOne(VatTaxInvoice::class);
     }
 
     public $sortable = ['invoice_number'];

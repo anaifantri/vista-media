@@ -686,6 +686,11 @@ video {
   margin-right: 1.25rem;
 }
 
+.mx-\[84px\] {
+  margin-left: 84px;
+  margin-right: 84px;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -741,6 +746,14 @@ video {
   margin-left: 0.25rem;
 }
 
+.ml-10 {
+  margin-left: 2.5rem;
+}
+
+.ml-16 {
+  margin-left: 4rem;
+}
+
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -767,6 +780,10 @@ video {
 
 .ml-6 {
   margin-left: 1.5rem;
+}
+
+.ml-7 {
+  margin-left: 1.75rem;
 }
 
 .ml-8 {
@@ -797,8 +814,16 @@ video {
   margin-top: 3rem;
 }
 
+.mt-16 {
+  margin-top: 4rem;
+}
+
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mt-28 {
+  margin-top: 7rem;
 }
 
 .mt-3 {
@@ -973,12 +998,20 @@ video {
   height: 150px;
 }
 
+.h-\[160px\] {
+  height: 160px;
+}
+
 .h-\[170px\] {
   height: 170px;
 }
 
 .h-\[180px\] {
   height: 180px;
+}
+
+.h-\[190px\] {
+  height: 190px;
 }
 
 .h-\[200px\] {
@@ -999,6 +1032,14 @@ video {
 
 .h-\[250px\] {
   height: 250px;
+}
+
+.h-\[260px\] {
+  height: 260px;
+}
+
+.h-\[275px\] {
+  height: 275px;
 }
 
 .h-\[2px\] {
@@ -1023,6 +1064,10 @@ video {
 
 .h-\[340px\] {
   height: 340px;
+}
+
+.h-\[350px\] {
+  height: 350px;
 }
 
 .h-\[370px\] {
@@ -1119,10 +1164,6 @@ video {
 
 .h-\[625px\] {
   height: 625px;
-}
-
-.h-\[650px\] {
-  height: 650px;
 }
 
 .h-\[72px\] {
@@ -1878,6 +1919,10 @@ video {
   border-width: 1px;
 }
 
+.border-2 {
+  border-width: 2px;
+}
+
 .border-b {
   border-bottom-width: 1px;
 }
@@ -1902,8 +1947,16 @@ video {
   border-top-width: 1px;
 }
 
+.border-t-2 {
+  border-top-width: 2px;
+}
+
 .border-dashed {
   border-style: dashed;
+}
+
+.border-dotted {
+  border-style: dotted;
 }
 
 .border-amber-400 {
@@ -1994,6 +2047,11 @@ video {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
+.bg-blue-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 246 255 / var(--tw-bg-opacity));
+}
+
 .bg-blue-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
@@ -2007,6 +2065,11 @@ video {
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.bg-green-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 253 244 / var(--tw-bg-opacity));
 }
 
 .bg-green-700 {
@@ -2163,26 +2226,6 @@ video {
   background-color: rgb(254 249 195 / var(--tw-bg-opacity));
 }
 
-.bg-yellow-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 252 232 / var(--tw-bg-opacity));
-}
-
-.bg-blue-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 246 255 / var(--tw-bg-opacity));
-}
-
-.bg-green-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 252 231 / var(--tw-bg-opacity));
-}
-
-.bg-green-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(240 253 244 / var(--tw-bg-opacity));
-}
-
 .bg-opacity-20 {
   --tw-bg-opacity: 0.2;
 }
@@ -2290,6 +2333,11 @@ video {
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .py-1 {
@@ -3939,6 +3987,37 @@ video {
 .photo-active {
   margin: 0.5rem;
   display: flex;
+  width: 100px;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  border-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(250 204 21 / var(--tw-border-opacity));
+  --tw-grayscale: grayscale(0);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.documentation-photo {
+  margin: 0.5rem;
+  display: flex;
+  height: 70px;
+  width: 100px;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  --tw-grayscale: grayscale(100%);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.documentation-photo-active {
+  margin: 0.5rem;
+  display: flex;
+  height: 70px;
   width: 100px;
   cursor: pointer;
   border-radius: 0.375rem;

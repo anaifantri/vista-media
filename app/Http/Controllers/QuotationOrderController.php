@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\QuotationOrder;
-use App\Models\Quotation;
+use App\Models\Sale;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,14 +21,14 @@ class QuotationOrderController extends Controller
         //
     }
 
-    public function showOrders(String $category, String $quotationId): View
+    public function showOrders(String $category, String $saleId): View
     {
         if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
-            $dataOrders = QuotationOrder::where('quotation_id', $quotationId)->get();
-            $quotation = Quotation::where('id', $quotationId)->get();
+            $dataOrders = QuotationOrder::where('sale_id', $saleId)->get();
+            $sale = Sale::findOrFail($saleId);
             return view('quotation-orders.show', [
                 'quotation_orders' => $dataOrders,
-                'quotation' => $quotation,
+                'sale' => $sale,
                 'category' => $category,
                 'title' => 'Dokumen PO/SPK'
             ]);
@@ -57,6 +57,7 @@ class QuotationOrderController extends Controller
                     $documentOrder = [];
                     $documentOrder = [
                         'quotation_id' => $request->quotation_id,
+                        'sale_id' => $request->sale_id,
                         'number' => $request->number,
                         'date' => $request->date,
                         'image' => $image->store('order-images')
@@ -65,7 +66,7 @@ class QuotationOrderController extends Controller
                 }
             }
 
-            return redirect('/marketing/quotation-orders/show-orders/'.$request->category.'/'.$request->quotation_id)->with('success', count($request->document_order).' Dokumen PO/SPK berhasil ditambahkan');
+            return redirect('/marketing/quotation-orders/show-orders/'.$request->category.'/'.$request->sale_id)->with('success', count($request->document_order).' Dokumen PO/SPK berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -101,7 +102,7 @@ class QuotationOrderController extends Controller
     public function destroy(QuotationOrder $quotationOrder): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingDelete'))){
-            $quotation_id = $quotationOrder->quotation_id;
+            $sale_id = $quotationOrder->sale_id;
             $category = $quotationOrder->quotation->media_category->name;
 
             if($quotationOrder->image){
@@ -110,7 +111,7 @@ class QuotationOrderController extends Controller
 
             QuotationOrder::destroy($quotationOrder->id);
 
-            return redirect('marketing/quotation-orders/show-orders/'.$category.'/'.$quotation_id)->with('success','Dokumen PO/SPK berhasil dihapus');
+            return redirect('marketing/quotation-orders/show-orders/'.$category.'/'.$sale_id)->with('success','Dokumen PO/SPK berhasil dihapus');
         } else {
             abort(403);
         }

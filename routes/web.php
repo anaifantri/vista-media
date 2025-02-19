@@ -19,6 +19,7 @@ use App\Http\Controllers\MediaSizeController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PrintOrderController;
+use App\Http\Controllers\WorkReportController;
 use App\Http\Controllers\ClientGroupController;
 use App\Http\Controllers\OrderReportController;
 use App\Http\Controllers\SalesReportController;
@@ -33,6 +34,7 @@ use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\ClientCategoryController;
 use App\Http\Controllers\QuotationOrderController;
 use App\Http\Controllers\VendorCategoryController;
+use App\Http\Controllers\BillCoverLetterController;
 use App\Http\Controllers\ElectricalPowerController;
 use App\Http\Controllers\LicenseDocumentController;
 use App\Http\Controllers\MonitoringPhotoController;
@@ -41,6 +43,7 @@ use App\Http\Controllers\QuotationStatusController;
 use App\Http\Controllers\ElectricityTopUpController;
 use App\Http\Controllers\QuotationsReportController;
 use App\Http\Controllers\ElectricityReportController;
+use App\Http\Controllers\InstallationPhotoController;
 use App\Http\Controllers\InstallationPriceController;
 use App\Http\Controllers\LicensingCategoryController;
 use App\Http\Controllers\QuotationApprovalController;
@@ -110,9 +113,9 @@ Route::resource('/marketing/quot-revision-statuses', QuotRevisionStatusControlle
 Route::resource('/marketing/quotation-approvals', QuotationApprovalController::class)->middleware(['auth','user_access']);
 Route::get('/marketing/quotation-approvals/show-approvals/{category}/{id}', [QuotationApprovalController::class,'showApprovals']);
 Route::resource('/marketing/quotation-agreements', QuotationAgreementController::class)->middleware(['auth','user_access']);
-Route::get('/marketing/quotation-agreements/show-agreements/{category}/{id}', [QuotationAgreementController::class,'showAgreements']);
+Route::get('/marketing/quotation-agreements/show-agreements/{category}/{saleid}', [QuotationAgreementController::class,'showAgreements']);
 Route::resource('/marketing/quotation-orders', QuotationOrderController::class)->middleware(['auth','user_access']);
-Route::get('/marketing/quotation-orders/show-orders/{category}/{id}', [QuotationOrderController::class,'showOrders']);
+Route::get('/marketing/quotation-orders/show-orders/{category}/{saleid}', [QuotationOrderController::class,'showOrders']);
 // Route Quotation Documents --> end
 
 // Route Sales --> start
@@ -172,9 +175,22 @@ Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'get
 
 // Accounting Group --> start
 // Billing  --> start
-Route::resource('/accounting/billings', BillingController::class)->except(['index'])->middleware(['auth','user_access']);
+Route::resource('/accounting/billings', BillingController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/billings/index/{companyid}', [BillingController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/billings/create/{category}', [BillingController::class,'createBilling'])->middleware(['auth','user_access']);
 // Billing  --> end
+
+// Work Report  --> start
+Route::resource('/accounting/work-reports', WorkReportController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
+Route::get('/work-reports/index/{companyid}', [WorkReportController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/work-reports/create/{category}', [WorkReportController::class,'createWorkReport'])->middleware(['auth','user_access']);
+// Work Report  --> end
+
+// Bill Cover Letter  --> start
+Route::resource('/accounting/bill-cover-letters', BillCoverLetterController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
+Route::get('/bill-cover-letters/index/{companyid}', [BillCoverLetterController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/bill-cover-letters/create/{category}', [BillCoverLetterController::class,'createBillCoverLetters'])->middleware(['auth','user_access']);
+// Bill Cover Letter  --> end
 // Accounting Group --> end
 
 // Media Group --> start
@@ -222,19 +238,28 @@ Route::get('/create-land-documents/{landAgreementId}/{name}', [LandDocumentContr
 // Media Group --> end
 
 // Workshop Group --> start
+Route::resource('/workshop/installation-photos', InstallationPhotoController::class)->except(['index','create'])->middleware(['auth','user_access']);
+Route::get('/installation-photos/index/{companyid}', [InstallationPhotoController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/installation-photos/show/{installorderid}', [InstallationPhotoController::class,'showInstallationPhotos'])->middleware(['auth','user_access']);
+Route::get('/installation-photos/create/{installorderId}/{type}', [InstallationPhotoController::class,'createInstallationPhotos'])->middleware(['auth','user_access']);
+
 Route::resource('/workshop/monitoring-photos', MonitoringPhotoController::class)->middleware(['auth','user_access']);
 Route::get('/create-photos/{monitoringId}', [MonitoringPhotoController::class,'createPhotos'])->middleware(['auth','user_access']);
 Route::resource('/workshop/monitorings', MonitoringController::class)->middleware(['auth','user_access']);
 Route::get('/show-monitoring/{locationId}', [MonitoringController::class,'showMonitoring'])->middleware(['auth','user_access']);
 Route::get('/create-monitoring/{locationId}', [MonitoringController::class,'createMonitoring'])->middleware(['auth','user_access']);
+
 Route::resource('/workshop/electricity-payments', ElectricityPaymentController::class)->middleware(['auth','user_access']);
 Route::get('/show-electricity-payment/{locationId}', [ElectricityPaymentController::class,'showElectricityPayment'])->middleware(['auth','user_access']);
 Route::get('/create-electricity-payment/{locationId}', [ElectricityPaymentController::class,'createElectricityPayment'])->middleware(['auth','user_access']);
+
 Route::resource('/workshop/electricity-top-ups', ElectricityTopUpController::class)->middleware(['auth','user_access']);
 Route::get('/show-electricity-top-up/{locationId}', [ElectricityTopUpController::class,'showElectricityTopUp'])->middleware(['auth','user_access']);
 Route::get('/create-electricity-top-up/{locationId}', [ElectricityTopUpController::class,'createElectricityTopUp'])->middleware(['auth','user_access']);
+
 Route::resource('/workshop/electrical-powers', ElectricalPowerController::class)->middleware(['auth','user_access']);
 Route::get('/create-electrical-power/{locationId}', [ElectricalPowerController::class,'createElectricalPower'])->middleware(['auth','user_access']);
+
 Route::get('/workshop/electricity-reports', [ElectricityReportController::class,'index'])->middleware(['auth','user_access']);
 // Workshop Group --> end
 

@@ -3,8 +3,27 @@
         <span class="text-center w-full text-lg font-semibold">Pilih Dokumen Kelengkapan Tagihan</span>
     </div>
     <div
-        class="flex w-full h-[550px] bg-stone-200 items-center border rounded-lg border-stone-400 my-2 px-10 pt-2 border-b pb-2">
-        <span class="text-center w-full text-lg font-semibold">Dokumen</span>
+        class="flex w-full h-[350px] bg-stone-200 justify-center border rounded-lg border-stone-400 my-2 p-4 border-b pb-2">
+        <div class="w-[1150px] p-2">
+            <div class="flex text-sm">
+                <label class="flex w-40">Dokumen Persetujuan</label>
+                <label class="flex">:</label>
+                <label id="showApproval" class="flex ml-2"></label>
+                <input id="cbApproval" type="checkbox" class="ml-6">
+            </div>
+            <div class="flex text-sm">
+                <label class="flex w-40">Dokumen PO/SPK</label>
+                <label class="flex">:</label>
+                <label id="showOrder" class="flex ml-2"></label>
+                <input id="cbOrder" type="checkbox" class="ml-6">
+            </div>
+            <div class="flex text-sm">
+                <label class="flex w-40">Dokumen Perjanjian</label>
+                <label class="flex">:</label>
+                <label id="showAgreement" class="flex ml-2"></label>
+                <input id="cbAgreement" type="checkbox" class="ml-6">
+            </div>
+        </div>
     </div>
     <div class="flex w-full items-end bg-stone-400 rounded-lg justify-end px-4 pt-2 border-b pb-2">
         <button class="flex justify-center items-center mx-1 btn-primary" title="Back" type="button"

@@ -464,6 +464,14 @@
     @apply flex w-[100px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale-0 border-2 border-yellow-400;
 }
 
+.documentation-photo {
+    @apply flex w-[100px] h-[70px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale;
+}
+
+.documentation-photo-active {
+    @apply flex w-[100px] h-[70px] m-2 transition-all rounded-md duration-300 cursor-pointer filter grayscale-0 border-2 border-yellow-400;
+}
+
 .payment-value {
     @apply ml-1 text-sm text-black outline-none w-10 text-center;
 }

@@ -305,8 +305,8 @@
                                         $payment_terms = json_decode($revision->payment_terms);
                                         $price = json_decode($revision->price);
                                         $dataApprovals = $sale->quotation->quotation_approvals;
-                                        $dataAgreements = $sale->quotation->quotation_agreements;
-                                        $dataOrders = $sale->quotation->quotation_orders;
+                                        $dataAgreements = $sale->quotation_agreements;
+                                        $dataOrders = $sale->quotation_orders;
                                     } else {
                                         $number = $sale->quotation->number;
                                         $quotId = $sale->quotation->id;
@@ -315,8 +315,8 @@
                                         $payment_terms = json_decode($sale->quotation->payment_terms);
                                         $price = json_decode($sale->quotation->price);
                                         $dataApprovals = $sale->quotation->quotation_approvals;
-                                        $dataAgreements = $sale->quotation->quotation_agreements;
-                                        $dataOrders = $sale->quotation->quotation_orders;
+                                        $dataAgreements = $sale->quotation_agreements;
+                                        $dataOrders = $sale->quotation_orders;
                                     }
                                     $clients = json_decode($sale->quotation->clients);
                                     $product = json_decode($sale->product);
@@ -356,7 +356,7 @@
                                                 <label class="w-8">Kode</label>
                                                 <label>:</label>
                                                 <a class="mx-1 w-48"
-                                                    href="/media/locations/{{ $product->id }}">{{ $product->code }}</a>
+                                                    href="/media/locations/{{ $product->id }}">{{ $product->code }}-{{ $product->city_code }}</a>
                                                 {{-- <label class="mx-1 w-48">{{ $product->code }}</label> --}}
                                             </div>
                                             <div class="flex ml-1">
@@ -706,7 +706,7 @@
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-center">
                                         {{ count($dataOrders) }} dokumen
-                                        <a href="/marketing/quotation-orders/show-orders/{{ $category }}/{{ $sale->quotation->id }}"
+                                        <a href="/marketing/quotation-orders/show-orders/{{ $category }}/{{ $sale->id }}"
                                             title="Lihat Dokumen"
                                             class="flex items-center px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md">
                                             <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"
@@ -721,7 +721,7 @@
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-center">
                                         {{ count($dataAgreements) }} dokumen
-                                        <a href="/marketing/quotation-agreements/show-agreements/{{ $category }}/{{ $sale->quotation->id }}"
+                                        <a href="/marketing/quotation-agreements/show-agreements/{{ $category }}/{{ $sale->id }}"
                                             title="Lihat Dokumen"
                                             class="flex items-center px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md">
                                             <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"

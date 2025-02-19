@@ -80,7 +80,20 @@ class Sale extends Model
                                     $query->where('name', '!=', 'Service');
                     });
     }
+
     public function scopePrint($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '=', 'Service');
+                    });
+    }
+
+    public function scopeBillMedia($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '!=', 'Service');
+                    });
+    }
+
+    public function scopeBillService($query){
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '=', 'Service');
                     });
@@ -162,12 +175,16 @@ class Sale extends Model
         return $this->hasOne(InstallOrder::class, 'sale_id', 'id');
     }
 
-    public function billings(){
-        return $this->hasMany(Billing::class, 'sale_id', 'id');
-    }
-
     public function install_orders(){
         return $this->hasMany(InstallOrder::class, 'sale_id', 'id');
+    }
+
+    public function quotation_orders(){
+        return $this->hasMany(QuotationOrder::class, 'sale_id', 'id');
+    }
+
+    public function quotation_agreements(){
+        return $this->hasMany(QuotationAgreement::class, 'sale_id', 'id');
     }
 
     public function print_order(){

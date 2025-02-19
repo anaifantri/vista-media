@@ -2,11 +2,11 @@
 
 @section('container')
     <?php
-    $created_by = json_decode($quotation[0]->created_by);
-    $clients = json_decode($quotation[0]->clients);
-    $products = json_decode($quotation[0]->products);
-    $quotation_number = $quotation[0]->number;
-    $quotation_created_at = $quotation[0]->created_at;
+    $created_by = json_decode($sale->created_by);
+    $clients = json_decode($sale->quotation->clients);
+    $product = json_decode($sale->product);
+    $sale_number = $sale->number;
+    $sale_created_at = $sale->created_at;
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -40,16 +40,16 @@
             <div class="flex w-[600px] items-center border rounded-lg mt-2 px-2 bg-stone-400">
                 <div class="w-[280px] py-1">
                     <div class="div-sale">
-                        <label class="text-sm text-stone-900 w-24">No. Penawaran</label>
+                        <label class="text-sm text-stone-900 w-24">No. Penjualan</label>
                         <label class="label-sale-02">:</label>
-                        <label class="label-sale-02">{{ $quotation_number }}</label>
+                        <label class="label-sale-02">{{ $sale_number }}</label>
                     </div>
                     <div class="div-sale">
-                        <label class="text-sm text-stone-900 w-24">Tgl. Penawaran</label>
+                        <label class="text-sm text-stone-900 w-24">Tgl. Penjualan</label>
                         <label class="label-sale-02">:</label>
-                        <label class="label-sale-02">{{ date('d', strtotime($quotation_created_at)) }}
-                            {{ $bulan[(int) date('m', strtotime($quotation_created_at))] }}
-                            {{ date('Y', strtotime($quotation_created_at)) }}</label>
+                        <label class="label-sale-02">{{ date('d', strtotime($sale_created_at)) }}
+                            {{ $bulan[(int) date('m', strtotime($sale_created_at))] }}
+                            {{ date('Y', strtotime($sale_created_at)) }}</label>
                     </div>
                     <div class="div-sale">
                         <label class="text-sm text-stone-900 w-24">Jml. Dokumen</label>
@@ -83,13 +83,7 @@
                         <label class="text-sm text-stone-900 w-20">Kode Lokasi</label>
                         <label class="label-sale-02">:</label>
                         <label class="label-sale-02">
-                            @foreach ($products as $product)
-                                @if ($loop->iteration == count($products))
-                                    {{ $product->code }} -
-                                @else
-                                    {{ $product->code }}
-                                @endif
-                            @endforeach
+                            {{ $product->code }} - {{ $product->city_code }}
                         </label>
                     </div>
                 </div>
@@ -257,7 +251,8 @@
         @csrf
         <input id="orderImages" class="hidden" name="document_order[]" type="file"
             accept="image/png, image/jpg, image/jpeg" onchange="imagePreview(this)" multiple>
-        <input type="text" name="quotation_id" value="{{ $quotation[0]->id }}" hidden>
+        <input type="text" name="quotation_id" value="{{ $sale->quotation->id }}" hidden>
+        <input type="text" name="sale_id" value="{{ $sale->id }}" hidden>
         <input type="text" id="number" name="number" hidden>
         <input type="date" id="date" name="date" hidden>
         <input type="text" name="category" value="{{ $category }}" hidden>

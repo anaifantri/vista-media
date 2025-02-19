@@ -1,6 +1,6 @@
 <div id="modalSelectSale">
     <div class="flex w-full bg-stone-400 rounded-xl items-center border-b p-2">
-        <span class="text-center w-full text-lg font-semibold">PILIH DATA PENJUALAN</span>
+        <span class="text-center w-full text-lg font-semibold">PILIH DATA PENJUALAN YANG AKAN DITAGIHKAN</span>
     </div>
     <div
         class="flex w-full h-[560px] bg-stone-200 items-center justify-center border rounded-lg border-stone-400 my-2 p-4 pt-2 border-b pb-2">
@@ -27,13 +27,16 @@
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-28" rowspan="2">
                                 Size
                                 - V/H</th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="2">Detail
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="3">Detail
                                 Penjualan</th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">
                                 Action</th>
                         </tr>
                         <tr class="bg-stone-400 border border-stone-900">
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-40">No. Penj.</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">No. Penju.
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">No. Penaw.
+                            </th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-36">Klien</th>
                         </tr>
                     </thead>
@@ -89,18 +92,30 @@
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                         <a href="/marketing/sales/{{ $sale->id }}"
-                                            class="ml-1 w-32">{{ $sale->number }}</a>
+                                            class="ml-1 w-32">{{ substr($sale->number, 0, 8) }}..</a>
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        <a href="/marketing/quotations/{{ $quotationDeal->id }}"
+                                            class="ml-1 w-32">{{ substr($quotationDeal->number, 0, 8) }}..</a>
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                         {{ $client->name }}
                                     </td>
                                     <td id="tdCreate"
                                         class="text-stone-900 border border-stone-900 align-middle text-center text-sm">
-                                        <input id="{{ json_encode($payment_terms) }}"
-                                            name="{{ json_encode($quotationDeal) }}" value="{{ json_encode($sale) }}"
-                                            type="radio" name="chooseLocation" title="pilih"
-                                            onclick="getSales(this)">
-                                        <label class="ml-1">Pilih</label>
+                                        @if ($bill_category == 'media')
+                                            <input
+                                                id="{{ json_encode($payment_terms) }}*{{ json_encode($quotationDeal) }}"
+                                                value="{{ json_encode($sale) }}" type="radio" name="chooseSale"
+                                                title="pilih" onclick="getMediaSales(this)">
+                                            <label class="ml-1">Pilih</label>
+                                        @else
+                                            <input
+                                                id="{{ json_encode($payment_terms) }}*{{ json_encode($quotationDeal) }}"
+                                                value="{{ json_encode($sale) }}" type="checkbox" name="chooseSale"
+                                                title="pilih" onclick="getServiceSales(this)">
+                                            <label class="ml-1">Pilih</label>
+                                        @endif
                                     </td>
                                 </tr>
                             @endif
@@ -111,28 +126,89 @@
         </div>
     </div>
     <div class="flex w-full items-end bg-stone-400 rounded-lg justify-end px-4 pt-2 border-b pb-2">
-        <button class="flex justify-center items-center mx-1 btn-success" title="Next" type="button"
-            onclick="saleNext()">
-            <span class="mx-1 text-white">Next</span>
-            <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24">
-                <path
-                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.568 18.005l-1.414-1.415 4.574-4.59-4.574-4.579 1.414-1.416 5.988 5.995-5.988 6.005z" />
-            </svg>
-        </button>
+        @if ($bill_category == 'media')
+            <button class="flex justify-center items-center mx-1 btn-success" title="Next" type="button"
+                onclick="saleMediaNext()">
+                <span class="mx-1 text-white">Next</span>
+                <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.568 18.005l-1.414-1.415 4.574-4.59-4.574-4.579 1.414-1.416 5.988 5.995-5.988 6.005z" />
+                </svg>
+            </button>
+        @else
+            <button class="flex justify-center items-center mx-1 btn-success" title="Next" type="button"
+                onclick="saleServiceNext()">
+                <span class="mx-1 text-white">Next</span>
+                <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.568 18.005l-1.414-1.415 4.574-4.59-4.574-4.579 1.414-1.416 5.988 5.995-5.988 6.005z" />
+                </svg>
+            </button>
+        @endif
     </div>
 </div>
 
 <script>
-    let sale = {};
+    const saleId = document.getElementById("saleId");
+    const billTerms = document.getElementById("billTerms");
+    const billDpp = document.getElementById("billDpp");
+    const billNominal = document.getElementById("billNominal");
+    let sale = [];
     let terms = [];
+    let billTermsData = [];
+    let billDppData = [];
+    let billNominalData = [];
     let quotationDeal = {};
     let client = {};
-    getSales = (sel) => {
-        sale = JSON.parse(sel.value);
-        client = JSON.parse(sale.quotation.clients);
-        quotationDeal = JSON.parse(sel.name);
-        dataPayments = JSON.parse(sel.id);
+    let dataPayments = {};
+    getMediaSales = (sel) => {
+        var splitId = sel.id.split('*');
+        billTermsData = [];
+        billTerms.value = "";
+        billDppData = [];
+        billDpp.value = "";
+        billNominalData = [];
+        billNominal.value = "";
+        sale.push(JSON.parse(sel.value));
+        client = JSON.parse(sale[0].quotation.clients);
+        quotationDeal = JSON.parse(splitId[1]);
+        dataPayments = JSON.parse(splitId[0]);
         terms = dataPayments.dataPayments;
+    }
+
+    getServiceSales = (sel) => {
+        var splitId = sel.id.split('*');
+        if (Object.keys(sale).length == 0) {
+            billTermsData = [];
+            billTerms.value = "";
+            billDppData = [];
+            billDpp.value = "";
+            billNominalData = [];
+            billNominal.value = "";
+            sale.push(JSON.parse(sel.value));
+            quotationDeal = JSON.parse(splitId[1]);
+            client = JSON.parse(sale[0].quotation.clients);
+            dataPayments = JSON.parse(splitId[0]);
+            terms = dataPayments.dataPayments;
+        } else {
+            if (quotationDeal.number != JSON.parse(splitId[1]).number) {
+                alert("Silahkan pilih klien dan nomor penawaran yang sama..!!");
+                sel.checked = false;
+            } else {
+                if (sel.checked == true) {
+                    sale.push(JSON.parse(sel.value));
+                } else {
+                    for (let i = 0; i < sale.length; i++) {
+                        if (sale[i].id == JSON.parse(sel.value).id) {
+                            sale.splice(i, 1);
+                            sale.splice(i, 1);
+                        }
+                    }
+                }
+
+            }
+        }
     }
 </script>

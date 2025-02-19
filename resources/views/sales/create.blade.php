@@ -194,7 +194,7 @@
                                                             <span class="text-sm ml-1">Lihat</span>
                                                         </button>
                                                     </div>
-                                                    <div class="div-sale">
+                                                    <div hidden>
                                                         <label class="label-sale-01">Dok. PO/SPK</label>
                                                         <label class="label-sale-02">:</label>
                                                         <label id="labelPo"
@@ -217,7 +217,7 @@
                                                         </div>
                                                     @enderror
                                                     @if ($category != 'Service')
-                                                        <div class="div-sale">
+                                                        <div hidden>
                                                             <label class="label-sale-01">Dok. Agreement</label>
                                                             <label class="label-sale-02">:</label>
                                                             <label id="labelAgreement"
@@ -241,7 +241,7 @@
                                                             </div>
                                                         @enderror
                                                         <div class="div-sale justify-center">
-                                                            <label class="title-periode font-semibold">Periode
+                                                            <label class="title-periode font-semibold mt-4">Periode
                                                                 Kontrak</label>
                                                         </div>
                                                         <div

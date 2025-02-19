@@ -6,6 +6,9 @@ use App\Models\Billing;
 use App\Models\Company;
 use App\Models\Sale;
 use App\Models\Quotation;
+use App\Models\QuotationOrder;
+use App\Models\QuotationApproval;
+use App\Models\QuotationAgreement;
 use App\Models\QuotationRevision;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,10 +26,34 @@ class BillingController extends Controller
      */
     public function index(String $company_id): Response
     {
-        if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('billings.index', [
                 'billings'=>Billing::where('company_id', $company_id)->sortable()->orderBy("invoice_number", "desc")->paginate(30)->withQueryString(),
                 'title' => 'Daftar Penagihan'
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+    
+    public function createBilling(String $category): View
+    {
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            if($category == "media"){
+                $data_sales = Sale::billMedia()->get();
+            }else if($category == "service"){
+                $data_sales = Sale::billService()->get();
+            }
+            $quotations = Quotation::with('sales')->get();
+            $quotation_revisions = QuotationRevision::with('quotation')->get();
+            return view ('billings.create', [
+                'title' => 'Menambahkan Data Penagihan',
+                'data_sales' => $data_sales,
+                'bill_category' => $category,
+                'quotation_approvals' => QuotationApproval::all(),
+                'quotation_orders' => QuotationOrder::all(),
+                'quotation_agreements' => QuotationAgreement::all(),
+                compact('quotations', 'quotation_revisions')
             ]);
         } else {
             abort(403);
@@ -36,19 +63,9 @@ class BillingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        $quotations = Quotation::with('sales')->get();
-        $quotation_revisions = QuotationRevision::with('quotation')->get();
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
-            return response()-> view ('billings.create', [
-                'title' => 'Menambahkan Data Penagihan',
-                'data_sales' => Sale::all(),
-                compact('quotations', 'quotation_revisions')
-            ]);
-        } else {
-            abort(403);
-        }
+        //
     }
 
     /**

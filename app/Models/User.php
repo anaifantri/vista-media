@@ -56,6 +56,9 @@ class User extends Authenticatable
     public function location_photos(){
         return $this->hasMany(LocationPhoto::class, 'user_id', 'id');
     }
+    public function installation_photos(){
+        return $this->hasMany(InstallationPhoto::class, 'user_id', 'id');
+    }
     public function media_categories(){
         return $this->hasMany(MediaCategory::class, 'user_id', 'id');
     }

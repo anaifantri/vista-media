@@ -38,7 +38,7 @@ class InstallOrderController extends Controller
             $print_order = PrintOrder::with('install_order')->get();
             $locations = Location::with('install_orders')->get();
             return response()-> view ('install-orders.index', [
-                'install_orders'=>InstallOrder::where('company_id', $company_id)->area()->city()->year()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
+                'install_orders'=>InstallOrder::where('company_id', $company_id)->area()->city()->filter(request('search'))->year()->month()->days()->todays()->weekday()->monthly()->annual()->sortable()->orderBy("number", "desc")->paginate(20)->withQueryString(),
                 'data_installs'=>$dataInstalls,
                 'areas' => Area::all(),
                 'cities' => City::all(),

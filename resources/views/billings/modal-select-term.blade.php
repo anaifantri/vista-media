@@ -3,72 +3,135 @@
         <span class="text-center w-full text-lg font-semibold">Pilih Termin Pembayaran Yang Akan Ditagihkan?</span>
     </div>
     <div
-        class="flex w-full h-[550px] bg-stone-200 justify-center border rounded-lg border-stone-400 my-2 p-4 border-b pb-2">
-        <div class="w-[1150px] p-2">
-            <div>
-                <span class="text-md font-semibold"><u>Detail Penjualan :</u></span>
-            </div>
-            <div class="flex text-sm mt-2">
-                <div id="saleDetail" class="w-[560px] border rounded-lg border-stone-900 p-2">
-                    <div class="flex">
-                        <label class="w-28">No. Penjualan</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-28">Tgl. Penjualan</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-28">Jenis</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-28">Lokasi</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-28">Harga</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                </div>
-                <div id="quotationDetail" class="w-[560px] border rounded-lg border-stone-900 ml-2 p-2">
-                    <div class="flex">
-                        <label class="w-32">No. Penawaran</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-32">Tgl. Penawaran</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-32">Nama Klien</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-32">Nama Perusahaan</label>
-                        <label>:</label>
-                        <label class="ml-2"></label>
-                    </div>
-                </div>
-            </div>
+        class="flex w-full h-[350px] bg-stone-200 justify-center border rounded-lg border-stone-400 my-2 p-2 border-b pb-2">
+        <div class="w-[575px] p-2 border rounded-lg border-stone-900">
             <div hidden>
                 <div id="nodeTerm" class="flex">
                     <label class="w-[235px]"></label>
                     <label></label>
-                    <label class="ml-2"></label>
-                    <input type="checkbox" class="ml-2">
+                    <label class="ml-2 w-[90px] text-right"></label>
+                    <label></label>
+                    <input type="checkbox" class="ml-6" onclick="cbTermAction(this)">
                 </div>
             </div>
-            <div class="mt-4 text-sm" id="divTerms">
-                <label class="text-md font-semibold"><u>Termin Pembayaran :</u></label>
+            <div class="flex text-md font-semibold">
+                <input name="termType" type="radio" onclick="rbAutoTerm(this)" checked>
+                <label class="ml-2">Berdasarkan Termin Pembayaran :</label>
+            </div>
+            <div class="mt-2 text-sm" id="divTerms">
+            </div>
+        </div>
+        <div class="ml-4 w-[575px] p-2 border rounded-lg border-stone-900">
+            <div class="flex text-md font-semibold">
+                <input name="termType" type="radio" onclick="rbManualTerm(this)">
+                <label class="ml-2">Input manual :</label>
+            </div>
+            <div class="mt-2 text-sm" id="divManualTerms">
+                <div class="border rounded-md border-stone-900 p-1">
+                    <div class="flex">
+                        <input type="checkbox" disabled>
+                        <input type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
+                            value="Produksi Media Luar Ruang" disabled>
+                    </div>
+                    <div class="flex mt-1 ml-7">
+                        <label>Nominal</label>
+                        <input id="nominalTerm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">DPP</label>
+                        <input id="dppterm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">PPN</label>
+                        <input id="ppnterm" type="number"
+                            class="ml-2 px-2 outline-none w-20 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled readonly>
+                    </div>
+                </div>
+                <div class="border rounded-md border-stone-900  mt-1 p-1">
+                    <div class="flex">
+                        <input type="checkbox" disabled>
+                        <input type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
+                            value="Pemakaian Listrik Media Luar Ruang" disabled>
+                    </div>
+                    <div class="flex mt-1 ml-7">
+                        <label>Nominal</label>
+                        <input id="nominalTerm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">DPP</label>
+                        <input id="dppterm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">PPN</label>
+                        <input id="ppnterm" type="number"
+                            class="ml-2 px-2 outline-none w-20 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled readonly>
+                    </div>
+                </div>
+                <div class="border rounded-md border-stone-900  mt-1 p-1">
+                    <div class="flex">
+                        <input type="checkbox" disabled>
+                        <input type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
+                            value="Jasa Media Luar Ruang" disabled>
+                    </div>
+                    <div class="flex mt-1 ml-7">
+                        <label>Nominal</label>
+                        <input id="nominalTerm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">DPP</label>
+                        <input id="dppterm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">PPN</label>
+                        <input id="ppnterm" type="number"
+                            class="ml-2 px-2 outline-none w-20 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled readonly>
+                    </div>
+                </div>
+                <div class="border rounded-md border-stone-900  mt-1 p-1">
+                    <div class="flex">
+                        <input type="checkbox" disabled>
+                        <input type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md" value="Pajak Reklame"
+                            disabled readonly>
+                    </div>
+                    <div class="flex mt-1 ml-7">
+                        <label>Nominal</label>
+                        <input id="nominalTerm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">DPP</label>
+                        <input id="dppterm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled hidden>
+                        <label class="ml-2">PPN</label>
+                        <input id="ppnterm" type="number"
+                            class="ml-2 px-2 outline-none w-20 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled readonly hidden>
+                    </div>
+                </div>
+                <div class="border rounded-md border-stone-900  mt-1 p-1">
+                    <div class="flex">
+                        <input type="checkbox" disabled>
+                        <input type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
+                            placeholder="Lainnya" disabled>
+                    </div>
+                    <div class="flex mt-1 ml-7">
+                        <label>Nominal</label>
+                        <input id="nominalTerm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">DPP</label>
+                        <input id="dppterm" type="number"
+                            class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled>
+                        <label class="ml-2">PPN</label>
+                        <input id="ppnterm" type="number"
+                            class="ml-2 px-2 outline-none w-20 text-right in-out-spin-none rounded-md" placeholder="0"
+                            disabled readonly>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

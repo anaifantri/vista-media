@@ -133,6 +133,9 @@ class InstallOrder extends Model
     public function takedown_order(){
         return $this->hasOne(TakedownOrder::class, 'install_order_id', 'id');
     }
+    public function installation_photos(){
+        return $this->hasMany(InstallationPhoto::class, 'install_order_id', 'id');
+    }
 
     public $sortable = ['number'];
 }
