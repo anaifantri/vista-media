@@ -98,6 +98,7 @@ class InstallationPhotoController extends Controller
                     $installationPhoto = [
                         'install_order_id' => $request->install_order_id,
                         'company_id' => $request->company_id,
+                        'user_id' => $request->user_id,
                         'type' => $request->type,
                         'image' => $image->store('installation-photos')
                     ];

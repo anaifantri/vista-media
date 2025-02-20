@@ -7,6 +7,8 @@ use App\Models\Company;
 use App\Models\Sale;
 use App\Models\Quotation;
 use App\Models\QuotationRevision;
+use App\Models\InstallationPhoto;
+use App\Models\InstallOrder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,19 +37,23 @@ class WorkReportController extends Controller
         
     public function createWorkReport(String $category): View
     {
+        // 
+    }
+
+    public function selectDocumentation(String $saleId): View
+    {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
-            if($category == "media"){
-                $data_sales = Sale::billMedia()->get();
-            }else if($category == "service"){
-                $data_sales = Sale::billService()->get();
-            }
+            $sale = Sale::findOrFail($saleId);
+            $installation_photos = InstallationPhoto::with('install_order')->get();
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
-            return view ('work-reports.create', [
-                'title' => 'Menambahkan Data Penagihan',
-                'data_sales' => $data_sales,
-                'work_category' => $category,
-                compact('quotations', 'quotation_revisions')
+            return view ('work-reports.modal-select-documentation', [
+                'title' => 'Memilih Foto Dokumentasi',
+                'install_orders' => InstallOrder::photo($saleId)->orderBy("id", "desc")->get(),
+                'sale' => $sale,
+                'work_category' => $sale->media_category->name,
+                'installation_photos' => InstallationPhoto::all(),
+                compact('installation_photos','quotations','quotation_revisions')
             ]);
         } else {
             abort(403);
@@ -59,7 +65,20 @@ class WorkReportController extends Controller
      */
     public function create(): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            $quotations = Quotation::with('sales')->get();
+            $install_orders = InstallOrder::with('sale')->get();
+            $installation_photo = InstallationPhoto::with('install_order')->get();
+            $quotation_revisions = QuotationRevision::with('quotation')->get();
+            return response()-> view ('work-reports.create', [
+                'title' => 'Membuat BAST',
+                'data_sales' => Sale::orderBy("id", "desc")->get(),
+                'installation_photos' => InstallationPhoto::all(),
+                compact('quotations', 'quotation_revisions','install_orders','installation_photo')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**

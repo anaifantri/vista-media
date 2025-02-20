@@ -24,24 +24,14 @@
                             @canany(['isAdmin', 'isAccounting'])
                                 @can('isCollect')
                                     @can('isAccountingCreate')
-                                        <a href="/work-reports/create/media" class="index-link btn-primary">
+                                        <a href="/accounting/work-reports/create" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                                     fill-rule="nonzero" />
                                             </svg>
-                                            <span class="mx-1">BAST Media</span>
-                                        </a>
-                                        <a href="/work-reports/create/service" class="index-link btn-warning ml-2">
-                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
-                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
-                                                    fill-rule="nonzero" />
-                                            </svg>
-                                            <span class="mx-1">BAST Cetak/Pasang</span>
+                                            <span class="mx-1">Membuat BAST</span>
                                         </a>
                                     @endcan
                                 @endcan
@@ -180,8 +170,8 @@
                                                 @endcan
                                             @endcanany
                                             @can('isAdmin')
-                                                <form action="/accounting/work-reports/{{ $works_reports->id }}"
-                                                    method="post" class="d-inline m-1">
+                                                <form action="/accounting/work-reports/{{ $works_reports->id }}" method="post"
+                                                    class="d-inline m-1">
                                                     @method('delete')
                                                     @csrf
                                                     <button

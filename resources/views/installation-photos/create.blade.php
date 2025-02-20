@@ -14,6 +14,7 @@
     <form action="/workshop/installation-photos" method="post" enctype="multipart/form-data">
         @csrf
         <input type="text" name="company_id" value="{{ $company->id }}" hidden>
+        <input type="text" name="user_id" value="{{ auth()->user()->id }}" hidden>
         <input type="text" name="install_order_id" value="{{ $install_order->id }}" hidden>
         <input type="text" name="type" value="{{ $type }}" hidden>
         <div class="flex justify-center  py-10 px-14 bg-stone-800">

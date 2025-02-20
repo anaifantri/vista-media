@@ -84,6 +84,11 @@ class InstallOrder extends Model
         }
     }
 
+    public function scopePhoto($query, $filter){
+        $query->when($filter ?? false, fn($query, $saleId) => 
+                $query->where('product->main_sale_id', '=', $saleId)
+                    ->orwhere('sale_id', '=', $saleId));
+    }
     public function scopeSales($query){
         return $query->where('product->order_type', '=', 'sales');
     }

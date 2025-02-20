@@ -38,27 +38,15 @@
                     <h1 class="index-h1 w-[1200px]">Membuat BAST</h1>
                     <!-- Title end -->
                     <div id="divButton" class="hidden w-[150px] justify-end">
-                        @if ($work_category == 'media')
-                            <button class="flex justify-center items-center mx-1 btn-primary" title="Back" type="button"
-                                onclick="previewMediaBack()">
-                                <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.568 18.005l-1.414-1.415 4.574-4.59-4.574-4.579 1.414-1.416 5.988 5.995-5.988 6.005z" />
-                                </svg>
-                                <span class="mx-1 text-white">Back</span>
-                            </button>
-                        @elseif ($work_category == 'service')
-                            <button class="flex justify-center items-center mx-1 btn-primary" title="Back" type="button"
-                                onclick="previewServiceBack()">
-                                <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.568 18.005l-1.414-1.415 4.574-4.59-4.574-4.579 1.414-1.416 5.988 5.995-5.988 6.005z" />
-                                </svg>
-                                <span class="mx-1 text-white">Back</span>
-                            </button>
-                        @endif
+                        <button class="flex justify-center items-center mx-1 btn-primary" title="Back" type="button"
+                            onclick="previewMediaBack()">
+                            <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.568 18.005l-1.414-1.415 4.574-4.59-4.574-4.579 1.414-1.416 5.988 5.995-5.988 6.005z" />
+                            </svg>
+                            <span class="mx-1 text-white">Back</span>
+                        </button>
                         <button class="flex justify-center items-center mx-1 btn-success" title="Next" type="button">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
@@ -88,16 +76,18 @@
                         <!-- Modal Select Sale end-->
 
                         <!-- Modal Select Documentation start-->
-                        @include('work-reports.modal-select-documentation')
+                        {{-- @include('work-reports.modal-select-documentation') --}}
                         <!-- Modal Select Documentation end-->
 
                         <!-- Modal Preview start-->
-                        @include('work-reports.modal-preview')
+                        {{-- @include('work-reports.modal-preview') --}}
                         <!-- Modal Preview end-->
                     </div>
                 </div>
             </div>
         </div>
+    </form>
+    <form id="formSelectSale">
     </form>
 
     <!-- Script Preview Image start-->

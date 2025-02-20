@@ -19,7 +19,8 @@
                             <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center" rowspan="2">
                                 Kode
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">
+                                Lokasi
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-14" rowspan="2">
                                 Jenis
@@ -27,7 +28,8 @@
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-28" rowspan="2">
                                 Size
                                 - V/H</th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="3">Detail
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="3">
+                                Detail
                                 Penjualan</th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">
                                 Action</th>
@@ -103,17 +105,17 @@
                                     </td>
                                     <td id="tdCreate"
                                         class="text-stone-900 border border-stone-900 align-middle text-center text-sm">
-                                        @if ($work_category == 'media')
-                                            <input id="{{ json_encode($quotationDeal) }}"
-                                                value="{{ json_encode($sale) }}" type="radio" name="chooseSale"
-                                                title="pilih" onclick="getMediaSales(this)">
-                                            <label class="ml-1">Pilih</label>
-                                        @else
+                                        {{-- @if ($work_category == 'media') --}}
+                                        <input id="{{ json_encode($quotationDeal) }}" value="{{ json_encode($sale) }}"
+                                            type="radio" name="chooseSale" title="pilih"
+                                            onclick="getMediaSales(this)">
+                                        <label class="ml-1">Pilih</label>
+                                        {{-- @else
                                             <input id="{{ json_encode($quotationDeal) }}"
                                                 value="{{ json_encode($sale) }}" type="checkbox" name="chooseSale"
                                                 title="pilih" onclick="getServiceSales(this)">
                                             <label class="ml-1">Pilih</label>
-                                        @endif
+                                        @endif --}}
                                     </td>
                                 </tr>
                             @endif
@@ -135,39 +137,3 @@
         </button>
     </div>
 </div>
-
-<script>
-    const saleId = document.getElementById("saleId");
-    let sale = [];
-    let quotationDeal = {};
-    let client = {};
-    getMediaSales = (sel) => {
-        sale.push(JSON.parse(sel.value));
-        client = JSON.parse(sale[0].quotation.clients);
-        quotationDeal = JSON.parse(sel.id);
-    }
-
-    getServiceSales = (sel) => {
-        if (Object.keys(sale).length == 0) {
-            sale.push(JSON.parse(sel.value));
-            quotationDeal = JSON.parse(sel.id);
-            client = JSON.parse(sale[0].quotation.clients);
-        } else {
-            if (quotationDeal.number != JSON.parse(sel.id).number) {
-                alert("Silahkan pilih klien dan nomor penawaran yang sama..!!");
-                sel.checked = false;
-            } else {
-                if (sel.checked == true) {
-                    sale.push(JSON.parse(sel.value));
-                } else {
-                    for (let i = 0; i < sale.length; i++) {
-                        if (sale[i].id == JSON.parse(sel.value).id) {
-                            sale.splice(i, 1);
-                            sale.splice(i, 1);
-                        }
-                    }
-                }
-            }
-        }
-    }
-</script>

@@ -181,9 +181,10 @@ Route::get('/billings/create/{category}', [BillingController::class,'createBilli
 // Billing  --> end
 
 // Work Report  --> start
-Route::resource('/accounting/work-reports', WorkReportController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
+Route::resource('/accounting/work-reports', WorkReportController::class)->except(['index'])->middleware(['auth','user_access']);
 Route::get('/work-reports/index/{companyid}', [WorkReportController::class,'index'])->middleware(['auth','user_access']);
-Route::get('/work-reports/create/{category}', [WorkReportController::class,'createWorkReport'])->middleware(['auth','user_access']);
+// Route::get('/work-reports/create/{category}', [WorkReportController::class,'createWorkReport'])->middleware(['auth','user_access']);
+Route::get('/work-reports/select-documentation/{id}', [WorkReportController::class,'selectDocumentation'])->middleware(['auth','user_access']);
 // Work Report  --> end
 
 // Bill Cover Letter  --> start

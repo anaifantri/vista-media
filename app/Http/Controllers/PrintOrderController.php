@@ -334,7 +334,7 @@ class PrintOrderController extends Controller
                     $freePrint = $notes->freePrint;
                     $price = json_decode($revision->price);
                     foreach($price->objPrints as $print){
-                        if($print->code == $dataSale->product->code){
+                        if($print->code == $product->code){
                             $printProduct = $print->printProduct;
                         }
                     }

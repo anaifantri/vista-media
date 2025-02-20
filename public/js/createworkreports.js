@@ -1,58 +1,20 @@
+const formSelectSale = document.getElementById("formSelectSale");
+let saleId = "";
+
+getMediaSales = (sel) => {
+    saleId = JSON.parse(sel.value).id;
+    formSelectSale.setAttribute('action', '/work-reports/select-documentation/' + saleId);
+}
+
 // Function Modal Sale Start
 saleNext = () =>{
-    if(Object.keys(sale).length == 0){
-        alert("Silahkan pilih data penjualan yang akan dibuatkan BAST..");
+    if(saleId == ""){
+        alert("Silahkan pilih penjualan terlebih dahulu..!!");
     }else{
-        const month = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        const saleHeader = document.getElementById("saleHeader");
-        const saleDetail = document.getElementById("saleDetail");
-        const quotationDetail = document.getElementById("quotationDetail");
-        document.getElementById("modalSelectSale").setAttribute('hidden', 'hidden');
-        document.getElementById("modalSelectDocumentation").removeAttribute('hidden');
-        var product = JSON.parse(sale[0].product);
-        var saleDate = new Date(sale[0].created_at);
-        var quotationDate = new Date(quotationDeal.created_at);
-
-        saleDetail.children[0].children[2].innerHTML = sale[0].number;
-        saleDetail.children[1].children[2].innerHTML = saleDate.getDate() + ' ' + month[saleDate.getMonth()] + ' ' + saleDate.getFullYear();
-        saleDetail.children[2].children[2].innerHTML = product.category;
-        saleDetail.children[3].children[2].innerHTML = product.code + '-' + product.city_code + ' | ' +  product.address;
-        saleDetail.children[4].children[2].innerHTML = 'Rp. ' + sale[0].price.toLocaleString() + ',-';
-        saleDetail.children[0].children[2].innerHTML = sale[0].number;
-
-        quotationDetail.children[0].children[2].innerHTML = quotationDeal.number;
-        quotationDetail.children[1].children[2].innerHTML = quotationDate.getDate() + ' ' + month[quotationDate.getMonth()] + ' ' + quotationDate.getFullYear();
-        quotationDetail.children[2].children[2].innerHTML = client.name;
-        quotationDetail.children[3].children[2].innerHTML = client.company;
-
-        saleHeader.classList.remove('hidden');
-        saleHeader.classList.add('flex');
+        formSelectSale.submit();
     }
 }
 // Function Modal Sale end
-
-// Function Modal Documentation start
-documentationNext = () =>{
-    const firstImage = document.getElementById("firstImage");
-    const secondImage = document.getElementById("secondImage");
-    if(secondImage.files.length == 0 && firstImage.files.length == 0){
-        alert("Silahkan pilih foto terlebih dahulu..!"); 
-    }else{
-        document.getElementById("modalSelectDocumentation").setAttribute('hidden', 'hidden');
-        document.getElementById("modalPreview").removeAttribute('hidden');
-        document.getElementById("divButton").classList.remove('hidden');
-        document.getElementById("divButton").classList.add('flex');
-        saleHeader.classList.remove('flex');
-        saleHeader.classList.add('hidden');
-    }
-}
-documentationBack = () =>{
-    document.getElementById("modalSelectDocumentation").setAttribute('hidden', 'hidden');
-    document.getElementById("modalSelectSale").removeAttribute('hidden');
-    saleHeader.classList.remove('flex');
-    saleHeader.classList.add('hidden');
-}
-// Function Modal Documentation end
 
 // Function Modal Preview start
 previewMediaBack = () =>{
