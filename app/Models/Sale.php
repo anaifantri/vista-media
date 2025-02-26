@@ -195,5 +195,9 @@ class Sale extends Model
         return $this->hasMany(PrintOrder::class, 'sale_id', 'id');
     }
 
+    public function work_reports(){
+        return $this->hasMany(WorkReport::class, 'sale_id', 'id');
+    }
+
     public $sortable = ['number'];
 }

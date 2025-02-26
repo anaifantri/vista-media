@@ -31,5 +31,9 @@ class WorkReport extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function sale(){
+        return $this->belongsTo(Sale::class);
+    }
+
     public $sortable = ['number'];
 }

@@ -16,73 +16,115 @@
                         <u>INVOICE</u>
                     </label>
                     <div class="flex mt-4">
-                        <div class="w-[380px] h-[200px] border rounded-lg p-1">
+                        <div class="w-[380px] h-[190px] border rounded-lg p-1">
                             <div class="flex items-center ml-2">
                                 <label class="text-lg w-24">Nomor</label>
                                 <label class="text-lg">:</label>
-                                <label class="text-lg font-mono font-semibold ml-2">001/INV/VM/II-2025</label>
+                                <label class="text-lg font-mono font-semibold ml-2 text-slate-300">Penomoran
+                                    otomatis</label>
                             </div>
                             <div class="flex items-center ml-2">
                                 <label class="text-lg w-24">Tanggal</label>
                                 <label class="text-lg">:</label>
-                                <label class="text-lg font-mono font-semibold ml-2">01 Februari 2025</label>
-                            </div>
-                            <div class="mt-2">
-                                <label class="text-lg ml-2 font-semibold">
-                                    <u>Dokumen :</u>
+                                <label class="text-lg font-mono font-semibold ml-2">
+                                    {{ date('d') }}
+                                    {{ $bulan[(int) date('m')] }}
+                                    {{ date('Y') }}
                                 </label>
                             </div>
-                            <div class="flex text-md ml-2 mt-1">
-                                <label class="w-40">No. PO/Approval</label>
-                                <label class="">:</label>
-                                <label class="ml-2">-</label>
+                            <div class="mt-2 border-b w-full">
+                                <label class="text-lg ml-2 font-semibold">
+                                    Dokumen :
+                                </label>
                             </div>
-                            <div class="flex text-md ml-2">
-                                <label class="w-40">Tgl. PO/Approval</label>
+                            <div class="flex text-sm ml-2 mt-1 border-b">
+                                <label class="w-24">No. Penawaran</label>
                                 <label class="">:</label>
-                                <label class="ml-2">-</label>
+                                <label
+                                    class="ml-2 w-28 font-semibold">{{ substr($quotation_deal->number, 0, 9) }}..</label>
+                                <label class="w-8">Tgl.</label>
+                                <label class="">:</label>
+                                <label class="ml-2 font-semibold">
+                                    {{ date('d', strtotime($quotation_deal->created_at)) }}-{{ $month[(int) date('m', strtotime($quotation_deal->created_at))] }}-{{ date('Y', strtotime($quotation_deal->created_at)) }}
+                                </label>
                             </div>
-                            <div class="flex text-md ml-2">
-                                <label class="w-40">No. Perjanjian</label>
+                            <div class="flex text-sm ml-2 mt-1 border-b">
+                                <label class="w-24">No. PO</label>
                                 <label class="">:</label>
-                                <label class="ml-2">-</label>
+                                <label
+                                    class="ml-2 w-28 font-semibold">{{ substr($quotation_deal->number, 0, 9) }}..</label>
+                                <label class="w-8">Tgl.</label>
+                                <label class="">:</label>
+                                <label class="ml-2 font-semibold">
+                                    {{ date('d', strtotime($quotation_deal->created_at)) }}-{{ $month[(int) date('m', strtotime($quotation_deal->created_at))] }}-{{ date('Y', strtotime($quotation_deal->created_at)) }}
+                                </label>
                             </div>
-                            <div class="flex text-md ml-2">
-                                <label class="w-40">Tgl. Perjanjian</label>
+                            <div class="flex text-sm ml-2 mt-1 border-b">
+                                <label class="w-24">No. Perjanjian</label>
                                 <label class="">:</label>
-                                <label class="ml-2">-</label>
+                                <label
+                                    class="ml-2 w-28 font-semibold">{{ substr($quotation_deal->number, 0, 9) }}..</label>
+                                <label class="w-8">Tgl.</label>
+                                <label class="">:</label>
+                                <label class="ml-2 font-semibold">
+                                    {{ date('d', strtotime($quotation_deal->created_at)) }}-{{ $month[(int) date('m', strtotime($quotation_deal->created_at))] }}-{{ date('Y', strtotime($quotation_deal->created_at)) }}
+                                </label>
                             </div>
                         </div>
                         <div class="w-[380px] h-[190px] border rounded-lg p-1 ml-2">
                             <label class="text-lg font-mono font-semibold ml-2">Kepada Yth.</label>
                             <div class="flex ml-2">
-                                <label class="text-md w-24">Nama</label>
-                                <label class="text-md">:</label>
-                                <label class="text-md ml-2 font-semibold">-</label>
+                                <label class="text-sm w-24">Nama</label>
+                                <label class="text-sm">:</label>
+                                <label class="text-sm ml-2 font-semibold">
+                                    @if ($client->contact_name)
+                                        @if ($client->contact_gender == 'Male')
+                                            Bapak {{ $client->contact_name }}
+                                        @else
+                                            Ibu {{ $client->contact_name }}
+                                        @endif
+                                    @else
+                                        -
+                                    @endif
+                                </label>
                             </div>
                             <div class="flex ml-2">
-                                <label class="text-md w-24">Perusahaan</label>
-                                <label class="text-md">:</label>
-                                <label class="text-md ml-2 font-semibold">-</label>
+                                <label class="text-sm w-24">Perusahaan</label>
+                                <label class="text-sm">:</label>
+                                <label class="text-sm ml-2 font-semibold">{{ $client->company }}</label>
                             </div>
                             <div class="flex ml-2">
-                                <label class="text-md w-24">Alamat</label>
-                                <label class="text-md">:</label>
-                                <label class="text-md ml-2 w-[250px] h-12">jjjjjjjjjjjjjkkk
-                                    kkkkkkk
-                                    kkkkk
-                                    kkkkk
-                                    kkkkkk kkkkkk kkk -</label>
+                                <label class="text-sm w-24">Alamat</label>
+                                <label class="text-sm">:</label>
+                                <label class="text-sm ml-2 w-[250px] h-[72px]">
+                                    @if (strlen($client->address) > 100)
+                                        {{ substr($client->address, 0, 100) }}..
+                                    @else
+                                        {{ $client->address }}
+                                    @endif
+                                </label>
                             </div>
                             <div class="flex ml-2">
-                                <label class="text-md w-24">No. Telp.</label>
-                                <label class="text-md">:</label>
-                                <label class="text-md ml-2">-</label>
+                                <label class="text-sm w-24">No. Telp.</label>
+                                <label class="text-sm">:</label>
+                                <label class="text-sm ml-2">
+                                    @if ($client->contact_phone)
+                                        {{ $client->contact_phone }}
+                                    @else
+                                        -
+                                    @endif
+                                </label>
                             </div>
                             <div class="flex ml-2">
-                                <label class="text-md w-24">Email</label>
-                                <label class="text-md">:</label>
-                                <label class="text-md ml-2">-</label>
+                                <label class="text-sm w-24">Email</label>
+                                <label class="text-sm">:</label>
+                                <label class="text-sm ml-2">
+                                    @if ($client->contact_email)
+                                        {{ $client->contact_email }}
+                                    @else
+                                        -
+                                    @endif
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -91,21 +133,112 @@
                             <tr class="text-sm">
                                 <th class="border h-8 w-8">No.</th>
                                 <th class="border h-8 ">Deskripsi</th>
-                                <th class="border h-8 w-16">Jumlah</th>
-                                <th class="border h-8 w-28">Harga</th>
-                                <th class="border h-8 w-32">Total</th>
+                                <th class="border h-8 w-36">Harga</th>
+                                <th class="border h-8 w-36">Total</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($auto_terms as $termItem)
+                                @if ($termItem->set_collect == true)
+                                    <tr class="text-sm">
+                                        <td class="border px-2">{{ $loop->iteration }}</td>
+                                        <td class="border px-2">{{ $termItem->title }}</td>
+                                        <td class="border px-2 text-right">
+                                            <div class="flex justify-end">
+                                                <label class="w-6">Rp. </label>
+                                                <label
+                                                    class="w-full flex justify-end">{{ number_format($termItem->nominal) }}</label>
+                                                <label class="w-4">,-</label>
+                                            </div>
+                                        </td>
+                                        <td class="border px-2 text-right">
+                                            <div class="flex justify-end">
+                                                <label class="w-6">Rp. </label>
+                                                <label
+                                                    class="w-full flex justify-end">{{ number_format($termItem->nominal) }}</label>
+                                                <label class="w-4">,-</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-sm">
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2">
+                                            <div class="flex w-full">
+                                                <span class="w-16">Jenis</span>
+                                                <span>:</span>
+                                                <span class="ml-2">{{ $product->category }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2"></td>
+                                    </tr>
+                                    <tr class="text-sm">
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2">
+                                            <div class="flex w-full">
+                                                <span class="w-16">Ukuran</span>
+                                                <span>:</span>
+                                                <span class="ml-2">{{ $product->size }} x {{ $product->side }} -
+                                                    {{ $product->orientation }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2"></td>
+                                    </tr>
+                                    <tr class="text-sm">
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2">
+                                            <div class="flex w-full">
+                                                <span class="w-16">Jumlah</span>
+                                                <span>:</span>
+                                                <span class="ml-2">1 (Satu) Unit</span>
+                                            </div>
+                                        </td>
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2"></td>
+                                    </tr>
+                                    <tr class="text-sm">
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2">
+                                            <div class="flex w-full">
+                                                <span class="w-16">Periode</span>
+                                                <span>:</span>
+                                                <span class="ml-2">
+                                                    {{ $priceTitle }} (
+                                                    {{ date('d', strtotime($sale->start_at)) }}
+                                                    {{ $bulan[(int) date('m', strtotime($sale->start_at))] }}
+                                                    {{ date('Y', strtotime($sale->start_at)) }} s.d
+                                                    {{ date('d', strtotime($sale->end_at)) }}
+                                                    {{ $bulan[(int) date('m', strtotime($sale->end_at))] }}
+                                                    {{ date('Y', strtotime($sale->end_at)) }} )
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2"></td>
+                                    </tr>
+                                    <tr class="text-sm">
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2">
+                                            <div class="flex w-full">
+                                                <span class="w-16">Lokasi</span>
+                                                <span>:</span>
+                                                <span class="ml-2 w-[300px]">{{ $product->address }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2"></td>
+                                    </tr>
+                                    <tr class="h-6">
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2"></td>
+                                        <td class="border px-2"></td>
+                                    </tr>
+                                @endif
+                            @endforeach
                             <tr class="text-sm">
-                                <td class="border"></td>
-                                <td class="border"></td>
-                                <td class="border"></td>
-                                <td class="border"></td>
-                                <td class="border"></td>
-                            </tr>
-                            <tr class="text-sm">
-                                <td class="border px-4" colspan="3" rowspan="4">
+                                <td class="border px-4" colspan="2" rowspan="4">
                                     <u>Pembayaran :</u>
                                     <div class="flex">
                                         <label class="w-20">No. Rek.</label>

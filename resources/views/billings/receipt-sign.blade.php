@@ -3,7 +3,7 @@
     <div class="flex w-full items-center px-10 pt-2 pb-2">
         <div class="ml-4 w-[900px]">
             <div class="flex w-[500px] justify-center py-1 border-b-2 border-t-2 border-black">
-                <label class="text-4xl font-bold tracking-wider">250.000.000</label>
+                <label id="receiptTotal" class="text-4xl font-bold tracking-wider"></label>
             </div>
             <div class="w-[500px] h-[160px] border border-black mt-2 p-2">
                 <label class="flex text-sm"><u>Catatan :</u></label>
@@ -19,7 +19,11 @@
         </div>
         <div class="flex w-full justify-center p-2">
             <div>
-                <label class="mt-4 text-sm flex justify-center w-72">Denpasar, 02 Februari 2025</label>
+                <label class="mt-4 text-sm flex justify-center w-72">Denpasar,
+                    {{ date('d') }}
+                    {{ $bulan[(int) date('m')] }}
+                    {{ date('Y') }}
+                </label>
                 <label class="text-sm flex justify-center w-72 font-semibold">{{ $company->name }}</label>
                 <label class="mt-28 text-sm flex justify-center w-72 font-semibold">
                     <u>Texun Sandy Kamboy</u>

@@ -19,7 +19,8 @@
                             <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center" rowspan="2">
                                 Kode
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">Lokasi
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">
+                                Lokasi
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-14" rowspan="2">
                                 Jenis
@@ -27,7 +28,8 @@
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-28" rowspan="2">
                                 Size
                                 - V/H</th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="3">Detail
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="3">
+                                Detail
                                 Penjualan</th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">
                                 Action</th>
@@ -104,15 +106,11 @@
                                     <td id="tdCreate"
                                         class="text-stone-900 border border-stone-900 align-middle text-center text-sm">
                                         @if ($bill_category == 'media')
-                                            <input
-                                                id="{{ json_encode($payment_terms) }}*{{ json_encode($quotationDeal) }}"
-                                                value="{{ json_encode($sale) }}" type="radio" name="chooseSale"
+                                            <input value="{{ $sale->id }}" type="radio" name="chooseSale"
                                                 title="pilih" onclick="getMediaSales(this)">
                                             <label class="ml-1">Pilih</label>
                                         @else
-                                            <input
-                                                id="{{ json_encode($payment_terms) }}*{{ json_encode($quotationDeal) }}"
-                                                value="{{ json_encode($sale) }}" type="checkbox" name="chooseSale"
+                                            <input value="{{ $sale->id }}" type="checkbox" name="chooseSale"
                                                 title="pilih" onclick="getServiceSales(this)">
                                             <label class="ml-1">Pilih</label>
                                         @endif
@@ -150,7 +148,20 @@
     </div>
 </div>
 
+
+<form id="formSelectSale">
+</form>
+
 <script>
+    const formSelectSale = document.getElementById("formSelectSale");
+    let saleId = [];
+    getMediaSales = (sel) => {
+        saleId.push(sel.value);
+        formSelectSale.setAttribute('action', '/billings/create-billing/' + JSON.stringify(saleId));
+    }
+</script>
+
+{{-- <script>
     const saleId = document.getElementById("saleId");
     const billTerms = document.getElementById("billTerms");
     const billDpp = document.getElementById("billDpp");
@@ -211,4 +222,4 @@
             }
         }
     }
-</script>
+</script> --}}

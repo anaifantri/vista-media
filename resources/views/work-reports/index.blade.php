@@ -98,7 +98,7 @@
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center">
                                     Lokasi
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-32">
                                     Jenis
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">
@@ -107,43 +107,43 @@
                             </tr>
                         </thead>
                         <tbody class="bg-stone-200">
-                            @foreach ($work_reports as $works_reports)
+                            @foreach ($work_reports as $work_report)
                                 @php
-                                    $product = json_decode($works_reports->sale->product);
-                                    $client = json_decode($works_reports->sale->quotation->clients);
+                                    $content = json_decode($work_report->content);
                                 @endphp
                                 <tr>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
                                         {{ $loop->iteration }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ substr($works_reports->number, 0, 15) }}..
+                                        {{ substr($work_report->number, 0, 15) }}..
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ date('d', strtotime($works_reports->created_at)) }}-{{ $bulan[(int) date('m', strtotime($works_reports->created_at))] }}-{{ date('Y', strtotime($works_reports->created_at)) }}
+                                        {{ date('d', strtotime($work_report->created_at)) }}-{{ $bulan[(int) date('m', strtotime($work_report->created_at))] }}-{{ date('Y', strtotime($work_report->created_at)) }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ $works_reports->sale->id }}
+                                        {{ substr($work_report->sale->number, 0, 11) }}..
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                        @if (strlen($client->name) > 15)
+                                        @if (strlen($content->client->name) > 15)
                                             <a href="/marketing/clients/{{ $client->id }}">
-                                                {{ substr($client->name, 0, 15) }}..
+                                                {{ substr($content->client->name, 0, 15) }}..
                                             </a>
                                         @else
-                                            <a href="/marketing/clients/{{ $client->id }}">
-                                                {{ $client->name }}
+                                            <a href="/marketing/clients/{{ $content->client->id }}">
+                                                {{ $content->client->name }}
                                             </a>
                                         @endif
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ $product->code }} - {{ $product->city_code }} | {{ $product->address }}
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs">
+                                        {{ $content->location_code }} | {{ $content->location_address }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
+                                        {{ $content->category }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
-                                            <a href="/accounting/work-reports/{{ $works_reports->id }}"
+                                            <a href="/work-reports/preview/{{ $work_report->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">
                                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -156,7 +156,7 @@
                                             @canany(['isAdmin', 'isAccounting'])
                                                 @can('isCollect')
                                                     @can('isAccountingEdit')
-                                                        <a href="/accounting/work-reports/{{ $works_reports->id }}/edit"
+                                                        <a href="/accounting/work-reports/{{ $work_report->id }}/edit"
                                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md ml-1">
                                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -170,13 +170,13 @@
                                                 @endcan
                                             @endcanany
                                             @can('isAdmin')
-                                                <form action="/accounting/work-reports/{{ $works_reports->id }}" method="post"
+                                                <form action="/accounting/work-reports/{{ $work_report->id }}" method="post"
                                                     class="d-inline m-1">
                                                     @method('delete')
                                                     @csrf
                                                     <button
                                                         class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data BAST dengan nomor {{ $works_reports->number }} ?')">
+                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data BAST dengan nomor {{ $work_report->number }} ?')">
                                                         <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                                             width="24" height="24" viewBox="0 0 24 24">
                                                             <title>DELETE</title>

@@ -67,7 +67,7 @@ class ClientController extends Controller
             }
     
             // Set code --> start
-            $dataClient = Client::all()->last();
+            $dataClient = Client::orderBy("code", "asc")->get()->last();
             if($dataClient){
                 $lastCode = (int)substr($dataClient->code,4,4);
                 $newCode = $lastCode + 1;

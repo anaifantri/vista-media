@@ -1,9 +1,9 @@
 <div id="modalPreview" hidden>
     <div class="flex w-full">
-        <span class="text-center w-full text-lg font-bold text-white">Preview Invoice & Kwitansi</span>
+        <span class="text-center w-full text-lg font-bold text-white">Preview BAST</span>
     </div>
 
-    <!-- Surat Invoice start -->
+    <!-- BAST start -->
     <div class="flex justify-center w-full mt-4">
         <div>
             <div class="flex items-center w-[950px] border rounded-md px-2">
@@ -43,9 +43,9 @@
             </div>
         </div>
     </div>
-    <!-- Surat Invoice end -->
+    <!-- BAST end -->
 
-    <!-- Kwitansi start -->
+    <!-- Documentation start -->
     <div class="flex justify-center w-full mt-2">
         <div class="w-[950px] h-[1345px] mt-1 bg-white p-4">
             <!-- Header start -->
@@ -56,36 +56,61 @@
             <div class="h-[1100px] w-full flex justify-center mt-2">
                 <div class="flex justify-center w-full">
                     <div class="w-[780px]">
-                        <div class="flex justify-center w-full font-serif mt-4 text-lg tracking-wider font-bold">
+                        <div class="flex justify-center w-full font-serif mt-4 text-md tracking-wider font-bold">
                             <label class="border-b-2 border-black">
                                 DOKUMENTASI PEKERJAAN
                             </label>
                         </div>
-                        <div class="flex justify-center w-full">
-                            <div class="w-60 border-t-2 border-black mt-2"></div>
+                        <div class="flex w-full font-serif text-sm tracking-wider font-bold ml-24 mt-8">
+                            <span class="w-28">Pekerjaan</span>
+                            <span>:</span>
+                            <span class="ml-2">{{ $content->type }}</span>
                         </div>
-                        <div class="flex justify-center w-full font-serif mt-4 text-md font-semibold">
-                            <label>
-                                Lokasi :
-                            </label>
+                        <div class="flex w-full font-serif text-sm tracking-wider font-bold ml-24">
+                            <span class="w-28">Lokasi</span>
+                            <span>:</span>
+                            <span class="ml-2">{{ $product->address }}</span>
                         </div>
-                        <div class="flex w-full font-serif mt-6 text-md font-semibold">
-                            <label class="ml-16">
-                                Foto Siang
-                            </label>
+                        @if ($sale->media_category->name == 'Service')
+                            <div class="flex w-full font-serif text-sm tracking-wider font-bold ml-24">
+                                <span class="w-28">Tema</span>
+                                <span>:</span>
+                                <span class="ml-2">{{ $content->theme }}</span>
+                            </div>
+                        @else
+                            <div class="flex w-full font-serif text-sm tracking-wider font-bold ml-24">
+                                <span class="w-28">Periode</span>
+                                <span>:</span>
+                                <span class="ml-2">{{ $content->periode }}</span>
+                            </div>
+                        @endif
+                        <div class="flex w-full justify-center font-serif mt-6 text-sm font-semibold">
+                            <label id="firstPhotoTitle"><u>{{ $firstPhoto->title }}</u></label>
                         </div>
-                        <div class="flex justify-center w-full mt-1">
-                            <img class="border m-auto w-[650px] img-preview-first flex items-center bg-white rounded-lg"
-                                src="/img/product-image.png">
+                        <div class="flex justify-center w-full mt-2">
+                            @if (count($first_photos) > 0)
+                                <img id="previewFirstPhoto"
+                                    class="border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
+                                    src="{{ asset('storage/' . $first_photos[0]->image) }}">
+                            @else
+                                <img id="previewFirstPhoto"
+                                    class="border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
+                                    src="/img/product-image.png">
+                            @endif
                         </div>
-                        <div class="flex w-full font-serif mt-6 text-md font-semibold">
-                            <label class="ml-16">
-                                Foto Malam
-                            </label>
+                        <div class="flex w-full justify-center font-serif mt-6 text-sm font-semibold">
+                            <label id="secondPhotoTitle"><u>{{ $secondPhoto->title }}</u></label>
                         </div>
-                        <div class="flex justify-center w-full mt-1">
-                            <img class="border m-auto w-[650px] img-preview-first flex items-center bg-white rounded-lg"
-                                src="/img/product-image.png">
+                        <div class="flex justify-center w-full mt-2">
+                            @if (count($second_photos) > 0)
+                                <img id="previewSecondPhoto"
+                                    class="border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
+                                    src="{{ asset('storage/' . $second_photos[0]->image) }}">
+                            @else
+                                <img id="previewSecondPhoto"
+                                    class="border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
+                                    src="/img/product-image.png">
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -97,5 +122,5 @@
             <!-- Footer end -->
         </div>
     </div>
-    <!-- Kwitansi end -->
+    <!-- Documentation end -->
 </div>

@@ -1,166 +1,113 @@
-// Function Modal Sale Start
-saleMediaNext = () =>{
-    if(Object.keys(sale).length == 0){
-        alert("Silahkan pilih data penjualan yang akan ditagihkan..!");
+if(document.getElementById("setPreview")){
+    showHidePreview();
+}
+
+function showHidePreview(){
+    if(setPreview.value == 'true'){
+        document.getElementById("modalSelectTerm").setAttribute('hidden', 'hidden');
+        document.getElementById("saleHeader").classList.remove('flex');
+        document.getElementById("saleHeader").classList.add('hidden');
+        document.getElementById("divButton").classList.remove('hidden');
+        document.getElementById("divButton").classList.add('flex');
+        document.getElementById("modalPreview").removeAttribute('hidden');
     }else{
-        const month = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        const saleHeader = document.getElementById("saleHeader");
-        const divTerms = document.getElementById("divTerms");
-        const nodeTerm = document.getElementById("nodeTerm");
-        const saleDetail = document.getElementById("saleDetail");
-        const quotationDetail = document.getElementById("quotationDetail");
-        document.getElementById("modalSelectSale").setAttribute('hidden', 'hidden');
         document.getElementById("modalSelectTerm").removeAttribute('hidden');
-        var product = JSON.parse(sale[0].product);
-        var saleDate = new Date(sale[0].created_at);
-        var quotationDate = new Date(quotationDeal.created_at);
-
-        saleDetail.children[0].children[2].innerHTML = sale[0].number;
-        saleDetail.children[1].children[2].innerHTML = saleDate.getDate() + ' ' + month[saleDate.getMonth()] + ' ' + saleDate.getFullYear();
-        saleDetail.children[2].children[2].innerHTML = product.category;
-        saleDetail.children[3].children[2].innerHTML = product.code + '-' + product.city_code + ' | ' +  product.address;
-        saleDetail.children[4].children[2].innerHTML = 'Rp. ' + sale[0].price.toLocaleString() + ',-';
-        saleDetail.children[0].children[2].innerHTML = sale[0].number;
-
-        quotationDetail.children[0].children[2].innerHTML = quotationDeal.number;
-        quotationDetail.children[1].children[2].innerHTML = quotationDate.getDate() + ' ' + month[quotationDate.getMonth()] + ' ' + quotationDate.getFullYear();
-        quotationDetail.children[2].children[2].innerHTML = client.name;
-        quotationDetail.children[3].children[2].innerHTML = client.company;
-
-        
-        while (divTerms.hasChildNodes()) {
-            divTerms.removeChild(divTerms.firstChild);
-        }
-        for(let i = 0; i < terms.length; i++){
-            var node = nodeTerm.cloneNode(true);
-            var termNominal = terms[i].term / 100 * sale[0].price;
-            node.children[0].innerHTML = "Tahap " + (i+1) + " : " + terms[i].term + "% x " + sale[0].price.toLocaleString();
-            node.children[1].innerHTML = " = Rp. ";
-            node.children[2].innerHTML = termNominal.toLocaleString();
-            node.children[3].innerHTML = ",-";
-            node.children[4].id = "cbTerms";
-            node.children[4].name = i;
-            divTerms.appendChild(node);
-        }
-        saleHeader.classList.remove('hidden');
-        saleHeader.classList.add('flex');
+        document.getElementById("saleHeader").classList.add('flex');
+        document.getElementById("saleHeader").classList.remove('hidden');
+        document.getElementById("divButton").classList.add('hidden');
+        document.getElementById("divButton").classList.remove('flex');
+        document.getElementById("modalPreview").setAttribute('hidden','hidden');
     }
 }
-
-saleServiceNext = () =>{
-    document.getElementById("modalSelectSale").setAttribute('hidden', 'hidden');
-    document.getElementById("modalPreview").removeAttribute('hidden');
-    document.getElementById("divButton").classList.remove('hidden');
-    document.getElementById("divButton").classList.add('flex');
-    saleHeader.classList.remove('flex');
-    saleHeader.classList.add('hidden');
+// Function Modal Sale Start
+saleMediaNext = () =>{
+    formSelectSale.submit();
 }
+
+// saleServiceNext = () =>{
+//     document.getElementById("modalSelectSale").setAttribute('hidden', 'hidden');
+//     document.getElementById("modalPreview").removeAttribute('hidden');
+//     document.getElementById("divButton").classList.remove('hidden');
+//     document.getElementById("divButton").classList.add('flex');
+//     saleHeader.classList.remove('flex');
+//     saleHeader.classList.add('hidden');
+// }
 // Function Modal Sale end
 
 // Function Modal Term start
 termNext = () =>{
-    const cbTerms = document.querySelectorAll('[id=cbTerms]');
-    var getTerms = false;
-    for(let i = 0; i < cbTerms.length; i++){
-        if(cbTerms[i].checked == true){
-            getTerms = true;
+    var divManualTerms = document.getElementById("divManualTerms");
+    var manualCheckboxs = divManualTerms.querySelectorAll('[type="checkbox"]');
+    const rbManualTerm = document.getElementById("rbManualTerm");
+    const rbAutoTerm = document.getElementById("rbAutoTerm");
+    const nominalTerms = document.querySelectorAll('[id=nominalTerms]');
+    const dppTerms = document.querySelectorAll('[id=dppTerms]');
+    const ppnTerms = document.querySelectorAll('[id=ppnTerms]');
+    const receiptTotalTerbilang = document.querySelectorAll('[id=receiptTotalTerbilang]');
+    const receiptTotal = document.querySelectorAll('[id=receiptTotal]');
+    var checkNominal = false;
+    if(rbAutoTerm.checked == true){
+        if(autoTerms.length == 0){
+            alert ("Silahkan pilih termin pembayaran terlebih dahulu..!!");
+        }else{
+            document.getElementById("receiptTotal").innerText = 'Rp. '+ totalTerm.toLocaleString()+',-';
+
+            for(let i = 0; i < receiptTotal.length; i++){
+                receiptTotal[i].innerText = 'Rp. '+ totalTerm.toLocaleString()+',-';
+            }
+            for(let i = 0; i < receiptTotalTerbilang.length; i++){
+                receiptTotalTerbilang[i].innerText = '# '+terbilang(totalTerm)+' Rupiah #';
+            }
+            setPreview.value = 'true';
+            document.getElementById("autoTerms").value = JSON.stringify(autoTerms);
+            document.getElementById("formSelectTerm").submit();
+        }
+    }else if(rbManualTerm.checked == true){
+        for(let i = 0; i < nominalTerms.length; i++){
+            if(nominalTerms[i].value != "" && nominalTerms[i].value != 0){
+                checkNominal = true;
+            }
+        }
+        if(checkNominal == false){
+            alert ("Silahkan input termin pembayaran terlebih dahulu..!!");
+        }else{
+            for(let i = 0; i < nominalTerms.length; i++){
+                if(manualCheckboxs[i].checked == true){
+                    var objTerm = {
+                        nominal: nominalTerms[i].value,
+                        dpp: dppTerms[i].value,
+                        ppn: ppnTerms[i].value
+                    }
+                    billPayments.push(objTerm);
+                    totalTerm = totalTerm + nominalTerms[i].value + ppnTerms[i].value;
+                }
+            }
+            for(let i = 0; i < receiptTotal.length; i++){
+                receiptTotal[i].innerText = 'Rp. '+ totalTerm.toLocaleString()+',-';
+            }
+            for(let i = 0; i < receiptTotalTerbilang.length; i++){
+                receiptTotalTerbilang[i].innerText = '# '+terbilang(totalTerm)+' Rupiah #';
+            }
+            setPreview.value == 'true';
+            document.getElementById("autoTerms").value = JSON.stringify(autoTerms);
+            document.getElementById("formSelectTerm").submit();
         }
     }
-    if(getTerms == true){
-        document.getElementById("modalSelectTerm").setAttribute('hidden', 'hidden');
-        document.getElementById("modalPreview").removeAttribute('hidden');
-        saleHeader.classList.remove('flex');
-        saleHeader.classList.add('hidden');
-    }else{
-        alert("Silahkan pilih termin yang akan ditagihkan terlebih dahulu..!!");
-    }
 }
-termBack = () =>{
-    document.getElementById("modalSelectTerm").setAttribute('hidden', 'hidden');
-    document.getElementById("modalSelectSale").removeAttribute('hidden');
-    saleHeader.classList.remove('flex');
-    saleHeader.classList.add('hidden');
-}
-// Function Modal Term end
-
-// Function Modal Faktur start
-// fakturNext = () =>{
-//     const number = document.getElementById("number");
-//     const taxDate = document.getElementById("taxDate");
-//     const images = document.getElementById("images");
-//     if(number.value == ""){
-//         alert("Nomor faktur belum diinput");
-//     }else if(taxDate.value == ""){
-//         alert("Tanggal faktur belum diinput");
-//     }else if(images.files.length == 0){
-//         alert("File Faktur belum dipilih");
-//     }else{
-//         document.getElementById("modalInputFaktur").setAttribute('hidden', 'hidden');
-//         document.getElementById("modalSelectDocuments").removeAttribute('hidden');
-//     }
-// }
-// fakturBack = () =>{
-//     document.getElementById("modalInputFaktur").setAttribute('hidden', 'hidden');
-//     document.getElementById("modalSelectTerm").removeAttribute('hidden');
-// }
-// Function Modal Faktur end
-
-// Function Modal Documents start
-// documentNext = () =>{
-//     const cbApproval = document.getElementById("cbApproval");
-//     const cbOrder = document.getElementById("cbOrder");
-//     const cbAgreement = document.getElementById("cbAgreement");
-//     if(cbAgreement.checked == true || cbApproval.checked == true || cbOrder.checked == true){
-//         document.getElementById("modalSelectDocuments").setAttribute('hidden', 'hidden');
-//         document.getElementById("modalSelectDocumentation").removeAttribute('hidden');
-//     }else{
-//         alert("Anda belum memilih dokumen sebagai lampiran..!!");
-//     }
-// }
-// documentBack = () =>{
-//     document.getElementById("modalSelectDocuments").setAttribute('hidden', 'hidden');
-//     document.getElementById("modalInputFaktur").removeAttribute('hidden');
-// }
-// Function Modal Documents end
-
-// Function Modal Documentation start
-// documentationNext = () =>{
-//     const dayImage = document.getElementById("dayImage");
-//     const nightImage = document.getElementById("nightImage");
-//     if(nightImage.files.length == 0 || dayImage.files.length == 0){
-//         alert("Silahkan lengkapi foto siang dan malam"); 
-//     }else{
-//         document.getElementById("modalSelectDocumentation").setAttribute('hidden', 'hidden');
-//         document.getElementById("modalPreview").removeAttribute('hidden');
-//         document.getElementById("divButton").classList.remove('hidden');
-//         document.getElementById("divButton").classList.add('flex');
-//         saleHeader.classList.remove('flex');
-//         saleHeader.classList.add('hidden');
-//     }
-// }
-// documentationBack = () =>{
-//     document.getElementById("modalSelectDocumentation").setAttribute('hidden', 'hidden');
-//     document.getElementById("modalSelectDocuments").removeAttribute('hidden');
-// }
-// Function Modal Documentation end
 
 // Function Modal Preview start
 previewMediaBack = () =>{
-    document.getElementById("modalPreview").setAttribute('hidden', 'hidden');
-    document.getElementById("modalSelectTerm").removeAttribute('hidden');
-    document.getElementById("divButton").classList.remove('flex');
-    document.getElementById("divButton").classList.add('hidden');
-    saleHeader.classList.remove('hidden');
-    saleHeader.classList.add('flex');
+    setPreview.value = 'false';
+    showHidePreview();
 }
-previewServiceBack = () =>{
-    document.getElementById("modalPreview").setAttribute('hidden', 'hidden');
-    document.getElementById("modalSelectSale").removeAttribute('hidden');
-    document.getElementById("divButton").classList.remove('flex');
-    document.getElementById("divButton").classList.add('hidden');
-    saleHeader.classList.remove('flex');
-    saleHeader.classList.add('hidden');
-}
+// previewServiceBack = () =>{
+//     document.getElementById("modalPreview").setAttribute('hidden', 'hidden');
+//     document.getElementById("modalSelectSale").removeAttribute('hidden');
+//     document.getElementById("divButton").classList.remove('flex');
+//     document.getElementById("divButton").classList.add('hidden');
+//     saleHeader.classList.remove('flex');
+//     saleHeader.classList.add('hidden');
+// }
 // Function Modal Preview end
 
 
@@ -168,17 +115,18 @@ previewServiceBack = () =>{
 function searchTable() {
     const search = document.getElementById("search");
     const salesTable = document.getElementById("salesTable");
-    var filter, tr, td, i, found;
+    var filter, tr, td, i, found, tdText;
     filter = search.value.toUpperCase();
     tr = salesTable.getElementsByTagName("tr");
-    for (i = 3; i < tr.length; i++) {
+    for (i = 2; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td");
         for (j = 0; j < td.length; j++) {
-            if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tdText = tr[i].getElementsByTagName("td")[j];
+            if (tdText.innerText.toUpperCase().indexOf(filter) > -1) {
                 found = true;
             }
         }
-        if (found) {
+        if (found == true) {
             tr[i].style.display = "";
             found = false;
         } else {
@@ -188,82 +136,104 @@ function searchTable() {
 }
 // Search Table --> end
 
-cbTermAction = (sel) => {
+cbManualTerm = (sel) =>{
+    var indexManualTerm = parseInt(sel.id.replace(/[A-Za-z$-]/g, ""));
+    const titleTerms = document.querySelectorAll('[id=titleTerms]');
+    const nominalTerms = document.querySelectorAll('[id=nominalTerms]');
+    const dppTerms = document.querySelectorAll('[id=dppTerms]');
+    const ppnTerms = document.querySelectorAll('[id=ppnTerms]');
     if(sel.checked == true){
-        var termsData = {
-            term_number : sel.name,
-            term_value : terms[sel.name].term
-        }
-        var dppData = {
-            dpp_number : sel.name,
-            dpp_value : sale[0].dpp * (terms[sel.name].term / 100),
-            ppn_value : sale[0].ppn,
-            ppn_nominal : (sale[0].dpp * (terms[sel.name].term / 100)) * (sale[0].ppn / 100)
-        }
-        var nominalData = {
-            nominal_number : sel.name,
-            nominal_value : sale[0].price * (terms[sel.name].term / 100)
-        }
-        billTermsData.push(termsData);
-        billDppData.push(dppData);
-        billNominalData.push(nominalData);
-        billTerms.value = JSON.stringify(billTermsData);
-        billDpp.value = JSON.stringify(billDppData);
-        billNominal.value = JSON.stringify(billNominalData);
+        titleTerms[indexManualTerm].removeAttribute('disabled');
+        nominalTerms[indexManualTerm].removeAttribute('disabled');
+        dppTerms[indexManualTerm].removeAttribute('disabled');
+        ppnTerms[indexManualTerm].removeAttribute('disabled');
     }else{
-        for (let i = 0; i < billTermsData.length; i++) {
-            if (billTermsData[i].term_number == sel.name) {
-                billTermsData.splice(i, 1);
-            }
-        }
-        for (let i = 0; i < billDppData.length; i++) {
-            if (billDppData[i].dpp_number == sel.name) {
-                billDppData.splice(i, 1);
-            }
-        }
-        for (let i = 0; i < billNominalData.length; i++) {
-            if (billNominalData[i].nominal_number == sel.name) {
-                billNominalData.splice(i, 1);
-            }
-        }
-        billTerms.value = JSON.stringify(billTermsData);
-        billDpp.value = JSON.stringify(billDppData);
-        billNominal.value = JSON.stringify(billNominalData);
+        titleTerms[indexManualTerm].setAttribute('disabled', 'disabled');
+        titleTerms[indexManualTerm].value = titleTerms[indexManualTerm].defaultValue;
+        nominalTerms[indexManualTerm].setAttribute('disabled', 'disabled');
+        nominalTerms[indexManualTerm].value = nominalTerms[indexManualTerm].defaultValue;
+        dppTerms[indexManualTerm].setAttribute('disabled', 'disabled');
+        dppTerms[indexManualTerm].value = dppTerms[indexManualTerm].defaultValue;
+        ppnTerms[indexManualTerm].setAttribute('disabled', 'disabled');
+        ppnTerms[indexManualTerm].value = ppnTerms[indexManualTerm].defaultValue;
     }
 }
 
-rbManualTerm = (sel) =>{
-    const cbTerms = document.querySelectorAll('[id=cbTerms]');
+inputNominalTerm = (sel) =>{
+    var indexNominal = parseInt(sel.name.replace(/[A-Za-z$-]/g, ""));
+    const dppTerms = document.querySelectorAll('[id=dppTerms]');
+    const ppnTerms = document.querySelectorAll('[id=ppnTerms]');
+
+    dppTerms[indexNominal].value = sel.value;
+    ppnTerms[indexNominal].value = sel.value * (salePpn/100);
+}
+
+inputDppTerm = (sel) =>{
+    var indexDpp = parseInt(sel.name.replace(/[A-Za-z$-]/g, ""));
+    const ppnTerms = document.querySelectorAll('[id=ppnTerms]');
+    const nominalTerms = document.querySelectorAll('[id=nominalTerms]');
+    if(nominalTerms[indexDpp].value == ""){
+        alert("Silahkan input nominal terlebih dahulu..!!");
+        sel.value = sel.defaultValue;
+    }else{
+        ppnTerms[indexDpp].value = sel.value * (salePpn/100);
+    }
+}
+
+inputDppTermChange = (sel) =>{
+    var indexDpp = parseInt(sel.name.replace(/[A-Za-z$-]/g, ""));
+    const ppnTerms = document.querySelectorAll('[id=ppnTerms]');
+    const nominalTerms = document.querySelectorAll('[id=nominalTerms]');
+    if(sel.value > nominalTerms[indexDpp].value){
+        alert("DPP tidak boleh lebih besar dari nominal..!");
+        sel.value = nominalTerms[indexDpp].value;
+        ppnTerms[indexDpp].value = nominalTerms[indexDpp].value * (salePpn/100);
+    }
+}
+
+cbAutoTerm = (sel) => {
+    var indexAutoTerm = parseInt(sel.id.replace(/[A-Za-z$-]/g, ""));
+    
+    if(sel.checked == true){
+        autoTerms[indexAutoTerm].set_collect = true;
+    }else{
+        autoTerms[indexAutoTerm].set_collect = false;
+    }
+}
+
+rbManualTermAction = () =>{
+    billPayments = [];
     var divManualTerms = document.getElementById("divManualTerms");
-    var inputNodes = divManualTerms.getElementsByTagName('INPUT');
-    for(let i = 0; i < cbTerms.length; i++){
-        cbTerms[i].checked = false;
-        cbTerms[i].setAttribute('disabled', 'disabled');
+    var divAutoTerms = document.getElementById("divAutoTerms");
+    var manualInputs = divManualTerms.querySelectorAll('[type="checkbox"]');
+    var autoInputs = divAutoTerms.getElementsByTagName('INPUT');
+    
+    for(let i = 0; i < autoInputs.length; i++){
+        autoInputs[i].checked = false;
+        autoInputs[i].setAttribute('disabled', 'disabled');
+    }
+
+    for(var i = 0; i < manualInputs.length; ++i){
+        var manualInput = manualInputs[i];
+        manualInput.removeAttribute('disabled');
+    }
+}
+
+rbAutoTermAction = () =>{
+    var divManualTerms = document.getElementById("divManualTerms");
+    var divAutoTerms = document.getElementById("divAutoTerms");
+    var manualCheckboxs = divManualTerms.querySelectorAll('[type="checkbox"]');
+    var manualInputs = divManualTerms.getElementsByTagName('INPUT');
+    var autoInputs = divAutoTerms.getElementsByTagName('INPUT');
+    for(let i = 0; i < autoInputs.length; i++){
+        autoInputs[i].removeAttribute('disabled');
     }
     
-    billTermsData = [];
-    billDppData = [];
-    billNominalData = [];
-    billTerms.value = "";
-    billDpp.value = "";
-    billNominal.value = "";
-
-    for(var i = 0; i < inputNodes.length; ++i){
-        var inputNode = inputNodes[i];
-        inputNode.removeAttribute('disabled');
+    for(var i = 0; i < manualInputs.length; ++i){
+        manualInputs[i].value = manualInputs[i].defaultValue;
+        manualInputs[i].setAttribute('disabled', 'disabled');
     }
-}
-
-rbAutoTerm = () =>{
-    const cbTerms = document.querySelectorAll('[id=cbTerms]');
-    var divManualTerms = document.getElementById("divManualTerms");
-    var inputNodes = divManualTerms.getElementsByTagName('INPUT');
-    for(let i = 0; i < cbTerms.length; i++){
-        cbTerms[i].removeAttribute('disabled');
-    }
-    for(var i = 0; i < inputNodes.length; ++i){
-        var inputNode = inputNodes[i];
-        inputNode.value = inputNode.defaultValue;
-        inputNode.setAttribute('disabled', 'disabled');
+    for(var i = 0; i < manualCheckboxs.length; ++i){
+        manualCheckboxs[i].checked = false;
     }
 }

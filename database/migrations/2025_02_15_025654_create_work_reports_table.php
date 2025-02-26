@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('number')->unique();
             $table->foreignId('company_id')->constrained();
-            $table->string('sale_id');
-            $table->json('images');
+            $table->foreignId('sale_id')->constrained();
+            $table->string('first_photo');
+            $table->string('second_photo');
             $table->json('content');
             $table->json('created_by');
             $table->json('updated_by');

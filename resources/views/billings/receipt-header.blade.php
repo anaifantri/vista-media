@@ -14,9 +14,9 @@
                 <label class="flex justify-center w-full text-2xl font-serif font-bold tracking-wider mt-4">
                     <u>KWITANSI</u>
                 </label>
-                <div class="flex justify-center w-full text-lg font-semibold mt-1">
+                <div class="flex justify-center w-full text-slate-300 text-lg font-semibold mt-1">
                     <label>No. :</label>
-                    <label class="ml-2">0032/0032-24/KW/VISTA/XII-2025</label>
+                    <label class="ml-2">Penomoran otomatis</label>
                 </div>
             </div>
         </div>

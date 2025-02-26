@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('receipt_number')->unique();
             $table->json('term');
             $table->decimal('dpp',12,0)->unsigned()->default(0);
+            $table->decimal('ppn',12,0)->unsigned()->default(0);
             $table->decimal('nominal',12,0)->unsigned()->default(0);
             $table->json('created_by');
             $table->json('updated_by');

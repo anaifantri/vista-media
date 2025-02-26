@@ -36,7 +36,7 @@ class BillingController extends Controller
         }
     }
     
-    public function createBilling(String $category): View
+    public function selectSale(String $category): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             if($category == "media"){
@@ -46,14 +46,45 @@ class BillingController extends Controller
             }
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
-            return view ('billings.create', [
+            return view ('billings.select-sale', [
                 'title' => 'Menambahkan Data Penagihan',
                 'data_sales' => $data_sales,
                 'bill_category' => $category,
-                'quotation_approvals' => QuotationApproval::all(),
-                'quotation_orders' => QuotationOrder::all(),
-                'quotation_agreements' => QuotationAgreement::all(),
                 compact('quotations', 'quotation_revisions')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+    
+    public function createMediaBilling(String $saleId): View
+    {
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            $sale = Sale::findOrFail($saleId);
+            if (count($sale->quotation->quotation_revisions) != 0) {
+                $quotationDeal = $sale->quotation->quotation_revisions->last();
+                $price = json_decode($quotationDeal->price);
+                $payment_terms = json_decode($quotationDeal->payment_terms);
+            } else {
+                $quotationDeal = $sale->quotation;
+                $price = json_decode($quotationDeal->price);
+                $payment_terms = json_decode($quotationDeal->payment_terms);
+            }
+            $product = json_decode($sale->product);
+            $quotation_orders = QuotationOrder::with('quotation')->get();
+            $quotation_agreements = QuotationAgreement::with('quotation')->get();
+            $quotation_approvals = QuotationApproval::with('quotation')->get();
+            $client = json_decode($sale->quotation->clients);
+            return view ('billings.media-create', [
+                'title' => 'Membuat Invoice & Kwitansi',
+                'sale' => $sale,
+                'quotation_deal' => $quotationDeal,
+                'price' => $price,
+                'payment_terms' => $payment_terms,
+                'client' => $client,
+                'product' => $product,
+                'sale_ppn' => $sale->ppn,
+                compact('quotation_approvals', 'quotation_orders', 'quotation_agreements')
             ]);
         } else {
             abort(403);

@@ -177,13 +177,14 @@ Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'get
 // Billing  --> start
 Route::resource('/accounting/billings', BillingController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/billings/index/{companyid}', [BillingController::class,'index'])->middleware(['auth','user_access']);
-Route::get('/billings/create/{category}', [BillingController::class,'createBilling'])->middleware(['auth','user_access']);
+Route::get('/billings/select-sale/{category}', [BillingController::class,'selectSale'])->middleware(['auth','user_access']);
+Route::get('/billings/create-media-billing/{saleid}', [BillingController::class,'createMediaBilling'])->middleware(['auth','user_access']);
 // Billing  --> end
 
 // Work Report  --> start
 Route::resource('/accounting/work-reports', WorkReportController::class)->except(['index'])->middleware(['auth','user_access']);
 Route::get('/work-reports/index/{companyid}', [WorkReportController::class,'index'])->middleware(['auth','user_access']);
-// Route::get('/work-reports/create/{category}', [WorkReportController::class,'createWorkReport'])->middleware(['auth','user_access']);
+Route::get('/work-reports/preview/{id}', [WorkReportController::class,'preview'])->middleware(['auth','user_access']);
 Route::get('/work-reports/select-documentation/{id}', [WorkReportController::class,'selectDocumentation'])->middleware(['auth','user_access']);
 // Work Report  --> end
 
