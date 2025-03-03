@@ -242,7 +242,7 @@ class InstallOrderController extends Controller
                 $usedInstalls = [];
                 $freeInstalls = [];
                 $installTypes = [];
-                $dataSales = Sale::installOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                $dataSales = Sale::where('company_id', $company_id)->installOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
                 foreach($dataSales as $dataSale){
                     $product = json_decode($dataSale->product);
                     $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
