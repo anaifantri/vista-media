@@ -634,7 +634,7 @@
                                         <div>
                                             @foreach ($payment_terms->dataPayments as $payment)
                                                 <div class="flex mx-1 justify-end">
-                                                    <label>{{ number_format($sale->price * ($payment->term / 100) * ($sale->ppn / 100)) }}
+                                                    <label>{{ number_format($sale->dpp * ($payment->term / 100) * ($sale->ppn / 100)) }}
                                                     </label>
                                                 </div>
                                             @endforeach
@@ -645,7 +645,7 @@
                                         <div>
                                             @foreach ($payment_terms->dataPayments as $payment)
                                                 <div class="flex mx-1 justify-end">
-                                                    <label>{{ number_format($sale->price * ($payment->term / 100) * ($sale->pph / 100)) }}
+                                                    <label>{{ number_format($sale->dpp * ($payment->term / 100) * ($sale->pph / 100)) }}
                                                     </label>
                                                 </div>
                                             @endforeach
