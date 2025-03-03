@@ -89,7 +89,7 @@ class LedController extends Controller
             }
 
             // Set Code --> start
-            $dataLeds = Led::all()->last();
+            $dataLeds = Led::orderBy("code", "asc")->get()->last();
             if($dataLeds){
                 $lastCode = (int)substr($dataLeds->code,4,3);
                 $newCode = $lastCode + 1;

@@ -45,7 +45,7 @@ class ClientCategoryController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isClient') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isClient') && Gate::allows('isMarketingCreate'))){
-            $dataCategory = ClientCategory::all()->last();
+            $dataCategory = ClientCategory::orderBy("code", "asc")->get()->last();
             if($dataCategory){
                 $lastCode = (int)substr($dataCategory->code,3,3);
                 $newCode = $lastCode + 1;

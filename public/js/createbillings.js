@@ -24,42 +24,19 @@ saleMediaNext = () =>{
     formSelectSale.submit();
 }
 
-// saleServiceNext = () =>{
-//     document.getElementById("modalSelectSale").setAttribute('hidden', 'hidden');
-//     document.getElementById("modalPreview").removeAttribute('hidden');
-//     document.getElementById("divButton").classList.remove('hidden');
-//     document.getElementById("divButton").classList.add('flex');
-//     saleHeader.classList.remove('flex');
-//     saleHeader.classList.add('hidden');
-// }
-// Function Modal Sale end
-
 // Function Modal Term start
 termNext = () =>{
     var divManualTerms = document.getElementById("divManualTerms");
-    var manualCheckboxs = divManualTerms.querySelectorAll('[type="checkbox"]');
     const rbManualTerm = document.getElementById("rbManualTerm");
     const rbAutoTerm = document.getElementById("rbAutoTerm");
     const nominalTerms = document.querySelectorAll('[id=nominalTerms]');
-    const dppTerms = document.querySelectorAll('[id=dppTerms]');
-    const ppnTerms = document.querySelectorAll('[id=ppnTerms]');
-    const receiptTotalTerbilang = document.querySelectorAll('[id=receiptTotalTerbilang]');
-    const receiptTotal = document.querySelectorAll('[id=receiptTotal]');
     var checkNominal = false;
     if(rbAutoTerm.checked == true){
-        if(autoTerms.length == 0){
+        if(billTerms.length == 0){
             alert ("Silahkan pilih termin pembayaran terlebih dahulu..!!");
         }else{
-            document.getElementById("receiptTotal").innerText = 'Rp. '+ totalTerm.toLocaleString()+',-';
-
-            for(let i = 0; i < receiptTotal.length; i++){
-                receiptTotal[i].innerText = 'Rp. '+ totalTerm.toLocaleString()+',-';
-            }
-            for(let i = 0; i < receiptTotalTerbilang.length; i++){
-                receiptTotalTerbilang[i].innerText = '# '+terbilang(totalTerm)+' Rupiah #';
-            }
             setPreview.value = 'true';
-            document.getElementById("autoTerms").value = JSON.stringify(autoTerms);
+            document.getElementById("billTerms").value = JSON.stringify(billTerms);
             document.getElementById("formSelectTerm").submit();
         }
     }else if(rbManualTerm.checked == true){
@@ -71,25 +48,8 @@ termNext = () =>{
         if(checkNominal == false){
             alert ("Silahkan input termin pembayaran terlebih dahulu..!!");
         }else{
-            for(let i = 0; i < nominalTerms.length; i++){
-                if(manualCheckboxs[i].checked == true){
-                    var objTerm = {
-                        nominal: nominalTerms[i].value,
-                        dpp: dppTerms[i].value,
-                        ppn: ppnTerms[i].value
-                    }
-                    billPayments.push(objTerm);
-                    totalTerm = totalTerm + nominalTerms[i].value + ppnTerms[i].value;
-                }
-            }
-            for(let i = 0; i < receiptTotal.length; i++){
-                receiptTotal[i].innerText = 'Rp. '+ totalTerm.toLocaleString()+',-';
-            }
-            for(let i = 0; i < receiptTotalTerbilang.length; i++){
-                receiptTotalTerbilang[i].innerText = '# '+terbilang(totalTerm)+' Rupiah #';
-            }
-            setPreview.value == 'true';
-            document.getElementById("autoTerms").value = JSON.stringify(autoTerms);
+            setPreview.value = 'true';
+            document.getElementById("billTerms").value = JSON.stringify(billTerms);
             document.getElementById("formSelectTerm").submit();
         }
     }
@@ -100,15 +60,6 @@ previewMediaBack = () =>{
     setPreview.value = 'false';
     showHidePreview();
 }
-// previewServiceBack = () =>{
-//     document.getElementById("modalPreview").setAttribute('hidden', 'hidden');
-//     document.getElementById("modalSelectSale").removeAttribute('hidden');
-//     document.getElementById("divButton").classList.remove('flex');
-//     document.getElementById("divButton").classList.add('hidden');
-//     saleHeader.classList.remove('flex');
-//     saleHeader.classList.add('hidden');
-// }
-// Function Modal Preview end
 
 
 // Search Table --> start
@@ -138,24 +89,36 @@ function searchTable() {
 
 cbManualTerm = (sel) =>{
     var indexManualTerm = parseInt(sel.id.replace(/[A-Za-z$-]/g, ""));
-    const titleTerms = document.querySelectorAll('[id=titleTerms]');
+    const termTitles = document.querySelectorAll('[id=termTitles]');
+    const termNumbers = document.querySelectorAll('[id=termNumbers]');
+    const termValues = document.querySelectorAll('[id=termValues]');
     const nominalTerms = document.querySelectorAll('[id=nominalTerms]');
     const dppTerms = document.querySelectorAll('[id=dppTerms]');
     const ppnTerms = document.querySelectorAll('[id=ppnTerms]');
     if(sel.checked == true){
-        titleTerms[indexManualTerm].removeAttribute('disabled');
+        termTitles[indexManualTerm].removeAttribute('disabled');
+        termNumbers[indexManualTerm].removeAttribute('disabled');
+        termValues[indexManualTerm].removeAttribute('disabled');
         nominalTerms[indexManualTerm].removeAttribute('disabled');
         dppTerms[indexManualTerm].removeAttribute('disabled');
         ppnTerms[indexManualTerm].removeAttribute('disabled');
+        billTerms[indexManualTerm].title = termTitles[indexManualTerm].value;
+        billTerms[indexManualTerm].set_collect = true;
     }else{
-        titleTerms[indexManualTerm].setAttribute('disabled', 'disabled');
-        titleTerms[indexManualTerm].value = titleTerms[indexManualTerm].defaultValue;
+        termTitles[indexManualTerm].setAttribute('disabled', 'disabled');
+        termTitles[indexManualTerm].value = termTitles[indexManualTerm].defaultValue;
+        termNumbers[indexManualTerm].setAttribute('disabled', 'disabled');
+        termNumbers[indexManualTerm].value = termNumbers[indexManualTerm].defaultValue;
+        termValues[indexManualTerm].setAttribute('disabled', 'disabled');
+        termValues[indexManualTerm].value = termValues[indexManualTerm].defaultValue;
         nominalTerms[indexManualTerm].setAttribute('disabled', 'disabled');
         nominalTerms[indexManualTerm].value = nominalTerms[indexManualTerm].defaultValue;
         dppTerms[indexManualTerm].setAttribute('disabled', 'disabled');
         dppTerms[indexManualTerm].value = dppTerms[indexManualTerm].defaultValue;
         ppnTerms[indexManualTerm].setAttribute('disabled', 'disabled');
         ppnTerms[indexManualTerm].value = ppnTerms[indexManualTerm].defaultValue;
+        billTerms[indexManualTerm].title = termTitles[indexManualTerm].defaultValue;
+        billTerms[indexManualTerm].set_collect = false;
     }
 }
 
@@ -164,8 +127,11 @@ inputNominalTerm = (sel) =>{
     const dppTerms = document.querySelectorAll('[id=dppTerms]');
     const ppnTerms = document.querySelectorAll('[id=ppnTerms]');
 
-    dppTerms[indexNominal].value = sel.value;
+    dppTerms[indexNominal].value = Math.round(sel.value/12*11);
     ppnTerms[indexNominal].value = sel.value * (salePpn/100);
+    billTerms[indexNominal].nominal = sel.value;
+    billTerms[indexNominal].dpp = Math.round(sel.value/12*11);
+    billTerms[indexNominal].ppn = sel.value*(salePpn/100);
 }
 
 inputDppTerm = (sel) =>{
@@ -176,7 +142,9 @@ inputDppTerm = (sel) =>{
         alert("Silahkan input nominal terlebih dahulu..!!");
         sel.value = sel.defaultValue;
     }else{
-        ppnTerms[indexDpp].value = sel.value * (salePpn/100);
+        ppnTerms[indexDpp].value = Math.round(sel.value * (12/100));
+        billTerms[indexDpp].dpp = Math.round(sel.value);
+        billTerms[indexDpp].ppn = Math.round(sel.value * (12/100));
     }
 }
 
@@ -188,21 +156,32 @@ inputDppTermChange = (sel) =>{
         alert("DPP tidak boleh lebih besar dari nominal..!");
         sel.value = nominalTerms[indexDpp].value;
         ppnTerms[indexDpp].value = nominalTerms[indexDpp].value * (salePpn/100);
+        billTerms[indexDpp].dpp = nominalTerms[indexDpp].value;
+        billTerms[indexDpp].ppn = Math.round(nominalTerms[indexDpp].value * (12/100));
     }
+}
+inputTermTitle = (sel, index) =>{
+    billTerms[index].title = sel.value;
+}
+inputTermNumber = (sel, index) =>{
+    billTerms[index].number = sel.value;
+}
+inputTermValue = (sel, index) =>{
+    billTerms[index].term = sel.value;
 }
 
 cbAutoTerm = (sel) => {
     var indexAutoTerm = parseInt(sel.id.replace(/[A-Za-z$-]/g, ""));
     
     if(sel.checked == true){
-        autoTerms[indexAutoTerm].set_collect = true;
+        billTerms[indexAutoTerm].set_collect = true;
     }else{
-        autoTerms[indexAutoTerm].set_collect = false;
+        billTerms[indexAutoTerm].set_collect = false;
     }
 }
 
 rbManualTermAction = () =>{
-    billPayments = [];
+    billTerms = manualTerms;
     var divManualTerms = document.getElementById("divManualTerms");
     var divAutoTerms = document.getElementById("divAutoTerms");
     var manualInputs = divManualTerms.querySelectorAll('[type="checkbox"]');
@@ -220,6 +199,7 @@ rbManualTermAction = () =>{
 }
 
 rbAutoTermAction = () =>{
+    billTerms = autoTerms;
     var divManualTerms = document.getElementById("divManualTerms");
     var divAutoTerms = document.getElementById("divAutoTerms");
     var manualCheckboxs = divManualTerms.querySelectorAll('[type="checkbox"]');

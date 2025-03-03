@@ -156,7 +156,7 @@ class InstallOrderController extends Controller
                             $dataInstalls = InstallOrder::where('sale_id', $dataSale->id)->get();
                             $price = json_decode($revision->price);
                             foreach($price->objInstalls as $install){
-                                if($install->code == $dataSale->product->code){
+                                if($install->code == $product->code){
                                     $installType = $install->type;
                                 }
                             }
@@ -252,7 +252,7 @@ class InstallOrderController extends Controller
                         $dataInstalls = InstallOrder::where('sale_id', $dataSale->id)->get();
                         $price = json_decode($revision->price);
                         foreach($price->objInstalls as $install){
-                            if($install->code == $dataSale->product->code){
+                            if($install->code == $product->code){
                                 $installType = $install->type;
                             }
                         }
@@ -405,7 +405,7 @@ class InstallOrderController extends Controller
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
-            $lastOrder = InstallOrder::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
+            $lastOrder = InstallOrder::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->orderBy("number", "asc")->get()->last();
             if($lastOrder){
                 $lastNumber = (int)substr($lastOrder->number,0,4);
                 $newNumber = $lastNumber + 1;

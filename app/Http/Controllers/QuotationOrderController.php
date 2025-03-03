@@ -30,7 +30,7 @@ class QuotationOrderController extends Controller
                 'quotation_orders' => $dataOrders,
                 'sale' => $sale,
                 'category' => $category,
-                'title' => 'Dokumen PO/SPK'
+                'title' => 'Dokumen PO'
             ]);
         } else {
             abort(403);
@@ -51,22 +51,30 @@ class QuotationOrderController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
-            if($request->file('document_order')){
-                $images = $request->file('document_order');
-                foreach($images as $image){
-                    $documentOrder = [];
-                    $documentOrder = [
-                        'quotation_id' => $request->quotation_id,
-                        'sale_id' => $request->sale_id,
-                        'number' => $request->number,
-                        'date' => $request->date,
-                        'image' => $image->store('order-images')
-                    ];
-                    QuotationOrder::create($documentOrder);
-                }
-            }
+            $request->validate([
+                'document_order.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048',
+                'document_order' => 'required',
+            ]);
+            $request->request->add(['user_id' => auth()->user()->id]);
+        
+            $validateData = $request->validate([
+                'sale_id' => 'required',
+                'user_id' => 'required',
+                'quotation_id' => 'required',
+                'number' => 'required',
+                'date' => 'required'
+            ]);
 
-            return redirect('/marketing/quotation-orders/show-orders/'.$request->category.'/'.$request->sale_id)->with('success', count($request->document_order).' Dokumen PO/SPK berhasil ditambahkan');
+            $getImages = $request->file('document_order');
+            $images = [];
+            foreach($getImages as $image){
+                array_push($images,$image->store('order-images'));
+            }
+            $validateData['images'] = json_encode($images);   
+
+            QuotationOrder::create($validateData);
+
+            return redirect('/marketing/quotation-orders/show-orders/'.$request->category.'/'.$request->sale_id)->with('success', ' Dokumen PO dengan nomor '.$request->number.' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -85,7 +93,20 @@ class QuotationOrderController extends Controller
      */
     public function edit(QuotationOrder $quotationOrder): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingEdit'))){
+            $sale = Sale::findOrFail($quotationOrder->sale->id);
+            $category = $sale->media_category->name;
+            $images = json_decode($quotationOrder->images);
+            return response()->view('quotation-orders.edit', [
+                'quotation_order' => $quotationOrder,
+                'sale' => $sale,
+                'category' => $category,
+                'images' => $images,
+                'title' => 'Edit Dokumen PO'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -93,7 +114,41 @@ class QuotationOrderController extends Controller
      */
     public function update(Request $request, QuotationOrder $quotationOrder): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingEdit'))){
+            $sale_id = $quotationOrder->sale->id;
+            $category = $quotationOrder->sale->media_category->name;
+            $request->validate([
+                'document_order.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048'
+            ]);
+        
+            $validateData = $request->validate([
+                'number' => 'required',
+                'date' => 'required'
+            ]);
+
+            if($request->file('document_order')){
+                $newImages = $request->file('document_order');
+                $oldImages = [];
+                $oldImages = json_decode($request->oldImages);
+                if(count($oldImages) > 0){
+                    foreach ($oldImages as $oldImage) {
+                        Storage::delete($oldImage);
+                    }
+                }
+                $images = [];
+                foreach($newImages as $newImage){
+                    array_push($images,$newImage->store('order-images'));
+                }
+                $validateData['images'] = json_encode($images); 
+
+            }
+
+            QuotationOrder::where('id', $quotationOrder->id)->update($validateData);
+
+            return redirect('/marketing/quotation-orders/show-orders/'.$category.'/'.$sale_id)->with('success', ' Dokumen PO dengan nomor '.$quotationOrder->number.' berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -102,16 +157,17 @@ class QuotationOrderController extends Controller
     public function destroy(QuotationOrder $quotationOrder): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingDelete'))){
-            $sale_id = $quotationOrder->sale_id;
-            $category = $quotationOrder->quotation->media_category->name;
+            $images = json_decode($quotationOrder->images);
+            $sale_id = $quotationOrder->sale->id;
+            $category = $quotationOrder->sale->media_category->name;
 
-            if($quotationOrder->image){
-                Storage::delete($quotationOrder->image);
+            foreach ($images as $image) {
+                Storage::delete($image);
             }
 
             QuotationOrder::destroy($quotationOrder->id);
 
-            return redirect('marketing/quotation-orders/show-orders/'.$category.'/'.$sale_id)->with('success','Dokumen PO/SPK berhasil dihapus');
+            return redirect('marketing/quotation-orders/show-orders/'.$category.'/'.$sale_id)->with('success','Dokumen PO dengan nomor '.$quotationOrder->number.' berhasil dihapus');
         } else {
             abort(403);
         }

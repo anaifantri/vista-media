@@ -1,5 +1,7 @@
 <form id="formSelectTerm" action="/billings/create-media-billing/{{ $sale->id }}">
-    <input type="text" id="autoTerms" name="auto_terms" value="{{ json_encode($auto_terms) }}" hidden>
+    <input type="text" id="billTerms" name="bill_terms" value="{{ json_encode($bill_terms) }}" hidden>
+    <input type="text" id="manualTerms" value="{{ json_encode($manual_terms) }}" hidden>
+    <input type="text" id="autoTerms" value="{{ json_encode($auto_terms) }}" hidden>
     @if (request('set_preview'))
         <input type="text" id="setPreview" name="set_preview" value="{{ request('set_preview') }}" hidden>
     @else
@@ -13,14 +15,9 @@
             class="flex w-full h-[350px] bg-stone-200 justify-center border rounded-lg border-stone-400 my-2 p-2 border-b pb-2">
             <div class="w-[575px] p-2 border rounded-lg border-stone-900">
                 <div class="flex text-md font-semibold">
-                    @if (request('rbTerm'))
-                        @if (request('rbTerm') == 'autoTerm')
-                            <input id="rbAutoTerm" name="rbTerm" value="autoTerm" type="radio"
-                                onclick="rbAutoTermAction()" checked>
-                        @else
-                            <input id="rbAutoTerm" name="rbTerm" value="autoTerm" type="radio"
-                                onclick="rbAutoTermAction()">
-                        @endif
+                    @if (request('rbTerm') && request('rbTerm') == 'autoTerm')
+                        <input id="rbAutoTerm" name="rbTerm" value="autoTerm" type="radio"
+                            onclick="rbAutoTermAction()" checked>
                     @else
                         <input id="rbAutoTerm" name="rbTerm" value="autoTerm" type="radio"
                             onclick="rbAutoTermAction()" checked>
@@ -32,12 +29,17 @@
                         <div class="flex mt-2 text-sm">
                             <span class="w-[270px]">Tahap {{ $loop->iteration }} = ({{ $term->term }} %) sebesar Rp.
                                 {{ number_format(($term->term / 100) * $sale->price) }},-</span>
-                            @if ($auto_terms[$loop->iteration - 1]->set_collect == true && request('rbTerm') == 'autoTerm')
-                                <input id="cbTerm{{ $loop->iteration - 1 }}" type="checkbox" class="ml-6"
-                                    onclick="cbAutoTerm(this)" checked>
+                            @if (request('rbTerm') && request('rbTerm') == 'autoTerm')
+                                @if ($bill_terms[$loop->iteration - 1]->set_collect == true && request('rbTerm') == 'autoTerm')
+                                    <input id="cbTerm{{ $loop->iteration - 1 }}" type="checkbox" class="ml-6"
+                                        onclick="cbAutoTerm(this)" checked>
+                                @else
+                                    <input id="cbTerm{{ $loop->iteration - 1 }}" type="checkbox" class="ml-6"
+                                        onclick="cbAutoTerm(this)">
+                                @endif
                             @else
                                 <input id="cbTerm{{ $loop->iteration - 1 }}" type="checkbox" class="ml-6"
-                                    onclick="cbAutoTerm(this)">
+                                    onclick="cbAutoTerm(this)" disabled>
                             @endif
                         </div>
                     @endforeach
@@ -59,12 +61,56 @@
                     @endif
                     <label class="ml-2">Input manual :</label>
                 </div>
-                <div class="mt-2 text-sm" id="divManualTerms">
+                @if (request('rbTerm') && request('rbTerm') == 'manualTerm')
+                    @include('billings.manual-term-enable')
+                @else
+                    @include('billings.manual-term-disable')
+                @endif
+                {{-- <div class="mt-2 text-sm" id="divManualTerms">
                     <div class="border rounded-md border-stone-900 p-1">
-                        <div class="flex">
-                            <input id="cbManualTerm0" type="checkbox" onclick="cbManualTerm(this)" disabled>
-                            <input id="titleTerms" type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
-                                value="Produksi Media Luar Ruang" disabled>
+                        <div class="flex items-center">
+                            @if (request('rbTerm'))
+                                @if (request('rbTerm') == 'manualTerm')
+                                    <input id="cbManualTerm0" type="checkbox" onclick="cbManualTerm(this)">
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Produksi"
+                                        onchange="inputTermTitle(this,0)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,0)" disabled>
+                                    <input id="termValues" type="text" class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,0)" disabled>
+                                    <label class="ml-2">%</label>
+                                @else
+                                    <input id="cbManualTerm0" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Produksi"
+                                        onchange="inputTermTitle(this,0)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,0)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,0)" disabled>
+                                    <label class="ml-2">%</label>
+                                @endif
+                            @else
+                                <input id="cbManualTerm0" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                <label class="ml-4 w-12">Jenis</label>
+                                <input id="termTitles" type="text"
+                                    class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Produksi"
+                                    onchange="inputTermTitle(this,0)" disabled>
+                                <label class="ml-2 w-[72px]">Termin ke-</label>
+                                <input id="termNumbers" type="text" class="ml-2 px-2 outline-none w-20 rounded-md"
+                                    onchange="inputTermNumber(this,0)" disabled>
+                                <input id="termValues" type="text" class="ml-2 px-2 outline-none w-8 rounded-md"
+                                    onchange="inputTermValue(this,0)" disabled>
+                                <label class="ml-2">%</label>
+                            @endif
                         </div>
                         <div class="flex mt-1 ml-7">
                             <label>Nominal</label>
@@ -83,10 +129,50 @@
                         </div>
                     </div>
                     <div class="border rounded-md border-stone-900  mt-1 p-1">
-                        <div class="flex">
-                            <input id="cbManualTerm1" type="checkbox" onclick="cbManualTerm(this)" disabled>
-                            <input id="titleTerms" type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
-                                value="Pemakaian Listrik Media Luar Ruang" disabled>
+                        <div class="flex items-center">
+                            @if (request('rbTerm'))
+                                @if (request('rbTerm') == 'manualTerm')
+                                    <input id="cbManualTerm1" type="checkbox" onclick="cbManualTerm(this)">
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Pemakaian Listrik"
+                                        onchange="inputTermTitle(this,1)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,1)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,1)" disabled>
+                                    <label class="ml-2">%</label>
+                                @else
+                                    <input id="cbManualTerm1" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Pemakaian Listrik"
+                                        onchange="inputTermTitle(this,1)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,1)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,1)" disabled>
+                                    <label class="ml-2">%</label>
+                                @endif
+                            @else
+                                <input id="cbManualTerm1" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                <label class="ml-4 w-12">Jenis</label>
+                                <input id="termTitles" type="text"
+                                    class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Pemakaian Listrik"
+                                    onchange="inputTermTitle(this,1)" disabled>
+                                <label class="ml-2 w-[72px]">Termin ke-</label>
+                                <input id="termNumbers" type="text" class="ml-2 px-2 outline-none w-20 rounded-md"
+                                    onchange="inputTermNumber(this,1)" disabled>
+                                <input id="termValues" type="text" class="ml-2 px-2 outline-none w-8 rounded-md"
+                                    onchange="inputTermValue(this,1)" disabled>
+                                <label class="ml-2">%</label>
+                            @endif
                         </div>
                         <div class="flex mt-1 ml-7">
                             <label>Nominal</label>
@@ -106,10 +192,50 @@
                         </div>
                     </div>
                     <div class="border rounded-md border-stone-900  mt-1 p-1">
-                        <div class="flex">
-                            <input id="cbManualTerm2" type="checkbox" onclick="cbManualTerm(this)" disabled>
-                            <input id="titleTerms" type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
-                                value="Jasa Media Luar Ruang" disabled>
+                        <div class="flex items-center">
+                            @if (request('rbTerm'))
+                                @if (request('rbTerm') == 'manualTerm')
+                                    <input id="cbManualTerm2" type="checkbox" onclick="cbManualTerm(this)">
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Jasa"
+                                        onchange="inputTermTitle(this,2)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,2)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,2)" disabled>
+                                    <label class="ml-2">%</label>
+                                @else
+                                    <input id="cbManualTerm2" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Jasa"
+                                        onchange="inputTermTitle(this,2)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,2)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,2)" disabled>
+                                    <label class="ml-2">%</label>
+                                @endif
+                            @else
+                                <input id="cbManualTerm2" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                <label class="ml-4 w-12">Jenis</label>
+                                <input id="termTitles" type="text"
+                                    class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Jasa"
+                                    onchange="inputTermTitle(this,2)" disabled>
+                                <label class="ml-2 w-[72px]">Termin ke-</label>
+                                <input id="termNumbers" type="text" class="ml-2 px-2 outline-none w-20 rounded-md"
+                                    onchange="inputTermNumber(this,2)" disabled>
+                                <input id="termValues" type="text" class="ml-2 px-2 outline-none w-8 rounded-md"
+                                    onchange="inputTermValue(this,2)" disabled>
+                                <label class="ml-2">%</label>
+                            @endif
                         </div>
                         <div class="flex mt-1 ml-7">
                             <label>Nominal</label>
@@ -129,10 +255,50 @@
                         </div>
                     </div>
                     <div class="border rounded-md border-stone-900  mt-1 p-1">
-                        <div class="flex">
-                            <input id="cbManualTerm3" type="checkbox" onclick="cbManualTerm(this)" disabled>
-                            <input id="titleTerms" type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
-                                value="Pajak Reklame" disabled readonly>
+                        <div class="flex items-center">
+                            @if (request('rbTerm'))
+                                @if (request('rbTerm') == 'manualTerm')
+                                    <input id="cbManualTerm3" type="checkbox" onclick="cbManualTerm(this)">
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Pajak Reklame"
+                                        onchange="inputTermTitle(this,3)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,3)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,3)" disabled>
+                                    <label class="ml-2">%</label>
+                                @else
+                                    <input id="cbManualTerm3" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Pajak Reklame"
+                                        onchange="inputTermTitle(this,3)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,3)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,3)" disabled>
+                                    <label class="ml-2">%</label>
+                                @endif
+                            @else
+                                <input id="cbManualTerm3" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                <label class="ml-4 w-12">Jenis</label>
+                                <input id="termTitles" type="text"
+                                    class="ml-3 px-2 outline-none w-[186px] rounded-md" value="Pajak Reklame"
+                                    onchange="inputTermTitle(this,3)" disabled>
+                                <label class="ml-2 w-[72px]">Termin ke-</label>
+                                <input id="termNumbers" type="text" class="ml-2 px-2 outline-none w-20 rounded-md"
+                                    onchange="inputTermNumber(this,3)" disabled>
+                                <input id="termValues" type="text" class="ml-2 px-2 outline-none w-8 rounded-md"
+                                    onchange="inputTermValue(this,3)" disabled>
+                                <label class="ml-2">%</label>
+                            @endif
                         </div>
                         <div class="flex mt-1 ml-7">
                             <label>Nominal</label>
@@ -140,22 +306,62 @@
                                 onkeyup="inputNominalTerm(this)"
                                 class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md"
                                 placeholder="0" disabled>
-                            <label class="ml-2">DPP</label>
+                            <label class="ml-2" hidden>DPP</label>
                             <input id="dppTerms" name="dppTerms3" type="number" onkeyup="inputDppTerm(this)"
                                 onchange="inputDppTermChange(this)"
                                 class="ml-2 px-2 outline-none w-24 text-right in-out-spin-none rounded-md"
                                 placeholder="0" disabled hidden>
-                            <label class="ml-2">PPN</label>
+                            <label class="ml-2" hidden>PPN</label>
                             <input id="ppnTerms" name="ppnTerms3" type="number"
                                 class="ml-2 px-2 outline-none w-20 text-right in-out-spin-none rounded-md"
                                 placeholder="0" disabled readonly hidden>
                         </div>
                     </div>
                     <div class="border rounded-md border-stone-900  mt-1 p-1">
-                        <div class="flex">
-                            <input id="cbManualTerm4" type="checkbox" onclick="cbManualTerm(this)" disabled>
-                            <input id="titleTerms" type="text" class="ml-2 px-2 outline-none w-[500px] rounded-md"
-                                placeholder="Lainnya" disabled>
+                        <div class="flex items-center">
+                            @if (request('rbTerm'))
+                                @if (request('rbTerm') == 'manualTerm')
+                                    <input id="cbManualTerm4" type="checkbox" onclick="cbManualTerm(this)">
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" placeholder="Lainnya"
+                                        onchange="inputTermTitle(this,4)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,4)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,4)" disabled>
+                                    <label class="ml-2">%</label>
+                                @else
+                                    <input id="cbManualTerm4" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                    <label class="ml-4 w-12">Jenis</label>
+                                    <input id="termTitles" type="text"
+                                        class="ml-3 px-2 outline-none w-[186px] rounded-md" placeholder="Lainnya"
+                                        onchange="inputTermTitle(this,4)" disabled>
+                                    <label class="ml-2 w-[72px]">Termin ke-</label>
+                                    <input id="termNumbers" type="text"
+                                        class="ml-2 px-2 outline-none w-20 rounded-md"
+                                        onchange="inputTermNumber(this,4)" disabled>
+                                    <input id="termValues" type="text"
+                                        class="ml-2 px-2 outline-none w-8 rounded-md"
+                                        onchange="inputTermValue(this,4)" disabled>
+                                    <label class="ml-2">%</label>
+                                @endif
+                            @else
+                                <input id="cbManualTerm4" type="checkbox" onclick="cbManualTerm(this)" disabled>
+                                <label class="ml-4 w-12">Jenis</label>
+                                <input id="termTitles" type="text"
+                                    class="ml-3 px-2 outline-none w-[186px] rounded-md" placeholder="Lainnya"
+                                    onchange="inputTermTitle(this,4)" disabled>
+                                <label class="ml-2 w-[72px]">Termin ke-</label>
+                                <input id="termNumbers" type="text" class="ml-2 px-2 outline-none w-20 rounded-md"
+                                    onchange="inputTermNumber(this,4)" disabled>
+                                <input id="termValues" type="text" class="ml-2 px-2 outline-none w-8 rounded-md"
+                                    onchange="inputTermValue(this,4)" disabled>
+                                <label class="ml-2">%</label>
+                            @endif
                         </div>
                         <div class="flex mt-1 ml-7">
                             <label>Nominal</label>
@@ -174,7 +380,7 @@
                                 placeholder="0" disabled readonly>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="flex w-full items-end bg-stone-400 rounded-lg justify-end px-4 pt-2 border-b pb-2">
@@ -202,62 +408,11 @@
 
 <script>
     let paymentTerms = @json($payment_terms);
+    let billTerms = JSON.parse(document.getElementById("billTerms").value);
+    let manualTerms = JSON.parse(document.getElementById("manualTerms").value);
     let autoTerms = JSON.parse(document.getElementById("autoTerms").value);
     let setPreview = document.getElementById("setPreview");
     var salePpn = @json($sale_ppn);
     var salePrice = @json($sale->price);
     var totalTerm = 0;
-
-
-    function terbilang(nilai) {
-        nilai = Math.floor(Math.abs(nilai));
-
-        var huruf = [
-            '',
-            'Satu',
-            'Dua',
-            'Tiga',
-            'Empat',
-            'Lima',
-            'Enam',
-            'Tujuh',
-            'Delapan',
-            'Sembilan',
-            'Sepuluh',
-            'Sebelas',
-        ];
-
-        var bagi = 0;
-        var penyimpanan = '';
-
-        if (nilai < 12) {
-            penyimpanan = ' ' + huruf[nilai];
-        } else if (nilai < 20) {
-            penyimpanan = terbilang(Math.floor(nilai - 10)) + ' Belas';
-        } else if (nilai < 100) {
-            bagi = Math.floor(nilai / 10);
-            penyimpanan = terbilang(bagi) + ' Puluh' + terbilang(nilai % 10);
-        } else if (nilai < 200) {
-            penyimpanan = ' Seratus' + terbilang(nilai - 100);
-        } else if (nilai < 1000) {
-            bagi = Math.floor(nilai / 100);
-            penyimpanan = terbilang(bagi) + ' Ratus' + terbilang(nilai % 100);
-        } else if (nilai < 2000) {
-            penyimpanan = ' Seribu' + terbilang(nilai - 1000);
-        } else if (nilai < 1000000) {
-            bagi = Math.floor(nilai / 1000);
-            penyimpanan = terbilang(bagi) + ' Ribu' + terbilang(nilai % 1000);
-        } else if (nilai < 1000000000) {
-            bagi = Math.floor(nilai / 1000000);
-            penyimpanan = terbilang(bagi) + ' Juta' + terbilang(nilai % 1000000);
-        } else if (nilai < 1000000000000) {
-            bagi = Math.floor(nilai / 1000000000);
-            penyimpanan = terbilang(bagi) + ' Miliar' + terbilang(nilai % 1000000000);
-        } else if (nilai < 1000000000000000) {
-            bagi = Math.floor(nilai / 1000000000000);
-            penyimpanan = terbilang(nilai / 1000000000000) + ' Triliun' + terbilang(nilai % 1000000000000);
-        }
-
-        return penyimpanan;
-    }
 </script>

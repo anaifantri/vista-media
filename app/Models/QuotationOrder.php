@@ -16,4 +16,7 @@ class QuotationOrder extends Model
     public function sale(){
         return $this->belongsTo(Sale::class);
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

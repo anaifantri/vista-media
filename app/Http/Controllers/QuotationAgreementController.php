@@ -30,7 +30,7 @@ class QuotationAgreementController extends Controller
                 'quotation_agreements' => $dataAgreements,
                 'sale' => $sale,
                 'category' => $category,
-                'title' => 'Dokumen Perjanjian'
+                'title' => 'Dokumen Agreement'
             ]);
         } else {
             abort(403);
@@ -51,22 +51,30 @@ class QuotationAgreementController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
-            if($request->file('document_agreement')){
-                $images = $request->file('document_agreement');
-                foreach($images as $image){
-                    $documentAgreement = [];
-                    $documentAgreement = [
-                        'quotation_id' => $request->quotation_id,
-                        'sale_id' => $request->sale_id,
-                        'number' => $request->number,
-                        'date' => $request->date,
-                        'image' => $image->store('agreement-images')
-                    ];
-                    QuotationAgreement::create($documentAgreement);
-                }
-            }
+            $request->validate([
+                'document_agreement.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048',
+                'document_agreement' => 'required',
+            ]);
+            $request->request->add(['user_id' => auth()->user()->id]);
+        
+            $validateData = $request->validate([
+                'sale_id' => 'required',
+                'user_id' => 'required',
+                'quotation_id' => 'required',
+                'number' => 'required',
+                'date' => 'required'
+            ]);
 
-            return redirect('/marketing/quotation-agreements/show-agreements/'.$request->category.'/'.$request->sale_id)->with('success', count($request->document_agreement).' Dokumen Perjanjian berhasil ditambahkan');
+            $getImages = $request->file('document_agreement');
+            $images = [];
+            foreach($getImages as $image){
+                array_push($images,$image->store('agreement-images'));
+            }
+            $validateData['images'] = json_encode($images);   
+
+            QuotationAgreement::create($validateData);
+
+            return redirect('/marketing/quotation-agreements/show-agreements/'.$request->category.'/'.$request->sale_id)->with('success', ' Dokumen Perjanjian dengan nomor '.$request->number.' berhasil ditambahkan');
         } else {
             abort(403);
         }
@@ -85,7 +93,20 @@ class QuotationAgreementController extends Controller
      */
     public function edit(QuotationAgreement $quotationAgreement): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingEdit'))){
+            $sale = Sale::findOrFail($quotationAgreement->sale->id);
+            $category = $sale->media_category->name;
+            $images = json_decode($quotationAgreement->images);
+            return response()->view('quotation-agreements.edit', [
+                'quotation_agreement' => $quotationAgreement,
+                'sale' => $sale,
+                'category' => $category,
+                'images' => $images,
+                'title' => 'Edit Dokumen Perjanjian'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -93,7 +114,40 @@ class QuotationAgreementController extends Controller
      */
     public function update(Request $request, QuotationAgreement $quotationAgreement): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingEdit'))){
+            $sale_id = $quotationAgreement->sale->id;
+            $category = $quotationAgreement->sale->media_category->name;
+            $request->validate([
+                'document_agreement.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048'
+            ]);
+        
+            $validateData = $request->validate([
+                'number' => 'required',
+                'date' => 'required'
+            ]);
+
+            if($request->file('document_agreement')){
+                $newImages = $request->file('document_agreement');
+                $oldImages = [];
+                $oldImages = json_decode($request->oldImages);
+                if(count($oldImages) > 0){
+                    foreach ($oldImages as $oldImage) {
+                        Storage::delete($oldImage);
+                    }
+                }
+                $images = [];
+                foreach($newImages as $newImage){
+                    array_push($images,$newImage->store('agreement-images'));
+                }
+                $validateData['images'] = json_encode($images); 
+            }
+
+            QuotationAgreement::where('id', $quotationAgreement->id)->update($validateData);
+
+            return redirect('/marketing/quotation-agreements/show-agreements/'.$category.'/'.$sale_id)->with('success', ' Dokumen Perjanjian dengan nomor '.$quotationAgreement->number.' berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -102,16 +156,17 @@ class QuotationAgreementController extends Controller
     public function destroy(QuotationAgreement $quotationAgreement): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingDelete'))){
-            $sale_id = $quotationAgreement->sale_id;
-            $category = $quotationAgreement->quotation->media_category->name;
+            $images = json_decode($quotationAgreement->images);
+            $sale_id = $quotationAgreement->sale->id;
+            $category = $quotationAgreement->sale->media_category->name;
 
-            if($quotationAgreement->image){
-                Storage::delete($quotationAgreement->image);
+            foreach ($images as $image) {
+                Storage::delete($image);
             }
 
             QuotationAgreement::destroy($quotationAgreement->id);
 
-            return redirect('marketing/quotation-agreements/show-agreements/'.$category.'/'.$sale_id)->with('success','Dokumen Perjanjian berhasil dihapus');
+            return redirect('marketing/quotation-agreements/show-agreements/'.$category.'/'.$sale_id)->with('success','Dokumen Perjanjian dengan nomor '.$quotationAgreement->number.' berhasil dihapus');
         } else {
             abort(403);
         }

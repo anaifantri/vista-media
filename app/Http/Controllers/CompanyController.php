@@ -49,7 +49,7 @@ class CompanyController extends Controller
     {    
         if((Gate::allows('isAdmin') && Gate::allows('isMediaSetting') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isMediaSetting') && Gate::allows('isMediaCreate'))){
             // Set Code --> start
-            $dataCompanies = Company::all()->last();
+            $dataCompanies = Company::orderBy("code", "asc")->get()->last();
             if($dataCompanies){
                 $lastCode = (int)substr($dataCompanies->code,3,3);
                 $newCode = $lastCode + 1;

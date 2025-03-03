@@ -50,7 +50,7 @@ class VendorCategoryController extends Controller
                 return back()->withErrors(['name' => ['Silahkan pilih katagori']])->withInput();
             }
             // Set code --> start
-            $dataCategory = VendorCategory::all()->last();
+            $dataCategory = VendorCategory::orderBy("code", "asc")->get()->last();
             if($dataCategory){
                 $lastCode = (int)substr($dataCategory->code,3,3);
                 $newCode = $lastCode + 1;

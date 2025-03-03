@@ -71,20 +71,22 @@ class BillingController extends Controller
                 $payment_terms = json_decode($quotationDeal->payment_terms);
             }
             $product = json_decode($sale->product);
-            $quotation_orders = QuotationOrder::with('quotation')->get();
-            $quotation_agreements = QuotationAgreement::with('quotation')->get();
-            $quotation_approvals = QuotationApproval::with('quotation')->get();
+            $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
+            $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
+            $quotation_approvals = QuotationApproval::where('quotation_id', $sale->quotation->id)->get();
             $client = json_decode($sale->quotation->clients);
             return view ('billings.media-create', [
                 'title' => 'Membuat Invoice & Kwitansi',
                 'sale' => $sale,
                 'quotation_deal' => $quotationDeal,
+                'quotation_approvals' => $quotation_approvals,
+                'quotation_orders' => $quotation_orders,
+                'quotation_agreements' => $quotation_agreements,
                 'price' => $price,
                 'payment_terms' => $payment_terms,
                 'client' => $client,
                 'product' => $product,
-                'sale_ppn' => $sale->ppn,
-                compact('quotation_approvals', 'quotation_orders', 'quotation_agreements')
+                'sale_ppn' => $sale->ppn
             ]);
         } else {
             abort(403);

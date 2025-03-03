@@ -60,7 +60,7 @@ class VendorController extends Controller
             }
 
             // Set code --> start
-            $dataVendor = Vendor::all()->last();
+            $dataVendor = Vendor::orderBy("code", "asc")->get()->last();
             if($dataVendor){
                 $lastCode = (int)substr($dataVendor->code,3,3);
                 $newCode = $lastCode + 1;

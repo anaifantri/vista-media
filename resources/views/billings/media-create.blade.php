@@ -2,6 +2,48 @@
 
 @section('container')
     @php
+        function terbilang($nilai)
+        {
+            $huruf = [
+                '',
+                'Satu',
+                'Dua',
+                'Tiga',
+                'Empat',
+                'Lima',
+                'Enam',
+                'Tujuh',
+                'Delapan',
+                'Sembilan',
+                'Sepuluh',
+                'Sebelas',
+            ];
+            if ($nilai == 0) {
+                return '';
+            } elseif (($nilai < 12) & ($nilai != 0)) {
+                return '' . $huruf[$nilai];
+            } elseif ($nilai < 20) {
+                return Terbilang($nilai - 10) . ' Belas ';
+            } elseif ($nilai < 100) {
+                return Terbilang($nilai / 10) . ' Puluh ' . Terbilang($nilai % 10);
+            } elseif ($nilai < 200) {
+                return ' Seratus ' . Terbilang($nilai - 100);
+            } elseif ($nilai < 1000) {
+                return Terbilang($nilai / 100) . ' Ratus ' . Terbilang($nilai % 100);
+            } elseif ($nilai < 2000) {
+                return ' Seribu ' . Terbilang($nilai - 1000);
+            } elseif ($nilai < 1000000) {
+                return Terbilang($nilai / 1000) . ' Ribu ' . Terbilang($nilai % 1000);
+            } elseif ($nilai < 1000000000) {
+                return Terbilang($nilai / 1000000) . ' Juta ' . Terbilang($nilai % 1000000);
+            } elseif ($nilai < 1000000000000) {
+                return Terbilang($nilai / 1000000000) . ' Milyar ' . Terbilang($nilai % 1000000000);
+            } elseif ($nilai < 100000000000000) {
+                return Terbilang($nilai / 1000000000000) . ' Trilyun ' . Terbilang($nilai % 1000000000000);
+            } elseif ($nilai <= 100000000000000) {
+                return 'Maaf Tidak Dapat di Prose Karena Jumlah nilai Terlalu Besar';
+            }
+        }
         $bulan = [
             1 => 'Januari',
             'Februari',
@@ -31,6 +73,35 @@
             'Des',
         ];
 
+        $manual_terms = [];
+        $dataTitles = ['Produksi', 'Pemakaian Listrik', 'Jasa', 'Pajak Reklame', 'Lainnya'];
+        for ($indexManual = 0; $indexManual < count($dataTitles); $indexManual++) {
+            $manual_term = new stdClass();
+            $manual_term->title = $dataTitles[$indexManual];
+            $manual_term->number = '';
+            $manual_term->term = 0;
+            $manual_term->nominal = 0;
+            $manual_term->dpp = 0;
+            $manual_term->ppn = 0;
+            $manual_term->set_collect = false;
+            array_push($manual_terms, $manual_term);
+        }
+
+        $auto_terms = [];
+        $indexAuto = 0;
+        foreach ($payment_terms->dataPayments as $paymentTerm) {
+            $indexAuto++;
+            $auto_term = new stdClass();
+            $auto_term->title = 'Penempatan';
+            $auto_term->number = $indexAuto;
+            $auto_term->term = $paymentTerm->term;
+            $auto_term->nominal = $sale->price * ($paymentTerm->term / 100);
+            $auto_term->dpp = round((($sale->price * ($paymentTerm->term / 100)) / 12) * 11);
+            $auto_term->ppn = $sale->price * ($paymentTerm->term / 100) * ($sale->ppn / 100);
+            $auto_term->set_collect = false;
+            array_push($auto_terms, $auto_term);
+        }
+
         foreach ($price->dataTitle as $dataTitle) {
             if ($dataTitle->checkbox == true) {
                 $priceTitle = $dataTitle->title;
@@ -47,27 +118,22 @@
             $set_preview = false;
         }
 
-        if (request('auto_terms')) {
-            $auto_terms = json_decode(request('auto_terms'));
+        $bill_terms = [];
+
+        if (request('bill_terms')) {
+            $bill_terms = json_decode(request('bill_terms'));
         } else {
-            $auto_terms = [];
-            $indexTerm = 0;
-            foreach ($payment_terms->dataPayments as $paymentTerm) {
-                $indexTerm++;
-                $auto_term = new stdClass();
-                if (count($payment_terms->dataPayments) > 1) {
-                    $auto_term->title =
-                        'Penempatan Media Luar Ruang Tahap ke-' . $indexTerm . ' (' . $paymentTerm->term . '%)';
-                } else {
-                    $auto_term->title = 'Penempatan Media Luar Ruang';
-                }
-                $auto_term->term = $paymentTerm->term;
-                $auto_term->nominal = $sale->price * ($paymentTerm->term / 100);
-                $auto_term->ppn = $sale->price * ($paymentTerm->term / 100) * ($sale->ppn / 100);
-                $auto_term->set_collect = false;
-                array_push($auto_terms, $auto_term);
+            if (request('rbTerms') == 'manualTerm') {
+                $bill_terms = $manual_term;
+            } else {
+                $bill_terms = $auto_terms;
             }
         }
+
+        $totalNominal = 0;
+        $totalPpn = 0;
+        $totalDpp = 0;
+        $grandTotal = 0;
 
         $created_by = new stdClass();
         $created_by->id = auth()->user()->id;

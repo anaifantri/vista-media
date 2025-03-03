@@ -63,7 +63,7 @@ class MediaSizeController extends Controller
             }
 
             // Set Code --> start
-            $dataSize = MediaSize::all()->last();
+            $dataSize = MediaSize::orderBy("code", "asc")->get()->last();
             if($dataSize){
                 $lastCode = (int)substr($dataSize->code,3,3);
                 $newCode = $lastCode + 1;

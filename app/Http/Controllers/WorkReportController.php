@@ -132,7 +132,7 @@ class WorkReportController extends Controller
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
-            $lastReport = WorkReport::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->get()->last();
+            $lastReport = WorkReport::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->orderBy("number", "asc")->get()->last();
             if($lastReport){
                 $lastNumber = (int)substr($lastOrder->number,0,4);
                 $newNumber = $lastNumber + 1;

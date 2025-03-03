@@ -1,5 +1,5 @@
 <!-- Modal Add Document start -->
-<div id="modalImages" class="absolute justify-center top-0 w-full h-[900px] bg-black bg-opacity-90 z-50 hidden">
+<div id="modalImages" class="absolute justify-center top-0 w-full p-10 bg-stone-800 z-50 hidden">
     <div>
         <div class="flex mt-10">
             <button id="btnSubmit" class="flex justify-center items-center mx-1 btn-primary mb-2" title="Submit"
@@ -31,72 +31,65 @@
                 </button>
             </div>
         </div>
-        <div class="w-[800px] h-max bg-white mt-2 p-4">
-            <div class="flex justify-center">
-                <div>
-                    <div class="flex justify-center w-full border-b p-1">
-                        <label id="title" class="text-sm text-teal-700 font-semibold"></label>
-                    </div>
-                    <div class="my-2 border-b-2 border-teal-700 py-2">
-                        <div id="documentNumber"class="flex items-center mt-1">
-                            <label class="text-sm text-teal-700 w-20">Nomor</label>
-                            <label class="text-sm text-teal-700 ml-2">:</label>
-                            <input id="inputNumber"
-                                class="text-sm px-2 text-teal-700 ml-2 outline-none border rounded-lg border-teal-700"
-                                type="text" placeholder="input nomor">
-                        </div>
-                        <div id="documentDate" class="flex items-center mt-1">
-                            <label class="text-sm text-teal-700 w-20">Tanggal</label>
-                            <label class="text-sm text-teal-700 ml-2">:</label>
-                            <input id="inputDate"
-                                class="text-sm text-teal-700 ml-2 px-2 outline-none border rounded-lg border-teal-700"
-                                type="date">
-                        </div>
-                        <div class="flex items-center mt-1">
-                            <label class="text-sm text-teal-700 w-20">Jumlah File</label>
-                            <label class="text-sm text-teal-700 ml-2">:</label>
-                            <label id="numberImagesFile" class="text-sm text-teal-700 ml-2">Tidak Ada File Yang
-                                Dipilih</label>
-                            <button id="btnChooseImages"
-                                class="flex justify-center items-center w-44 btn-primary-small ml-4" title="Chose Files"
-                                type="button" onclick="inputImages(this)">
-                                <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-                                    clip-rule="evenodd" viewBox="0 0 24 24">
-                                    <path
-                                        d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
-                                </svg>
-                                <span class="ml-2">Pilih Dokumen</span>
-                            </button>
-                        </div>
-                    </div>
-                    <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700"
-                        id="figureImages">
+        <div class="w-[800px] bg-white mt-2 p-4">
+            <div class="flex justify-center w-full border-b p-1">
+                <label id="title" class="text-sm text-teal-700 font-semibold"></label>
+            </div>
+            <div class="my-2 border-b-2 border-teal-700 py-2">
+                <div id="documentNumber"class="flex items-center mt-1">
+                    <label class="text-sm text-teal-700 w-20">Nomor</label>
+                    <label class="text-sm text-teal-700 ml-2">:</label>
+                    <input id="inputNumber"
+                        class="text-sm px-2 text-teal-700 ml-2 outline-none border rounded-lg border-teal-700"
+                        type="text" placeholder="input nomor">
+                </div>
+                <div id="documentDate" class="flex items-center mt-1">
+                    <label class="text-sm text-teal-700 w-20">Tanggal</label>
+                    <label class="text-sm text-teal-700 ml-2">:</label>
+                    <input id="inputDate"
+                        class="text-sm text-teal-700 ml-2 px-2 outline-none border rounded-lg border-teal-700"
+                        type="date">
+                </div>
+                <div class="flex items-center mt-1">
+                    <label class="text-sm text-teal-700 w-20">Jumlah File</label>
+                    <label class="text-sm text-teal-700 ml-2">:</label>
+                    <label id="numberImagesFile" class="text-sm text-teal-700 ml-2">Tidak Ada File Yang
+                        Dipilih</label>
+                    <button id="btnChooseImages" class="flex justify-center items-center w-44 btn-primary-small ml-4"
+                        title="Chose Files" type="button" onclick="inputImages(this)">
+                        <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                            clip-rule="evenodd" viewBox="0 0 24 24">
+                            <path d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
+                        </svg>
+                        <span class="ml-2">Pilih Dokumen</span>
+                    </button>
+                </div>
+            </div>
+            <figure class="flex w-[750px] justify-center overflow-x-auto border-b-2 border-teal-700" id="figureImages">
 
-                    </figure>
-                    <div class="relative m-auto w-[750px] h-max">
-                        <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
-                            <button
-                                class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                type="button" onclick="prevButtonAction()">
-                                <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-                                    clip-rule="evenodd" viewBox="0 0 24 24">
-                                    <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
-                            <button type="button"
-                                class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                onclick="nextButtonAction()">
-                                <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-                                    clip-rule="evenodd" viewBox="0 0 24 24">
-                                    <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="slidesPreview" class="mt-2">
-                        </div>
-                    </div>
+            </figure>
+            <div class="relative m-auto w-[750px]">
+                <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
+                    <button
+                        class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                        type="button" onclick="prevButtonAction()">
+                        <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                            clip-rule="evenodd" viewBox="0 0 24 24">
+                            <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
+                    <button type="button"
+                        class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                        onclick="nextButtonAction()">
+                        <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                            clip-rule="evenodd" viewBox="0 0 24 24">
+                            <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="slidesPreview" class="mt-2">
                 </div>
             </div>
         </div>

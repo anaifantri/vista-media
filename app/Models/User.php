@@ -114,6 +114,12 @@ class User extends Authenticatable
     public function monitorings(){
         return $this->hasMany(Monitoring::class, 'user_id', 'id');
     }
+    public function quotation_orders(){
+        return $this->hasMany(QuotationOrder::class, 'user_id', 'id');
+    }
+    public function quotation_agreements(){
+        return $this->hasMany(QuotationAgreement::class, 'user_id', 'id');
+    }
 
     public function monitoring_photos(){
         return $this->hasMany(MonitoringPhoto::class, 'user_id', 'id');

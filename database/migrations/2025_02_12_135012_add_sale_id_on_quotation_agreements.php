@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::table('quotation_agreements', function (Blueprint $table) {
             $table->foreignId('sale_id')->nullable()->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
+            $table->json('images')->nullable();
+            $table->dropColumn('image');
         });
     }
 
@@ -24,6 +27,10 @@ return new class extends Migration
         Schema::table('quotation_agreements', function (Blueprint $table) {
             $table->dropForeign(['sale_id']);
             $table->dropColumn('sale_id');
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+            $table->dropColumn('images');
+            $table->string('image');
         });
     }
 };

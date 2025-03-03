@@ -16,7 +16,7 @@
                         <u>INVOICE</u>
                     </label>
                     <div class="flex mt-4">
-                        <div class="w-[380px] h-[190px] border rounded-lg p-1">
+                        <div class="w-[380px] h-[200px] border rounded-lg p-1">
                             <div class="flex items-center ml-2">
                                 <label class="text-lg w-24">Nomor</label>
                                 <label class="text-lg">:</label>
@@ -32,46 +32,63 @@
                                     {{ date('Y') }}
                                 </label>
                             </div>
-                            <div class="mt-2 border-b w-full">
-                                <label class="text-lg ml-2 font-semibold">
+                            <div class="mt-2">
+                                <label class="flex text-md ml-2 font-semibold">
                                     Dokumen :
                                 </label>
                             </div>
-                            <div class="flex text-sm ml-2 mt-1 border-b">
+                            <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                                <input type="checkbox" class="outline-none mr-2" checked>
                                 <label class="w-24">No. Penawaran</label>
                                 <label class="">:</label>
                                 <label
-                                    class="ml-2 w-28 font-semibold">{{ substr($quotation_deal->number, 0, 9) }}..</label>
+                                    class="ml-2 w-24 font-semibold">{{ substr($quotation_deal->number, 0, 9) }}..</label>
                                 <label class="w-8">Tgl.</label>
                                 <label class="">:</label>
                                 <label class="ml-2 font-semibold">
                                     {{ date('d', strtotime($quotation_deal->created_at)) }}-{{ $month[(int) date('m', strtotime($quotation_deal->created_at))] }}-{{ date('Y', strtotime($quotation_deal->created_at)) }}
                                 </label>
                             </div>
-                            <div class="flex text-sm ml-2 mt-1 border-b">
-                                <label class="w-24">No. PO</label>
-                                <label class="">:</label>
-                                <label
-                                    class="ml-2 w-28 font-semibold">{{ substr($quotation_deal->number, 0, 9) }}..</label>
-                                <label class="w-8">Tgl.</label>
-                                <label class="">:</label>
-                                <label class="ml-2 font-semibold">
-                                    {{ date('d', strtotime($quotation_deal->created_at)) }}-{{ $month[(int) date('m', strtotime($quotation_deal->created_at))] }}-{{ date('Y', strtotime($quotation_deal->created_at)) }}
-                                </label>
-                            </div>
-                            <div class="flex text-sm ml-2 mt-1 border-b">
-                                <label class="w-24">No. Perjanjian</label>
-                                <label class="">:</label>
-                                <label
-                                    class="ml-2 w-28 font-semibold">{{ substr($quotation_deal->number, 0, 9) }}..</label>
-                                <label class="w-8">Tgl.</label>
-                                <label class="">:</label>
-                                <label class="ml-2 font-semibold">
-                                    {{ date('d', strtotime($quotation_deal->created_at)) }}-{{ $month[(int) date('m', strtotime($quotation_deal->created_at))] }}-{{ date('Y', strtotime($quotation_deal->created_at)) }}
-                                </label>
-                            </div>
+                            @foreach ($quotation_orders as $itemOrder)
+                                <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                                    <input type="checkbox" class="outline-none mr-2" checked>
+                                    <label class="w-24">No. PO</label>
+                                    <label class="">:</label>
+                                    <label class="ml-2 w-24 font-semibold">
+                                        @if (strlen($itemOrder->number) > 9)
+                                            {{ substr($itemOrder->number, 0, 9) }}..
+                                        @else
+                                            {{ $itemOrder->number }}
+                                        @endif
+                                    </label>
+                                    <label class="w-8">Tgl.</label>
+                                    <label class="">:</label>
+                                    <label class="ml-2 font-semibold">
+                                        {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
+                                    </label>
+                                </div>
+                            @endforeach
+                            @foreach ($quotation_agreements as $itemAgreement)
+                                <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                                    <input type="checkbox" class="outline-none mr-2" checked>
+                                    <label class="w-24">No. Perjanjian</label>
+                                    <label class="">:</label>
+                                    <label class="ml-2 w-24 font-semibold">
+                                        @if (strlen($itemAgreement->number) > 9)
+                                            {{ substr($itemAgreement->number, 0, 9) }}..
+                                        @else
+                                            {{ $itemAgreement->number }}
+                                        @endif
+                                    </label>
+                                    <label class="w-8">Tgl.</label>
+                                    <label class="">:</label>
+                                    <label class="ml-2 font-semibold">
+                                        {{ date('d', strtotime($itemAgreement->date)) }}-{{ $month[(int) date('m', strtotime($itemAgreement->date))] }}-{{ date('Y', strtotime($itemAgreement->date)) }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="w-[380px] h-[190px] border rounded-lg p-1 ml-2">
+                        <div class="w-[380px] h-[200px] border rounded-lg p-1 ml-2">
                             <label class="text-lg font-mono font-semibold ml-2">Kepada Yth.</label>
                             <div class="flex ml-2">
                                 <label class="text-sm w-24">Nama</label>
@@ -138,11 +155,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($auto_terms as $termItem)
+                            @foreach ($bill_terms as $termItem)
                                 @if ($termItem->set_collect == true)
+                                    @php
+                                        $totalNominal = $totalNominal + $termItem->nominal;
+                                        $totalPpn = $totalPpn + $termItem->ppn;
+                                        $totalDpp = $totalDpp + $termItem->ppn;
+                                        $grandTotal = $totalNominal + $totalPpn;
+                                    @endphp
                                     <tr class="text-sm">
                                         <td class="border px-2">{{ $loop->iteration }}</td>
-                                        <td class="border px-2">{{ $termItem->title }}</td>
+                                        <td class="border px-2">{{ $termItem->title }} Media Luar Ruang Tahap
+                                            Ke-{{ $termItem->number }} ({{ $termItem->term }}%)</td>
                                         <td class="border px-2 text-right">
                                             <div class="flex justify-end">
                                                 <label class="w-6">Rp. </label>
@@ -256,20 +280,47 @@
                                         <label class="ml-2 font-semibold">BCA Cabang Hasanudin, Denpasar - Bali</label>
                                     </div>
                                 </td>
-                                <td class="border text-right px-1 font-semibold">SUB TOTAL</td>
-                                <td class="border text-right"></td>
+                                <td class="border text-right px-2 font-semibold">SUB TOTAL</td>
+                                <td class="border text-right font-semibold">
+                                    <div class="flex w-full justify-end px-1">
+                                        <label class="w-6">Rp. </label>
+                                        <label
+                                            class="w-full flex justify-end">{{ number_format($totalNominal) }}</label>
+                                        <label class="w-4">,-</label>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="text-sm">
-                                <td class="border text-right px-1 font-semibold">DISKON</td>
-                                <td class="border text-right"></td>
+                                <td class="border text-right px-2 font-semibold">DPP</td>
+                                <td class="border text-right font-semibold">
+                                    <div class="flex w-full justify-end px-1">
+                                        <label class="w-6">Rp. </label>
+                                        <label
+                                            class="w-full flex justify-end">{{ number_format(($totalNominal / 12) * 11) }}</label>
+                                        <label class="w-4">,-</label>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="text-sm">
-                                <td class="border text-right px-1 font-semibold">PPN</td>
-                                <td class="border text-right"></td>
+                                <td class="border text-right px-2 font-semibold">PPN</td>
+                                <td class="border text-right font-semibold">
+                                    <div class="flex w-full justify-end px-1">
+                                        <label class="w-6">Rp. </label>
+                                        <label class="w-full flex justify-end">{{ number_format($totalPpn) }}</label>
+                                        <label class="w-4">,-</label>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="text-sm">
-                                <td class="border text-right px-1 font-semibold">GRAND TOTAL</td>
-                                <td class="border text-right"></td>
+                                <td class="border text-right px-2 font-semibold">GRAND TOTAL</td>
+                                <td class="border text-right font-semibold">
+                                    <div class="flex w-full justify-end px-1">
+                                        <label class="w-6">Rp. </label>
+                                        <label
+                                            class="w-full flex justify-end">{{ number_format($grandTotal) }}</label>
+                                        <label class="w-4">,-</label>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

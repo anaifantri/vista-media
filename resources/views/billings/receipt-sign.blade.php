@@ -3,7 +3,7 @@
     <div class="flex w-full items-center px-10 pt-2 pb-2">
         <div class="ml-4 w-[900px]">
             <div class="flex w-[500px] justify-center py-1 border-b-2 border-t-2 border-black">
-                <label id="receiptTotal" class="text-4xl font-bold tracking-wider"></label>
+                <label class="text-4xl font-bold tracking-wider">{{ number_format($grandTotal) }}</label>
             </div>
             <div class="w-[500px] h-[160px] border border-black mt-2 p-2">
                 <label class="flex text-sm"><u>Catatan :</u></label>
