@@ -33,14 +33,17 @@ class QuotRevisionStatusController extends Controller
     {
         if(auth()->user()->level === 'Administrator' || auth()->user()->level === 'Marketing' ){
             if($request->status == "Deal"){
+                $request->validate([
+                    'document_approval.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048',
+                    'document_approval' => 'required',
+                ]);
                 $validateData = $request->validate([
                     'quotation_id' => 'required',
                     'quotation_revision_id' => 'required',
                     'status' => 'required',
                     'description' => 'required',
                     'updated_by' => 'required',
-                    'status_image' => 'image|file|max:1024',
-                    'document_approval' => 'required'
+                    'status_image' => 'image|file|max:1024'
                 ]);
             }else {
                 $validateData = $request->validate([

@@ -23,16 +23,24 @@ function showHidePreview(){
 saleMediaNext = () =>{
     formSelectSale.submit();
 }
+saleServiceNext = () =>{
+    formSelectSale.submit();
+}
 
 // Function Modal Term start
 termNext = () =>{
-    var divManualTerms = document.getElementById("divManualTerms");
     const rbManualTerm = document.getElementById("rbManualTerm");
     const rbAutoTerm = document.getElementById("rbAutoTerm");
     const nominalTerms = document.querySelectorAll('[id=nominalTerms]');
     var checkNominal = false;
+    var checkCbAuto = false;
     if(rbAutoTerm.checked == true){
-        if(billTerms.length == 0){
+        for(let i = 0; i < billTerms.length; i++){
+            if(billTerms[i].set_collect == true){
+                checkCbAuto = true;
+            }
+        }
+        if(checkCbAuto == false){
             alert ("Silahkan pilih termin pembayaran terlebih dahulu..!!");
         }else{
             setPreview.value = 'true';
@@ -216,4 +224,148 @@ rbAutoTermAction = () =>{
     for(var i = 0; i < manualCheckboxs.length; ++i){
         manualCheckboxs[i].checked = false;
     }
+}
+
+changeClient = (sel) =>{
+    let objClient = JSON.parse(document.getElementById("client").value);
+    if(sel.name == "client_contact"){
+        objClient.contact = sel.value;
+    }else if(sel.name == "client_address"){
+        objClient.address = sel.value;
+    }else if(sel.name == "contact_phone"){
+        objClient.contact_phone = sel.value;
+    }else if(sel.name == "contact_email"){
+        objClient.contact_email = sel.value;
+    }
+
+    document.getElementById("client").value = JSON.stringify(objClient);    
+}
+
+changeInvoiceTitle = (sel) =>{
+    let objInvoice = JSON.parse(document.getElementById("invoice").value);
+    var indexInvTitle = parseInt(sel.id.replace(/[A-Za-z$-]/g, ""));
+    
+    if(sel.value == ""){
+        alert("Judul deskripsi tidak boleh kosong..!!");
+        sel.value = sel.defaultValue;
+        objInvoice.description[indexInvTitle].title = sel.defaultValue;
+        document.getElementById("invoice").value = JSON.stringify(objInvoice); 
+    }else{
+        objInvoice.description[indexInvTitle].title = sel.value;
+    }
+
+    document.getElementById("invoice").value = JSON.stringify(objInvoice);    
+}
+
+changeInvoiceTheme = (sel) =>{
+    let objInvoice = JSON.parse(document.getElementById("invoice").value);
+    var indexInvTheme = parseInt(sel.id.replace(/[A-Za-z$-]/g, ""));
+    
+    if(sel.value == ""){
+        alert("Tema tidak boleh kosong..!!");
+        sel.value = sel.defaultValue;
+        objInvoice.description[indexInvTheme].theme = sel.defaultValue;
+        document.getElementById("invoice").value = JSON.stringify(objInvoice); 
+    }else{
+        objInvoice.description[indexInvTheme].theme = sel.value;
+    }
+
+    document.getElementById("invoice").value = JSON.stringify(objInvoice);      
+}
+
+changeReceiptTitle = (sel) =>{
+    let objReceipt = JSON.parse(document.getElementById("receipt").value);
+    
+    if(sel.value == ""){
+        alert("Judul deskripsi tidak boleh kosong..!!");
+        sel.value = sel.defaultValue;
+        objReceipt.title = sel.defaultValue;
+        document.getElementById("receipt").value = JSON.stringify(objReceipt); 
+    }else{
+        objReceipt.title = sel.value;
+    }
+
+    document.getElementById("receipt").value = JSON.stringify(objReceipt);    
+}
+
+changeReceiptTheme = (sel) =>{
+    let objReceipt = JSON.parse(document.getElementById("receipt").value);
+    
+    if(sel.value == ""){
+        alert("Tema tidak boleh kosong..!!");
+        sel.value = sel.defaultValue;
+        objReceipt.theme = sel.defaultValue;
+        document.getElementById("receipt").value = JSON.stringify(objReceipt); 
+    }else{
+        objReceipt.theme = sel.value;
+    }
+
+    document.getElementById("receipt").value = JSON.stringify(objReceipt);   
+}
+
+mergeAction = (sel) =>{
+    const invoiceQty = document.querySelectorAll('[id=invoiceQty]');
+    const invoiceSize = document.querySelectorAll('[id=invoiceSize]');
+    const receiptQty = document.querySelectorAll('[id=receiptQty]');
+    const receiptSize = document.querySelectorAll('[id=receiptSize]');
+    let objReceipt = JSON.parse(document.getElementById("receipt").value);
+    let objInvoice = JSON.parse(document.getElementById("invoice").value);
+    
+    if(sel.value == "normal"){
+        objReceipt.qty = '2 (Dua) Unit';
+        objReceipt.size =  getProduct.size + ' x ' + getProduct.side + ' - ' + getProduct.orientation;
+        receiptQty[0].innerText =  '2 (Dua) Unit';
+        receiptQty[1].innerText =  '2 (Dua) Unit';
+        receiptSize[0].innerText =  getProduct.size + ' x ' + getProduct.side + ' - ' + getProduct.orientation;
+        receiptSize[1].innerText =  getProduct.size + ' x ' + getProduct.side + ' - ' + getProduct.orientation;
+        for(let i = 0; i < invoiceQty.length; i++){
+            objInvoice.description[i].qty = '2 (Dua) Unit';
+            invoiceQty[i].innerText =  '2 (Dua) Unit';
+            invoiceSize[i].innerText =  getProduct.size + ' x ' + getProduct.side + ' - ' + getProduct.orientation;
+        }
+    }else if(sel.value == "size"){
+        var sizeWidth = getProduct.width;
+        var sizeHeight = getProduct.height;
+        if(getProduct.orientation == "Vertikal"){
+            if(sizeWidth < sizeHeight){
+                var getSize = 2 * sizeWidth +'m x ' + sizeHeight +'m x ' + getProduct.side + ' - ' + getProduct.orientation;
+            }else{
+                var getSize = 2 * sizeHeight +'m x ' + sizeWidth +'m x ' + getProduct.side + ' - ' + getProduct.orientation;
+            }
+        }else{
+            if(sizeWidth < sizeHeight){
+                var getSize = sizeWidth +'m x ' + 2 * sizeHeight +'m x ' + getProduct.side + ' - ' + getProduct.orientation;
+            }else{
+                var getSize = sizeHeight +'m x ' + 2 * sizeWidth +'m x ' + getProduct.side + ' - ' + getProduct.orientation;
+            }
+        }
+        objReceipt.qty = '1 (Satu) Unit';
+        objReceipt.size = getSize;
+        receiptQty[0].innerText =  '1 (Satu) Unit';
+        receiptQty[1].innerText =  '1 (Satu) Unit';
+        receiptSize[0].innerText =  getSize;
+        receiptSize[1].innerText =  getSize;
+        for(let i = 0; i < invoiceQty.length; i++){
+            objInvoice.description[i].qty = '1 (Satu) Unit';
+            objInvoice.description[i].size = getSize;
+            invoiceQty[i].innerText =  '1 (Satu) Unit';
+            invoiceSize[i].innerText =  getSize;
+        }
+    }else if(sel.value == "side"){
+        objReceipt.qty = '1 (Satu) Unit';
+        objReceipt.size =  getProduct.size + ' x 2 Sisi - ' + getProduct.orientation;
+        receiptQty[0].innerText =  '1 (Satu) Unit';
+        receiptQty[1].innerText =  '1 (Satu) Unit';
+        receiptSize[0].innerText =  getProduct.size + ' x 2 Sisi - ' + getProduct.orientation;
+        receiptSize[1].innerText =  getProduct.size + ' x 2 Sisi - ' + getProduct.orientation;
+        for(let i = 0; i < invoiceQty.length; i++){
+            objInvoice.description[i].qty = '1 (Satu) Unit';
+            objInvoice.description[i].size =   getProduct.size + ' x 2 Sisi - ' + getProduct.orientation;
+            invoiceQty[i].innerText =  '1 (Satu) Unit';
+            invoiceSize[i].innerText =  getProduct.size + ' x 2 Sisi - ' + getProduct.orientation;
+        }
+    }
+
+    document.getElementById("receipt").value = JSON.stringify(objReceipt); 
+    document.getElementById("invoice").value = JSON.stringify(objInvoice); 
 }

@@ -574,3 +574,7 @@
 .td-service-normal {
     @apply text-[0.7rem] text-black border border-black px-2;
 }
+
+.input-attachment {
+    @apply ml-1 text-sm text-black outline-none border rounded-md px-1 w-full;
+}

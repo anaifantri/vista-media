@@ -173,13 +173,17 @@
                                                     <td id="tdCreate"
                                                         class="text-stone-900 border border-stone-900 align-middle text-center text-sm">
                                                         @if ($bill_category == 'media')
-                                                            <input value="{{ $sale->id }}" type="radio"
-                                                                name="chooseSale" title="pilih"
+                                                            <input id="{{ $quotationDeal }}" value="{{ $sale->id }}"
+                                                                type="checkbox" name="chooseSale" title="pilih"
                                                                 onclick="getMediaSales(this)">
                                                             <label class="ml-1">Pilih</label>
-                                                        @else
-                                                            <input value="{{ $sale->id }}" type="checkbox"
+                                                            {{-- <input value="{{ $sale->id }}" type="radio"
                                                                 name="chooseSale" title="pilih"
+                                                                onclick="getMediaSales(this)">
+                                                            <label class="ml-1">Pilih</label> --}}
+                                                        @else
+                                                            <input id="{{ $quotationDeal }}" value="{{ $sale->id }}"
+                                                                type="checkbox" name="chooseSale" title="pilih"
                                                                 onclick="getServiceSales(this)">
                                                             <label class="ml-1">Pilih</label>
                                                         @endif
@@ -230,8 +234,78 @@
         const formSelectSale = document.getElementById("formSelectSale");
         var billCategory = @json($bill_category);
         let saleId = [];
+
+        // getMediaSales = (sel) => {
+        //     formSelectSale.setAttribute('action', '/billings/create-media-billing/' + sel.value);
+        // }
         getMediaSales = (sel) => {
-            formSelectSale.setAttribute('action', '/billings/create-media-billing/' + sel.value);
+            if (saleId.length == 2) {
+                if (sel.checked == true) {
+                    alert('Maksimal pilihan 2 lokasi..!!');
+                    sel.checked = false;
+                } else {
+                    for (let i = 0; i < saleId.length; i++) {
+                        if (saleId[i] == Number(sel.value)) {
+                            saleId.splice(i, 1);
+                        }
+                    }
+                    formSelectSale.setAttribute('action', '/billings/create-media-billing/' + JSON.stringify(
+                        saleId));
+                }
+            } else {
+                if (Object.keys(saleId).length == 0) {
+                    saleId.push((sel.value));
+                    quotationDeal = JSON.parse(sel.id);
+                    formSelectSale.setAttribute('action', '/billings/create-media-billing/' + JSON.stringify(saleId));
+                } else {
+                    if (quotationDeal.number != JSON.parse(sel.id).number) {
+                        alert("Silahkan pilih klien dan nomor penawaran yang sama..!!");
+                        sel.checked = false;
+                    } else {
+                        if (sel.checked == true) {
+                            saleId.push(sel.value);
+                            formSelectSale.setAttribute('action', '/billings/create-media-billing/' + JSON.stringify(
+                                saleId));
+                        } else {
+                            for (let i = 0; i < saleId.length; i++) {
+                                if (saleId[i] == Number(sel.value)) {
+                                    saleId.splice(i, 1);
+                                }
+                            }
+                            formSelectSale.setAttribute('action', '/billings/create-media-billing/' + JSON.stringify(
+                                saleId));
+                        }
+                    }
+                }
+            }
+        }
+
+        getServiceSales = (sel) => {
+            if (Object.keys(saleId).length == 0) {
+                saleId.push((sel.value));
+                quotationDeal = JSON.parse(sel.id);
+                formSelectSale.setAttribute('action', '/billings/create-service-billing/' + JSON.stringify(saleId));
+            } else {
+                if (quotationDeal.number != JSON.parse(sel.id).number) {
+                    alert("Silahkan pilih klien dan nomor penawaran yang sama..!!");
+                    sel.checked = false;
+                } else {
+                    if (sel.checked == true) {
+                        saleId.push(sel.value);
+                        formSelectSale.setAttribute('action', '/billings/create-service-billing/' + JSON.stringify(
+                            saleId));
+                    } else {
+                        for (let i = 0; i < saleId.length; i++) {
+                            if (saleId[i] == Number(sel.value)) {
+                                saleId.splice(i, 1);
+                            }
+                        }
+                        formSelectSale.setAttribute('action', '/billings/create-service-billing/' + JSON.stringify(
+                            saleId));
+                    }
+
+                }
+            }
         }
     </script>
     <!-- Script Preview Image end-->

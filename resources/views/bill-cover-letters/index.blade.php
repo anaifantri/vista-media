@@ -24,7 +24,7 @@
                             @canany(['isAdmin', 'isAccounting'])
                                 @can('isCollect')
                                     @can('isAccountingCreate')
-                                        <a href="/bill-cover-letters/create" class="index-link btn-primary">
+                                        <a href="/bill-cover-letters/select-billing/{{ $company->id }}" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path

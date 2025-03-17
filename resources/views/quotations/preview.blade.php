@@ -455,8 +455,8 @@
                     mode: ['avoid-all', 'css', 'legacy']
                 },
                 html2canvas: {
-                    dpi: 300,
-                    scale: 1,
+                    dpi: 192,
+                    scale: 2,
                     letterRendering: true,
                     useCORS: true
                 },

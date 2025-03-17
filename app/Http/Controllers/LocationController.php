@@ -118,7 +118,7 @@ class LocationController extends Controller
 
     public function createLocation(String $category): View
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaCreate'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaCreate')) || (Gate::allows('isLocation') && Gate::allows('isMediaCreate'))){
             $dataCategory = MediaCategory::where('name', $category)->firstOrFail();
             return view ('locations.create', [
                 'areas'=>Area::all(),
@@ -147,7 +147,7 @@ class LocationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaCreate'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaCreate')) || (Gate::allows('isLocation') && Gate::allows('isMediaCreate'))){
             if ($request->area_id == 'pilih'){
                 return back()->withErrors(['area_id' => ['Silahkan pilih area']])->withInput();
             }
@@ -319,7 +319,7 @@ class LocationController extends Controller
      */
     public function edit(Location $location): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaEdit'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaEdit')) || (Gate::allows('isLocation') && Gate::allows('isMediaEdit'))){
             $areas = Area::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
             $media_categories = MediaCategory::with('locations')->get();
@@ -345,7 +345,7 @@ class LocationController extends Controller
      */
     public function update(Request $request, Location $location): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaEdit')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaEdit'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaEdit')) || (Gate::allows('isLocation') && Gate::allows('isMediaEdit'))){
             if ($request->city_id == 'pilih'){
                 return back()->withErrors(['city_id' => ['Silahkan pilih kota']])->withInput();
             }
@@ -459,7 +459,7 @@ class LocationController extends Controller
      */
     public function destroy(Location $location): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaDelete')) || (Gate::allows('isMedia') && Gate::allows('isLocation') && Gate::allows('isMediaDelete'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isLocation') && Gate::allows('isMediaDelete')) || (Gate::allows('isLocation') && Gate::allows('isMediaDelete'))){
             if($location->location_photos()->exists() || $location->sales()->exists() || $location->land_agreements()->exists() || $location->print_orders()->exists() || $location->licenses()->exists() || $location->install_orders()->exists()){
                 return back()->withErrors(['delete' => ['Gagal untuk menghapus data lokasi, terdapat relasi dengan data pada tabel data lainnya']]);
             }else{

@@ -230,6 +230,11 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                                @error('document_approval.*')
+                                    <div class="invalid-feedback">
+                                        Ukuran file max 1024 kb, tipe file jpeg/jpg/png
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mt-1">
                                 <label class="text-sm text-teal-50">Keterangan</label>

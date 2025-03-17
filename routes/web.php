@@ -30,6 +30,7 @@ use App\Http\Controllers\LocationPhotoController;
 use App\Http\Controllers\MediaCategoryController;
 use App\Http\Controllers\PrintingPriceController;
 use App\Http\Controllers\TakedownOrderController;
+use App\Http\Controllers\VatTaxInvoiceController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\ClientCategoryController;
 use App\Http\Controllers\QuotationOrderController;
@@ -179,11 +180,14 @@ Route::resource('/accounting/billings', BillingController::class)->except(['inde
 Route::get('/billings/index/{companyid}', [BillingController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/billings/select-sale/{category}', [BillingController::class,'selectSale'])->middleware(['auth','user_access']);
 Route::get('/billings/create-media-billing/{saleid}', [BillingController::class,'createMediaBilling'])->middleware(['auth','user_access']);
+Route::get('/billings/create-service-billing/{saleid}', [BillingController::class,'createServiceBilling'])->middleware(['auth','user_access']);
+Route::get('/billings/preview/{category}/{id}', [BillingController::class,'preview'])->middleware(['auth','user_access']);
 // Billing  --> end
 
 // Work Report  --> start
-Route::resource('/accounting/work-reports', WorkReportController::class)->except(['index'])->middleware(['auth','user_access']);
+Route::resource('/accounting/work-reports', WorkReportController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/work-reports/index/{companyid}', [WorkReportController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/work-reports/create/{category}', [WorkReportController::class,'create'])->middleware(['auth','user_access']);
 Route::get('/work-reports/preview/{id}', [WorkReportController::class,'preview'])->middleware(['auth','user_access']);
 Route::get('/work-reports/select-documentation/{id}', [WorkReportController::class,'selectDocumentation'])->middleware(['auth','user_access']);
 // Work Report  --> end
@@ -191,7 +195,15 @@ Route::get('/work-reports/select-documentation/{id}', [WorkReportController::cla
 // Bill Cover Letter  --> start
 Route::resource('/accounting/bill-cover-letters', BillCoverLetterController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/bill-cover-letters/index/{companyid}', [BillCoverLetterController::class,'index'])->middleware(['auth','user_access']);
-Route::get('/bill-cover-letters/create/{category}', [BillCoverLetterController::class,'createBillCoverLetters'])->middleware(['auth','user_access']);
+Route::get('/bill-cover-letters/select-billing/{companyid}', [BillCoverLetterController::class,'selectBilling'])->middleware(['auth','user_access']);
+Route::get('/bill-cover-letters/create/{billingid}', [BillCoverLetterController::class,'create'])->middleware(['auth','user_access']);
+// Bill Cover Letter  --> end
+
+// Bill Cover Letter  --> start
+Route::resource('/accounting/vat-tax-invoices', VatTaxInvoiceController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
+Route::get('/vat-tax-invoices/index/{companyid}', [VatTaxInvoiceController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/vat-tax-invoices/select-billing/{companyid}', [VatTaxInvoiceController::class,'selectBilling'])->middleware(['auth','user_access']);
+Route::get('/vat-tax-invoices/create/{saleid}', [VatTaxInvoiceController::class,'create'])->middleware(['auth','user_access']);
 // Bill Cover Letter  --> end
 // Accounting Group --> end
 

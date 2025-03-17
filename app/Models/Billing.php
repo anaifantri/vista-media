@@ -34,5 +34,5 @@ class Billing extends Model
         return $this->hasOne(VatTaxInvoice::class);
     }
 
-    public $sortable = ['invoice_number'];
+    public $sortable = ['invoice_number', 'receipt_number'];
 }

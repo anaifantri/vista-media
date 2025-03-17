@@ -6,6 +6,8 @@ use App\Models\WorkReport;
 use App\Models\Company;
 use App\Models\Sale;
 use App\Models\Quotation;
+use App\Models\QuotationOrder;
+use App\Models\QuotationAgreement;
 use App\Models\QuotationRevision;
 use App\Models\InstallationPhoto;
 use App\Models\InstallOrder;
@@ -86,9 +88,13 @@ class WorkReportController extends Controller
             }
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
+            $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
+            $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
             return view ('work-reports.create', [
                 'title' => 'Memilih Foto Dokumentasi',
                 'install_orders' => $data_orders,
+                'quotation_orders' => $quotation_orders,
+                'quotation_agreements' => $quotation_agreements,
                 'install_order' => $data_order,
                 'sale' => $sale,
                 'work_category' => $sale->media_category->name,
@@ -105,16 +111,21 @@ class WorkReportController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Response
+    public function create(String $category): Response
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            if($category == "Media"){
+                $data_sales = Sale::billMedia()->get();
+            }else if($category == "Service"){
+                $data_sales = Sale::billService()->get();
+            }
             $quotations = Quotation::with('sales')->get();
             $install_orders = InstallOrder::with('sale')->get();
             $installation_photo = InstallationPhoto::with('install_order')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
             return response()-> view ('work-reports.select-sale', [
                 'title' => 'Membuat BAST',
-                'data_sales' => Sale::orderBy("id", "desc")->get(),
+                'data_sales' => $data_sales,
                 'installation_photos' => InstallationPhoto::all(),
                 compact('quotations', 'quotation_revisions','install_orders','installation_photo')
             ]);

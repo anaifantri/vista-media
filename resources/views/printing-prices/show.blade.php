@@ -21,7 +21,7 @@
         <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-300">
             <div class="flex justify-center items-center">
                 <h4 class="text-2xl font-semibold w-[280px] border-b text-center tracking-wider text-stone-900">Detail Harga
-                    Cetak</h4>
+                    Cetak Dari Vendor</h4>
             </div>
             <div>
                 <div class="flex justify-center mt-5 w-full">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="flex justify-center mt-2 w-full">
                     <div class="border-b w-[280px]">
-                        <label class="text-sm text-stone-900">Harga Cetak</label>
+                        <label class="text-sm text-stone-900">Harga Cetak Dari Vendor</label>
                         <h6 class="text-base font-semibold text-stone-900">
                             {{ number_format($printing_price->price) }}</h6>
                     </div>

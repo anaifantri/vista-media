@@ -75,7 +75,7 @@
                         </svg>
                         <span class="ml-1 text-sm">Back</span>
                     </a>
-                    @canany(['isAdmin', 'isMedia'])
+                    @canany(['isAdmin', 'isMedia', 'isMarketing'])
                         @can('isLocation')
                             @can('isMediaEdit')
                                 <a href="/media/locations/{{ $location->id }}/edit"
@@ -91,7 +91,7 @@
                             @endcan
                         @endcan
                     @endcanany
-                    @canany(['isAdmin', 'isMedia'])
+                    @canany(['isAdmin', 'isMedia', 'isMarketing'])
                         @can('isLocation')
                             @can('isMediaDelete')
                                 <form action="/media/locations/{{ $location->id }}" method="post" class="d-inline">

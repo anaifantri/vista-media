@@ -88,8 +88,16 @@
                             <tr class="bg-stone-400">
                                 <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">
                                     No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">
                                     <button class="flex justify-center items-center w-full">@sortablelink('invoice_number', 'No. Invoice')
+                                        <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                        </svg>
+                                    </button>
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">
+                                    <button class="flex justify-center items-center w-full">@sortablelink('receipt_number', 'No. Kwitansi')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24">
                                             <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
@@ -99,13 +107,10 @@
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
                                     Tgl. Tagihan
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-40" rowspan="2">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-52" rowspan="2">
                                     Klien
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">
-                                    Lokasi
-                                </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="5">Detail
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="4">Detail
                                     Tagihan
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-20" rowspan="2">
@@ -113,10 +118,8 @@
                                 </th>
                             </tr>
                             <tr class="bg-stone-400">
-                                <th class="text-stone-900 border border-stone-900 text-xs w-[72px] text-center">
-                                    No. Penj.
-                                </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-16">Termin
+                                <th class="text-stone-900 border border-stone-900 text-xs w-32 text-center">
+                                    Jenis
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">
                                     Nominal
@@ -124,7 +127,7 @@
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-16">
                                     PPN
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">
                                     Total
                                 </th>
                             </tr>
@@ -132,43 +135,38 @@
                         <tbody class="bg-stone-200">
                             @foreach ($billings as $billing)
                                 @php
-                                    $product = json_decode($billing->sale->product);
-                                    $client = json_decode($billing->sale->quotation->clients);
+                                    $client = json_decode($billing->client);
                                 @endphp
                                 <tr>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
                                         {{ $loop->iteration }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ substr($billing->invoice_number, 0, 15) }}..
+                                        {{ $billing->invoice_number }}
+                                    </td>
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        {{ $billing->receipt_number }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                        @if (strlen($client->name) > 15)
-                                            <a href="/marketing/clients/{{ $client->id }}">
-                                                {{ substr($client->name, 0, 15) }}..
-                                            </a>
-                                        @else
-                                            <a href="/marketing/clients/{{ $client->id }}">
-                                                {{ $client->name }}
-                                            </a>
+                                        {{ $client->company }}</td>
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        @if ($billing->category == 'Media')
+                                            Sewa Media
+                                        @elseif($billing->category == 'Service')
+                                            Cetak/Pasang
                                         @endif
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ $product->code }} - {{ $product->city_code }} | {{ $product->address }}
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-right">
+                                        {{ number_format($billing->nominal) }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ $billing->sale->id }}
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-right">
+                                        {{ number_format($billing->ppn) }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs">
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-right">
+                                        {{ number_format($billing->nominal + $billing->ppn) }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
@@ -228,32 +226,4 @@
             </div>
         </div>
     </div>
-
-    <input id="saveName" type="text" value="" hidden>
-
-    <!-- Script start -->
-    <script src="/js/html2canvas.min.js"></script>
-    <script src="/js/html2pdf.bundle.min.js"></script>
-    <script src="/js/savepdf.js"></script>
-
-    <script>
-        pdfPreview = () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            document.getElementById("modalPdfPreview").classList.add('flex');
-            document.getElementById("modalPdfPreview").classList.remove('hidden');
-        }
-
-        btnClosePreview = () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            document.getElementById("modalPdfPreview").classList.remove('flex');
-            document.getElementById("modalPdfPreview").classList.add('hidden');
-        }
-    </script>
-    <!-- Script end -->
 @endsection

@@ -40,7 +40,7 @@ class InstallationPhotoController extends Controller
 
     public function showInstallationPhotos(String $installOrderId): View
     { 
-        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate'))){
             $installationPhotos = InstallationPhoto::where('install_order_id', $installOrderId)->get();
             $install_order = InstallOrder::where('id', $installOrderId)->firstOrFail();
             $sale = Sale::with('install_order')->get();
@@ -58,7 +58,7 @@ class InstallationPhotoController extends Controller
 
     public function createInstallationPhotos(String $installOrderId, String $type): View
     { 
-        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate'))){
             $install_order = InstallOrder::where('id', $installOrderId)->firstOrFail();
             $sale = Sale::with('install_order')->get();
             $quotations = Quotation::with('sales')->get();
@@ -86,7 +86,7 @@ class InstallationPhotoController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate'))){
             $request->validate([
                 'images.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',
                 'images' => 'required',
@@ -124,7 +124,7 @@ class InstallationPhotoController extends Controller
      */
     public function edit(InstallationPhoto $installationPhoto): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isDocumentation') && Gate::allows('isWorkshopEdit'))){
             return response()-> view ('installation-photos.edit', [
                 'installation_photo' => $installationPhoto,
                 'title' => 'Mengganti Foto Pemasangan Gambar'
@@ -140,7 +140,7 @@ class InstallationPhotoController extends Controller
     public function update(Request $request, InstallationPhoto $installationPhoto): RedirectResponse
     {
         
-        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isDocumentation') && Gate::allows('isWorkshopEdit'))){
             $request->validate([
                 'image' => 'required|image|file|mimes:jpeg,png,jpg|max:2048'
             ]);
@@ -160,7 +160,7 @@ class InstallationPhotoController extends Controller
      */
     public function destroy(InstallationPhoto $installationPhoto): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopDelete')) || (Gate::allows('isWorkshop') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopDelete'))){
+        if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopDelete')) || (Gate::allows('isDocumentation') && Gate::allows('isWorkshopDelete'))){
             Storage::delete($installationPhoto->image);
             InstallationPhoto::destroy($installationPhoto->id);
             return redirect('/installation-photos/show/'. $installationPhoto->install_order_id)->with('success', 'Foto berhasil dihapus');

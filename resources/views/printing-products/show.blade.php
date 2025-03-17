@@ -38,7 +38,7 @@
                     class="flex text-base font-semibold bg-stone-300 text-stone-900 w-[300px]  border rounded-lg p-1 outline-teal-300"
                     readonly>{{ $printing_product->description }}</textarea>
             </div>
-            <div class="border-b mt-2"><label class="text-sm text-stone-900">Harga Jual</label>
+            <div class="border-b mt-2"><label class="text-sm text-stone-900">Harga Jual Ke Klien</label>
                 <h6 class="text-base font-semibold text-stone-900">Rp.
                     {{ number_format($printing_product->price) }},-</h6>
             </div>

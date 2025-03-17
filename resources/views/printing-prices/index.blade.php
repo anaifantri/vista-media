@@ -8,7 +8,7 @@
                 <div class="w-[800px]">
                     <div class="flex border-b">
                         <!-- Title start -->
-                        <h1 class="index-h1"> DAFTAR HARGA CETAK</h1>
+                        <h1 class="index-h1"> DAFTAR HARGA CETAK DARI VENDOR</h1>
                         <!-- Title end -->
                         <!-- Button create start -->
                         @canany(['isAdmin', 'isMarketing'])

@@ -98,6 +98,16 @@
                                 class="outline-none ml-2 rounded-md border px-1"name="document_agreement[]" type="file"
                                 accept="image/png, image/jpg, image/jpeg" onchange="imagePreview(this)" multiple>
                         </div>
+                        @error('document_agreement')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                        @error('document_agreement.*')
+                            <div class="invalid-feedback">
+                                Ukuran file max 1024 kb, tipe file jpeg/jpg/png
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 <div class="flex justify-center w-[950px]">

@@ -279,7 +279,7 @@
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex">
                                             {{ count($day_photos) }} photo
-                                            @canany(['isAdmin', 'isWorkshop'])
+                                            @canany(['isAdmin', 'isWorkshop', 'isMarketing'], 'isAccounting')
                                                 @can('isDocumentation')
                                                     @can('isWorkshopCreate')
                                                         <a href="/installation-photos/create/{{ $order->id }}/day"
@@ -301,7 +301,7 @@
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
                                         <div class="flex">
                                             {{ count($night_photos) }} photo
-                                            @canany(['isAdmin', 'isWorkshop'])
+                                            @canany(['isAdmin', 'isWorkshop', 'isMarketing'], 'isAccounting')
                                                 @can('isDocumentation')
                                                     @can('isWorkshopCreate')
                                                         <a href="/installation-photos/create/{{ $order->id }}/night"

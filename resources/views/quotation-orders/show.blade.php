@@ -185,6 +185,16 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @error('document_order')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    @error('document_order.*')
+                        <div class="invalid-feedback">
+                            Gagal..!! Ukuran file max 1024 kb, tipe file jpeg/jpg/png
+                        </div>
+                    @enderror
                 </div>
             </div>
             <div class="flex justify-center w-[950px]">

@@ -177,14 +177,28 @@
         }
         $content->location_size = $product->size . ' x ' . $product->side . ' - ' . $product->orientation;
         $content->location_address = $product->address;
+        $content->location_type = $product->category;
+        $content->location_orientation = $product->orientation;
+        if (
+            $product->category != 'Videotron' ||
+            ($product->category == 'Signage' && $description->type != 'Videotron')
+        ) {
+            $content->location_lighting = $description->lighting;
+        } else {
+            $content->location_lighting = '';
+        }
         $content->location_code = $product->code . '-' . $product->city_code;
         $content->client = $client;
         $content->note = '';
+        $content->brand = '';
+        $content->sale_status = '';
         if ($sale->media_category->name == 'Service') {
             $content->category = $getService;
         } else {
             $content->category = $sale->media_category->name;
         }
+
+        $ggCategories = ['Billboard', 'Baliho', 'Neon Box', 'LED', 'JPO', 'Lainnya ...............'];
 
         $created_by = new stdClass();
         $created_by->id = auth()->user()->id;
@@ -419,6 +433,17 @@
         getNote = (sel) => {
             getContent.note = sel.value;
             inputContent.value = JSON.stringify(getContent);
+        }
+        getFormat = (sel) => {
+            const bastFormat = document.querySelectorAll('[id=bast]');
+
+            for (let i = 0; i < bastFormat.length; i++) {
+                if (bastFormat[i].classList.contains(sel.value)) {
+                    bastFormat[i].removeAttribute('hidden');
+                } else {
+                    bastFormat[i].setAttribute('hidden', 'hidden');
+                }
+            }
         }
     </script>
 @endsection

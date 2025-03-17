@@ -8,32 +8,51 @@
                 <div class="flex">
                     <label class="w-28">No. Penjualan</label>
                     <label>:</label>
-                    <label class="ml-2">{{ $sale->number }}</label>
+                    @if (count($sales) == 2)
+                        <label class="ml-2">{{ $sales[0]->number }} & {{ $sales[1]->number }}</label>
+                    @else
+                        <label class="ml-2">{{ $sales[0]->number }}</label>
+                    @endif
                 </div>
                 <div class="flex">
                     <label class="w-28">Tgl. Penjualan</label>
                     <label>:</label>
                     <label class="ml-2">
-                        {{ date('d', strtotime($sale->created_at)) }}
-                        {{ $bulan[(int) date('m', strtotime($sale->created_at))] }}
-                        {{ date('Y', strtotime($sale->created_at)) }}
+                        {{ date('d', strtotime($sales[0]->created_at)) }}
+                        {{ $bulan[(int) date('m', strtotime($sales[0]->created_at))] }}
+                        {{ date('Y', strtotime($sales[0]->created_at)) }}
                     </label>
                 </div>
                 <div class="flex">
                     <label class="w-28">Jenis</label>
                     <label>:</label>
-                    <label class="ml-2">{{ $sale->media_category->name }}</label>
+                    <label class="ml-2">{{ $sales[0]->media_category->name }}</label>
                 </div>
-                <div class="flex">
-                    <label class="w-28">Lokasi</label>
-                    <label>:</label>
-                    <label class="ml-2">{{ $product->code }}-{{ $product->city_code }} |
-                        {{ $product->address }}</label>
-                </div>
+                @if (count($sales) == 2)
+                    <div class="flex">
+                        <label class="w-28">Lokasi</label>
+                        <label>:</label>
+                        <label class="ml-2">1. {{ $products[0]->code }}-{{ $products[0]->city_code }} |
+                            {{ $products[0]->address }}</label>
+                    </div>
+                    <div class="flex">
+                        <label class="w-28"> </label>
+                        <label></label>
+                        <label class="ml-3">2. {{ $products[1]->code }}-{{ $products[1]->city_code }} |
+                            {{ $products[1]->address }}</label>
+                    </div>
+                @else
+                    <div class="flex">
+                        <label class="w-28">Lokasi</label>
+                        <label>:</label>
+                        <label class="ml-2">{{ $products[0]->code }}-{{ $products[0]->city_code }} |
+                            {{ $products[0]->address }}</label>
+                    </div>
+                @endif
                 <div class="flex">
                     <label class="w-28">Harga</label>
                     <label>:</label>
-                    <label class="ml-2">Rp. {{ number_format($sale->price) }},-</label>
+                    <label class="ml-2">Rp. {{ number_format($sale_price) }},-</label>
                 </div>
             </div>
             <div id="quotationDetail" class="w-[560px] border rounded-lg border-stone-900 ml-2 p-2">

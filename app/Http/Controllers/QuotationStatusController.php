@@ -34,13 +34,16 @@ class QuotationStatusController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
             if($request->status == "Deal"){
+                $request->validate([
+                    'document_approval.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048',
+                    'document_approval' => 'required',
+                ]);
                 $validateData = $request->validate([
                     'quotation_id' => 'required',
                     'status' => 'required',
                     'description' => 'required',
                     'updated_by' => 'required',
-                    'status_image' => 'image|file|max:1024',
-                    'document_approval' => 'required'
+                    'status_image' => 'image|file|max:1024'
                 ]);
             }else {
                 $validateData = $request->validate([

@@ -39,7 +39,7 @@
                     <!-- Button Create start -->
                     @if ($category == 'All')
                         @if (request('media_category_id') != '' && request('media_category_id') != 'All')
-                            @canany(['isAdmin', 'isMedia'])
+                            @canany(['isAdmin', 'isMedia', 'isMarketing'])
                                 @can('isLocation')
                                     @can('isMediaCreate')
                                         <a href="/media/locations/create-location/{{ $data_categories->name }}"
@@ -57,7 +57,7 @@
                             @endcanany
                         @endif
                     @else
-                        @canany(['isAdmin', 'isMedia'])
+                        @canany(['isAdmin', 'isMedia', 'isMarketing'])
                             @can('isLocation')
                                 @can('isMediaCreate')
                                     <a href="/media/locations/create-location/{{ $category }}" class="index-link btn-primary">
@@ -360,7 +360,7 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            @canany(['isAdmin', 'isMedia'])
+                                            @canany(['isAdmin', 'isMedia', 'isMarketing'])
                                                 @can('isLocation')
                                                     @can('isMediaEdit')
                                                         <a href="/media/locations/{{ $location->id }}/edit"
@@ -376,7 +376,7 @@
                                                     @endcan
                                                 @endcan
                                             @endcanany
-                                            @canany(['isAdmin', 'isMedia'])
+                                            @canany(['isAdmin', 'isMedia', 'isMarketing'])
                                                 @can('isLocation')
                                                     @can('isMediaDelete')
                                                         <form action="/media/locations/{{ $location->id }}" method="post"
@@ -622,7 +622,7 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            @canany(['isAdmin', 'isMedia'])
+                                            @canany(['isAdmin', 'isMedia', 'isMarketing'])
                                                 @can('isLocation')
                                                     @can('isMediaEdit')
                                                         <a href="/media/locations/{{ $location->id }}/edit"
@@ -638,7 +638,7 @@
                                                     @endcan
                                                 @endcan
                                             @endcanany
-                                            @canany(['isAdmin', 'isMedia'])
+                                            @canany(['isAdmin', 'isMedia', 'isMarketing'])
                                                 @can('isLocation')
                                                     @can('isMediaDelete')
                                                         <form action="/media/locations/{{ $location->id }}" method="post"

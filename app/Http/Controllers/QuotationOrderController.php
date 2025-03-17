@@ -52,7 +52,7 @@ class QuotationOrderController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
             $request->validate([
-                'document_order.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048',
+                'document_order.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
                 'document_order' => 'required',
             ]);
             $request->request->add(['user_id' => auth()->user()->id]);
@@ -118,7 +118,7 @@ class QuotationOrderController extends Controller
             $sale_id = $quotationOrder->sale->id;
             $category = $quotationOrder->sale->media_category->name;
             $request->validate([
-                'document_order.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048'
+                'document_order.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024'
             ]);
         
             $validateData = $request->validate([

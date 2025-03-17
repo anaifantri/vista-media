@@ -52,6 +52,10 @@ class QuotationApprovalController extends Controller
     {
         
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
+            $request->validate([
+                'document_approval.*'=> 'image|file|mimes:jpeg,png,jpg|max:1048',
+                'document_approval' => 'required',
+            ]);
             if($request->file('document_approval')){
                 $images = $request->file('document_approval');
                 foreach($images as $image){

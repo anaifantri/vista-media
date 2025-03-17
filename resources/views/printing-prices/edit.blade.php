@@ -7,7 +7,7 @@
         <div class="flex justify-center pl-14 py-10 bg-stone-800">
             <div class="p-4 w-[350px] h-[500px] border rounded-lg bg-stone-300">
                 <div class="flex items-center justify-center mb-2 border-b w-full">
-                    <h4 class="text-xl font-semibold tracking-wider text-stone-900">Edit Harga Cetak</h4>
+                    <h4 class="text-xl font-semibold tracking-wider text-stone-900">Edit Harga Cetak Dari Vendor</h4>
                 </div>
                 <div>
                     <div class="flex justify-center mt-5 w-full">
@@ -42,7 +42,7 @@
                     </div>
                     <div class="flex justify-center mt-2 w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-stone-900">Harga Cetak</label>
+                            <label class="text-sm text-stone-900">Harga Cetak Dari Vendor</label>
                             <input
                                 class="flex px-2 text-semibold w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                 type="number" min="0" id="price" name="price" placeholder="Input harga cetak"

@@ -86,7 +86,7 @@
                     </div>
                     <div class="flex justify-center w-full">
                         <div class="mt-1">
-                            <label class="text-sm text-stone-900">Harga Jual</label>
+                            <label class="text-sm text-stone-900">Harga Jual Ke Klien</label>
                             <input
                                 class="flex px-2 text-sm font-semibold text-stone-900 w-[250px] in-out-spin-none border rounded-lg p-1 outline-none @error('price') is-invalid @enderror"
                                 type="number" min="0" id="price" name="price" placeholder="Input Harga Jual"

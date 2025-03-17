@@ -1,136 +1,305 @@
-<div>
-    <label class="flex justify-center w-full text-2xl font-serif font-bold tracking-wider mt-4">
-        <u>INVOICE</u>
+<div class="p-4 m-4 border-2 rounded-md border-black h-[1280px]">
+    <label class="flex justify-center w-full text-xl font-serif font-bold tracking-wider mt-4">
+        LAPORAN EVALUASI PEMANTAUAN (LEP)
     </label>
-    <div class="flex mt-4">
-        <div class="w-[380px] h-[200px] border rounded-lg p-1">
-            <div class="flex items-center ml-2">
-                <label class="text-lg w-24">Nomor</label>
-                <label class="text-lg">:</label>
-                <label class="text-lg font-mono font-semibold ml-2">001/INV/VM/II-2025</label>
+    <label class="flex justify-center w-full text-xl font-serif font-bold tracking-wider border-b-2 border-black">
+        Kontrak setahun / Kontrak kurang dari setahun
+    </label>
+    <div class="p-4">
+        <div class="flex text-md items-center ml-2">
+            <label class="font-semibold">1.</label>
+            <label class="font-semibold w-24 ml-2">Nomor</label>
+            <label>:</label>
+            <label class="ml-2">Penomoran otomatis</label>
+            <label class="font-semibold w-24 ml-60">Tanggal</label>
+            <label>:</label>
+            <label class="ml-4">
+                {{ date('d') }}
+                {{ $fullMonth[(int) date('m')] }}
+                {{ date('Y') }}
+            </label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <label class="font-semibold">2.</label>
+            <label class="font-semibold ml-2">Informasi Vendor</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Nama Perusahaan</label>
+            <label class="">:</label>
+            <label class="ml-4">{{ $company->name }}</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Alamat Perusahaan</label>
+            <label class="">:</label>
+            <label class="ml-4">{{ $company->address }}</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">No. Telepon</label>
+            <label class="">:</label>
+            <label class="ml-4">{{ $company->phone }}</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <label class="font-semibold">3.</label>
+            <label class="font-semibold ml-2">Purchase Order (PO)</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Tanggal PO</label>
+            <label class="">:</label>
+            <label class="ml-4">
+                @if (count($quotation_orders) > 0)
+                    @if (count($quotation_orders) == 2)
+                        {{ date('d', strtotime($quotation_orders[0]->date)) . ' ' . $fullMonth[(int) date('m', strtotime($quotation_orders[0]->date))] . ' ' . date('Y', strtotime($quotation_orders[0]->date)) }}
+                        &
+                        {{ date('d', strtotime($quotation_orders[1]->date)) . ' ' . $fullMonth[(int) date('m', strtotime($quotation_orders[1]->date))] . ' ' . date('Y', strtotime($quotation_orders[1]->date)) }}
+                    @else
+                        {{ date('d', strtotime($quotation_orders[0]->date)) . ' ' . $fullMonth[(int) date('m', strtotime($quotation_orders[0]->date))] . ' ' . date('Y', strtotime($quotation_orders[0]->date)) }}
+                    @endif
+                @else
+                    -
+                @endif
+            </label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Nomor PO</label>
+            <label class="">:</label>
+            <label class="ml-4">
+                @if (count($quotation_orders) > 0)
+                    @if (count($quotation_orders) == 2)
+                        {{ $quotation_orders[0]->number }} & {{ $quotation_orders[1]->number }}
+                    @else
+                        {{ $quotation_orders[0]->number }}
+                    @endif
+                @else
+                    -
+                @endif
+            </label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <label class="font-semibold">4.</label>
+            <label class="font-semibold ml-2">Jenis Pekerjaan</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                <input class="outline-none" type="radio" name="orderType">
             </div>
-            <div class="flex items-center ml-2">
-                <label class="text-lg w-24">Tanggal</label>
-                <label class="text-lg">:</label>
-                <label class="text-lg font-mono font-semibold ml-2">01 Februari 2025</label>
+            <label class="w-40 ml-2">Kontrak Baru</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                <input class="outline-none" type="radio" name="orderType">
             </div>
-            <div class="mt-2">
-                <label class="text-lg ml-2 font-semibold">
-                    <u>Dokumen :</u>
-                </label>
+            <label class="w-40 ml-2">Perpanjangan</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                <input class="outline-none" type="radio" name="orderType">
             </div>
-            <div class="flex text-md ml-2 mt-1">
-                <label class="w-40">No. PO/Approval</label>
-                <label class="">:</label>
-                <label class="ml-2">-</label>
+            <label class="w-40 ml-2">Revisual</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <label class="font-semibold">5.</label>
+            <label class="font-semibold ml-2">Deskripsi Media</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            @foreach ($ggCategories as $ggCategory)
+                @if ($loop->iteration < 4)
+                    <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                        @if ($ggCategory == $product->category)
+                            <input class="outline-none" type="radio" name="lepMediaType" checked>
+                        @elseif ($ggCategory == 'LED' && $product->category == 'Videotron')
+                            <input class="outline-none" type="radio" name="lepMediaType" checked>
+                        @elseif ($ggCategory == 'JPO' && $product->category == 'Bando')
+                            <input class="outline-none" type="radio" name="lepMediaType" checked>
+                        @elseif ($ggCategory == 'Neon Box' && $product->category == 'Signage')
+                            <input class="outline-none" type="radio" name="lepMediaType" checked>
+                        @else
+                            <input class="outline-none" type="radio" name="lepMediaType">
+                        @endif
+                    </div>
+                    <label class="w-40 ml-2">{{ $ggCategory }}</label>
+                @endif
+            @endforeach
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            @foreach ($ggCategories as $ggCategory)
+                @if ($loop->iteration > 3)
+                    <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                        @if ($ggCategory == $product->category)
+                            <input class="outline-none" type="radio" name="lepMediaType" checked>
+                        @elseif ($ggCategory == 'LED' && $product->category == 'Videotron')
+                            <input class="outline-none" type="radio" name="lepMediaType" checked>
+                        @elseif ($ggCategory == 'JPO' && $product->category == 'Bando')
+                            <input class="outline-none" type="radio" name="lepMediaType" checked>
+                        @elseif ($ggCategory == 'Neon Box' && $product->category == 'Signage')
+                            <input class="outline-none" type="radio" name="lepMediaType" checked>
+                        @else
+                            <input class="outline-none" type="radio" name="lepMediaType">
+                        @endif
+                    </div>
+                    <label class="w-40 ml-2">{{ $ggCategory }}</label>
+                @endif
+            @endforeach
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Ukuran</label>
+            <label class="">:</label>
+            <label class="ml-4">{{ $product->size }}</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                @if ($product->category != 'Videotron' || ($product->category == 'Signage' && $description->type != 'Videotron'))
+                    @if ($description->lighting == 'Backlight')
+                        <input class="outline-none" type="radio" name="lepMediaLighting" checked>
+                    @else
+                        <input class="outline-none" type="radio" name="lepMediaLighting">
+                    @endif
+                @else
+                    <input class="outline-none" type="radio" name="lepMediaLighting">
+                @endif
             </div>
-            <div class="flex text-md ml-2">
-                <label class="w-40">Tgl. PO/Approval</label>
-                <label class="">:</label>
-                <label class="ml-2">-</label>
+            <label class="w-40 ml-2">Back Light</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                @if ($product->category != 'Videotron' || ($product->category == 'Signage' && $description->type != 'Videotron'))
+                    @if ($description->lighting == 'Frontlight')
+                        <input class="outline-none" type="radio" name="lepMediaLighting" checked>
+                    @else
+                        <input class="outline-none" type="radio" name="lepMediaLighting">
+                    @endif
+                @else
+                    <input class="outline-none" type="radio" name="lepMediaLighting">
+                @endif
             </div>
-            <div class="flex text-md ml-2">
-                <label class="w-40">No. Perjanjian</label>
-                <label class="">:</label>
-                <label class="ml-2">-</label>
+            <label class="w-40 ml-2">Front Light</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                @if ($product->category != 'Videotron' || ($product->category == 'Signage' && $description->type != 'Videotron'))
+                    @if ($description->lighting == 'Nonlight')
+                        <input class="outline-none" type="radio" name="lepMediaLighting" checked>
+                    @else
+                        <input class="outline-none" type="radio" name="lepMediaLighting">
+                    @endif
+                @else
+                    <input class="outline-none" type="radio" name="lepMediaLighting">
+                @endif
             </div>
-            <div class="flex text-md ml-2">
-                <label class="w-40">Tgl. Perjanjian</label>
-                <label class="">:</label>
-                <label class="ml-2">-</label>
+            <label class="w-40 ml-2">No Light</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                @if ($product->orientation == 'Vertical')
+                    <input class="outline-none" type="radio" name="lepMediaOrientation" checked>
+                @else
+                    <input class="outline-none" type="radio" name="lepMediaOrientation">
+                @endif
+            </div>
+            <label class="w-40 ml-2">Vertical</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                @if ($product->orientation == 'Horizontal')
+                    <input class="outline-none" type="radio" name="lepMediaOrientation" checked>
+                @else
+                    <input class="outline-none" type="radio" name="lepMediaOrientation">
+                @endif
+            </div>
+            <label class="w-40 ml-2">Horizontal</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <label class="w-40 ml-5">Lokasi</label>
+            <label class="">:</label>
+            <input type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
+                placeholder="input lokasi" value="{{ $content->location_address }}">
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Desain Visual</label>
+            <label class="">:</label>
+            <input type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
+                placeholder="input desain" value="{{ $content->theme }}">
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Brand</label>
+            <label class="">:</label>
+            <input type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
+                placeholder="input brand">
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <label class="font-semibold">6.</label>
+            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama PT Gudang
+                Garam Tbk</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Tanggal Pemeriksaan</label>
+            <label class="">:</label>
+            <label class="ml-4">...........................................................</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Jam Pemeriksaan</label>
+            <label class="">:</label>
+            <label class="ml-4">...........................................................</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Kondisi Fisik</label>
+            <label class="w-2">:</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-[60px]">
+            </div>
+            <label class="w-40 ml-2">Layak</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+            </div>
+            <label class="w-40 ml-2">Tidak Layak</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Kondisi Penerangan</label>
+            <label class="">:</label>
+            <label class="ml-4"></label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+            </div>
+            <label class="w-40 ml-2">Menyala Optimal</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+            </div>
+            <label class="w-40 ml-2">Mati Sebagian</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+            </div>
+            <label class="w-40 ml-2">Mati Total</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Kondisi Pandangan</label>
+            <label class="">:</label>
+            <label class="ml-4"></label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-2">
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+            </div>
+            <label class="w-40 ml-2">Pandangan Bebas</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+            </div>
+            <label class="w-40 ml-2">Tertutup Sebagian</label>
+            <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+            </div>
+            <label class="w-40 ml-2">Tertutup Total</label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5">Keterangan</label>
+            <label class="">:</label>
+            <label class="ml-4 h-5 border-b-2 border-dotted border-black w-[500px]"></label>
+        </div>
+        <div class="flex text-md items-center ml-2 mt-1">
+            <label class="w-40 ml-5"></label>
+            <label class=""></label>
+            <label class="ml-5 h-5 border-b-2 border-dotted border-black w-[500px]"></label>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+        <div class="flex text-md justify-center ml-2 mt-1">
+            <div>
+                <label class="flex w-full justify-center">Yang menyerahkan,</label>
+                <label class="flex w-full justify-center mt-20 border-b-2 border-black">Texun Sandy Kamboy</label>
+                <label class="flex w-full justify-center">Direktur</label>
             </div>
         </div>
-        <div class="w-[380px] h-[190px] border rounded-lg p-1 ml-2">
-            <label class="text-lg font-mono font-semibold ml-2">Kepada Yth.</label>
-            <div class="flex ml-2">
-                <label class="text-md w-24">Nama</label>
-                <label class="text-md">:</label>
-                <label class="text-md ml-2 font-semibold">-</label>
-            </div>
-            <div class="flex ml-2">
-                <label class="text-md w-24">Perusahaan</label>
-                <label class="text-md">:</label>
-                <label class="text-md ml-2 font-semibold">-</label>
-            </div>
-            <div class="flex ml-2">
-                <label class="text-md w-24">Alamat</label>
-                <label class="text-md">:</label>
-                <label class="text-md ml-2 w-[250px] h-12">jjjjjjjjjjjjjkkk
-                    kkkkkkk
-                    kkkkk
-                    kkkkk
-                    kkkkkk kkkkkk kkk -</label>
-            </div>
-            <div class="flex ml-2">
-                <label class="text-md w-24">No. Telp.</label>
-                <label class="text-md">:</label>
-                <label class="text-md ml-2">-</label>
-            </div>
-            <div class="flex ml-2">
-                <label class="text-md w-24">Email</label>
-                <label class="text-md">:</label>
-                <label class="text-md ml-2">-</label>
+        <div class="flex text-md justify-center items-center ml-2 mt-1">
+            <div>
+                <label class="flex w-full justify-center">Yang menerima,</label>
+                <label
+                    class="flex w-full justify-center mt-20 border-b-2 border-black">............................................................</label>
             </div>
         </div>
     </div>
-    <table class="table-auto w-full mt-4">
-        <thead>
-            <tr class="text-sm">
-                <th class="border h-8 w-8">No.</th>
-                <th class="border h-8 ">Deskripsi</th>
-                <th class="border h-8 w-16">Jumlah</th>
-                <th class="border h-8 w-28">Harga</th>
-                <th class="border h-8 w-32">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="text-sm">
-                <td class="border"></td>
-                <td class="border"></td>
-                <td class="border"></td>
-                <td class="border"></td>
-                <td class="border"></td>
-            </tr>
-            <tr class="text-sm">
-                <td class="border px-4" colspan="3" rowspan="4">
-                    <u>Pembayaran :</u>
-                    <div class="flex">
-                        <label class="w-20">No. Rek.</label>
-                        <label>:</label>
-                        <label class="ml-2 font-semibold">040 232 111</label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-20">Nama</label>
-                        <label>:</label>
-                        <label class="ml-2 font-semibold">VISTA MEDIA PT</label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-20">Bank</label>
-                        <label>:</label>
-                        <label class="ml-2 font-semibold">BCA Cabang Hasanudin, Denpasar - Bali</label>
-                    </div>
-                </td>
-                <td class="border text-right px-1 font-semibold">SUB TOTAL</td>
-                <td class="border text-right"></td>
-            </tr>
-            <tr class="text-sm">
-                <td class="border text-right px-1 font-semibold">DISKON</td>
-                <td class="border text-right"></td>
-            </tr>
-            <tr class="text-sm">
-                <td class="border text-right px-1 font-semibold">PPN</td>
-                <td class="border text-right"></td>
-            </tr>
-            <tr class="text-sm">
-                <td class="border text-right px-1 font-semibold">GRAND TOTAL</td>
-                <td class="border text-right"></td>
-            </tr>
-        </tbody>
-    </table>
-    <label class="mt-4 text-sm flex justify-center w-72">Hormat kami,</label>
-    <label class="text-sm flex justify-center w-72 font-semibold">{{ $company->name }}</label>
-    <label class="mt-16 text-sm flex justify-center w-72 font-semibold">
-        <u>Texun Sandy Kamboy</u>
-    </label>
-    <label class="text-sm flex justify-center w-72">Direktur</label>
+    <div class="flex w-full justify-center text-lg items-center ml-2 mt-20">
+        <label class="font-semibold">Lampiran : Foto berwarna dan bertanggal - di saat siang dan malam</label>
+    </div>
 </div>

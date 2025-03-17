@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained();
             $table->string('sale_id');
+            $table->string('category');
             $table->string('invoice_number')->unique();
             $table->string('receipt_number')->unique();
-            $table->json('term');
+            $table->json('invoice_content');
+            $table->json('receipt_content');
+            $table->json('client');
             $table->decimal('dpp',12,0)->unsigned()->default(0);
             $table->decimal('ppn',12,0)->unsigned()->default(0);
             $table->decimal('nominal',12,0)->unsigned()->default(0);
