@@ -6,6 +6,7 @@ use App\Models\BillCoverLetter;
 use App\Models\Billing;
 use App\Models\VatTaxInvoice;
 use App\Models\Sale;
+use App\Models\Company;
 use App\Models\WorkReport;
 use App\Models\Quotation;
 use App\Models\QuotationRevision;
@@ -29,6 +30,19 @@ class BillCoverLetterController extends Controller
             return response()-> view ('bill-cover-letters.index', [
                 'bill_cover_letters'=>BillCoverLetter::where('company_id', $company_id)->sortable()->orderBy("number", "desc")->paginate(30)->withQueryString(),
                 'title' => 'Daftar Surat Pengantar Tagihan'
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+        
+    public function preview(String $id): View
+    { 
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return view('bill-cover-letters.preview', [
+                'bill_cover_letter' => BillCoverLetter::findOrFail($id),
+                'title' => 'Preview Surat Pengantar'
             ]);
         } else {
             abort(403);
@@ -77,7 +91,50 @@ class BillCoverLetterController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
+            // Set number --> start
+            $lastLetter = BillCoverLetter::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->orderBy("number", "asc")->get()->last();
+            if($lastLetter){
+                $lastNumber = (int)substr($lastLetter->number,0,3);
+                $newNumber = $lastNumber + 1;
+            } else {
+                $newNumber = 1;
+            }
+            
+            if($newNumber > 0 && $newNumber < 10){
+                $number = '00'.$newNumber.'/SP/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+            }else if($newNumber >= 10 && $newNumber < 100 ){
+                $number = '0'.$newNumber.'/SP/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+            }else{
+                $number = $newNumber.'/SP/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
+            }
+            // Set number --> end
+
+            $request->request->add(['number' => $number]);
+            // dd($request);
+            $validateData = $request->validate([
+                'number' => 'required|unique:bill_cover_letters',
+                'company_id' => 'required',
+                'billing_id' => 'required',
+                'work_report_id' => 'nullable',
+                'vat_tax_invoice_id' => 'nullable',
+                'quotation_approval_id' => 'nullable',
+                'quotation_order_id' => 'nullable',
+                'quotation_agreement_id' => 'nullable',
+                'content' => 'required',
+                'created_by' => 'required',
+                'updated_by' => 'required'
+            ]);
+            BillCoverLetter::create($validateData);
+
+            $billCoverLetter = BillCoverLetter::where('number', $validateData['number'])->firstOrFail();
+    
+            return redirect('/bill-cover-letters/preview/'.$billCoverLetter->id)->with('success','Surat pengantar dengan nomor '. $number . ' berhasil ditambahkan');
+        } else {
+            abort(403);
+        }
     }
 
     /**

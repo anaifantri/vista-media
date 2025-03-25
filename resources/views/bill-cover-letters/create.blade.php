@@ -18,7 +18,8 @@
     $approvalId = $approval->id;
     $orderId = [];
     $agreementId = [];
-    $workReportId = [];
+    $vatTaxId = [];
+    $workReportId = $orders;
     if ($client->company == 'PT. Gudang Garam Tbk') {
         $attachments[0] = 'Surat Pengantar';
         $attachments[1] = 'Copy Penawaran';
@@ -48,10 +49,12 @@
         $attachments[1] = 'Copy Penawaran';
         $index = 2;
         foreach ($orders as $order) {
+            array_push($orderId, $order->id);
             $attachments[$index] = 'Copy Purchase Order (PO) No. ' . $order->number . ' Tanggal ' . date('d', strtotime($order->date)) . ' ' . $bulan[(int) date('m', strtotime($order->date))] . ' ' . date('Y', strtotime($order->date));
             $index++;
         }
         foreach ($agreements as $agreement) {
+            array_push($agreementId, $agreement->id);
             $attachments[$index] = 'Copy Surat Perjanjian No. ' . $agreement->number . ' Tanggal ' . date('d', strtotime($agreement->date)) . ' ' . $bulan[(int) date('m', strtotime($agreement->date))] . ' ' . date('Y', strtotime($agreement->date));
             $index++;
         }
@@ -59,6 +62,7 @@
             $attachments[$index] = 'Invoice No. ' . $billing->invoice_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at));
             $attachments[$index + 1] = 'Kwitansi No. ' . $billing->receipt_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at));
             if ($billing->vat_tax_invoice) {
+                array_push($vatTaxId, $billing->vat_tax_invoice->id);
                 $attachments[$index + 2] = 'Faktur Pajak No. ' . $billing->vat_tax_invoice->number . ' Tanggal ' . date('d', strtotime($billing->vat_tax_invoice->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->vat_tax_invoice->created_at))] . ' ' . date('Y', strtotime($billing->vat_tax_invoice->created_at));
             }
             $index = $index + 2;
@@ -67,6 +71,11 @@
         $attachments[$index + 2] = 'Berita Acara Serah Terima Pekerjaan (BASTP)';
         $attachments[$index + 3] = 'Dokumentasi Pekerjaan';
     }
+    
+    $content = new stdClass();
+    $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas ' . $billTitle . ' yang berlokasi di ' . $billLocation . ',' . $city . ', ' . $area . ' dengan perincian sebagai berikut :';
+    $content->attachments = $attachments;
+    $content->client = $client;
     
     $created_by = new stdClass();
     $created_by->id = auth()->user()->id;
@@ -77,6 +86,16 @@
     <!-- Quotation start -->
     <form id="formCreate" action="/accounting/bill-cover-letters" method="post" enctype="multipart/form-data">
         @csrf
+        <input type="text" name="company_id" value="{{ $company->id }}" hidden>
+        <input type="text" name="billing_id" value="{{ $billing_id }}" hidden>
+        <input type="text" name="vat_tax_invoice_id" value="{{ json_encode($vatTaxId) }}" hidden>
+        <input type="text" name="work_report_id" value="{{ json_encode($workReportId) }}" hidden>
+        <input type="text" name="quotation_approval_id" value="{{ json_encode($approvalId) }}" hidden>
+        <input type="text" name="quotation_order_id" value="{{ json_encode($orderId) }}" hidden>
+        <input type="text" name="quotation_agreement_id" value="{{ json_encode($agreementId) }}" hidden>
+        <input id="letterContent" type="text" name="content" value="{{ json_encode($content) }}" hidden>
+        <input type="text" name="created_by" value="{{ json_encode($created_by) }}" hidden>
+        <input type="text" name="updated_by" value="{{ json_encode($created_by) }}" hidden>
         <div class="flex justify-center pl-14 py-10 bg-stone-800">
             <div class="z-0 mb-8 bg-stone-700 p-4 border rounded-md">
                 <div class="flex w-full justify-center">
@@ -152,8 +171,8 @@
                                         <label class="ml-1 text-sm text-black flex">Dengan hormat,</label>
                                     </div>
                                     <div class="flex mt-2">
-                                        <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm border rounded-md text-justify" rows="3">Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas {{ $billTitle }} yang berlokasi di {{ $billLocation }}, {{ $city }}, {{ $area }} dengan perincian sebagai berikut :
-                                        </textarea>
+                                        <textarea id="createBodyTop" class="ml-1 w-[721px] outline-none text-sm border rounded-md text-justify" rows="3"
+                                            onchange="changeLetterTop(this)">{{ $content->letter_top }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -161,14 +180,17 @@
                                 <div id="attachment" class="w-[650px]">
                                     @foreach ($attachments as $item)
                                         <div class="flex">
-                                            <input type="checkbox" class="outline-none" checked>
-                                            <input type="text"
+                                            <input id="cbAttachment" value="cbAttachment{{ $loop->iteration - 1 }}"
+                                                type="checkbox" class="outline-none" onclick="cbAttachmentChange(this)"
+                                                checked>
+                                            <input id="attachmentValue" type="text"
                                                 class="ml-1 text-sm text-black outline-none border rounded-md px-1 w-full"
-                                                value="{{ $item }}">
+                                                value="{{ $item }}" onchange="changeAttachment(this)">
                                         </div>
                                     @endforeach
                                     <div class="flex mt-2">
-                                        <button type="button" class="btn-add-note w-max h-5" onclick="btnAddAttachment()">
+                                        <button type="button" class="btn-add-note w-max h-5"
+                                            onclick="btnAddAttachment()">
                                             <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -176,7 +198,8 @@
                                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                                     fill-rule="nonzero" />
                                             </svg>Tambah Lampiran</button>
-                                        <button type="button" class="btn-del-note w-max h-5" onclick="btnDelAttachment()">
+                                        <button type="button" class="btn-del-note w-max h-5"
+                                            onclick="btnDelAttachment()">
                                             <svg class="fill-current w-4" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -189,9 +212,12 @@
                             </div>
                             <div>
                                 <div class="flex justify-center">
-                                    <div class="flex mt-4">
-                                        <textarea id="createBodyEnd" class="ml-1 w-[721px] outline-none text-sm border rounded-md text-justify" rows="2">Demikian surat ini kami sampaikan dan mohon kiranya dapat diterima dengan baik, atas perhatian dan kerjasamanya kami ucapkan terima kasih.
-                                        </textarea>
+                                    <div class="w-[721px] mt-4 text-sm text-justify">Demikian surat ini kami sampaikan dan
+                                        mohon kiranya dapat diterima dengan baik, atas perhatian dan kerjasamanya kami
+                                        ucapkan terima kasih.
+                                        {{-- <textarea id="createBodyEnd" class="ml-1 w-[721px] outline-none border rounded-md "
+                                            rows="2">Demikian surat ini kami sampaikan dan mohon kiranya dapat diterima dengan baik, atas perhatian dan kerjasamanya kami ucapkan terima kasih.
+                                        </textarea> --}}
                                     </div>
                                 </div>
                                 <div class="flex justify-center">
@@ -229,6 +255,7 @@
     <script>
         const attachment = document.getElementById("attachment");
         var attachmentQty = attachment.children.length;
+        let content = @json($content);
         // Button Add Attachment Action --> start
         btnAddAttachment = () => {
             const divAttachment = document.createElement("div");
@@ -260,5 +287,35 @@
             }
         };
         // Button Remove Last Attachment Action --> end
+
+        cbAttachmentChange = (sel) => {
+            const attachmentValue = document.querySelectorAll('[id=attachmentValue]');
+            const cbAttachment = document.querySelectorAll('[id=cbAttachment]');
+            var index = parseInt(sel.value.replace(/[A-Za-z$-]/g, ""));
+            content.attachments = [];
+
+            if (sel.checked == true) {
+                attachmentValue[index].setAttribute('disabled', 'disabled');
+            } else {
+                attachmentValue[index].removeAttribute('disabled');
+            }
+
+            for (let i = 0; i < cbAttachment.length; i++) {
+                if (cbAttachment[i].checked == true && attachmentValue[i].value != "") {
+                    content.attachments.push(attachmentValue[i].value);
+                }
+            }
+            document.getElementById("letterContent").value = JSON.stringify(content);
+        }
+
+        changeLetterTop = (sel) => {
+            if (sel.value == "") {
+                alert("Input body surat tidak boleh kosong..!!");
+                sel.value = sel.defaultValue;
+            } else {
+                content.letter_top = sel.value;
+                document.getElementById("letterContent").value = JSON.stringify(content);
+            }
+        }
     </script>
 @endsection

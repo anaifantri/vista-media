@@ -213,7 +213,6 @@ class BillingController extends Controller
                 'created_by' => 'required',
                 'updated_by' => 'required'
             ]);
-            dd($validateData['invoice_content']);
 
             Billing::create($validateData);
 

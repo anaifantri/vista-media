@@ -88,7 +88,8 @@
                                     <tbody class="bg-stone-200">
                                         @foreach ($billings as $billing)
                                             @php
-                                                $sale = $sales->whereIn('id', json_decode($billing->sale_id))->last();
+                                                $saleId = json_decode(json_decode($billing->sale_id));
+                                                $sale = $sales->whereIn('id', $saleId)->last();
                                                 if (count($sale->quotation->quotation_revisions) != 0) {
                                                     $quotationDeal = $sale->quotation->quotation_revisions->last();
                                                 } else {

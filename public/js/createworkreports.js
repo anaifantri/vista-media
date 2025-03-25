@@ -3,7 +3,7 @@ let saleId = "";
 
 getMediaSales = (sel) => {
     saleId = JSON.parse(sel.value).id;
-    formSelectSale.setAttribute('action', '/work-reports/select-documentation/' + saleId);
+    formSelectSale.setAttribute('action', '/work-reports/select-documentation/' + saleId + '/' + category);
 }
 
 // Function Modal Sale Start

@@ -36,7 +36,6 @@ class WorkReportController extends Controller
             abort(403);
         }
     }
-        
     
     public function preview(String $id): View
     { 
@@ -55,6 +54,7 @@ class WorkReportController extends Controller
                 'second_photo' => InstallationPhoto::findOrFail($second_photo->id),
                 'second_photo_title' => $second_photo->title,
                 'content' => $content,
+                'client' => $content->client,
                 'title' => 'Preview BAST',
                 compact('sale')
             ]);
@@ -63,7 +63,7 @@ class WorkReportController extends Controller
         }
     }
 
-    public function selectDocumentation(String $saleId): View
+    public function selectDocumentation(String $saleId, String $category): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             $sale = Sale::findOrFail($saleId);
@@ -90,17 +90,45 @@ class WorkReportController extends Controller
             $quotation_revisions = QuotationRevision::with('quotation')->get();
             $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
             $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
-            return view ('work-reports.create', [
-                'title' => 'Memilih Foto Dokumentasi',
+            return view ('work-reports.select-documentation', [
+                'title' => 'Membuat BAST',
                 'install_orders' => $data_orders,
                 'quotation_orders' => $quotation_orders,
                 'quotation_agreements' => $quotation_agreements,
                 'install_order' => $data_order,
                 'sale' => $sale,
+                'bast_category' => $category,
                 'work_category' => $sale->media_category->name,
                 'installation_photos' => $data_photos,
                 'first_photos' => $first_photos,
                 'second_photos' => $second_photos,
+                compact('quotations','quotation_revisions')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function selectFormat(String $saleId, String $installOrderId, String $firstPhoto, String $firsttitle, String $secondPhoto, String $secondtitle, String $category): View
+    {
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            $sale = Sale::findOrFail($saleId);
+            $quotations = Quotation::with('sales')->get();
+            $quotation_revisions = QuotationRevision::with('quotation')->get();
+            $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
+            $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
+            return view ('work-reports.select-format', [
+                'title' => 'Membuat BAST',
+                'install_order' => InstallOrder::findOrFail($installOrderId),
+                'quotation_orders' => $quotation_orders,
+                'quotation_agreements' => $quotation_agreements,
+                'sale' => $sale,
+                'work_category' => $sale->media_category->name,
+                'bast_category' => $category,
+                'first_photo' => InstallationPhoto::findOrFail($firstPhoto),
+                'first_title' => $firsttitle,
+                'second_photo' => InstallationPhoto::findOrFail($secondPhoto),
+                'second_title' => $secondtitle,
                 compact('quotations','quotation_revisions')
             ]);
         } else {
@@ -126,6 +154,7 @@ class WorkReportController extends Controller
             return response()-> view ('work-reports.select-sale', [
                 'title' => 'Membuat BAST',
                 'data_sales' => $data_sales,
+                'bast_category' => $category,
                 'installation_photos' => InstallationPhoto::all(),
                 compact('quotations', 'quotation_revisions','install_orders','installation_photo')
             ]);
@@ -143,36 +172,32 @@ class WorkReportController extends Controller
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
-            $lastReport = WorkReport::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->orderBy("number", "asc")->get()->last();
+            $lastReport = WorkReport::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->orderBy("number", "asc")->get()->last();
             if($lastReport){
-                $lastNumber = (int)substr($lastOrder->number,0,4);
+                $lastNumber = (int)substr($lastReport->number,0,3);
                 $newNumber = $lastNumber + 1;
             } else {
                 $newNumber = 1;
             }
             
             if($newNumber > 0 && $newNumber < 10){
-                $number = '000'.$newNumber.'/BAST/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
-            }else if($newNumber >= 10 && $newNumber < 100 ){
                 $number = '00'.$newNumber.'/BAST/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
-            }else if($newNumber >= 100 && $newNumber < 1000 ){
+            }else if($newNumber >= 10 && $newNumber < 100 ){
                 $number = '0'.$newNumber.'/BAST/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
-            } else {
+            }else{
                 $number = $newNumber.'/BAST/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }
             // Set number --> end
 
             $request->request->add(['number' => $number]);
 
-            // dd($request);
-
             $validateData = $request->validate([
                 'number' => 'required|unique:work_reports',
                 'company_id' => 'required',
                 'sale_id' => 'required',
-                'content' => 'required',
                 'first_photo' => 'required',
                 'second_photo' => 'required',
+                'content' => 'required',
                 'created_by' => 'required',
                 'updated_by' => 'required'
             ]);

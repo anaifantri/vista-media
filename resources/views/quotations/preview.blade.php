@@ -116,8 +116,7 @@
                                     <div class="flex mt-4">
                                         <label class="ml-1 text-sm text-black">Dengan hormat,</label>
                                     </div>
-                                    <div class="flex mt-2">
-                                        <textarea class="ml-1 w-[721px] outline-none text-sm" readonly>{{ $quotation->body_top }}</textarea>
+                                    <div class="flex mt-2 text-sm text-justify w-[720px] ml-1">{{ $quotation->body_top }}
                                     </div>
                                 </div>
                             </div>

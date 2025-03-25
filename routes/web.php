@@ -189,7 +189,8 @@ Route::resource('/accounting/work-reports', WorkReportController::class)->except
 Route::get('/work-reports/index/{companyid}', [WorkReportController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/work-reports/create/{category}', [WorkReportController::class,'create'])->middleware(['auth','user_access']);
 Route::get('/work-reports/preview/{id}', [WorkReportController::class,'preview'])->middleware(['auth','user_access']);
-Route::get('/work-reports/select-documentation/{id}', [WorkReportController::class,'selectDocumentation'])->middleware(['auth','user_access']);
+Route::get('/work-reports/select-documentation/{id}/{category}', [WorkReportController::class,'selectDocumentation'])->middleware(['auth','user_access']);
+Route::get('/work-reports/select-format/{id}/{installorderid}/{firstphotoid}/{firsttitle}/{secondphotoid}/{secondtitle}/{category}', [WorkReportController::class,'selectFormat'])->middleware(['auth','user_access']);
 // Work Report  --> end
 
 // Bill Cover Letter  --> start
@@ -197,6 +198,7 @@ Route::resource('/accounting/bill-cover-letters', BillCoverLetterController::cla
 Route::get('/bill-cover-letters/index/{companyid}', [BillCoverLetterController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/bill-cover-letters/select-billing/{companyid}', [BillCoverLetterController::class,'selectBilling'])->middleware(['auth','user_access']);
 Route::get('/bill-cover-letters/create/{billingid}', [BillCoverLetterController::class,'create'])->middleware(['auth','user_access']);
+Route::get('/bill-cover-letters/preview/{id}', [BillCoverLetterController::class,'preview'])->middleware(['auth','user_access']);
 // Bill Cover Letter  --> end
 
 // Bill Cover Letter  --> start

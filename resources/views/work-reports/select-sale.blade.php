@@ -195,5 +195,8 @@
 
     <!-- Script Preview Image start-->
     <script src="/js/createworkreports.js"></script>
+    <script>
+        var category = @json($bast_category);
+    </script>
     <!-- Script Preview Image end-->
 @endsection
