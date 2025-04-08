@@ -37,7 +37,6 @@
                 </div>
                 @foreach ($invoice_content->orders as $itemOrder)
                     <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                        <input type="checkbox" class="outline-none mr-2" checked>
                         <label class="w-24">No. PO</label>
                         <label class="">:</label>
                         <label class="ml-2 w-24 font-semibold">

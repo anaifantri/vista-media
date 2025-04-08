@@ -101,7 +101,15 @@ class VatTaxInvoiceController extends Controller
      */
     public function show(VatTaxInvoice $vatTaxInvoice): Response
     {
-        //
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return response()-> view('vat-tax-invoices.show', [
+                'vat_tax_invoice' => $vatTaxInvoice,
+                'billing' => Billing::findOrFail($vatTaxInvoice->billing_id),
+                'title' => 'Detail Faktur PPN Nomor '.$vatTaxInvoice->number
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**

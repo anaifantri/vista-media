@@ -116,7 +116,8 @@
                                     <div class="flex mt-4">
                                         <label class="ml-1 text-sm text-black">Dengan hormat,</label>
                                     </div>
-                                    <div class="flex mt-2 text-sm text-justify w-[720px] ml-1">{{ $quotation->body_top }}
+                                    <div class="flex mt-2 text-sm text-justify w-[720px] ml-1">
+                                        {{ $quotation->body_top }}
                                     </div>
                                 </div>
                             </div>
@@ -243,8 +244,8 @@
                                             <label
                                                 class="ml-1 mt-10 text-sm text-black flex font-semibold"><u>{{ $created_by->name }}</u></label>
                                             <label
-                                                class="flex ml-1 text-xs text-black">{{ $created_by->position }}</label>
-                                            <label class="flex ml-1 text-xs text-black">Hp.
+                                                class="flex ml-1 text-sm text-black">{{ $created_by->position }}</label>
+                                            <label class="flex ml-1 text-sm text-black">Hp.
                                                 {{ $created_by->phone }}</label>
                                         </div>
                                         <div class="flex ml-4 mt-2">

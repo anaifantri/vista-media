@@ -229,7 +229,14 @@ class BillingController extends Controller
      */
     public function show(Billing $billing): Response
     {
-        //
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return response()-> view('billings.show', [
+                'billing' => $billing,
+                'title' => 'Detail Invoice '.$billing->invoice_number
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**

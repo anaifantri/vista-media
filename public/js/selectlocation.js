@@ -57,20 +57,20 @@ getExtendLocation = (sel) =>{
         }
     }
 
-    if (locationId.length == 5) {
-        for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].checked == false) {
-                inputs[i].setAttribute('disabled', 'disabled');
-            }
-        }
-        document.getElementById("search").removeAttribute('disabled');
-    } else {
-        for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].checked == false) {
-                inputs[i].removeAttribute('disabled');
-            }
-        }
-    }
+    // if (locationId.length == 5) {
+    //     for (let i = 0; i < inputs.length; i++) {
+    //         if (inputs[i].checked == false) {
+    //             inputs[i].setAttribute('disabled', 'disabled');
+    //         }
+    //     }
+    //     document.getElementById("search").removeAttribute('disabled');
+    // } else {
+    //     for (let i = 0; i < inputs.length; i++) {
+    //         if (inputs[i].checked == false) {
+    //             inputs[i].removeAttribute('disabled');
+    //         }
+    //     }
+    // }
 }
 
 getExistingLocation = (sel) =>{
@@ -93,20 +93,20 @@ getExistingLocation = (sel) =>{
         }
     }
 
-    if (locationId.length == 8) {
-        for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].checked == false) {
-                inputs[i].setAttribute('disabled', 'disabled');
-            }
-            document.getElementById("search").removeAttribute('disabled');
-        }
-    } else {
-        for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].checked == false) {
-                inputs[i].removeAttribute('disabled');
-            }
-        }
-    }
+    // if (locationId.length == 8) {
+    //     for (let i = 0; i < inputs.length; i++) {
+    //         if (inputs[i].checked == false) {
+    //             inputs[i].setAttribute('disabled', 'disabled');
+    //         }
+    //         document.getElementById("search").removeAttribute('disabled');
+    //     }
+    // } else {
+    //     for (let i = 0; i < inputs.length; i++) {
+    //         if (inputs[i].checked == false) {
+    //             inputs[i].removeAttribute('disabled');
+    //         }
+    //     }
+    // }
 }
 getLocation = (sel) => {
     if (sel.checked == true) {
@@ -133,22 +133,23 @@ getLocation = (sel) => {
                 }
             }
         }
-    } else {
-        if (locationId.length == 5) {
-            for (let i = 0; i < inputs.length; i++) {
-                if (inputs[i].checked == false) {
-                    inputs[i].setAttribute('disabled', 'disabled');
-                }
-            }
-            document.getElementById("search").removeAttribute('disabled');
-        } else {
-            for (let i = 0; i < inputs.length; i++) {
-                if (inputs[i].checked == false) {
-                    inputs[i].removeAttribute('disabled');
-                }
-            }
-        }
-    }
+    } 
+    // else {
+    //     if (locationId.length == 5) {
+    //         for (let i = 0; i < inputs.length; i++) {
+    //             if (inputs[i].checked == false) {
+    //                 inputs[i].setAttribute('disabled', 'disabled');
+    //             }
+    //         }
+    //         document.getElementById("search").removeAttribute('disabled');
+    //     } else {
+    //         for (let i = 0; i < inputs.length; i++) {
+    //             if (inputs[i].checked == false) {
+    //                 inputs[i].removeAttribute('disabled');
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 quotationCreate = () => {

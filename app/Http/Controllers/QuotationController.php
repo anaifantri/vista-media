@@ -372,7 +372,55 @@ class QuotationController extends Controller
      */
     public function edit(Quotation $quotation): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingEdit'))){
+            $client = json_decode($quotation->clients);
+            if(request('new_products')){
+                $products = json_decode(request('new_products'));
+            }else{
+                $products = json_decode($quotation->products);
+            }
+            if(request('new_price')){
+                $price = json_decode(request('new_price'));
+            }else{
+                $price = json_decode($quotation->price);
+            }
+            $payment_terms = json_decode($quotation->payment_terms);
+            $notes = json_decode($quotation->notes);
+            $category = $quotation->media_category->name;
+            $dataLocations = Location::quotationNew()->categoryName($category)->filter(request('search'))->area()->city()->type()->sortable()->orderBy("code", "asc")->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $location_photos = LocationPhoto::with('location')->get();
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $location = null;
+            if($category == "Videotron" || ($category == "Signage" && $description->type == "Videotron")){
+                $location = Location::findOrFail($products[0]->id);
+            }
+            return response()-> view ('quotations.edit', [
+                'quotation'=>$quotation,
+                'locations'=>$dataLocations,
+                'location' => $location,
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'client' => $client,
+                'products'=> $products,
+                'category'=> $category,
+                'leds' => Led::all(),
+                'printing_products'=>PrintingProduct::all(),
+                'installation_prices'=>InstallationPrice::all(),
+                'clients'=>Client::orderBy("name", "asc")->get(),
+                'client_groups'=>ClientGroup::orderBy("group", "asc")->get(),
+                'contacts'=>Contact::orderBy("name", "asc")->get(),
+                'price'=> $price,
+                'payment_terms'=> $payment_terms,
+                'notes'=> $notes,
+                'title' => 'Edit Penawaran Nomor '.$quotation->number,
+                compact('media_sizes', 'media_categories', 'location_photos', 'areas', 'cities')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -380,7 +428,23 @@ class QuotationController extends Controller
      */
     public function update(Request $request, Quotation $quotation): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingEdit'))){
+            $validateData = $request->validate([
+                'body_top' => 'required|max:255',
+                'body_end' => 'required',
+                'notes' => 'required',
+                'payment_terms' => 'required',
+                'price' => 'required',
+                'products' => 'required',
+                'modified_by' => 'required'
+            ]); 
+            Quotation::where('id', $quotation->id)
+                ->update($validateData);
+    
+            return redirect('/marketing/quotations/preview/'.$quotation->media_category->name.'/'.$quotation->id)->with('success', 'Penawaran dengan nomor '. $quotation->number . ' berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**

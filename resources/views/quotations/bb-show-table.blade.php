@@ -6,7 +6,7 @@
         }
     }
     if ($cbTitle > 2) {
-        $width = 850;
+        $width = 880;
     } else {
         $width = 725;
     }
@@ -44,10 +44,10 @@
                 </th>
                 @foreach ($price->dataTitle as $title)
                     @if ($title->checkbox == true)
-                        <th class="text-[0.7rem] text-black border w-[85px]">
+                        <th class="text-[0.7rem] text-black border w-20">
                             {{ $title->title }}</th>
                     @else
-                        <th class="text-[0.7rem] text-black border w-[85px]" hidden>
+                        <th class="text-[0.7rem] text-black border w-20" hidden>
                             {{ $title->title }}</th>
                     @endif
                 @endforeach
@@ -71,7 +71,7 @@
                         {{ $loop->iteration }}</td>
                     <td class="text-[0.7rem] text-black border text-center">
                         {{ $product->code }} - {{ $product->city_code }}</td>
-                    <td class="text-[0.7rem] text-black border px-2">
+                    <td class="text-[0.7rem] text-black border px-1">
                         {{ $product->address }}
                     </td>
                     @if ($category != 'Signage')

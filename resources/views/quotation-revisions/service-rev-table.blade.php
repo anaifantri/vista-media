@@ -66,8 +66,14 @@
                     $description = json_decode($location->description);
                 @endphp
                 <input type="text" id="productSide" value="{{ $location->side }}" hidden>
-                <input type="number" id="usedFree" value="{{ $location->used_install }}" hidden>
-                <input type="number" id="totalFree" value="{{ $location->free_install }}" hidden>
+                @if ($location->type == 'new')
+                    <input type="number" id="usedFree" value="0" hidden>
+                    <input type="number" id="totalFree" value="0" hidden>
+                @else
+                    <input type="number" id="usedFree" value="{{ $location->used_install }}" hidden>
+                    <input type="number" id="totalFree" value="{{ $location->free_install }}" hidden>
+                @endif
+
                 @if ($price->objServiceType->print == true && $price->objServiceType->install == true)
                     <tr>
                         <td class="text-[0.7rem] text-black border border-black text-center" rowspan="2">

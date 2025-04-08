@@ -129,7 +129,7 @@
                 hidden>
         @elseif($category == 'Service')
             <input id="saveName" type="text"
-                value="{{ substr($billing->invoice_number, 0, 3) }}-Gambar-{{ $client->company }}-{{ $receipt_content->location }}"
+                value="{{ substr($billing->invoice_number, 0, 3) }}-Revisual-{{ $client->company }}-{{ $receipt_content->location }}"
                 hidden>
         @endif
     </div>

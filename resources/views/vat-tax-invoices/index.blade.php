@@ -141,7 +141,7 @@
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
-                                            <a href="#"
+                                            <a href="/accounting/vat-tax-invoices/{{ $vat_tax->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">
                                                 <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
