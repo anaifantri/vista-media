@@ -21,29 +21,24 @@
     <table class="table-auto mt-2">
         <thead>
             <tr>
-                <th class="text-sm text-black border w-60">Deskripsi
+                <th class="text-xs text-black border w-60">Deskripsi
                 </th>
-                <th class="text-sm text-black border w-[480px]" colspan="4">
+                <th class="text-xs text-black border w-[480px]" colspan="4">
                     Spesifikasi
                 </th>
             </tr>
         </thead>
         <tbody id="tableBody">
             <tr>
-                <td class="px-4 text-sm text-black border">Kode Lokasi</td>
-                <td class="px-4 text-sm text-black border" colspan="4">
-                    {{ $products[0]->code }}-{{ $products[0]->city_code }}</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-sm text-black border">Lokasi</td>
-                <td class="px-4 text-sm text-black border" colspan="4">
-                    {{ $products[0]->address }}</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Ukuran (Screen Size) - Orientasi</td>
+                <td class="px-4 text-xs text-black border">Kode | Lokasi</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $products[0]->size }} ({{ $descriptions->screen_w }} pixel x
-                    {{ $descriptions->screen_h }} pixel)
+                    {{ $products[0]->code }}-{{ $products[0]->city_code }} | {{ $products[0]->address }}</td>
+            </tr>
+            <tr>
+                <td class="px-4 text-xs text-black border">Ukuran / Screen Size - Orientasi</td>
+                <td class="px-4 text-xs text-black border" colspan="4">
+                    {{ $products[0]->size }} / {{ $descriptions->screen_w }} pixel x
+                    {{ $descriptions->screen_h }} pixel
                     -
                     {{ $products[0]->orientation }}</td>
             </tr>
@@ -56,33 +51,20 @@
                 </tr>
             @endif
             <tr>
-                <td class="px-4 text-xs text-black border">Ukuran Pixel - Konfigurasi Pixel</td>
+                <td class="px-4 text-xs text-black border">Ukuran - Konfigurasi Pixel</td>
                 <td class="px-4 text-xs text-black border" colspan="4">P
-                    {{ $led->pixel_pitch }} -
-                    {{ $led->pixel_config }}</td>
+                    {{ $led->pixel_pitch }} - {{ $led->pixel_config }}</td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border">Kerapatan Pixel</td>
+                <td class="px-4 text-xs text-black border">Kerapatan Pixel - Refresh Rate</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->pixel_density }}
+                    {{ $led->pixel_density }} pixel/m2 - {{ $led->refresh_rate }} Hz
                 </td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border">Jarak Pandang Terbaik</td>
+                <td class="px-4 text-xs text-black border">Jarak / Sudut Pandang Terbaik</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->optimal_distance }}
-                </td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Sudut Pandang Terbaik</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->vertical_angle }}(V)
-                    {{ $led->horizontal_angle }}(H)</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Refresh Rate</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $led->refresh_rate }}
+                    {{ $led->optimal_distance }} / {{ $led->vertical_angle }}(V) {{ $led->horizontal_angle }}(H)
                 </td>
             </tr>
             <tr>
@@ -301,30 +283,30 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="text-[0.7rem] text-black border text-right px-2">
+                    <td class="text-xs text-black border text-right px-2">
                         <div class="flex items-center justify-end">
-                            <label class="text-[0.7rem] text-black ml-1" for="cbPpn">PPN</label>
+                            <label class="text-xs text-black ml-1" for="cbPpn">PPN</label>
                             <input id="ppnValue" value="{{ $price->objPpn->value }}"
-                                class="text-[0.7rem] text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
+                                class="text-xs text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
                                 type="number" min="0" max="100" value="11" onkeyup="setPpn(this)"
                                 onchange="checkPpn(this)">
-                            <label class="text-[0.7rem] text-black ml-2">% * DPP</label>
+                            <label class="text-xs text-black ml-2">% * DPP</label>
                             <input id="dppValue" value="{{ $price->objPpn->dpp }}"
-                                class="text-right text-[0.7rem] outline-none text-black in-out-spin-none w-20 border rounded-md ml-2 pr-1"
+                                class="text-right text-xs outline-none text-black in-out-spin-none w-20 border rounded-md ml-2 pr-1"
                                 type="number" min="0" onkeyup="getDpp(this)" onchange="dppCheck(this)"
                                 required>
                         </div>
                     </td>
-                    <td class="text-[0.7rem] text-black border" colspan="4">
+                    <td class="text-xs text-black border" colspan="4">
                         <label id="ppnNominal"
-                            class="text-[0.7rem] text-black px-1 flex justify-end w-20">{{ number_format(($price->objPpn->value / 100) * $price->objPpn->dpp) }}</label>
+                            class="text-xs text-black px-1 flex justify-end w-20">{{ number_format(($price->objPpn->value / 100) * $price->objPpn->dpp) }}</label>
                     </td>
                 </tr>
                 <tr>
-                    <td class="text-[0.7rem] text-black border text-right px-2">Grand Total</td>
-                    <td class="text-[0.7rem] text-black border" colspan="4">
+                    <td class="text-xs text-black border text-right px-2">Grand Total</td>
+                    <td class="text-xs text-black border" colspan="4">
                         <label id="grandTotal"
-                            class="text-[0.7rem] text-black px-1 flex justify-end w-20">{{ number_format(($price->objPpn->value / 100) * $price->objPpn->dpp + $subTotal) }}</label>
+                            class="text-xs text-black px-1 flex justify-end w-20">{{ number_format(($price->objPpn->value / 100) * $price->objPpn->dpp + $subTotal) }}</label>
                     </td>
                 </tr>
             @else
@@ -344,30 +326,30 @@
                     </td>
                 </tr>
                 <tr hidden>
-                    <td class="text-[0.7rem] text-black border text-right px-2">
+                    <td class="text-xs text-black border text-right px-2">
                         <div class="flex items-center justify-end">
-                            <label class="text-[0.7rem] text-black ml-1" for="cbPpn">PPN</label>
+                            <label class="text-xs text-black ml-1" for="cbPpn">PPN</label>
                             <input id="ppnValue" value="{{ $price->objPpn->value }}"
-                                class="text-[0.7rem] text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
+                                class="text-xs text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
                                 type="number" min="0" max="100" value="11" onkeyup="setPpn(this)"
                                 onchange="checkPpn(this)">
-                            <label class="text-[0.7rem] text-black ml-2">% * DPP</label>
+                            <label class="text-xs text-black ml-2">% * DPP</label>
                             <input id="dppValue" value="{{ $price->objPpn->dpp }}"
-                                class="text-right text-[0.7rem] outline-none text-black in-out-spin-none w-20 border rounded-md ml-2 pr-1"
+                                class="text-right text-xs outline-none text-black in-out-spin-none w-20 border rounded-md ml-2 pr-1"
                                 type="number" min="0" onkeyup="getDpp(this)" onchange="dppCheck(this)"
                                 required>
                         </div>
                     </td>
-                    <td class="text-[0.7rem] text-black border" colspan="4">
+                    <td class="text-xs text-black border" colspan="4">
                         <label id="ppnNominal"
-                            class="text-[0.7rem] text-black px-1 flex justify-end w-20">{{ number_format(($price->objPpn->value / 100) * $price->objPpn->dpp) }}</label>
+                            class="text-xs text-black px-1 flex justify-end w-20">{{ number_format(($price->objPpn->value / 100) * $price->objPpn->dpp) }}</label>
                     </td>
                 </tr>
                 <tr hidden>
-                    <td class="text-[0.7rem] text-black border text-right px-2">Grand Total</td>
-                    <td class="text-[0.7rem] text-black border" colspan="4">
+                    <td class="text-xs text-black border text-right px-2">Grand Total</td>
+                    <td class="text-xs text-black border" colspan="4">
                         <label id="grandTotal"
-                            class="text-[0.7rem] text-black px-1 flex justify-end w-20">{{ number_format(($price->objPpn->value / 100) * $price->objPpn->dpp + $subTotal) }}</label>
+                            class="text-xs text-black px-1 flex justify-end w-20">{{ number_format(($price->objPpn->value / 100) * $price->objPpn->dpp + $subTotal) }}</label>
                     </td>
                 </tr>
             @endif

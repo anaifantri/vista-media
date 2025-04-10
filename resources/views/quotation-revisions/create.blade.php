@@ -4,9 +4,6 @@
     <?php
     // $products = json_decode($quotation->products);
     $client = json_decode($quotation->clients);
-    $price = json_decode($quotation->price);
-    $payment_terms = json_decode($quotation->payment_terms);
-    $notes = json_decode($quotation->notes);
     $first_number = Str::substr($quotation->number, 0, 4);
     $middle_number = '_Rev' . count($quotation->quotation_revisions) + 1;
     $last_number = Str::substr($quotation->number, 4);
@@ -407,9 +404,197 @@
     @include('quotation-revisions.create-preview')
     <!-- Modal Preview end -->
 
+
+    <div id="modalLocation" class="absolute justify-center top-0 w-full h-full bg-black bg-opacity-90 z-50 p-10 hidden">
+        <div>
+            <div class="flex px-2  border-b-2 border-white w-full">
+                <div class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px]">Pilih Lokasi
+                </div>
+                <div class="flex w-full justify-end">
+                    <form action="/marketing/quotation-revisions/revision/{{ $category }}/{{ $quotation->id }}">
+                        <input id="newProducts" name="new_products" type="text" value="{{ json_encode($products) }}"
+                            hidden>
+                        <input id="newPrice" name="new_price" type="text" value="{{ json_encode($price) }}" hidden>
+                        <button class="flex justify-center items-center mx-1 btn-primary" title="Add" type="submit">
+                            <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="ml-2 text-white">Submit</span>
+                        </button>
+                    </form>
+                    <button id="btnClose" class="flex justify-center items-center ml-1 mx- btn-danger" title="Close"
+                        type="button" onclick="btnClose()">
+                        <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z" />
+                        </svg>
+                        <span class="ml-1 xl:mx-2 text-sm">Close</span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex mt-1 ml-2">
+                <div class="w-36">
+                    <span class="text-base text-stone-100">Area</span>
+                    <select class="w-full border rounded-lg text-base text-stone-900 outline-none" name="area"
+                        id="area" onchange="searchArea(this)">
+                        <option value="All">All</option>
+                        @foreach ($areas as $area)
+                            <option id="{{ $area->id }}" value="{{ $area->area }}">{{ $area->area }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="w-36 ml-2">
+                    <span class="text-base text-stone-100">Kota</span>
+                    <select id="city" class="w-full border rounded-lg text-base text-stone-900 outline-none"
+                        name="city" onchange="searchCity(this)" disabled>
+                        <option value="All">All</option>
+                    </select>
+                </div>
+                <div class="w-36 ml-2">
+                    <span class="text-base text-stone-100">Search</span>
+                    <input id="search"class="flex border rounded-lg px-1 outline-none text-base text-stone-900"
+                        type="text" placeholder="Search" onkeyup="searchTable()" autofocus>
+                </div>
+            </div>
+            <div class="w-[1200px] h-[500px] overflow-y-auto mt-4">
+                <table class="table-auto w-full" id="locationsTable">
+                    <thead>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" rowspan="2">
+                                No
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center" rowspan="2">
+                                Kode</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center" rowspan="2">
+                                Lokasi
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24" rowspan="2">
+                                Area</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24" rowspan="2">
+                                Kota</th>
+                            @if ($category == 'Signage')
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="6">
+                                    Deskripsi
+                                </th>
+                            @else
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center" colspan="4">
+                                    Deskripsi
+                                </th>
+                            @endif
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">
+                                Action</th>
+                        </tr>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-12">Jenis</th>
+                            @if ($category == 'Signage')
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-[72px]">Bentuk
+                                </th>
+                            @endif
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-12">BL/FL</th>
+                            @if ($category == 'Signage')
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-8">Qty</th>
+                            @endif
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-10">Side</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Size - V/H</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-stone-300">
+                        @foreach ($locations as $location)
+                            @php
+                                $description = json_decode($location->description);
+                                $getPhoto = $location->location_photos
+                                    ->where('company_id', $company->id)
+                                    ->where('set_default', true)
+                                    ->last();
+                            @endphp
+                            <tr>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $location->code }}
+                                    -
+                                    {{ $location->city->code }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                    {{ $location->address }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $location->area->area }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $location->city->city }}</td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $location->media_category->code }}
+                                </td>
+                                @if ($category == 'Signage')
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $description->type }}
+                                    </td>
+                                @endif
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    @if (
+                                        $location->media_category->name == 'Videotron' ||
+                                            ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                        -
+                                    @else
+                                        @if ($description->lighting == 'Backlight')
+                                            BL
+                                        @elseif($description->lighting == 'Frontlight')
+                                            FL
+                                        @elseif($description->lighting == 'Nonlight')
+                                            -
+                                        @endif
+                                    @endif
+                                </td>
+                                @if ($category == 'Signage')
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $description->qty }}
+                                    </td>
+                                @endif
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ filter_var($location->side, FILTER_SANITIZE_NUMBER_INT) }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $location->media_size->size }}
+                                    -
+                                    @if ($location->orientation == 'Vertikal')
+                                        V
+                                    @elseif ($location->orientation == 'Horizontal')
+                                        H
+                                    @endif
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-center text-sm">
+                                    <input
+                                        id="{{ $location->area->area }}*{{ $location->city->city }}*{{ $location->city->code }}*{{ $location->media_size->width }}*{{ $location->media_size->height }}*{{ $location->media_category->name }}*{{ $location->media_size->size }}*{{ $getPhoto->photo }}"
+                                        value="{{ json_encode($location) }}" type="checkbox" title="pilih"
+                                        onclick="addNewLocations(this)">
+                                    {{-- <input
+                                        id="{{ $location->area->area }}*{{ $location->city->city }}*{{ $location->city->code }}*{{ $location->media_size->width }}*{{ $location->media_size->height }}*{{ $location->media_category->name }}*{{ $location->media_size->size }}*{{ $getPhoto->photo }}"
+                                        value="{{ json_encode($location) }}" type="checkbox" title="pilih"
+                                        onclick="addNewLocations(this)"> --}}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <!-- Quotation Revision end -->
     <script src="/js/createquotrevision.js"></script>
     @if ($category == 'Service')
         <script src="/js/servicerevisiontable.js"></script>
     @endif
+
+    <script>
+        const newProducts = document.getElementById("newProducts");
+        const newPrice = document.getElementById("newPrice");
+        var cities = @json($cities);
+        let getNewProducts = @json($products);
+        let getNewPrice = @json($price);
+    </script>
 @endsection

@@ -6,11 +6,15 @@ use App\Models\QuotationRevision;
 use App\Models\QuotRevisionStatus;
 use App\Models\Quotation;
 use App\Models\Location;
+use App\Models\LocationPhoto;
+use App\Models\Area;
+use App\Models\City;
 use App\Models\Company;
 use App\Models\Led;
 use App\Models\PrintingProduct;
 use App\Models\InstallationPrice;
 use App\Models\MediaCategory;
+use App\Models\MediaSize;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -62,26 +66,56 @@ class QuotationRevisionController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isQuotation') && Gate::allows('isMarketingCreate'))){
             $quotation = Quotation::findOrFail($id);
-            $products = json_decode($quotation->products);
-            $dataDescription = json_decode($products[0]->description);
+            $payment_terms = json_decode($quotation->payment_terms);
+            $notes = json_decode($quotation->notes);
+            if(request('new_products')){
+                $products = json_decode(request('new_products'));
+                $description = json_decode($products[0]->description);
+            }else{
+                $products = json_decode($quotation->products);
+                $description = json_decode($products[0]->description);
+            }
+            if(request('new_price')){
+                $price = json_decode(request('new_price'));
+            }else{
+                $price = json_decode($quotation->price);
+            }
+            // dd($price);
+            $payment_terms = json_decode($quotation->payment_terms);
+            $notes = json_decode($quotation->notes);
+            if($category == "Signage"){
+                $dataLocations = Location::quotationNew()->categoryName($category)->where('description->type', '!=', 'videotron')->sortable()->orderBy("code", "asc")->get();
+            }else{
+                $dataLocations = Location::quotationNew()->categoryName($category)->sortable()->orderBy("code", "asc")->get();
+            }
             $location = null;
             if($category == "Videotron" || ($category == "Signage" && $description->type == "Videotron")){
                 $location = Location::findOrFail($products[0]->id);
             }
             $companies = Company::with('quotations')->get();
-            $media_categories = MediaCategory::with('quotations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $location_photos = LocationPhoto::with('location')->get();
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
 
             return view('quotation-revisions.create', [
                 'quotation' => $quotation,
+                'locations'=>$dataLocations,
                 'location' => $location,
                 'products' => $products,
+                'price'=> $price,
+                'payment_terms'=> $payment_terms,
+                'notes'=> $notes,
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
                 'printing_products'=>PrintingProduct::all(),
                 'installation_prices'=>InstallationPrice::all(),
                 'leds' => Led::all(),
                 'category'=>$category,
                 'title' => 'Revisi Penawaran',
-                compact('media_categories', 'companies', 'quotation_revisions')
+                compact('media_sizes', 'media_categories', 'location_photos', 'areas', 'cities', 'quotation_revisions', 'companies')
             ]);
         } else {
             abort(403);

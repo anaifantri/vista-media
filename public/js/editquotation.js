@@ -1700,7 +1700,7 @@ addNewLocations = (sel) => {
             }
         }
     
-        if(getNewPrice.dataTitle[2].checkbox == true){
+        if(getNewPrice.dataTitle[3].checkbox == true){
             newPriceYear = {
                 code : getNewProduct.code,
                 price : getNewProduct.price
@@ -1722,13 +1722,13 @@ addNewLocations = (sel) => {
             for(let i = 0; i < getNewPrice.dataTitle.length; i++){
                 if(getNewPrice.dataTitle[i].checkbox == true){
                     for(let j = 0; j < getNewPrice.dataPrice[i].length; j++){
-                        getNewPrice.objPpn.dpp = getNewPrice.objPpn.dpp + getNewPrice.dataPrice[i][j].price;
+                        getNewPrice.objPpn.dpp = Number(getNewPrice.objPpn.dpp) + Number(getNewPrice.dataPrice[i][j].price);
                     }
                 }
             }
         }
     
-        getNewProducts.push(newProduct);
+        getNewProducts.push(newProduct);        
     }else{
         for(let i = 0; i < getNewProducts.length; i++){
             if(getNewProducts[i].id == getNewProduct.id){
@@ -1749,7 +1749,7 @@ addNewLocations = (sel) => {
             for(let i = 0; i < getNewPrice.dataTitle.length; i++){
                 if(getNewPrice.dataTitle[i].checkbox == true){
                     for(let j = 0; j < getNewPrice.dataPrice[i].length; j++){
-                        getNewPrice.objPpn.dpp = getNewPrice.objPpn.dpp + getNewPrice.dataPrice[i][j].price;
+                        getNewPrice.objPpn.dpp = Number(getNewPrice.objPpn.dpp) + Number(getNewPrice.dataPrice[i][j].price);
                     }
                 }
             }

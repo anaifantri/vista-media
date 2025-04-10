@@ -246,8 +246,8 @@
                     </tr>
                 @endif
                 <tr>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">PPN
-                        {{ $price->objPpn->value }} % (B)
+                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">PPN (B)
+                        {{-- {{ $price->objPpn->value }} % (B) --}}
                     </td>
                     <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
                         {{ number_format($price->objPpn->dpp * ($price->objPpn->value / 100)) }}</td>

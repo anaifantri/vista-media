@@ -376,8 +376,10 @@ class QuotationController extends Controller
             $client = json_decode($quotation->clients);
             if(request('new_products')){
                 $products = json_decode(request('new_products'));
+                $description = json_decode($products[0]->description);
             }else{
                 $products = json_decode($quotation->products);
+                $description = json_decode($products[0]->description);
             }
             if(request('new_price')){
                 $price = json_decode(request('new_price'));
@@ -387,7 +389,11 @@ class QuotationController extends Controller
             $payment_terms = json_decode($quotation->payment_terms);
             $notes = json_decode($quotation->notes);
             $category = $quotation->media_category->name;
-            $dataLocations = Location::quotationNew()->categoryName($category)->filter(request('search'))->area()->city()->type()->sortable()->orderBy("code", "asc")->get();
+            if($category == "Signage"){
+                $dataLocations = Location::quotationNew()->categoryName($category)->where('description->type', '!=', 'videotron')->sortable()->orderBy("code", "asc")->get();
+            }else{
+                $dataLocations = Location::quotationNew()->categoryName($category)->sortable()->orderBy("code", "asc")->get();
+            }
             $media_sizes = MediaSize::with('locations')->get();
             $media_categories = MediaCategory::with('locations')->get();
             $location_photos = LocationPhoto::with('location')->get();

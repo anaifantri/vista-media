@@ -135,7 +135,7 @@
                             <!-- table start -->
                             <div class="flex justify-center ml-2">
                                 @if ($category == 'Service')
-                                    @include('quotations.service-rev-table')
+                                    @include('quotations.service-edit-table')
                                 @else
                                     @if ($category == 'Videotron')
                                         @include('quotations.vt-edit-table')
@@ -435,9 +435,6 @@
                     <select id="city" class="w-full border rounded-lg text-base text-stone-900 outline-none"
                         name="city" onchange="searchCity(this)" disabled>
                         <option value="All">All</option>
-                        {{-- @foreach ($cities as $city)
-                            <option value="{{ $city->city }}">{{ $city->city }}</option>
-                        @endforeach --}}
                     </select>
                 </div>
                 <div class="w-36 ml-2">
@@ -553,20 +550,10 @@
                                     @endif
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-center text-sm">
-                                    @if ($category == 'Signage')
-                                        @if (request('type') == null || request('type') == 'All')
-                                            <input id="{{ $description->type }}" value="{{ $location->id }}"
-                                                type="checkbox" title="Pilih bentuk terlebih dahulu" disabled>
-                                        @else
-                                            <input value="{{ $location->id }}" type="checkbox" title="pilih"
-                                                onclick="getLocation(this)">
-                                        @endif
-                                    @else
-                                        <input
-                                            id="{{ $location->area->area }}*{{ $location->city->city }}*{{ $location->city->code }}*{{ $location->media_size->width }}*{{ $location->media_size->height }}*{{ $location->media_category->name }}*{{ $location->media_size->size }}*{{ $getPhoto->photo }}"
-                                            value="{{ json_encode($location) }}" type="checkbox" title="pilih"
-                                            onclick="addNewLocations(this)">
-                                    @endif
+                                    <input
+                                        id="{{ $location->area->area }}*{{ $location->city->city }}*{{ $location->city->code }}*{{ $location->media_size->width }}*{{ $location->media_size->height }}*{{ $location->media_category->name }}*{{ $location->media_size->size }}*{{ $getPhoto->photo }}"
+                                        value="{{ json_encode($location) }}" type="checkbox" title="pilih"
+                                        onclick="addNewLocations(this)">
                                 </td>
                             </tr>
                         @endforeach

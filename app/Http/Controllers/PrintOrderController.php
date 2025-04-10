@@ -297,7 +297,8 @@ class PrintOrderController extends Controller
                 $media_categories = MediaCategory::with('sales')->get();
                 if(request('vendorID')){
                     if(request('vendorID') != "pilih"){
-                        $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->name()->product()->get();
+                        $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->product()->get();
+                        // $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->name()->product()->get();
                         $vendor = Vendor::findOrFail(request('vendorID'));
                     }else{
                         $printing_prices = null;
@@ -355,7 +356,8 @@ class PrintOrderController extends Controller
                 $media_categories = MediaCategory::with('sales')->get();
                 if(request('vendorID')){
                     if(request('vendorID') != "pilih"){
-                        $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->name()->product()->get();
+                        $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->product()->get();
+                        // $printing_prices = PrintingPrice::where('vendor_id', request('vendorID'))->name()->product()->get();
                         $vendor = Vendor::findOrFail(request('vendorID'));
                     }else{
                         $printing_prices = null;

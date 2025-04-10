@@ -10,29 +10,24 @@
     <table class="table-auto mt-2">
         <thead>
             <tr>
-                <th class="text-sm text-black border w-52">Deskripsi
+                <th class="text-xs text-black border w-60">Deskripsi
                 </th>
-                <th class="text-sm text-black border w-[512px]" colspan="4">
+                <th class="text-xs text-black border w-[480px]" colspan="4">
                     Spesifikasi
                 </th>
             </tr>
         </thead>
         <tbody id="videotronTBody">
             <tr>
-                <td class="px-4 text-xs text-black border">Kode Lokasi</td>
+                <td class="px-4 text-xs text-black border">Kode | Lokasi</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $products[0]->code }}-{{ $products[0]->city_code }}</td>
+                    {{ $products[0]->code }}-{{ $products[0]->city_code }} | {{ $products[0]->address }}</td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border">Lokasi</td>
+                <td class="px-4 text-xs text-black border">Ukuran / Screen Size - Orientasi</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $products[0]->address }}</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Ukuran (Screen Size) - Orientasi</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $products[0]->size }} ({{ $descriptions->screen_w }} pixel x
-                    {{ $descriptions->screen_h }} pixel)
+                    {{ $products[0]->size }} / {{ $descriptions->screen_w }} pixel x
+                    {{ $descriptions->screen_h }} pixel
                     -
                     {{ $products[0]->orientation }}</td>
             </tr>
@@ -50,27 +45,16 @@
                     {{ $dataLed->pixel_config }}</td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border">Kerapatan Pixel</td>
+                <td class="px-4 text-xs text-black border">Kerapatan Pixel - Refresh Rate</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $dataLed->pixel_density }}
+                    {{ $dataLed->pixel_density }} pixel/m2 - {{ $dataLed->refresh_rate }} Hz
                 </td>
             </tr>
             <tr>
-                <td class="px-4 text-xs text-black border">Jarak Pandang Terbaik</td>
+                <td class="px-4 text-xs text-black border">Jarak / Sudut Pandang Terbaik</td>
                 <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $dataLed->optimal_distance }}
-                </td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Sudut Pandang Terbaik</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $dataLed->vertical_angle }}(V)
-                    {{ $dataLed->horizontal_angle }}(H)</td>
-            </tr>
-            <tr>
-                <td class="px-4 text-xs text-black border">Refresh Rate</td>
-                <td class="px-4 text-xs text-black border" colspan="4">
-                    {{ $dataLed->refresh_rate }}
+                    {{ $dataLed->optimal_distance }} / {{ $dataLed->vertical_angle }}(V)
+                    {{ $dataLed->horizontal_angle }}(H)
                 </td>
             </tr>
             <tr>
@@ -178,34 +162,34 @@
                     @endforeach
                 @endif
                 <tr>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">Sub
+                    <td class="text-xs text-black border font-semibold px-1 text-right">Sub
                         Total (A)</td>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1">
+                    <td class="text-xs text-black border font-semibold px-1">
                         <label class="flex w-20 justify-end">{{ number_format($subTotal) }}</label>
                     </td>
                 </tr>
                 @if ($price->objPpn->dpp != $subTotal)
                     <tr>
-                        <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">DPP
+                        <td class="text-xs text-black border font-semibold px-1 text-right">DPP
                         </td>
-                        <td class="text-[0.7rem] text-black border font-semibold px-1">
+                        <td class="text-xs text-black border font-semibold px-1">
                             <label class="flex w-20 justify-end">{{ number_format($price->objPpn->dpp) }}</label>
                         </td>
                     </tr>
                 @endif
                 <tr>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">PPN
-                        {{ $price->objPpn->value }} % (B)
+                    <td class="text-xs text-black border font-semibold px-1 text-right">PPN (B)
+                        {{-- {{ $price->objPpn->value }} % (B) --}}
                     </td>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1">
+                    <td class="text-xs text-black border font-semibold px-1">
                         <label
                             class="flex w-20 justify-end">{{ number_format($price->objPpn->dpp * ($price->objPpn->value / 100)) }}</label>
                     </td>
                 </tr>
                 <tr>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
+                    <td class="text-xs text-black border font-semibold px-1 text-right">
                         Grand Total (A + B)</td>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1">
+                    <td class="text-xs text-black border font-semibold px-1">
                         <label class="flex w-20 justify-end">
                             @if ($price->objPpn->dpp != $subTotal)
                                 {{ number_format($subTotal + $price->objPpn->dpp * ($price->objPpn->value / 100)) }}

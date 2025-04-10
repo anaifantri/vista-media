@@ -1413,3 +1413,257 @@ includeServiceChecking = () => {
     }
 }
 //Include service check --> end
+
+// Search Table --> start
+function searchArea(sel) {
+    const search = document.getElementById("search");
+    const city = document.getElementById("city");
+    const locationsTable = document.getElementById("locationsTable");
+    var filter, tr, td, i, found;
+    if(sel.value == "All"){
+        city.value = "All";
+        city.setAttribute('disabled','disabled');
+    }else{
+        const option = [];
+    
+        for (i = 0; i < cities.length; i++) {
+            if (cities[i]['area_id'] == sel.options[sel.options.selectedIndex].id) {
+                option[i] = document.createElement('option');
+                option[i].appendChild(document.createTextNode(cities[i]['city']));
+                option[i].setAttribute('value', cities[i]['city']);
+                city.appendChild(option[i]);
+            }
+        }
+        city.removeAttribute('disabled');
+    }
+    if(sel.value == "All"){
+        filter = '';
+    }else{
+        filter = sel.value.toUpperCase();
+    }
+    filter = sel.value.toUpperCase();
+    filterSearch = search.value.toUpperCase();
+    if(city.value == "All"){
+        filterCity = '';
+    }else{
+        filterCity = city.value.toUpperCase();
+    }
+    tr = locationsTable.getElementsByTagName("tr");
+    
+    for (i = 2; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+            if (td[j].innerHTML.toUpperCase().indexOf(filterSearch) > -1 && td[3].innerHTML.toUpperCase().indexOf(filter) > -1 && td[4].innerHTML.toUpperCase().indexOf(filterCity) > -1) {
+                found = true;
+            }
+        }
+        if (found) {
+            tr[i].style.display = "";
+            found = false;
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+function searchTable() {
+    const search = document.getElementById("search");
+    const area = document.getElementById("area");
+    const city = document.getElementById("city");
+    const locationsTable = document.getElementById("locationsTable");
+    var filter, tr, td, i, found;
+    filter = search.value.toUpperCase();
+    if(area.value == "All"){
+        filterArea = '';
+    }else{
+        filterArea = area.value.toUpperCase();
+    }
+    if(city.value == "All"){
+        filterCity = '';
+    }else{
+        filterCity = city.value.toUpperCase();
+    }
+    tr = locationsTable.getElementsByTagName("tr");
+    
+    for (i = 2; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+            if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1 && td[3].innerHTML.toUpperCase().indexOf(filterArea) > -1 && td[4].innerHTML.toUpperCase().indexOf(filterCity) > -1) {
+                found = true;
+            }
+        }
+        if (found) {
+            tr[i].style.display = "";
+            found = false;
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+function searchCity(sel) {
+    const search = document.getElementById("search");
+    const area = document.getElementById("area");
+    const locationsTable = document.getElementById("locationsTable");
+    var filter, tr, td, i, found;
+    if(sel.value == "All"){
+        filter = '';
+    }else{
+        filter = sel.value.toUpperCase();
+    }
+    filterSearch = search.value.toUpperCase();
+    if(area.value == "All"){
+        filterArea = '';
+    }else{
+        filterArea = area.value.toUpperCase();
+    }
+    tr = locationsTable.getElementsByTagName("tr");
+    for (i = 2; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+            for (j = 0; j < td.length; j++) {
+                if (td[j].innerHTML.toUpperCase().indexOf(filterSearch) > -1 && td[3].innerHTML.toUpperCase().indexOf(filterArea) > -1 && td[4].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                }
+            }
+        }
+        if (found) {
+            tr[i].style.display = "";
+            found = false;
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+// Search Table --> end
+
+btnClose = () => {
+    document.getElementById("modalLocation").classList.remove('flex');
+    document.getElementById("modalLocation").classList.add('hidden');
+}
+btnAddLocation = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById("modalLocation").classList.remove('hidden');
+    document.getElementById("modalLocation").classList.add('flex');
+}
+
+addNewLocations = (sel) => {
+    var getNewProduct = JSON.parse(sel.value);
+    var getDetail = sel.id.split('*');
+    if(sel.checked == true){
+        var newProduct = {
+            id : getNewProduct.id,
+            area : getDetail[0],
+            city : getDetail[1],
+            city_code : getDetail[2],
+            code : getNewProduct.code,
+            side : getNewProduct.side,
+            size : getDetail[6],
+            type : getNewProducts[0].type,
+            photo : getDetail[7],
+            price : getNewProduct.price,
+            width : getDetail[3],
+            height : getDetail[4],
+            sector : getNewProduct.sector,
+            address : getNewProduct.address,
+            category : getDetail[5],
+            description : getNewProduct.description,
+            orientation : getNewProduct.orientation,
+            max_distance : getNewProduct.max_distance,
+            road_segment : getNewProduct.road_segment,
+            speed_average : getNewProduct.speed_average
+        }
+        if(getNewPrice.dataTitle[0].checkbox == true){
+            newPriceMonth = {
+                code : getNewProduct.code,
+                price : getNewProduct.price * 0.1
+            }
+        }else{
+            newPriceMonth = {
+                code : getNewProduct.code,
+                price : 0
+            }
+        }
+    
+        if(getNewPrice.dataTitle[1].checkbox == true){
+            newPriceQuarter = {
+                code : getNewProduct.code,
+                price : getNewProduct.price * 0.275
+            }
+        }else{
+            newPriceQuarter = {
+                code : getNewProduct.code,
+                price : 0
+            }
+        }
+    
+        if(getNewPrice.dataTitle[2].checkbox == true){
+            newPriceHalf = {
+                code : getNewProduct.code,
+                price : getNewProduct.price * 0.525
+            }
+        }else{
+            newPriceHalf = {
+                code : getNewProduct.code,
+                price : 0
+            }
+        }
+    
+        if(getNewPrice.dataTitle[3].checkbox == true){
+            newPriceYear = {
+                code : getNewProduct.code,
+                price : getNewProduct.price
+            }
+        }else{
+            newPriceYear = {
+                code : getNewProduct.code,
+                price : 0
+            }
+        }
+
+        getNewPrice.dataPrice[0].push(newPriceMonth);
+        getNewPrice.dataPrice[1].push(newPriceQuarter);
+        getNewPrice.dataPrice[2].push(newPriceHalf);
+        getNewPrice.dataPrice[3].push(newPriceYear);
+
+        if(getNewPrice.objPpn.checked == true){  
+            getNewPrice.objPpn.dpp = 0;
+            for(let i = 0; i < getNewPrice.dataTitle.length; i++){
+                if(getNewPrice.dataTitle[i].checkbox == true){
+                    for(let j = 0; j < getNewPrice.dataPrice[i].length; j++){
+                        getNewPrice.objPpn.dpp = Number(getNewPrice.objPpn.dpp) + Number(getNewPrice.dataPrice[i][j].price);
+                    }
+                }
+            }
+        }
+    
+        getNewProducts.push(newProduct);
+    }else{
+        for(let i = 0; i < getNewProducts.length; i++){
+            if(getNewProducts[i].id == getNewProduct.id){
+                getNewProducts.splice(i, 1);
+            }
+        }
+        for(let i = 0; i < getNewPrice.dataPrice[0].length; i++){
+            if(getNewPrice.dataPrice[0][i].code == getNewProduct.code){
+                getNewPrice.dataPrice[0].splice(i, 1);
+                getNewPrice.dataPrice[1].splice(i, 1);
+                getNewPrice.dataPrice[2].splice(i, 1);
+                getNewPrice.dataPrice[3].splice(i, 1);
+            }
+        }
+        
+        if(getNewPrice.objPpn.checked == true){  
+            getNewPrice.objPpn.dpp = 0;
+            for(let i = 0; i < getNewPrice.dataTitle.length; i++){
+                if(getNewPrice.dataTitle[i].checkbox == true){
+                    for(let j = 0; j < getNewPrice.dataPrice[i].length; j++){
+                        getNewPrice.objPpn.dpp = Number(getNewPrice.objPpn.dpp) + Number(getNewPrice.dataPrice[i][j].price);
+                    }
+                }
+            }
+        }
+    }
+
+    newProducts.value = JSON.stringify(getNewProducts);
+    newPrice.value = JSON.stringify(getNewPrice);
+    document.getElementById("products").value = JSON.stringify(getNewProducts);
+}
