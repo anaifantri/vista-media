@@ -305,8 +305,8 @@
                             <label class="text-[0.7rem] text-black ml-1" for="cbPpn">PPN</label>
                             <input id="ppnValue"
                                 class="text-xs text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
-                                type="number" min="0" max="100" value="11" onkeyup="setPpn(this)"
-                                onchange="checkPpn(this)">
+                                type="number" min="0" max="100" value="{{ $default_vat }}"
+                                onkeyup="setPpn(this)" onchange="checkPpn(this)">
                             <label class="text-xs text-black ml-2"> % x DPP </label>
                             @if (count($products) > 1)
                                 <input id="dppValue"
@@ -348,8 +348,8 @@
                             <label class="text-[0.7rem] text-black ml-1" for="cbPpn">PPN</label>
                             <input id="ppnValue"
                                 class="text-xs text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
-                                type="number" min="0" max="100" value="11" onkeyup="setPpn(this)"
-                                onchange="checkPpn(this)">
+                                type="number" min="0" max="100" value="{{ $default_vat }}"
+                                onkeyup="setPpn(this)" onchange="checkPpn(this)">
                             <label class="text-xs text-black ml-2"> % x DPP </label>
                             @if (count($products) > 1)
                                 <input id="dppValue"

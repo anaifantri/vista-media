@@ -89,7 +89,7 @@ getTotalInstall = () =>{
             objInstalls[i] =  {
                 code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
                 price : installPrice[i].value,
-                type : installProduct[i].innerText,
+                type : installProduct[i].value,
                 freeInstall : freeInstalls[i].value
             }
         }else{
@@ -495,7 +495,7 @@ changeProductQty = (sel) => {
             }
             countServicePrice();
             const installProduct = document.querySelectorAll('[id=installProduct]');
-            installProduct[sel.value - 1].innerText = "Free ke " + getFree + " dari " + totalFree.value;
+            installProduct[sel.value - 1].value = "Free ke " + getFree + " dari " + totalFree.value;
             objProducts.push(objProducts[0]);
             document.getElementById("products").value = JSON.stringify(objProducts);
         }else if(locationQty.value < sel.value && getFree > totalFree.value){

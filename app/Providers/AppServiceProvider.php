@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+        View::share('default_vat', 11);
         View::share('categories', MediaCategory::all());
         View::share('company', Company::where('id', '=' , 1)->firstOrFail());
     }

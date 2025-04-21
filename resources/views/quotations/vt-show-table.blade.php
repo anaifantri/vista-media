@@ -162,8 +162,9 @@
                     @endforeach
                 @endif
                 <tr>
-                    <td class="text-xs text-black border font-semibold px-1 text-right">Sub
-                        Total (A)</td>
+                    <td class="text-xs text-black border font-semibold px-1 text-right">
+                        Sub Total
+                    </td>
                     <td class="text-xs text-black border font-semibold px-1">
                         <label class="flex w-20 justify-end">{{ number_format($subTotal) }}</label>
                     </td>
@@ -178,7 +179,7 @@
                     </tr>
                 @endif
                 <tr>
-                    <td class="text-xs text-black border font-semibold px-1 text-right">PPN (B)
+                    <td class="text-xs text-black border font-semibold px-1 text-right">PPN
                         {{-- {{ $price->objPpn->value }} % (B) --}}
                     </td>
                     <td class="text-xs text-black border font-semibold px-1">
@@ -188,7 +189,7 @@
                 </tr>
                 <tr>
                     <td class="text-xs text-black border font-semibold px-1 text-right">
-                        Grand Total (A + B)</td>
+                        Grand Total</td>
                     <td class="text-xs text-black border font-semibold px-1">
                         <label class="flex w-20 justify-end">
                             @if ($price->objPpn->dpp != $subTotal)

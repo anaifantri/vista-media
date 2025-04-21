@@ -5,6 +5,7 @@
     @php
         $ppnTotal = 0;
         $pphTotal = 0;
+        $priceTotal = 0;
         $bulan = [
             1 => 'Januari',
             'Februari',

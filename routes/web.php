@@ -14,9 +14,11 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LicenseController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\VoidSaleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaSizeController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\ChangeSaleController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PrintOrderController;
 use App\Http\Controllers\WorkReportController;
@@ -127,6 +129,12 @@ Route::get('/marketing/sales/select-quotation/{category}/{companyid}', [SaleCont
 Route::get('/marketing/sales/create-sales/{category}/{id}', [SaleController::class,'createSales'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales/preview/{category}/{id}', [SaleController::class,'preview'])->middleware(['auth','user_access']);
 Route::get('/get-sales/{id}/{scope}', [SaleController::class,'getSales'])->middleware(['auth','user_access']);
+
+Route::resource('/marketing/void-sales', VoidSaleController::class)->except(['create'])->middleware(['auth','user_access']);
+Route::get('/void-sales/create/{saleid}', [VoidSaleController::class,'create'])->middleware(['auth','user_access']);
+
+Route::resource('/marketing/change-sales', ChangeSaleController::class)->except(['create'])->middleware(['auth','user_access']);
+Route::get('/change-sales/create/{saleid}', [ChangeSaleController::class,'create'])->middleware(['auth','user_access']);
 // Route Sales --> end
 
 // Route Sales Report --> start

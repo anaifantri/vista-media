@@ -169,17 +169,21 @@
                         $indexInstall = $loop->iteration - 1;
                         $freeInstall = false;
                     @endphp
-                    <td id="installProduct" class="text-[0.7rem] text-black border border-black text-center">
+                    <td class="text-[0.7rem] text-black border border-black text-center">
                         @if ($location->free_install <= $location->used_install)
                             @php
                                 $freeInstall = false;
                             @endphp
-                            {{ $description->lighting }}
+                            <input id="installProduct" type="text"
+                                class="flex px-1 text-[0.7rem] text-black w-full text-center border rounded-md outline-none in-out-spin-none"
+                                value="{{ $description->lighting }}">
                         @else
                             @php
                                 $freeInstall = true;
                             @endphp
-                            Free ke {{ $location->get_install }} dari {{ $location->free_install }}
+                            <input id="installProduct" type="text"
+                                class="flex px-1 text-[0.7rem] text-black w-full text-center border rounded-md outline-none in-out-spin-none"
+                                value="Free ke {{ $location->get_install }} dari {{ $location->free_install }}">
                         @endif
                         <input type="text" id="freeInstalls" value="{{ $freeInstall }}" hidden>
                     </td>
@@ -221,7 +225,8 @@
                         <td class="text-[0.7rem] text-black border border-black text-center px-1">
                             <input id="installPrice" name="instalPrice{{ $indexInstall }}"
                                 class="flex px-1 text-[0.7rem] text-black w-12 text-right border rounded-md outline-none in-out-spin-none"
-                                type="number" min="0" value="0" readonly>
+                                type="number" min="0" value="0" onkeyup="installPriceChanged(this)"
+                                onchange="checkInstallPrice(this)">
                         </td>
                         <td class="text-[0.7rem] text-black border border-black text-right px-1">
                             @php
@@ -250,8 +255,8 @@
                         <label class="text-[0.7rem] text-black ml-1" for="cbPpn">PPN</label>
                         <input id="inputPpn"
                             class="text-xs text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
-                            type="number" min="0" max="100" value="11" onkeyup="setServicePpn()"
-                            onchange="checkPpn(this)">
+                            type="number" min="0" max="100" value="{{ $default_vat }}"
+                            onkeyup="setServicePpn()" onchange="checkPpn(this)">
                         <label class="text-xs text-black ml-2"> %</label>
                     </div>
                 </td>

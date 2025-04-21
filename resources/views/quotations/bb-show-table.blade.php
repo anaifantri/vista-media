@@ -231,7 +231,7 @@
                 @else
                     <tr>
                         <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">Sub
-                            Total (A)</td>
+                            Total</td>
                         <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
                             {{ number_format($subTotal) }}
                         </td>
@@ -246,7 +246,7 @@
                     </tr>
                 @endif
                 <tr>
-                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">PPN (B)
+                    <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">PPN
                         {{-- {{ $price->objPpn->value }} % (B) --}}
                     </td>
                     <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
@@ -254,7 +254,8 @@
                 </tr>
                 <tr>
                     <td class="text-[0.7rem] text-black border font-semibold px-1 text-right" colspan="7">
-                        Grand Total (A + B)</td>
+                        Grand Total
+                    </td>
                     <td class="text-[0.7rem] text-black border font-semibold px-1 text-right">
                         @if ($price->objPpn->dpp != $subTotal)
                             {{ number_format($subTotal + $price->objPpn->dpp * ($price->objPpn->value / 100)) }}

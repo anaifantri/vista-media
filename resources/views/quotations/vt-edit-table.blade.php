@@ -295,8 +295,8 @@
                             <label class="text-xs text-black ml-1" for="cbPpn">PPN</label>
                             <input id="ppnValue" value="{{ $price->objPpn->value }}"
                                 class="text-xs text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
-                                type="number" min="0" max="100" value="11" onkeyup="setPpn(this)"
-                                onchange="checkPpn(this)">
+                                type="number" min="0" max="100" value="{{ $default_vat }}"
+                                onkeyup="setPpn(this)" onchange="checkPpn(this)">
                             <label class="text-xs text-black ml-2">% * DPP</label>
                             <input id="dppValue" value="{{ $price->objPpn->dpp }}"
                                 class="text-right text-xs outline-none text-black in-out-spin-none w-20 border rounded-md ml-2 pr-1"
@@ -344,8 +344,8 @@
                             <label class="text-xs text-black ml-1" for="cbPpn">PPN</label>
                             <input id="ppnValue" value="{{ $price->objPpn->value }}"
                                 class="text-xs text-center border rounded-md text-black outline-none in-out-spin-none w-8 px-1 ml-2"
-                                type="number" min="0" max="100" value="11" onkeyup="setPpn(this)"
-                                onchange="checkPpn(this)">
+                                type="number" min="0" max="100" value="{{ $default_vat }}"
+                                onkeyup="setPpn(this)" onchange="checkPpn(this)">
                             <label class="text-xs text-black ml-2">% * DPP</label>
                             <input id="dppValue" value="{{ $price->objPpn->dpp }}"
                                 class="text-right text-xs outline-none text-black in-out-spin-none w-20 border rounded-md ml-2 pr-1"

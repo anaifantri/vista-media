@@ -134,14 +134,22 @@ class QuotationController extends Controller
                                     $dataPrints = PrintOrder::where('sale_id', $sale->id)->get();
                                     $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
                                 }
+
+                                $sales->push($sale);
+                                $dataLocations->push(json_decode($sale->product));
+                                array_push($clients,json_decode($sale->quotation->clients));
+                                array_push($freePrints, $freePrint);
+                                array_push($usedPrints, count($dataPrints));
+                                array_push($freeInstalls, $freeInstall);
+                                array_push($usedInstalls, count($dataInstalls));
     
-                                if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
-                                    $sales->push($sale);
-                                    $dataLocations->push(json_decode($sale->product));
-                                    array_push($clients,json_decode($sale->quotation->clients));
-                                    array_push($freePrints, $freePrint);
-                                    array_push($usedPrints, count($dataPrints));
-                                }
+                                // if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
+                                //     $sales->push($sale);
+                                //     $dataLocations->push(json_decode($sale->product));
+                                //     array_push($clients,json_decode($sale->quotation->clients));
+                                //     array_push($freePrints, $freePrint);
+                                //     array_push($usedPrints, count($dataPrints));
+                                // }
                             }
                         }
                     }
@@ -167,13 +175,23 @@ class QuotationController extends Controller
                                 $dataInstalls = InstallOrder::where('sale_id', $sale->id)->get();
                             }
 
-                            if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
-                                $sales->push($sale);
-                                $dataLocations->push(json_decode($sale->product));
-                                array_push($clients,json_decode($sale->quotation->clients));
-                                array_push($freePrints, $freePrint);
-                                array_push($usedPrints, count($dataPrints));
-                            }
+                            
+                            
+                            $sales->push($sale);
+                            $dataLocations->push(json_decode($sale->product));
+                            array_push($clients,json_decode($sale->quotation->clients));
+                            array_push($freePrints, $freePrint);
+                            array_push($usedPrints, count($dataPrints));
+                            array_push($freeInstalls, $freeInstall);
+                            array_push($usedInstalls, count($dataInstalls));
+
+                            // if($freePrint == 0 || $freePrint - count($dataPrints) == 0 || $freeInstall == 0 || $freeInstall - count($dataInstalls) == 0 ){
+                            //     $sales->push($sale);
+                            //     $dataLocations->push(json_decode($sale->product));
+                            //     array_push($clients,json_decode($sale->quotation->clients));
+                            //     array_push($freePrints, $freePrint);
+                            //     array_push($usedPrints, count($dataPrints));
+                            // }
                         }
                     }
                 }
@@ -193,9 +211,6 @@ class QuotationController extends Controller
                     $dataLocations = Location::quotationNew()->categoryName($category)->sortable()->orderBy("code", "asc")->get();
                 }
             }
-            // if($category == "All"){
-            //     $category = "Billboard";
-            // }
             $media_categories = MediaCategory::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
             $quotations = Quotation::with('sales')->get();
@@ -204,6 +219,10 @@ class QuotationController extends Controller
                 'cities' => City::all(),
                 'locations'=>$dataLocations,
                 'clients'=>$clients,
+                'free_prints'=>$freePrints,
+                'used_prints'=>$usedPrints,
+                'free_installs'=>$freeInstalls,
+                'used_installs'=>$usedInstalls,
                 'sales'=>$sales,
                 'category' => $category,
                 'title' => 'Pilih Lokasi Penawaran',

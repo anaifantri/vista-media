@@ -87,6 +87,26 @@ class Sale extends Model
                     });
     }
 
+    public function scopeVoid($query){
+        return $query->whereHas('void_sale', function($query){
+            if(request('month')){
+                if(request('month') != 'All'){
+                    return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+                }
+            }
+        });
+    }
+
+    public function scopeChange($query){
+        return $query->whereHas('change_sale', function($query){
+            if(request('month')){
+                if(request('month') != 'All'){
+                    return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+                }
+            }
+        });
+    }
+
     public function scopeBillMedia($query){
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '!=', 'Service');
@@ -173,6 +193,14 @@ class Sale extends Model
 
     public function install_order(){
         return $this->hasOne(InstallOrder::class, 'sale_id', 'id');
+    }
+
+    public function void_sale(){
+        return $this->hasOne(VoidSale::class, 'sale_id', 'id');
+    }
+
+    public function change_sale(){
+        return $this->hasOne(ChangeSale::class, 'sale_id', 'id');
     }
 
     public function install_orders(){
