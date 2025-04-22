@@ -770,6 +770,93 @@
                                         <td class="text-black border text-[0.65rem] text-center align-top">
                                         </td>
                                     @endif
+                                @elseif ($sale->change_sale)
+                                    @if ($loop->iteration < count($sales))
+                                        @if ($sale->id == $sales[$loop->iteration]->id)
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                                <div>
+                                                    @foreach ($payment_terms->dataPayments as $terms)
+                                                        <div class="flex ml-1 justify-center">
+                                                            <label>{{ $terms->term }} %</label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                                <div>
+                                                    @foreach ($payment_terms->dataPayments as $terms)
+                                                        <div class="flex mr-1 justify-end">
+                                                            <label>{{ number_format($sale->price * ($terms->term / 100)) }}</label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                                <div>
+                                                    @foreach ($payment_terms->dataPayments as $terms)
+                                                        <div class="flex mr-1 justify-end">
+                                                            <label>{{ number_format($sale->dpp * ($terms->term / 100) * ($sale->ppn / 100)) }}</label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                                <div>
+                                                    @foreach ($payment_terms->dataPayments as $terms)
+                                                        <div class="flex mr-1 justify-end">
+                                                            <label>{{ number_format($sale->dpp * ($terms->term / 100) * ($sale->pph / 100)) }}</label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                                <div>
+                                                    @foreach ($payment_terms->dataPayments as $terms)
+                                                        <div class="flex mr-1 justify-end">
+                                                            @if ($sale->dpp)
+                                                                @php
+                                                                    $subTotal = $sale->price * ($terms->term / 100);
+                                                                    $ppnTerm =
+                                                                        $sale->dpp *
+                                                                        ($terms->term / 100) *
+                                                                        ($sale->ppn / 100);
+                                                                    $pphTerm =
+                                                                        $sale->dpp *
+                                                                        ($terms->term / 100) *
+                                                                        ($sale->pph / 100);
+                                                                @endphp
+                                                                <label>{{ number_format($subTotal + $ppnTerm - $pphTerm) }}</label>
+                                                            @else
+                                                                <label>{{ number_format($sale->price * ($terms->term / 100)) }}</label>
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                        @else
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                            </td>
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                            </td>
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                            </td>
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                            </td>
+                                            <td class="text-black border text-[0.65rem] text-center align-top">
+                                            </td>
+                                        @endif
+                                    @else
+                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        </td>
+                                    @endif
                                 @else
                                     <td class="text-black border text-[0.65rem] text-center align-top">
                                         <div>
