@@ -101,7 +101,7 @@ class SalesReportController extends Controller
             $void_sales = VoidSale::with('sale')->get();
             $change_sales = VoidSale::with('sale')->get();
             return view ('sales-report.c-reports', [
-                'sales'=>Sale::unionAll(Sale::void())->unionAll(Sale::change())->where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("number", "asc")->get(),
+                'sales'=>Sale::unionAll(Sale::void()->where('company_id', $company_id))->unionAll(Sale::change()->where('company_id', $company_id))->where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("number", "asc")->get(),
                 'void_sales'=>VoidSale::where('company_id', $company_id)->filter(request('search'))->year()->month()->get(),
                 'change_sales'=>ChangeSale::where('company_id', $company_id)->filter(request('search'))->year()->month()->get(),
                 'title' => 'Data Penjualan',
