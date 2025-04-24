@@ -82,8 +82,6 @@
                         $price->objInstalls[$loop->iteration - 1]->price *
                         $price->objSideView[$loop->iteration - 1]->wide;
                     $subTotal = $subTotal + $totalInstall + $totalPrint;
-                    $salesData[$loop->iteration - 1]->price = $subTotal;
-                    $salesData[$loop->iteration - 1]->dpp = $subTotal;
                 @endphp
                 <td class="text-[0.7rem] text-black border px-1 text-center">Cetak</td>
                 <td class="text-[0.7rem] text-black border text-center">
@@ -119,8 +117,14 @@
                         <label class="ml-2">: {{ $product->code }} -
                             {{ $product->city_code }}</label>
                         @if ($product->side == '2 Sisi')
-                            <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
-                                dan Kiri</label>
+                            @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
+                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
+                                    dan Kiri</label>
+                            @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
+                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
+                            @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
+                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+                            @endif
                         @else
                             <label class="text-[0.7rem] text-black ml-4"></label>
                         @endif
@@ -167,8 +171,6 @@
                             $price->objPrints[$loop->iteration - 1]->price *
                             $price->objSideView[$loop->iteration - 1]->wide;
                         $subTotal = $subTotal + $totalPrint;
-                        // $salesData[$loop->iteration - 1]->price = $subTotal;
-                        // $salesData[$loop->iteration - 1]->dpp = $subTotal;
                     @endphp
                     <td class="text-[0.7rem] text-black border px-1 text-center">Cetak</td>
                     <td class="text-[0.7rem] text-black border text-center">
@@ -188,8 +190,6 @@
                             $price->objInstalls[$loop->iteration - 1]->price *
                             $price->objSideView[$loop->iteration - 1]->wide;
                         $subTotal = $subTotal + $totalInstall;
-                        // $salesData[$loop->iteration - 1]->price = $subTotal;
-                        // $salesData[$loop->iteration - 1]->dpp = $subTotal;
                     @endphp
                     <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
                     <td class="text-[0.7rem] text-black border text-center">
@@ -212,26 +212,25 @@
             <td id="priceValue" class="text-[0.7rem] text-black border text-right font-semibold px-2">
                 {{ number_format($subTotal) }}</td>
         </tr>
-        @if ($objPpn->status == true)
+        @if ($price->objServicePpn->status == true)
             <input id="ppnYes" type="radio" value="Yes" checked hidden>
             <input id="{{ $loop->iteration - 1 }}" type="radio" value="No" hidden>
             <input id="dppValue" type="number" min="0" value="{{ $subTotal }}" hidden>
             <tr>
                 <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">PPN
-                    {{ $objPpn->value }}%
-                    <input id="inputPpn" type="number" min="0" value="{{ $objPpn->value }}" max="100"
-                        hidden>
+                    {{ $price->objServicePpn->value }}%
+                    <input id="inputPpn" type="number" min="0" value="{{ $price->objServicePpn->value }}"
+                        max="100" hidden>
                 </td>
                 <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
                     @php
-                        $servicePpn = ($objPpn->value / 100) * $subTotal;
+                        $servicePpn = ($price->objServicePpn->value / 100) * $subTotal;
                     @endphp
                     {{ number_format($servicePpn) }}
                 </td>
             </tr>
             <tr>
-                <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">Grand
-                    Total
+                <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">Grand Total
                 </td>
                 <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
                     {{ number_format($subTotal + $servicePpn) }}

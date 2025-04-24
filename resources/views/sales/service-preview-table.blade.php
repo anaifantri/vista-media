@@ -1,3 +1,49 @@
+@php
+    $printStatus = $price->objServiceType->print;
+    $installStatus = $price->objServiceType->install;
+    $getPriceInstall = 0;
+    $getPricePrint = 0;
+    if ($printStatus == true && $installStatus == true) {
+        $rowSpan = 2;
+    } else {
+        $rowSpan = 1;
+    }
+    if ($installStatus == true) {
+        $indexInstall = 0;
+        foreach ($price->objInstalls as $objInstall) {
+            if ($objInstall->code == $product->code) {
+                $priceInstall = $objInstall;
+                $getPriceInstall = $priceInstall->price;
+                $side = $price->objSideView[$indexInstall]->side;
+                if (isset($price->dataServiceNotes)) {
+                    $serviceNote = $price->dataServiceNotes[$indexInstall]->serviceNote;
+                }
+                $leftStatus = $price->objSideView[$indexInstall]->left;
+                $rightStatus = $price->objSideView[$indexInstall]->right;
+            }
+            $indexInstall++;
+        }
+    }
+    if ($printStatus == true) {
+        $indexPrint = 0;
+        foreach ($price->objPrints as $objPrint) {
+            if ($objPrint->code == $product->code) {
+                $pricePrint = $objPrint;
+                $getPricePrint = $pricePrint->price;
+                $side = $price->objSideView[$indexPrint]->side;
+                if (isset($price->dataServiceNotes)) {
+                    $serviceNote = $price->dataServiceNotes[$indexPrint]->serviceNote;
+                }
+                $leftStatus = $price->objSideView[$indexPrint]->left;
+                $rightStatus = $price->objSideView[$indexPrint]->right;
+            }
+            $indexPrint++;
+        }
+    }
+    $getSubTotal = $getPricePrint * $wide + $getPriceInstall * $wide;
+    $getPpn = $getSubTotal * ($sale->ppn / 100);
+    $getGrandTotal = $getSubTotal + $getPpn;
+@endphp
 <table class="table-auto mt-2 w-full">
     <thead>
         <tr>
@@ -15,23 +61,20 @@
         </tr>
     </thead>
     <tbody>
-        @php
-            $subTotal = 0;
-        @endphp
-        @if ($price->objServiceType->print == true && $price->objServiceType->install == true)
+        @if ($printStatus == true && $installStatus == true)
             <tr>
-                <td class="text-[0.7rem] text-black border px-2" rowspan="2">
+                <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
                     <div class="flex">
                         <label class="w-10">Kode</label>
                         <label class="ml-2">: {{ $product->code }} -
                             {{ $product->city_code }}</label>
                         @if ($product->side == '2 Sisi')
-                            @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
+                            @if ($leftStatus == true && $rightStatus == true)
                                 <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
                                     dan Kiri</label>
-                            @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
+                            @elseif ($leftStatus == true)
                                 <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
-                            @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
+                            @elseif ($rightStatus == true)
                                 <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
                             @endif
                         @else
@@ -51,197 +94,187 @@
                                 H
                             @endif
                         </label>
-                        @if ($product->side == '2 Sisi')
-                            @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
-                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)
-                                    dan Kiri (L)</label>
-                            @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
-                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kiri (L)</label>
-                            @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
-                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)</label>
-                            @endif
-                        @else
-                            <label class="text-[0.7rem] text-black ml-4"></label>
-                        @endif
                     </div>
                     <div class="flex">
                         <label class="w-10 font-bold">Catatan</label>
                         <label class="ml-2 font-bold">: </label>
                         <label class="ml-1 font-bold">
-                            @if (isset($price->dataServiceNotes[$loop->iteration - 1]->serviceNote))
-                                {{ $price->dataServiceNotes[$loop->iteration - 1]->serviceNote }}
-                            @endif
+                            {{ $serviceNote }}
                         </label>
                     </div>
                 </td>
-                @php
-                    $totalPrint =
-                        $price->objPrints[$loop->iteration - 1]->price *
-                        $price->objSideView[$loop->iteration - 1]->wide;
-                    $totalInstall =
-                        $price->objInstalls[$loop->iteration - 1]->price *
-                        $price->objSideView[$loop->iteration - 1]->wide;
-                    $subTotal = $subTotal + $totalInstall + $totalPrint;
-                @endphp
                 <td class="text-[0.7rem] text-black border px-1 text-center">Cetak</td>
                 <td class="text-[0.7rem] text-black border text-center">
-                    {{ $price->objPrints[$loop->iteration - 1]->printProduct }}</td>
-                <td class="text-[0.7rem] text-black border text-center px-1" rowspan="2">
-                    {{ $price->objSideView[$loop->iteration - 1]->side }}
+                    {{ $pricePrint->printProduct }}
                 </td>
-                <td class="text-[0.7rem] text-black border text-center" rowspan="2">
-                    {{ $price->objSideView[$loop->iteration - 1]->wide }}
+                <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
+                    {{ $side }}
+                </td>
+                <td class="text-[0.7rem] text-black border text-center" rowspan="{{ $rowSpan }}">
+                    {{ $wide }}
                 </td>
                 <td class="text-[0.7rem] text-black border text-center px-1">
-                    {{ number_format($price->objPrints[$loop->iteration - 1]->price) }}
+                    {{ number_format($getPricePrint) }}
                 </td>
                 <td class="text-[0.7rem] text-black border text-right px-2">
-                    {{ number_format($totalPrint) }}
+                    {{ number_format($getPricePrint * $wide) }}
                 </td>
             </tr>
             <tr>
                 <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
                 <td class="text-[0.7rem] text-black border text-center">
-                    {{ $price->objInstalls[$loop->iteration - 1]->type }}</td>
+                    {{ $priceInstall->type }}
+                </td>
                 <td class="text-[0.7rem] text-black border text-center px-1">
-                    {{ number_format($price->objInstalls[$loop->iteration - 1]->price) }}</td>
+                    {{ number_format($getPriceInstall) }}
+                </td>
                 <td class="text-[0.7rem] text-black border text-right px-2">
-                    {{ number_format($totalInstall) }}
+                    {{ number_format($getPriceInstall * $wide) }}
                 </td>
             </tr>
         @else
-            <tr>
-                <td class="text-[0.7rem] text-black border px-2">
-                    <div class="flex">
-                        <label class="w-10">Kode</label>
-                        <label class="ml-2">: {{ $product->code }} -
-                            {{ $product->city_code }}</label>
-                        @if ($product->side == '2 Sisi')
-                            @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
-                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
-                                    dan Kiri</label>
-                            @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
-                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
-                            @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
-                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+            @if ($printStatus == true)
+                <tr>
+                    <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
+                        <div class="flex">
+                            <label class="w-10">Kode</label>
+                            <label class="ml-2">: {{ $product->code }} -
+                                {{ $product->city_code }}</label>
+                            @if ($product->side == '2 Sisi')
+                                @if ($leftStatus == true && $rightStatus == true)
+                                    <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
+                                        dan Kiri</label>
+                                @elseif ($leftStatus == true)
+                                    <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
+                                @elseif ($rightStatus == true)
+                                    <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+                                @endif
+                            @else
+                                <label class="text-[0.7rem] text-black ml-4"></label>
                             @endif
-                        @else
-                            <label class="text-[0.7rem] text-black ml-4"></label>
-                        @endif
-                    </div>
-                    <div class="flex">
-                        <label class="w-10">Lokasi</label>
-                        <label class="ml-2">: {{ $product->address }}</label>
-                    </div>
-                    <div class="flex items-center">
-                        <label class="w-10">Ukuran</label>
-                        <label class="ml-2">: {{ $product->size }} x {{ $product->side }} -
-                            @if ($product->orientation == 'Vertikal')
-                                V
-                            @elseif ($product->orientation == 'Horizontal')
-                                H
-                            @endif
-                        </label>
-                        @if ($product->side == '2 Sisi')
-                            @if ($price->objSideView[$loop->iteration - 1]->left == true && $price->objSideView[$loop->iteration - 1]->right == true)
-                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)
-                                    dan Kiri (L)</label>
-                            @elseif ($price->objSideView[$loop->iteration - 1]->left == true)
-                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kiri (L)</label>
-                            @elseif ($price->objSideView[$loop->iteration - 1]->right == true)
-                                <label class="text-[0.7rem] text-black ml-4 font-bold">-> Sisi Kanan (R)</label>
-                            @endif
-                        @else
-                            <label class="text-[0.7rem] text-black ml-4"></label>
-                        @endif
-                    </div>
-                    <div class="flex">
-                        <label class="w-10 font-bold">Catatan</label>
-                        <label class="ml-2 font-bold">: </label>
-                        <label class="ml-1 font-bold">
-                            @if (isset($price->dataServiceNotes[$loop->iteration - 1]->serviceNote))
-                                {{ $price->dataServiceNotes[$loop->iteration - 1]->serviceNote }}
-                            @endif
-                        </label>
-                    </div>
-                </td>
-                @if ($price->objServiceType->print == true)
-                    @php
-                        $totalPrint =
-                            $price->objPrints[$loop->iteration - 1]->price *
-                            $price->objSideView[$loop->iteration - 1]->wide;
-                        $subTotal = $subTotal + $totalPrint;
-                    @endphp
+                        </div>
+                        <div class="flex">
+                            <label class="w-10">Lokasi</label>
+                            <label class="ml-2">: {{ $product->address }}</label>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-10">Ukuran</label>
+                            <label class="ml-2">: {{ $product->size }} x {{ $product->side }} -
+                                @if ($product->orientation == 'Vertikal')
+                                    V
+                                @elseif ($product->orientation == 'Horizontal')
+                                    H
+                                @endif
+                            </label>
+                        </div>
+                        <div class="flex">
+                            <label class="w-10 font-bold">Catatan</label>
+                            <label class="ml-2 font-bold">: </label>
+                            <label class="ml-1 font-bold">
+                                {{ $serviceNote }}
+                            </label>
+                        </div>
+                    </td>
                     <td class="text-[0.7rem] text-black border px-1 text-center">Cetak</td>
                     <td class="text-[0.7rem] text-black border text-center">
-                        {{ $price->objPrints[$loop->iteration - 1]->printProduct }}</td>
-                    <td class="text-[0.7rem] text-black border text-center px-1">
-                        {{ $price->objSideView[$loop->iteration - 1]->side }}</td>
-                    <td class="text-[0.7rem] text-black border text-center">
-                        {{ $price->objSideView[$loop->iteration - 1]->wide }}</td>
-                    <td class="text-[0.7rem] text-black border text-center px-1">
-                        {{ number_format($price->objPrints[$loop->iteration - 1]->price) }}</td>
-                    <td class="text-[0.7rem] text-black border text-right px-2">
-                        {{ number_format($totalPrint) }}
+                        {{ $pricePrint->printProduct }}
                     </td>
-                @else
-                    @php
-                        $totalInstall =
-                            $price->objInstalls[$loop->iteration - 1]->price *
-                            $price->objSideView[$loop->iteration - 1]->wide;
-                        $subTotal = $subTotal + $totalInstall;
-                    @endphp
+                    <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
+                        {{ $side }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-center" rowspan="{{ $rowSpan }}">
+                        {{ $wide }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-center px-1">
+                        {{ number_format($getPricePrint) }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-right px-2">
+                        {{ number_format($getPricePrint * $wide) }}
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
+                        <div class="flex">
+                            <label class="w-10">Kode</label>
+                            <label class="ml-2">: {{ $product->code }} -
+                                {{ $product->city_code }}</label>
+                            @if ($product->side == '2 Sisi')
+                                @if ($leftStatus == true && $rightStatus == true)
+                                    <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
+                                        dan Kiri</label>
+                                @elseif ($leftStatus == true)
+                                    <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
+                                @elseif ($rightStatus == true)
+                                    <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+                                @endif
+                            @else
+                                <label class="text-[0.7rem] text-black ml-4"></label>
+                            @endif
+                        </div>
+                        <div class="flex">
+                            <label class="w-10">Lokasi</label>
+                            <label class="ml-2">: {{ $product->address }}</label>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-10">Ukuran</label>
+                            <label class="ml-2">: {{ $product->size }} x {{ $product->side }} -
+                                @if ($product->orientation == 'Vertikal')
+                                    V
+                                @elseif ($product->orientation == 'Horizontal')
+                                    H
+                                @endif
+                            </label>
+                        </div>
+                        <div class="flex">
+                            <label class="w-10 font-bold">Catatan</label>
+                            <label class="ml-2 font-bold">: </label>
+                            <label class="ml-1 font-bold">
+                                {{ $serviceNote }}
+                            </label>
+                        </div>
+                    </td>
                     <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
                     <td class="text-[0.7rem] text-black border text-center">
-                        {{ $price->objInstalls[$loop->iteration - 1]->type }}</td>
-                    <td class="text-[0.7rem] text-black border text-center px-1">
-                        {{ $price->objSideView[$loop->iteration - 1]->side }}</td>
-                    <td class="text-[0.7rem] text-black border text-center">
-                        {{ $price->objSideView[$loop->iteration - 1]->wide }}</td>
-                    <td class="text-[0.7rem] text-black border text-center px-1">
-                        {{ number_format($price->objInstalls[$loop->iteration - 1]->price) }}</td>
-                    <td class="text-[0.7rem] text-black border text-right px-2">
-                        {{ number_format($totalInstall) }}
+                        {{ $priceInstall->type }}
                     </td>
-                @endif
-            </tr>
+                    <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
+                        {{ $side }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-center" rowspan="{{ $rowSpan }}">
+                        {{ $wide }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-center px-1">
+                        {{ number_format($getPriceInstall) }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-right px-2">
+                        {{ number_format($getPriceInstall * $wide) }}
+                    </td>
+                </tr>
+            @endif
         @endif
         <tr>
-            <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">Sub Total
+            <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">
+                SUB TOTAL
             </td>
             <td id="priceValue" class="text-[0.7rem] text-black border text-right font-semibold px-2">
-                {{ number_format($subTotal) }}</td>
+                {{ number_format($getSubTotal) }}
+            </td>
         </tr>
-        @if ($price->objServicePpn->status == true)
-            <input id="ppnYes" type="radio" value="Yes" checked hidden>
-            <input id="{{ $loop->iteration - 1 }}" type="radio" value="No" hidden>
-            <input id="dppValue" type="number" min="0" value="{{ $subTotal }}" hidden>
-            <tr>
-                <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">PPN
-                    {{ $price->objServicePpn->value }}%
-                    <input id="inputPpn" type="number" min="0" value="{{ $price->objServicePpn->value }}"
-                        max="100" hidden>
-                </td>
-                <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
-                    @php
-                        $servicePpn = ($price->objServicePpn->value / 100) * $subTotal;
-                    @endphp
-                    {{ number_format($servicePpn) }}
-                </td>
-            </tr>
-            <tr>
-                <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">Grand Total
-                </td>
-                <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
-                    {{ number_format($subTotal + $servicePpn) }}
-                </td>
-            </tr>
-        @else
-            <input id="ppnYes" type="radio" value="Yes" hidden>
-            <input id="{{ $loop->iteration - 1 }}" type="radio" value="No" checked hidden>
-            <input id="inputPpn" type="number" value="0" hidden>
-            <input id="inputPph"type="number" value="0" hidden>
-            <input id="dppValue" type="number" value="0" hidden>
-        @endif
+        <tr>
+            <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">PPN
+            </td>
+            <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
+                {{ number_format($getPpn) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">
+                GRAND TOTAL
+            </td>
+            <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
+                {{ number_format($getGrandTotal) }}
+            </td>
+        </tr>
     </tbody>
 </table>

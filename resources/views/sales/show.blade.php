@@ -48,15 +48,24 @@
             'November',
             'Desember',
         ];
-        $product = json_decode($sales->product);
+        $product = json_decode($sale->product);
         $description = json_decode($product->description);
-        $totalInstall = 0;
-        $totalPrint = 0;
         if ($product->category == 'Signage') {
             $wide = $product->width * $product->height * (int) $product->side * $description->qty;
         } else {
             $wide = $product->width * $product->height * (int) $product->side;
         }
+        if (isset($notes->includedPrint) && $notes->includedPrint->checked == true) {
+            $totalPrint = $notes->includedPrint->price * $notes->includedPrint->qty * $wide;
+        } else {
+            $totalPrint = 0;
+        }
+        if (isset($notes->includedInstall) && $notes->includedInstall->checked == true) {
+            $totalInstall = $notes->includedInstall->price * $notes->includedInstall->qty * $wide;
+        } else {
+            $totalInstall = 0;
+        }
+        $getPrice = $sale->price - $totalPrint - $totalInstall;
     @endphp
     <!-- Show Sales Data start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -111,15 +120,15 @@
                                                 <div class="div-sale">
                                                     <label class="label-sale-01">Nomor Penjualan</label>
                                                     <label class="label-sale-02">:</label>
-                                                    <label class="label-sale-02 font-semibold">{{ $sales->number }}</label>
+                                                    <label class="label-sale-02 font-semibold">{{ $sale->number }}</label>
                                                 </div>
                                                 <div class="div-sale">
                                                     <label class="label-sale-01">Tgl. Penjualan</label>
                                                     <label class="label-sale-02">:</label>
                                                     <label class="label-sale-02 font-semibold">
-                                                        {{ date('d', strtotime($sales->created_at)) }}
-                                                        {{ $bulan[(int) date('m', strtotime($sales->created_at))] }}
-                                                        {{ date('Y', strtotime($sales->created_at)) }}
+                                                        {{ date('d', strtotime($sale->created_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($sale->created_at))] }}
+                                                        {{ date('Y', strtotime($sale->created_at)) }}
                                                     </label>
                                                 </div>
                                                 <div class="div-sale">
@@ -155,10 +164,10 @@
                                                             </div>
                                                             <div class="flex justify-center w-[160px]">
                                                                 <label class="text-sm text-black flex font-semibold">
-                                                                    @if ($sales->start_at)
-                                                                        {{ date('d', strtotime($sales->start_at)) }}
-                                                                        {{ $bulan[(int) date('m', strtotime($sales->start_at))] }}
-                                                                        {{ date('Y', strtotime($sales->start_at)) }}
+                                                                    @if ($sale->start_at)
+                                                                        {{ date('d', strtotime($sale->start_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($sale->start_at))] }}
+                                                                        {{ date('Y', strtotime($sale->start_at)) }}
                                                                     @else
                                                                         -
                                                                     @endif
@@ -172,10 +181,10 @@
                                                             </div>
                                                             <div class="flex justify-center w-[160px]">
                                                                 <label class="text-sm text-black flex font-semibold">
-                                                                    @if ($sales->end_at)
-                                                                        {{ date('d', strtotime($sales->end_at)) }}
-                                                                        {{ $bulan[(int) date('m', strtotime($sales->end_at))] }}
-                                                                        {{ date('Y', strtotime($sales->end_at)) }}
+                                                                    @if ($sale->end_at)
+                                                                        {{ date('d', strtotime($sale->end_at)) }}
+                                                                        {{ $bulan[(int) date('m', strtotime($sale->end_at))] }}
+                                                                        {{ date('Y', strtotime($sale->end_at)) }}
                                                                     @else
                                                                         -
                                                                     @endif
@@ -304,7 +313,7 @@
                                     <div class="div-sale-notes w-[365px] p-2 ml-5">
                                         <div>
                                             <label class="sale-note-title">Keterangan Tambahan :</label>
-                                            <textarea class="label-sale-notes border outline-none p-2" rows="7" readonly>{{ $sales->note }}</textarea>
+                                            <textarea class="label-sale-notes border outline-none p-2" rows="7" readonly>{{ $sale->note }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -340,7 +349,7 @@
                                         <img class="img-location-sale" src="{{ asset('storage/' . $product->photo) }}">
                                     </div>
                                     <div class="qr-code-sale ml-4">
-                                        {{ QrCode::size(100)->generate('http://vistamedia.co.id/marketing/sales/' . $sales->id) }}
+                                        {{ QrCode::size(100)->generate('http://vistamedia.co.id/marketing/sales/' . $sale->id) }}
                                     </div>
                                 </div>
                                 <!-- photo end -->
@@ -367,7 +376,7 @@
                                     </div>
                                     <div class="flex justify-center w-full">
                                         <label class="flex text-sm text-center font-bold text-black">Nomor :
-                                            {{ $sales->number }}</label>
+                                            {{ $sale->number }}</label>
                                     </div>
                                 </div>
                                 <div class="flex justify-center mx-1 w-full mt-4">
@@ -394,12 +403,12 @@
                                                         class="flex text-sm text-black h-6 items-center w-20 ml-6">Terpakai</label>
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ count($sales->print_orders) }}</label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ count($sale->print_orders) }}</label>
                                                     <label
                                                         class="flex text-sm text-black h-6 items-center w-10 ml-6">Sisa</label>
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freePrint - count($sales->print_orders) }}</label>
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ $notes->freePrint - count($sale->print_orders) }}</label>
                                                 </div>
                                                 <div class="flex items-center">
                                                     @if (isset($notes->includedInstall) && $notes->includedInstall->checked == true)
@@ -416,14 +425,14 @@
                                                         class="flex text-sm text-black h-6 items-center w-20 ml-6">Terpakai</label>
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
-                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ count($sales->install_orders) }}
+                                                        class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">{{ count($sale->install_orders) }}
                                                     </label>
                                                     <label
                                                         class="flex text-sm text-black h-6 items-center w-10 ml-6">Sisa</label>
                                                     <label class="flex text-sm text-black h-6 items-center">: </label>
                                                     <label
                                                         class="flex text-sm text-black ml-2 h-5 justify-center items-center border rounded-md w-8">
-                                                        {{ $notes->freeInstall - count($sales->install_orders) }}
+                                                        {{ $notes->freeInstall - count($sale->install_orders) }}
                                                     </label>
                                                 </div>
                                             </div>
@@ -442,10 +451,10 @@
                                                             <th class="w-20 text-[0.7rem] text-black border">Harga</th>
                                                             <th class="w-20 text-[0.7rem] text-black border">DPP</th>
                                                             <th class="w-20 text-[0.7rem] text-black border">PPN
-                                                                {{ $sales->ppn }} %
+                                                                {{ $sale->ppn }} %
                                                             </th>
                                                             <th class="w-16 text-[0.7rem] text-black border">PPh
-                                                                {{ $sales->pph }} %</th>
+                                                                {{ $sale->pph }} %</th>
                                                             <th class="w-20 text-[0.7rem] text-black border">Total</th>
 
                                                         </tr>
@@ -453,25 +462,25 @@
                                                     <tbody>
                                                         @foreach ($payment_terms->dataPayments as $terms)
                                                             <?php
-                                                            $ppn = $sales['dpp'] * ($sales->ppn / 100);
-                                                            $pph = $sales['dpp'] * ($sales->pph / 100);
+                                                            $ppn = $sale['dpp'] * ($sale->ppn / 100);
+                                                            $pph = $sale['dpp'] * ($sale->pph / 100);
                                                             ?>
                                                             <tr>
                                                                 <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ $loop->iteration }}.
                                                                     {{ $terms->term }} %</td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
-                                                                    {{ number_format(($sales['price'] * $terms->term) / 100) }}
+                                                                    {{ number_format(($sale['price'] * $terms->term) / 100) }}
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
-                                                                    {{ number_format(($sales['dpp'] * $terms->term) / 100) }}
+                                                                    {{ number_format(($sale['dpp'] * $terms->term) / 100) }}
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ number_format(($ppn * $terms->term) / 100) }}</td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ number_format(($pph * $terms->term) / 100) }}</td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
-                                                                    {{ number_format((($sales['price'] + $ppn - $pph) * $terms->term) / 100) }}
+                                                                    {{ number_format((($sale['price'] + $ppn - $pph) * $terms->term) / 100) }}
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -499,8 +508,9 @@
                                                     <tbody>
                                                         @foreach ($payment_terms->dataPayments as $terms)
                                                             <?php
-                                                            $ppn = $sales['dpp'] * (11 / 100);
-                                                            $pph = $sales['dpp'] * (2 / 100);
+                                                            $ppn = $sale['dpp'] * (11 / 100);
+                                                            $pph = 0;
+                                                            // $pph = $sale['dpp'] * (2 / 100);
                                                             ?>
                                                             <tr>
                                                                 <td class="text-[0.7rem] text-center text-black border">
@@ -512,7 +522,7 @@
                                                                 <td class="text-[0.7rem] text-center text-black border">
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
-                                                                    {{ number_format((($sales['price'] + $ppn - $pph) * $terms->term) / 100) }}
+                                                                    {{ number_format((($sale['price'] + $ppn - $pph) * $terms->term) / 100) }}
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
                                                                     terkirim / lunas </td>
@@ -552,7 +562,7 @@
                                                         @php
                                                             $printNumber = 1;
                                                         @endphp
-                                                        @foreach ($sales->print_orders as $print_order)
+                                                        @foreach ($sale->print_orders as $print_order)
                                                             <tr>
                                                                 <td class="text-[0.65rem] text-black border text-center">
                                                                     {{ $printNumber++ }}</td>
@@ -636,7 +646,7 @@
                                                         @php
                                                             $installNumber = 1;
                                                         @endphp
-                                                        @foreach ($sales->install_orders as $install_order)
+                                                        @foreach ($sale->install_orders as $install_order)
                                                             <tr>
                                                                 <td class="text-[0.65rem] text-black border text-center">
                                                                     {{ $installNumber++ }}</td>
@@ -710,10 +720,10 @@
     </div>
     @if ($category == 'Service')
         <input id="saveName" type="text"
-            value="{{ Str::substr($sales->number, 0, 4) }}-PJ-Cetak-Pasang-{{ $clients->name }}" hidden>
+            value="{{ Str::substr($sale->number, 0, 4) }}-PJ-Cetak-Pasang-{{ $clients->name }}" hidden>
     @else
         <input id="saveName" type="text"
-            value="{{ Str::substr($sales->number, 0, 4) }}-PJ-{{ $category }}-{{ $clients->name }}" hidden>
+            value="{{ Str::substr($sale->number, 0, 4) }}-PJ-{{ $category }}-{{ $clients->name }}" hidden>
     @endif
 
     <!-- Show Sales Data end -->

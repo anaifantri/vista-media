@@ -379,7 +379,7 @@ class SaleController extends Controller
             $paid_print_orders = PrintOrder::whereJsonContains('product->main_sale_id',(string)$sale->id)->get();
             $paid_install_orders = InstallOrder::whereJsonContains('product->main_sale_id',(string)$sale->id)->get();
             return response()->view('sales.show', [
-                'sales'=>$sale,
+                'sale'=>$sale,
                 'quotation'=>$quotation,
                 'quot_id'=>$quotId,
                 'revision_status'=>$revisionStatus,

@@ -28,7 +28,8 @@
             <th class="text-[0.7rem] text-black border border-black w-8" rowspan="2">Side</th>
             <th class="text-xs text-black border border-black w-20">Size - V/H</th>
             <th class="text-xs text-black border border-black w-24">
-                @if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron'))
+                {{ $sale->duration }}
+                {{-- @if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron'))
                     @if ($price->priceType[0] == true)
                         @foreach ($price->dataSharingPrice as $sharingPrice)
                             @if ($sharingPrice->checkbox == true)
@@ -55,7 +56,7 @@
                             {{ $dataTitle->title }}
                         @endif
                     @endforeach
-                @endif
+                @endif --}}
             </th>
         </tr>
     </thead>
@@ -115,7 +116,8 @@
                 @endif
             </td>
             <td id="previewPrice" class="text-xs  text-black border border-black text-right px-2">
-                @if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron'))
+                {{ number_format($getPrice) }}
+                {{-- @if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron'))
                     @if ($price->priceType[0] == true)
                         @foreach ($price->dataSharingPrice as $sharingPrice)
                             @if ($sharingPrice->checkbox == true)
@@ -148,7 +150,7 @@
                         }
                     @endphp
                     {{ number_format($getPrice) }}
-                @endif
+                @endif --}}
             </td>
         </tr>
         @if ($category != 'Videotron' || ($category == 'Signage' && $description->type != 'Videotron'))
@@ -180,9 +182,6 @@
                         </div>
                     </td>
                     <td id="totalPrint" class="text-xs text-black border border-black text-right px-2">
-                        @php
-                            $totalPrint = $notes->includedPrint->price * $notes->includedPrint->qty * $wide;
-                        @endphp
                         {{ number_format($totalPrint) }}
                     </td>
                 </tr>
@@ -209,9 +208,6 @@
                         </div>
                     </td>
                     <td id="totalInstall" class="text-xs text-black border border-black text-right px-2">
-                        @php
-                            $totalInstall = $notes->includedInstall->price * $notes->includedInstall->qty * $wide;
-                        @endphp
                         {{ number_format($totalInstall) }}
                     </td>
                 </tr>
@@ -219,31 +215,42 @@
             @endif
         @endif
         <tr>
-            @if ($sale->dpp != $getPrice)
-                @if ($category == 'Signage')
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">DPP
-                    </td>
-                @elseif ($category == 'Videotron')
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">DPP
-                    </td>
-                @else
-                    <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">DPP
-                    </td>
-                @endif
-                <td class="text-xs text-black border border-black text-right px-2">
-                    {{ number_format($sale->dpp) }}</td>
+            @if ($category == 'Signage')
+                <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">
+                    SUB TOTAL
+                </td>
+            @else
+                <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">
+                    SUB TOTAL
+                </td>
             @endif
+            <td class="text-xs text-black border border-black text-right px-2">
+                {{ number_format($sale->price + $totalPrint + $totalInstall) }}</td>
+        </tr>
+        <tr>
+            @if ($category == 'Signage')
+                <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">DPP
+                </td>
+            @else
+                <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">DPP
+                </td>
+            @endif
+            <td class="text-xs text-black border border-black text-right px-2">
+                {{ number_format($sale->dpp) }}</td>
         </tr>
         <tr>
             @if ($category == 'Signage')
                 <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">PPN
-                    {{ $sale->ppn }}%</td>
+                    {{-- {{ $sale->ppn }}% --}}
+                </td>
             @elseif ($category == 'Videotron')
                 <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">PPN
-                    {{ $sale->ppn }}%</td>
+                    {{-- {{ $sale->ppn }}% --}}
+                </td>
             @else
                 <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">PPN
-                    {{ $sale->ppn }}%</td>
+                    {{-- {{ $sale->ppn }}% --}}
+                </td>
             @endif
             <td class="text-xs text-black border border-black text-right px-2">
                 {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
@@ -255,10 +262,12 @@
                     TOTAL</td>
             @elseif ($category == 'Videotron')
                 <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">
-                    TOTAL</td>
+                    GRAND TOTAL
+                </td>
             @else
                 <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">
-                    TOTAL</td>
+                    GRAND TOTAL
+                </td>
             @endif
             <td class="text-xs text-black border border-black text-right px-2">
                 {{ number_format($getPrice + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100) + $totalInstall + $totalPrint) }}

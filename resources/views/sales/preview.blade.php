@@ -99,13 +99,22 @@
                 @php
                     $product = json_decode($sale->product);
                     $description = json_decode($product->description);
-                    $totalInstall = 0;
-                    $totalPrint = 0;
                     if ($product->category == 'Signage') {
                         $wide = $product->width * $product->height * (int) $product->side * $description->qty;
                     } else {
                         $wide = $product->width * $product->height * (int) $product->side;
                     }
+                    if (isset($notes->includedPrint) && $notes->includedPrint->checked == true) {
+                        $totalPrint = $notes->includedPrint->price * $notes->includedPrint->qty * $wide;
+                    } else {
+                        $totalPrint = 0;
+                    }
+                    if (isset($notes->includedInstall) && $notes->includedInstall->checked == true) {
+                        $totalInstall = $notes->includedInstall->price * $notes->includedInstall->qty * $wide;
+                    } else {
+                        $totalInstall = 0;
+                    }
+                    $getPrice = $sale->price - $totalPrint - $totalInstall;
                 @endphp
                 <div id="pdfPreview">
                     <div class="flex justify-center w-full">
