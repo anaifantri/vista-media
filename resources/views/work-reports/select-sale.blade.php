@@ -110,7 +110,73 @@
                                         </thead>
                                         <tbody class="bg-stone-200">
                                             @foreach ($sales as $sale)
-                                                @if ($sale->company_id == $company->id)
+                                                @if (count($sale->billings) > 0)
+                                                    @php
+                                                        $billingTotal = $sale->billings->sum('nominal');
+                                                    @endphp
+                                                    @if ($sale->price > $billingTotal)
+                                                        @php
+                                                            if (count($sale->quotation->quotation_revisions) != 0) {
+                                                                $quotationDeal = $sale->quotation->quotation_revisions->last();
+                                                                $payment_terms = json_decode(
+                                                                    $quotationDeal->payment_terms,
+                                                                );
+                                                            } else {
+                                                                $quotationDeal = $sale->quotation;
+                                                                $payment_terms = json_decode(
+                                                                    $quotationDeal->payment_terms,
+                                                                );
+                                                            }
+                                                            $product = json_decode($sale->product);
+                                                            $description = json_decode($product->description);
+                                                            $client = json_decode($sale->quotation->clients);
+                                                        @endphp
+                                                        <tr>
+                                                            <td
+                                                                class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                                {{ $loop->iteration }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                                {{ $product->code }}
+                                                                -
+                                                                {{ $product->city_code }}</td>
+                                                            <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                                                {{ $product->address }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                                @if ($sale->media_category->name == 'Service')
+                                                                    Cetak/Pasang
+                                                                @else
+                                                                    {{ $sale->media_category->name }}
+                                                                @endif
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                                <a href="/marketing/sales/{{ $sale->id }}"
+                                                                    class="ml-1 w-32">{{ substr($sale->number, 0, 8) }}..</a>
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                                <a href="/marketing/quotations/{{ $quotationDeal->id }}"
+                                                                    class="ml-1 w-32">{{ substr($quotationDeal->number, 0, 8) }}..</a>
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                                {{ $client->name }}
+                                                            </td>
+                                                            <td id="tdCreate"
+                                                                class="text-stone-900 border border-stone-900 align-middle text-center text-sm">
+                                                                <input id="{{ json_encode($quotationDeal) }}"
+                                                                    value="{{ json_encode($sale) }}" type="radio"
+                                                                    name="chooseSale" title="pilih"
+                                                                    onclick="getMediaSales(this)">
+                                                                <label class="ml-1">Pilih</label>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @else
                                                     @php
                                                         if (count($sale->quotation->quotation_revisions) != 0) {
                                                             $quotationDeal = $sale->quotation->quotation_revisions->last();
@@ -175,8 +241,8 @@
                             </div>
                         </div>
                         <div class="flex w-full items-end bg-stone-400 rounded-lg justify-end px-4 pt-2 border-b pb-2">
-                            <button class="flex justify-center items-center mx-1 btn-success" title="Next" type="button"
-                                onclick="saleNext()">
+                            <button class="flex justify-center items-center mx-1 btn-success" title="Next"
+                                type="button" onclick="saleNext()">
                                 <span class="mx-1 text-white">Next</span>
                                 <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24">

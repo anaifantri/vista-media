@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sale;
 use App\Models\Company;
+use App\Models\Billing;
 use App\Models\Quotation;
 use App\Models\Location;
 use App\Models\Area;
@@ -154,12 +155,13 @@ class SaleController extends Controller
             $media_categories = MediaCategory::with('sales')->get();
             $companies = Company::with('sales')->get();
             $quotations = Quotation::with('sales')->get();
+            $billings = Billing::with('sales')->get();
             return view ('sales.index', [
                 'sales'=>$sales,
                 'data_category'=>$dataCategory,
                 'category'=>$category,
                 'title' => 'Daftar Penjualan',
-                compact('media_categories', 'companies','quotations')
+                compact('media_categories', 'companies','quotations', 'billings')
             ]);
         } else {
             abort(403);

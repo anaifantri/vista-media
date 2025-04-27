@@ -427,7 +427,7 @@
             <form action="/accounting/billings" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="text" name="company_id" value="{{ $company->id }}" hidden>
-                <input type="text" name="sale_id" value="{{ json_encode($sale_id) }}" hidden>
+                <input type="text" name="sale_id" value="{{ $sale_id }}" hidden>
                 <input type="text" name="sale_year" value="{{ $saleYear }}" hidden>
                 <input type="text" name="sale_number" value="{{ $saleNumber }}" hidden>
                 <input type="text" name="category" value="Media" hidden>

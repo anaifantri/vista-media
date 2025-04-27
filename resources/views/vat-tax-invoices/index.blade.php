@@ -40,6 +40,54 @@
                     </div>
                     <form id="formFilter" action="/vat-tax-invoices/index/{{ $company->id }}">
                         <div class="flex">
+                            <div class="flex h-14">
+                                <div class="w-24">
+                                    <span class="text-base text-stone-100">Bulan</span>
+                                    <select name="month"
+                                        class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        onchange="submit()">
+                                        @if (request('month'))
+                                            @for ($i = 1; $i < 13; $i++)
+                                                @if ($i == request('month'))
+                                                    <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @for ($i = 1; $i < 13; $i++)
+                                                @if ($i == date('m'))
+                                                    <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
+                                                    </option>
+                                                @endif
+                                                <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="ml-2 w-20">
+                                    <span class="text-base text-stone-100">Tahun</span>
+                                    <select name="year"
+                                        class="p-1 text-center outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        onchange="submit()">
+                                        @if (request('year'))
+                                            @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                                @if ($i == request('year'))
+                                                    <option value="{{ $i }}" selected>{{ $i }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
                             <div class="w-48 ml-2">
                                 <span class="text-base text-stone-100">Pencarian</span>
                                 <div class="flex">
@@ -127,7 +175,7 @@
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ $vat_tax->billing->invoice_number }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-right">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ date('d', strtotime($vat_tax->billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($vat_tax->billing->created_at))] }}-{{ date('Y', strtotime($vat_tax->billing->created_at)) }}
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-xs px-1">

@@ -10,8 +10,9 @@
                 <!-- Title start -->
                 <h1 class="index-h1 w-[1200px]">MEMBUAT SURAT PENGANTAR TAGIHAN</h1>
                 <!-- Title end -->
-                <div id="divButton" class="hidden w-[150px] justify-end">
-                    <button class="flex justify-center items-center mx-1 btn-success" title="Next" type="button">
+                <div class="flex w-[150px] justify-end">
+                    <button id="divButton" class="hidden justify-center items-center mx-1 btn-success" title="Next"
+                        type="button">
                         <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24">
                             <path
@@ -19,7 +20,7 @@
                         </svg>
                         <span class="mx-1 text-white">Save</span>
                     </button>
-                    <a href="/vat-tax-invoices/index/{{ $company->id }}"
+                    <a href="/bill-cover-letters/index/{{ $company->id }}"
                         class="flex justify-center items-center mx-1 btn-danger" title="Cancel">
                         <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24">
@@ -88,7 +89,7 @@
                                     <tbody class="bg-stone-200">
                                         @foreach ($billings as $billing)
                                             @php
-                                                $saleId = json_decode(json_decode($billing->sale_id));
+                                                $saleId = json_decode($billing->sale_id);
                                                 $sale = $sales->whereIn('id', $saleId)->last();
                                                 if (count($sale->quotation->quotation_revisions) != 0) {
                                                     $quotationDeal = $sale->quotation->quotation_revisions->last();
@@ -154,13 +155,15 @@
     <script>
         let billingId = [];
         let quotationNumber = '';
+        var category = @json($category)
 
         getBillings = (sel) => {
             if (sel.checked == true) {
                 if (billingId.length == 0) {
                     billingId.push((sel.value));
                     quotationNumber = (sel.id);
-                    formSelectBilling.setAttribute('action', '/bill-cover-letters/create/' + JSON.stringify(billingId));
+                    formSelectBilling.setAttribute('action', '/bill-cover-letters/create/' + JSON.stringify(billingId) +
+                        '/' + category);
                 } else {
                     if (quotationNumber != sel.id) {
                         alert("Silahkan pilih klien dan nomor penawaran yang sama..!!");
@@ -168,7 +171,7 @@
                     } else {
                         billingId.push(sel.value);
                         formSelectBilling.setAttribute('action', '/bill-cover-letters/create/' + JSON.stringify(
-                            billingId));
+                            billingId) + '/' + category);
                     }
                 }
             } else {
@@ -177,7 +180,8 @@
                         billingId.splice(i, 1);
                     }
                 }
-                formSelectBilling.setAttribute('action', '/bill-cover-letters/create/' + JSON.stringify(billingId));
+                formSelectBilling.setAttribute('action', '/bill-cover-letters/create/' + JSON.stringify(billingId) +
+                    '/' + category);
                 if (billingId.length == 0) {
                     quotationNumber = '';
                 }

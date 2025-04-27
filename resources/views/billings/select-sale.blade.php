@@ -110,9 +110,102 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-stone-200">
+                                        @php
+                                            $number = 0;
+                                        @endphp
                                         @foreach ($sales as $sale)
-                                            @if ($sale->company_id == $company->id)
+                                            @if (count($sale->billings) > 0)
                                                 @php
+                                                    $billingTotal = $sale->billings->sum('nominal');
+                                                @endphp
+                                                @if ($sale->price > $billingTotal)
+                                                    @php
+                                                        $number++;
+                                                        if (count($sale->quotation->quotation_revisions) != 0) {
+                                                            $quotationDeal = $sale->quotation->quotation_revisions->last();
+                                                            $payment_terms = json_decode($quotationDeal->payment_terms);
+                                                        } else {
+                                                            $quotationDeal = $sale->quotation;
+                                                            $payment_terms = json_decode($quotationDeal->payment_terms);
+                                                        }
+                                                        $product = json_decode($sale->product);
+                                                        $description = json_decode($product->description);
+                                                        $client = json_decode($sale->quotation->clients);
+                                                    @endphp
+                                                    <tr>
+                                                        <td
+                                                            class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                            {{ $number }}
+                                                        </td>
+                                                        <td
+                                                            class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                            {{ $product->code }}
+                                                            -
+                                                            {{ $product->city_code }}</td>
+                                                        <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                                            {{ $product->address }}
+                                                        </td>
+                                                        <td
+                                                            class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                            @if ($product->category == 'Billboard')
+                                                                BB
+                                                            @elseif ($product->category == 'Bando')
+                                                                BD
+                                                            @elseif ($product->category == 'Baliho')
+                                                                BLH
+                                                            @elseif ($product->category == 'Midiboard')
+                                                                MB
+                                                            @elseif ($product->category == 'Signage')
+                                                                SN
+                                                            @elseif ($product->category == 'Videotron')
+                                                                VT
+                                                            @endif
+                                                        </td>
+                                                        <td
+                                                            class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                            {{ $product->size }}
+                                                            -
+                                                            @if ($product->orientation == 'Vertikal')
+                                                                V
+                                                            @elseif ($product->orientation == 'Horizontal')
+                                                                H
+                                                            @endif
+                                                        </td>
+                                                        <td
+                                                            class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                            <a href="/marketing/sales/{{ $sale->id }}"
+                                                                class="ml-1 w-32">{{ substr($sale->number, 0, 8) }}..</a>
+                                                        </td>
+                                                        <td
+                                                            class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                            <a href="/marketing/quotations/{{ $quotationDeal->id }}"
+                                                                class="ml-1 w-32">{{ substr($quotationDeal->number, 0, 8) }}..</a>
+                                                        </td>
+                                                        <td
+                                                            class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                            {{ $client->name }}
+                                                        </td>
+                                                        <td id="tdCreate"
+                                                            class="text-stone-900 border border-stone-900 align-middle text-center text-sm">
+                                                            @if ($bill_category == 'media')
+                                                                <input id="{{ $quotationDeal }}"
+                                                                    value="{{ $sale->id }}" type="checkbox"
+                                                                    name="chooseSale" title="pilih"
+                                                                    onclick="getMediaSales(this)">
+                                                                <label class="ml-1">Pilih</label>
+                                                            @else
+                                                                <input id="{{ $quotationDeal }}"
+                                                                    value="{{ $sale->id }}" type="checkbox"
+                                                                    name="chooseSale" title="pilih"
+                                                                    onclick="getServiceSales(this)">
+                                                                <label class="ml-1">Pilih</label>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @else
+                                                @php
+                                                    $number++;
                                                     if (count($sale->quotation->quotation_revisions) != 0) {
                                                         $quotationDeal = $sale->quotation->quotation_revisions->last();
                                                         $payment_terms = json_decode($quotationDeal->payment_terms);
@@ -126,7 +219,7 @@
                                                 @endphp
                                                 <tr>
                                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                                        {{ $loop->iteration }}
+                                                        {{ $number }}
                                                     </td>
                                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                                         {{ $product->code }}
@@ -177,10 +270,6 @@
                                                                 type="checkbox" name="chooseSale" title="pilih"
                                                                 onclick="getMediaSales(this)">
                                                             <label class="ml-1">Pilih</label>
-                                                            {{-- <input value="{{ $sale->id }}" type="radio"
-                                                                name="chooseSale" title="pilih"
-                                                                onclick="getMediaSales(this)">
-                                                            <label class="ml-1">Pilih</label> --}}
                                                         @else
                                                             <input id="{{ $quotationDeal }}" value="{{ $sale->id }}"
                                                                 type="checkbox" name="chooseSale" title="pilih"
@@ -249,8 +338,7 @@
                             saleId.splice(i, 1);
                         }
                     }
-                    formSelectSale.setAttribute('action', '/billings/create-media-billing/' + JSON.stringify(
-                        saleId));
+                    formSelectSale.setAttribute('action', '/billings/create-media-billing/' + JSON.stringify(saleId));
                 }
             } else {
                 if (Object.keys(saleId).length == 0) {

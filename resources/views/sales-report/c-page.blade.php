@@ -111,7 +111,7 @@
                     <th class="text-black border text-[0.65rem] w-24">Total (Rp.)</th>
                     <th class="text-black border text-[0.65rem] w-20">No. Invoice</th>
                     <th class="text-black border text-[0.65rem] w-20">Tgl. Invoice</th>
-                    <th class="text-black border text-[0.65rem] w-20">Jadwal Bayar</th>
+                    <th class="text-black border text-[0.65rem] w-20">Nominal (Rp.)</th>
                     <th class="text-black border text-[0.65rem] w-20">Tgl. Bayar</th>
                 </tr>
             </thead>
@@ -916,8 +916,19 @@
                                     </td>
                                 @endif
                                 <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <div>
+                                        @foreach ($sale->billings as $itemBilling)
+                                            <a
+                                                href="/accounting/billings/{{ $itemBilling->id }}">{{ substr($itemBilling->invoice_number, 0, 3) }}/...-{{ substr($itemBilling->invoice_number, -4) }}</a>
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <div>
+                                        @foreach ($sale->billings as $itemBilling)
+                                            <span>{{ date('d', strtotime($itemBilling->created_at)) }}-{{ $sMonth[(int) date('m', strtotime($itemBilling->created_at))] }}-{{ date('Y', strtotime($itemBilling->created_at)) }}</span>
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
                                 </td>
@@ -1689,8 +1700,19 @@
                                     </td>
                                 @endif
                                 <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <div>
+                                        @foreach ($sale->billings as $itemBilling)
+                                            <a
+                                                href="/accounting/billings/{{ $itemBilling->id }}">{{ substr($itemBilling->invoice_number, 0, 3) }}/...-{{ substr($itemBilling->invoice_number, -4) }}</a>
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <div>
+                                        @foreach ($sale->billings as $itemBilling)
+                                            <span>{{ date('d', strtotime($itemBilling->created_at)) }}-{{ $sMonth[(int) date('m', strtotime($itemBilling->created_at))] }}-{{ date('Y', strtotime($itemBilling->created_at)) }}</span>
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
                                 </td>

@@ -116,7 +116,8 @@ class Sale extends Model
     public function scopeBillService($query){
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '=', 'Service');
-                    });
+                    })
+                    ->whereDoesntHave('billings');
     }
 
     public function scopePrintOrder($query){
@@ -225,6 +226,11 @@ class Sale extends Model
 
     public function work_reports(){
         return $this->hasMany(WorkReport::class, 'sale_id', 'id');
+    }
+
+    public function billings()
+    {
+        return $this->belongsToMany(Billing::class, 'billing_sales');
     }
 
     public $sortable = ['number'];

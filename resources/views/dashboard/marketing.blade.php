@@ -418,10 +418,6 @@
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Cetak</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Berbayar</label>
-                            {{-- <label
-                                class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
-                                {{ number_format($printSales->sum('price')) }}
-                            </label> --}}
                         </div>
                     </a>
                     <a href="/print-orders/free-sales/{{ $company->id }}"
@@ -431,10 +427,6 @@
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Penjualan</label>
-                            {{-- <label
-                                class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
-                                {{ number_format($freePrintSales->sum('price')) }}
-                            </label> --}}
                         </div>
                     </a>
                     <a href="/print-orders/free-other/{{ $company->id }}"
@@ -444,10 +436,6 @@
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Lain-Lain</label>
-                            {{-- <label
-                                class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
-                                {{ number_format($freePrintOther->sum('price')) }}
-                            </label> --}}
                         </div>
                     </a>
                 </div>
@@ -578,10 +566,6 @@
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Pasang</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Berbayar</label>
-                            {{-- <label
-                                class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
-                                {{ count($installSales) }}
-                            </label> --}}
                         </div>
                     </a>
                     <a href="/install-orders/free-sales/{{ $company->id }}"
@@ -591,10 +575,6 @@
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
                             <label class="flex justify-center items-center font-serif text-md cursor-pointer">Dari
                                 Penjualan</label>
-                            {{-- <label
-                                class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
-                                {{ count($freeInstallSales) }}
-                            </label> --}}
                         </div>
                     </a>
                     <a href="/install-orders/free-other/{{ $company->id }}"
@@ -604,10 +584,6 @@
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Gratis</label>
                             <label
                                 class="flex justify-center items-center font-serif text-md cursor-pointer">Lain-Lain</label>
-                            {{-- <label
-                                class="flex justify-center items-center font-serif text-XL cursor-pointer w-full text-yellow-400">
-                                {{ count($freeInstallOther) }}
-                            </label> --}}
                         </div>
                     </a>
                 </div>

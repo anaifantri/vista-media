@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BillCoverLetter;
 use App\Models\Billing;
+use App\Models\BillingLetter;
 use App\Models\VatTaxInvoice;
 use App\Models\Sale;
 use App\Models\Company;
@@ -28,7 +29,7 @@ class BillCoverLetterController extends Controller
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('bill-cover-letters.index', [
-                'bill_cover_letters'=>BillCoverLetter::where('company_id', $company_id)->sortable()->orderBy("number", "desc")->paginate(30)->withQueryString(),
+                'bill_cover_letters'=>BillCoverLetter::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("number", "desc")->paginate(30)->withQueryString(),
                 'title' => 'Daftar Surat Pengantar Tagihan'
             ]);
         } else {
@@ -49,14 +50,20 @@ class BillCoverLetterController extends Controller
         }
     }
     
-    public function selectBilling(String $companyId): view
+    public function selectBilling(String $companyId, String $category): view
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            if($category == "Service"){
+                $billings = Billing::where('company_id', $companyId)->where('category', '=', 'Service')->whereDoesntHave('bill_cover_letters')->get();
+            }else{
+                $billings = Billing::where('company_id', $companyId)->where('category', '!=', 'Service')->get();
+            }
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
             return view ('bill-cover-letters.select-billings', [
-                'billings' => Billing::where('company_id', $companyId)->get(),
+                'billings' => $billings,
                 'sales' => Sale::where('company_id', $companyId)->get(),
+                'category' => $category,
                 'title' => 'Menambahkan Data Faktur PPN',
                 compact('quotations', 'quotation_revisions')
             ]);
@@ -68,7 +75,7 @@ class BillCoverLetterController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(String $billingId): Response
+    public function create(String $billingId, String $category): Response
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             $dataBilling = Billing::whereIn('id', json_decode($billingId))->get();
@@ -77,6 +84,7 @@ class BillCoverLetterController extends Controller
             return  response()-> view ('bill-cover-letters.create', [
                 'billings' => $dataBilling,
                 'billing_id' => $billingId,
+                'category' => $category,
                 'client' => json_decode($dataBilling[0]->client),
                 'title' => 'Menambahkan Data Surat Pengantar Tagihan',
                 compact('vat_tax_invoice','work_reports')
@@ -130,6 +138,14 @@ class BillCoverLetterController extends Controller
             BillCoverLetter::create($validateData);
 
             $billCoverLetter = BillCoverLetter::where('number', $validateData['number'])->firstOrFail();
+            
+            $getBillingId = json_decode($validateData['billing_id']);
+
+            foreach ($getBillingId as $billingId) {
+                $billingLetter['billing_id'] = $billingId;
+                $billingLetter['bill_cover_letter_id'] = $billCoverLetter->id;
+                BillingLetter::insert($billingLetter);
+            }
     
             return redirect('/bill-cover-letters/preview/'.$billCoverLetter->id)->with('success','Surat pengantar dengan nomor '. $number . ' berhasil ditambahkan');
         } else {
@@ -142,7 +158,14 @@ class BillCoverLetterController extends Controller
      */
     public function show(BillCoverLetter $billCoverLetter): Response
     {
-        //
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return response()-> view('bill-cover-letters.show', [
+                'bill_cover_letter' => $billCoverLetter,
+                'title' => 'Detail Surat Pengantar No. '.$billCoverLetter->number
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**

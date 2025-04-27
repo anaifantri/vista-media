@@ -12,37 +12,49 @@
     $city = $invoiceContent->description[0]->city;
     $approval = $invoiceContent->approval;
     $orders = $invoiceContent->orders;
-    $agreements = $invoiceContent->agreements;
+    if (isset($invoiceContent->agreements)) {
+        $agreements = $invoiceContent->agreements;
+    } else {
+        $agreements = [];
+    }
     
     $attachments = [];
     $approvalId = $approval->id;
     $orderId = [];
     $agreementId = [];
     $vatTaxId = [];
+    $billingNumber = [];
     $workReportId = $orders;
     if ($client->company == 'PT. Gudang Garam Tbk') {
-        $attachments[0] = 'Surat Pengantar';
-        $attachments[1] = 'Copy Penawaran';
+        array_push($attachments, 'Surat Pengantar');
         $indexOrder = 1;
+        $firstOrderNumber = $orders[0]->number;
+        $i = 0;
         foreach ($orders as $order) {
-            array_push($orderId, $order->id);
-            $indexOrder++;
-            $attachments[$indexOrder] = 'Copy Purchase Order (PO) No. ' . $order->number . ' Tanggal ' . date('d', strtotime($order->date)) . ' ' . $bulan[(int) date('m', strtotime($order->date))] . ' ' . date('Y', strtotime($order->date));
+            if ($i == 0) {
+                array_push($orderId, $order->id);
+                array_push($attachments, 'Copy Purchase Order (PO) No. ' . $order->number . ' Tanggal ' . date('d', strtotime($order->date)) . ' ' . $bulan[(int) date('m', strtotime($order->date))] . ' ' . date('Y', strtotime($order->date)));
+            } elseif ($order->number != $firstOrderNumber) {
+                array_push($orderId, $order->id);
+                array_push($attachments, 'Copy Purchase Order (PO) No. ' . $order->number . ' Tanggal ' . date('d', strtotime($order->date)) . ' ' . $bulan[(int) date('m', strtotime($order->date))] . ' ' . date('Y', strtotime($order->date)));
+            }
+            $i++;
         }
-        $indexAgreement = $indexOrder;
         foreach ($agreements as $agreement) {
             array_push($agreementId, $agreement->id);
-            $indexAgreement++;
-            $attachments[$indexAgreement] = 'Copy Surat Perjanjian No. ' . $agreement->number . ' Tanggal ' . date('d', strtotime($agreement->date)) . ' ' . $bulan[(int) date('m', strtotime($agreement->date))] . ' ' . date('Y', strtotime($agreement->date));
+            array_push($attachments, 'Copy Surat Perjanjian No. ' . $agreement->number . ' Tanggal ' . date('d', strtotime($agreement->date)) . ' ' . $bulan[(int) date('m', strtotime($agreement->date))] . ' ' . date('Y', strtotime($agreement->date)));
         }
-        $attachments[$indexAgreement + 1] = 'Lembar Evaluasi Pekerjaan (LEP)';
-        $attachments[$indexAgreement + 2] = 'Berita Acara Serah Terima Pekerjaan (BASTP)';
-        $attachments[$indexAgreement + 3] = 'Dokumentasi Pekerjaan';
-        $indexBilling = $indexAgreement + 3;
+        array_push($attachments, 'Lembar Evaluasi Pekerjaan (LEP)');
+        array_push($attachments, 'Berita Acara Serah Terima Pekerjaan (BASTP)');
+        array_push($attachments, 'Dokumentasi Pekerjaan');
         foreach ($billings as $billing) {
-            $indexBilling++;
-            $attachments[$indexBilling] = 'Invoice No. ' . $billing->invoice_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at));
-            $attachments[$indexBilling + 1] = 'Kwitansi No. ' . $billing->receipt_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at));
+            array_push($billingNumber, $billing->invoice_number);
+            array_push($attachments, 'Invoice No. ' . $billing->invoice_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at)));
+            array_push($attachments, 'Kwitansi No. ' . $billing->receipt_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at)));
+            if ($billing->vat_tax_invoice) {
+                array_push($vatTaxId, $billing->vat_tax_invoice->id);
+                array_push($attachments, 'Faktur Pajak No. ' . $billing->vat_tax_invoice->number . ' Tanggal ' . date('d', strtotime($billing->vat_tax_invoice->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->vat_tax_invoice->created_at))] . ' ' . date('Y', strtotime($billing->vat_tax_invoice->created_at)));
+            }
         }
     } else {
         $attachments[0] = 'Surat Pengantar';
@@ -73,9 +85,15 @@
     }
     
     $content = new stdClass();
-    $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas ' . $billTitle . ' yang berlokasi di ' . $billLocation . ',' . $city . ', ' . $area . ' dengan perincian sebagai berikut :';
+    if ($category == 'Service') {
+        $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' . $billTitle . ' dengan tema ' . $receiptContent->theme . ' dengan perincian sebagai berikut :';
+    } else {
+        $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' . $billTitle . ' yang berlokasi di ' . $billLocation . ',' . $city . ', ' . $area . ' dengan perincian sebagai berikut :';
+    }
     $content->attachments = $attachments;
     $content->client = $client;
+    $content->billing_number = $billingNumber;
+    $content->category = $category;
     
     $created_by = new stdClass();
     $created_by->id = auth()->user()->id;

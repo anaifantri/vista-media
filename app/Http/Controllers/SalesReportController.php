@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
+use App\Models\Billing;
 use App\Models\VoidSale;
 use App\Models\ChangeSale;
 use App\Models\Quotation;
@@ -100,12 +101,13 @@ class SalesReportController extends Controller
             $locations = Location::with('sales')->get();
             $void_sales = VoidSale::with('sale')->get();
             $change_sales = VoidSale::with('sale')->get();
+            $billings = Billing::with('sales')->get();
             return view ('sales-report.c-reports', [
                 'sales'=>Sale::unionAll(Sale::void()->where('company_id', $company_id))->unionAll(Sale::change()->where('company_id', $company_id))->where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("number", "asc")->get(),
                 'void_sales'=>VoidSale::where('company_id', $company_id)->filter(request('search'))->year()->month()->get(),
                 'change_sales'=>ChangeSale::where('company_id', $company_id)->filter(request('search'))->year()->month()->get(),
                 'title' => 'Data Penjualan',
-                compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations', 'void_sales', 'change_sales')
+                compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations', 'void_sales', 'change_sales', 'billings')
             ]);
         } else {
             abort(403);

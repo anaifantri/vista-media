@@ -24,14 +24,26 @@
                             @canany(['isAdmin', 'isAccounting'])
                                 @can('isCollect')
                                     @can('isAccountingCreate')
-                                        <a href="/bill-cover-letters/select-billing/{{ $company->id }}" class="index-link btn-primary">
+                                        <a href="/bill-cover-letters/select-billing/{{ $company->id }}/Media"
+                                            class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
                                                     fill-rule="nonzero" />
                                             </svg>
-                                            <span class="mx-1">Tambah Surat Pengantar</span>
+                                            <span class="mx-1">Tambah Surat Pengantar Media</span>
+                                        </a>
+                                        <a href="/bill-cover-letters/select-billing/{{ $company->id }}/Service"
+                                            class="index-link btn-warning ml-2">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                            <span class="mx-1">Tambah Surat Pengantar Cetak/Pasang</span>
                                         </a>
                                     @endcan
                                 @endcan
@@ -40,6 +52,54 @@
                     </div>
                     <form id="formFilter" action="/bill-cover-letters/index/{{ $company->id }}">
                         <div class="flex">
+                            <div class="flex h-14">
+                                <div class="w-24">
+                                    <span class="text-base text-stone-100">Bulan</span>
+                                    <select name="month"
+                                        class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        onchange="submit()">
+                                        @if (request('month'))
+                                            @for ($i = 1; $i < 13; $i++)
+                                                @if ($i == request('month'))
+                                                    <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @for ($i = 1; $i < 13; $i++)
+                                                @if ($i == date('m'))
+                                                    <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
+                                                    </option>
+                                                @endif
+                                                <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="ml-2 w-20">
+                                    <span class="text-base text-stone-100">Tahun</span>
+                                    <select name="year"
+                                        class="p-1 text-center outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        onchange="submit()">
+                                        @if (request('year'))
+                                            @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                                @if ($i == request('year'))
+                                                    <option value="{{ $i }}" selected>{{ $i }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
                             <div class="w-48 ml-2">
                                 <span class="text-base text-stone-100">Pencarian</span>
                                 <div class="flex">
@@ -89,14 +149,14 @@
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">
                                     Tgl. Surat
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center">
                                     No. Invoice
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-40">
-                                    Klien
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">
+                                    Category
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    Lokasi
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-52">
+                                    Klien
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">
                                     Action
@@ -105,6 +165,9 @@
                         </thead>
                         <tbody class="bg-stone-200">
                             @foreach ($bill_cover_letters as $bill_cover_letter)
+                                @php
+                                    $content = json_decode($bill_cover_letter->content);
+                                @endphp
                                 <tr>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
                                         {{ $loop->iteration }}
@@ -115,9 +178,23 @@
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ date('d', strtotime($bill_cover_letter->created_at)) }}-{{ $bulan[(int) date('m', strtotime($bill_cover_letter->created_at))] }}-{{ date('Y', strtotime($bill_cover_letter->created_at)) }}
                                     </td>
-                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center"></td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center"></td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center"></td>
+                                    <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                        @foreach ($bill_cover_letter->billings as $dataBilling)
+                                            @if (count($bill_cover_letter->billings) > 1)
+                                                @if ($dataBilling->id == $bill_cover_letter->billings[count($bill_cover_letter->billings)])
+                                                    {{ $dataBilling->invoice_number }}
+                                                @else
+                                                    {{ $dataBilling->invoice_number }},
+                                                @endif
+                                            @else
+                                                {{ $dataBilling->invoice_number }}
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        {{ $content->category }}</td>
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        {{ $content->client->company }}</td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
                                             <a href="/accounting/bill-cover-letters/{{ $bill_cover_letter->id }}"

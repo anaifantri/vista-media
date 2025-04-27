@@ -24,7 +24,7 @@
                             @canany(['isAdmin', 'isAccounting'])
                                 @can('isCollect')
                                     @can('isAccountingCreate')
-                                        <a href="/billings/select-sale/media" class="index-link btn-primary">
+                                        <a href="/billings/select-sale/media/{{ $company->id }}" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -33,7 +33,7 @@
                                             </svg>
                                             <span class="mx-1">Invoice Media</span>
                                         </a>
-                                        <a href="/billings/select-sale/service" class="index-link btn-warning ml-2">
+                                        <a href="/billings/select-sale/service/{{ $company->id }}" class="index-link btn-warning ml-2">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -50,6 +50,54 @@
                     </div>
                     <form id="formFilter" action="/billings/index/{{ $company->id }}">
                         <div class="flex">
+                            <div class="flex h-14">
+                                <div class="w-24">
+                                    <span class="text-base text-stone-100">Bulan</span>
+                                    <select name="month"
+                                        class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        onchange="submit()">
+                                        @if (request('month'))
+                                            @for ($i = 1; $i < 13; $i++)
+                                                @if ($i == request('month'))
+                                                    <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @for ($i = 1; $i < 13; $i++)
+                                                @if ($i == date('m'))
+                                                    <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
+                                                    </option>
+                                                @endif
+                                                <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="ml-2 w-20">
+                                    <span class="text-base text-stone-100">Tahun</span>
+                                    <select name="year"
+                                        class="p-1 text-center outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        onchange="submit()">
+                                        @if (request('year'))
+                                            @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                                @if ($i == request('year'))
+                                                    <option value="{{ $i }}" selected>{{ $i }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            @for ($i = date('Y'); $i > date('Y') - 5; $i--)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
                             <div class="w-48 ml-2">
                                 <span class="text-base text-stone-100">Pencarian</span>
                                 <div class="flex">
@@ -96,18 +144,13 @@
                                         </svg>
                                     </button>
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">
-                                    <button class="flex justify-center items-center w-full">@sortablelink('receipt_number', 'No. Kwitansi')
-                                        <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24">
-                                            <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
-                                        </svg>
-                                    </button>
-                                </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
-                                    Tgl. Tagihan
+                                    Tgl. Invoice
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-52" rowspan="2">
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">
+                                    No. Penjualan
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-36" rowspan="2">
                                     Klien
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="4">Detail
@@ -118,7 +161,7 @@
                                 </th>
                             </tr>
                             <tr class="bg-stone-400">
-                                <th class="text-stone-900 border border-stone-900 text-xs w-32 text-center">
+                                <th class="text-stone-900 border border-stone-900 text-xs w-24 text-center">
                                     Jenis
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">
@@ -145,13 +188,28 @@
                                         {{ $billing->invoice_number }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ $billing->receipt_number }}
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
                                     </td>
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        @foreach ($billing->sales as $itemSales)
+                                            @if (count($billing->sales) > 1)
+                                                @if ($itemSales->id == $billing->sales[count($billing->sales) - 1]->id)
+                                                    {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }}
+                                                @else
+                                                    {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }},
+                                                @endif
+                                            @else
+                                                {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }}
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                        {{ $client->company }}</td>
+                                        @if (strlen($client->company) > 16)
+                                            {{ substr($client->company, 0, 16) }}..
+                                        @else
+                                            {{ $client->company }}
+                                        @endif
+                                    </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         @if ($billing->category == 'Media')
                                             Sewa Media

@@ -87,9 +87,9 @@
                     <textarea class="flex ml-2 text-md w-[575px] outline-none border rounded-md px-2" rows="4"
                         onchange="getNote(this)"></textarea>
                 </div>
-                <div class="text-md mt-10 w-full">Demikian Berita Acara Serah Terima ini dibuat dan ditandatangani
-                    bersama
-                    untuk dapat dipergunakan sebagaimana mestinya</div>
+                <div class="text-md mt-10 w-full text-justify">Demikian Berita Acara Serah Terima ini dibuat dan
+                    ditandatangani
+                    bersama untuk dapat dipergunakan sebagaimana mestinya</div>
                 <div class="grid grid-cols-2 gap-4 w-full mt-4">
                     <div>
                         <label class="mt-4 text-md flex justify-center w-full">Yang menyerahkan,</label>

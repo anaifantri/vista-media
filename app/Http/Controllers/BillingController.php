@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Billing;
+use App\Models\BillingSale;
 use App\Models\Company;
 use App\Models\Sale;
 use App\Models\Client;
@@ -30,7 +31,7 @@ class BillingController extends Controller
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('billings.index', [
-                'billings'=>Billing::where('company_id', $company_id)->sortable()->orderBy("invoice_number", "desc")->paginate(30)->withQueryString(),
+                'billings'=>Billing::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("invoice_number", "desc")->paginate(30)->withQueryString(),
                 'title' => 'Daftar Penagihan'
             ]);
         } else {
@@ -51,13 +52,13 @@ class BillingController extends Controller
         }
     }
     
-    public function selectSale(String $category): View
+    public function selectSale(String $category, String $companyId): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             if($category == "media"){
-                $data_sales = Sale::billMedia()->get();
+                $data_sales = Sale::with('billings')->billMedia()->where('company_id', $companyId)->get();
             }else if($category == "service"){
-                $data_sales = Sale::billService()->get();
+                $data_sales = Sale::billService()->where('company_id', $companyId)->get();
             }
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
@@ -217,6 +218,12 @@ class BillingController extends Controller
             Billing::create($validateData);
 
             $dataBilling = Billing::where('invoice_number', $validateData['invoice_number'])->firstOrFail();
+            $getSaleId = json_decode($validateData['sale_id']);
+            foreach ($getSaleId as $saleId) {
+                $billingSale['sale_id'] = $saleId;
+                $billingSale['billing_id'] = $dataBilling->id;
+                BillingSale::insert($billingSale);
+            }
                 
             return redirect('/billings/preview/'.$request->category.'/'.$dataBilling->id)->with('success', 'Data penagihan dengan nomor invoice '.$validateData['invoice_number'].' berhasil ditambahkan');
         } else {

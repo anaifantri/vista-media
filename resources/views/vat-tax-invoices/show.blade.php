@@ -37,15 +37,6 @@
                         </svg>
                         <span class="mx-1 text-white">Back</span>
                     </a>
-                    {{-- <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
-                        type="submit">
-                        <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
-                        </svg>
-                        <span class="ml-1 w-10 text-xs">Save</span>
-                    </button> --}}
                 </div>
             </div>
             <!-- Title end -->
@@ -110,26 +101,49 @@
 
                     </figure>
                     <div class="relative m-auto w-[950px] h-max mt-2">
-                        <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
-                            <button
-                                class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                type="button" onclick="prevButtonAction()">
-                                <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-                                    clip-rule="evenodd" viewBox="0 0 24 24">
-                                    <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
-                            <button type="button"
-                                class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                onclick="nextButtonAction()">
-                                <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-                                    clip-rule="evenodd" viewBox="0 0 24 24">
-                                    <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-                                </svg>
-                            </button>
-                        </div>
+                        @if (count($images) > 1)
+                            <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto">
+                                <button
+                                    class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                    type="button" onclick="buttonPrevShow()">
+                                    <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                                        clip-rule="evenodd" viewBox="0 0 24 24">
+                                        <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto">
+                                <button type="button"
+                                    class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                    onclick="buttonNextShow()">
+                                    <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                                        clip-rule="evenodd" viewBox="0 0 24 24">
+                                        <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        @else
+                            <div id="prevButton" class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
+                                <button
+                                    class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                    type="button" onclick="buttonPrevShow()">
+                                    <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                                        clip-rule="evenodd" viewBox="0 0 24 24">
+                                        <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="nextButton" class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
+                                <button type="button"
+                                    class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-teal-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                    onclick="buttonNextShow()">
+                                    <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                                        clip-rule="evenodd" viewBox="0 0 24 24">
+                                        <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        @endif
                         @foreach ($images as $image)
                             @if (count($images) > 2)
                                 @if ($loop->iteration - 1 == intdiv(count($agreements), 2))
@@ -160,6 +174,42 @@
         </div>
     </div>
     <!-- Container end -->
-    <!-- Script start -->
-    <!-- Script end -->
+
+    <script>
+        // Funtion Button Next-Prev-figure start -->
+        const imageViews = document.querySelectorAll(".divImage");
+        var indexShow = 0;
+
+        for (let i = 0; i < imageViews.length; i++) {
+            if (i == 0) {
+                indexShow = i;
+                imageViews[i].removeAttribute('hidden');
+            } else {
+                imageViews[i].setAttribute('hidden', 'hidden');
+            }
+        }
+        buttonNextShow = () => {
+            if (indexShow == imageViews.length - 1) {
+                imageViews[indexShow].setAttribute('hidden', 'hidden');
+                indexShow = 0;
+                imageViews[indexShow].removeAttribute('hidden');
+            } else {
+                imageViews[indexShow].setAttribute('hidden', 'hidden');
+                imageViews[indexShow + 1].removeAttribute('hidden');
+                indexShow = indexShow + 1;
+            }
+        }
+        buttonPrevShow = () => {
+            if (indexShow == 0) {
+                imageViews[indexShow].setAttribute('hidden', 'hidden');
+                indexShow = imageViews.length - 1;
+                imageViews[indexShow].removeAttribute('hidden');
+            } else {
+                imageViews[indexShow].setAttribute('hidden', 'hidden');
+                imageViews[indexShow - 1].removeAttribute('hidden');
+                indexShow = indexShow - 1;
+            }
+        }
+        // Funtion Button Next-Prev-figure end -->
+    </script>
 @endsection

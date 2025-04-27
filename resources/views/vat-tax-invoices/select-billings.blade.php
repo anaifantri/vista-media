@@ -10,8 +10,9 @@
                 <!-- Title start -->
                 <h1 class="index-h1 w-[1200px]">Upload Faktur PPN</h1>
                 <!-- Title end -->
-                <div id="divButton" class="hidden w-[150px] justify-end">
-                    <button class="flex justify-center items-center mx-1 btn-success" title="Next" type="button">
+                <div class="flex w-[150px] justify-end">
+                    <button id="divButton" class="hidden justify-center items-center mx-1 btn-success" title="Next"
+                        type="button">
                         <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24">
                             <path

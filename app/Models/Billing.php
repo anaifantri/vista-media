@@ -11,18 +11,29 @@ class Billing extends Model
 {
     use Sortable;
     protected $guarded = ['id'];
+        
+    public function scopeYear($query){
+        if(request('year')){
+            return $query->whereYear('created_at', request('year'));
+        }else{
+            return $query->whereYear('created_at',  Carbon::now()->year);
+        }
+    }
+
+    public function scopeMonth($query){
+        if(request('month')){
+            return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+        }
+    }
 
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('invoice_number', 'like', '%' . $search . '%')
+                    ->orWhere('invoice_content', 'like', '%' . $search . '%')
                     ->orWhere('created_at', 'like', '%' . $search . '%')
-                    ->orWhereHas('sale', function($query) use ($search){
-                        $query->whereHas('quotation', function($query) use ($search){
-                            $query->whereRaw('LOWER(JSON_EXTRACT(clients, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
-                            ->orWhereRaw('LOWER(JSON_EXTRACT(clients, "$.company")) like ?', ['"%' . strtolower($search) . '%"'])
-                            ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.code")) like ?', ['"%' . strtolower($search) . '%"'])
-                            ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.address")) like ?', ['"%' . strtolower($search) . '%"']);
-                        });
+                    ->orWhere('client', 'like', '%' . $search . '%')
+                    ->orWhereHas('sales', function($query) use ($search){
+                        $query->where('number', 'like', '%' . $search . '%');
                     })
                 );
     }
@@ -32,6 +43,16 @@ class Billing extends Model
     }
     public function vat_tax_invoice(){
         return $this->hasOne(VatTaxInvoice::class);
+    }
+
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class, 'billing_sales');
+    }
+
+    public function bill_cover_letters()
+    {
+        return $this->belongsToMany(BillCoverLetter::class, 'billing_letters');
     }
 
     public $sortable = ['invoice_number', 'receipt_number'];

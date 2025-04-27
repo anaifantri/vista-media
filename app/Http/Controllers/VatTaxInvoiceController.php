@@ -23,7 +23,7 @@ class VatTaxInvoiceController extends Controller
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             $billing = Billing::with('vat_tax_invoice')->get();
             return response()-> view ('vat-tax-invoices.index', [
-                'vat_tax_invoices'=>VatTaxInvoice::where('company_id', $company_id)->sortable()->orderBy("number", "desc")->paginate(30)->withQueryString(),
+                'vat_tax_invoices'=>VatTaxInvoice::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("number", "desc")->paginate(30)->withQueryString(),
                 'title' => 'Daftar Faktur Pajak PPN',
                 compact('billing')
             ]);
@@ -36,7 +36,7 @@ class VatTaxInvoiceController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             return view ('vat-tax-invoices.select-billings', [
-                'billings' => Billing::where('company_id', $companyId)->get(),
+                'billings' => Billing::where('company_id', $companyId)->whereDoesntHave('vat_tax_invoice')->get(),
                 'title' => 'Menambahkan Data Faktur PPN'
             ]);
         } else {

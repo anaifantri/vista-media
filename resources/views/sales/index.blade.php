@@ -16,6 +16,20 @@
             'November',
             'Desember',
         ];
+        $sMonth = [
+            1 => 'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'Mei',
+            'Jun',
+            'Jul',
+            'Agu',
+            'Sep',
+            'Okt',
+            'Nov',
+            'Des',
+        ];
     @endphp
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
@@ -378,7 +392,6 @@
                                                 <label>:</label>
                                                 <a class="ml-1 w-40"
                                                     href="/marketing/clients/{{ $clients->id }}">{{ $clients->name }}</a>
-                                                {{-- <label class="ml-1 w-40">{{ $clients->name }}</label> --}}
                                             </div>
                                             @if ($clients->type == 'Perusahaan')
                                                 <div class="flex ml-1">
@@ -678,9 +691,20 @@
                                     </td>
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">
+                                        <div>
+                                            @foreach ($sale->billings as $itemBilling)
+                                                <a
+                                                    href="/accounting/billings/{{ $itemBilling->id }}">{{ substr($itemBilling->invoice_number, 0, 3) }}/...-{{ substr($itemBilling->invoice_number, -4) }}</a>
+                                            @endforeach
+                                        </div>
                                     </td>
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">
+                                        <div>
+                                            @foreach ($sale->billings as $itemBilling)
+                                                <span>{{ date('d', strtotime($itemBilling->created_at)) }}-{{ $sMonth[(int) date('m', strtotime($itemBilling->created_at))] }}-{{ date('Y', strtotime($itemBilling->created_at)) }}</span>
+                                            @endforeach
+                                        </div>
                                     </td>
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">

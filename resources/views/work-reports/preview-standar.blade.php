@@ -67,9 +67,11 @@
                 <div class="flex text-md mt-2 ml-10">
                     <label class="flex w-40">Keterangan</label>
                     <label class="flex">:</label>
-                    <label class="flex ml-2 text-md w-[575px] h-40"><b>{{ $content->note }}</b></label>
+                    <label class="flex ml-2 text-md w-[575px] h-20"><b>{{ $content->note }}</b></label>
                 </div>
-                <div class="text-md mt-10 w-full"></div>
+                <div class="text-md mt-10 w-full text-justify">Demikian Berita Acara Serah Terima ini dibuat dan
+                    ditandatangani
+                    bersama untuk dapat dipergunakan sebagaimana mestinya</div>
                 <div class="flex justify-center w-full mt-4">
                     <div class="w-[360px]">
                         <label class="mt-4 text-md flex justify-center w-72">Yang menyerahkan,</label>

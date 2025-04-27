@@ -20,6 +20,20 @@
             'November',
             'Desember',
         ];
+        $sMonth = [
+            1 => 'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'Mei',
+            'Jun',
+            'Jul',
+            'Agu',
+            'Sep',
+            'Okt',
+            'Nov',
+            'Des',
+        ];
     @endphp
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="bg-stone-700 p-2 border rounded-md">

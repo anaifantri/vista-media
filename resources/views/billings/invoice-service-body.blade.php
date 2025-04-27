@@ -37,24 +37,49 @@
                         {{ date('d', strtotime($bill_documents->approval->created_at)) }}-{{ $month[(int) date('m', strtotime($bill_documents->approval->created_at))] }}-{{ date('Y', strtotime($bill_documents->approval->created_at)) }}
                     </label>
                 </div>
+                @php
+                    $firstOrderNumber = $bill_documents->orders[0]->number;
+                @endphp
                 @foreach ($bill_documents->orders as $itemOrder)
-                    <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                        <input type="checkbox" class="outline-none mr-2" checked>
-                        <label class="w-24">No. PO</label>
-                        <label class="">:</label>
-                        <label class="ml-2 w-24 font-semibold">
-                            @if (strlen($itemOrder->number) > 9)
-                                {{ substr($itemOrder->number, 0, 9) }}..
-                            @else
-                                {{ $itemOrder->number }}
-                            @endif
-                        </label>
-                        <label class="w-8">Tgl.</label>
-                        <label class="">:</label>
-                        <label class="ml-2 font-semibold">
-                            {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
-                        </label>
-                    </div>
+                    @if ($loop->iteration > 1)
+                        @if ($itemOrder->number != $firstOrderNumber)
+                            <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                                <input type="checkbox" class="outline-none mr-2" checked>
+                                <label class="w-24">No. PO</label>
+                                <label class="">:</label>
+                                <label class="ml-2 w-24 font-semibold">
+                                    @if (strlen($itemOrder->number) > 9)
+                                        {{ substr($itemOrder->number, 0, 9) }}..
+                                    @else
+                                        {{ $itemOrder->number }}
+                                    @endif
+                                </label>
+                                <label class="w-8">Tgl.</label>
+                                <label class="">:</label>
+                                <label class="ml-2 font-semibold">
+                                    {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
+                                </label>
+                            </div>
+                        @endif
+                    @else
+                        <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                            <input type="checkbox" class="outline-none mr-2" checked>
+                            <label class="w-24">No. PO</label>
+                            <label class="">:</label>
+                            <label class="ml-2 w-24 font-semibold">
+                                @if (strlen($itemOrder->number) > 9)
+                                    {{ substr($itemOrder->number, 0, 9) }}..
+                                @else
+                                    {{ $itemOrder->number }}
+                                @endif
+                            </label>
+                            <label class="w-8">Tgl.</label>
+                            <label class="">:</label>
+                            <label class="ml-2 font-semibold">
+                                {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
+                            </label>
+                        </div>
+                    @endif
                 @endforeach
             </div>
             <div class="w-[380px] h-[180px] border rounded-lg p-1 ml-2">

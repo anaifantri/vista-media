@@ -111,11 +111,11 @@
             $getService = 'Produksi dan Pasang';
         } elseif (
             $price->objServiceType->print == true &&
-            ($price->objServiceType->install == false || $price->objInstall->price == 0)
+            ($price->objServiceType->install == false || $price->objInstalls[0]->price == 0)
         ) {
             $getService = 'Produksi';
         } elseif (
-            ($price->objPrint->price == 0 || $price->objServiceType->print == false) &&
+            ($price->objPrints[0]->price == 0 || $price->objServiceType->print == false) &&
             $price->objServiceType->install == true
         ) {
             $getService = 'Pasang';
@@ -240,14 +240,17 @@
         } elseif (count($getSize) == 2) {
             $receipt_description->size = $getSize[0] . ' & ' . $getSize[1];
         } else {
+            $indexSize = 0;
+            $receipt_description->size = '';
             foreach ($getSize as $item) {
                 if ($item == end($getSize)) {
-                    $receipt_description->size = ' & ' . $item;
-                } elseif ($loop->iteration == count($getSize) - 1) {
+                    $receipt_description->size = $receipt_description->size . ' & ' . $item;
+                } elseif ($indexSize == count($getSize) - 1) {
                     $receipt_description->size = $item;
                 } else {
-                    $receipt_description->size = $item . ', ';
+                    $receipt_description->size = $receipt_description->size . $item . ', ';
                 }
+                $indexSize++;
             }
         }
         $receipt_description->qty = count($sales) . ' (' . $huruf[count($sales)] . ') unit';

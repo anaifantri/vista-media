@@ -119,42 +119,74 @@
                                                     {{ date('d', strtotime($invoice_content->approval->created_at)) }}-{{ $month[(int) date('m', strtotime($invoice_content->approval->created_at))] }}-{{ date('Y', strtotime($invoice_content->approval->created_at)) }}
                                                 </label>
                                             </div>
-                                            @foreach ($invoice_content->orders as $itemOrder)
-                                                <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                                                    <label class="w-24">No. PO</label>
-                                                    <label class="">:</label>
-                                                    <label class="ml-2 w-24 font-semibold">
-                                                        @if (strlen($itemOrder->number) > 9)
-                                                            {{ substr($itemOrder->number, 0, 9) }}..
-                                                        @else
-                                                            {{ $itemOrder->number }}
+                                            @if (isset($invoice_content->orders))
+                                                @php
+                                                    if (count($invoice_content->orders) > 1) {
+                                                        $firstOrder = $invoice_content->orders[0];
+                                                    } else {
+                                                        $firstOrder = '';
+                                                    }
+                                                @endphp
+                                                @foreach ($invoice_content->orders as $itemOrder)
+                                                    @if ($loop->iteration > 1)
+                                                        @if ($itemOrder->number != $firstOrder->number)
+                                                            <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                                                                <label class="w-24">No. PO</label>
+                                                                <label class="">:</label>
+                                                                <label class="ml-2 w-24 font-semibold">
+                                                                    @if (strlen($itemOrder->number) > 9)
+                                                                        {{ substr($itemOrder->number, 0, 9) }}..
+                                                                    @else
+                                                                        {{ $itemOrder->number }}
+                                                                    @endif
+                                                                </label>
+                                                                <label class="w-8">Tgl.</label>
+                                                                <label class="">:</label>
+                                                                <label class="ml-2 font-semibold">
+                                                                    {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
+                                                                </label>
+                                                            </div>
                                                         @endif
-                                                    </label>
-                                                    <label class="w-8">Tgl.</label>
-                                                    <label class="">:</label>
-                                                    <label class="ml-2 font-semibold">
-                                                        {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
-                                                    </label>
-                                                </div>
-                                            @endforeach
-                                            @foreach ($invoice_content->agreements as $itemAgreement)
-                                                <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                                                    <label class="w-24">No. Perjanjian</label>
-                                                    <label class="">:</label>
-                                                    <label class="ml-2 w-24 font-semibold">
-                                                        @if (strlen($itemAgreement->number) > 9)
-                                                            {{ substr($itemAgreement->number, 0, 9) }}..
-                                                        @else
-                                                            {{ $itemAgreement->number }}
-                                                        @endif
-                                                    </label>
-                                                    <label class="w-8">Tgl.</label>
-                                                    <label class="">:</label>
-                                                    <label class="ml-2 font-semibold">
-                                                        {{ date('d', strtotime($itemAgreement->date)) }}-{{ $month[(int) date('m', strtotime($itemAgreement->date))] }}-{{ date('Y', strtotime($itemAgreement->date)) }}
-                                                    </label>
-                                                </div>
-                                            @endforeach
+                                                    @else
+                                                        <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                                                            <label class="w-24">No. PO</label>
+                                                            <label class="">:</label>
+                                                            <label class="ml-2 w-24 font-semibold">
+                                                                @if (strlen($itemOrder->number) > 9)
+                                                                    {{ substr($itemOrder->number, 0, 9) }}..
+                                                                @else
+                                                                    {{ $itemOrder->number }}
+                                                                @endif
+                                                            </label>
+                                                            <label class="w-8">Tgl.</label>
+                                                            <label class="">:</label>
+                                                            <label class="ml-2 font-semibold">
+                                                                {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
+                                                            </label>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @if (isset($invoice_content->agreements))
+                                                @foreach ($invoice_content->agreements as $itemAgreement)
+                                                    <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                                                        <label class="w-24">No. Perjanjian</label>
+                                                        <label class="">:</label>
+                                                        <label class="ml-2 w-24 font-semibold">
+                                                            @if (strlen($itemAgreement->number) > 9)
+                                                                {{ substr($itemAgreement->number, 0, 9) }}..
+                                                            @else
+                                                                {{ $itemAgreement->number }}
+                                                            @endif
+                                                        </label>
+                                                        <label class="w-8">Tgl.</label>
+                                                        <label class="">:</label>
+                                                        <label class="ml-2 font-semibold">
+                                                            {{ date('d', strtotime($itemAgreement->date)) }}-{{ $month[(int) date('m', strtotime($itemAgreement->date))] }}-{{ date('Y', strtotime($itemAgreement->date)) }}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         </div>
                                         <div class="w-[380px] h-[180px] border rounded-lg p-1 ml-2">
                                             <label class="text-lg font-mono font-semibold ml-2">Kepada Yth.</label>

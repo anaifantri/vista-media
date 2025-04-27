@@ -29,7 +29,7 @@ class WorkReportController extends Controller
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('work-reports.index', [
-                'work_reports'=>WorkReport::where('company_id', $company_id)->sortable()->orderBy("number", "desc")->paginate(30)->withQueryString(),
+                'work_reports'=>WorkReport::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("number", "desc")->paginate(30)->withQueryString(),
                 'title' => 'Daftar BAST'
             ]);
         } else {
@@ -139,13 +139,13 @@ class WorkReportController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(String $category): Response
+    public function create(String $category, String $companyId): Response
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             if($category == "Media"){
-                $data_sales = Sale::billMedia()->get();
+                $data_sales = Sale::with('billings')->billMedia()->where('company_id', $companyId)->get();
             }else if($category == "Service"){
-                $data_sales = Sale::billService()->get();
+                $data_sales = Sale::billService()->whereDoesntHave('work_reports')->where('company_id', $companyId)->get();
             }
             $quotations = Quotation::with('sales')->get();
             $install_orders = InstallOrder::with('sale')->get();

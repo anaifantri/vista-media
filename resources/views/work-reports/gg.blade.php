@@ -20,12 +20,12 @@
                 <label class="ml-2">Penomoran otomatis</label>
                 <label class="font-semibold w-24 ml-60">Tanggal</label>
                 <label>:</label>
-                @if (request('lep_date'))
+                @if (request('bast_date'))
                     <input class="ml-4 outline-none border rounded-md px-1" type="date"
-                        value="{{ request('lep_date') }}" name="lep_date" onchange="submit()">
+                        value="{{ request('bast_date') }}" name="bast_date" onchange="submit()">
                 @else
                     <input class="ml-4 outline-none border rounded-md px-1" type="date" value="{{ date('Y-m-d') }}"
-                        name="lep_date" onchange="submit()">
+                        name="bast_date" onchange="submit()">
                 @endif
             </div>
             <div class="flex text-md items-center ml-2 mt-2">
