@@ -114,7 +114,7 @@ class WorkReportController extends Controller
         }
     }
 
-    public function selectFormat(String $saleId, String $installOrderId, String $firstPhoto, String $firsttitle, String $secondPhoto, String $secondtitle, String $category): View
+    public function selectFormat(String $saleId, String $mainSaleId, String $installOrderId, String $firstPhoto, String $firsttitle, String $secondPhoto, String $secondtitle, String $category): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             $sale = Sale::findOrFail($saleId);
@@ -128,6 +128,7 @@ class WorkReportController extends Controller
                 'quotation_orders' => $quotation_orders,
                 'quotation_agreements' => $quotation_agreements,
                 'sale' => $sale,
+                'main_sale_id' => $mainSaleId,
                 'work_category' => $sale->media_category->name,
                 'bast_category' => $category,
                 'first_photo' => InstallationPhoto::findOrFail($firstPhoto),

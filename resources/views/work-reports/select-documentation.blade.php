@@ -543,6 +543,7 @@
         let firstImages = @json($first_photos);
         let secondImages = @json($second_photos);
         var sale = @json($sale);
+        var mainSaleId = @json($main_sale_id);
         var bastCategory = @json($bast_category);
         var installOrder = @json($install_order);
         const previewFirstPhoto = document.getElementById("previewFirstPhoto");
@@ -559,7 +560,8 @@
             } else {
                 secondTitle = "Foto Malam";
             }
-            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0].id +
+            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId + '/' +
+                installOrder[0].id +
                 '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' + bastCategory);
         } else {
             var indexSecond = 0;
@@ -571,7 +573,8 @@
                     secondTitle = "Foto Malam";
                 }
             }
-            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0].id +
+            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId + '/' +
+                installOrder[0].id +
                 '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' + bastCategory);
         }
 
@@ -583,7 +586,8 @@
             } else {
                 firstTitle = "Foto Malam";
             }
-            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0].id +
+            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId + '/' +
+                installOrder[0].id +
                 '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' + bastCategory);
         } else {
             var indexFirst = 0;
@@ -594,7 +598,8 @@
                 } else {
                     firstTitle = "Foto Malam";
                 }
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId + '/' +
+                    installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' + bastCategory
                 );
@@ -607,7 +612,8 @@
                 imageSecondViews[0].removeAttribute('hidden');
                 indexSecond = 0;
                 secondPhotoId = secondImages[indexSecond].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
                     bastCategory);
@@ -616,7 +622,8 @@
                 imageSecondViews[indexSecond + 1].removeAttribute('hidden');
                 indexSecond = indexSecond + 1;
                 secondPhotoId = secondImages[indexSecond].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
                     bastCategory);
@@ -628,7 +635,8 @@
                 imageFirstViews[0].removeAttribute('hidden');
                 indexFirst = 0;
                 firstPhotoId = firstImages[indexFirst].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
                     bastCategory);
@@ -637,7 +645,8 @@
                 imageFirstViews[indexFirst + 1].removeAttribute('hidden');
                 indexFirst = indexFirst + 1;
                 firstPhotoId = firstImages[indexFirst].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
                     bastCategory);
@@ -649,7 +658,8 @@
                 imageSecondViews[imageSecondViews.length - 1].removeAttribute('hidden');
                 indexSecond = imageSecondViews.length - 1;
                 secondPhotoId = secondImages[indexSecond].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
                     bastCategory);
@@ -658,7 +668,8 @@
                 imageSecondViews[indexSecond - 1].removeAttribute('hidden');
                 indexSecond = indexSecond - 1;
                 secondPhotoId = secondImages[indexSecond].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
                     bastCategory);
@@ -670,7 +681,8 @@
                 imageFirstViews[imageFirstViews.length - 1].removeAttribute('hidden');
                 indexFirst = imageFirstViews.length - 1;
                 firstPhotoId = firstImages[indexFirst].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
                     bastCategory);
@@ -679,7 +691,8 @@
                 imageFirstViews[indexFirst - 1].removeAttribute('hidden');
                 indexFirst = indexFirst - 1;
                 firstPhotoId = firstImages[indexFirst].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + installOrder[0]
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrder[0]
                     .id +
                     '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
                     bastCategory);

@@ -299,7 +299,7 @@
                     <h1 class="index-h1 w-[1200px]">Membuat BAST</h1>
                     <!-- Title end -->
                     <div id="divButton" class="flex w-[150px] justify-end">
-                        <a href="/work-reports/select-documentation/{{ $sale->id }}/{{ $bast_category }}"
+                        <a href="/work-reports/select-documentation/{{ $sale->id }}/{{ $main_sale_id }}/{{ $bast_category }}"
                             class="flex justify-center items-center mx-1 btn-primary" title="Back">
                             <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
