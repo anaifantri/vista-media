@@ -162,7 +162,8 @@
                         <div class="flex w-full bg-stone-400 rounded-xl items-center mt-2 px-10 pt-2 border-b pb-2">
                             <span class="text-center w-full text-md font-semibold">Pilih Tema/Design</span>
                         </div>
-                        <form action="/work-reports/select-documentation/{{ $sale->id }}/{{ $bast_category }}">
+                        <form
+                            action="/work-reports/select-documentation/{{ $sale->id }}/{{ $main_sale_id }}/{{ $bast_category }}">
                             <div class="flex w-full justify-center items-center p-2">
                                 <table class="table-auto mt-2 w-full">
                                     <thead>
@@ -508,7 +509,7 @@
                     </div>
                 </div>
                 <div class="flex w-full items-end bg-stone-400 rounded-lg justify-end px-4 pt-2 border-b pb-2">
-                    <a href="/work-reports/create/{{ $bast_category }}"
+                    <a href="/work-reports/create/{{ $bast_category }}/{{ $company->id }}"
                         class="flex justify-center items-center mx-1 btn-primary" title="Back">
                         <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24">

@@ -2,8 +2,16 @@ const formSelectSale = document.getElementById("formSelectSale");
 let saleId = "";
 
 getMediaSales = (sel) => {
-    saleId = JSON.parse(sel.value).id;
-    formSelectSale.setAttribute('action', '/work-reports/select-documentation/' + saleId + '/' + category);
+    getSale = JSON.parse(sel.value);
+    saleId = getSale.id;
+    saleProduct = JSON.parse(getSale.product);
+    if(category == "Service"){
+        mainSaleId = saleProduct.sale_id;
+        console.log(saleId);
+    }else{
+        mainSaleId = 0;
+    }
+    formSelectSale.setAttribute('action', '/work-reports/select-documentation/' + saleId + '/' + mainSaleId + '/' + category);
 }
 
 // Function Modal Sale Start

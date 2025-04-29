@@ -224,10 +224,11 @@ class PrintOrderController extends Controller
                 $usedPrints = [];
                 $freePrints = [];
                 $printProducts = [];
-                $dataSales = Sale::printOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                $dataSales = Sale::where('company_id', $company_id)->printOrderSide()->filter(request('search'))->area()->city()->category()->sortable()->get();
                 foreach($dataSales as $dataSale){
                     $product = json_decode($dataSale->product);
                     $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
+                    $index = 0;
                     if($revision){
                         $notes = json_decode($revision->notes);
                         $freePrint = $notes->freePrint;
@@ -236,7 +237,9 @@ class PrintOrderController extends Controller
                         foreach($price->objPrints as $print){
                             if($print->code == $product->code){
                                 $printProduct = $print->printProduct;
+                                $sideView = $price->objSideView[$index];
                             }
+                            $index++;
                         }
                     }else{
                         $notes = json_decode($dataSale->quotation->notes);
@@ -246,15 +249,28 @@ class PrintOrderController extends Controller
                         foreach($price->objPrints as $print){
                             if($print->code == $product->code){
                                 $printProduct = $print->printProduct;
+                                $sideView = $price->objSideView[$index];
                             }
+                            $index++;
                         }
                     }
-                    if($freePrint < count($dataPrints) || $freePrint == 0){
-                        $sales->push($dataSale);
-                        array_push($clients,json_decode($dataSale->quotation->clients));
-                        array_push($freePrints, $freePrint);
-                        array_push($printProducts, $printProduct);
-                        array_push($usedPrints, count($dataPrints));
+                    // dd(count($dataPrints));
+                    if($sideView->left == true && $sideView->right == true){
+                        if(($freePrint < count($dataPrints) || $freePrint == 0) && count($dataPrints) < 2){
+                            $sales->push($dataSale);
+                            array_push($clients,json_decode($dataSale->quotation->clients));
+                            array_push($freePrints, $freePrint);
+                            array_push($printProducts, $printProduct);
+                            array_push($usedPrints, count($dataPrints));
+                        }
+                    }else{
+                        if(($freePrint < count($dataPrints) || $freePrint == 0) && count($dataPrints) == 0){
+                            $sales->push($dataSale);
+                            array_push($clients,json_decode($dataSale->quotation->clients));
+                            array_push($freePrints, $freePrint);
+                            array_push($printProducts, $printProduct);
+                            array_push($usedPrints, count($dataPrints));
+                        }
                     }
                 }
                 $locations = Location::with('sales')->get();

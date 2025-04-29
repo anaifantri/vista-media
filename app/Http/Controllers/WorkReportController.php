@@ -63,11 +63,15 @@ class WorkReportController extends Controller
         }
     }
 
-    public function selectDocumentation(String $saleId, String $category): View
+    public function selectDocumentation(String $saleId, String $mainSaleId, String $category): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             $sale = Sale::findOrFail($saleId);
-            $data_orders = InstallOrder::photo($saleId)->orderBy("id", "desc")->get();
+            if($mainSaleId == 0){
+                $data_orders = InstallOrder::photo($saleId)->orderBy("id", "desc")->get();
+            }else{
+                $data_orders = InstallOrder::photo($mainSaleId)->orderBy("id", "desc")->get();
+            }
             if(request('rb_install_order')){
                 $data_photos = InstallationPhoto::where('install_order_id', request('rb_install_order'))->get();
                 $data_order = InstallOrder::where('id', request('rb_install_order'))->get();
@@ -97,6 +101,7 @@ class WorkReportController extends Controller
                 'quotation_agreements' => $quotation_agreements,
                 'install_order' => $data_order,
                 'sale' => $sale,
+                'main_sale_id' => $mainSaleId,
                 'bast_category' => $category,
                 'work_category' => $sale->media_category->name,
                 'installation_photos' => $data_photos,

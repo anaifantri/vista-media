@@ -197,7 +197,11 @@
                                         {{ $content->location_code }} | {{ $content->location_address }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
-                                        {{ $content->category }}
+                                        @if ($content->category == 'Service')
+                                            Cetak/Pasang
+                                        @else
+                                            Media
+                                        @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
