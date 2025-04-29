@@ -346,7 +346,7 @@
                 <div class="flex justify-center w-full mt-4">
                     <div>
                         <form
-                            action="/work-reports/select-format/{{ $sale->id }}/{{ $install_order->id }}/{{ $first_photo->id }}/{{ $first_title }}/{{ $second_photo->id }}/{{ $second_title }}/{{ $bast_category }}">
+                            action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $install_order->id }}/{{ $first_photo->id }}/{{ $first_title }}/{{ $second_photo->id }}/{{ $second_title }}/{{ $bast_category }}">
                             <div class="flex items-center w-[950px] border rounded-md px-2">
                                 <span class="text-sm font-semibold text-white">Pilih format BAST :</span>
                                 @foreach ($bastFormats as $format)
