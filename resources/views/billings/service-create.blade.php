@@ -186,6 +186,7 @@
 
             $invoice_description = new stdClass();
             $invoice_description->title = $getService . ' Visual Media Luar Ruang';
+            $invoice_description->sale_id = $sale->id;
             $invoice_description->nominal = $sale->price;
             $invoice_description->type = $product->category . ' - ' . $description->lighting;
             $invoice_description->area = $product->area;

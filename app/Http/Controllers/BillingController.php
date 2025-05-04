@@ -89,7 +89,7 @@ class BillingController extends Controller
             $clientId = json_decode($sales[0]->quotation->clients)->id;
             $client = Client::findOrFail($clientId);
             $quotationClient = json_decode($sales[0]->quotation->clients);
-            return view ('billings.service-preview', [
+            return view ('billings.service-create', [
                 'title' => 'Membuat Invoice & Kwitansi',
                 'sales' => $sales,
                 'sale_id' => json_decode($saleId),
@@ -158,8 +158,8 @@ class BillingController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
-            $invoiceData = json_decode($request->invoice);
-            $receiptData = json_decode($request->receipt);
+            // $invoiceData = json_decode($request->invoice);
+            // $receiptData = json_decode($request->receipt);
             if($request->category == "Media"){
                 $getSaleNumber = $request->sale_number;
             }elseif($request->category == "Service"){
@@ -195,9 +195,11 @@ class BillingController extends Controller
             // Set number --> end
             $invoiceNumber = $invoice_number;
             $receiptNumber = $receipt_number;
-            $request->invoice = json_encode($invoiceData);
+            // $request->invoice = json_encode($invoiceData);
 
             $request->request->add(['invoice_number' => $invoiceNumber,'receipt_number' => $receiptNumber]);
+
+            // dd(json_decode(request('invoice_content')));
             
             $validateData = $request->validate([
                 'company_id' => 'required',

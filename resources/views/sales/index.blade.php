@@ -259,14 +259,14 @@
                                     rowspan="2">Harga
                                     (Rp.)
                                 </th>
-                                <th class="text-stone-900 sticky border-stone-900 top-0 border text-[0.65rem] w-[360px]"
+                                <th class="text-stone-900 sticky border-stone-900 top-0 border text-[0.65rem]"
                                     colspan="5">
                                     Termin
                                     Pembayaran</th>
-                                <th class="text-stone-900 sticky border-stone-900 top-0 border text-[0.65rem] w-40"
-                                    colspan="2">Penagihan
+                                <th class="text-stone-900 sticky border-stone-900 top-0 border text-[0.65rem]"
+                                    colspan="3">Penagihan
                                 </th>
-                                <th class="text-stone-900 sticky border-stone-900 top-0 border text-[0.65rem] w-40"
+                                <th class="text-stone-900 sticky border-stone-900 top-0 border text-[0.65rem]"
                                     colspan="2">Pembayaran
                                 </th>
                                 <th class="text-stone-900 sticky border-stone-900 top-0 border text-[0.65rem] w-16"
@@ -286,13 +286,14 @@
                             </tr>
                             <tr class="bg-stone-400">
                                 <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-10">Termin</th>
-                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">Nominal (Rp.)</th>
-                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">PPN (Rp.)</th>
-                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">PPh (Rp.)</th>
-                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">Total (Rp.)</th>
+                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-[72px]">Nominal</th>
+                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-16">PPN</th>
+                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-14">PPh</th>
+                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">Total</th>
                                 <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">No. Invoice</th>
                                 <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">Tgl. Invoice</th>
-                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">Nominal (Rp.)</th>
+                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-[72px]">Nominal</th>
+                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-12">Status</th>
                                 <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-20">Tgl. Bayar</th>
                             </tr>
                         </thead>
@@ -335,6 +336,7 @@
                                     $clients = json_decode($sale->quotation->clients);
                                     $product = json_decode($sale->product);
                                     $description = json_decode($product->description);
+                                    $saleBillings = $sale->billings;
                                 @endphp
                                 <tr>
                                     <td
@@ -708,6 +710,33 @@
                                     </td>
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">
+                                        <div>
+                                            @if ($sale->media_category->name == 'Service')
+                                                @foreach ($saleBillings as $itemBilling)
+                                                    @foreach (json_decode($itemBilling->invoice_content)->description as $itemDescription)
+                                                        @if ($itemDescription->sale_id == $sale->id)
+                                                            {{ number_format($itemDescription->nominal + ($sale->ppn / 100) * $itemDescription->nominal) }}
+                                                        @endif
+                                                    @endforeach
+                                                @endforeach
+                                            @else
+                                                @foreach ($saleBillings as $itemBilling)
+                                                    @foreach (json_decode($itemBilling->invoice_content)->data_sales as $itemSales)
+                                                        @if ($itemSales->id == $sale->id)
+                                                            {{ number_format($itemSales->nominal + ($sale->ppn / 100) * $itemSales->nominal) }}
+                                                        @endif
+                                                    @endforeach
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td
+                                        class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">
+                                        <div>
+                                            @foreach ($saleBillings as $itemBilling)
+                                                Unpaid
+                                            @endforeach
+                                        </div>
                                     </td>
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">

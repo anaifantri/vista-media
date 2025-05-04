@@ -416,6 +416,20 @@
         $invoice->approval = $bill_documents->approval;
         $invoice->orders = $bill_documents->orders;
         $invoice->agreements = $bill_documents->agreements;
+        $invoice->data_sales = [];
+
+        foreach ($sales as $getSale) {
+            $dataSale = new stdClass();
+            $dataSale->id = $getSale->id;
+            $dataSale->nominal = 0;
+            foreach ($bill_terms as $getBillTerm) {
+                if ($getBillTerm->set_collect == true) {
+                    $dataSale->nominal = $dataSale->nominal + ($getBillTerm->term / 100) * $getSale->price;
+                }
+            }
+
+            array_push($invoice->data_sales, $dataSale);
+        }
 
         $created_by = new stdClass();
         $created_by->id = auth()->user()->id;

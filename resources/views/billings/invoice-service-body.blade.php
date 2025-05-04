@@ -38,7 +38,11 @@
                     </label>
                 </div>
                 @php
-                    $firstOrderNumber = $bill_documents->orders[0]->number;
+                    if (count($quotation_orders) > 0) {
+                        $firstOrderNumber = $bill_documents->orders[0]->number;
+                    } else {
+                        $firstOrderNumber = '';
+                    }
                 @endphp
                 @foreach ($bill_documents->orders as $itemOrder)
                     @if ($loop->iteration > 1)

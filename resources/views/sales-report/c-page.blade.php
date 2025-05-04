@@ -96,7 +96,7 @@
                     <th class="text-black sticky top-0 border text-[0.65rem]" colspan="5">
                         Termin Pembayaran
                     </th>
-                    <th class="text-black sticky top-0 border text-[0.65rem]" colspan="2">
+                    <th class="text-black sticky top-0 border text-[0.65rem]" colspan="3">
                         Penagihan
                     </th>
                     <th class="text-black sticky top-0 border text-[0.65rem]" colspan="2">
@@ -105,13 +105,14 @@
                 </tr>
                 <tr class="bg-teal-100">
                     <th class="text-black border text-[0.65rem] w-10">Termin</th>
-                    <th class="text-black border text-[0.65rem] w-20">Nominal (Rp.)</th>
-                    <th class="text-black border text-[0.65rem] w-20">PPN (Rp.)</th>
-                    <th class="text-black border text-[0.65rem] w-16">PPh (Rp.)</th>
-                    <th class="text-black border text-[0.65rem] w-24">Total (Rp.)</th>
+                    <th class="text-black border text-[0.65rem] w-[72px]">Nominal</th>
+                    <th class="text-black border text-[0.65rem] w-16">PPN</th>
+                    <th class="text-black border text-[0.65rem] w-14">PPh</th>
+                    <th class="text-black border text-[0.65rem] w-20">Total</th>
                     <th class="text-black border text-[0.65rem] w-20">No. Invoice</th>
                     <th class="text-black border text-[0.65rem] w-20">Tgl. Invoice</th>
-                    <th class="text-black border text-[0.65rem] w-20">Nominal (Rp.)</th>
+                    <th class="text-black border text-[0.65rem] w-[72px]">Nominal</th>
+                    <th class="text-black border text-[0.65rem] w-12">Status</th>
                     <th class="text-black border text-[0.65rem] w-20">Tgl. Bayar</th>
                 </tr>
             </thead>
@@ -171,6 +172,7 @@
                         $clients = json_decode($sale->quotation->clients);
                         $product = json_decode($sale->product);
                         $description = json_decode($product->description);
+                        $saleBillings = $sale->billings;
                     @endphp
                     @if ($i == 0)
                         @if ($loop->iteration < 9)
@@ -917,7 +919,7 @@
                                 @endif
                                 <td class="text-black border text-[0.65rem] text-center align-top">
                                     <div>
-                                        @foreach ($sale->billings as $itemBilling)
+                                        @foreach ($saleBillings as $itemBilling)
                                             <a
                                                 href="/accounting/billings/{{ $itemBilling->id }}">{{ substr($itemBilling->invoice_number, 0, 3) }}/...-{{ substr($itemBilling->invoice_number, -4) }}</a>
                                         @endforeach
@@ -925,12 +927,38 @@
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
                                     <div>
-                                        @foreach ($sale->billings as $itemBilling)
+                                        @foreach ($saleBillings as $itemBilling)
                                             <span>{{ date('d', strtotime($itemBilling->created_at)) }}-{{ $sMonth[(int) date('m', strtotime($itemBilling->created_at))] }}-{{ date('Y', strtotime($itemBilling->created_at)) }}</span>
                                         @endforeach
                                     </div>
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <div>
+                                        @if ($sale->media_category->name == 'Service')
+                                            @foreach ($saleBillings as $itemBilling)
+                                                @foreach (json_decode($itemBilling->invoice_content)->description as $itemDescription)
+                                                    @if ($itemDescription->sale_id == $sale->id)
+                                                        {{ number_format($itemDescription->nominal + ($sale->ppn / 100) * $itemDescription->nominal) }}
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
+                                        @else
+                                            @foreach ($saleBillings as $itemBilling)
+                                                @foreach (json_decode($itemBilling->invoice_content)->data_sales as $itemSales)
+                                                    @if ($itemSales->id == $sale->id)
+                                                        {{ number_format($itemSales->nominal + ($sale->ppn / 100) * $itemSales->nominal) }}
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <div>
+                                        @foreach ($saleBillings as $itemBilling)
+                                            Unpaid
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
                                 </td>
@@ -1701,7 +1729,7 @@
                                 @endif
                                 <td class="text-black border text-[0.65rem] text-center align-top">
                                     <div>
-                                        @foreach ($sale->billings as $itemBilling)
+                                        @foreach ($saleBillings as $itemBilling)
                                             <a
                                                 href="/accounting/billings/{{ $itemBilling->id }}">{{ substr($itemBilling->invoice_number, 0, 3) }}/...-{{ substr($itemBilling->invoice_number, -4) }}</a>
                                         @endforeach
@@ -1709,12 +1737,38 @@
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
                                     <div>
-                                        @foreach ($sale->billings as $itemBilling)
+                                        @foreach ($saleBillings as $itemBilling)
                                             <span>{{ date('d', strtotime($itemBilling->created_at)) }}-{{ $sMonth[(int) date('m', strtotime($itemBilling->created_at))] }}-{{ date('Y', strtotime($itemBilling->created_at)) }}</span>
                                         @endforeach
                                     </div>
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <div>
+                                        @if ($sale->media_category->name == 'Service')
+                                            @foreach ($saleBillings as $itemBilling)
+                                                @foreach (json_decode($itemBilling->invoice_content)->description as $itemDescription)
+                                                    @if ($itemDescription->sale_id == $sale->id)
+                                                        {{ number_format($itemDescription->nominal + ($sale->ppn / 100) * $itemDescription->nominal) }}
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
+                                        @else
+                                            @foreach ($saleBillings as $itemBilling)
+                                                @foreach (json_decode($itemBilling->invoice_content)->data_sales as $itemSales)
+                                                    @if ($itemSales->id == $sale->id)
+                                                        {{ number_format($itemSales->nominal + ($sale->ppn / 100) * $itemSales->nominal) }}
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <div>
+                                        @foreach ($saleBillings as $itemBilling)
+                                            Unpaid
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="text-black border text-[0.65rem] text-center align-top">
                                 </td>

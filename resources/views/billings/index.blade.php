@@ -238,7 +238,7 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            @canany(['isAdmin', 'isAccounting'])
+                                            {{-- @canany(['isAdmin', 'isAccounting'])
                                                 @can('isCollect')
                                                     @can('isAccountingEdit')
                                                         <a href="/accounting/billings/{{ $billing->id }}/edit"
@@ -270,7 +270,7 @@
                                                         </svg>
                                                     </button>
                                                 </form>
-                                            @endcan
+                                            @endcan --}}
                                         </div>
                                     </td>
                                 </tr>

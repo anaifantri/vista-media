@@ -48,32 +48,57 @@
                     @endforeach
                 </div>
             </div>
-            <div class="ml-4 w-[575px] p-2 border rounded-lg border-stone-900">
-                <div class="flex text-md font-semibold">
-                    @if (request('rbTerm'))
-                        @if (request('rbTerm') == 'manualTerm')
-                            <input id="rbManualTerm" name="rbTerm" value="manualTerm" type="radio"
-                                onclick="rbManualTermAction()" checked>
+            @if (count($sales) > 1)
+                <div class="ml-4 w-[575px] p-2 border rounded-lg border-stone-900" hidden>
+                    <div class="flex text-md font-semibold">
+                        @if (request('rbTerm'))
+                            @if (request('rbTerm') == 'manualTerm')
+                                <input id="rbManualTerm" name="rbTerm" value="manualTerm" type="radio"
+                                    onclick="rbManualTermAction()" checked>
+                            @else
+                                <input id="rbManualTerm" name="rbTerm" value="manualTerm" type="radio"
+                                    onclick="rbManualTermAction()">
+                            @endif
                         @else
                             <input id="rbManualTerm" name="rbTerm" value="manualTerm" type="radio"
                                 onclick="rbManualTermAction()">
                         @endif
+                        <label class="ml-2">Input manual :</label>
+                    </div>
+                    @if (request('rbTerm') && request('rbTerm') == 'manualTerm')
+                        @include('billings.manual-term-enable')
                     @else
-                        <input id="rbManualTerm" name="rbTerm" value="manualTerm" type="radio"
-                            onclick="rbManualTermAction()">
+                        @include('billings.manual-term-disable')
                     @endif
-                    <label class="ml-2">Input manual :</label>
                 </div>
-                @if (request('rbTerm') && request('rbTerm') == 'manualTerm')
-                    @include('billings.manual-term-enable')
-                @else
-                    @include('billings.manual-term-disable')
-                @endif
-            </div>
+            @else
+                <div class="ml-4 w-[575px] p-2 border rounded-lg border-stone-900">
+                    <div class="flex text-md font-semibold">
+                        @if (request('rbTerm'))
+                            @if (request('rbTerm') == 'manualTerm')
+                                <input id="rbManualTerm" name="rbTerm" value="manualTerm" type="radio"
+                                    onclick="rbManualTermAction()" checked>
+                            @else
+                                <input id="rbManualTerm" name="rbTerm" value="manualTerm" type="radio"
+                                    onclick="rbManualTermAction()">
+                            @endif
+                        @else
+                            <input id="rbManualTerm" name="rbTerm" value="manualTerm" type="radio"
+                                onclick="rbManualTermAction()">
+                        @endif
+                        <label class="ml-2">Input manual :</label>
+                    </div>
+                    @if (request('rbTerm') && request('rbTerm') == 'manualTerm')
+                        @include('billings.manual-term-enable')
+                    @else
+                        @include('billings.manual-term-disable')
+                    @endif
+                </div>
+            @endif
         </div>
         <div class="flex w-full items-end bg-stone-400 rounded-lg justify-end px-4 pt-2 border-b pb-2">
-            <a href="/billings/select-sale/media" class="flex justify-center items-center mx-1 btn-primary"
-                title="Back">
+            <a href="/billings/select-sale/media/{{ $company->id }}"
+                class="flex justify-center items-center mx-1 btn-primary" title="Back">
                 <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                     height="24" viewBox="0 0 24 24">
                     <path
