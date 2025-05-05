@@ -358,7 +358,7 @@
                                                         <div class="flex w-full justify-end px-1">
                                                             <label class="w-6">Rp. </label>
                                                             <label
-                                                                class="w-full flex justify-end">{{ number_format(($billing->dpp / 12) * 11) }}</label>
+                                                                class="w-full flex justify-end">{{ number_format($billing->dpp) }}</label>
                                                             <label class="w-4">,-</label>
                                                         </div>
                                                     </td>
