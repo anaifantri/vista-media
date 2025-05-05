@@ -231,7 +231,7 @@
             if ($termItem->set_collect == true) {
                 $totalNominal = $totalNominal + $termItem->nominal;
                 $totalPpn = $totalPpn + $termItem->ppn;
-                $totalDpp = $totalDpp + $termItem->ppn;
+                $totalDpp = $totalDpp + $termItem->dpp;
                 $grandTotal = $totalNominal + $totalPpn;
 
                 $invoice_description = new stdClass();

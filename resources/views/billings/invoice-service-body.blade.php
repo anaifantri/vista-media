@@ -230,7 +230,7 @@
                             <div class="flex">
                                 <label class="w-20">No. Rek.</label>
                                 <label>:</label>
-                                <label class="ml-2 font-semibold">040 232 111</label>
+                                <label class="ml-2 font-semibold">040 232 1111</label>
                             </div>
                             <div class="flex">
                                 <label class="w-20">Nama</label>

@@ -17,6 +17,8 @@
                 $side = $price->objSideView[$indexInstall]->side;
                 if (isset($price->dataServiceNotes)) {
                     $serviceNote = $price->dataServiceNotes[$indexInstall]->serviceNote;
+                } else {
+                    $serviceNote = '';
                 }
                 $leftStatus = $price->objSideView[$indexInstall]->left;
                 $rightStatus = $price->objSideView[$indexInstall]->right;
@@ -33,6 +35,8 @@
                 $side = $price->objSideView[$indexPrint]->side;
                 if (isset($price->dataServiceNotes)) {
                     $serviceNote = $price->dataServiceNotes[$indexPrint]->serviceNote;
+                } else {
+                    $serviceNote = '';
                 }
                 $leftStatus = $price->objSideView[$indexPrint]->left;
                 $rightStatus = $price->objSideView[$indexPrint]->right;
