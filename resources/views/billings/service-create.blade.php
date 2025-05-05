@@ -328,7 +328,7 @@
                 <input type="text" id="receipt" name="receipt_content" value="{{ json_encode($receipt_description) }}"
                     hidden>
                 <input type="text" id="client" name="client" value="{{ json_encode($bill_client) }}" hidden>
-                <input type="text" name="dpp" value="{{ $totalDpp }}" hidden>
+                <input type="text" name="dpp" value="{{ ($totalDpp / 12) * 11 }}" hidden>
                 <input type="text" name="ppn" value="{{ $totalPpn }}" hidden>
                 <input type="text" name="nominal" value="{{ $totalNominal }}" hidden>
                 <input type="text" name="created_by" value="{{ json_encode($created_by) }}" hidden>
