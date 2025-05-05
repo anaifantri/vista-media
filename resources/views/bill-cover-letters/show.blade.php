@@ -39,7 +39,7 @@
                 </div>
             @endif
             <div class="flex justify-center w-full">
-                <div class="w-[950px] h-[1345px] bg-white mb-10 p-2 mt-2">
+                <div id="pdfPreview" class="w-[950px] h-[1345px] bg-white p-2 mt-2">
                     <!-- Header start -->
                     @include('dashboard.layouts.letter-header')
                     <!-- Header end -->
