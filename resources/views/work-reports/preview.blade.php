@@ -204,7 +204,7 @@
             var element = document.getElementById('pdfPreview');
             var opt = {
                 margin: 0,
-                filename: saveName.value,
+                filename: saveName.value + '.pdf',
                 image: {
                     type: 'jpeg',
                     quality: 1
