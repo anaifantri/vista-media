@@ -170,7 +170,7 @@ class BillingController extends Controller
                 }
             }
             
-            dd($getSaleNumber);
+            // dd($getSaleNumber);
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
