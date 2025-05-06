@@ -158,19 +158,19 @@ class BillingController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
-            // $invoiceData = json_decode($request->invoice);
-            // $receiptData = json_decode($request->receipt);
             if($request->category == "Media"){
                 $getSaleNumber = $request->sale_number;
             }elseif($request->category == "Service"){
                 $saleNumber = json_decode($request->sale_number);
                 sort($saleNumber);
-                if(count($saleNumber) < 1){
-                    $getSaleNumber = $saleNumber[0];
-                }else{
+                if(count($saleNumber) > 1){
                     $getSaleNumber = $saleNumber[0].'-'.end($saleNumber);
+                }else{
+                    $getSaleNumber = $saleNumber[0];
                 }
             }
+            
+            dd($getSaleNumber);
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
@@ -195,11 +195,8 @@ class BillingController extends Controller
             // Set number --> end
             $invoiceNumber = $invoice_number;
             $receiptNumber = $receipt_number;
-            // $request->invoice = json_encode($invoiceData);
 
             $request->request->add(['invoice_number' => $invoiceNumber,'receipt_number' => $receiptNumber]);
-
-            // dd(json_decode(request('invoice_content')));
             
             $validateData = $request->validate([
                 'company_id' => 'required',

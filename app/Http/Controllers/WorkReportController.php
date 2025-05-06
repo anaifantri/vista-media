@@ -149,9 +149,9 @@ class WorkReportController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             if($category == "Media"){
-                $data_sales = Sale::with('billings')->billMedia()->where('company_id', $companyId)->get();
+                $data_sales = Sale::with('billings')->workMedia()->where('company_id', $companyId)->get();
             }else if($category == "Service"){
-                $data_sales = Sale::billService()->whereDoesntHave('work_reports')->where('company_id', $companyId)->get();
+                $data_sales = Sale::workService()->where('company_id', $companyId)->get();
             }
             $quotations = Quotation::with('sales')->get();
             $install_orders = InstallOrder::with('sale')->get();

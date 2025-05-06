@@ -113,11 +113,24 @@ class Sale extends Model
                     });
     }
 
+    public function scopeWorkMedia($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '!=', 'Service');
+                    });
+    }
+
     public function scopeBillService($query){
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '=', 'Service');
                     })
                     ->whereDoesntHave('billings');
+    }
+
+    public function scopeWorkService($query){
+        return $query->whereHas('media_category', function($query){
+                                    $query->where('name', '=', 'Service');
+                    })
+                    ->whereDoesntHave('work_reports');
     }
 
     public function scopePrintOrder($query){

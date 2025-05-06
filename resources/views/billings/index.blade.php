@@ -212,9 +212,9 @@
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         @if ($billing->category == 'Media')
-                                            Sewa Media
+                                            Media
                                         @elseif($billing->category == 'Service')
-                                            Cetak/Pasang
+                                            Revisual
                                         @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-right">

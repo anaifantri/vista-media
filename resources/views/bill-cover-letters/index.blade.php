@@ -192,7 +192,12 @@
                                         @endforeach
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ $content->category }}</td>
+                                        @if ($content->category == 'Service')
+                                            Revisual
+                                        @else
+                                            Media
+                                        @endif
+                                    </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ $content->client->company }}</td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
