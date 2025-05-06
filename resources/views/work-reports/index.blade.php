@@ -198,7 +198,7 @@
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
                                         @if ($content->category == 'Service')
-                                            Cetak/Pasang
+                                            Revisual
                                         @else
                                             Media
                                         @endif

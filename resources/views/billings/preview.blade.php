@@ -125,11 +125,11 @@
         </div>
         @if ($category == 'Media')
             <input id="saveName" type="text"
-                value="{{ substr($billing->invoice_number, 0, 3) }}-Media-{{ $client->company }}-{{ $receipt_content->location }}"
+                value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->company }}-{{ $receipt_content->location }}"
                 hidden>
         @elseif($category == 'Service')
             <input id="saveName" type="text"
-                value="{{ substr($billing->invoice_number, 0, 3) }}-Revisual-{{ $client->company }}-{{ $receipt_content->location }}"
+                value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->company }}-{{ $receipt_content->location }}"
                 hidden>
         @endif
     </div>

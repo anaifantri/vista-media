@@ -106,14 +106,16 @@
         $index = 0;
 
         $getService = '';
+        $getQty = 1;
+        $getSide = 1;
 
         if ($price->objServiceType->print == true && $price->objServiceType->install == true) {
-            $getService = 'Produksi dan Pasang';
+            $getService = 'Cetak dan Pasang';
         } elseif (
             $price->objServiceType->print == true &&
             ($price->objServiceType->install == false || $price->objInstalls[0]->price == 0)
         ) {
-            $getService = 'Produksi';
+            $getService = 'Cetak';
         } elseif (
             ($price->objPrints[0]->price == 0 || $price->objServiceType->print == false) &&
             $price->objServiceType->install == true
@@ -138,6 +140,31 @@
             $pushSize = true;
             $pushCategory = true;
             $pushTheme = true;
+
+            if ($price->objServiceType->print == true) {
+                $i = 0;
+                foreach ($price->objPrints as $objPrint) {
+                    if ($objPrint->code == $getProduct->code) {
+                        if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
+                            $getQty = 2;
+                            $getSide = 2;
+                        }
+                    }
+                    $i++;
+                }
+            } else {
+                $i = 0;
+                foreach ($price->objInstalls as $objInstall) {
+                    if ($objInstall->code == $getProduct->code) {
+                        if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
+                            $getQty = 2;
+                            $getSide = 2;
+                        }
+                    }
+                    $i++;
+                }
+            }
+
             if (count($getSize) != 0) {
                 foreach ($getSize as $item) {
                     if ($item == $getProduct->size) {
@@ -191,8 +218,8 @@
             $invoice_description->type = $product->category . ' - ' . $description->lighting;
             $invoice_description->area = $product->area;
             $invoice_description->city = $product->city;
-            $invoice_description->size = $product->size . ' x ' . $product->side . ' - ' . $product->orientation;
-            $invoice_description->qty = '1 (Satu) Unit';
+            $invoice_description->size = $product->size . ' x ' . $getSide . ' - ' . $product->orientation;
+            $invoice_description->qty = $getQty . ' Unit';
             $invoice_description->theme = $theme;
             $invoice_description->location = $product->address;
 
@@ -338,8 +365,8 @@
                     <h1 class="index-h1 w-[1200px]">Membuat Invoice & Kwitansi</h1>
                     <!-- Title end -->
                     <div class="flex w-[150px] justify-end">
-                        <a href="/billings/select-sale/service" class="flex justify-center items-center mx-1 btn-primary"
-                            title="Back">
+                        <a href="/billings/select-sale/service/{{ $company->id }}"
+                            class="flex justify-center items-center mx-1 btn-primary" title="Back">
                             <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path

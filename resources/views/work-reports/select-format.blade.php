@@ -2,6 +2,10 @@
 
 @section('container')
     @php
+        $product = json_decode($sale->product);
+        $description = json_decode($product->description);
+        $client = json_decode($sale->quotation->clients);
+
         $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         $fullMonth = [
             1 => 'Januari',
@@ -75,6 +79,8 @@
             $price = json_decode($quotationDeal->price);
         }
         $getService = '';
+        $getQty = 1;
+        $getSide = 1;
 
         if ($sale->media_category->name == 'Service') {
             if ($price->objServiceType->print == true && $price->objServiceType->install == true) {
@@ -84,11 +90,30 @@
             } elseif ($price->objServiceType->print == false && $price->objServiceType->install == true) {
                 $getService = 'Pasang';
             }
+            if ($price->objServiceType->print == true) {
+                $i = 0;
+                foreach ($price->objPrints as $objPrint) {
+                    if ($objPrint->code == $product->code) {
+                        if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
+                            $getQty = 2;
+                            $getSide = 2;
+                        }
+                    }
+                    $i++;
+                }
+            } else {
+                $i = 0;
+                foreach ($price->objInstalls as $objInstall) {
+                    if ($objInstall->code == $product->code) {
+                        if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
+                            $getQty = 2;
+                            $getSide = 2;
+                        }
+                    }
+                    $i++;
+                }
+            }
         }
-
-        $product = json_decode($sale->product);
-        $description = json_decode($product->description);
-        $client = json_decode($sale->quotation->clients);
 
         $content = new stdClass();
         $content->install_order_id = $install_order->id;
@@ -102,12 +127,12 @@
             $content->periode = '';
             $content->type = 'Jasa ' . $getService . ' ' . 'Visual Media Luar Ruang';
             if ($product->category == 'Signage') {
-                $content->qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) * $description->qty;
+                $content->qty = $getQty * $description->qty;
             } else {
-                $content->qty = (int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT);
+                $content->qty = $getQty;
             }
         } else {
-            $content->qty = 1;
+            $content->qty = $getQty;
             $content->periode =
                 date('d', strtotime($sale->start_at)) .
                 ' ' .
@@ -121,17 +146,9 @@
                 ' ' .
                 date('Y', strtotime($sale->end_at));
             $content->type = 'Jasa Penempatan Media Luar Ruang';
-            // if (
-            //     $sale->media_category->name != 'Videotron' ||
-            //     ($sale->media_category->name == 'Signage' && $description->type != 'Videotron')
-            // ) {
-            //     $content->type = 'Jasa Penempatan Media Luar Ruang' . $sale->media_category->name . ' ' . $description->lighting;
-            // } else {
-            //     'Penempatan Media ' . $sale->media_category->name;
-            // }
         }
         $content->theme = $install_order->theme;
-        $content->location_size = $product->size . ' x ' . $product->side . ' - ' . $product->orientation;
+        $content->location_size = $product->size . ' x ' . $getSide . ' - ' . $product->orientation;
         $content->location_address = $product->address;
         $content->location_type = $product->category;
         $content->location_orientation = $product->orientation;

@@ -129,7 +129,15 @@
             </div>
         </div>
     </div>
-    <input id="saveName" type="text" value="test" hidden>
+    @if ($content->category == 'Service')
+        <input id="saveName" type="text"
+            value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Revisual-{{ $client->company }}-{{ $content->billing_number }}"
+            hidden>
+    @else
+        <input id="saveName" type="text"
+            value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->company }}-{{ $content->billing_number }}"
+            hidden>
+    @endif
 
     <!-- Script start-->
     <script src="/js/html2canvas.min.js"></script>

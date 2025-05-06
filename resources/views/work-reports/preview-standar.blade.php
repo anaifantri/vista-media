@@ -37,6 +37,12 @@
                     <label class="ml-2"><b>{{ $content->type }}</b></label>
                 </div>
                 <div class="flex text-md mt-2 ml-10">
+                    <label class="w-40">Jenis</label>
+                    <label>:</label>
+                    <label class="ml-2"><b>{{ $content->location_type }} -
+                            {{ $content->location_lighting }}</b></label>
+                </div>
+                <div class="flex text-md mt-2 ml-10">
                     <label class="w-40">Jumlah</label>
                     <label>:</label>
                     <label id="workQty" class="ml-2"><b>{{ $content->qty }} unit</b></label>
