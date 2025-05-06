@@ -131,12 +131,10 @@
     </div>
     @if ($content->category == 'Service')
         <input id="saveName" type="text"
-            value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Revisual-{{ $client->company }}-{{ $content->billing_number[0] }}"
-            hidden>
+            value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Revisual-{{ $client->company }}" hidden>
     @else
         <input id="saveName" type="text"
-            value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->company }}-{{ $content->billing_number[0] }}"
-            hidden>
+            value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->company }}" hidden>
     @endif
 
     <!-- Script start-->
