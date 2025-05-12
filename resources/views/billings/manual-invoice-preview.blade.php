@@ -49,17 +49,16 @@
                 @if (!empty($orders))
                     @foreach ($orders as $itemOrder)
                         <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                            <input type="checkbox" class="outline-none mr-2" checked>
-                            <label class="w-24">No. PO</label>
+                            <label class="w-14">No. PO</label>
                             <label class="">:</label>
-                            <label class="ml-2 w-24 font-semibold">
+                            <label class="ml-2 w-44 font-semibold">
                                 @if (strlen($itemOrder->number) > 9)
                                     {{ substr($itemOrder->number, 0, 9) }}..
                                 @else
                                     {{ $itemOrder->number }}
                                 @endif
                             </label>
-                            <label class="w-8">Tgl.</label>
+                            <label class="w-6">Tgl.</label>
                             <label class="">:</label>
                             <label class="ml-2 font-semibold">
                                 {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
@@ -80,7 +79,7 @@
                                     {{ $itemAgreement->number }}
                                 @endif
                             </label>
-                            <label class="w-8">Tgl.</label>
+                            <label class="w-6">Tgl.</label>
                             <label class="">:</label>
                             <label class="ml-2 font-semibold">
                                 {{ date('d', strtotime($itemAgreement->date)) }}-{{ $month[(int) date('m', strtotime($itemAgreement->date))] }}-{{ date('Y', strtotime($itemAgreement->date)) }}
