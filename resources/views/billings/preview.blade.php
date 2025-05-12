@@ -199,7 +199,7 @@
                     mode: ['avoid-all', 'css', 'legacy']
                 },
                 html2canvas: {
-                    dpi: 192,
+                    dpi: 300,
                     scale: 2,
                     letterRendering: true,
                     useCORS: true

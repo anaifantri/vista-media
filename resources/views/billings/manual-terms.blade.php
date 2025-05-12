@@ -217,9 +217,9 @@
                                         <input id="cbTerm{{ $loop->iteration - 1 }}" class="flex outline-none"
                                             value="other" type="checkbox" onclick="cbSelectTerm(this)">
                                         <label class="flex ml-2 w-14">{{ $loop->iteration }}. Jenis</label>
-                                        <input id="inputTitle" type="text"
+                                        <input id="inputTitle" type="text" onfocus="inputTitleAction(this)"
                                             class="flex ml-3 px-2 outline-none w-[350px] rounded-md"
-                                            value="{{ $itemTitle }}" readonly>
+                                            value="{{ $itemTitle }}" onchange="setTitle(this)" readonly>
                                         <label class="flex ml-4">Nominal</label>
                                         <input id="inputNominal" onfocus="inputNominalAction(this)"
                                             class="flex ml-2 px-2 outline-none w-32 text-right in-out-spin-none rounded-md"
@@ -332,6 +332,7 @@
         let invoiceContent = @json($invoice_content);
         let receiptContent = @json($receipt_content);
         let salePrice = @json($sale->price);
+        var indexTitle = "";
         var indexNominal = "";
         var indexDpp = "";
         var indexPpn = "";
@@ -386,6 +387,14 @@
             }
         }
 
+        inputTitleAction = (sel) => {
+            for (let i = 0; i < inputTitle.length; i++) {
+                if (inputTitle[i] == document.activeElement) {
+                    indexTitle = i;
+                }
+            }
+        }
+
         inputNominalAction = (sel) => {
             for (let i = 0; i < inputNominal.length; i++) {
                 if (inputNominal[i] == document.activeElement) {
@@ -402,13 +411,13 @@
             }
         }
 
-        // inputPpnAction = (sel) => {
-        //     for (let i = 0; i < inputPpn.length; i++) {
-        //         if (inputPpn[i] == document.activeElement) {
-        //             indexPpn = i;
-        //         }
-        //     }
-        // }
+        setTitle = (sel) => {
+            for (let i = 0; i < invoiceContent.manual_detail.length; i++) {
+                if (invoiceContent.manual_detail[i].id == indexTitle) {
+                    invoiceContent.manual_detail[i].title = sel.value;
+                }
+            }
+        }
 
         setNominal = (sel) => {
             for (let i = 0; i < invoiceContent.manual_detail.length; i++) {
@@ -430,15 +439,6 @@
             }
         }
 
-        // setPpn = (sel) => {
-        //     for (let i = 0; i < invoiceContent.manual_detail.length; i++) {
-        //         if (invoiceContent.manual_detail[i].id == indexPpn) {
-        //             invoiceContent.manual_detail[i].nominal = Number(sel.value);
-        //             invoiceContent.manual_detail[i].dpp = 0;
-        //         }
-        //     }
-        // }
-
         termCheck = () => {
             if (invoiceContent.manual_detail.length == 0 || invoiceContent.description[0].nominal == 0) {
                 return false;
@@ -456,6 +456,10 @@
             }
 
             invoiceContent.description[0].nominal = countNominal;
+
+            if (invoiceContent.manual_detail.length == 1) {
+                receiptContent.title = invoiceContent.manual_detail[0].title;
+            }
 
             inputInvoice.value = JSON.stringify(invoiceContent);
             inputReceipt.value = JSON.stringify(receiptContent);

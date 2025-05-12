@@ -25,22 +25,45 @@
                     </label>
                 </div>
                 @if (!empty($approvals))
-                    @foreach ($approvals as $approval)
-                        @if ($loop->iteration < 5)
-                            <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                                <label class="w-14">No. SPH</label>
-                                <label class="">:</label>
-                                <label class="ml-2 w-44 font-semibold">
-                                    {{ json_decode($approval)->number }}
-                                </label>
-                                <label class="w-6">Tgl.</label>
-                                <label class="">:</label>
-                                <label class="ml-2 font-semibold">
-                                    {{ date('d', strtotime(json_decode($approval)->created_at)) }}-{{ $month[(int) date('m', strtotime(json_decode($approval)->created_at))] }}-{{ date('Y', strtotime(json_decode($approval)->created_at)) }}
-                                </label>
-                            </div>
-                        @endif
-                    @endforeach
+                    @if (is_array($approvals))
+                        @foreach ($approvals as $approval)
+                            @if ($loop->iteration < 5)
+                                <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                                    <label class="w-14">No. SPH</label>
+                                    <label class="">:</label>
+                                    <label class="ml-2 w-44 font-semibold">
+                                        @if (strlen(json_decode($approval)->number) > 24)
+                                            {{ substr(json_decode($approval)->number, 0, 10) }}..{{ substr(json_decode($approval)->number, -9) }}
+                                        @else
+                                            {{ json_decode($approval)->number }}
+                                        @endif
+                                    </label>
+                                    <label class="w-6">Tgl.</label>
+                                    <label class="">:</label>
+                                    <label class="ml-2 font-semibold">
+                                        {{ date('d', strtotime(json_decode($approval)->created_at)) }}-{{ $month[(int) date('m', strtotime(json_decode($approval)->created_at))] }}-{{ date('Y', strtotime(json_decode($approval)->created_at)) }}
+                                    </label>
+                                </div>
+                            @endif
+                        @endforeach
+                    @else
+                        <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                            <label class="w-14">No. SPH</label>
+                            <label class="">:</label>
+                            <label class="ml-2 w-44 font-semibold">
+                                @if (strlen($approvals->number) > 24)
+                                    {{ substr($approvals->number, 0, 10) }}..{{ substr($approvals->number, -9) }}
+                                @else
+                                    {{ $approvals->number }}
+                                @endif
+                            </label>
+                            <label class="w-6">Tgl.</label>
+                            <label class="">:</label>
+                            <label class="ml-2 font-semibold">
+                                {{ date('d', strtotime($approvals->created_at)) }}-{{ $month[(int) date('m', strtotime($approvals->created_at))] }}-{{ date('Y', strtotime($approvals->created_at)) }}
+                            </label>
+                        </div>
+                    @endif
                 @endif
                 @if (!empty($orders))
                     @foreach ($orders as $itemOrder)
@@ -133,7 +156,7 @@
                 </div>
             </div>
         </div>
-        @if ($invoice_content->merge == 'normal')
+        @if (!isset($invoice_content->merge) || $invoice_content->merge == 'normal')
             <table class="table-auto w-full mt-4">
                 <thead>
                     <tr class="text-sm">

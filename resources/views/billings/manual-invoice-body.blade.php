@@ -32,7 +32,11 @@
                                 <label class="w-14">No. SPH</label>
                                 <label class="">:</label>
                                 <label class="ml-2 w-44 font-semibold">
-                                    {{ json_decode($approval)->number }}
+                                    @if (strlen(json_decode($approval)->number) > 24)
+                                        {{ substr(json_decode($approval)->number, 0, 10) }}..{{ substr(json_decode($approval)->number, -9) }}
+                                    @else
+                                        {{ json_decode($approval)->number }}
+                                    @endif
                                 </label>
                                 <label class="w-6">Tgl.</label>
                                 <label class="">:</label>

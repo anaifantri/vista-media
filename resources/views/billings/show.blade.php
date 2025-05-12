@@ -40,6 +40,39 @@
         } else {
             $pageQty = (count($invoice_descriptions) - fmod(count($invoice_descriptions), 4)) / 4 + 1;
         }
+
+        if (isset($invoice_content->merge)) {
+            if ($invoice_content->merge != 'normal') {
+                $subTotal = $invoice_content->description[0]->nominal + $invoice_content->description[1]->nominal;
+                if ($invoice_content->merge == 'size') {
+                    $width = 2 * $product->width;
+                    if ($width < $product->height) {
+                        $size =
+                            $width . 'm x ' . $product->height . ' x ' . $product->side . ' - ' . $product->orientation;
+                    } else {
+                        $size =
+                            $product->height . 'm x ' . $width . ' x ' . $product->side . ' - ' . $product->orientation;
+                    }
+                } else {
+                    $size = $product->size . ' x 2 sisi - ' . $product->orientation;
+                }
+            } else {
+                if (isset($invoice_content->manual_detail)) {
+                    $dpp = 0;
+                    $subPpn = 0;
+                    $ppnCheck = false;
+                    $manual_details = $invoice_content->manual_detail;
+                    if (fmod(count($manual_details), 4) == 0) {
+                        $pageQty = count($manual_details) / 4;
+                    } else {
+                        $pageQty = (count($manual_details) - fmod(count($manual_details), 4)) / 4 + 1;
+                    }
+                }
+                $subTotal = 0;
+            }
+        } else {
+            $subTotal = 0;
+        }
     @endphp
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
@@ -81,7 +114,11 @@
                             <!-- Header end -->
                             <!-- Body start -->
                             @if ($category == 'Media')
-                                @include('billings.invoice-media-body-preview')
+                                @if (isset($invoice_content->manual_detail))
+                                    @include('billings.manual-invoice-preview')
+                                @else
+                                    @include('billings.auto-invoice-preview')
+                                @endif
                             @elseif($category == 'Service')
                                 @include('billings.invoice-service-body-preview')
                             @endif
@@ -135,14 +172,12 @@
                 </div>
             </div>
         </div>
-        @if ($billing->category == 'Media')
+        @if ($category == 'Media')
             <input id="saveName" type="text"
-                value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->company }}-{{ $receipt_content->location }}"
-                hidden>
-        @elseif($billing->category == 'Service')
+                value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->company }}" hidden>
+        @elseif($category == 'Service')
             <input id="saveName" type="text"
-                value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->company }}-{{ $receipt_content->location }}"
-                hidden>
+                value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->company }}" hidden>
         @endif
     </div>
 
@@ -166,7 +201,7 @@
                     mode: ['avoid-all', 'css', 'legacy']
                 },
                 html2canvas: {
-                    dpi: 192,
+                    dpi: 300,
                     scale: 2,
                     letterRendering: true,
                     useCORS: true

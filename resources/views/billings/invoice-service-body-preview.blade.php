@@ -27,7 +27,13 @@
                 <div class="flex items-center text-sm ml-2 mt-1 border-b">
                     <label class="w-14">No. SPH</label>
                     <label class="">:</label>
-                    <label class="ml-2 w-44 font-semibold">{{ $invoice_content->approval->number }}</label>
+                    <label class="ml-2 w-44 font-semibold">
+                        @if (strlen($invoice_content->approval->number) > 24)
+                            {{ substr($invoice_content->approval->number, 0, 10) }}..{{ substr($invoice_content->approval->number, -9) }}
+                        @else
+                            {{ $invoice_content->approval->number }}
+                        @endif
+                    </label>
                     <label class="w-6">Tgl.</label>
                     <label class="">:</label>
                     <label class="ml-2 font-semibold">
