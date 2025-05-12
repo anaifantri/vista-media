@@ -24,7 +24,7 @@
                             @canany(['isAdmin', 'isAccounting'])
                                 @can('isCollect')
                                     @can('isAccountingCreate')
-                                        <a href="/billings/select-sale/media/{{ $company->id }}" class="index-link btn-primary">
+                                        <a href="/billings/select-models" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -191,17 +191,20 @@
                                         {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        @foreach ($billing->sales as $itemSales)
-                                            @if (count($billing->sales) > 1)
-                                                @if ($itemSales->id == $billing->sales[count($billing->sales) - 1]->id)
-                                                    {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }}
+                                        @php
+                                            $i = 0;
+                                        @endphp
+                                        @if (count($billing->sales) > 1)
+                                            @foreach ($billing->sales->sortBy('number') as $itemSales)
+                                                @if ($i == count($billing->sales) - 1)
+                                                    {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }}
                                                 @else
-                                                    {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }},
+                                                    {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }},
                                                 @endif
-                                            @else
-                                                {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }}
-                                            @endif
-                                        @endforeach
+                                            @endforeach
+                                        @else
+                                            {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }}
+                                        @endif
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         @if (strlen($client->company) > 16)

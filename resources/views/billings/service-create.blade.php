@@ -297,12 +297,12 @@
         $bill_client->address = $client->address;
         if ($quotationClient->contact_name) {
             if ($quotationClient->contact_gender == 'Male') {
-                $bill_client->contact = 'Bapak ' . $quotationClient->contact_name;
+                $bill_client->contact_name = 'Bapak ' . $quotationClient->contact_name;
             } else {
-                $bill_client->contact = 'Ibu ' . $quotationClient->contact_name;
+                $bill_client->contact_name = 'Ibu ' . $quotationClient->contact_name;
             }
         } else {
-            $bill_client->contact = '-';
+            $bill_client->contact_name = '-';
         }
         if ($quotationClient->contact_phone) {
             $bill_client->contact_phone = $quotationClient->contact_phone;
@@ -441,13 +441,13 @@
                             </div>
                         </div>
                         <!-- Header start -->
-                        @include('billings.receipt-header')
+                        {{-- @include('billings.receipt-header') --}}
                         <!-- Header end -->
                         <!-- Body start -->
-                        @include('billings.receipt-service-body')
+                        {{-- @include('billings.receipt-service-body') --}}
                         <!-- Body end -->
                         <!-- Sign start -->
-                        @include('billings.receipt-service-sign')
+                        {{-- @include('billings.receipt-service-sign') --}}
                         <!-- Sign end -->
                     </div>
                 </div>

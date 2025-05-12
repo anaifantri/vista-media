@@ -42,10 +42,35 @@ class BillingController extends Controller
     public function preview(String $category, String $id): View
     { 
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            $billing = Billing::findOrFail($id);
+            $sales = $billing->sales;
+            $product = json_decode($sales[0]->product);
+            $approvals = json_decode($billing->invoice_content)->approval;
+            $orders = json_decode($billing->invoice_content)->orders;
+            if($billing->category == "Media"){
+                $agreements = json_decode($billing->invoice_content)->agreements;
+            }else{
+                $agreements = [];
+            }
             return view('billings.preview', [
-                'billing' => Billing::findOrFail($id),
+                'billing' => $billing,
                 'category' => $category,
+                'approvals' => $approvals,
+                'orders' => $orders,
+                'agreements' => $agreements,
+                'product' => $product,
                 'title' => 'Preview Penagihan'
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+        
+    public function selectModel(): View
+    {
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            return view ('billings.select-model', [
+                'title' => 'Pilih Model Invoice'
             ]);
         } else {
             abort(403);
@@ -55,18 +80,102 @@ class BillingController extends Controller
     public function selectSale(String $category, String $companyId): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
-            if($category == "media"){
-                $data_sales = Sale::with('billings')->billMedia()->where('company_id', $companyId)->get();
-            }else if($category == "service"){
-                $data_sales = Sale::billService()->where('company_id', $companyId)->get();
-            }
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
-            return view ('billings.select-sale', [
-                'title' => 'Menambahkan Data Penagihan',
-                'data_sales' => $data_sales,
-                'bill_category' => $category,
-                compact('quotations', 'quotation_revisions')
+            if($category == "media"){
+                $data_sales = Sale::with('billings')->billMedia()->where('company_id', $companyId)->get();
+                return view ('billings.select-sale', [
+                    'title' => 'Menambahkan Data Penagihan',
+                    'data_sales' => $data_sales,
+                    'bill_category' => $category,
+                    'model' => request('model'),
+                    compact('quotations', 'quotation_revisions')
+                ]);
+            }else if($category == "service"){
+                $data_sales = Sale::billService()->where('company_id', $companyId)->get();
+                return view ('billings.select-sale', [
+                    'title' => 'Menambahkan Data Penagihan',
+                    'data_sales' => $data_sales,
+                    'bill_category' => $category,
+                    compact('quotations', 'quotation_revisions')
+                ]);
+            }
+        } else {
+            abort(403);
+        }
+    }
+
+    public function selectTerm(String $saleId): View
+    {
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            $sales = Sale::whereIn('id',json_decode($saleId))->orderBy("number", "asc")->get();
+            $quotations = Quotation::with('sales')->get();
+            $quotation_revisions = QuotationRevision::with('quotation')->get();
+            $client = json_decode($sales[0]->quotation->clients);
+            if(request('model') == "auto"){
+                return view ('billings.select-terms', [
+                    'title' => 'Membuat Invoice & Kwitansi',
+                    'sales' => $sales,
+                    'sale_id' => $saleId,
+                    'client' => $client,
+                    'model' => request('model'),
+                    compact('quotations', 'quotation_revisions')
+                ]);
+            }else{
+                return view ('billings.manual-terms', [
+                    'title' => 'Membuat Invoice & Kwitansi',
+                    'sales' => $sales,
+                    'sale_id' => $saleId,
+                    'client' => $client,
+                    'model' => request('model'),
+                    compact('quotations', 'quotation_revisions')
+                ]);
+            }
+        } else {
+            abort(403);
+        }
+    }
+
+    public function selectDocuments(Request $request): View
+    {
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            $saleId = json_decode(request('sale_id'));
+            $sales = Sale::whereIn('id', $saleId)->get();
+            $approvals = [];
+            $orders = [];
+            $agreements = [];
+            foreach ($sales as $sale) {
+                if (count($sale->quotation->quotation_revisions) != 0) {
+                    $quotationDeal = $sale->quotation->quotation_revisions->last();
+                } else {
+                    $quotationDeal = $sale->quotation;
+                }
+                array_push($approvals, (object)[
+                    'id' =>  $quotationDeal->id,
+                    'number' =>  $quotationDeal->number,
+                    'created_at' =>  $quotationDeal->created_at
+                ]);
+                $dataOrders = $sale->quotation_orders;
+                $dataAgreements = $sale->quotation_agreements;
+                foreach($dataOrders as $dataOrder){
+                    array_push($orders, $dataOrder);
+                }
+                foreach($dataAgreements as $dataAgreement){
+                    array_push($agreements, $dataAgreement);
+                }
+            }
+            return view ('billings.select-documents', [
+                'invoice_content' => json_decode(request('invoice_content')),
+                'receipt_content' => json_decode(request('receipt_content')),
+                'client' => json_decode(request('client')),
+                'sale_id' => json_decode(request('sale_id')),
+                'sale_year' => request('sale_year'),
+                'sale_number' => request('sale_number'),
+                'model' => request('model'),
+                'approvals' => $approvals,
+                'orders' => $orders,
+                'agreements' => $agreements,
+                'title' => 'Pilih Dokumen Pendukung Invoice'
             ]);
         } else {
             abort(403);
@@ -105,39 +214,27 @@ class BillingController extends Controller
         }
     }
 
-    public function createMediaBilling(String $saleId): View
+    public function createMediaBilling(Request $request): view
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
-            $sales = Sale::whereIn('id',json_decode($saleId))->get();
-            if (count($sales[0]->quotation->quotation_revisions) != 0) {
-                $quotationDeal = $sales[0]->quotation->quotation_revisions->last();
-                $price = json_decode($quotationDeal->price);
-                $payment_terms = json_decode($quotationDeal->payment_terms);
-            } else {
-                $quotationDeal = $sales[0]->quotation;
-                $price = json_decode($quotationDeal->price);
-                $payment_terms = json_decode($quotationDeal->payment_terms);
-            }
-            $quotation_orders = QuotationOrder::whereIn('sale_id', json_decode($saleId))->get();
-            $quotation_agreements = QuotationAgreement::whereIn('sale_id', json_decode($saleId))->get();
-            $quotation_approvals = QuotationApproval::where('quotation_id', $sales[0]->quotation->id)->get();
-            $clientId = json_decode($sales[0]->quotation->clients)->id;
-            $client = Client::findOrFail($clientId);
-            $quotationClient = json_decode($sales[0]->quotation->clients);
+            $sale = Sale::findOrFail(json_decode(request('sale_id'))[0]);
+            $product = json_decode($sale->product);
+            // dd(json_decode(request('invoice_content')));
             return view ('billings.media-create', [
-                'title' => 'Membuat Invoice & Kwitansi',
-                'sales' => $sales,
-                'sale_id' => $saleId,
-                'quotation_deal' => $quotationDeal,
-                'quotation_approvals' => $quotation_approvals,
-                'quotation_orders' => $quotation_orders,
-                'quotation_agreements' => $quotation_agreements,
-                'price' => $price,
-                'sale_price' => $sales->sum('price'),
-                'payment_terms' => $payment_terms,
-                'client' => $client,
-                'quotationClient' => $quotationClient,
-                'sale_ppn' => $sales[0]->ppn
+                'sale' => $sale,
+                'invoice_content' => json_decode(request('invoice_content')),
+                'receipt_content' => json_decode(request('receipt_content')),
+                'client' => json_decode(request('client')),
+                'sale_id' => json_decode(request('sale_id')),
+                'approvals' => json_decode(request('invoice_content'))->approval,
+                'orders' => json_decode(request('invoice_content'))->orders,
+                'agreements' => json_decode(request('invoice_content'))->agreements,
+                'sale_year' => request('sale_year'),
+                'sale_number' => request('sale_number'),
+                'model' => request('model'),
+                'merge' => request('merge'),
+                'product' => $product,
+                'title' => 'Membuat Invoice & Kwitansi'
             ]);
         } else {
             abort(403);
@@ -170,7 +267,6 @@ class BillingController extends Controller
                 }
             }
             
-            // dd($getSaleNumber);
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
@@ -196,7 +292,14 @@ class BillingController extends Controller
             $invoiceNumber = $invoice_number;
             $receiptNumber = $receipt_number;
 
-            $request->request->add(['invoice_number' => $invoiceNumber,'receipt_number' => $receiptNumber]);
+            $invoiceContent = json_decode($request->invoice_content);
+            if(count($invoiceContent->description) > 1){
+                $invoiceContent->merge = $request->merge;
+                $request->request->add(['invoice_number' => $invoiceNumber,'receipt_number' => $receiptNumber,'invoice_content' => json_encode($invoiceContent)]);
+            }else{
+                $request->request->add(['invoice_number' => $invoiceNumber,'receipt_number' => $receiptNumber]);
+            }
+            // dd(json_decode($request->invoice_content));
             
             $validateData = $request->validate([
                 'company_id' => 'required',
@@ -213,6 +316,8 @@ class BillingController extends Controller
                 'created_by' => 'required',
                 'updated_by' => 'required'
             ]);
+            
+            // dd($validateData);
 
             Billing::create($validateData);
 
@@ -236,8 +341,22 @@ class BillingController extends Controller
     public function show(Billing $billing): Response
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            $sales = $billing->sales;
+            $product = json_decode($sales[0]->product);
+            $approvals = json_decode($billing->invoice_content)->approval;
+            $orders = json_decode($billing->invoice_content)->orders;
+            if($billing->category == "Media"){
+                $agreements = json_decode($billing->invoice_content)->agreements;
+            }else{
+                $agreements = [];
+            }            
             return response()-> view('billings.show', [
                 'billing' => $billing,
+                'category' => $billing->category,
+                'approvals' => $approvals,
+                'orders' => $orders,
+                'agreements' => $agreements,
+                'product' => $product,
                 'title' => 'Detail Invoice '.$billing->invoice_number
             ]);
         } else {

@@ -82,7 +82,7 @@ class VatTaxInvoiceController extends Controller
                 $getImages = $request->file('documents');
                 $images = [];
                 foreach($getImages as $image){
-                        array_push($images,$image->store('land-agreement-images'));
+                        array_push($images,$image->store('vat_tax_images'));
                 }
                 
                 $validateData['images'] = json_encode($images);

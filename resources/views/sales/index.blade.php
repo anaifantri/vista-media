@@ -721,11 +721,21 @@
                                                 @endforeach
                                             @else
                                                 @foreach ($saleBillings as $itemBilling)
-                                                    @foreach (json_decode($itemBilling->invoice_content)->data_sales as $itemSales)
-                                                        @if ($itemSales->id == $sale->id)
-                                                            {{ number_format($itemSales->nominal + ($sale->ppn / 100) * $itemSales->nominal) }}
-                                                        @endif
-                                                    @endforeach
+                                                    @if (isset(json_decode($itemBilling->invoice_content)->manual_detail))
+                                                        {{ number_format($itemBilling->nominal + $itemBilling->ppn) }}
+                                                    @elseif (isset(json_decode($itemBilling->invoice_content)->data_sales))
+                                                        @foreach (json_decode($itemBilling->invoice_content)->data_sales as $itemSales)
+                                                            @if ($itemSales->id == $sale->id)
+                                                                {{ number_format($itemSales->nominal + ($sale->ppn / 100) * $itemSales->nominal) }}
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        @foreach (json_decode($itemBilling->invoice_content)->description as $itemDesc)
+                                                            @if ($itemDesc->sale_id == $sale->id)
+                                                                {{ number_format($itemDesc->nominal + ($sale->ppn / 100) * $itemDesc->nominal) }}
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
                                                 @endforeach
                                             @endif
                                         </div>

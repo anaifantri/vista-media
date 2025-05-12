@@ -1,19 +1,19 @@
-<div class="w-full flex justify-center mt-2">
-    <div class="h-[1100px]">
-        <label class="flex justify-center w-full text-2xl font-serif font-bold tracking-wider mt-2">
+<div class="h-[1100px] w-full flex justify-center mt-2">
+    <div>
+        <label class="flex justify-center w-full text-2xl font-serif font-bold tracking-wider mt-4">
             <u>INVOICE</u>
         </label>
         <div class="flex mt-4">
-            <div class="w-[380px] h-[180px] border rounded-lg p-1">
+            <div class="w-[380px] h-[185px] border rounded-lg p-1">
                 <div class="flex items-center ml-2">
-                    <label class="text-md w-[72px]">Nomor</label>
-                    <label class="text-md">:</label>
+                    <label class="text-lg w-24">Nomor</label>
+                    <label class="text-lg">:</label>
                     <label class="text-md font-mono font-semibold ml-2">{{ $billing->invoice_number }}</label>
                 </div>
                 <div class="flex items-center ml-2">
-                    <label class="text-md w-[72px]">Tanggal</label>
-                    <label class="text-md">:</label>
-                    <label class="text-md font-mono font-semibold ml-2">
+                    <label class="text-lg w-24">Tanggal</label>
+                    <label class="text-lg">:</label>
+                    <label class="text-lg font-mono font-semibold ml-2">
                         {{ date('d', strtotime($billing->created_at)) }}
                         {{ $bulan[(int) date('m', strtotime($billing->created_at))] }}
                         {{ date('Y', strtotime($billing->created_at)) }}
@@ -24,61 +24,79 @@
                         Dokumen :
                     </label>
                 </div>
-                <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                    <label class="w-14">No. SPH</label>
-                    <label class="">:</label>
-                    <label class="ml-2 w-44 font-semibold">{{ $invoice_content->approval->number }}</label>
-                    <label class="w-6">Tgl.</label>
-                    <label class="">:</label>
-                    <label class="ml-2 font-semibold">
-                        {{ date('d', strtotime($invoice_content->approval->created_at)) }}-{{ $month[(int) date('m', strtotime($invoice_content->approval->created_at))] }}-{{ date('Y', strtotime($invoice_content->approval->created_at)) }}
-                    </label>
-                </div>
-                @php
-                    if (count($invoice_content->orders) > 0) {
-                        $firstOrderNumber = $invoice_content->orders[0]->number;
-                    } else {
-                        $firstOrderNumber = '';
-                    }
-                @endphp
-                @foreach ($invoice_content->orders as $itemOrder)
-                    @if ($loop->iteration > 1)
-                        @if ($itemOrder->number != $firstOrderNumber)
+                @if (!empty($approvals))
+                    @foreach ($approvals as $approval)
+                        @if ($loop->iteration < 5)
                             <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                                <label class="w-14">No. PO</label>
+                                <label class="w-14">No. SPH</label>
                                 <label class="">:</label>
                                 <label class="ml-2 w-44 font-semibold">
-                                    {{ $itemOrder->number }}
+                                    {{ json_decode($approval)->number }}
                                 </label>
                                 <label class="w-6">Tgl.</label>
                                 <label class="">:</label>
                                 <label class="ml-2 font-semibold">
-                                    {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
+                                    {{ date('d', strtotime(json_decode($approval)->created_at)) }}-{{ $month[(int) date('m', strtotime(json_decode($approval)->created_at))] }}-{{ date('Y', strtotime(json_decode($approval)->created_at)) }}
                                 </label>
                             </div>
                         @endif
-                    @else
+                    @endforeach
+                @endif
+                @if (!empty($orders))
+                    @foreach ($orders as $itemOrder)
                         <div class="flex items-center text-sm ml-2 mt-1 border-b">
-                            <label class="w-14">No. PO</label>
+                            <input type="checkbox" class="outline-none mr-2" checked>
+                            <label class="w-24">No. PO</label>
                             <label class="">:</label>
-                            <label class="ml-2 w-44 font-semibold">
-                                {{ $itemOrder->number }}
+                            <label class="ml-2 w-24 font-semibold">
+                                @if (strlen($itemOrder->number) > 9)
+                                    {{ substr($itemOrder->number, 0, 9) }}..
+                                @else
+                                    {{ $itemOrder->number }}
+                                @endif
                             </label>
-                            <label class="w-6">Tgl.</label>
+                            <label class="w-8">Tgl.</label>
                             <label class="">:</label>
                             <label class="ml-2 font-semibold">
                                 {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
                             </label>
                         </div>
-                    @endif
-                @endforeach
+                    @endforeach
+                @endif
+                @if (!empty($agreements))
+                    @foreach ($agreements as $itemAgreement)
+                        <div class="flex items-center text-sm ml-2 mt-1 border-b">
+                            <input type="checkbox" class="outline-none mr-2" checked>
+                            <label class="w-24">No. Perjanjian</label>
+                            <label class="">:</label>
+                            <label class="ml-2 w-24 font-semibold">
+                                @if (strlen($itemAgreement->number) > 9)
+                                    {{ substr($itemAgreement->number, 0, 9) }}..
+                                @else
+                                    {{ $itemAgreement->number }}
+                                @endif
+                            </label>
+                            <label class="w-8">Tgl.</label>
+                            <label class="">:</label>
+                            <label class="ml-2 font-semibold">
+                                {{ date('d', strtotime($itemAgreement->date)) }}-{{ $month[(int) date('m', strtotime($itemAgreement->date))] }}-{{ date('Y', strtotime($itemAgreement->date)) }}
+                            </label>
+                        </div>
+                    @endforeach
+                @endif
             </div>
-            <div class="w-[380px] h-[180px] border rounded-lg p-1 ml-2">
+            <div class="w-[380px] h-[185px] border rounded-lg p-1 ml-2">
                 <label class="text-lg font-mono font-semibold ml-2">Kepada Yth.</label>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Nama</label>
                     <label class="text-sm">:</label>
-                    <label class=" ml-2 text-sm font-semibold">{{ $client->contact_name }}</label>
+                    <label class="w-[250px] ml-1 text-sm font-semibold">
+                        @if ($client->contact_name != '')
+                            {{ $client->contact_name }}
+                        @else
+                            -
+                        @endif
+                    </label>
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Perusahaan</label>
@@ -88,40 +106,61 @@
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Alamat</label>
                     <label class="text-sm">:</label>
-                    <textarea class="text-sm ml-1 px-1 w-[250px] outline-none border rounded-md font-semibold" rows="3" readonly>{{ $client->address }}</textarea>
+                    <label class="text-sm ml-1 w-[250px] font-semibold"
+                        name="client_address">{{ $client->address }}</label>
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">No. Telp.</label>
                     <label class="text-sm">:</label>
-                    <label class=" ml-2 text-sm font-semibold">{{ $client->contact_phone }}</label>
+                    <label class="w-[250px] ml-1 text-sm font-semibold">
+                        @if ($client->contact_phone != '')
+                            {{ $client->contact_phone }}
+                        @else
+                            -
+                        @endif
+                    </label>
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Email</label>
                     <label class="text-sm">:</label>
-                    <label class=" ml-2 text-sm font-semibold">{{ $client->contact_email }}</label>
+                    <label class="w-[250px] ml-1 text-sm font-semibold">
+                        @if ($client->contact_email != '')
+                            {{ $client->contact_email }}
+                        @else
+                            -
+                        @endif
+                    </label>
                 </div>
             </div>
         </div>
         <table class="table-auto w-full mt-4">
             <thead>
                 <tr class="text-sm">
-                    <th class="border h-8 w-6">No.</th>
+                    <th class="border h-8 w-8">No.</th>
                     <th class="border h-8 ">Deskripsi</th>
                     <th class="border h-8 w-36">Harga</th>
                     <th class="border h-8 w-36">Total</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($invoice_descriptions as $invoiceItem)
+                @foreach ($manual_details as $itemManual)
+                    @php
+                        if ($itemManual->ppn == false) {
+                            $dpp = $dpp + $itemManual->dpp;
+                        } else {
+                            $ppnCheck = true;
+                            $subPpn = $subPpn + $itemManual->nominal;
+                        }
+                    @endphp
                     @if ($loop->iteration > $i * 4 && $loop->iteration < ($i + 1) * 4 + 1)
                         <tr class="text-sm">
                             <td class="border px-2">{{ $loop->iteration }}</td>
-                            <td class="border px-2">{{ $invoiceItem->title }}</td>
+                            <td class="border px-2">{{ $itemManual->title }}</td>
                             <td class="border px-2 text-right">
                                 <div class="flex justify-end">
                                     <label class="w-6">Rp. </label>
                                     <label
-                                        class="w-full flex justify-end">{{ number_format($invoiceItem->nominal) }}</label>
+                                        class="w-full flex justify-end">{{ number_format($itemManual->nominal) }}</label>
                                     <label class="w-4">,-</label>
                                 </div>
                             </td>
@@ -129,7 +168,7 @@
                                 <div class="flex justify-end">
                                     <label class="w-6">Rp. </label>
                                     <label
-                                        class="w-full flex justify-end">{{ number_format($invoiceItem->nominal) }}</label>
+                                        class="w-full flex justify-end">{{ number_format($itemManual->nominal) }}</label>
                                     <label class="w-4">,-</label>
                                 </div>
                             </td>
@@ -140,7 +179,7 @@
                                 <div class="flex w-full">
                                     <span class="w-16">Jenis</span>
                                     <span>:</span>
-                                    <span class="ml-2">{{ $invoiceItem->type }}</span>
+                                    <span class="ml-2">{{ $invoice_descriptions[0]->type }}</span>
                                 </div>
                             </td>
                             <td class="border px-2"></td>
@@ -152,7 +191,7 @@
                                 <div class="flex w-full">
                                     <span class="w-16">Ukuran</span>
                                     <span>:</span>
-                                    <span class="ml-2">{{ $invoiceItem->size }}</span>
+                                    <span id="invoiceSize" class="ml-2">{{ $invoice_descriptions[0]->size }}</span>
                                 </div>
                             </td>
                             <td class="border px-2"></td>
@@ -164,7 +203,7 @@
                                 <div class="flex w-full">
                                     <span class="w-16">Jumlah</span>
                                     <span>:</span>
-                                    <span class="ml-2">{{ $invoiceItem->qty }}</span>
+                                    <span id="invoiceQty" class="ml-2">{{ $invoice_descriptions[0]->qty }}</span>
                                 </div>
                             </td>
                             <td class="border px-2"></td>
@@ -174,15 +213,9 @@
                             <td class="border px-2"></td>
                             <td class="border px-2">
                                 <div class="flex w-full">
-                                    @if ($category == 'Service')
-                                        <span class="w-16">Tema</span>
-                                        <span>:</span>
-                                        <span class="ml-2">{{ $invoiceItem->theme }}</span>
-                                    @elseif ($category == 'Media')
-                                        <span class="w-16">Periode</span>
-                                        <span>:</span>
-                                        <span class="ml-2">{{ $invoiceItem->periode }}</span>
-                                    @endif
+                                    <span class="w-16">Periode</span>
+                                    <span>:</span>
+                                    <span class="ml-2">{{ $invoice_descriptions[0]->periode }}</span>
                                 </div>
                             </td>
                             <td class="border px-2"></td>
@@ -194,7 +227,7 @@
                                 <div class="flex w-full">
                                     <span class="w-16">Lokasi</span>
                                     <span>:</span>
-                                    <span class="ml-2 w-[300px]">{{ $invoiceItem->location }}</span>
+                                    <span class="ml-2 w-[300px]">{{ $invoice_descriptions[0]->location }}</span>
                                 </div>
                             </td>
                             <td class="border px-2"></td>
@@ -266,9 +299,9 @@
             </tbody>
         </table>
         @if ($i == $pageQty - 1)
-            <label class="mt-4 text-sm flex justify-center w-72">Hormat kami,</label>
+            <label class="mt-2 text-sm flex justify-center w-72">Hormat kami,</label>
             <label class="text-sm flex justify-center w-72 font-semibold">{{ $company->name }}</label>
-            <label class="mt-12 text-sm flex justify-center w-72 font-semibold">
+            <label class="mt-10 text-sm flex justify-center w-72 font-semibold">
                 <u>Texun Sandy Kamboy</u>
             </label>
             <label class="text-sm flex justify-center w-72">Direktur</label>

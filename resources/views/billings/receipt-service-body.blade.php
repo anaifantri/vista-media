@@ -65,7 +65,7 @@
                     </div>
                 </label>
             </div>
-            @if (count($invoice_descriptions) < 5)
+            @if (count($invoice_descriptions) < 4)
                 @foreach ($invoice_descriptions as $item)
                     <div class="flex">
                         <label class="w-40"></label>
@@ -100,7 +100,7 @@
                         <div class="flex w-full">
                             <span class="w-16">Lokasi</span>
                             <span>:</span>
-                            <span class="ml-2">Tertera pada invoice nomor :
+                            <span class="ml-2">Tertera pada invoice
                             </span>
                         </div>
                     </label>

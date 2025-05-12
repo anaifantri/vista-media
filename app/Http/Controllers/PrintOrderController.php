@@ -188,12 +188,20 @@ class PrintOrderController extends Controller
                         }
                         // dd(count($dataPrints));
                         if($sideView->left == true && $sideView->right == true){
-                            if(($freePrint < count($dataPrints) || $freePrint == 0) && count($dataPrints) < 2){
-                                $sales->push($dataSale);
-                                array_push($clients,json_decode($dataSale->quotation->clients));
-                                array_push($freePrints, $freePrint);
-                                array_push($printProducts, $printProduct);
-                                array_push($usedPrints, count($dataPrints));
+                            if(($freePrint < count($dataPrints) || $freePrint == 0)){
+                                if(count($dataPrints) == 0){
+                                    $sales->push($dataSale);
+                                    array_push($clients,json_decode($dataSale->quotation->clients));
+                                    array_push($freePrints, $freePrint);
+                                    array_push($printProducts, $printProduct);
+                                    array_push($usedPrints, count($dataPrints));
+                                }elseif(count($dataPrints) == 1 && json_decode($dataPrints[0]->product)->qty == 1){
+                                    $sales->push($dataSale);
+                                    array_push($clients,json_decode($dataSale->quotation->clients));
+                                    array_push($freePrints, $freePrint);
+                                    array_push($printProducts, $printProduct);
+                                    array_push($usedPrints, count($dataPrints));
+                                }
                             }
                         }else{
                             if(($freePrint < count($dataPrints) || $freePrint == 0) && count($dataPrints) == 0){

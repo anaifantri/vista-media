@@ -92,7 +92,7 @@
                     <label class="text-sm w-24">Nama</label>
                     <label class="text-sm">:</label>
                     <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
-                        name="client_contact" type="text" value="{{ $bill_client->contact }}"
+                        name="client_contact" type="text" value="{{ $bill_client->contact_name }}"
                         onchange="changeClient(this)">
                 </div>
                 <div class="flex ml-2">

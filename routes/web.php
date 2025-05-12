@@ -186,8 +186,11 @@ Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'get
 // Billing  --> start
 Route::resource('/accounting/billings', BillingController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/billings/index/{companyid}', [BillingController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/billings/select-models', [BillingController::class,'selectModel'])->middleware(['auth','user_access']);
 Route::get('/billings/select-sale/{category}/{companyid}', [BillingController::class,'selectSale'])->middleware(['auth','user_access']);
-Route::get('/billings/create-media-billing/{saleid}', [BillingController::class,'createMediaBilling'])->middleware(['auth','user_access']);
+Route::get('/billings/select-terms/{saleid}', [BillingController::class,'selectTerm'])->middleware(['auth','user_access']);
+Route::post('/billings/select-documents', [BillingController::class,'selectDocuments'])->middleware(['auth','user_access']);
+Route::post('/billings/create-media-billing', [BillingController::class,'createMediaBilling'])->middleware(['auth','user_access']);
 Route::get('/billings/create-service-billing/{saleid}', [BillingController::class,'createServiceBilling'])->middleware(['auth','user_access']);
 Route::get('/billings/preview/{category}/{id}', [BillingController::class,'preview'])->middleware(['auth','user_access']);
 // Billing  --> end
