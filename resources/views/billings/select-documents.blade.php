@@ -77,14 +77,17 @@
                                 @foreach ($orders as $order)
                                     @if ($loop->iteration == 1)
                                         <div class="text-white text-md flex mt-2">
-                                            <input type="checkbox" class="outline-none" onclick="cbOrdersAction(this)">
+                                            <input id="cbOrders" type="checkbox" class="outline-none"
+                                                onclick="cbOrdersAction(this)" value="{{ json_encode($order) }}" disabled>
                                             <span class="ml-2">Nomor : </span>
                                             <span class="ml-2">{{ $order->number }}</span>
                                         </div>
                                     @else
                                         @if ($order->number != $firstOrderNumber)
                                             <div class="text-white text-md flex mt-2">
-                                                <input type="checkbox" class="outline-none" onclick="cbOrdersAction(this)">
+                                                <input id="cbOrders" type="checkbox" class="outline-none"
+                                                    onclick="cbOrdersAction(this)" value="{{ json_encode($order) }}"
+                                                    disabled>
                                                 <span class="ml-2">Nomor : </span>
                                                 <span class="ml-2">{{ $order->number }}</span>
                                             </div>
@@ -108,15 +111,18 @@
                                 @foreach ($agreements as $agreement)
                                     @if ($loop->iteration == 1)
                                         <div class="text-white text-md flex mt-2">
-                                            <input type="checkbox" class="outline-none" onclick="cbAgreementsAction(this)">
+                                            <input id="cbAgreements" type="checkbox" class="outline-none"
+                                                onclick="cbAgreementsAction(this)" value="{{ json_encode($agreement) }}"
+                                                disabled>
                                             <span class="ml-2">Nomor : </span>
                                             <span class="ml-2">{{ $agreement->number }}</span>
                                         </div>
                                     @else
                                         @if ($agreement->number != $firstAgreementNumber)
                                             <div class="text-white text-md flex mt-2">
-                                                <input type="checkbox" class="outline-none"
-                                                    onclick="cbAgreementsAction(this)">
+                                                <input id="cbAgreements" type="checkbox" class="outline-none"
+                                                    onclick="cbAgreementsAction(this)"
+                                                    value="{{ json_encode($agreement) }}" disabled>
                                                 <span class="ml-2">Nomor : </span>
                                                 <span class="ml-2">{{ $agreement->number }}</span>
                                             </div>
@@ -180,7 +186,7 @@
 
         cbApprovalsAction = (sel) => {
             if (sel.checked == true) {
-                approvals.push(sel.value);
+                approvals.push(JSON.parse(sel.value));
                 invoiceContent.approval = approvals;
                 invoiceContent.orders = orders;
                 invoiceContent.agreements = agreements;
@@ -200,7 +206,7 @@
 
         cbOrdersAction = (sel) => {
             if (sel.checked == true) {
-                orders.push(sel.value);
+                orders.push(JSON.parse(sel.value));
                 invoiceContent.approval = approvals;
                 invoiceContent.orders = orders;
                 invoiceContent.agreements = agreements;
@@ -220,7 +226,7 @@
 
         cbAgreementsAction = (sel) => {
             if (sel.checked == true) {
-                agreements.push(sel.value);
+                agreements.push(JSON.parse(sel.value));
                 invoiceContent.approval = approvals;
                 invoiceContent.orders = orders;
                 invoiceContent.agreements = agreements;
@@ -244,25 +250,25 @@
                 disableAgreements();
                 enableApprovals();
                 agreements = [];
-                inputAgreements.value = "";
+                // inputAgreements.value = "";
                 orders = [];
-                inputOrders.value = "";
+                // inputOrders.value = "";
             } else if (sel.value == "orders") {
                 enableOrders();
                 disableAgreements();
                 disableApprovals();
                 agreements = [];
-                inputAgreements.value = "";
+                // inputAgreements.value = "";
                 approvals = [];
-                inputApprovals.value = "";
+                // inputApprovals.value = "";
             } else {
                 disableOrders();
                 enableAgreements();
                 disableApprovals();
                 approvals = [];
-                inputApprovals.value = "";
+                // inputApprovals.value = "";
                 orders = [];
-                inputOrders.value = "";
+                // inputOrders.value = "";
             }
 
         }
