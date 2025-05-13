@@ -71,8 +71,8 @@
                             <label class="w-14">No. PO</label>
                             <label class="">:</label>
                             <label class="ml-2 w-44 font-semibold">
-                                @if (strlen($itemOrder->number) > 9)
-                                    {{ substr($itemOrder->number, 0, 9) }}..
+                                @if (strlen($itemOrder->number) > 24)
+                                    {{ substr($itemOrder->number, 0, 24) }}..
                                 @else
                                     {{ $itemOrder->number }}
                                 @endif

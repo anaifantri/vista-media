@@ -51,16 +51,16 @@
                     @foreach ($orders as $itemOrder)
                         <div class="flex items-center text-sm ml-2 mt-1 border-b">
                             <input type="checkbox" class="outline-none mr-2" checked>
-                            <label class="w-24">No. PO</label>
+                            <label class="w-14">No. PO</label>
                             <label class="">:</label>
-                            <label class="ml-2 w-24 font-semibold">
-                                @if (strlen($itemOrder->number) > 9)
-                                    {{ substr($itemOrder->number, 0, 9) }}..
+                            <label class="ml-2 w-36 font-semibold">
+                                @if (strlen($itemOrder->number) > 20)
+                                    {{ substr($itemOrder->number, 0, 20) }}..
                                 @else
                                     {{ $itemOrder->number }}
                                 @endif
                             </label>
-                            <label class="w-8">Tgl.</label>
+                            <label class="w-6">Tgl.</label>
                             <label class="">:</label>
                             <label class="ml-2 font-semibold">
                                 {{ date('d', strtotime($itemOrder->date)) }}-{{ $month[(int) date('m', strtotime($itemOrder->date))] }}-{{ date('Y', strtotime($itemOrder->date)) }}
