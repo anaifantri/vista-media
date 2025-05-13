@@ -25,7 +25,11 @@
         $approvalId = $approvals->id;
     } else {
         if (!empty($approvals)) {
-            $approvalId = json_decode($approvals[0])->id;
+            if (is_array($approvals)) {
+                $approvalId = json_decode($approvals[0])->id;
+            } else {
+                $approvalId = $approvals->id;
+            }
         } else {
             $approvalId = '';
         }

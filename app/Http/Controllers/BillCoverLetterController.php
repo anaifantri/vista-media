@@ -56,7 +56,7 @@ class BillCoverLetterController extends Controller
             if($category == "Service"){
                 $billings = Billing::where('company_id', $companyId)->where('category', '=', 'Service')->whereDoesntHave('bill_cover_letters')->get();
             }else{
-                $billings = Billing::where('company_id', $companyId)->where('category', '!=', 'Service')->get();
+                $billings = Billing::where('company_id', $companyId)->where('category', '!=', 'Service')->whereDoesntHave('bill_cover_letters')->get();
             }
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
