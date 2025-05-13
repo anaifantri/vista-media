@@ -7,10 +7,12 @@
     $receiptContent = json_decode($billings[0]->receipt_content);
     $invoiceContent = json_decode($billings[0]->invoice_content);
     $billTitle = $receiptContent->title;
-    $billLocation = $invoiceContent->description[0]->location;
-    $area = $invoiceContent->description[0]->area;
-    $city = $invoiceContent->description[0]->city;
-    $approval = $invoiceContent->approval;
+    if (count($receiptContent->locations) > 1) {
+        $billLocation = 'tertera pada invoice';
+    } else {
+        $billLocation = $receiptContent->locations[0];
+    }
+    $approvals = $invoiceContent->approval;
     $orders = $invoiceContent->orders;
     if (isset($invoiceContent->agreements)) {
         $agreements = $invoiceContent->agreements;
@@ -19,12 +21,20 @@
     }
     
     $attachments = [];
-    $approvalId = $approval->id;
+    if ($category == 'Service') {
+        $approvalId = $approvals->id;
+    } else {
+        if (!empty($approvals)) {
+            $approvalId = json_decode($approvals[0])->id;
+        } else {
+            $approvalId = '';
+        }
+    }
     $orderId = [];
     $agreementId = [];
     $vatTaxId = [];
     $billingNumber = [];
-    $workReportId = $orders;
+    $workReportId = [];
     if ($client->company == 'PT. Gudang Garam Tbk') {
         array_push($attachments, 'Surat Pengantar');
         $indexOrder = 1;
@@ -88,7 +98,7 @@
     if ($category == 'Service') {
         $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' . $billTitle . ' dengan tema ' . $receiptContent->theme . ' dengan perincian sebagai berikut :';
     } else {
-        $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' . $billTitle . ' yang berlokasi di ' . $billLocation . ',' . $city . ', ' . $area . ' dengan perincian sebagai berikut :';
+        $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' . $billTitle . ' yang berlokasi di ' . $billLocation . ', dengan perincian sebagai berikut :';
     }
     $content->attachments = $attachments;
     $content->client = $client;
