@@ -148,22 +148,22 @@
                         <!-- Sign start -->
                         @include('billings.receipt-service-sign-preview')
                         <!-- Sign end -->
-                        <div class="flex w-full justify-center items-center pt-2">
+                        {{-- <div class="flex w-full justify-center items-center pt-2">
                             <div class="border-t h-2 border-slate-500 border-dashed w-full">
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- Header start -->
-                        @include('billings.receipt-header-preview')
+                        {{-- @include('billings.receipt-header-preview') --}}
                         <!-- Header end -->
                         <!-- Body start -->
-                        @if ($category == 'Media')
+                        {{-- @if ($category == 'Media')
                             @include('billings.receipt-media-body-preview')
                         @elseif ($category == 'Service')
                             @include('billings.receipt-service-body-preview')
-                        @endif
+                        @endif --}}
                         <!-- Body end -->
                         <!-- Sign start -->
-                        @include('billings.receipt-service-sign-preview')
+                        {{-- @include('billings.receipt-service-sign-preview') --}}
                         <!-- Sign end -->
                     </div>
                     <!-- Kwitansi end -->
