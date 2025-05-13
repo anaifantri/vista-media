@@ -32,9 +32,6 @@
             <input type="text" id="category" value="{{ $category }}" hidden>
         @endif
         <input type="text" id="quotation_id" name="quotation_id" value="{{ $quotation->id }}" hidden>
-        {{-- @if ($category == 'Signage')
-            <input type="text" id="signageType" value="{{ $dataDescription->type }}" hidden>
-        @endif --}}
         <input type="text" name="notes" id="notes" {{ json_encode($notes) }} hidden>
         <input type="text" name="payment_terms" id="payment_terms" value="{{ json_encode($payment_terms) }}" hidden>
         <input type="text" name="price" id="price" value="{{ json_encode($price) }}" hidden>
@@ -399,11 +396,6 @@
             </div>
         </div>
     </form>
-
-    <!-- Modal Preview start -->
-    @include('quotation-revisions.create-preview')
-    <!-- Modal Preview end -->
-
 
     <div id="modalLocation" class="absolute justify-center top-0 w-full h-full bg-black bg-opacity-90 z-50 p-10 hidden">
         <div>

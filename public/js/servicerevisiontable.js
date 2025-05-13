@@ -22,8 +22,8 @@ const serviceTypePrint = document.getElementById("serviceTypePrint");
 let objPrice = JSON.parse(price.value);
 
 let objServiceType = {
-    print : true,
-    install : true
+    print : serviceTypePrint.value,
+    install : serviceTypeInstall.value
 }
 let objServicePpn = {
     status : true,
@@ -86,6 +86,7 @@ getTotalInstall = () =>{
                 type : installProduct[i].innerText,
                 freeInstall : freeInstalls[i].value
             }
+            subTotalInstall = subTotalInstall + parseInt(installTotal[i].innerText.replace ( /[^\d.]/g, '' ));
         }else{
             objInstalls[i] =  {
                 code : "",
@@ -94,7 +95,6 @@ getTotalInstall = () =>{
                 freeInstall : freeInstalls[i].value
             }
         }
-    subTotalInstall = subTotalInstall + parseInt(installTotal[i].innerText.replace ( /[^\d.]/g, '' ));
     }
 
     // objInstalls = objInstalls;
@@ -117,6 +117,7 @@ getTotalPrint = () =>{
                 price : printPrice[i].value,
                 printProduct : selectPrint[i].value
             }
+            subTotalPrint = subTotalPrint + parseInt(printTotal[i].innerText.replace ( /[^\d.]/g, '' ));
         }else{
             objPrints[i] =  {
                 code : "",
@@ -124,7 +125,6 @@ getTotalPrint = () =>{
                 printProduct : ""
             }
         }
-        subTotalPrint = subTotalPrint + parseInt(printTotal[i].innerText.replace ( /[^\d.]/g, '' ));
     }
     // objPrints = objPrints;
     objPrice.objPrints = objPrints;

@@ -12,7 +12,7 @@
     }
 @endphp
 <div class="w-[780px]">
-    <div class="flex items-center w-full py-2">
+    <div class="hidden items-center w-full py-2">
         <label class="text-sm text-stone-900">Opsi penawaran :</label>
         @if ($price->objServiceType->print == true)
             <input class="outline-none ml-2" type="checkbox" id="cbPrint" checked onclick="cbPrintAction(this)">
@@ -56,6 +56,7 @@
             </tr>
         </thead>
         <tbody id="serviceTBody">
+            <input id="locationQty" type="text" value="{{ count($products) }}" hidden>
             <input type="text" id="serviceTypePrint" value="{{ $price->objServiceType->print }}" hidden>
             <input type="text" id="serviceTypeInstall" value="{{ $price->objServiceType->install }}" hidden>
             @php
@@ -366,6 +367,8 @@
                                     $price->objSideView[$loop->iteration - 1]->wide;
                                 $subTotal = $subTotal + $totalInstall;
                             @endphp
+                            <input type="text" id="freeInstalls"
+                                value="{{ $price->objInstalls[$loop->iteration - 1]->freeInstall }}" hidden>
                             <td class="text-[0.7rem] text-black border border-black px-1 text-center">Pasang</td>
                             <td id="installProduct" class="text-[0.7rem] text-black border border-black text-center">
                                 {{ $price->objInstalls[$loop->iteration - 1]->type }}</td>

@@ -245,9 +245,6 @@
         </div>
     </form>
 
-    <!-- Modal Preview start -->
-    {{-- @include('quotations.create-preview') --}}
-    <!-- Modal Preview end -->
     <!-- Quotation end -->
     <script src="/js/createquotation.js"></script>
     @if ($category == 'Service')
