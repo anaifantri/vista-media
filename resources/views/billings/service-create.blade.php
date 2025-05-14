@@ -211,6 +211,9 @@
                 $theme = '-';
             }
 
+            $receipt_description = new stdClass();
+            $receipt_description->locations = [];
+
             $invoice_description = new stdClass();
             $invoice_description->title = $getService . ' Visual Media Luar Ruang';
             $invoice_description->sale_id = $sale->id;
@@ -221,7 +224,8 @@
             $invoice_description->size = $product->size . ' x ' . $getSide . ' - ' . $product->orientation;
             $invoice_description->qty = $getQty . ' Unit';
             $invoice_description->theme = $theme;
-            $invoice_description->location = $product->address;
+            $invoice_description->location = $product->code . '-' . $product->city_code . ' | ' . $product->address;
+            array_push($receipt_description->locations, $invoice_description->location);
 
             array_push($invoice_descriptions, $invoice_description);
         }
@@ -243,7 +247,6 @@
             }
         }
 
-        $receipt_description = new stdClass();
         $receipt_description->nominal = $grandTotal;
         $receipt_description->terbilang = '# ' . terbilang($grandTotal) . ' Rupiah #';
         $receipt_description->title = $getService . ' Visual Media Luar Ruang';
@@ -283,7 +286,6 @@
         }
         $receipt_description->qty = count($sales) . ' (' . $huruf[count($sales)] . ') unit';
         $receipt_description->theme = $receiptTheme;
-        $receipt_description->location = count($invoice_descriptions) . ' Lokasi';
 
         if (fmod(count($invoice_descriptions), 4) == 0) {
             $pageQty = count($invoice_descriptions) / 4;
@@ -436,10 +438,10 @@
                         <!-- Sign start -->
                         @include('billings.receipt-service-sign')
                         <!-- Sign end -->
-                        <div class="flex w-full justify-center items-center pt-2">
+                        {{-- <div class="flex w-full justify-center items-center pt-2">
                             <div class="border-t h-2 border-slate-500 border-dashed w-full">
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- Header start -->
                         {{-- @include('billings.receipt-header') --}}
                         <!-- Header end -->
