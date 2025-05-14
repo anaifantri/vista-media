@@ -189,12 +189,32 @@
         }
         const formSelectBilling = document.getElementById("formSelectBilling");
 
-        // getBilling = (sel) => {
-        //     formSelectSale.setAttribute('action', '/vat-tax-invoices/create/' + sel.value);
-        // }
-
         btnNextAction = () => {
             formSelectBilling.submit();
+        }
+
+        // Search Table --> start
+        function searchTable() {
+            const search = document.getElementById("search");
+            const salesTable = document.getElementById("salesTable");
+            var filter, tr, td, i, found, tdText;
+            filter = search.value.toUpperCase();
+            tr = salesTable.getElementsByTagName("tr");
+            for (i = 2; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    tdText = tr[i].getElementsByTagName("td")[j];
+                    if (tdText.innerText.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                    }
+                }
+                if (found == true) {
+                    tr[i].style.display = "";
+                    found = false;
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
         }
     </script>
     <!-- Script Preview Image end-->

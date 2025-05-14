@@ -8,7 +8,7 @@
         <div>
             <div class="flex items-center w-[1200px] border-b px-2">
                 <!-- Title start -->
-                <h1 class="index-h1 w-[1200px]">Upload Faktur PPN</h1>
+                <h1 class="index-h1 w-[1200px]">INPUT DATA PEMBAYARAN</h1>
                 <!-- Title end -->
                 <div class="flex w-[150px] justify-end">
                     <button id="divButton" class="hidden justify-center items-center mx-1 btn-success" title="Next"
@@ -20,8 +20,8 @@
                         </svg>
                         <span class="mx-1 text-white">Save</span>
                     </button>
-                    <a href="/vat-tax-invoices/index/{{ $company->id }}"
-                        class="flex justify-center items-center mx-1 btn-danger" title="Cancel">
+                    <a href="/payments/index/{{ $company->id }}" class="flex justify-center items-center mx-1 btn-danger"
+                        title="Cancel">
                         <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24">
                             <path
@@ -161,7 +161,7 @@
         const formSelectBilling = document.getElementById("formSelectBilling");
 
         getBilling = (sel) => {
-            formSelectBilling.setAttribute('action', '/vat-tax-invoices/create/' + sel.value);
+            formSelectBilling.setAttribute('action', '/payments/create/' + sel.value);
         }
 
         btnNextAction = () => {

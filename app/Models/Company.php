@@ -37,8 +37,24 @@ class Company extends Model
         return $this->hasMany(Sale::class, 'company_id', 'id');
     }
 
+    public function bill_cover_letters(){
+        return $this->hasMany(BillCoverLetter::class, 'company_id', 'id');
+    }
+
+    public function work_reports(){
+        return $this->hasMany(WorkReport::class, 'company_id', 'id');
+    }
+
+    public function vat_tax_invoices(){
+        return $this->hasMany(VatTaxInvoice::class, 'company_id', 'id');
+    }
+
     public function billings(){
         return $this->hasMany(Billing::class, 'company_id', 'id');
+    }
+
+    public function payments(){
+        return $this->hasMany(Payment::class, 'company_id', 'id');
     }
 
     public function print_orders(){

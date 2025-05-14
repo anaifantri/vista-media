@@ -188,7 +188,7 @@ class Location extends Model
         return $this->hasOne(Sale::class, 'location_id', 'id')->whereHas('media_category', function($query){
             $query->where('name', '!=', 'Service');
             })
-            ->where('end_at', '<', date('Y-m-d', strtotime("+30 days")));
+            ->where('end_at', '<', date('Y-m-d', strtotime("+60 days")));
     }
 
     public function videotron_active_sales(){

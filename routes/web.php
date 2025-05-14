@@ -13,6 +13,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LicenseController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\VoidSaleController;
 use App\Http\Controllers\DashboardController;
@@ -212,12 +213,19 @@ Route::get('/bill-cover-letters/create/{billingid}/{category}', [BillCoverLetter
 Route::get('/bill-cover-letters/preview/{id}', [BillCoverLetterController::class,'preview'])->middleware(['auth','user_access']);
 // Bill Cover Letter  --> end
 
-// Bill Cover Letter  --> start
+// VAT Tax  --> start
 Route::resource('/accounting/vat-tax-invoices', VatTaxInvoiceController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/vat-tax-invoices/index/{companyid}', [VatTaxInvoiceController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/vat-tax-invoices/select-billing/{companyid}', [VatTaxInvoiceController::class,'selectBilling'])->middleware(['auth','user_access']);
 Route::get('/vat-tax-invoices/create/{saleid}', [VatTaxInvoiceController::class,'create'])->middleware(['auth','user_access']);
-// Bill Cover Letter  --> end
+// VAT Tax  --> end
+
+// Payments  --> start
+Route::resource('/accounting/payments', PaymentController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
+Route::get('/payments/index/{companyid}', [PaymentController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/payments/select-billing/{companyid}', [PaymentController::class,'selectBilling'])->middleware(['auth','user_access']);
+Route::get('/payments/create/{billingid}', [PaymentController::class,'create'])->middleware(['auth','user_access']);
+// Payments  --> end
 // Accounting Group --> end
 
 // Media Group --> start
