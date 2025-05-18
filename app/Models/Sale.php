@@ -241,6 +241,10 @@ class Sale extends Model
         return $this->hasMany(WorkReport::class, 'sale_id', 'id');
     }
 
+    public function income_taxes(){
+        return $this->hasMany(IncomeTax::class, 'sale_id', 'id');
+    }
+
     public function billings()
     {
         return $this->belongsToMany(Billing::class, 'billing_sales');

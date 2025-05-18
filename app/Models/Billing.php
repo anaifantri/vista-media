@@ -61,6 +61,10 @@ class Billing extends Model
     {
         return $this->belongsToMany(Payment::class, 'billing_payments');
     }
+    
+    public function income_taxes(){
+        return $this->hasMany(IncomeTax::class, 'billing_id', 'id');
+    }
 
     public $sortable = ['invoice_number', 'receipt_number'];
 }

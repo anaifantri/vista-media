@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
 use Carbon\Carbon;
 
-class Payment extends Model
+class IncomeTax extends Model
 {
     use Sortable;
     protected $guarded = ['id'];
-            
+        
     public function scopeYear($query){
         if(request('year')){
             return $query->whereYear('created_at', request('year'));
@@ -40,18 +40,11 @@ class Payment extends Model
     public function company(){
         return $this->belongsTo(Company::class);
     }
-    
-    public function billings()
-    {
-        return $this->belongsToMany(Billing::class, 'billing_payments');
-    }    
-
-    public function income_taxes(){
-        return $this->hasMany(IncomeTax::class, 'payment_id', 'id');
+    public function billing(){
+        return $this->belongsTo(Billing::class);
     }
-    
-    public function income_tax_document(){
-        return $this->hasOne(IncomeTaxDocument::class, 'payment_id', 'id');
+    public function sale(){
+        return $this->belongsTo(Sale::class);
     }
 
     public $sortable = ['number'];

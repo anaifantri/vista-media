@@ -3,6 +3,7 @@
 @section('container')
     @php
         $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        $number = 0;
     @endphp
     <div class="flex justify-center bg-black p-10">
         <div>
@@ -40,8 +41,9 @@
                         class="flex w-full h-[560px] bg-stone-200 items-center justify-center border rounded-lg border-stone-400 my-2 p-4 pt-2 border-b pb-2">
                         <div class="w-[1135px]">
                             <div class="flex">
+                                <span>Pencarian</span>
                                 <input
-                                    id="search"class="flex border border-stone-900 rounded-lg p-1 outline-none text-sm text-stone-900"
+                                    id="search"class="flex ml-2 border border-stone-900 rounded-lg p-1 outline-none text-sm text-stone-900"
                                     type="text" placeholder="Search"onkeyup="searchTable()" autofocus>
                             </div>
                             <div class="h-[504px] overflow-y-auto mt-1">
@@ -95,43 +97,69 @@
                                     <tbody class="bg-stone-200">
                                         @foreach ($billings as $billing)
                                             @php
+                                                $billingNominal = 0;
                                                 $client = json_decode($billing->client);
+                                                if (!empty($billing->bill_payments)) {
+                                                    foreach ($billing->bill_payments as $billPayment) {
+                                                        $billingNominals = json_decode($billPayment->billing_nominal);
+                                                        foreach ($billingNominals as $itemNominal) {
+                                                            if ($itemNominal->billing_id == $billing->id) {
+                                                                $billingNominal =
+                                                                    $billingNominal + $itemNominal->nominal;
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             @endphp
-                                            <tr>
-                                                <td
-                                                    class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                                    {{ $billing->invoice_number }}
-                                                </td>
-                                                <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                                    {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
-                                                </td>
-                                                <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                                    {{ $client->company }}</td>
-                                                <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                                    @if ($billing->category == 'Media')
-                                                        Sewa Media
-                                                    @elseif($billing->category == 'Service')
-                                                        Cetak/Pasang
-                                                    @endif
-                                                </td>
-                                                <td class="text-stone-900 px-1 border border-stone-900 text-xs text-right">
-                                                    {{ number_format($billing->nominal) }}
-                                                </td>
-                                                <td class="text-stone-900 px-1 border border-stone-900 text-xs text-right">
-                                                    {{ number_format($billing->ppn) }}
-                                                </td>
-                                                <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-right">
-                                                    {{ number_format($billing->nominal + $billing->ppn) }}
-                                                </td>
-                                                <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                                    <input value="{{ $billing->id }}" type="radio" name="chooseBilling"
-                                                        title="pilih" onclick="getBilling(this)">
-                                                    <label class="ml-1">Pilih</label>
-                                                </td>
-                                            </tr>
+                                            @if ($billingNominal == 0 || $billingNominal < $billing->nominal + $billing->ppn - ($billing->nominal * 2) / 100)
+                                                @php
+                                                    $number++;
+                                                @endphp
+                                                <tr>
+                                                    <td
+                                                        class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
+                                                        {{ $number }}
+                                                    </td>
+                                                    <td
+                                                        class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                                        {{ $billing->invoice_number }}
+                                                    </td>
+                                                    <td
+                                                        class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                                        {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
+                                                    </td>
+                                                    <td
+                                                        class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
+                                                        {{ $client->company }}</td>
+                                                    <td
+                                                        class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                                        @if ($billing->category == 'Media')
+                                                            Sewa Media
+                                                        @elseif($billing->category == 'Service')
+                                                            Cetak/Pasang
+                                                        @endif
+                                                    </td>
+                                                    <td
+                                                        class="text-stone-900 px-1 border border-stone-900 text-xs text-right">
+                                                        {{ number_format($billing->nominal) }}
+                                                    </td>
+                                                    <td
+                                                        class="text-stone-900 px-1 border border-stone-900 text-xs text-right">
+                                                        {{ number_format($billing->ppn) }}
+                                                    </td>
+                                                    <td
+                                                        class="text-stone-900 px-1 border border-stone-900 text-xs  text-right">
+                                                        {{ number_format($billing->nominal + $billing->ppn) }}
+                                                    </td>
+                                                    <td
+                                                        class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                                        <input id="{{ $client->id }}" value="{{ $billing->id }}"
+                                                            type="checkbox" name="chooseBilling" title="pilih"
+                                                            onclick="getBilling(this)">
+                                                        <label class="ml-1">Pilih</label>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -159,9 +187,34 @@
 
     <script>
         const formSelectBilling = document.getElementById("formSelectBilling");
+        var firstClientId = "";
+        var saleId = [];
 
         getBilling = (sel) => {
-            formSelectBilling.setAttribute('action', '/payments/create/' + sel.value);
+            if (saleId.length == 0) {
+                saleId.push(sel.value);
+                firstClientId = sel.id;
+            } else {
+                if (sel.checked == true) {
+                    if (firstClientId == sel.id) {
+                        saleId.push(sel.value);
+                    } else {
+                        alert("Silahkan pilih penjualan dari klien yang sama..!!");
+                        sel.checked = false;
+                    }
+                } else {
+                    for (let i = 0; i < saleId.length; i++) {
+                        if (saleId[i] == sel.value) {
+                            saleId.splice(i, 1);
+                        }
+                    }
+                    if (saleId.length == 0) {
+                        firstClientId = "";
+                    }
+                }
+            }
+
+            formSelectBilling.setAttribute('action', '/payments/create/' + JSON.stringify(saleId));
         }
 
         btnNextAction = () => {

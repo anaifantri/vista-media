@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('income_tax_documents', function (Blueprint $table) {
             $table->id();
+            $table->string('number')->unique();
+            $table->string('company');
             $table->foreignId('company_id')->constrained();
-            $table->date('payment_date');
+            $table->foreignId('payment_id')->constrained();
             $table->double('nominal');
-            $table->string('note')->nullable();
-            $table->json('billing_nominal');
-            $table->json('sale_nominal');
-            $table->json('created_by');
-            $table->json('updated_by');
+            $table->json('images');
+            $table->date('tax_date');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('income_tax_documents');
     }
 };

@@ -6,7 +6,6 @@
         $client = json_decode($billings[0]->client);
         $data_pph = [];
         $sale_nominal = [];
-        $billing_nominal = [];
 
         $created_by = new stdClass();
         $created_by->id = auth()->user()->id;
@@ -80,7 +79,7 @@
                                     <th class="text-stone-900 border border-stone-900 text-sm w-16 text-center">Jenis</th>
                                     <th class="text-stone-900 border border-stone-900 text-sm w-56 text-center">No. Invoice
                                     </th>
-                                    <th class="text-stone-900 border border-stone-900 text-sm text-center">Lokasi</th>
+                                    <th class="text-stone-900 border border-stone-900 text-sm text-center">Deskripsi</th>
                                     <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Tagihan</th>
                                     <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center">PPh</th>
                                     <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Pembayaran
@@ -115,12 +114,6 @@
                                                 array_push($data_pph, $itemPph);
                                             }
                                         }
-
-                                        $billingNominal = new stdClass();
-                                        $billingNominal->billing_id = $billing->id;
-                                        $billingNominal->nominal =
-                                            $billing->nominal + $billing->ppn - ($billing->nominal * 2) / 100;
-                                        array_push($billing_nominal, $billingNominal);
                                     @endphp
                                     <tr class="bg-stone-200">
                                         <td class="text-stone-900 border border-stone-900 text-sm px-1  text-center">
@@ -133,13 +126,11 @@
                                             @endif
                                         </td>
                                         <td class="text-stone-900 border border-stone-900 text-sm px-1 text-center">
-                                            <a
-                                                href="/accounting/billings/{{ $billing->id }}">{{ $billing->invoice_number }}</a>
-                                        </td>
+                                            {{ $billing->invoice_number }}</td>
                                         <td class="text-stone-900 border border-stone-900 text-sm px-1 text-center">
                                             <div>
                                                 @foreach ($invoice_description as $itemDescription)
-                                                    <span class="flex">{{ $itemDescription->location }}</span>
+                                                    <span class="flex">{{ $itemDescription->title }}</span>
                                                 @endforeach
                                             </div>
                                         </td>
@@ -163,7 +154,7 @@
                                                         $totalPph = $totalPph + $pph;
                                                     @endphp
                                                     <input id="inputPph" type="number" placeholder="Input Nominal PPh"
-                                                        value="{{ $pph }}" title="{{ $billing->id }}"
+                                                        value="{{ $pph }}"
                                                         class="ml-1 text-sm outline-none border rounded-md px-1 w-full text-right in-out-spin-none"
                                                         onchange="setPph(this)" onfocus="inputPphAction(this)">
                                                 @endforeach
@@ -179,7 +170,7 @@
                                                         $itemNominal->nominal = $itemDescription->nominal + $ppn - $pph;
                                                         array_push($sale_nominal, $itemNominal);
                                                     @endphp
-                                                    <input id="inputNominal" type="number" title="{{ $billing->id }}"
+                                                    <input id="inputNominal" type="number"
                                                         placeholder="Input Nominal Pembayaran" onchange="setNominal(this)"
                                                         onfocus="inputNominalAction(this)"
                                                         value="{{ $itemDescription->nominal + $ppn - $pph }}"
@@ -212,8 +203,6 @@
                             hidden>
                         <input id="inputSaleNominal" type="text" name="sale_nominal"
                             value="{{ json_encode($sale_nominal) }}" hidden>
-                        <input id="inputBillingNominal" type="text" name="billing_nominal"
-                            value="{{ json_encode($billing_nominal) }}" hidden>
                         <input id="nominal" name="nominal"
                             value="{{ $billings->sum('nominal') + $billings->sum('ppn') - $totalPph }}"
                             class="text-sm px-1 outline-none rounded-md w-full text-right" hidden>
@@ -228,7 +217,10 @@
                             <div class="flex mt-4">
                                 <label class="w-32">Keterangan</label>
                                 <label class="ml-2">:</label>
-                                <textarea name="note" rows="3" class="outline-none border rounded-lg px-1 ml-2 w-[600px]"></textarea>
+                                <input type="radio" name="note" class="outline-none ml-2" value="full" checked>
+                                <span class="ml-1">Pembayaran Penuh</span>
+                                <input type="radio" name="note" class="outline-none ml-6" value="partial">
+                                <span class="ml-1">Pembayaran Sebagian</span>
                             </div>
                         </div>
                     </div>
@@ -248,11 +240,9 @@
         const nominal = document.getElementById("nominal");
         const inputDataPph = document.getElementById("inputDataPph");
         const inputSaleNominal = document.getElementById("inputSaleNominal");
-        const inputBillingNominal = document.getElementById("inputBillingNominal");
         var billings = @json($billings);
         var dataPph = @json($data_pph);
         var saleNominal = @json($sale_nominal);
-        var billingNominal = @json($billing_nominal);
         var index = "";
 
         inputPphAction = (sel) => {
@@ -264,18 +254,12 @@
         }
 
         setPph = (sel) => {
-            if (sel.value > sel.defaultValue) {
-                alert("Nominal pph tidak boleh melebihi 2% dari tagihan..!!");
-                sel.value = sel.defaultValue;
-            } else {
-                var pphTitle = sel.title;
-                inputNominal[index].value = Number(inputBilling[index].innerText.replace(/,/g, "")) - Number(
-                    sel.value);
-                dataPph[index].pph = sel.value;
-                inputDataPph.value = JSON.stringify(dataPph);
+            inputNominal[index].value = Number(inputBilling[index].innerText.replace(/,/g, "")) - Number(
+                sel.value);
+            dataPph[index].pph = sel.value;
+            inputDataPph.value = JSON.stringify(dataPph);
 
-                countTotalPayment(pphTitle);
-            }
+            countTotalPayment();
         }
 
         inputNominalAction = (sel) => {
@@ -287,16 +271,15 @@
         }
 
         setNominal = (sel) => {
-            var nominalTitle = sel.title;
             if (sel.value > Number(inputBilling[index].innerText.replace(/,/g, "")) || sel.value == 0) {
                 alert("Nominal pembayaran tidak boleh 0 dan tidak boleh melebihi total tagihan..!!");
                 sel.value = sel.defaultValue;
             } else {
-                countTotalPayment(nominalTitle);
+                countTotalPayment();
             }
         }
 
-        countTotalPayment = (title) => {
+        countTotalPayment = () => {
             var total = 0;
             var getPph = 0;
             for (let i = 0; i < inputNominal.length; i++) {
@@ -308,22 +291,7 @@
             totalPph.innerText = getPph.toLocaleString();
             nominal.value = Number(total);
             inputSaleNominal.value = JSON.stringify(saleNominal);
-
-            var getBillingNominal = 0;
-            for (let i = 0; i < inputNominal.length; i++) {
-                if (inputNominal[i].title == title) {
-                    getBillingNominal = getBillingNominal + Number(inputNominal[i].value);
-                }
-            }
-
-            for (let i = 0; i < billingNominal.length; i++) {
-                if (billingNominal[i].billing_id == title) {
-                    billingNominal[i].nominal = getBillingNominal;
-                    inputBillingNominal.value = JSON.stringify(billingNominal);
-                    console.log(inputBillingNominal.value);
-
-                }
-            }
+            console.log(inputSaleNominal.value);
         }
     </script>
     <!-- Script end -->

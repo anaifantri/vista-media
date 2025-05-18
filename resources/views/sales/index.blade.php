@@ -373,7 +373,6 @@
                                                 <label>:</label>
                                                 <a class="mx-1 w-48"
                                                     href="/media/locations/{{ $product->id }}">{{ $product->code }}-{{ $product->city_code }}</a>
-                                                {{-- <label class="mx-1 w-48">{{ $product->code }}</label> --}}
                                             </div>
                                             <div class="flex ml-1">
                                                 <label class="w-8">Lokasi</label>
@@ -604,22 +603,24 @@
                                                 <label class="w-[72px] text-right">{{ number_format($sale->dpp) }}</label>
                                             </div>
                                             <div class="flex ml-1">
-                                                <label class="w-12">PPN {{ $sale->ppn }}%</label>
+                                                <label class="w-12">PPN</label>
                                                 <label>:</label>
                                                 <label
                                                     class="w-[72px] text-right">{{ number_format($sale->dpp * ($sale->ppn / 100)) }}</label>
                                             </div>
-                                            <div class="flex ml-1">
-                                                <label class="w-12">PPh {{ $sale->pph }}%</label>
+                                            {{-- <div class="flex ml-1">
+                                                <label class="w-12">PPh</label>
                                                 <label>:</label>
                                                 <label
-                                                    class="w-[72px] text-right">{{ number_format($sale->dpp * ($sale->pph / 100)) }}</label>
-                                            </div>
+                                                    class="w-[72px] text-right">{{ number_format($sale->dpp * (2 / 100)) }}</label>
+                                            </div> --}}
                                             <div class="flex ml-1 border-t border-stone-900">
                                                 <label class="w-12 font-semibold">Total</label>
                                                 <label>:</label>
                                                 <label
-                                                    class="w-[72px] text-right font-semibold">{{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100)) }}</label>
+                                                    class="w-[72px] text-right font-semibold">{{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100)) }}</label>
+                                                {{-- <label
+                                                    class="w-[72px] text-right font-semibold">{{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * (2 / 100)) }}</label> --}}
                                             </div>
                                         </div>
                                     </td>
@@ -660,7 +661,7 @@
                                         <div>
                                             @foreach ($payment_terms->dataPayments as $payment)
                                                 <div class="flex mx-1 justify-end">
-                                                    <label>{{ number_format($sale->dpp * ($payment->term / 100) * ($sale->pph / 100)) }}
+                                                    <label>{{ number_format($sale->dpp * ($payment->term / 100) * (2 / 100)) }}
                                                     </label>
                                                 </div>
                                             @endforeach
@@ -678,10 +679,7 @@
                                                                 $sale->dpp *
                                                                 ($payment->term / 100) *
                                                                 ($sale->ppn / 100);
-                                                            $pphTerm =
-                                                                $sale->dpp *
-                                                                ($payment->term / 100) *
-                                                                ($sale->pph / 100);
+                                                            $pphTerm = $sale->dpp * ($payment->term / 100) * (2 / 100);
                                                         @endphp
                                                         <label>{{ number_format($subTotal + $ppnTerm - $pphTerm) }}</label>
                                                     @else
@@ -744,12 +742,23 @@
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">
                                         <div>
                                             @foreach ($saleBillings as $itemBilling)
-                                                Unpaid
+                                                @if (count($itemBilling->bill_payments) > 0)
+                                                    Paid
+                                                @else
+                                                    Unpaid
+                                                @endif
                                             @endforeach
                                         </div>
                                     </td>
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-top">
+                                        <div>
+                                            @foreach ($saleBillings as $itemBilling)
+                                                @if (count($itemBilling->bill_payments) > 0)
+                                                    <span>{{ date('d', strtotime($itemBilling->bill_payments[0]->payment_date)) }}-{{ $sMonth[(int) date('m', strtotime($itemBilling->bill_payments[0]->payment_date))] }}-{{ date('Y', strtotime($itemBilling->bill_payments[0]->payment_date)) }}</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
                                     </td>
                                     <td
                                         class="text-stone-900 border border-stone-900 text-[0.65rem] text-center align-center">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Models\Billing;
 use App\Models\BillingPayment;
+use App\Models\IncomeTax;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,7 +36,7 @@ class PaymentController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             return view ('payments.select-billings', [
-                'billings' => Billing::where('company_id', $companyId)->whereDoesntHave('bill_payments')->get(),
+                'billings' => Billing::where('company_id', $companyId)->get(),
                 'title' => 'Menambahkan Data Faktur PPN'
             ]);
         } else {
@@ -50,7 +51,8 @@ class PaymentController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             return  response()-> view ('payments.create', [
-                'billing' => Billing::findOrFail($billingId),
+                'billings' => Billing::whereIn('id', json_decode($billingId))->get(),
+                'billing_id' => $billingId,
                 'title' => 'Menambahkan Data Pembayaran'
             ]);
         } else {
@@ -64,23 +66,36 @@ class PaymentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            // dd(request('billing_nominal'));
             $validateData = $request->validate([
                 'company_id' => 'required',
                 'nominal' => 'required',
+                'sale_nominal' => 'required',
+                'billing_nominal' => 'required',
                 'payment_date'=>'required',
                 'note'=>'nullable',
                 'created_by'=>'required',
                 'updated_by'=>'required'
             ]);
 
-
             $id = Payment::create($validateData)->id;
 
-            $billingPayment['billing_id'] = $request->billing_id;
-            $billingPayment['payment_id'] = $id;
-            BillingPayment::insert($billingPayment);
+            foreach (json_decode(request('billing_id')) as $billingId) {
+                $billingPayment['billing_id'] = $billingId;
+                $billingPayment['payment_id'] = $id;
+                BillingPayment::insert($billingPayment);
+            }
 
-            return redirect('/payments/index/'.$request->company_id)->with('success', 'Data pembayaran berhasil diupload');
+            foreach(json_decode(request('data_pph')) as $itemPph){
+                $dataPph['company_id'] = request('company_id');
+                $dataPph['payment_id'] = $id;
+                $dataPph['billing_id'] = $itemPph->billing_id;
+                $dataPph['sale_id'] = $itemPph->sale_id;
+                $dataPph['nominal'] = $itemPph->pph;
+                IncomeTax::create($dataPph);
+            }
+
+            return redirect('/payments/index/'.$request->company_id)->with('success', 'Data pembayaran berhasil diinput');
         } else {
             abort(403);
         }
@@ -91,7 +106,14 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment): Response
     {
-        //
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return response()-> view('payments.show', [
+                'payment' => $payment,
+                'title' => 'Detail Pembayaran'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**

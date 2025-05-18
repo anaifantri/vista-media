@@ -122,19 +122,19 @@
                         if ($sale->void_sale) {
                             $voidSale = $sales->where('id', $sale->id);
                             if (count($voidSale) == 2) {
-                                $pphTotal = $pphTotal + ($sale->dpp * ($sale->pph / 100)) / 2;
+                                $pphTotal = $pphTotal + ($sale->dpp * (2 / 100)) / 2;
                                 $ppnTotal = $ppnTotal + ($sale->dpp * ($sale->ppn / 100)) / 2;
                                 $priceTotal = $priceTotal + $sale->price / 2;
                             }
                         } elseif ($sale->change_sale) {
                             $changeSale = $sales->where('id', $sale->id);
                             if (count($changeSale) == 2) {
-                                $pphTotal = $pphTotal + ($sale->dpp * ($sale->pph / 100)) / 2;
+                                $pphTotal = $pphTotal + ($sale->dpp * (2 / 100)) / 2;
                                 $ppnTotal = $ppnTotal + ($sale->dpp * ($sale->ppn / 100)) / 2;
                                 $priceTotal = $priceTotal + $sale->price / 2;
                             }
                         } else {
-                            $pphTotal = $pphTotal + $sale->dpp * ($sale->pph / 100);
+                            $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
                             $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
                             $priceTotal = $priceTotal + $sale->price;
                         }
@@ -422,24 +422,24 @@
                                                             {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
                                                         </label>
                                                     </div>
-                                                    <div class="flex ml-1">
-                                                        @if ($sale->pph)
+                                                    {{-- <div class="flex ml-1">
+                                                        @if (2)
                                                             <label class="w-12">PPh
-                                                                {{-- {{ $sale->pph }} % --}}
+                                                                {{ 2 }} %
                                                             </label>
                                                         @else
                                                             <label class="w-12">PPh</label>
                                                         @endif
                                                         <label>:</label>
                                                         <label class="ml-1 w-16 text-right">
-                                                            {{ number_format($sale->dpp * ($sale->pph / 100)) }}
+                                                            {{ number_format($sale->dpp * (2 / 100)) }}
                                                         </label>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="flex ml-1 border-t">
                                                         <label class="w-12">Total</label>
                                                         <label>:</label>
                                                         <label class="ml-1 w-16 text-right">
-                                                            {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100)) }}
+                                                            {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100)) }}
                                                         </label>
                                                     </div>
                                                 @else
@@ -494,24 +494,24 @@
                                                         {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
                                                     </label>
                                                 </div>
-                                                <div class="flex ml-1">
-                                                    @if ($sale->pph)
+                                                {{-- <div class="flex ml-1">
+                                                    @if (2)
                                                         <label class="w-12">PPh
-                                                            {{-- {{ $sale->pph }} % --}}
+                                                            {{ 2 }} %
                                                         </label>
                                                     @else
                                                         <label class="w-12">PPh</label>
                                                     @endif
                                                     <label>:</label>
                                                     <label class="ml-1 w-16 text-right">
-                                                        {{ number_format($sale->dpp * ($sale->pph / 100)) }}
+                                                        {{ number_format($sale->dpp * (2 / 100)) }}
                                                     </label>
-                                                </div>
+                                                </div> --}}
                                                 <div class="flex ml-1 border-t">
                                                     <label class="w-12">Total</label>
                                                     <label>:</label>
                                                     <label class="ml-1 w-16 text-right">
-                                                        {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100)) }}
+                                                        {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100)) }}
                                                     </label>
                                                 </div>
                                             @else
@@ -553,24 +553,24 @@
                                                             {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
                                                         </label>
                                                     </div>
-                                                    <div class="flex ml-1">
-                                                        @if ($sale->pph)
+                                                    {{-- <div class="flex ml-1">
+                                                        @if (2)
                                                             <label class="w-12">PPh
-                                                                {{-- {{ $sale->pph }} % --}}
+                                                                {{ 2 }} %
                                                             </label>
                                                         @else
                                                             <label class="w-12">PPh</label>
                                                         @endif
                                                         <label>:</label>
                                                         <label class="ml-1 w-16 text-right">
-                                                            {{ number_format($sale->dpp * ($sale->pph / 100)) }}
+                                                            {{ number_format($sale->dpp * (2 / 100)) }}
                                                         </label>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="flex ml-1 border-t">
                                                         <label class="w-12">Total</label>
                                                         <label>:</label>
                                                         <label class="ml-1 w-16 text-right">
-                                                            {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100)) }}
+                                                            {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100)) }}
                                                         </label>
                                                     </div>
                                                 @else
@@ -625,24 +625,24 @@
                                                         {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
                                                     </label>
                                                 </div>
-                                                <div class="flex ml-1">
-                                                    @if ($sale->pph)
+                                                {{-- <div class="flex ml-1">
+                                                    @if (2)
                                                         <label class="w-12">PPh
-                                                            {{-- {{ $sale->pph }} % --}}
+                                                            {{ 2 }} %
                                                         </label>
                                                     @else
                                                         <label class="w-12">PPh</label>
                                                     @endif
                                                     <label>:</label>
                                                     <label class="ml-1 w-16 text-right">
-                                                        {{ number_format($sale->dpp * ($sale->pph / 100)) }}
+                                                        {{ number_format($sale->dpp * (2 / 100)) }}
                                                     </label>
-                                                </div>
+                                                </div> --}}
                                                 <div class="flex ml-1 border-t">
                                                     <label class="w-12">Total</label>
                                                     <label>:</label>
                                                     <label class="ml-1 w-16 text-right">
-                                                        {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100)) }}
+                                                        {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100)) }}
                                                     </label>
                                                 </div>
                                             @else
@@ -681,24 +681,24 @@
                                                 {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
                                             </label>
                                         </div>
-                                        <div class="flex ml-1">
-                                            @if ($sale->pph)
+                                        {{-- <div class="flex ml-1">
+                                            @if (2)
                                                 <label class="w-12">PPh
-                                                    {{-- {{ $sale->pph }} % --}}
+                                                    {{ 2 }} %
                                                 </label>
                                             @else
                                                 <label class="w-12">PPh</label>
                                             @endif
                                             <label>:</label>
                                             <label class="ml-1 w-16 text-right">
-                                                {{ number_format($sale->dpp * ($sale->pph / 100)) }}
+                                                {{ number_format($sale->dpp * (2 / 100)) }}
                                             </label>
-                                        </div>
+                                        </div> --}}
                                         <div class="flex ml-1 border-t">
                                             <label class="w-12">Total</label>
                                             <label>:</label>
                                             <label class="ml-1 w-16 text-right">
-                                                {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100)) }}
+                                                {{ number_format($sale->price + $sale->dpp * ($sale->ppn / 100)) }}
                                             </label>
                                         </div>
                                     @endif
@@ -738,7 +738,7 @@
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
-                                                        <label>{{ number_format($sale->dpp * ($terms->term / 100) * ($sale->pph / 100)) }}</label>
+                                                        <label>{{ number_format($sale->dpp * ($terms->term / 100) * (2 / 100)) }}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -755,9 +755,7 @@
                                                                     ($terms->term / 100) *
                                                                     ($sale->ppn / 100);
                                                                 $pphTerm =
-                                                                    $sale->dpp *
-                                                                    ($terms->term / 100) *
-                                                                    ($sale->pph / 100);
+                                                                    $sale->dpp * ($terms->term / 100) * (2 / 100);
                                                             @endphp
                                                             <label>{{ number_format($subTotal + $ppnTerm - $pphTerm) }}</label>
                                                         @else
@@ -825,7 +823,7 @@
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
-                                                        <label>{{ number_format($sale->dpp * ($terms->term / 100) * ($sale->pph / 100)) }}</label>
+                                                        <label>{{ number_format($sale->dpp * ($terms->term / 100) * (2 / 100)) }}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -842,9 +840,7 @@
                                                                     ($terms->term / 100) *
                                                                     ($sale->ppn / 100);
                                                                 $pphTerm =
-                                                                    $sale->dpp *
-                                                                    ($terms->term / 100) *
-                                                                    ($sale->pph / 100);
+                                                                    $sale->dpp * ($terms->term / 100) * (2 / 100);
                                                             @endphp
                                                             <label>{{ number_format($subTotal + $ppnTerm - $pphTerm) }}</label>
                                                         @else
@@ -910,7 +906,7 @@
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex mr-1 justify-end">
-                                                <label>{{ number_format($sale->dpp * ($terms->term / 100) * ($sale->pph / 100)) }}</label>
+                                                <label>{{ number_format($sale->dpp * ($terms->term / 100) * (2 / 100)) }}</label>
                                             </div>
                                         @endforeach
                                     </div>
@@ -924,8 +920,7 @@
                                                         $subTotal = $sale->price * ($terms->term / 100);
                                                         $ppnTerm =
                                                             $sale->dpp * ($terms->term / 100) * ($sale->ppn / 100);
-                                                        $pphTerm =
-                                                            $sale->dpp * ($terms->term / 100) * ($sale->pph / 100);
+                                                        $pphTerm = $sale->dpp * ($terms->term / 100) * (2 / 100);
                                                     @endphp
                                                     <label>{{ number_format($subTotal + $ppnTerm - $pphTerm) }}</label>
                                                 @else
@@ -985,11 +980,22 @@
                             <td class="text-black border text-[0.65rem] text-center align-top">
                                 <div>
                                     @foreach ($saleBillings as $itemBilling)
-                                        Unpaid
+                                        @if (count($itemBilling->bill_payments) > 0)
+                                            Paid
+                                        @else
+                                            Unpaid
+                                        @endif
                                     @endforeach
                                 </div>
                             </td>
                             <td class="text-black border text-[0.65rem] text-center align-top">
+                                <div>
+                                    @foreach ($saleBillings as $itemBilling)
+                                        @if (count($itemBilling->bill_payments) > 0)
+                                            <span>{{ date('d', strtotime($itemBilling->bill_payments[0]->payment_date)) }}-{{ $sMonth[(int) date('m', strtotime($itemBilling->bill_payments[0]->payment_date))] }}-{{ date('Y', strtotime($itemBilling->bill_payments[0]->payment_date)) }}</span>
+                                        @endif
+                                    @endforeach
+                                </div>
                             </td>
                         </tr>
                     @endif
@@ -1002,7 +1008,7 @@
                         {{ number_format($priceTotal - $void_sales->sum('price') + $change_sales->sum('price_diff')) }}
                     </td>
                     <td class="text-black bg-slate-200 border text-[0.65rem] text-right align-top font-semibold"
-                        colspan="9"></td>
+                        colspan="10"></td>
                 </tr>
                 <tr>
                     <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2"
@@ -1010,7 +1016,7 @@
                     <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2">
                         {{ number_format($ppnTotal - $void_sales->sum('ppn') + $change_sales->sum('ppn_diff')) }}</td>
                     <td class="text-black bg-slate-200 border text-[0.65rem] text-right align-top font-semibold"
-                        colspan="9"></td>
+                        colspan="10"></td>
                 </tr>
                 <tr>
                     <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2"
@@ -1018,7 +1024,7 @@
                     <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2">
                         {{ number_format($pphTotal) }}</td>
                     <td class="text-black bg-slate-200 border text-[0.65rem] text-right align-top font-semibold"
-                        colspan="9"></td>
+                        colspan="10"></td>
                 </tr>
                 <tr>
                     <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2"
@@ -1027,7 +1033,7 @@
                         {{ number_format($priceTotal + $ppnTotal - $pphTotal - ($void_sales->sum('price') + $void_sales->sum('ppn')) + ($change_sales->sum('price_diff') + $change_sales->sum('ppn_diff'))) }}
                     </td>
                     <td class="text-black bg-slate-200 border text-[0.65rem] text-right align-top font-semibold"
-                        colspan="9"></td>
+                        colspan="10"></td>
                 </tr>
             </tbody>
         </table>

@@ -316,17 +316,17 @@
                                 <div class="flex">
                                     <label class="w-20">No. Rek.</label>
                                     <label>:</label>
-                                    <label class="ml-2 font-semibold">040 232 1111</label>
+                                    <label class="ml-2 font-semibold">{{ $bank_account->number }}</label>
                                 </div>
                                 <div class="flex">
                                     <label class="w-20">Nama</label>
                                     <label>:</label>
-                                    <label class="ml-2 font-semibold">VISTA MEDIA PT</label>
+                                    <label class="ml-2 font-semibold">{{ $bank_account->name }}</label>
                                 </div>
                                 <div class="flex">
                                     <label class="w-20">Bank</label>
                                     <label>:</label>
-                                    <label class="ml-2 font-semibold">BCA Cabang Hasanudin, Denpasar - Bali</label>
+                                    <label class="ml-2 font-semibold">{{ $bank_account->bank }}</label>
                                 </div>
                             </td>
                             <td class="border text-right px-2 font-semibold">SUB TOTAL</td>
@@ -380,6 +380,9 @@
                 <label class="text-sm flex justify-center w-72">Direktur</label>
             @endif
         @else
+            @php
+                $subTotal = array_sum(array_column($invoice_descriptions, 'nominal'));
+            @endphp
             <table class="table-auto w-full mt-4">
                 <thead>
                     <tr class="text-sm">
@@ -505,17 +508,17 @@
                             <div class="flex">
                                 <label class="w-20">No. Rek.</label>
                                 <label>:</label>
-                                <label class="ml-2 font-semibold">040 232 1111</label>
+                                <label class="ml-2 font-semibold">{{ $bank_account->number }}</label>
                             </div>
                             <div class="flex">
                                 <label class="w-20">Nama</label>
                                 <label>:</label>
-                                <label class="ml-2 font-semibold">VISTA MEDIA PT</label>
+                                <label class="ml-2 font-semibold">{{ $bank_account->name }}</label>
                             </div>
                             <div class="flex">
                                 <label class="w-20">Bank</label>
                                 <label>:</label>
-                                <label class="ml-2 font-semibold">BCA Cabang Hasanudin, Denpasar - Bali</label>
+                                <label class="ml-2 font-semibold">{{ $bank_account->bank }}</label>
                             </div>
                         </td>
                         <td class="border text-right px-2 font-semibold">SUB TOTAL</td>

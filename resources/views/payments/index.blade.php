@@ -127,7 +127,7 @@
                                 <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" rowspan="2">
                                     No.</th>
                                 <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" colspan="4">
-                                    Data Invoice</th>
+                                    Data Tagihan</th>
                                 <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center" colspan="4">
                                     Data Pembayaran</th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-20" rowspan="2">
@@ -135,20 +135,20 @@
                                 </th>
                             </tr>
                             <tr class="bg-stone-400 h-8">
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-48">
+                                    Klien
+                                </th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-52">
                                     Nomor Invoice
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
                                     Tgl. Invoice
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-48">
-                                    Klien
-                                </th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
-                                    Nominal
+                                    Tagihan
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
-                                    PPh
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">
+                                    Pot. PPh
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
                                     Pembayaran
@@ -170,22 +170,70 @@
                                     <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center">
                                         {{ $loop->iteration }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ $payment->billings[0]->invoice_number }}
-                                    </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
-                                        {{ date('d', strtotime($payment->billings[0]->created_at)) }}-{{ $bulan[(int) date('m', strtotime($payment->billings[0]->created_at))] }}-{{ date('Y', strtotime($payment->billings[0]->created_at)) }}
-                                    </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm px-1">
-                                        {{ $client->company }}
+                                        @if (strlen($client->company) > 25)
+                                            {{ substr($client->company, 0, 25) }}..
+                                        @else
+                                            {{ $client->company }}
+                                        @endif
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-right">
-                                        {{ number_format($payment->billings[0]->nominal + $payment->billings[0]->ppn) }}
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center align-top">
+                                        <div>
+                                            @foreach ($payment->billings as $itemBilling)
+                                                <a
+                                                    href="/accounting/billings/{{ $itemBilling->id }}">{{ $itemBilling->invoice_number }}</a>
+                                            @endforeach
+                                        </div>
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-right">
-
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center align-top">
+                                        <div>
+                                            @foreach ($payment->billings as $itemBilling)
+                                                <span>
+                                                    {{ date('d', strtotime($itemBilling->created_at)) }}-{{ $bulan[(int) date('m', strtotime($itemBilling->created_at))] }}-{{ date('Y', strtotime($itemBilling->created_at)) }}
+                                                </span>
+                                            @endforeach
+                                        </div>
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-right">
+                                    <td
+                                        class="text-stone-900 bg-teal-100 px-1 border border-stone-900 text-sm text-right align-top">
+                                        <div>
+                                            @php
+                                                $totalBilling = 0;
+                                            @endphp
+                                            @foreach ($payment->billings as $itemBilling)
+                                                <span>{{ number_format($itemBilling->nominal + $itemBilling->ppn) }}</span>
+                                                @php
+                                                    $totalBilling =
+                                                        $totalBilling + $itemBilling->nominal + $itemBilling->ppn;
+                                                @endphp
+                                            @endforeach
+                                            @if (count($payment->billings) > 1)
+                                                <span
+                                                    class="border-t border-black">{{ number_format($totalBilling) }}</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="text-stone-900 px-1 bg-amber-100 border border-stone-900 text-sm text-right">
+                                        <div>
+                                            @php
+                                                $totalTaxes = 0;
+                                            @endphp
+                                            @foreach ($payment->billings as $itemBilling)
+                                                <span>{{ number_format($itemBilling->income_taxes->where('payment_id', $payment->id)->sum('nominal')) }}</span>
+                                                @php
+                                                    $totalTaxes =
+                                                        $totalTaxes +
+                                                        $itemBilling->income_taxes
+                                                            ->where('payment_id', $payment->id)
+                                                            ->sum('nominal');
+                                                @endphp
+                                            @endforeach
+                                            @if (count($payment->billings) > 1)
+                                                <span class="border-t border-black">{{ number_format($totalTaxes) }}</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="text-stone-900 px-1 bg-amber-100 border border-stone-900 text-sm text-right">
                                         {{ number_format($payment->nominal) }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center">

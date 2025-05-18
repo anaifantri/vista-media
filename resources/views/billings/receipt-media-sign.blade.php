@@ -8,9 +8,9 @@
             <div class="w-[500px] h-[160px] border border-black mt-2 p-2">
                 <label class="flex text-sm"><u>Catatan :</u></label>
                 <label class="flex text-sm ml-2">1. Mohon pembayaran ditransfer ke rekening bank berikut :</label>
-                <label class="flex text-sm ml-6 font-semibold">Bank BCA Cabang Hasanudin</label>
-                <label class="flex text-sm ml-6 font-semibold">No. Rekening : 040 232 1111</label>
-                <label class="flex text-sm ml-6 font-semibold">Atas Nama : Vista Media PT</label>
+                <label class="flex text-sm ml-6 font-semibold">{{ $bank_account->bank }}</label>
+                <label class="flex text-sm ml-6 font-semibold">No. Rekening : {{ $bank_account->number }}</label>
+                <label class="flex text-sm ml-6 font-semibold">Atas Nama : {{ $bank_account->name }}</label>
                 <label class="flex text-sm ml-2">2. Pembayaran melalui cek/giro dengan mencantumkan nama
                     penerima</label>
                 <label class="flex text-sm ml-6">dan baru dianggap sah setelah cek/giro dapat
