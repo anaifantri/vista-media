@@ -15,6 +15,7 @@
                 $priceInstall = $objInstall;
                 $getPriceInstall = $priceInstall->price;
                 $side = $price->objSideView[$indexInstall]->side;
+                $wide = $price->objSideView[$indexInstall]->wide;
                 if (isset($price->dataServiceNotes)) {
                     $serviceNote = $price->dataServiceNotes[$indexInstall]->serviceNote;
                 } else {
@@ -33,6 +34,7 @@
                 $pricePrint = $objPrint;
                 $getPricePrint = $pricePrint->price;
                 $side = $price->objSideView[$indexPrint]->side;
+                $wide = $price->objSideView[$indexPrint]->wide;
                 if (isset($price->dataServiceNotes)) {
                     $serviceNote = $price->dataServiceNotes[$indexPrint]->serviceNote;
                 } else {
@@ -270,12 +272,6 @@
             </td>
             <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
                 {{ number_format($getPpn) }}
-            </td>
-        </tr>
-        <tr>
-            <td class="text-[0.7rem] text-black border text-right font-semibold px-2" colspan="6">PPH
-            </td>
-            <td class="text-[0.7rem] text-black border text-right font-semibold px-2">
             </td>
         </tr>
         <tr>

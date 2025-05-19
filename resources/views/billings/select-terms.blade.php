@@ -42,21 +42,26 @@
             $receipt_content->periode = 'Sesuai dengan yang tertera pada invoice';
         } else {
             $receipt_content->title = 'Jasa Penempatan Media Luar Ruang';
-            $receipt_content->periode =
-                $sales[0]->duration .
-                ' (' .
-                date('d', strtotime($sales[0]->start_at)) .
-                ' ' .
-                $bulan[(int) date('m', strtotime($sales[0]->start_at))] .
-                ' ' .
-                date('Y', strtotime($sales[0]->start_at)) .
-                ' s.d. ' .
-                date('d', strtotime($sales[0]->end_at)) .
-                ' ' .
-                $bulan[(int) date('m', strtotime($sales[0]->end_at))] .
-                ' ' .
-                date('Y', strtotime($sales[0]->end_at)) .
-                ')';
+
+            if (is_null($sales[0]->start_at)) {
+                $receipt_content->periode = $sales[0]->duration . ' (sejak materi iklan pertama tayang)';
+            } else {
+                $receipt_content->periode =
+                    $sales[0]->duration .
+                    ' (' .
+                    date('d', strtotime($sales[0]->start_at)) .
+                    ' ' .
+                    $bulan[(int) date('m', strtotime($sales[0]->start_at))] .
+                    ' ' .
+                    date('Y', strtotime($sales[0]->start_at)) .
+                    ' s.d. ' .
+                    date('d', strtotime($sales[0]->end_at)) .
+                    ' ' .
+                    $bulan[(int) date('m', strtotime($sales[0]->end_at))] .
+                    ' ' .
+                    date('Y', strtotime($sales[0]->end_at)) .
+                    ')';
+            }
         }
 
         $receipt_content->locations = [];
@@ -137,8 +142,13 @@
                                         $product->size . ' x ' . $product->side . ' - ' . $product->orientation;
                                     $invoice_description->type = $product->category . ' - ' . $lighting;
                                     $invoice_description->title = '';
-                                    $invoice_description->periode =
-                                        $sale->duration . ' (' . $saleStart . ' s.d. ' . $saleEnd . ')';
+                                    if (is_null($sale->start_at)) {
+                                        $invoice_description->periode =
+                                            $sale->duration . ' (sejak materi iklan pertama tayang)';
+                                    } else {
+                                        $invoice_description->periode =
+                                            $sale->duration . ' (' . $saleStart . ' s.d. ' . $saleEnd . ')';
+                                    }
                                     $invoice_description->location =
                                         $product->code . '-' . $product->city_code . ' | ' . $product->address;
                                     array_push($invoice_content->description, $invoice_description);
