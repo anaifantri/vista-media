@@ -33,8 +33,11 @@ function searchTable() {
 
 changeClient = (sel) =>{
     let objClient = JSON.parse(document.getElementById("client").value);
+    const receiptCompany = document.getElementById("receiptCompany");
     if(sel.name == "client_contact"){
         objClient.contact_name = sel.value;
+    }else if(sel.name == "client_company"){
+        objClient.company = sel.value;
     }else if(sel.name == "client_address"){
         objClient.address = sel.value;
     }else if(sel.name == "contact_phone"){
@@ -44,7 +47,7 @@ changeClient = (sel) =>{
     }
 
     document.getElementById("client").value = JSON.stringify(objClient);
-
+    receiptCompany.innerHTML = '<b>' + sel.value + '</b>';
 }
 
 changeInvoiceTitle = (sel) =>{

@@ -225,6 +225,7 @@ Route::get('/vat-tax-invoices/create/{saleid}', [VatTaxInvoiceController::class,
 // Payments  --> start
 Route::resource('/accounting/payments', PaymentController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/payments/index/{companyid}', [PaymentController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/payments/report/{companyid}', [PaymentController::class,'report'])->middleware(['auth','user_access']);
 Route::get('/payments/select-billing/{companyid}', [PaymentController::class,'selectBilling'])->middleware(['auth','user_access']);
 Route::get('/payments/create/{billingid}', [PaymentController::class,'create'])->middleware(['auth','user_access']);
 // Payments  --> end

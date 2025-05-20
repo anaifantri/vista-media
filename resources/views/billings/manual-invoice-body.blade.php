@@ -110,7 +110,9 @@
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Perusahaan</label>
                     <label class="text-sm">:</label>
-                    <label class="text-sm ml-2 font-semibold">{{ $client->company }}</label>
+                    <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                        name="client_company" type="text" value="{{ $client->company }}"
+                        onchange="changeClient(this)">
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Alamat</label>

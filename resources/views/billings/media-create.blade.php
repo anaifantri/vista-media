@@ -90,11 +90,46 @@
         if ($merge != 'normal') {
             $subTotal = $invoice_content->description[0]->nominal + $invoice_content->description[1]->nominal;
             if ($merge == 'size') {
-                $width = 2 * $product->width;
-                if ($width < $product->height) {
-                    $size = $width . 'm x ' . $product->height . ' x ' . $product->side . ' - ' . $product->orientation;
+                if ($product->orientation == 'Horizontal') {
+                    if ($product->width < $product->height) {
+                        $size =
+                            $product->width .
+                            'm x ' .
+                            $product->height * 2 .
+                            ' x ' .
+                            $product->side .
+                            ' - ' .
+                            $product->orientation;
+                    } else {
+                        $size =
+                            $product->height .
+                            'm x ' .
+                            $product->width * 2 .
+                            ' x ' .
+                            $product->side .
+                            ' - ' .
+                            $product->orientation;
+                    }
                 } else {
-                    $size = $product->height . 'm x ' . $width . ' x ' . $product->side . ' - ' . $product->orientation;
+                    if ($product->width < $product->height) {
+                        $size =
+                            $product->width * 2 .
+                            'm x ' .
+                            $product->height .
+                            ' x ' .
+                            $product->side .
+                            ' - ' .
+                            $product->orientation;
+                    } else {
+                        $size =
+                            $product->height * 2 .
+                            'm x ' .
+                            $product->width .
+                            ' x ' .
+                            $product->side .
+                            ' - ' .
+                            $product->orientation;
+                    }
                 }
                 $receipt_content->size = $size;
                 $receipt_content->qty = '1 (satu) Unit';

@@ -31,6 +31,19 @@ class PaymentController extends Controller
             abort(403);
         }
     }
+
+    public function report(String $company_id): Response
+    {
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return response()-> view ('payments.payment-report', [
+                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("payment_date", "asc")->paginate(30)->withQueryString(),
+                'billing_total'=>Billing::where('company_id', $company_id)->whereHas('bill_payments')->filter(request('search'))->year()->month()->sum('nominal'),
+                'title' => 'Laporan Kas Masuk'
+            ]);
+        } else {
+            abort(403);
+        }
+    }
     
     public function selectBilling(String $companyId): view
     {

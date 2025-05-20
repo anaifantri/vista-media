@@ -19,7 +19,11 @@
         ];
 
         $client = json_decode($payment->billings[0]->client);
-        $images = json_decode($payment->income_tax_document->images);
+        if (!empty($payment->income_tax_document)) {
+            $images = json_decode($payment->income_tax_document->images);
+        } else {
+            $images = [];
+        }
     @endphp
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
