@@ -52,7 +52,6 @@
                             </tr>
                             <tr class="text-md text-sans">
                                 <td class="border border-black text-center">2.</td>
-                                <td class="border border-black">
                                 <td class="border border-black px-1 text-justify">{{ $content->detail[1] }}</td>
                                 <td class="border border-black text-center">1</td>
                             </tr>
@@ -90,7 +89,7 @@
                 <div>
                     <label class="flex w-max">Pihak Kedua,</label>
                     <label class="flex w-max mt-20 border-b-2 border-black">{{ $content->second_contact }}</label>
-                    <label class="flex w-max">Jabatan : {{ $content->first_contact_title }}</label>
+                    <label class="flex w-max">Jabatan : {{ $content->second_contact_title }}</label>
                 </div>
             </div>
         </div>

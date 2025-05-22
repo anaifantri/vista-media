@@ -320,6 +320,12 @@
                                                         $descriptions = json_decode($itemBilling->invoice_content)
                                                             ->description;
                                                         $descriptionNumber = 0;
+                                                        $totalPayment = $itemBilling->bill_payments->sum('nominal');
+                                                        $totalBilling =
+                                                            $totalBilling +
+                                                            ($itemBilling->nominal +
+                                                                $itemBilling->ppn -
+                                                                ($itemBilling->nominal * 2) / 100);
                                                     @endphp
                                                     @foreach ($descriptions as $description)
                                                         @php
@@ -384,18 +390,11 @@
                                                                     </td>
                                                                     <td
                                                                         class="text-stone-900 px-1 border border-black text-sm bg-red-50 align-top text-right">
-                                                                        @php
-                                                                            $totalSales =
-                                                                                $totalSales +
-                                                                                $itemBilling->sales->sum('price');
-                                                                            $totalBilling =
-                                                                                $totalBilling + $itemBilling->nominal;
-                                                                        @endphp
-                                                                        @if ($totalSales - $totalBilling == 0)
+                                                                        @if ($totalPayment >= $totalBilling)
                                                                             <span
                                                                                 class="flex w-full justify-center">LUNAS</span>
                                                                         @else
-                                                                            {{ number_format($totalSales - $totalBilling) }}
+                                                                            {{ number_format($totalBilling - $totalPayment) }}
                                                                         @endif
                                                                     </td>
                                                                 </tr>
@@ -574,6 +573,12 @@
                                                         $descriptions = json_decode($itemBilling->invoice_content)
                                                             ->description;
                                                         $descriptionNumber = 0;
+                                                        $totalPayment = $itemBilling->bill_payments->sum('nominal');
+                                                        $totalBilling =
+                                                            $totalBilling +
+                                                            ($itemBilling->nominal +
+                                                                $itemBilling->ppn -
+                                                                ($itemBilling->nominal * 2) / 100);
                                                     @endphp
                                                     @foreach ($descriptions as $description)
                                                         @php
@@ -639,19 +644,11 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border border-black text-sm bg-red-50 align-top text-right">
-                                                                            @php
-                                                                                $totalSales =
-                                                                                    $totalSales +
-                                                                                    $itemBilling->sales->sum('price');
-                                                                                $totalBilling =
-                                                                                    $totalBilling +
-                                                                                    $itemBilling->nominal;
-                                                                            @endphp
-                                                                            @if ($totalSales - $totalBilling == 0)
+                                                                            @if ($totalPayment >= $totalBilling)
                                                                                 <span
                                                                                     class="flex w-full justify-center">LUNAS</span>
                                                                             @else
-                                                                                {{ number_format($totalSales - $totalBilling) }}
+                                                                                {{ number_format($totalBilling - $totalPayment) }}
                                                                             @endif
                                                                         </td>
                                                                     </tr>
@@ -757,19 +754,11 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border border-black text-sm bg-red-50 align-top text-right">
-                                                                            @php
-                                                                                $totalSales =
-                                                                                    $totalSales +
-                                                                                    $itemBilling->sales->sum('price');
-                                                                                $totalBilling =
-                                                                                    $totalBilling +
-                                                                                    $itemBilling->nominal;
-                                                                            @endphp
-                                                                            @if ($totalSales - $totalBilling == 0)
+                                                                            @if ($payment->nominal >= $totalBilling)
                                                                                 <span
                                                                                     class="flex w-full justify-center">LUNAS</span>
                                                                             @else
-                                                                                {{ number_format($totalSales - $totalBilling) }}
+                                                                                {{ number_format($totalBilling - $payment->nominal) }}
                                                                             @endif
                                                                         </td>
                                                                     </tr>

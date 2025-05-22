@@ -108,7 +108,7 @@
                 <div>
                     <label class="flex w-full">Pihak Kedua,</label>
                     <label class="flex w-full mt-20 border-b-2 border-black">{{ $content->second_contact }}</label>
-                    <label class="flex w-full">Jabatan : {{ $content->first_contact_title }}</label>
+                    <label class="flex w-full">Jabatan : {{ $content->second_contact_title }}</label>
                 </div>
             </div>
         </div>

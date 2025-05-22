@@ -221,7 +221,7 @@
             $invoice_description->type = $product->category . ' - ' . $description->lighting;
             $invoice_description->area = $product->area;
             $invoice_description->city = $product->city;
-            $invoice_description->size = $product->size . ' x ' . $getSide . ' - ' . $product->orientation;
+            $invoice_description->size = $product->size . ' x ' . $getSide . ' sisi - ' . $product->orientation;
             $invoice_description->qty = $getQty . ' Unit';
             $invoice_description->theme = $theme;
             $invoice_description->location = $product->code . '-' . $product->city_code . ' | ' . $product->address;
