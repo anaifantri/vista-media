@@ -6,7 +6,11 @@ getMediaSales = (sel) => {
     saleId = getSale.id;
     saleProduct = JSON.parse(getSale.product);
     if(category == "Service"){
-        mainSaleId = saleProduct.sale_id;
+        if(saleProduct.type == "new"){
+            mainSaleId = saleId;
+        }else{
+            mainSaleId = saleProduct.sale_id;
+        }
         console.log(saleId);
     }else{
         mainSaleId = 0;

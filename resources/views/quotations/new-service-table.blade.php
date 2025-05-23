@@ -165,7 +165,7 @@
                         $indexInstall = $loop->iteration - 1;
                         $freeInstall = false;
                     @endphp
-                    <td id="installProduct" class="text-[0.7rem] text-black border border-black text-center">
+                    <td class="text-[0.7rem] text-black border border-black text-center">
                         {{ $description->lighting }}
                         <input type="text" id="installProduct" value="{{ $description->lighting }}" hidden>
                         <input type="text" id="freeInstalls" value="{{ $freeInstall }}" hidden>

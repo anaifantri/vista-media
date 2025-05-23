@@ -1072,6 +1072,10 @@ video {
   height: 250px;
 }
 
+.h-\[25px\] {
+  height: 25px;
+}
+
 .h-\[260px\] {
   height: 260px;
 }
@@ -1204,6 +1208,10 @@ video {
   height: 625px;
 }
 
+.h-\[680px\] {
+  height: 680px;
+}
+
 .h-\[72px\] {
   height: 72px;
 }
@@ -1251,34 +1259,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-\[70px\] {
-  height: 70px;
-}
-
-.h-\[700px\] {
-  height: 700px;
-}
-
-.h-\[780px\] {
-  height: 780px;
-}
-
-.h-\[730px\] {
-  height: 730px;
-}
-
-.h-\[680px\] {
-  height: 680px;
-}
-
-.h-7 {
-  height: 1.75rem;
-}
-
-.h-\[25px\] {
-  height: 25px;
 }
 
 .max-h-\[180px\] {
