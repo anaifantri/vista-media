@@ -223,6 +223,8 @@
             } elseif (request('bast_format') == 'sampoerna') {
                 $content->detail = [];
                 $content->tax = true;
+                $content->tax_qty = 1;
+                $content->pmlr_qty = 1;
                 $content->pmlr = true;
                 $content->first_contact = 'Yoni Eka Sari';
                 $content->first_contact_title = 'SCE Teritory';
@@ -597,21 +599,41 @@
             }
         }
         changePmlrDetail = (sel) => {
-            if (sel.value == "") {
-                alert("Input PMLR tidak boleh kosong..");
-                sel.value = getContent.detail[0];
-            } else {
-                getContent.detail[0] = sel.value;
-                inputContent.value = JSON.stringify(getContent);
+            if (sel.name == "pmlrDetail") {
+                if (sel.value == "") {
+                    alert("Input PMLR tidak boleh kosong..");
+                    sel.value = getContent.detail[0];
+                } else {
+                    getContent.detail[0] = sel.value;
+                    inputContent.value = JSON.stringify(getContent);
+                }
+            } else if (sel.name == "pmlrQty") {
+                if (sel.value == "" || sel.value == 0) {
+                    alert("Jumlah tidak boleh kosong..");
+                    sel.value = sel.defaultValue;
+                } else {
+                    getContent.pmlr_qty = sel.value;
+                    inputContent.value = JSON.stringify(getContent);
+                }
             }
         }
         changeTaxDetail = (sel) => {
-            if (sel.value == "") {
-                alert("Input Tax tidak boleh kosong..");
-                sel.value = getContent.detail[1];
-            } else {
-                getContent.detail[1] = sel.value;
-                inputContent.value = JSON.stringify(getContent);
+            if (sel.name == "pmlrDetail") {
+                if (sel.value == "") {
+                    alert("Input Tax tidak boleh kosong..");
+                    sel.value = getContent.detail[1];
+                } else {
+                    getContent.detail[1] = sel.value;
+                    inputContent.value = JSON.stringify(getContent);
+                }
+            } else if (sel.name == "taxQty") {
+                if (sel.value == "" || sel.value == 0) {
+                    alert("Jumlah tidak boleh kosong..");
+                    sel.value = sel.defaultValue;
+                } else {
+                    getContent.tax_qty = sel.value;
+                    inputContent.value = JSON.stringify(getContent);
+                }
             }
         }
         changeTax = (sel) => {

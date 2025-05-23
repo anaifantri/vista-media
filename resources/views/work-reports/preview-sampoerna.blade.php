@@ -35,12 +35,12 @@
                 <label class="">:</label>
             </div>
             <div class="flex justify-center items-center ml-2 mt-4">
-                <table class="table-auto w-[700px]">
+                <table class="table-auto w-[780px]">
                     <thead>
                         <tr class="text-md text-sans">
                             <th class="w-10 border border-black">No.</th>
                             <th class="border border-black">Keterangan</th>
-                            <th class="w-16 border border-black">Jumlah</th>
+                            <th class="w-28 border border-black">Jumlah</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,25 +48,25 @@
                             <tr class="text-md text-sans">
                                 <td class="border border-black text-center">1.</td>
                                 <td class="border border-black px-1 text-justify">{{ $content->detail[0] }}</td>
-                                <td class="border border-black text-center">1</td>
+                                <td class="border border-black text-center">{{ number_format($content->pmlr_qty) }}</td>
                             </tr>
                             <tr class="text-md text-sans">
                                 <td class="border border-black text-center">2.</td>
                                 <td class="border border-black px-1 text-justify">{{ $content->detail[1] }}</td>
-                                <td class="border border-black text-center">1</td>
+                                <td class="border border-black text-center">{{ number_format($content->tax_qty) }}</td>
                             </tr>
                         @elseif ($content->pmlr == true && $content->tax == false)
                             <tr class="text-md text-sans">
                                 <td class="border border-black text-center">1.</td>
                                 <td class="border border-black px-1 text-justify">{{ $content->detail[0] }}</td>
-                                <td class="border border-black text-center">1</td>
+                                <td class="border border-black text-center">{{ number_format($content->pmlr_qty) }}
+                                </td>
                             </tr>
                         @elseif ($content->pmlr == false && $content->tax == true)
                             <tr class="text-md text-sans">
-                                <td class="border border-black text-center">2.</td>
-                                <td class="border border-black">
+                                <td class="border border-black text-center">1.</td>
                                 <td class="border border-black px-1 text-justify">{{ $content->detail[1] }}</td>
-                                <td class="border border-black text-center">1</td>
+                                <td class="border border-black text-center">{{ number_format($content->tax_qty) }}</td>
                             </tr>
                         @endif
                     </tbody>

@@ -46,12 +46,12 @@
                 <label class="">:</label>
             </div>
             <div class="flex justify-center items-center ml-2 mt-1">
-                <table class="table-auto w-[700px]">
+                <table class="table-auto w-[780px]">
                     <thead>
                         <tr class="text-md text-sans">
                             <th class="w-10 border border-black">No.</th>
                             <th class="border border-black">Keterangan</th>
-                            <th class="w-16 border border-black">Jumlah</th>
+                            <th class="w-28 border border-black">Jumlah</th>
                             <th class="w-16 border border-black">Pilih</th>
                         </tr>
                     </thead>
@@ -59,10 +59,14 @@
                         <tr class="text-md text-sans">
                             <td class="border border-black text-center">1.</td>
                             <td class="border border-black">
-                                <textarea rows="3" class="outline-none border rounded-md w-full px-1 text-justify"
+                                <textarea name="pmlrDetail" rows="3" class="outline-none border rounded-md w-full px-1 text-justify"
                                     onchange="changePmlrDetail(this)">{{ $content->detail[0] }}</textarea>
                             </td>
-                            <td class="border border-black text-center">1</td>
+                            <td class="border border-black text-center px-1">
+                                <input name="pmlrQty" value="{{ $content->pmlr_qty }}"
+                                    class="outline-none in-out-spin-none w-full rounded-md border px-1 text-center"
+                                    type="number" onchange="changePmlrDetail(this)">
+                            </td>
                             <td class="border border-black">
                                 <div class="flex w-full justify-center">
                                     <input id="cbPmlr" type="checkbox" class="outline-none text-center" checked
@@ -74,10 +78,14 @@
                         <tr class="text-md text-sans">
                             <td class="border border-black text-center">2.</td>
                             <td class="border border-black">
-                                <textarea rows="3" class="outline-none border rounded-md w-full px-1 text-justify"
+                                <textarea name="taxDetail" rows="3" class="outline-none border rounded-md w-full px-1 text-justify"
                                     onchange="changeTaxDetail(this)">{{ $content->detail[1] }}</textarea>
                             </td>
-                            <td class="border border-black text-center">1</td>
+                            <td class="border border-black text-center px-1">
+                                <input name="taxQty" value="{{ $content->tax_qty }}"
+                                    class="outline-none in-out-spin-none w-full rounded-md border px-1 text-center"
+                                    type="number" onchange="changeTaxDetail(this)">
+                            </td>
                             <td class="border border-black">
                                 <div class="flex w-full justify-center">
                                     <input id="cbTax" type="checkbox" class="outline-none text-center" checked
