@@ -39,6 +39,18 @@ class BillingController extends Controller
         }
     }
 
+    public function report(String $company_id): Response
+    {
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return response()-> view ('billings.billing-report', [
+                'billings'=>Billing::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("invoice_number", "asc")->get(),
+                'title' => 'Laporan Invoice'
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
     public function preview(String $category, String $id): View
     { 
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){

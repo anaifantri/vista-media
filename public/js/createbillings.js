@@ -38,6 +38,7 @@ changeClient = (sel) =>{
         objClient.contact_name = sel.value;
     }else if(sel.name == "client_company"){
         objClient.company = sel.value;
+        receiptCompany.innerHTML = '<b>' + sel.value + '</b>';
     }else if(sel.name == "client_address"){
         objClient.address = sel.value;
     }else if(sel.name == "contact_phone"){
@@ -47,7 +48,6 @@ changeClient = (sel) =>{
     }
 
     document.getElementById("client").value = JSON.stringify(objClient);
-    receiptCompany.innerHTML = '<b>' + sel.value + '</b>';
 }
 
 changeInvoiceTitle = (sel) =>{

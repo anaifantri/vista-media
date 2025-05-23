@@ -1253,6 +1253,34 @@ video {
   height: 100vh;
 }
 
+.h-\[70px\] {
+  height: 70px;
+}
+
+.h-\[700px\] {
+  height: 700px;
+}
+
+.h-\[780px\] {
+  height: 780px;
+}
+
+.h-\[730px\] {
+  height: 730px;
+}
+
+.h-\[680px\] {
+  height: 680px;
+}
+
+.h-7 {
+  height: 1.75rem;
+}
+
+.h-\[25px\] {
+  height: 25px;
+}
+
 .max-h-\[180px\] {
   max-height: 180px;
 }

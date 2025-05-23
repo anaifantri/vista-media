@@ -189,6 +189,7 @@ Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'get
 // Billing  --> start
 Route::resource('/accounting/billings', BillingController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/billings/index/{companyid}', [BillingController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/billings/report/{companyid}', [BillingController::class,'report'])->middleware(['auth','user_access']);
 Route::get('/billings/select-models', [BillingController::class,'selectModel'])->middleware(['auth','user_access']);
 Route::get('/billings/select-sale/{category}/{companyid}', [BillingController::class,'selectSale'])->middleware(['auth','user_access']);
 Route::get('/billings/select-terms/{saleid}', [BillingController::class,'selectTerm'])->middleware(['auth','user_access']);

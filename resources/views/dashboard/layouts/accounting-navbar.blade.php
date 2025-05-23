@@ -29,7 +29,7 @@
                     </svg>
                 </a>
                 <li id="collectChildNav"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 w-max p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child Penagihan Start -->
                     <ul>
                         <li class="group">
@@ -69,14 +69,15 @@
                             </a>
                         </li>
                         <li class="group">
-                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]" href="#">
+                            <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                href="/billings/report/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
                                 </svg>
-                                <span class="flex font-semibold"> Laporan </span>
+                                <span class="flex font-semibold"> Laporan Penagihan </span>
                             </a>
                         </li>
                     </ul>
@@ -102,7 +103,7 @@
                     </svg>
                 </a>
                 <li id="paymentChildNav"
-                    class="absolute border rounded-b-lg mt-4 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 p-1 w-max bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child Pembayaran Start -->
                     <ul>
                         <li class="group">
@@ -126,7 +127,7 @@
                                     <path
                                         d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
                                 </svg>
-                                <span class="flex font-semibold"> Laporan </span>
+                                <span class="flex font-semibold"> Laporan Pembayaran </span>
                             </a>
                         </li>
                     </ul>
@@ -152,7 +153,7 @@
                     </svg>
                 </a>
                 <li id="ppnChildNav"
-                    class="absolute border rounded-b-lg mt-4 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg w-max mt-4 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child PPN Start -->
                     <ul>
                         <li class="group">
@@ -175,7 +176,7 @@
                                     <path
                                         d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
                                 </svg>
-                                <span class="flex font-semibold"> Laporan </span>
+                                <span class="flex font-semibold"> Laporan Faktur Pajak </span>
                             </a>
                         </li>
                     </ul>
@@ -201,7 +202,7 @@
                     </svg>
                 </a>
                 <li id="pphChildNav"
-                    class="absolute border rounded-b-lg mt-4 w-40 p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                    class="absolute border rounded-b-lg mt-4 w-max p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
                     <!-- Child PPN Start -->
                     <ul>
                         <li class="group">
@@ -224,7 +225,7 @@
                                     <path
                                         d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
                                 </svg>
-                                <span class="flex font-semibold"> Laporan </span>
+                                <span class="flex font-semibold"> Laporan Pemotongan PPh </span>
                             </a>
                         </li>
                     </ul>
