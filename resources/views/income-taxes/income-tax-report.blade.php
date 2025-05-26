@@ -352,7 +352,9 @@
                                                             </td>
                                                             <td
                                                                 class="text-stone-900 border border-black text-sm px-1 text-center">
-                                                                0278435532422000
+                                                                @if (isset($client->npwp))
+                                                                    {{ $client->npwp }}
+                                                                @endif
                                                             </td>
                                                             <td
                                                                 class="text-stone-900 border border-black text-sm px-1 text-center">
