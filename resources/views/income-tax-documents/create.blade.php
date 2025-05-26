@@ -47,6 +47,15 @@
                                 <label class="text-sm text-stone-100 ml-2">:</label>
                                 <label class="text-sm text-stone-100 ml-2">{{ $client_company }}</label>
                             </div>
+                            <div class="flex">
+                                <label class="text-sm text-stone-100 w-36">NPWP</label>
+                                <label class="text-sm text-stone-100 ml-2">:</label>
+                                <label class="text-sm text-stone-100 ml-2">
+                                    @if (isset(json_decode($payment->billings[0]->client)->npwp))
+                                        {{ json_decode($payment->billings[0]->client)->npwp }}
+                                    @endif
+                                </label>
+                            </div>
                             <div class="flex mt-1">
                                 <label class="text-sm text-stone-100 w-36">Nominal PPh</label>
                                 <label class="text-sm text-stone-100 ml-2">:</label>

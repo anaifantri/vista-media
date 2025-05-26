@@ -219,6 +219,7 @@ Route::get('/bill-cover-letters/preview/{id}', [BillCoverLetterController::class
 // VAT Tax  --> start
 Route::resource('/accounting/vat-tax-invoices', VatTaxInvoiceController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/vat-tax-invoices/index/{companyid}', [VatTaxInvoiceController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/vat-taxes/report/{companyid}', [VatTaxInvoiceController::class,'report'])->middleware(['auth','user_access']);
 Route::get('/vat-tax-invoices/select-billing/{companyid}', [VatTaxInvoiceController::class,'selectBilling'])->middleware(['auth','user_access']);
 Route::get('/vat-tax-invoices/create/{saleid}', [VatTaxInvoiceController::class,'create'])->middleware(['auth','user_access']);
 // VAT Tax  --> end
@@ -238,6 +239,7 @@ Route::get('/income-taxes/index/{companyid}', [IncomeTaxController::class,'index
 
 // Income Taxes  --> start
 Route::resource('/accounting/income-tax-documents', IncomeTaxDocumentController::class)->except(['create'])->middleware(['auth','user_access']);
+Route::get('/income-taxes/report/{companyid}', [IncomeTaxDocumentController::class,'report'])->middleware(['auth','user_access']);
 Route::get('/income-tax-documents/create/{paymentid}/{company}', [IncomeTaxDocumentController::class,'create'])->middleware(['auth','user_access']);
 // Income Taxes  --> end
 // Accounting Group --> end

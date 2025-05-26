@@ -90,7 +90,7 @@
                     @endforeach
                 @endif
             </div>
-            <div class="w-[380px] h-[185px] border rounded-lg p-1 ml-2">
+            <div class="w-[380px] h-[185px] border rounded-lg px-1 ml-2">
                 <label class="text-lg font-mono font-semibold ml-2">Kepada Yth.</label>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Nama</label>
@@ -118,7 +118,7 @@
                     <label class="text-sm w-24">Alamat</label>
                     <label class="text-sm">:</label>
                     <textarea class="text-sm ml-1 px-1 w-[250px] outline-none border rounded-md font-semibold" name="client_address"
-                        rows="3" onchange="changeClient(this)">{{ $client->address }}</textarea>
+                        rows="2" onchange="changeClient(this)">{{ $client->address }}</textarea>
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">No. Telp.</label>
@@ -133,6 +133,44 @@
                     <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
                         name="contact_email" type="text" value="{{ $client->contact_email }}"
                         onchange="changeClient(this)">
+                </div>
+                <div class="flex ml-2">
+                    <label class="text-sm w-24">NPWP</label>
+                    <label class="text-sm">:</label>
+                    <input id="inputNpwp"
+                        class="w-[175px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold" name="npwp"
+                        type="text" value="{{ $npwp }}">
+                    <input name="old_npwp" type="text" value="{{ $npwp }}" hidden>
+                    {{-- <input type="file" id="npwpImage" name="npwp_image" onchange="previewImage(this)" hidden>
+                    <input id="oldImage" type="text" name="old_image" value="{{ $npwp_image }}" hidden> --}}
+                    {{-- @error('npwp_image')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror --}}
+                    {{-- @if ($npwp == '')
+                        <button type="button" title="Tambah NPWP" onclick="showModal()"
+                            class="index-link text-white w-7 h-5 rounded bg-amber-500 hover:bg-amber-600 drop-shadow-md ml-1">
+                            <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                        </button>
+                    @else
+                        <button title="Lihat NPWP" type="button" onclick="showModal()"
+                            class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md ml-1">
+                            <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                        </button>
+                    @endif --}}
                 </div>
             </div>
         </div>

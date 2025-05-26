@@ -23,6 +23,18 @@ class IncomeTaxDocumentController extends Controller
         //
     }
 
+    public function report(String $company_id): Response
+    {
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return response()-> view ('income-taxes.income-tax-report', [
+                'income_taxes'=>IncomeTaxDocument::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("tax_date", "asc")->get(),
+                'title' => 'List Pemotongan Pph'
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */

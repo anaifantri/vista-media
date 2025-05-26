@@ -163,7 +163,7 @@
                                                         $totalPph = $totalPph + $pph;
                                                     @endphp
                                                     <input id="inputPph" type="number" placeholder="Input Nominal PPh"
-                                                        value="{{ $pph }}" title="{{ $billing->id }}"
+                                                        value="{{ round($pph) }}" title="{{ $billing->id }}"
                                                         class="ml-1 text-sm outline-none border rounded-md px-1 w-full text-right in-out-spin-none"
                                                         onchange="setPph(this)" onfocus="inputPphAction(this)">
                                                 @endforeach
@@ -182,7 +182,7 @@
                                                     <input id="inputNominal" type="number" title="{{ $billing->id }}"
                                                         placeholder="Input Nominal Pembayaran" onchange="setNominal(this)"
                                                         onfocus="inputNominalAction(this)"
-                                                        value="{{ $itemDescription->nominal + $ppn - $pph }}"
+                                                        value="{{ round($itemDescription->nominal + $ppn - $pph) }}"
                                                         class="text-sm outline-none border rounded-md px-1 w-full text-right in-out-spin-none"
                                                         required>
                                                 @endforeach

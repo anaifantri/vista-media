@@ -15,20 +15,21 @@
     ];
     $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
     
-    $totalPph = 0;
-    
-    if (fmod(count($billings), 25) == 0) {
-        $pageQty = count($billings) / 25;
+    if (fmod(count($vat_taxes), 25) == 0) {
+        $pageQty = count($vat_taxes) / 25;
     } else {
-        $pageQty = (count($billings) - fmod(count($billings), 25)) / 25 + 1;
+        $pageQty = (count($vat_taxes) - fmod(count($vat_taxes), 25)) / 25 + 1;
     }
+    
+    $totalPrice = 0;
+    $totalDpp = 0;
     ?>
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
                 <div class="w-[1550px]">
                     <div class="flex border-b">
-                        <h1 class="index-h1">LIST INVOICE</h1>
+                        <h1 class="index-h1">LIST FAKTUR PAJAK</h1>
                         <div class="flex">
                             @canany(['isAdmin', 'isAccounting'])
                                 @can('isCollect')
@@ -47,7 +48,7 @@
                             @endcanany
                         </div>
                     </div>
-                    <form id="formFilter" action="/billings/report/{{ $company->id }}">
+                    <form id="formFilter" action="/vat-taxes/report/{{ $company->id }}">
                         <div class="flex">
                             <div class="flex h-14">
                                 <div class="w-24">
@@ -121,7 +122,7 @@
             </div>
             <div class="flex justify-center w-full">
                 <div id="pdfPreview">
-                    @if (count($billings) == 0)
+                    @if (count($vat_taxes) == 0)
                         <div class="w-[1550px] h-[980px] bg-white p-8">
                             <div class="flex items-center border rounded-lg p-2 mt-6">
                                 <div class="w-44">
@@ -152,11 +153,12 @@
                                 </div>
                                 <div class="flex w-full justify-end">
                                     <div>
-                                        <div class="flex justify-center w-56">
-                                            <label class="text-5xl text-center font-bold">-</label>
+                                        <div class="flex items-end justify-center w-56">
+                                            <label class="text-5xl text-center font-bold">E</label>
+                                            <label class="text-2xl text-center font-bold">1</label>
                                         </div>
                                         <div class="flex justify-center w-56">
-                                            <label class="text-lg text-center font-bold">LIST INVOICE</label>
+                                            <label class="text-lg text-center font-bold">LIST FAKTUR PAJAK</label>
                                         </div>
                                         <div class="flex justify-center w-56">
                                             <label class="text-sm text-center"></label>
@@ -186,14 +188,14 @@
                             <div class="flex justify-center h-[875px] mt-2">
                                 @if (request('month'))
                                     <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada data
-                                        invoice
+                                        faktur pajak
                                         pada bulan
                                         {{ $bulan_full[request('month')] }}
                                         {{ request('year') }} ~~
                                     </label>
                                 @else
                                     <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada data
-                                        invoice
+                                        faktur pajak
                                         pada bulan
                                         {{ $bulan_full[(int) date('m')] }}
                                         {{ date('Y') }} ~~
@@ -235,11 +237,12 @@
                                         </div>
                                         <div class="flex w-full justify-end">
                                             <div>
-                                                <div class="flex justify-center w-56">
-                                                    <label class="text-5xl text-center font-bold">-</label>
+                                                <div class="flex items-end justify-center w-56">
+                                                    <label class="text-5xl text-center font-bold">E</label>
+                                                    <label class="text-2xl text-center font-bold">1</label>
                                                 </div>
                                                 <div class="flex justify-center w-56">
-                                                    <label class="text-lg text-center font-bold">LIST INVOICE</label>
+                                                    <label class="text-lg text-center font-bold">LIST FAKTUR PAJAK</label>
                                                 </div>
                                                 <div class="flex justify-center w-56">
                                                     <label class="text-sm text-center"></label>
@@ -274,50 +277,50 @@
                                                         class="text-stone-900 border border-black text-sm w- text-center w-8">
                                                         No.</th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-16">
-                                                        Jenis
-                                                    </th>
-                                                    <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
-                                                        No. Invoice
-                                                    </th>
-                                                    <th
                                                         class="text-stone-900 border border-black text-sm text-center w-24">
                                                         Tanggal
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-44">
-                                                        Klien
+                                                        class="text-stone-900 border border-black text-sm text-center w-40">
+                                                        No. Faktur
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-sm text-center w-52">
+                                                        Penerima JKP
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-sm text-center w-36">
+                                                        NPWP JKP
                                                     </th>
                                                     <th class="text-stone-900 border border-black text-sm text-center">
-                                                        No. Penjualan
+                                                        Alamat
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        Harga Jual
                                                     </th>
                                                     <th
                                                         class="text-stone-900 border border-black text-sm text-center w-28">
-                                                        Nominal
+                                                        DPP
                                                     </th>
                                                     <th
                                                         class="text-stone-900 border border-black text-sm text-center w-24">
                                                         PPN
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
-                                                        PPh
-                                                    </th>
-                                                    <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
-                                                        Total
+                                                        class="text-stone-900 border border-black text-sm text-center w-[200px]">
+                                                        No. Invoice
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($billings as $billing)
-                                                    @php
-                                                        $client = json_decode($billing->client);
-                                                        $pph = ($billing->nominal * 2) / 100;
-                                                        $totalPph = $totalPph + $pph;
-                                                    @endphp
+                                                @foreach ($vat_taxes as $vat_tax)
                                                     @if ($loop->iteration > $i * 25 && $loop->iteration < ($i + 1) * 25 + 1)
+                                                        @php
+                                                            $client = json_decode($vat_tax->billing->client);
+                                                            $totalPrice = $totalPrice + $vat_tax->billing->nominal;
+                                                            $totalDpp = $totalDpp + $vat_tax->billing->dpp;
+                                                        @endphp
                                                         <tr class="h-[25px]">
                                                             <td
                                                                 class="text-stone-900 px-1 border border-black text-sm  text-center">
@@ -325,88 +328,65 @@
                                                             </td>
                                                             <td
                                                                 class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                @if ($billing->category == 'Service')
-                                                                    Revisual
-                                                                @else
-                                                                    Media
-                                                                @endif
+                                                                {{ date('d', strtotime($vat_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($vat_tax->tax_date))] }}-{{ date('Y', strtotime($vat_tax->tax_date)) }}
                                                             </td>
                                                             <td
                                                                 class="text-stone-900 px-1 border border-black text-sm text-center">
-                                                                <a href="/accounting/billings/{{ $billing->id }}">
-                                                                    {{ substr($billing->invoice_number, 0, 4) }}../{{ $romawi[(int) date('m', strtotime($billing->created_at))] }}-{{ substr($billing->invoice_number, -4) }}
-                                                                </a>
+                                                                {{ $vat_tax->number }}
                                                             </td>
-                                                            <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
-                                                            </td>
-                                                            <td class="text-stone-900 border border-black text-sm px-1 ">
-                                                                @if (strlen($client->company) > 20)
-                                                                    {{ substr($client->company, 0, 20) }}..
+                                                            <td class="text-stone-900 border border-black text-sm px-1">
+                                                                @if (strlen($client->company) > 25)
+                                                                    {{ substr($client->company, 0, 25) }}..
                                                                 @else
                                                                     {{ $client->company }}
                                                                 @endif
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
-                                                                @php
-                                                                    $indexSale = 0;
-                                                                @endphp
-                                                                @if (count($billing->sales) > 1)
-                                                                    @foreach ($billing->sales->sortBy('number') as $itemSales)
-                                                                        @if ($indexSale == count($billing->sales) - 2)
-                                                                            {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }}
-                                                                        @elseif ($indexSale == count($billing->sales) - 1)
-                                                                            &
-                                                                            {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }}
-                                                                        @else
-                                                                            {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }},
-                                                                        @endif
-                                                                        @php
-                                                                            $indexSale++;
-                                                                        @endphp
-                                                                    @endforeach
+                                                            <td
+                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                0278435532422000
+                                                            </td>
+                                                            <td class="text-stone-900 border border-black text-sm px-1">
+                                                                @if (strlen($client->address) > 40)
+                                                                    {{ substr($client->address, 0, 40) }}..
                                                                 @else
-                                                                    {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }}
+                                                                    {{ $client->address }}
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm text-right">
-                                                                {{ number_format($billing->nominal) }}
+                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-sm text-right">
+                                                                {{ Number_format($vat_tax->billing->nominal) }}
                                                             </td>
                                                             <td
                                                                 class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right ">
-                                                                {{ number_format($billing->ppn) }}
+                                                                {{ number_format(round($vat_tax->billing->dpp)) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 bg-yellow-50 border border-black text-sm  text-right">
-                                                                {{ number_format($pph) }}
+                                                                class="text-stone-900 bg-yellow-50 px-1 border border-black text-sm text-right">
+                                                                {{ number_format($vat_tax->nominal) }}
                                                             </td>
-                                                            <td
-                                                                class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
-                                                                {{ number_format($billing->nominal + $billing->ppn - $pph) }}
+                                                            <td class="text-stone-900 px-1 border border-black text-sm">
+                                                                {{ $vat_tax->billing->invoice_number }}
                                                             </td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
                                                 <tr class="h-[25px]">
-                                                    <td class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right font-semibold"
-                                                        colspan="6">Total Penagihan</td>
+                                                    <td class="text-stone-900 px-1 border border-black text-sm text-right font-semibold"
+                                                        colspan="6">Total PPN</td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm text-right font-semibold">
-                                                        {{ number_format($billings->sum('nominal')) }}
+                                                        class="text-stone-900 bg-red-50 px-1 border border-black text-sm text-right font-semibold">
+                                                        {{ number_format($totalPrice) }}
                                                     </td>
                                                     <td
                                                         class="text-stone-900 px-1 border border-black text-sm bg-teal-50 text-right font-semibold">
-                                                        {{ number_format($billings->sum('ppn')) }}
+                                                        {{ number_format($totalDpp) }}
                                                     </td>
                                                     <td
                                                         class="text-stone-900 px-1 border border-black text-sm  text-right bg-yellow-50 font-semibold">
-                                                        {{ number_format($totalPph) }}
+                                                        {{ number_format($vat_taxes->sum('nominal')) }}
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-red-50 font-semibold">
-                                                        {{ number_format($billings->sum('nominal') + $billings->sum('ppn') - $totalPph) }}
+                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -449,11 +429,12 @@
                                         </div>
                                         <div class="flex w-full justify-end">
                                             <div>
-                                                <div class="flex justify-center w-56">
-                                                    <label class="text-5xl text-center font-bold">-</label>
+                                                <div class="flex items-end justify-center w-56">
+                                                    <label class="text-5xl text-center font-bold">E</label>
+                                                    <label class="text-2xl text-center font-bold">1</label>
                                                 </div>
                                                 <div class="flex justify-center w-56">
-                                                    <label class="text-lg text-center font-bold">LIST INVOICE</label>
+                                                    <label class="text-lg text-center font-bold">LIST FAKTUR PAJAK</label>
                                                 </div>
                                                 <div class="flex justify-center w-56">
                                                     <label class="text-sm text-center"></label>
@@ -488,198 +469,99 @@
                                                         class="text-stone-900 border border-black text-sm w- text-center w-8">
                                                         No.</th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-16">
-                                                        Jenis
-                                                    </th>
-                                                    <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
-                                                        No. Invoice
-                                                    </th>
-                                                    <th
                                                         class="text-stone-900 border border-black text-sm text-center w-24">
                                                         Tanggal
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-44">
-                                                        Klien
+                                                        class="text-stone-900 border border-black text-sm text-center w-40">
+                                                        No. Faktur
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-sm text-center w-52">
+                                                        Penerima JKP
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-sm text-center w-36">
+                                                        NPWP JKP
                                                     </th>
                                                     <th class="text-stone-900 border border-black text-sm text-center">
-                                                        No. Penjualan
+                                                        Alamat
                                                     </th>
                                                     <th
                                                         class="text-stone-900 border border-black text-sm text-center w-28">
-                                                        Nominal
+                                                        Harga Jual
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-sm text-center w-28">
+                                                        DPP
                                                     </th>
                                                     <th
                                                         class="text-stone-900 border border-black text-sm text-center w-24">
                                                         PPN
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
-                                                        PPh
-                                                    </th>
-                                                    <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
-                                                        Total
+                                                        class="text-stone-900 border border-black text-sm text-center w-[200px]">
+                                                        No. Invoice
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($billings as $billing)
-                                                    @php
-                                                        $client = json_decode($billing->client);
-                                                        $pph = ($billing->nominal * 2) / 100;
-                                                        $totalPph = $totalPph + $pph;
-                                                    @endphp
-                                                    @if ($i == 0)
-                                                        @if ($loop->iteration < 26)
-                                                            <tr class="h-[25px]">
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm  text-center">
-
-                                                                    {{ $loop->iteration }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                    @if ($billing->category == 'Service')
-                                                                        Revisual
-                                                                    @else
-                                                                        Media
-                                                                    @endif
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm text-center">
-                                                                    <a href="/accounting/billings/{{ $billing->id }}">
-                                                                        {{ substr($billing->invoice_number, 0, 4) }}../{{ $romawi[(int) date('m', strtotime($billing->created_at))] }}-{{ substr($billing->invoice_number, -4) }}
-                                                                    </a>
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                    {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 border border-black text-sm px-1 ">
-                                                                    @if (strlen($client->company) > 20)
-                                                                        {{ substr($client->company, 0, 20) }}..
-                                                                    @else
-                                                                        {{ $client->company }}
-                                                                    @endif
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm">
-                                                                    @php
-                                                                        $indexSale = 0;
-                                                                    @endphp
-                                                                    @if (count($billing->sales) > 1)
-                                                                        @foreach ($billing->sales->sortBy('number') as $itemSales)
-                                                                            @if ($indexSale == count($billing->sales) - 2)
-                                                                                {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }}
-                                                                            @elseif ($indexSale == count($billing->sales) - 1)
-                                                                                &
-                                                                                {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }}
-                                                                            @else
-                                                                                {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }},
-                                                                            @endif
-                                                                            @php
-                                                                                $indexSale++;
-                                                                            @endphp
-                                                                        @endforeach
-                                                                    @else
-                                                                        {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }}
-                                                                    @endif
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm text-right">
-                                                                    {{ number_format($billing->nominal) }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right ">
-                                                                    {{ number_format($billing->ppn) }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 bg-yellow-50 border border-black text-sm  text-right">
-                                                                    {{ number_format($pph) }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
-                                                                    {{ number_format($billing->nominal + $billing->ppn - $pph) }}
-                                                                </td>
-                                                            </tr>
-                                                        @endif
-                                                    @else
-                                                        @if ($loop->iteration > $i * 25 && $loop->iteration < ($i + 1) * 25 + 1)
-                                                            <tr class="h-[25px]">
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                    {{ $loop->iteration }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                    @if ($billing->category == 'Service')
-                                                                        Revisual
-                                                                    @else
-                                                                        Media
-                                                                    @endif
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm text-center">
-                                                                    <a href="/accounting/billings/{{ $billing->id }}">
-                                                                        {{ substr($billing->invoice_number, 0, 4) }}../{{ $romawi[(int) date('m', strtotime($billing->created_at))] }}-{{ substr($billing->invoice_number, -4) }}
-                                                                    </a>
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                    {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 border border-black text-sm px-1 ">
-                                                                    @if (strlen($client->company) > 20)
-                                                                        {{ substr($client->company, 0, 20) }}..
-                                                                    @else
-                                                                        {{ $client->company }}
-                                                                    @endif
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm">
-                                                                    @php
-                                                                        $indexSale = 0;
-                                                                    @endphp
-                                                                    @if (count($billing->sales) > 1)
-                                                                        @foreach ($billing->sales->sortBy('number') as $itemSales)
-                                                                            @if ($indexSale == count($billing->sales) - 2)
-                                                                                {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }}
-                                                                            @elseif ($indexSale == count($billing->sales) - 1)
-                                                                                &
-                                                                                {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }}
-                                                                            @else
-                                                                                {{ substr($itemSales->number, 0, 4) . '-' . substr($itemSales->number, -4) }},
-                                                                            @endif
-                                                                            @php
-                                                                                $indexSale++;
-                                                                            @endphp
-                                                                        @endforeach
-                                                                    @else
-                                                                        {{ substr($billing->sales[0]->number, 0, 4) . '-' . substr($billing->sales[0]->number, -4) }}
-                                                                    @endif
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm text-right">
-                                                                    {{ number_format($billing->nominal) }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right ">
-                                                                    {{ number_format($billing->ppn) }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 bg-yellow-50 border border-black text-sm  text-right">
-                                                                    {{ number_format($pph) }}
-                                                                </td>
-                                                                <td
-                                                                    class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
-                                                                    {{ number_format($billing->nominal + $billing->ppn - $pph) }}
-                                                                </td>
-                                                            </tr>
-                                                        @endif
+                                                @foreach ($vat_taxes as $vat_tax)
+                                                    @if ($loop->iteration > $i * 25 && $loop->iteration < ($i + 1) * 25 + 1)
+                                                        @php
+                                                            $client = json_decode($vat_tax->billing->client);
+                                                            $totalPrice = $totalPrice + $vat_tax->billing->nominal;
+                                                            $totalDpp = $totalDpp + $vat_tax->billing->dpp;
+                                                        @endphp
+                                                        <tr class="h-[25px]">
+                                                            <td
+                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
+                                                                {{ $loop->iteration }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
+                                                                {{ date('d', strtotime($vat_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($vat_tax->tax_date))] }}-{{ date('Y', strtotime($vat_tax->tax_date)) }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 px-1 border border-black text-sm text-center">
+                                                                {{ $vat_tax->number }}
+                                                            </td>
+                                                            <td class="text-stone-900 border border-black text-sm px-1 ">
+                                                                @if (strlen($client->company) > 25)
+                                                                    {{ substr($client->company, 0, 25) }}..
+                                                                @else
+                                                                    {{ $client->company }}
+                                                                @endif
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                @if (isset($client->npwp))
+                                                                    {{ $client->npwp }}
+                                                                @endif
+                                                            </td>
+                                                            <td class="text-stone-900 border border-black text-sm px-1 ">
+                                                                @if (strlen($client->address) > 40)
+                                                                    {{ substr($client->address, 0, 40) }}..
+                                                                @else
+                                                                    {{ $client->address }}
+                                                                @endif
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 bg-red-50 px-1 border border-black text-sm text-right">
+                                                                {{ Number_format($vat_tax->billing->nominal) }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right ">
+                                                                {{ number_format(round($vat_tax->billing->dpp)) }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 bg-yellow-50 px-1 border border-black text-sm text-right">
+                                                                {{ number_format($vat_tax->nominal) }}
+                                                            </td>
+                                                            <td class="text-stone-900 px-1 border border-black text-sm">
+                                                                {{ $vat_tax->billing->invoice_number }}
+                                                            </td>
+                                                        </tr>
                                                     @endif
                                                 @endforeach
                                             </tbody>
@@ -699,10 +581,10 @@
     </div>
     @if (request('month'))
         <input id="saveName" type="text"
-            value="LIST INVOICE - {{ $bulan_full[request('month')] }} {{ request('year') }}" hidden>
+            value="LIST FAKTUR PAJAK - {{ $bulan_full[request('month')] }} {{ request('year') }}" hidden>
     @else
         <input id="saveName" type="text"
-            value="LIST INVOICE - {{ $bulan_full[(int) date('m')] }} {{ date('Y') }}" hidden>
+            value="LIST FAKTUR PAJAK - {{ $bulan_full[(int) date('m')] }} {{ date('Y') }}" hidden>
     @endif
 
 

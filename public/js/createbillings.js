@@ -120,3 +120,51 @@ mergeLocation = (sel) =>{
 
     document.getElementById("formCreateBilling").submit();
 }
+
+btnSaveAction = () => {
+    let objClient = JSON.parse(document.getElementById("client").value);
+    const formCreate = document.getElementById("formCreate");
+    const inputNpwp = document.getElementById("inputNpwp");
+
+    if (inputNpwp.value == "") {
+        alert ("NPWP tidak boleh kosong..!!");
+        inputNpwp.focus();
+    }else{
+        objClient.npwp = inputNpwp.value;
+        document.getElementById("client").value = JSON.stringify(objClient);
+        
+        formCreate.submit();
+    }
+}
+
+// function previewImage(sel) {
+//     const imgPreview = document.querySelector('.img-preview');
+
+//     const oFReader = new FileReader();
+
+//     oFReader.readAsDataURL(sel.files[0]);
+
+//     oFReader.onload = function(oFREvent) {
+//         imgPreview.src = oFREvent.target.result;
+//     }
+// }
+
+// showModal = () =>{
+//     const modalNpwp = document.getElementById("modalNpwp");
+//     modalNpwp.classList.remove("hidden");
+//     modalNpwp.classList.add("flex");
+// }
+
+// btnCloseModal = () =>{
+//     const modalNpwp = document.getElementById("modalNpwp");
+//     modalNpwp.classList.remove("flex");
+//     modalNpwp.classList.add("hidden");
+// }
+
+// npwpNumberChange = (sel) =>{
+//     const inputNpwp = document.getElementById("inputNpwp");
+
+//     inputNpwp.value = sel.value;
+//     console.log(inputNpwp.value);
+    
+// }

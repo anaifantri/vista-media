@@ -346,7 +346,7 @@
     @endphp
     <div class="flex justify-center bg-black p-10">
         <div>
-            <form action="/accounting/billings" method="post" enctype="multipart/form-data">
+            <form id="formCreate" action="/accounting/billings" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="text" name="company_id" value="{{ $company->id }}" hidden>
                 <input type="text" name="sale_id" value="{{ json_encode($sale_id) }}" hidden>
@@ -376,7 +376,8 @@
                             </svg>
                             <span class="mx-1 text-white">Back</span>
                         </a>
-                        <button class="flex justify-center items-center mx-1 btn-success" title="Save">
+                        <button class="flex justify-center items-center mx-1 btn-success" title="Save" type="button"
+                            type="button" onclick="btnSaveAction()">
                             <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
                                 <path
@@ -395,66 +396,66 @@
                         </a>
                     </div>
                 </div>
-            </form>
-            <div>
-                <div class="flex w-full">
-                    <span class="text-center w-full text-lg font-semibold text-white">Preview Invoice & Kwitansi</span>
-                </div>
-
-                <!-- Surat Invoice start -->
-                <div class="flex justify-center w-full mt-2">
-                    <div>
-                        @for ($i = 0; $i < $pageQty; $i++)
-                            <div class="w-[950px] h-[1345px] mt-1 bg-white p-4">
-                                <!-- Header start -->
-                                @include('dashboard.layouts.letter-header')
-                                <!-- Header end -->
-                                <!-- Body start -->
-                                @include('billings.invoice-service-body')
-                                <!-- Body end -->
-                                @if ($pageQty > 1)
-                                    <div class="flex w-[850px] justify-end text-sm">
-                                        Halaman {{ $i + 1 }} dari {{ $pageQty }}
-                                    </div>
-                                @endif
-                                <!-- Footer start -->
-                                @include('dashboard.layouts.letter-footer')
-                                <!-- Footer end -->
-                            </div>
-                        @endfor
+                <div>
+                    <div class="flex w-full">
+                        <span class="text-center w-full text-lg font-semibold text-white">Preview Invoice & Kwitansi</span>
                     </div>
-                </div>
-                <!-- Surat Invoice end -->
 
-                <!-- Kwitansi start -->
-                <div class="flex justify-center w-full mt-2">
-                    <div class="w-[950px] h-[1345px] mt-1 bg-white p-4">
-                        <!-- Header start -->
-                        @include('billings.receipt-header')
-                        <!-- Header end -->
-                        <!-- Body start -->
-                        @include('billings.receipt-service-body')
-                        <!-- Body end -->
-                        <!-- Sign start -->
-                        @include('billings.receipt-service-sign')
-                        <!-- Sign end -->
-                        {{-- <div class="flex w-full justify-center items-center pt-2">
+                    <!-- Surat Invoice start -->
+                    <div class="flex justify-center w-full mt-2">
+                        <div>
+                            @for ($i = 0; $i < $pageQty; $i++)
+                                <div class="w-[950px] h-[1345px] mt-1 bg-white p-4">
+                                    <!-- Header start -->
+                                    @include('dashboard.layouts.letter-header')
+                                    <!-- Header end -->
+                                    <!-- Body start -->
+                                    @include('billings.invoice-service-body')
+                                    <!-- Body end -->
+                                    @if ($pageQty > 1)
+                                        <div class="flex w-[850px] justify-end text-sm">
+                                            Halaman {{ $i + 1 }} dari {{ $pageQty }}
+                                        </div>
+                                    @endif
+                                    <!-- Footer start -->
+                                    @include('dashboard.layouts.letter-footer')
+                                    <!-- Footer end -->
+                                </div>
+                            @endfor
+                        </div>
+                    </div>
+                    <!-- Surat Invoice end -->
+
+                    <!-- Kwitansi start -->
+                    <div class="flex justify-center w-full mt-2">
+                        <div class="w-[950px] h-[1345px] mt-1 bg-white p-4">
+                            <!-- Header start -->
+                            @include('billings.receipt-header')
+                            <!-- Header end -->
+                            <!-- Body start -->
+                            @include('billings.receipt-service-body')
+                            <!-- Body end -->
+                            <!-- Sign start -->
+                            @include('billings.receipt-service-sign')
+                            <!-- Sign end -->
+                            {{-- <div class="flex w-full justify-center items-center pt-2">
                             <div class="border-t h-2 border-slate-500 border-dashed w-full">
                             </div>
                         </div> --}}
-                        <!-- Header start -->
-                        {{-- @include('billings.receipt-header') --}}
-                        <!-- Header end -->
-                        <!-- Body start -->
-                        {{-- @include('billings.receipt-service-body') --}}
-                        <!-- Body end -->
-                        <!-- Sign start -->
-                        {{-- @include('billings.receipt-service-sign') --}}
-                        <!-- Sign end -->
+                            <!-- Header start -->
+                            {{-- @include('billings.receipt-header') --}}
+                            <!-- Header end -->
+                            <!-- Body start -->
+                            {{-- @include('billings.receipt-service-body') --}}
+                            <!-- Body end -->
+                            <!-- Sign start -->
+                            {{-- @include('billings.receipt-service-sign') --}}
+                            <!-- Sign end -->
+                        </div>
                     </div>
+                    <!-- Kwitansi end -->
                 </div>
-                <!-- Kwitansi end -->
-            </div>
+            </form>
         </div>
     </div>
 

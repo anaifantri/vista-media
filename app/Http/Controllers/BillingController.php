@@ -44,7 +44,7 @@ class BillingController extends Controller
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('billings.billing-report', [
                 'billings'=>Billing::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("invoice_number", "asc")->get(),
-                'title' => 'Laporan Invoice'
+                'title' => 'List Invoice'
             ]);
         } else {
             abort(403);
@@ -209,6 +209,8 @@ class BillingController extends Controller
             $quotation_orders = QuotationOrder::where('quotation_id', $sales[0]->quotation->id)->get();
             $clientId = json_decode($sales[0]->quotation->clients)->id;
             $client = Client::findOrFail($clientId);
+            $npwp = $client->npwp_number;
+            $npwp_image = $client->npwp_image;
             $quotationClient = json_decode($sales[0]->quotation->clients);
             return view ('billings.service-create', [
                 'title' => 'Membuat Invoice & Kwitansi',
@@ -218,6 +220,8 @@ class BillingController extends Controller
                 'quotation_orders' => $quotation_orders,
                 'price' => $price,
                 'client' => $client,
+                'npwp' => $npwp,
+                'npwp_image' => $npwp_image,
                 'quotationClient' => $quotationClient,
                 compact('install_orders')
             ]);
@@ -231,12 +235,17 @@ class BillingController extends Controller
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             $sale = Sale::findOrFail(json_decode(request('sale_id'))[0]);
             $product = json_decode($sale->product);
-            // dd(json_decode(request('invoice_content')));
+            $client = json_decode(request('client'));
+            $dataClient = Client::findOrFail($client->id);
+            $npwp = $dataClient->npwp_number;
+            $npwp_image = $dataClient->npwp_image;
             return view ('billings.media-create', [
                 'sale' => $sale,
                 'invoice_content' => json_decode(request('invoice_content')),
                 'receipt_content' => json_decode(request('receipt_content')),
-                'client' => json_decode(request('client')),
+                'client' => $client,
+                'npwp' => $npwp,
+                'npwp_image' => $npwp_image,
                 'sale_id' => json_decode(request('sale_id')),
                 'approvals' => json_decode(request('invoice_content'))->approval,
                 'orders' => json_decode(request('invoice_content'))->orders,
@@ -311,7 +320,6 @@ class BillingController extends Controller
             }else{
                 $request->request->add(['invoice_number' => $invoiceNumber,'receipt_number' => $receiptNumber]);
             }
-            // dd(json_decode($request->invoice_content));
             
             $validateData = $request->validate([
                 'company_id' => 'required',
@@ -328,8 +336,6 @@ class BillingController extends Controller
                 'created_by' => 'required',
                 'updated_by' => 'required'
             ]);
-            
-            // dd($validateData);
 
             Billing::create($validateData);
 
@@ -339,6 +345,13 @@ class BillingController extends Controller
                 $billingSale['sale_id'] = $saleId;
                 $billingSale['billing_id'] = $dataBilling->id;
                 BillingSale::insert($billingSale);
+            }
+
+            $data_npwp['npwp_number'] = $request->npwp;
+
+            if(request('old_npwp') == "" || (request('old_npwp') != request('npwp'))){
+                Client::where('id', json_decode(request('client'))->id)
+                        ->update($data_npwp);
             }
                 
             return redirect('/billings/preview/'.$request->category.'/'.$dataBilling->id)->with('success', 'Data penagihan dengan nomor invoice '.$validateData['invoice_number'].' berhasil ditambahkan');

@@ -31,16 +31,16 @@
                                 <label class="w-14">No. SPH</label>
                                 <label class="">:</label>
                                 <label class="ml-2 w-44 font-semibold">
-                                    @if (strlen(json_decode($approval)->number) > 24)
-                                        {{ substr(json_decode($approval)->number, 0, 10) }}..{{ substr(json_decode($approval)->number, -9) }}
+                                    @if (strlen($approval->number) > 24)
+                                        {{ substr($approval->number, 0, 10) }}..{{ substr($approval->number, -9) }}
                                     @else
-                                        {{ json_decode($approval)->number }}
+                                        {{ $approval->number }}
                                     @endif
                                 </label>
                                 <label class="w-6">Tgl.</label>
                                 <label class="">:</label>
                                 <label class="ml-2 font-semibold">
-                                    {{ date('d', strtotime(json_decode($approval)->created_at)) }}-{{ $month[(int) date('m', strtotime(json_decode($approval)->created_at))] }}-{{ date('Y', strtotime(json_decode($approval)->created_at)) }}
+                                    {{ date('d', strtotime($approval->created_at)) }}-{{ $month[(int) date('m', strtotime($approval->created_at))] }}-{{ date('Y', strtotime($approval->created_at)) }}
                                 </label>
                             </div>
                         @endif

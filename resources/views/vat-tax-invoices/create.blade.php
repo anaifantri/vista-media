@@ -96,6 +96,11 @@
                                     <label class="text-sm text-stone-100 ml-2">:</label>
                                     <label class="text-sm text-stone-100 w-[340px] ml-2">{{ $client->address }}</label>
                                 </div>
+                                <div class="flex mt-1">
+                                    <label class="text-sm text-stone-100 w-24">NPWP</label>
+                                    <label class="text-sm text-stone-100 ml-2">:</label>
+                                    <label class="text-sm text-stone-100 w-[340px] ml-2">{{ $client->npwp }}</label>
+                                </div>
                             </div>
                         </div>
                         <div class="flex w-full justify-center mt-4">

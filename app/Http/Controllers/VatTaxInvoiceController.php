@@ -32,6 +32,18 @@ class VatTaxInvoiceController extends Controller
         }
     }
 
+    public function report(String $company_id): Response
+    {
+        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            return response()-> view ('vat-tax-invoices.vat-tax-report', [
+                'vat_taxes'=>VatTaxInvoice::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("number", "asc")->get(),
+                'title' => 'List Faktur Pajak'
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
     public function selectBilling(String $companyId): view
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){

@@ -36,7 +36,7 @@ class PaymentController extends Controller
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('payments.payment-report', [
-                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("payment_date", "asc")->paginate(30)->withQueryString(),
+                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("payment_date", "asc")->get(),
                 'billing_total'=>Billing::where('company_id', $company_id)->whereHas('bill_payments')->filter(request('search'))->year()->month()->sum('nominal'),
                 'title' => 'Laporan Kas Masuk'
             ]);
@@ -100,12 +100,14 @@ class PaymentController extends Controller
             }
 
             foreach(json_decode(request('data_pph')) as $itemPph){
-                $dataPph['company_id'] = request('company_id');
-                $dataPph['payment_id'] = $id;
-                $dataPph['billing_id'] = $itemPph->billing_id;
-                $dataPph['sale_id'] = $itemPph->sale_id;
-                $dataPph['nominal'] = $itemPph->pph;
-                IncomeTax::create($dataPph);
+                if($itemPph->pph != 0){
+                    $dataPph['company_id'] = request('company_id');
+                    $dataPph['payment_id'] = $id;
+                    $dataPph['billing_id'] = $itemPph->billing_id;
+                    $dataPph['sale_id'] = $itemPph->sale_id;
+                    $dataPph['nominal'] = $itemPph->pph;
+                    IncomeTax::create($dataPph);
+                }
             }
 
             return redirect('/payments/index/'.$request->company_id)->with('success', 'Data pembayaran berhasil diinput');
