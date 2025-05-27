@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\IncomeTaxDocument;
 use App\Models\Payment;
+use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -41,8 +42,13 @@ class IncomeTaxDocumentController extends Controller
     public function create(String $paymentId, String $clientCompany): Response
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            $payment = Payment::findOrFail($paymentId);
+            $billingClient = json_decode($payment->billings[0]->client);
+            $client = Client::findOrFail($billingClient->id);
             return  response()-> view ('income-tax-documents.create', [
-                'payment' => Payment::findOrFail($paymentId),
+                'payment' => $payment,
+                'bill_client' => $billingClient,
+                'client' => $client,
                 'client_company' => $clientCompany,
                 'title' => 'Menambahkan Dokumen Bukti Potong PPh'
             ]);
@@ -68,6 +74,8 @@ class IncomeTaxDocumentController extends Controller
                 'payment_id' => 'required',
                 'company_id' => 'required',
                 'nominal' => 'required',
+                'client_city' => 'required',
+                'period' => 'required',
                 'tax_date'=>'required'
             ]);
 
@@ -82,6 +90,12 @@ class IncomeTaxDocumentController extends Controller
             }
 
             IncomeTaxDocument::create($validateData);
+
+            if(request('old_city') == "" || (request('old_city') != request('client_city'))){
+                $data_city['city'] = $request->client_city;
+                Client::where('id', request('client_id'))
+                        ->update($data_city);
+            }
 
             return redirect('/income-taxes/index/'.$request->company_id)->with('success', 'Dokumen bukti potong PPh berhasil diupload');
         } else {

@@ -44,43 +44,60 @@
             <!-- New License Document start -->
             <div class="flex justify-center border rounded-lg w-[1200px] p-4">
                 <div class="w-[950px]">
-                    <div class="p-2 mt-2 border rounded-lg">
-                        <div class="flex">
-                            <label class="text-md text-stone-100 w-40">Perusahaan Pemotong</label>
-                            <label class="text-md text-stone-100 ml-2">:</label>
-                            <label class="text-md text-stone-100 ml-2">{{ $income_tax_document->company }}</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-2 mt-2 border rounded-lg bg-stone-300 text-stone-900">
+                            <div class="flex border-b border-stone-900 font-semibold">Detail Pemotongan</div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40">Total Tagihan</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">Rp.
+                                    {{ number_format($payment->billings->sum('nominal') + $payment->billings->sum('ppn')) }},-</label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40">Nominal PPh</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">Rp.
+                                    {{ number_format($payment->income_taxes->sum('nominal')) }},-</label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40">No. Bukti Potong</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">{{ $income_tax_document->number }}</label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40">Tgl. Bukti Potong</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">
+                                    {{ date('d', strtotime($income_tax_document->created_at)) }}
+                                    {{ $fullMonth[(int) date('m', strtotime($income_tax_document->created_at))] }}
+                                    {{ date('Y', strtotime($income_tax_document->created_at)) }}
+                                </label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40">Masa Pajak</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">
+                                    {{ $income_tax_document->period }}
+                                </label>
+                            </div>
                         </div>
-                        <div class="flex mt-1">
-                            <label class="text-md text-stone-100 w-40">Total Tagihan</label>
-                            <label class="text-md text-stone-100 ml-2">:</label>
-                            <label class="text-md text-stone-100 ml-2">Rp.
-                                {{ number_format($payment->billings->sum('nominal') + $payment->billings->sum('ppn')) }},-</label>
-                        </div>
-                        <div class="flex mt-1">
-                            <label class="text-md text-stone-100 w-40">Total Pembayaran</label>
-                            <label class="text-md text-stone-100 ml-2">:</label>
-                            <label class="text-md text-stone-100 ml-2">Rp.
-                                {{ number_format($payment->nominal) }},-</label>
-                        </div>
-                        <div class="flex mt-1">
-                            <label class="text-md text-stone-100 w-40">Nominal PPh</label>
-                            <label class="text-md text-stone-100 ml-2">:</label>
-                            <label class="text-md text-stone-100 ml-2">Rp.
-                                {{ number_format($payment->income_taxes->sum('nominal')) }},-</label>
-                        </div>
-                        <div class="flex mt-1">
-                            <label class="text-md text-stone-100 w-40">No. Bukti Potong</label>
-                            <label class="text-md text-stone-100 ml-2">:</label>
-                            <label class="text-md text-stone-100 ml-2">{{ $income_tax_document->number }}</label>
-                        </div>
-                        <div class="flex mt-1">
-                            <label class="text-md text-stone-100 w-40">Tgl. Bukti Potong</label>
-                            <label class="text-md text-stone-100 ml-2">:</label>
-                            <label class="text-md text-stone-100 ml-2">
-                                {{ date('d', strtotime($income_tax_document->created_at)) }}
-                                {{ $fullMonth[(int) date('m', strtotime($income_tax_document->created_at))] }}
-                                {{ date('Y', strtotime($income_tax_document->created_at)) }}
-                            </label>
+                        <div class="p-2 mt-2 border rounded-lg bg-stone-300 text-stone-900">
+                            <div class="flex border-b border-stone-900 font-semibold">Data Pemotong</div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-28">Perusahaan</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">{{ $income_tax_document->company }}</label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-28">Alamat</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2 w-[320px]">{{ $client->address }}</label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-28">NPWP</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">{{ $client->npwp }}</label>
+                            </div>
                         </div>
                     </div>
                     <div class="flex items-center mt-2 w-full justify-center border rounded-lg">

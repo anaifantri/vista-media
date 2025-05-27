@@ -192,14 +192,40 @@
                                 @endforeach
                                 <tr class="bg-stone-200">
                                     <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right"
-                                        colspan="4">Total</td>
+                                        colspan="4">Sub Total</td>
                                     <td id="billingTotal"
-                                        class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
+                                        class="text-stone-900 border border-stone-900 text-sm px-2 font-bold text-right">
                                         {{ number_format($billings->sum('nominal') + $billings->sum('ppn')) }}
                                     </td>
                                     <td id="totalPph"
-                                        class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
+                                        class="text-stone-900 border border-stone-900 text-sm px-2 font-bold text-right">
                                         {{ number_format($totalPph) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
+                                        <input id="subTotal" type="number"
+                                            value="{{ $billings->sum('nominal') + $billings->sum('ppn') - $totalPph }}"
+                                            class="border rounded-md outline-none in-out-spin-none px-1 text-right w-full"
+                                            readonly>
+
+                                    </td>
+                                </tr>
+                                <tr class="bg-stone-200">
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right"
+                                        colspan="4">Potongan Lainnya</td>
+                                    <td class="text-stone-900 border border-stone-900 bg-slate-400 text-sm px-1 font-bold text-right"
+                                        colspan="2">
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
+                                        <input type="number" name="other_fee" id="otherFee" value="0"
+                                            onchange="otherFeeChange(this)"
+                                            class="border rounded-md outline-none in-out-spin-none px-1 text-right w-full">
+                                    </td>
+                                </tr>
+                                <tr class="bg-stone-200">
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right"
+                                        colspan="4">Grand Total</td>
+                                    <td class="text-stone-900 border border-stone-900 bg-slate-400 text-sm px-1 font-bold text-right"
+                                        colspan="2">
                                     </td>
                                     <td id="totalPayment"
                                         class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
@@ -244,6 +270,8 @@
         const inputNominal = document.querySelectorAll("[id=inputNominal]");
         const inputPph = document.querySelectorAll("[id=inputPph]");
         const totalPayment = document.getElementById("totalPayment");
+        const subTotal = document.getElementById("subTotal");
+        const otherFee = document.getElementById("otherFee");
         const totalPph = document.getElementById("totalPph");
         const nominal = document.getElementById("nominal");
         const inputDataPph = document.getElementById("inputDataPph");
@@ -299,12 +327,15 @@
         countTotalPayment = (title) => {
             var total = 0;
             var getPph = 0;
+            var grandTotal = 0;
             for (let i = 0; i < inputNominal.length; i++) {
                 saleNominal[i].nominal = Number(inputNominal[i].value);
                 total = total + Number(inputNominal[i].value);
                 getPph = getPph + Number(inputPph[i].value);
             }
-            totalPayment.innerText = total.toLocaleString();
+            grandTotal = total - Number(otherFee.value);
+            subTotal.value = total;
+            totalPayment.innerText = grandTotal.toLocaleString();
             totalPph.innerText = getPph.toLocaleString();
             nominal.value = Number(total);
             inputSaleNominal.value = JSON.stringify(saleNominal);
@@ -320,10 +351,15 @@
                 if (billingNominal[i].billing_id == title) {
                     billingNominal[i].nominal = getBillingNominal;
                     inputBillingNominal.value = JSON.stringify(billingNominal);
-                    console.log(inputBillingNominal.value);
-
                 }
             }
+        }
+
+        otherFeeChange = (sel) => {
+            var getTotal = Number(subTotal.value) - Number(sel.value);
+
+            totalPayment.innerText = getTotal.toLocaleString();
+            nominal.value = Number(getTotal);
         }
     </script>
     <!-- Script end -->

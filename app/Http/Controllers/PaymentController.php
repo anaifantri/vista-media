@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\Billing;
 use App\Models\BillingPayment;
 use App\Models\IncomeTax;
+use App\Models\OtherFee;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -108,6 +109,13 @@ class PaymentController extends Controller
                     $dataPph['nominal'] = $itemPph->pph;
                     IncomeTax::create($dataPph);
                 }
+            }
+
+            if(request('other_fee') != 0){
+                $dataOtherFee['company_id'] = request('company_id');
+                $dataOtherFee['payment_id'] = $id;
+                $dataOtherFee['nominal'] = request('other_fee');
+                OtherFee::create($dataOtherFee);
             }
 
             return redirect('/payments/index/'.$request->company_id)->with('success', 'Data pembayaran berhasil diinput');

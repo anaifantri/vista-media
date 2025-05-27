@@ -54,7 +54,7 @@
                                 <div class="w-24">
                                     <span class="text-base text-stone-100">Bulan</span>
                                     <select name="month"
-                                        class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        class="p-1 outline-none border w-full text-md text-stone-900 rounded-md bg-stone-100"
                                         onchange="submit()">
                                         @if (request('month'))
                                             @for ($i = 1; $i < 13; $i++)
@@ -79,7 +79,7 @@
                                 <div class="ml-2 w-20">
                                     <span class="text-base text-stone-100">Tahun</span>
                                     <select name="year"
-                                        class="p-1 text-center outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
+                                        class="p-1 text-center outline-none border w-full text-md text-stone-900 rounded-md bg-stone-100"
                                         onchange="submit()">
                                         @if (request('year'))
                                             @for ($i = date('Y'); $i > date('Y') - 5; $i--)
@@ -102,7 +102,7 @@
                                 <span class="text-base text-stone-100">Pencarian</span>
                                 <div class="flex">
                                     <input id="search" name="search"
-                                        class="border rounded-l-lg p-1 outline-none text-sm text-stone-900" type="text"
+                                        class="border rounded-l-lg p-1 outline-none text-md text-stone-900" type="text"
                                         placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
                                         onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                                     <button
@@ -131,23 +131,23 @@
                                 </div>
                                 <div class="w-[750px] ml-6">
                                     <div>
-                                        <span class="text-sm font-semibold">{{ $company->name }}</span>
+                                        <span class="text-md font-semibold">{{ $company->name }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-sm">{{ $company->address }}, Desa/Kel. {{ $company->village }},
+                                        <span class="text-md">{{ $company->address }}, Desa/Kel. {{ $company->village }},
                                             Kec.
                                             {{ $company->district }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-sm">{{ $company->city }} - {{ $company->province }}
+                                        <span class="text-md">{{ $company->city }} - {{ $company->province }}
                                             {{ $company->post_code }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-sm">Ph. {{ $company->phone }} | Mobile.
+                                        <span class="text-md">Ph. {{ $company->phone }} | Mobile.
                                             {{ $company->m_phone }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-sm">e-mail : {{ $company->email }} | website :
+                                        <span class="text-md">e-mail : {{ $company->email }} | website :
                                             {{ $company->website }}</span>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                                             <label class="text-lg text-center font-bold">LIST PEMOTONGAN PPH</label>
                                         </div>
                                         <div class="flex justify-center w-56">
-                                            <label class="text-sm text-center"></label>
+                                            <label class="text-md text-center"></label>
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md">
                                             @if (request('month'))
@@ -175,8 +175,8 @@
                                             @endif
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md mt-2">
-                                            <label class="text-sm">
-                                                <span class="text-sm font-semibold text-red-600">Tgl. Cetak :
+                                            <label class="text-md">
+                                                <span class="text-md font-semibold text-red-600">Tgl. Cetak :
                                                 </span>
                                                 {{ date('d') }} {{ $bulan[(int) date('m')] }}
                                                 {{ date('Y') }}</label>
@@ -213,24 +213,24 @@
                                         </div>
                                         <div class="w-[750px] ml-6">
                                             <div>
-                                                <span class="text-sm font-semibold">{{ $company->name }}</span>
+                                                <span class="text-md font-semibold">{{ $company->name }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">{{ $company->address }}, Desa/Kel.
+                                                <span class="text-md">{{ $company->address }}, Desa/Kel.
                                                     {{ $company->village }},
                                                     Kec.
                                                     {{ $company->district }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">{{ $company->city }} - {{ $company->province }}
+                                                <span class="text-md">{{ $company->city }} - {{ $company->province }}
                                                     {{ $company->post_code }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">Ph. {{ $company->phone }} | Mobile.
+                                                <span class="text-md">Ph. {{ $company->phone }} | Mobile.
                                                     {{ $company->m_phone }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">e-mail : {{ $company->email }} | website :
+                                                <span class="text-md">e-mail : {{ $company->email }} | website :
                                                     {{ $company->website }}</span>
                                             </div>
                                         </div>
@@ -244,7 +244,7 @@
                                                         PPH</label>
                                                 </div>
                                                 <div class="flex justify-center w-56">
-                                                    <label class="text-sm text-center"></label>
+                                                    <label class="text-md text-center"></label>
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md">
                                                     @if (request('month'))
@@ -259,8 +259,8 @@
                                                     @endif
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md mt-2">
-                                                    <label class="text-sm">
-                                                        <span class="text-sm font-semibold text-red-600">Tgl. Cetak :
+                                                    <label class="text-md">
+                                                        <span class="text-md font-semibold text-red-600">Tgl. Cetak :
                                                         </span>
                                                         {{ date('d') }} {{ $bulan[(int) date('m')] }}
                                                         {{ date('Y') }}</label>
@@ -273,45 +273,45 @@
                                             <thead>
                                                 <tr class="bg-stone-200 h-8">
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm w- text-center w-8">
+                                                        class="text-stone-900 border border-black text-md w- text-center w-8">
                                                         No.</th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-md text-center w-24">
                                                         Masa
                                                     </th>
-                                                    <th class="text-stone-900 border border-black text-sm text-center">
+                                                    <th class="text-stone-900 border border-black text-md text-center">
                                                         Nama Pemotong
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-36">
+                                                        class="text-stone-900 border border-black text-md text-center w-36">
                                                         NPWP
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-16">
+                                                        class="text-stone-900 border border-black text-md text-center w-16">
                                                         Jenis
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-52">
+                                                        class="text-stone-900 border border-black text-md text-center w-48">
                                                         Jenis Penghasilan
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
+                                                        class="text-stone-900 border border-black text-md text-center w-28">
                                                         Objek Potput
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-[88px]">
+                                                        class="text-stone-900 border border-black text-md text-center w-24">
                                                         PPH Potput
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-md text-center w-28">
                                                         No. Bukti
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-md text-center w-28">
                                                         Tgl.
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-52">
+                                                        class="text-stone-900 border border-black text-md text-center w-36">
                                                         Alamat
                                                     </th>
                                                 </tr>
@@ -340,27 +340,27 @@
                                                         @endphp
                                                         <tr class="h-[25px]">
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
+                                                                class="text-stone-900 px-1 border border-black text-md  text-center">
                                                                 {{ $loop->iteration }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                {{ $bulan_full[(int) date('m', strtotime($income_tax->tax_date))] }}
+                                                                class="text-stone-900 px-1 border border-black text-md  text-center">
+                                                                {{ $income_tax->payment->income_tax_document->period }}
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
+                                                            <td class="text-stone-900 px-1 border border-black text-md">
                                                                 {{ $client->company }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                class="text-stone-900 border border-black text-md px-1 text-center">
                                                                 @if (isset($client->npwp))
                                                                     {{ $client->npwp }}
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                class="text-stone-900 border border-black text-md px-1 text-center">
                                                                 PPh 23
                                                             </td>
-                                                            <td class="text-stone-900 border border-black text-sm px-1">
+                                                            <td class="text-stone-900 border border-black text-md px-1">
                                                                 @if (count($incomeType) == 1)
                                                                     {{ $incomeType[0] }} Reklame
                                                                 @elseif(count($incomeType) == 2)
@@ -368,46 +368,47 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-sm text-right">
+                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-md text-right">
                                                                 {{ Number_format($income_tax->payment->billings->sum('nominal')) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right ">
+                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-md text-right ">
                                                                 {{ number_format(round($income_tax->nominal)) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 bg-yellow-50 px-1 border border-black text-sm text-center">
+                                                                class="text-stone-900 px-1 border border-black text-md text-center">
                                                                 {{ $income_tax->number }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm text-center">
+                                                                class="text-stone-900 px-1 border border-black text-md text-center">
                                                                 {{ date('d', strtotime($income_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($income_tax->tax_date))] }}-{{ date('Y', strtotime($income_tax->tax_date)) }}
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
-                                                                {{-- {{ $income_tax->billing->invoice_number }} --}}
+                                                            <td class="text-stone-900 px-1 border border-black text-md">
+                                                                {{-- {{ $income_tax->client_city }} --}}
+                                                                Jakarta Selatan
                                                             </td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
                                                 <tr class="h-[25px]">
-                                                    <td class="text-stone-900 px-1 border border-black text-sm text-right font-semibold"
+                                                    <td class="text-stone-900 px-1 border border-black text-md text-right font-semibold"
                                                         colspan="6">Total PPN</td>
                                                     <td
-                                                        class="text-stone-900 bg-red-50 px-1 border border-black text-sm text-right font-semibold">
+                                                        class="text-stone-900 bg-red-50 px-1 border border-black text-md text-right font-semibold">
                                                         {{ number_format($nominalObject) }}
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm bg-teal-50 text-right font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-md bg-teal-50 text-right font-semibold">
                                                         {{ number_format($income_taxes->sum('nominal')) }}
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-md  text-right bg-slate-400 font-semibold">
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-md  text-right bg-slate-400 font-semibold">
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-md  text-right bg-slate-400 font-semibold">
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -427,24 +428,24 @@
                                         </div>
                                         <div class="w-[750px] ml-6">
                                             <div>
-                                                <span class="text-sm font-semibold">{{ $company->name }}</span>
+                                                <span class="text-md font-semibold">{{ $company->name }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">{{ $company->address }}, Desa/Kel.
+                                                <span class="text-md">{{ $company->address }}, Desa/Kel.
                                                     {{ $company->village }},
                                                     Kec.
                                                     {{ $company->district }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">{{ $company->city }} - {{ $company->province }}
+                                                <span class="text-md">{{ $company->city }} - {{ $company->province }}
                                                     {{ $company->post_code }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">Ph. {{ $company->phone }} | Mobile.
+                                                <span class="text-md">Ph. {{ $company->phone }} | Mobile.
                                                     {{ $company->m_phone }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">e-mail : {{ $company->email }} | website :
+                                                <span class="text-md">e-mail : {{ $company->email }} | website :
                                                     {{ $company->website }}</span>
                                             </div>
                                         </div>
@@ -458,7 +459,7 @@
                                                         PPH</label>
                                                 </div>
                                                 <div class="flex justify-center w-56">
-                                                    <label class="text-sm text-center"></label>
+                                                    <label class="text-md text-center"></label>
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md">
                                                     @if (request('month'))
@@ -473,8 +474,8 @@
                                                     @endif
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md mt-2">
-                                                    <label class="text-sm">
-                                                        <span class="text-sm font-semibold text-red-600">Tgl. Cetak :
+                                                    <label class="text-md">
+                                                        <span class="text-md font-semibold text-red-600">Tgl. Cetak :
                                                         </span>
                                                         {{ date('d') }} {{ $bulan[(int) date('m')] }}
                                                         {{ date('Y') }}</label>
@@ -487,45 +488,45 @@
                                             <thead>
                                                 <tr class="bg-stone-200 h-8">
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm w- text-center w-8">
+                                                        class="text-stone-900 border border-black text-md w- text-center w-8">
                                                         No.</th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-md text-center w-24">
                                                         Masa
                                                     </th>
-                                                    <th class="text-stone-900 border border-black text-sm text-center">
+                                                    <th class="text-stone-900 border border-black text-md text-center">
                                                         Nama Pemotong
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-36">
+                                                        class="text-stone-900 border border-black text-md text-center w-36">
                                                         NPWP
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-16">
+                                                        class="text-stone-900 border border-black text-md text-center w-16">
                                                         Jenis
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-52">
+                                                        class="text-stone-900 border border-black text-md text-center w-48">
                                                         Jenis Penghasilan
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
+                                                        class="text-stone-900 border border-black text-md text-center w-28">
                                                         Objek Potput
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-[88px]">
+                                                        class="text-stone-900 border border-black text-md text-center w-24">
                                                         PPH Potput
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-md text-center w-28">
                                                         No. Bukti
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-md text-center w-28">
                                                         Tgl.
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-52">
+                                                        class="text-stone-900 border border-black text-md text-center w-36">
                                                         Alamat
                                                     </th>
                                                 </tr>
@@ -554,27 +555,27 @@
                                                         @endphp
                                                         <tr class="h-[25px]">
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
+                                                                class="text-stone-900 px-1 border border-black text-md  text-center">
                                                                 {{ $loop->iteration }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
-                                                                {{ $bulan_full[(int) date('m', strtotime($income_tax->tax_date))] }}
+                                                                class="text-stone-900 px-1 border border-black text-md  text-center">
+                                                                {{ $income_tax->payment->income_tax_document->period }}
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
+                                                            <td class="text-stone-900 px-1 border border-black text-md">
                                                                 {{ $client->company }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                class="text-stone-900 border border-black text-md px-1 text-center">
                                                                 @if (isset($client->npwp))
                                                                     {{ $client->npwp }}
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                class="text-stone-900 border border-black text-md px-1 text-center">
                                                                 PPh 23
                                                             </td>
-                                                            <td class="text-stone-900 border border-black text-sm px-1">
+                                                            <td class="text-stone-900 border border-black text-md px-1">
                                                                 @if (count($incomeType) == 1)
                                                                     {{ $incomeType[0] }} Reklame
                                                                 @elseif(count($incomeType) == 2)
@@ -582,23 +583,23 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-sm text-right">
+                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-md text-right">
                                                                 {{ Number_format($income_tax->payment->billings->sum('nominal')) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right ">
+                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-md text-right ">
                                                                 {{ number_format(round($income_tax->nominal)) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 bg-yellow-50 px-1 border border-black text-sm text-center">
+                                                                class="text-stone-900 px-1 border border-black text-md text-center">
                                                                 {{ $income_tax->number }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm text-center">
+                                                                class="text-stone-900 px-1 border border-black text-md text-center">
                                                                 {{ date('d', strtotime($income_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($income_tax->tax_date))] }}-{{ date('Y', strtotime($income_tax->tax_date)) }}
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
-                                                                {{-- {{ $income_tax->billing->invoice_number }} --}}
+                                                            <td class="text-stone-900 px-1 border border-black text-md">
+                                                                {{ $income_tax->client_city }}
                                                             </td>
                                                         </tr>
                                                     @endif

@@ -2,7 +2,23 @@
 
 @section('container')
     <!-- Container start -->
-    <form action="/accounting/income-tax-documents" method="post" enctype="multipart/form-data">
+    @php
+        $periods = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+    @endphp
+    <form id="formCreate" action="/accounting/income-tax-documents" method="post" enctype="multipart/form-data">
         @csrf
         <input type="text" name="company_id" value="{{ $company->id }}" hidden>
         <input type="text" name="payment_id" value="{{ $payment->id }}" hidden>
@@ -25,7 +41,7 @@
                             </svg>
                             <span class="mx-1 text-white">Back</span>
                         </a>
-                        <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
+                        <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-success"
                             type="submit">
                             <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
@@ -43,44 +59,75 @@
                     <div class="w-[950px]">
                         <div class="p-2 mt-2 border rounded-lg">
                             <div class="flex">
-                                <label class="text-sm text-stone-100 w-36">Perusahaan Pemotong</label>
-                                <label class="text-sm text-stone-100 ml-2">:</label>
-                                <label class="text-sm text-stone-100 ml-2">{{ $client_company }}</label>
+                                <label class="text-md text-stone-100 w-40">Perusahaan Pemotong</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
+                                <label class="text-md text-stone-100 ml-2">{{ $client_company }}</label>
                             </div>
-                            <div class="flex">
-                                <label class="text-sm text-stone-100 w-36">NPWP</label>
-                                <label class="text-sm text-stone-100 ml-2">:</label>
-                                <label class="text-sm text-stone-100 ml-2">
-                                    @if (isset(json_decode($payment->billings[0]->client)->npwp))
-                                        {{ json_decode($payment->billings[0]->client)->npwp }}
+                            <div class="flex mt-2">
+                                <label class="text-md text-stone-100 w-40">Alamat (Kota/Kab.)</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
+                                <input name="client_city" type="text" placeholder="Input Alamat (Kota/Kab.)"
+                                    value="{{ $client->city }}" class="text-md outline-none rounded-md px-1 ml-2 w-[330px]"
+                                    required>
+                                <input type="text" name="old_city" value="{{ $client->city }}" hidden>
+                                <input type="text" name="client_id" value="{{ $client->id }}" hidden>
+                            </div>
+                            <div class="flex mt-2">
+                                <label class="text-md text-stone-100 w-40">NPWP</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
+                                <label class="text-md text-stone-100 ml-2">
+                                    @if (isset($bill_client->npwp))
+                                        {{ $bill_client->npwp }}
                                     @endif
                                 </label>
                             </div>
-                            <div class="flex mt-1">
-                                <label class="text-sm text-stone-100 w-36">Nominal PPh</label>
-                                <label class="text-sm text-stone-100 ml-2">:</label>
-                                <label class="text-sm text-stone-100 ml-2">Rp.
+                            <div class="flex mt-2">
+                                <label class="text-md text-stone-100 w-40">Nominal PPh</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
+                                <label class="text-md text-stone-100 ml-2">Rp.
                                     {{ number_format($payment->income_taxes->sum('nominal')) }},-</label>
                             </div>
-                            <div class="flex mt-1">
-                                <label class="text-sm text-stone-100 w-36">No. Bukti Potong</label>
-                                <label class="text-sm text-stone-100 ml-2">:</label>
+                            <div class="flex mt-2">
+                                <label class="text-md text-stone-100 w-40">No. Bukti Potong</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
                                 <input name="number" type="text" placeholder="Input Nomor Bukti Potong"
-                                    value="{{ old('number') }}" class="text-sm outline-none rounded-md px-1 ml-2 w-[330px]"
+                                    value="{{ old('number') }}" class="text-md outline-none rounded-md px-1 ml-2 w-[330px]"
                                     required>
                             </div>
-                            <div class="flex mt-1">
-                                <label class="text-sm text-stone-100 w-36">Tgl. Bukti Potong</label>
-                                <label class="text-sm text-stone-100 ml-2">:</label>
-                                <input name="tax_date" type="date" class="text-sm outline-none rounded-md px-1 ml-2"
-                                    value="{{ old('tax_date') }}" required>
+                            <div class="flex mt-2">
+                                <label class="text-md text-stone-100 w-40">Tgl. Bukti Potong</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
+                                <input id="taxDate" name="tax_date" type="date"
+                                    class="text-md outline-none rounded-md px-1 ml-2" value="{{ old('tax_date') }}"
+                                    required>
+                            </div>
+                            <div class="flex mt-2">
+                                <label class="text-md text-stone-100 w-40">Masa Pajak</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
+                                <select id="period" name="period" class="text-md outline-none rounded-md px-1 ml-2 w-32"
+                                    required>
+                                    <option value="">-- pilih --</option>
+                                    @foreach ($periods as $period)
+                                        @if (old('period'))
+                                            @if ($period == old('period'))
+                                                <option value="{{ $period }}" selected>{{ $period }}</option>
+                                            @else
+                                                <option value="{{ $period }}">{{ $period }}</option>
+                                            @endif
+                                        @else
+                                            <option value="{{ $period }}">{{ $period }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+
                             </div>
                         </div>
                         <div class="flex w-full justify-center mt-4">
                             <input id="documentTax" name="documents[]" type="file"
                                 accept="image/png, image/jpg, image/jpeg" onchange="imagePreview(this)" multiple hidden>
                             <button id="btnChooseImages" class="flex justify-center items-center w-44 btn-primary-small"
-                                title="Chose Files" type="button" onclick="document.getElementById('documentTax').click()">
+                                title="Chose Files" type="button"
+                                onclick="document.getElementById('documentTax').click()">
                                 <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
                                     clip-rule="evenodd" viewBox="0 0 24 24">
                                     <path d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
@@ -89,9 +136,9 @@
                             </button>
                         </div>
                         <div class="flex items-center mt-2 w-full justify-center border rounded-lg">
-                            <label class="text-sm text-stone-100 w-20">Jumlah File</label>
-                            <label class="text-sm text-stone-100 ml-2">:</label>
-                            <label id="numberImagesFile" class="text-sm text-stone-100 ml-2"> 0 file yang
+                            <label class="text-md text-stone-100 w-20">Jumlah File</label>
+                            <label class="text-md text-stone-100 ml-2">:</label>
+                            <label id="numberImagesFile" class="text-md text-stone-100 ml-2"> 0 file yang
                                 dipilih</label>
                         </div>
                         @error('documents.*')
