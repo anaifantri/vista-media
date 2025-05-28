@@ -348,7 +348,7 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm align-top text-center">
-                                                                            {{ date('d', strtotime($payment->created_at)) }}-{{ $bulan[(int) date('m', strtotime($payment->created_at))] }}-{{ date('Y', strtotime($payment->created_at)) }}
+                                                                            {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 border-t border-x border-black text-sm px-1 align-top">
@@ -613,7 +613,7 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm align-top text-center">
-                                                                            {{ date('d', strtotime($payment->created_at)) }}-{{ $bulan[(int) date('m', strtotime($payment->created_at))] }}-{{ date('Y', strtotime($payment->created_at)) }}
+                                                                            {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 border-t border-x border-black text-sm px-1 align-top">

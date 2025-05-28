@@ -111,7 +111,9 @@
                                                     }
                                                 }
                                             @endphp
-                                            @if ($billingNominal == 0 || $billingNominal < $billing->nominal + $billing->ppn - ($billing->nominal * 2) / 100)
+                                            @if (
+                                                $billingNominal == 0 ||
+                                                    $billing->bill_payments->sum('nominal') < $billing->nominal + $billing->ppn - ($billing->nominal * 2) / 100)
                                                 @php
                                                     $number++;
                                                 @endphp
