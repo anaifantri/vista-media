@@ -17,9 +17,9 @@
                 <label class="w-40">Tanggal BAST</label>
                 <label>:</label>
                 <form
-                    action="/work-reports/select-format/{{ $sale->id }}/{{ $install_order->id }}/{{ $first_photo->id }}/{{ $first_title }}/{{ $second_photo->id }}/{{ $second_title }}/{{ $bast_category }}">
-                    <input type="date" class="ml-2 outline-none px-2 border rounded-md" value="{{ $content->date }}"
-                        onchange="submit()" name="bast_date">
+                    action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->install_order_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
+                    <input id="djarumDate" type="date" class="ml-2 outline-none px-2 border rounded-md"
+                        value="{{ $content->date }}" onchange="submit()" name="bast_date">
                 </form>
             </div>
             <div class="p-4">
@@ -43,19 +43,29 @@
                 <div class="flex text-md ml-2 mt-2">
                     <label class="ml-14 w-36">Nomor perjanjian</label>
                     <label>:</label>
-                    <label class="ml-4">{{ $content->agreement_number }}</label>
+                    @if ($content->agreement_number != '')
+                        <label class="ml-2">{{ $content->agreement_number }}</label>
+                    @else
+                        <input id="bastAgreement" type="text"
+                            class="outline-none border rounded-md w-[550px] ml-2 px-1"
+                            onchange="changeDjarumAgreement(this, 'bast')">
+                    @endif
                 </div>
                 <div class="flex text-md ml-2 mt-2">
                     <label class="ml-14 w-36">Jenis Reklame</label>
                     <label>:</label>
-                    <input type="text" class="ml-2 outline-none px-1 border rounded-md w-[550px]"
-                        value="{{ $content->type }}">
+                    <input type="text" class="ml-2 outline-none px-1 border rounded-md w-[150px]"
+                        value="{{ $product->category }}">
+                    <label class="ml-20 w-36">Total Titik</label>
+                    <label>:</label>
+                    <input type="text" class="ml-2 outline-none px-1 border rounded-md w-40"
+                        value="{{ $content->djarum_qty }}" onchange="changeDjarumQty(this)">
                 </div>
                 <div class="flex text-md ml-2 mt-2">
                     <label class="ml-14 w-36">Lokasi</label>
                     <label>:</label>
-                    <input type="text" class="ml-2 outline-none px-1 border rounded-md w-[550px]"
-                        value="{{ $product->address }}">
+                    <input id="bastLocation" type="text" class="ml-2 outline-none px-1 border rounded-md w-[550px]"
+                        value="{{ $product->address }}" onchange="changeDjarumLocation(this, 'bast')">
                 </div>
                 <div class="flex text-md ml-2 mt-2">
                     <label class="ml-14 w-36">Ukuran</label>
@@ -112,78 +122,103 @@
         <label
             class="flex justify-center w-full text-2xl font-bold tracking-wider mt-4 p-1 border bg-blue-600 text-white">LAPORAN
             PEMBELIAN JASA</label>
-        <div class="mt-4 border border-black w-full px-6 text-sm">
+        <div class="mt-4 border border-black w-full px-6 py-2 text-sm">
             <div class="flex">
                 <label class="w-52">Nama Vendor</label>
                 <label>:</label>
-                <label class="ml-4">{{ $company->name }}</label>
+                <label class="ml-2">{{ $company->name }}</label>
             </div>
-            <div class="flex">
+            <div class="flex mt-2">
                 <label class="w-52">Tanggal Laporan</label>
                 <label>:</label>
-                <input type="date" class="ml-4 border rounded-md">
+                <input type="date" class="ml-2 outline-none px-2 border rounded-md" value="{{ $content->date }}"
+                    onchange="changeLpjDate(this)">
             </div>
-            <div class="flex">
+            <div class="flex mt-2">
                 <label class="w-52">Nomor SPK/SPKS</label>
                 <label>:</label>
-                <label class="ml-4">{{ $content->agreement_number }}</label>
+                @if ($content->agreement_number != '')
+                    <label class="ml-2">{{ $content->agreement_number }}</label>
+                @else
+                    <input id="lpjAgreement" type="text"
+                        class="outline-none border rounded-md w-[350px] ml-2 px-1"
+                        onchange="changeDjarumAgreement(this, 'lpj')">
+                @endif
 
             </div>
         </div>
         <label
             class="flex justify-center w-full text-md font-bold tracking-wider mt-4 p-1 border bg-blue-600 text-white">URAIAN
             PEKERJAAN</label>
-        <div class="mt-4 border border-black w-full px-6 text-sm">
+        <div class="mt-4 border border-black w-full px-6 py-2 text-sm">
             <div class="flex">
                 <label class="w-52">Nama Jasa</label>
                 <label>:</label>
-                <label class="ml-4">{{ $company->name }}</label>
+                <input type="text" class="ml-2 outline-none w-[450px] border rounded-md px-1"
+                    value="{{ $content->type }}" placeholder="Input Brand" onchange="changeType(this)">
             </div>
-            <div class="flex">
+            <div class="flex mt-2">
                 <label class="w-52">Brand</label>
                 <label>:</label>
-                <input type="text" class="ml-4 outline-none w-[450px]"
-                    placeholder="........................................................................................................"
-                    onchange="changeBrand(this)">
+                <input id="lpjBrand" type="text" class="ml-2 outline-none w-[450px] border rounded-md px-1"
+                    value="{{ $content->brand }}" placeholder="Input Brand" onchange="changeBrand(this)">
             </div>
-            <div class="flex">
+            <div class="flex mt-2">
                 <label class="w-52">Lokasi</label>
                 <label>:</label>
-                <label class="ml-4">{{ $content->location_address }}</label>
+                <input id="lpjLocation" type="text" class="ml-2 outline-none w-[450px] border rounded-md px-1"
+                    value="{{ $content->location_address }}" placeholder="Input Lokasi"
+                    onchange="changeDjarumLocation(this, 'lpj')">
+                <label class="ml-2"></label>
 
             </div>
-            <div class="flex">
+            <div class="flex mt-2">
                 <label class="w-52">Tanggal mulai</label>
                 <label>:</label>
-                <input type="date" class="ml-4 border rounded-md">
+                @if ($bast_category == 'Media')
+                    <input type="date" class="ml-2 border rounded-md" value="{{ $content->lpj_start }}"
+                        onchange="changeLpjStart(this)">
+                @else
+                    <input type="date" class="ml-2 border rounded-md" onchange="changeLpjStart(this)">
+                @endif
                 <label class="ml-56">Tanggal selesai</label>
                 <label class="ml-2">:</label>
-                <input type="date" class="ml-4 border rounded-md">
+                @if ($bast_category == 'Media')
+                    <input type="date" class="ml-2 border rounded-md" value="{{ $content->lpj_end }}"
+                        onchange="changeLpjEnd(this)">
+                @else
+                    <input type="date" class="ml-2 border rounded-md" onchange="changeLpjEnd(this)">
+                @endif
             </div>
         </div>
         <table class="table-auto w-full mt-4">
             <thead>
                 <tr class="text-sm">
                     <th class="border w-8">No.</th>
-                    <th class="border w-48">Jenis Pekerjaan</th>
-                    <th class="border w-28">Jenis Materi</th>
-                    <th class="border w-28">Brand</th>
-                    <th class="border">Versi</th>
-                    <th class="border w-16">Ukuran</th>
+                    <th class="border w-44">Jenis Pekerjaan</th>
+                    <th class="border w-24">Jenis Materi</th>
+                    <th class="border w-40">Brand</th>
+                    <th class="border w-40">Versi</th>
+                    <th class="border w-20">Ukuran</th>
                     <th class="border w-16">Jumlah</th>
                     <th class="border w-16">Satuan</th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="text-sm">
-                    <td class="border text-center">1</td>
-                    <td class="border"></td>
-                    <td class="border text-center"></td>
-                    <td class="border text-center"></td>
-                    <td class="border"></td>
-                    <td class="border text-center"></td>
-                    <td class="border text-center"></td>
-                    <td class="border text-center"></td>
+                    <td class="border px-1 text-center align-top">1</td>
+                    <td class="border px-1 align-top">{{ $content->type }}</td>
+                    <td class="border px-1 text-center align-top">{{ $content->location_lighting }}</td>
+                    <td id="tdBrand" class="border px-1 align-top">{{ $content->theme }}</td>
+                    <td class="border px-1 align-top">
+                        <textarea type="text" class="outline-none w-full" rows="4" onchange="changeTheme(this)">{{ $content->theme }}</textarea>
+                    </td>
+                    <td class="border px-1 text-center align-top">{{ $product->size }}</td>
+                    <td class="border px-1 text-center align-top">
+                        <input type="number" class="outline-none in-out-spin-none w-full text-center"
+                            value="1">
+                    </td>
+                    <td class="border px-1 text-center align-top">Unit</td>
                 </tr>
                 <tr class="text-sm">
                     <td class="border text-center">2</td>

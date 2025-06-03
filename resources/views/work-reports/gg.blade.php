@@ -264,13 +264,13 @@
             <div class="flex text-md items-center ml-2 mt-1">
                 <label class="w-40 ml-5">Desain Visual</label>
                 <label class="">:</label>
-                <input type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
+                <input id="inputTheme" type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
                     placeholder="input desain" value="{{ $content->theme }}" onchange="changeTheme(this)">
             </div>
             <div class="flex text-md items-center ml-2 mt-1">
                 <label class="w-40 ml-5">Brand</label>
                 <label class="">:</label>
-                <input type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
+                <input id="lepBrand" type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
                     placeholder="input brand" onchange="changeBrand(this)">
             </div>
             <div class="flex text-md items-center ml-2 mt-2">
@@ -623,13 +623,13 @@
             <div class="flex text-md items-center ml-2 mt-1">
                 <label class="w-40 ml-5">Desain Visual</label>
                 <label class="">:</label>
-                <input type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
+                <input id="lepTheme" type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
                     placeholder="input desain" value="{{ $content->theme }}" onchange="changeTheme(this)">
             </div>
             <div class="flex text-md items-center ml-2 mt-1">
                 <label class="w-40 ml-5">Brand</label>
                 <label class="">:</label>
-                <input type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
+                <input id="inputBrand" type="text" class="ml-4 px-1 outline-none border rounded-md w-[550px]"
                     placeholder="input brand" onchange="changeBrand(this)">
             </div>
             <div class="flex text-md items-center ml-2 mt-2">

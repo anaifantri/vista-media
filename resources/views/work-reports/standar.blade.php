@@ -21,7 +21,7 @@
                     <label class="w-40">Tanggal BAST</label>
                     <label>:</label>
                     <form
-                        action="/work-reports/select-format/{{ $sale->id }}/{{ $install_order->id }}/{{ $first_photo->id }}/{{ $first_title }}/{{ $second_photo->id }}/{{ $second_title }}/{{ $bast_category }}">
+                        action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->install_order_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
                         <input type="date" class="ml-2 outline-none px-2 border rounded-md"
                             value="{{ $content->date }}" onchange="submit()" name="bast_date" required>
                     </form>
@@ -71,7 +71,7 @@
                     <div class="flex text-md mt-2 ml-10">
                         <label class="w-40">Tema</label>
                         <label>:</label>
-                        <input type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                        <input id="inputTheme" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
                             value="{{ $content->theme }}" onchange="changeTheme(this)" required>
                     </div>
                 @else

@@ -154,20 +154,24 @@
                                         </div>
                                     @endif
                                     <div class="flex w-full justify-center font-serif mt-6 text-sm font-semibold">
-                                        <label id="firstPhotoTitle"><u>{{ $first_photo_title }}</u></label>
+                                        @if ($first_photo_title != 'null' && $first_photo_title != '')
+                                            <u>{{ $first_photo_title }}</u>
+                                        @endif
                                     </div>
                                     <div class="flex justify-center w-full mt-2">
                                         <img id="previewFirstPhoto"
                                             class="border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
-                                            src="{{ asset('storage/' . $first_photo->image) }}">
+                                            src="{{ asset('storage/' . $first_photo) }}">
                                     </div>
                                     <div class="flex w-full justify-center font-serif mt-6 text-sm font-semibold">
-                                        <label id="secondPhotoTitle"><u>{{ $second_photo_title }}</u></label>
+                                        @if ($second_photo_title != 'null' && $second_photo_title != '')
+                                            <u>{{ $second_photo_title }}</u>
+                                        @endif
                                     </div>
                                     <div class="flex justify-center w-full mt-2">
                                         <img id="previewSecondPhoto"
                                             class="border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
-                                            src="{{ asset('storage/' . $second_photo->image) }}">
+                                            src="{{ asset('storage/' . $second_photo) }}">
                                     </div>
                                 </div>
                             </div>

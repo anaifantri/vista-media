@@ -50,7 +50,7 @@
             $quotationPrice->freePrint = $notes->freePrint;
             $quotationPrice->freeInstall = $notes->freeInstall;
             $quotationPrice->freeInstall = $notes->freeInstall;
-            if (isset($notes->includedPrint)) {
+            if (isset($notes->includedPrint) && $notes->includedPrint->checked == true) {
                 $includedPrint->qty = $notes->includedPrint->qty;
                 $includedPrint->price = $notes->includedPrint->price;
                 $includedPrint->product = $notes->includedPrint->product;
@@ -63,7 +63,7 @@
                 $includedPrint->checked = false;
                 $quotationPrice->includedPrint = $includedPrint;
             }
-            if (isset($notes->includedInstall)) {
+            if (isset($notes->includedInstall) && $notes->includedInstall->checked == true) {
                 $includedInstall->qty = $notes->includedInstall->qty;
                 $includedInstall->price = $notes->includedInstall->price;
                 $includedInstall->product = $description->lighting;

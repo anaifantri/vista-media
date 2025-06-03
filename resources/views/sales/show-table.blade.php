@@ -23,34 +23,6 @@
             <th class="text-xs text-black border border-black w-32">Size - V/H</th>
             <th class="text-xs text-black border border-black w-24">
                 {{ $sale->duration }}
-                {{-- @if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron'))
-                    @if ($price->priceType[0] == true)
-                        @foreach ($price->dataSharingPrice as $sharingPrice)
-                            @if ($sharingPrice->checkbox == true)
-                                {{ $sharingPrice->title }}
-                                @php
-                                    $thTitle = 'HARGA SHARING ' . $price->slotQty . ' SLOT';
-                                @endphp
-                            @endif
-                        @endforeach
-                    @endif
-                    @if ($price->priceType[1] == true)
-                        @foreach ($price->dataExclusivePrice as $exclusivePrice)
-                            @if ($exclusivePrice->checkbox == true)
-                                {{ $exclusivePrice->title }}
-                                @php
-                                    $thTitle = 'HARGA EKSKLUSIF 4 SLOT';
-                                @endphp
-                            @endif
-                        @endforeach
-                    @endif
-                @else
-                    @foreach ($price->dataTitle as $dataTitle)
-                        @if ($dataTitle->checkbox == true)
-                            {{ $dataTitle->title }}
-                        @endif
-                    @endforeach
-                @endif --}}
             </th>
         </tr>
     </thead>
@@ -109,39 +81,6 @@
             </td>
             <td id="previewPrice" class="text-xs  text-black border border-black text-right px-2">
                 {{ number_format($getPrice) }}
-                {{-- @if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron'))
-                    @if ($price->priceType[0] == true)
-                        @foreach ($price->dataSharingPrice as $sharingPrice)
-                            @if ($sharingPrice->checkbox == true)
-                                {{ number_format($sharingPrice->price) }}
-                                @php
-                                    $getPrice = $sharingPrice->price;
-                                @endphp
-                            @endif
-                        @endforeach
-                    @endif
-                    @if ($price->priceType[1] == true)
-                        @foreach ($price->dataExclusivePrice as $exclusivePrice)
-                            @if ($exclusivePrice->checkbox == true)
-                                {{ number_format($exclusivePrice->price) }}
-                                @php
-                                    $getPrice = $exclusivePrice->price;
-                                @endphp
-                            @endif
-                        @endforeach
-                    @endif
-                @else
-                    @php
-                        $getCode = $product->code . '-' . $product->city_code;
-                        $getPrice = 0;
-                        for ($i = 0; $i < count($price->dataTitle); $i++) {
-                            if ($price->dataTitle[$i]->checkbox == true) {
-                                $getPrice = $price->dataPrice[$i][0]->price;
-                            }
-                        }
-                    @endphp
-                    {{ number_format($getPrice) }}
-                @endif --}}
             </td>
         </tr>
         @if ($category != 'Videotron' || ($category == 'Signage' && $description->type != 'Videotron'))
@@ -241,20 +180,6 @@
             @endif
             <td class="text-xs text-black border border-black text-right px-2">
                 {{ number_format($sale->dpp * ($sale->ppn / 100)) }}
-            </td>
-        </tr>
-        <tr>
-            @if ($category == 'Signage')
-                <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="7">PPh
-                    {{-- {{ $sale->pph }}% --}}
-                </td>
-            @else
-                <td class="border border-black px-2 text-right text-xs text-black font-semibold" colspan="6">PPh
-                    {{-- {{ $sale->pph }}% --}}
-                </td>
-            @endif
-            <td class="text-xs text-black border border-black text-right px-2">
-                {{-- {{ number_format($sale->dpp * ($sale->pph / 100)) }} --}}
             </td>
         </tr>
         <tr>

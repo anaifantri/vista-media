@@ -48,10 +48,10 @@ class WorkReportController extends Controller
             $sale = Sale::with('work_reports')->get();
             return view('work-reports.preview', [
                 'work_report' => $data_work_report,
-                'install_order' => InstallOrder::findOrFail($install_order_id),
-                'first_photo' => InstallationPhoto::findOrFail($first_photo->id),
+                // 'install_order' => InstallOrder::findOrFail($install_order_id),
+                'first_photo' => $first_photo->image,
                 'first_photo_title' => $first_photo->title,
-                'second_photo' => InstallationPhoto::findOrFail($second_photo->id),
+                'second_photo' => $second_photo->image,
                 'second_photo_title' => $second_photo->title,
                 'content' => $content,
                 'client' => $content->client,
@@ -114,7 +114,7 @@ class WorkReportController extends Controller
         }
     }
 
-    public function selectFormat(String $saleId, String $mainSaleId, String $installOrderId, String $firstPhoto, String $firsttitle, String $secondPhoto, String $secondtitle, String $category): View
+    public function selectFormat(String $saleId, String $mainSaleId, String $installOrderId, String $firstPhoto, String $firstTitle, String $secondPhoto, String $secondTitle, String $category): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             $sale = Sale::findOrFail($saleId);
@@ -122,19 +122,37 @@ class WorkReportController extends Controller
             $quotation_revisions = QuotationRevision::with('quotation')->get();
             $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
             $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
+            if($installOrderId == "0"){
+                $installOrder = "";
+                $firstPhoto = "";
+                $secondPhoto = "";
+            }else{
+                $installOrder = InstallOrder::findOrFail($installOrderId);
+                if($firstPhoto == "0"){
+                    $firstPhoto = "";
+                }else{
+                    $firstPhoto = InstallationPhoto::findOrFail($firstPhoto);
+                }
+                if($secondPhoto == "0"){
+                    $secondPhoto = "";
+                }else{
+                    $secondPhoto = InstallationPhoto::findOrFail($secondPhoto);
+                }
+            }
+            // dd($installOrder);
             return view ('work-reports.select-format', [
                 'title' => 'Membuat BAST',
-                'install_order' => InstallOrder::findOrFail($installOrderId),
+                'install_order' => $installOrder,
                 'quotation_orders' => $quotation_orders,
                 'quotation_agreements' => $quotation_agreements,
                 'sale' => $sale,
                 'main_sale_id' => $mainSaleId,
                 'work_category' => $sale->media_category->name,
                 'bast_category' => $category,
-                'first_photo' => InstallationPhoto::findOrFail($firstPhoto),
-                'first_title' => $firsttitle,
-                'second_photo' => InstallationPhoto::findOrFail($secondPhoto),
-                'second_title' => $secondtitle,
+                'first_photo' => $firstPhoto,
+                'first_title' => $firstTitle,
+                'second_photo' => $secondPhoto,
+                'second_title' => $secondTitle,
                 compact('quotations','quotation_revisions')
             ]);
         } else {
@@ -175,6 +193,13 @@ class WorkReportController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            if(request('first_image') || request('second_image')){
+                $request->validate([
+                    'first_image' => 'required|file|mimes:jpeg,png,jpg|max:2048',
+                    'second_image' => 'required|file|mimes:jpeg,png,jpg|max:2048'
+                ]);
+            }
+
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
@@ -194,8 +219,18 @@ class WorkReportController extends Controller
                 $number = $newNumber.'/BAST/'.$dataCompany->code.'/'.$romawi[(int) date('m')].'-'. date('Y');
             }
             // Set number --> end
+            
+            $firstPhoto = json_decode(request('first_photo'));
+            $secondPhoto = json_decode(request('second_photo'));
 
-            $request->request->add(['number' => $number]);
+            if($request->file('first_image') || $request->file('second_image')){
+                $firstImage = $request->file('first_image');
+                $secondImage = $request->file('second_image');
+                $firstPhoto->image = $firstImage->store('installation-photos');
+                $secondPhoto->image = $secondImage->store('installation-photos');
+            }
+
+            $request->request->add(['number' => $number, 'first_photo' => json_encode($firstPhoto), 'second_photo' => json_encode($secondPhoto)]);
 
             $validateData = $request->validate([
                 'number' => 'required|unique:work_reports',
@@ -207,6 +242,7 @@ class WorkReportController extends Controller
                 'created_by' => 'required',
                 'updated_by' => 'required'
             ]);
+            // dd($validateData);
             WorkReport::create($validateData);
 
             $dataReport = WorkReport::where('number', $validateData['number'])->firstOrFail();

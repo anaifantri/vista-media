@@ -284,30 +284,6 @@
                                             </svg>
                                         </button>
                                     </div>
-                                @else
-                                    <div class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
-                                        <button
-                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                            type="button">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
-                                        <button type="button"
-                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                @endif
-                                @if (count($first_photos) > 0)
                                     @foreach ($first_photos as $photo)
                                         @if (count($first_photos) > 2)
                                             @if ($loop->iteration - 1 == intdiv(count($first_photos), 2))
@@ -356,10 +332,31 @@
                                         @endif
                                     @endforeach
                                 @else
+                                    <div class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
+                                        <button
+                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                            type="button">
+                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
+                                        <button type="button"
+                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
+                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                     <div
-                                        class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                        class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-2 p-1">
                                         <img src="{{ asset('/img/product-image.png') }}" alt=""
-                                            class="h-[250px] w-[420px] rounded-lg">
+                                            class="h-[250px] w-[420px] rounded-lg img-preview-first">
                                     </div>
                                 @endif
                             </div>
@@ -372,7 +369,7 @@
                                         onclick="rbSecondTitle(this)" value="Foto Siang" disabled>
                                 @else
                                     <input id="Foto Siang" name="rbSecond" type="radio" class="outline-none ml-4"
-                                        onclick="rbSecondTitle(this)" value="Foto Siang">
+                                        onclick="rbSecondTitle(this)" value="Foto Siang" checked>
                                 @endif
                                 <label class="flex text-sm font-semibold ml-2">Foto Siang</label>
                                 @if ($nightDisable == true)
@@ -426,30 +423,6 @@
                                             </svg>
                                         </button>
                                     </div>
-                                @else
-                                    <div class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
-                                        <button
-                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
-                                            type="button">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
-                                        <button type="button"
-                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
-                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
-                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                @endif
-                                @if (count($second_photos) > 0)
                                     @foreach ($second_photos as $photo)
                                         @if (count($second_photos) > 2)
                                             @if ($loop->iteration - 1 == intdiv(count($second_photos), 2))
@@ -498,10 +471,31 @@
                                         @endif
                                     @endforeach
                                 @else
+                                    <div class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
+                                        <button
+                                            class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
+                                            type="button">
+                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="absolute inset-y-0 right-0 w-7 h-12 m-auto" hidden>
+                                        <button type="button"
+                                            class="flex items-center justify-center rounded-l-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer">
+                                            <svg class="fill-white w-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                     <div
-                                        class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                        class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-2 p-1">
                                         <img src="{{ asset('/img/product-image.png') }}" alt=""
-                                            class="h-[250px] w-[420px] rounded-lg">
+                                            class="img-preview-second h-[250px] w-[420px] rounded-lg">
                                     </div>
                                 @endif
                             </div>
@@ -546,6 +540,11 @@
         var mainSaleId = @json($main_sale_id);
         var bastCategory = @json($bast_category);
         var installOrder = @json($install_order);
+        if (installOrder.length == 0) {
+            var installOrderId = 0;
+        } else {
+            var installOrderId = installOrder[0].id;
+        }
         const previewFirstPhoto = document.getElementById("previewFirstPhoto");
         const previewSecondPhoto = document.getElementById("previewSecondPhoto");
         const imageSecondViews = document.querySelectorAll(".divSecondPhoto");
@@ -560,9 +559,6 @@
             } else {
                 secondTitle = "Foto Malam";
             }
-            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId + '/' +
-                installOrder[0].id +
-                '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' + bastCategory);
         } else {
             var indexSecond = 0;
             if (Object.keys(secondImages).length != 0) {
@@ -573,9 +569,6 @@
                     secondTitle = "Foto Malam";
                 }
             }
-            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId + '/' +
-                installOrder[0].id +
-                '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' + bastCategory);
         }
 
         if (document.querySelectorAll(".divFirstPhoto").length > 2) {
@@ -586,9 +579,6 @@
             } else {
                 firstTitle = "Foto Malam";
             }
-            formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId + '/' +
-                installOrder[0].id +
-                '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' + bastCategory);
         } else {
             var indexFirst = 0;
             if (Object.keys(firstImages).length != 0) {
@@ -598,11 +588,6 @@
                 } else {
                     firstTitle = "Foto Malam";
                 }
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId + '/' +
-                    installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' + bastCategory
-                );
             }
         }
 
@@ -699,37 +684,40 @@
             }
         }
         rbFirstTitle = (sel) => {
-            document.getElementById("firstPhotoTitle").innerHTML = sel.id;
             firstTitle = sel.id;
             document.getElementById("inputFirstTitle").setAttribute('disabled', 'disabled');
         }
         rbSecondTitle = (sel) => {
-            document.getElementById("secondPhotoTitle").innerHTML = sel.id;
             secondTitle = sel.id;
             document.getElementById("inputSecondTitle").setAttribute('disabled', 'disabled');
         }
         inputFirstTitleAction = (sel) => {
-            document.getElementById("firstPhotoTitle").innerHTML = sel.value;
             firstTitle = sel.value;
         }
         inputSecondTitleAction = (sel) => {
-            document.getElementById("secondPhotoTitle").innerHTML = sel.value;
             secondTitle = sel.value;
         }
         rbManualTitle = (sel) => {
             if (sel.id == "rbManualDay") {
                 document.getElementById("inputFirstTitle").removeAttribute('disabled');
+                firstTitle = "null";
                 document.getElementById("inputFirstTitle").focus();
             } else if (sel.id == "rbManualNight") {
                 document.getElementById("inputSecondTitle").removeAttribute('disabled');
+                secondTitle = "null";
                 document.getElementById("inputSecondTitle").focus();
             }
         }
 
         documentationNext = () => {
             if (firstPhotoId == '' && secondPhotoId == '') {
-                alert("Belum ada foto/dokumentasi pekerjaan..!!")
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                    mainSaleId + '/' + installOrderId + '/0/null/0/null/' + bastCategory);
+                formSelectFormat.submit();
             } else {
+                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
+                    '/' + installOrderId + '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' +
+                    secondTitle + '/' + bastCategory);
                 formSelectFormat.submit();
             }
         }
