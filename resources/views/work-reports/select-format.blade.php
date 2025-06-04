@@ -153,7 +153,7 @@
                 date('Y', strtotime($sale->end_at));
             $content->type = 'Jasa Penempatan Media Luar Ruang';
         }
-        $content->location_size = $product->size . ' x ' . $getSide . ' - ' . $product->orientation;
+        $content->location_size = $product->size . ' x ' . $getSide . ' sisi - ' . $product->orientation;
         $content->location_address = $product->address;
         $content->location_type = $product->category;
         $content->location_orientation = $product->orientation;

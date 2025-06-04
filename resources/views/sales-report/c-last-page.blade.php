@@ -1,5 +1,5 @@
-<div class="w-[1580px] h-[1120px] px-10 py-4 mt-2 bg-white z-0">
-    <div class="flex items-center border rounded-lg p-4 mt-8">
+<div class="w-[1580px] h-[1000px] px-10 py-4 mt-2 bg-white z-0">
+    <div class="flex items-center p-2 mt-4">
         <div class="w-44">
             <img class="ml-2 w-[125px]" src="{{ asset('storage/' . $company->logo) }}" alt="">
         </div>
@@ -28,7 +28,7 @@
         <div class="flex w-full justify-end">
             <div>
                 <div class="flex justify-center w-56">
-                    <label class="text-5xl text-center">C1</label>
+                    <label class="text-4xl font-bold text-center">C1</label>
                 </div>
                 <div class="flex justify-center w-56">
                     <label class="text-sm text-center">LAPORAN PENJUALAN</label>
@@ -36,7 +36,7 @@
                 <div class="flex justify-center w-56">
                     <label class="text-sm text-center"></label>
                 </div>
-                <div class="flex justify-center w-56 border rounded-md">
+                <div class="flex justify-center w-56 border border-black rounded-md">
                     @if (request('month'))
                         @if (request('month') != 'All')
                             <label id="labelPeriode" class="month-report text-xl font-semibold text-center">
@@ -60,7 +60,7 @@
                         @endif
                     @endif
                 </div>
-                <div class="flex justify-center w-56 border rounded-md mt-2">
+                <div class="flex justify-center w-56 border border-black rounded-md mt-2">
                     <label class="text-sm">
                         <span class="text-sm font-semibold text-red-600">Tgl. Cetak :
                         </span>
@@ -70,50 +70,50 @@
             </div>
         </div>
     </div>
-    <div class="h-[840px] mt-2">
+    <div class="h-[780px] mt-2">
         <table class="table-auto w-full">
             <thead>
                 <tr class="bg-teal-100">
-                    <th class="text-black sticky top-0 border text-[0.65rem] w-6" rowspan="2">
+                    <th class="sticky top-0 border border-black text-[0.65rem] w-6" rowspan="2">
                         No.
                     </th>
-                    <th class="text-black sticky top-0 border text-[0.65rem] text-center" rowspan="2">
+                    <th class="sticky top-0 border border-black text-[0.65rem] text-center" rowspan="2">
                         <button class="flex justify-center w-full items-center">@sortablelink('number', 'Data Penjualan')
                             <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                             </svg>
                         </button>
                     </th>
-                    <th class="text-black sticky top-0 border text-[0.65rem] w-40" rowspan="2">
+                    <th class="sticky top-0 border border-black text-[0.65rem] w-40" rowspan="2">
                         Klien
                     </th>
-                    <th class="text-black sticky top-0 border text-[0.65rem] w-36" rowspan="2">
+                    <th class="sticky top-0 border border-black text-[0.65rem] w-36" rowspan="2">
                         Penawaran
                     </th>
-                    <th class="text-black sticky top-0 border text-[0.65rem] w-[120px]" rowspan="2">
+                    <th class="sticky top-0 border border-black text-[0.65rem] w-[120px]" rowspan="2">
                         Harga
                     </th>
-                    <th class="text-black sticky top-0 border text-[0.65rem]" colspan="5">
+                    <th class="sticky top-0 border border-black text-[0.65rem]" colspan="5">
                         Termin Pembayaran
                     </th>
-                    <th class="text-black sticky top-0 border text-[0.65rem]" colspan="3">
+                    <th class="sticky top-0 border border-black text-[0.65rem]" colspan="3">
                         Penagihan
                     </th>
-                    <th class="text-black sticky top-0 border text-[0.65rem]" colspan="2">
+                    <th class="sticky top-0 border border-black text-[0.65rem]" colspan="2">
                         Pembayaran
                     </th>
                 </tr>
                 <tr class="bg-teal-100">
-                    <th class="text-black border text-[0.65rem] w-10">Termin</th>
-                    <th class="text-black border text-[0.65rem] w-[72px]">Nominal</th>
-                    <th class="text-black border text-[0.65rem] w-16">PPN</th>
-                    <th class="text-black border text-[0.65rem] w-12">PPh</th>
-                    <th class="text-black border text-[0.65rem] w-20">Total</th>
-                    <th class="text-black border text-[0.65rem] w-20">No. Invoice</th>
-                    <th class="text-black border text-[0.65rem] w-20">Tgl. Invoice</th>
-                    <th class="text-black border text-[0.65rem] w-[72px]">Nominal</th>
-                    <th class="text-black border text-[0.65rem] w-12">Status</th>
-                    <th class="text-black border text-[0.65rem] w-20">Tgl. Bayar</th>
+                    <th class="border border-black text-[0.65rem] w-10">Termin</th>
+                    <th class="border border-black text-[0.65rem] w-[72px]">Nominal</th>
+                    <th class="border border-black text-[0.65rem] w-16">PPN</th>
+                    <th class="border border-black text-[0.65rem] w-12">PPh</th>
+                    <th class="border border-black text-[0.65rem] w-20">Total</th>
+                    <th class="border border-black text-[0.65rem] w-20">No. Invoice</th>
+                    <th class="border border-black text-[0.65rem] w-20">Tgl. Invoice</th>
+                    <th class="border border-black text-[0.65rem] w-[72px]">Nominal</th>
+                    <th class="border border-black text-[0.65rem] w-12">Status</th>
+                    <th class="border border-black text-[0.65rem] w-20">Tgl. Bayar</th>
                 </tr>
             </thead>
             <tbody>
@@ -176,9 +176,9 @@
                     @endphp
                     @if ($loop->iteration > $i * 8 && $loop->iteration < ($i + 1) * 8 + 1)
                         <tr>
-                            <td class="text-black border text-[0.65rem] text-center align-top">
+                            <td class="border border-black text-[0.65rem] text-center align-top">
                                 {{ $loop->iteration }}</td>
-                            <td class="text-black border text-[0.65rem] text-start align-top">
+                            <td class="border border-black text-[0.65rem] text-start align-top">
                                 <div>
                                     <div class="flex ml-1">
                                         <label class="w-10">No.</label>
@@ -225,7 +225,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-black border text-[0.65rem] text-start align-top">
+                            <td class="border border-black text-[0.65rem] text-start align-top">
                                 <div>
                                     <div class="flex ml-1">
                                         <label class="w-8">Klien</label>
@@ -278,7 +278,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="text-black border text-[0.65rem] text-start align-top">
+                            <td class="border border-black text-[0.65rem] text-start align-top">
                                 <div>
                                     <div class="flex ml-1">
                                         <label class="w-14">No.</label>
@@ -324,7 +324,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="text-black border text-[0.65rem] text-start align-top px-1">
+                            <td class="border border-black text-[0.65rem] text-start align-top px-1">
                                 <div>
                                     <div class="flex ml-1">
                                         @if ($sale->void_sale)
@@ -435,7 +435,7 @@
                                                             {{ number_format($sale->dpp * (2 / 100)) }}
                                                         </label>
                                                     </div> --}}
-                                                    <div class="flex ml-1 border-t">
+                                                    <div class="flex ml-1 border-t border-black">
                                                         <label class="w-12">Total</label>
                                                         <label>:</label>
                                                         <label class="ml-1 w-16 text-right">
@@ -507,7 +507,7 @@
                                                         {{ number_format($sale->dpp * (2 / 100)) }}
                                                     </label>
                                                 </div> --}}
-                                                <div class="flex ml-1 border-t">
+                                                <div class="flex ml-1 border-t border-black">
                                                     <label class="w-12">Total</label>
                                                     <label>:</label>
                                                     <label class="ml-1 w-16 text-right">
@@ -566,7 +566,7 @@
                                                             {{ number_format($sale->dpp * (2 / 100)) }}
                                                         </label>
                                                     </div> --}}
-                                                    <div class="flex ml-1 border-t">
+                                                    <div class="flex ml-1 border-t border-black">
                                                         <label class="w-12">Total</label>
                                                         <label>:</label>
                                                         <label class="ml-1 w-16 text-right">
@@ -638,7 +638,7 @@
                                                         {{ number_format($sale->dpp * (2 / 100)) }}
                                                     </label>
                                                 </div> --}}
-                                                <div class="flex ml-1 border-t">
+                                                <div class="flex ml-1 border-t border-black">
                                                     <label class="w-12">Total</label>
                                                     <label>:</label>
                                                     <label class="ml-1 w-16 text-right">
@@ -694,7 +694,7 @@
                                                 {{ number_format($sale->dpp * (2 / 100)) }}
                                             </label>
                                         </div> --}}
-                                        <div class="flex ml-1 border-t">
+                                        <div class="flex ml-1 border-t border-black">
                                             <label class="w-12">Total</label>
                                             <label>:</label>
                                             <label class="ml-1 w-16 text-right">
@@ -707,7 +707,7 @@
                             @if ($sale->void_sale)
                                 @if ($loop->iteration < count($sales))
                                     @if ($sale->id == $sales[$loop->iteration]->id)
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex ml-1 justify-center">
@@ -716,7 +716,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -725,7 +725,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -734,7 +734,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -743,7 +743,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -766,33 +766,33 @@
                                             </div>
                                         </td>
                                     @else
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
                                     @endif
                                 @else
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
                                 @endif
                             @elseif ($sale->change_sale)
                                 @if ($loop->iteration < count($sales))
                                     @if ($sale->id == $sales[$loop->iteration]->id)
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex ml-1 justify-center">
@@ -801,7 +801,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -810,7 +810,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -819,7 +819,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -828,7 +828,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -851,31 +851,31 @@
                                             </div>
                                         </td>
                                     @else
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
-                                        <td class="text-black border text-[0.65rem] text-center align-top">
+                                        <td class="border border-black text-[0.65rem] text-center align-top">
                                         </td>
                                     @endif
                                 @else
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
-                                    <td class="text-black border text-[0.65rem] text-center align-top">
+                                    <td class="border border-black text-[0.65rem] text-center align-top">
                                     </td>
                                 @endif
                             @else
-                                <td class="text-black border text-[0.65rem] text-center align-top">
+                                <td class="border border-black text-[0.65rem] text-center align-top">
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex ml-1 justify-center">
@@ -884,7 +884,7 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td class="text-black border text-[0.65rem] text-center align-top">
+                                <td class="border border-black text-[0.65rem] text-center align-top">
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex mr-1 justify-end">
@@ -893,7 +893,7 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td class="text-black border text-[0.65rem] text-center align-top">
+                                <td class="border border-black text-[0.65rem] text-center align-top">
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex mr-1 justify-end">
@@ -902,7 +902,7 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td class="text-black border text-[0.65rem] text-center align-top">
+                                <td class="border border-black text-[0.65rem] text-center align-top">
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex mr-1 justify-end">
@@ -911,7 +911,7 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td class="text-black border text-[0.65rem] text-center align-top">
+                                <td class="border border-black text-[0.65rem] text-center align-top">
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex mr-1 justify-end">
@@ -931,7 +931,7 @@
                                     </div>
                                 </td>
                             @endif
-                            <td class="text-black border text-[0.65rem] text-center align-top">
+                            <td class="border border-black text-[0.65rem] text-center align-top">
                                 <div>
                                     @foreach ($saleBillings as $itemBilling)
                                         <a
@@ -939,14 +939,14 @@
                                     @endforeach
                                 </div>
                             </td>
-                            <td class="text-black border text-[0.65rem] text-center align-top">
+                            <td class="border border-black text-[0.65rem] text-center align-top">
                                 <div>
                                     @foreach ($saleBillings as $itemBilling)
                                         <span>{{ date('d', strtotime($itemBilling->created_at)) }}-{{ $sMonth[(int) date('m', strtotime($itemBilling->created_at))] }}-{{ date('Y', strtotime($itemBilling->created_at)) }}</span>
                                     @endforeach
                                 </div>
                             </td>
-                            <td class="text-black border text-[0.65rem] text-center align-top">
+                            <td class="border border-black text-[0.65rem] text-center align-top">
                                 <div>
                                     @if ($sale->media_category->name == 'Service')
                                         @foreach ($saleBillings as $itemBilling)
@@ -977,7 +977,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="text-black border text-[0.65rem] text-center align-top">
+                            <td class="border border-black text-[0.65rem] text-center align-top">
                                 <div>
                                     @foreach ($saleBillings as $itemBilling)
                                         @if (count($itemBilling->bill_payments) > 0)
@@ -988,7 +988,7 @@
                                     @endforeach
                                 </div>
                             </td>
-                            <td class="text-black border text-[0.65rem] text-center align-top">
+                            <td class="border border-black text-[0.65rem] text-center align-top">
                                 <div>
                                     @foreach ($saleBillings as $itemBilling)
                                         @if (count($itemBilling->bill_payments) > 0)
@@ -1001,38 +1001,37 @@
                     @endif
                 @endforeach
                 <tr>
-                    <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2"
-                        colspan="4">Sub
+                    <td class="border border-black text-sm text-right align-top font-semibold px-2" colspan="4">Sub
                         Total</td>
-                    <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2">
+                    <td class="border border-black text-sm text-right align-top font-semibold px-2">
                         {{ number_format($priceTotal - $void_sales->sum('price') + $change_sales->sum('price_diff')) }}
                     </td>
-                    <td class="text-black bg-slate-200 border text-[0.65rem] text-right align-top font-semibold"
+                    <td class="text-black bg-slate-200 border border-black text-sm text-right align-top font-semibold"
                         colspan="10"></td>
                 </tr>
                 <tr>
-                    <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2"
-                        colspan="4">PPN</td>
-                    <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2">
+                    <td class="border border-black text-sm text-right align-top font-semibold px-2" colspan="4">PPN
+                    </td>
+                    <td class="border border-black text-sm text-right align-top font-semibold px-2">
                         {{ number_format($ppnTotal - $void_sales->sum('ppn') + $change_sales->sum('ppn_diff')) }}</td>
-                    <td class="text-black bg-slate-200 border text-[0.65rem] text-right align-top font-semibold"
+                    <td class="text-black bg-slate-200 border border-black text-sm text-right align-top font-semibold"
                         colspan="10"></td>
                 </tr>
                 <tr>
-                    <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2"
-                        colspan="4">PPh</td>
-                    <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2">
+                    <td class="border border-black text-sm text-right align-top font-semibold px-2" colspan="4">PPh
+                    </td>
+                    <td class="border border-black text-sm text-right align-top font-semibold px-2">
                         {{ number_format($pphTotal) }}</td>
-                    <td class="text-black bg-slate-200 border text-[0.65rem] text-right align-top font-semibold"
+                    <td class="text-black bg-slate-200 border border-black text-sm text-right align-top font-semibold"
                         colspan="10"></td>
                 </tr>
                 <tr>
-                    <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2"
-                        colspan="4">Grand Total</td>
-                    <td class="text-black border text-[0.65rem] text-right align-top font-semibold px-2">
+                    <td class="border border-black text-sm text-right align-top font-semibold px-2" colspan="4">
+                        Grand Total</td>
+                    <td class="border border-black text-sm text-right align-top font-semibold px-2">
                         {{ number_format($priceTotal + $ppnTotal - $pphTotal - ($void_sales->sum('price') + $void_sales->sum('ppn')) + ($change_sales->sum('price_diff') + $change_sales->sum('ppn_diff'))) }}
                     </td>
-                    <td class="text-black bg-slate-200 border text-[0.65rem] text-right align-top font-semibold"
+                    <td class="text-black bg-slate-200 border border-black text-sm text-right align-top font-semibold"
                         colspan="10"></td>
                 </tr>
             </tbody>

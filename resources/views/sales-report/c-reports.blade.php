@@ -51,7 +51,7 @@
                 ?>
                 <div id="pdfPreview">
                     @if (count($sales) == 0)
-                        <div class="w-[1580px] h-[1120px] px-10 py-4 mt-2 bg-white z-0">
+                        <div class="w-[1580px] h-[1000px] px-10 py-4 mt-2 bg-white z-0">
                             <div class="flex items-center border rounded-lg p-4 mt-8">
                                 <div class="w-44">
                                     <img class="ml-2 w-[125px]" src="{{ asset('storage/' . $company->logo) }}"
@@ -193,14 +193,14 @@
                         mode: ['avoid-all', 'css', 'legacy']
                     },
                     html2canvas: {
-                        dpi: 300,
-                        scale: 1.5,
+                        dpi: 96,
+                        scale: 1.3,
                         letterRendering: true,
                         useCORS: true
                     },
                     jsPDF: {
                         unit: 'px',
-                        format: [1590, 1130],
+                        format: [1590, 1020],
                         orientation: 'landscape',
                         putTotalPages: true
                     }

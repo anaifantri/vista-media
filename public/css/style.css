@@ -988,6 +988,10 @@ video {
   height: 2rem;
 }
 
+.h-\[1000px\] {
+  height: 1000px;
+}
+
 .h-\[100px\] {
   height: 100px;
 }
@@ -1220,12 +1224,12 @@ video {
   height: 72px;
 }
 
-.h-\[832px\] {
-  height: 832px;
+.h-\[800px\] {
+  height: 800px;
 }
 
-.h-\[840px\] {
-  height: 840px;
+.h-\[832px\] {
+  height: 832px;
 }
 
 .h-\[850px\] {
@@ -1263,6 +1267,10 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[780px\] {
+  height: 780px;
 }
 
 .max-h-\[180px\] {
