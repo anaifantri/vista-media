@@ -130,7 +130,7 @@
                                         ' ' .
                                         $bulan[(int) date('m', strtotime($sale->end_at))] .
                                         ' ' .
-                                        date('Y', strtotime($sale->start_at));
+                                        date('Y', strtotime($sale->end_at));
 
                                     $invoice_description = new stdClass();
                                     $invoice_description->sale_id = $sale->id;

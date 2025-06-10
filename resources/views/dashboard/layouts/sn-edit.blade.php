@@ -73,7 +73,7 @@
                 @endif
             @endif
             @include('dashboard.layouts.select-sector-edit')
-            @canany(['isAdmin', 'isMedia'])
+            @canany(['isAdmin', 'isMedia', 'isMarketing'])
                 @can('isLocation')
                     @can('isMediaEdit')
                         <div id="price" name="price" class="mt-1">

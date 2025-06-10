@@ -263,15 +263,6 @@
                             <div class="border-t h-2 border-slate-500 border-dashed w-full">
                             </div>
                         </div>
-                        <!-- Header start -->
-                        {{-- @include('billings.receipt-header') --}}
-                        <!-- Header end -->
-                        <!-- Body start -->
-                        {{-- @include('billings.receipt-media-body') --}}
-                        <!-- Body end -->
-                        <!-- Sign start -->
-                        {{-- @include('billings.receipt-media-sign') --}}
-                        <!-- Sign end -->
                     </div>
                 </div>
                 <!-- Kwitansi end -->
@@ -302,63 +293,6 @@
         <input type="text" name="sale_number" value="{{ $sale_number }}" hidden>
         <input type="text" id="merge" name="merge" value="normal" hidden>
     </form>
-
-    <!-- Modal Add/View NPWP start -->
-    {{-- <div id="modalNpwp" class="absolute justify-center top-0 w-full h-full bg-black bg-opacity-90 z-50 hidden">
-        <div>
-            <div class="flex mt-14">
-                <div class="flex justify-end px-2 w-full">
-                    <button class="flex" title="Close" type="button" onclick="btnCloseModal()">
-                        <svg class="fill-gray-500 w-6 m-auto hover:fill-red-700" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.094l-4.157-4.104 4.1-4.141-1.849-1.849-4.105 4.159-4.156-4.102-1.833 1.834 4.161 4.12-4.104 4.157 1.834 1.832 4.118-4.159 4.143 4.102 1.848-1.849z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="flex justify-center w-[800px] h-max bg-stone-400 mt-2 p-4">
-                <div>
-                    <label class="flex justify-center w-full border-b font-semibold">Tambah Data NPWP</label>
-                    <div class="flex items-center w-full mt-6">
-                        <label class="w-28">Nomor NPWP</label>
-                        <label>:</label>
-                        <input id="npwpNumber" type="text" name="npwp_number" value="{{ $npwp }}"
-                            class="w-[325px] outline-none border rounded-md px-2 mt-2 ml-2"
-                            onchange="npwpNumberChange(this)">
-                    </div>
-                    <div class="flex justify-center w-full">
-                        <button id="btnChooseFile"
-                            class="flex justify-center text-sm items-center w-36 btn-primary-small mt-4"
-                            title="Chose Files" type="button" onclick="document.getElementById('npwpImage').click()">
-                            <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-                                clip-rule="evenodd" viewBox="0 0 24 24">
-                                <path d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
-                            </svg>
-                            <span class="ml-2">Pilih File NPWP</span>
-                        </button>
-                    </div>
-                    @error('npwp_image')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                    @if ($npwp_image == '')
-                        <div class="flex m-auto w-[500px] h-max mt-2 border rounded-lg p-1">
-                            <img class="m-auto img-preview flex items-center bg-white rounded-lg"
-                                src="/img/product-image.png">
-                        </div>
-                    @else
-                        <div class="flex m-auto w-[500px] h-max mt-2 border rounded-lg p-1">
-                            <img class="m-auto img-preview flex items-center bg-white rounded-lg"
-                                src="{{ asset('storage/' . $npwp_image) }}">
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    <!-- Modal Add/View NPWP end -->
 
 
     <!-- Script Preview Image start-->

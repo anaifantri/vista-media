@@ -443,7 +443,6 @@ class LocationController extends Controller
             }
 
             $validateData = $request->validate($rules);
-            // dd($validateData);
 
             Location::where('id', $location->id)
                     ->update($validateData);
