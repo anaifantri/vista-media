@@ -7,8 +7,13 @@
         </div>
         <div id="notesQty">
             <div class="flex">
-                <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
-                    value="- Biaya di atas belum termasuk PPN">
+                @if ($price->objPpn->checked == true)
+                    <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
+                        value="- Biaya di atas sudah termasuk PPN">
+                @else
+                    <input id="ppnNote" class="ml-1 text-sm text-black outline-none w-full"
+                        value="- Biaya di atas belum termasuk PPN">
+                @endif
             </div>
             <div class="flex">
                 <input class="ml-1 text-sm text-black outline-none w-full" value="- Harga tersebut termasuk :"
