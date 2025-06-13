@@ -93,7 +93,7 @@
                     </div>
                     <div class="flex items-center">
                         <label class="w-10">Ukuran</label>
-                        <label class="ml-2">: {{ $product->size }} x {{ $product->side }} -
+                        <label class="ml-2">: {{ $product->size }} x {{ $side }} Sisi -
                             @if ($product->orientation == 'Vertikal')
                                 V
                             @elseif ($product->orientation == 'Horizontal')
@@ -165,7 +165,7 @@
                         </div>
                         <div class="flex items-center">
                             <label class="w-10">Ukuran</label>
-                            <label class="ml-2">: {{ $product->size }} x {{ $product->side }} -
+                            <label class="ml-2">: {{ $product->size }} x {{ $side }} Sisi -
                                 @if ($product->orientation == 'Vertikal')
                                     V
                                 @elseif ($product->orientation == 'Horizontal')
@@ -224,7 +224,7 @@
                         </div>
                         <div class="flex items-center">
                             <label class="w-10">Ukuran</label>
-                            <label class="ml-2">: {{ $product->size }} x {{ $product->side }} -
+                            <label class="ml-2">: {{ $product->size }} x {{ $side }} Sisi -
                                 @if ($product->orientation == 'Vertikal')
                                     V
                                 @elseif ($product->orientation == 'Horizontal')

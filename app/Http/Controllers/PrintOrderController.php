@@ -611,9 +611,11 @@ class PrintOrderController extends Controller
     public function destroy(PrintOrder $printOrder): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete'))){
-            Storage::delete($printOrder->design);
+            if($printOrder->design){
+                Storage::delete($printOrder->design);
+            }
             PrintOrder::destroy($printOrder->id);
-            return redirect('/marketing/print-orders')->with('success', 'Data SPK Cetak dengan nomor '.$printOrder->number.' berhasil dihapus');
+            return redirect('/print-orders/index/'.$printOrder->company_id)->with('success', 'Data SPK Cetak dengan nomor '.$printOrder->number.' berhasil dihapus');
         } else {
             abort(403);
         }

@@ -538,9 +538,11 @@ class InstallOrderController extends Controller
     public function destroy(InstallOrder $installOrder): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete'))){
-            Storage::delete($installOrder->design);
+            if($installOrder->design){
+                Storage::delete($installOrder->design);
+            }
             InstallOrder::destroy($installOrder->id);
-            return redirect('/marketing/install-orders')->with('success', 'Data SPK pasang dengan nomor '.$installOrder->number.' berhasil dihapus');
+            return redirect('/install-orders/index/'.$installOrder->company_id)->with('success', 'Data SPK pasang dengan nomor '.$installOrder->number.' berhasil dihapus');
         } else {
             abort(403);
         }
