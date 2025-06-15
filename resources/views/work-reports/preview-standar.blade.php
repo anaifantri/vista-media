@@ -26,7 +26,11 @@
                     @endphp
                     dan
                     @php
-                        echo '<b>' . $client->company . '</b>';
+                        if ($client->type == 'Perusahaan') {
+                            echo '<b>' . $client->company . '</b>';
+                        } else {
+                            echo '<b>' . $client->name . '</b>';
+                        }
                     @endphp
                     dengan rincian pekerjaan sebagai
                     berikut :
@@ -89,8 +93,13 @@
                     </div>
                     <div class="w-[360px] ml-2">
                         <label class="mt-4 text-md flex justify-center w-72">Yang menerima,</label>
-                        <label
-                            class="text-md flex justify-center w-72 font-semibold">{{ $content->client->company }}</label>
+                        <label class="text-md flex justify-center w-72 font-semibold">
+                            @if (isset($content->client->company))
+                                {{ $content->client->company }}
+                            @else
+                                {{ $content->client->name }}
+                            @endif
+                        </label>
                         <label class="mt-24 text-md flex justify-center w-72 font-semibold">
                             ___________________________________
                         </label>

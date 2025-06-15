@@ -184,7 +184,7 @@
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         @if (strlen($content->client->name) > 15)
-                                            <a href="/marketing/clients/{{ $client->id }}">
+                                            <a href="/marketing/clients/{{ $content->client->id }}">
                                                 {{ substr($content->client->name, 0, 15) }}..
                                             </a>
                                         @else

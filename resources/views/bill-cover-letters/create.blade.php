@@ -39,7 +39,7 @@
     $vatTaxId = [];
     $billingNumber = [];
     $workReportId = [];
-    if ($client->company == 'PT. Gudang Garam Tbk') {
+    if (isset($client->company) && $client->company == 'PT. Gudang Garam Tbk') {
         array_push($attachments, 'Surat Pengantar');
         $indexOrder = 1;
         $firstOrderNumber = $orders[0]->number;
@@ -193,8 +193,15 @@
                                     <div class="flex mt-4">
                                         <div>
                                             <label class="ml-1 text-sm text-black flex w-20">Kepada Yth</label>
-                                            <label
-                                                class="ml-1 text-sm text-black font-semibold flex">{{ $client->company }}</label>
+                                            <label class="ml-1 text-sm text-black font-semibold flex">
+                                                @if (isset($client->company))
+                                                    {{ $client->company }}
+                                                @elseif (isset($client->name))
+                                                    {{ $client->name }}
+                                                @else
+                                                    {{ $client->contact_name }}
+                                                @endif
+                                            </label>
                                             <label class="ml-1 text-sm text-black flex">Di -</label>
                                             <label class="ml-6 text-sm text-black flex">Tempat</label>
                                         </div>

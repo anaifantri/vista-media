@@ -89,7 +89,14 @@
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Perusahaan</label>
                     <label class="text-sm">:</label>
-                    <label class="text-sm ml-2 font-semibold">{{ $client->company }}</label>
+                    <label class="text-sm ml-2 font-semibold">
+                        @if (isset($client->company))
+                            {{ $client->company }}
+                        @else
+                            -
+                        @endif
+
+                    </label>
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Alamat</label>

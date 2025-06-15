@@ -207,10 +207,24 @@
                                         @endif
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                        @if (strlen($client->company) > 16)
-                                            {{ substr($client->company, 0, 16) }}..
+                                        @if (isset($client->company))
+                                            @if (strlen($client->company) > 16)
+                                                {{ substr($client->company, 0, 16) }}..
+                                            @else
+                                                {{ $client->company }}
+                                            @endif
+                                        @elseif (isset($client->name))
+                                            @if (strlen($client->name) > 16)
+                                                {{ substr($client->name, 0, 16) }}..
+                                            @else
+                                                {{ $client->name }}
+                                            @endif
                                         @else
-                                            {{ $client->company }}
+                                            @if (strlen($client->contact_name) > 16)
+                                                {{ substr($client->contact_name, 0, 16) }}..
+                                            @else
+                                                {{ $client->contact_name }}
+                                            @endif
                                         @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">

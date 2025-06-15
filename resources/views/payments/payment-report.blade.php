@@ -352,10 +352,24 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 border-t border-x border-black text-sm px-1 align-top">
-                                                                            @if (strlen($client->company) > 20)
-                                                                                {{ substr($client->company, 0, 20) }}..
+                                                                            @if (isset($client->company))
+                                                                                @if (strlen($client->company) > 25)
+                                                                                    {{ substr($client->company, 0, 25) }}..
+                                                                                @else
+                                                                                    {{ $client->company }}
+                                                                                @endif
+                                                                            @elseif (isset($client->name))
+                                                                                @if (strlen($client->name) > 25)
+                                                                                    {{ substr($client->name, 0, 25) }}..
+                                                                                @else
+                                                                                    {{ $client->name }}
+                                                                                @endif
                                                                             @else
-                                                                                {{ $client->company }}
+                                                                                @if (strlen($client->contact_name) > 25)
+                                                                                    {{ substr($client->contact_name, 0, 25) }}..
+                                                                                @else
+                                                                                    {{ $client->contact_name }}
+                                                                                @endif
                                                                             @endif
                                                                         </td>
                                                                         <td
@@ -617,10 +631,24 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 border-t border-x border-black text-sm px-1 align-top">
-                                                                            @if (strlen($client->company) > 20)
-                                                                                {{ substr($client->company, 0, 20) }}..
+                                                                            @if (isset($client->company))
+                                                                                @if (strlen($client->company) > 25)
+                                                                                    {{ substr($client->company, 0, 25) }}..
+                                                                                @else
+                                                                                    {{ $client->company }}
+                                                                                @endif
+                                                                            @elseif (isset($client->name))
+                                                                                @if (strlen($client->name) > 25)
+                                                                                    {{ substr($client->name, 0, 25) }}..
+                                                                                @else
+                                                                                    {{ $client->name }}
+                                                                                @endif
                                                                             @else
-                                                                                {{ $client->company }}
+                                                                                @if (strlen($client->contact_name) > 25)
+                                                                                    {{ substr($client->contact_name, 0, 25) }}..
+                                                                                @else
+                                                                                    {{ $client->contact_name }}
+                                                                                @endif
                                                                             @endif
                                                                         </td>
                                                                         <td

@@ -149,7 +149,34 @@
                                             {{ $number }}
                                         </td>
                                         <td class="text-stone-900 border border-stone-900 text-sm px-2">
-                                            {{ $client->company }}
+                                            @if (isset($client->company))
+                                                @if (strlen($client->company) > 25)
+                                                    {{ substr($client->company, 0, 25) }}..
+                                                @else
+                                                    {{ $client->company }}
+                                                @endif
+                                                @php
+                                                    $getClient = $client->company;
+                                                @endphp
+                                            @elseif (isset($client->name))
+                                                @if (strlen($client->name) > 25)
+                                                    {{ substr($client->name, 0, 25) }}..
+                                                @else
+                                                    {{ $client->name }}
+                                                @endif
+                                                @php
+                                                    $getClient = $client->name;
+                                                @endphp
+                                            @else
+                                                @if (strlen($client->contact_name) > 25)
+                                                    {{ substr($client->contact_name, 0, 25) }}..
+                                                @else
+                                                    {{ $client->contact_name }}
+                                                @endif
+                                                @php
+                                                    $getClient = $client->contact_name;
+                                                @endphp
+                                            @endif
                                         </td>
                                         <td class="text-stone-900 px-2 border border-stone-900 text-sm text-center">
                                             <div>
@@ -180,7 +207,7 @@
                                                     @canany(['isAdmin', 'isAccounting'])
                                                         @can('isCollect')
                                                             @can('isAccountingCreate')
-                                                                <a href="/income-tax-documents/create/{{ $payment->id }}/{{ $client->company }}"
+                                                                <a href="/income-tax-documents/create/{{ $payment->id }}/{{ $getClient }}"
                                                                     title="Upload Dokumen"
                                                                     class="index-link text-white w-7 h-5 rounded bg-amber-500 hover:bg-amber-600 drop-shadow-md ml-1">
                                                                     <svg class="fill-current w-[18px]" clip-rule="evenodd"

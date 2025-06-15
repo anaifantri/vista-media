@@ -54,7 +54,15 @@
                         <div class="flex">
                             <label class="text-md text-stone-100 w-24">Perusahaan</label>
                             <label class="text-md text-stone-100 ml-2">:</label>
-                            <label class="text-md text-stone-100 ml-2">{{ $client->company }}</label>
+                            <label class="text-md text-stone-100 ml-2">
+                                @if (isset($client->company))
+                                    {{ $client->company }}
+                                @elseif (isset($client->name))
+                                    {{ $client->name }}
+                                @else
+                                    {{ $client->contact_name }}
+                                @endif
+                            </label>
                         </div>
                         <div class="flex mt-1">
                             <label class="text-md text-stone-100 w-24">Alamat</label>
@@ -67,6 +75,9 @@
                         @foreach ($payment->billings as $billing)
                             @php
                                 $descriptions = json_decode($billing->invoice_content)->description;
+                                if (isset(json_decode($billing->invoice_content)->manual_detail)) {
+                                    $manualDetail = json_decode($billing->invoice_content)->manual_detail;
+                                }
                                 $i = 0;
                             @endphp
                             <div class="flex w-full">
@@ -99,6 +110,11 @@
                                         <tbody>
                                             @foreach ($descriptions as $description)
                                                 @php
+                                                    if (isset($manualDetail)) {
+                                                        $invoiceTitle = $manualDetail[$i]->title;
+                                                    } else {
+                                                        $invoiceTitle = $description->title;
+                                                    }
                                                     $i++;
                                                 @endphp
                                                 <tr class="text-black bg-stone-200">
@@ -108,7 +124,9 @@
                                                             <div class="flex">
                                                                 <span class="flex w-16">Tagihan</span>
                                                                 <span class="flex ml-2">:</span>
-                                                                <span class="flex ml-2">{{ $description->title }}</span>
+                                                                <span class="flex ml-2">
+                                                                    {{ $invoiceTitle }}
+                                                                </span>
                                                             </div>
                                                             <div class="flex">
                                                                 <span class="flex w-16">Lokasi</span>

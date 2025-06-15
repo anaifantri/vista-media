@@ -5,8 +5,13 @@
                 <div class="flex">
                     <label class="w-40">Telah terima dari</label>
                     <label>:</label>
-                    <label id="receiptCompany"
-                        class="ml-2 border-b border-dotted w-[650px]"><b>{{ $client->company }}</b></label>
+                    <label id="receiptCompany" class="ml-2 border-b border-dotted w-[650px]"><b>
+                            @if ($client->type == 'Perusahaan')
+                                {{ $client->company }}
+                            @else
+                                {{ $client->name }}
+                            @endif
+                        </b></label>
                 </div>
                 <div class="flex">
                     <label class="w-40">Banyaknya Uang</label>
@@ -97,7 +102,8 @@
                                     <div class="flex ml-2 border-b border-dotted font-semibold w-[650px]">
                                         <span class="w-16"></span>
                                         <span></span>
-                                        <span class="ml-3 w-[580px]">{{ $loop->iteration }}. {{ $itemLocation }}</span>
+                                        <span class="ml-3 w-[580px]">{{ $loop->iteration }}.
+                                            {{ $itemLocation }}</span>
                                     </div>
                                 </div>
                             @endif

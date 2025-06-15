@@ -110,7 +110,14 @@
                                                     {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
                                                 </td>
                                                 <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
-                                                    {{ $client->company }}</td>
+                                                    @if (isset($client->company))
+                                                        {{ $client->company }}
+                                                    @elseif (isset($client->name))
+                                                        {{ $client->name }}
+                                                    @else
+                                                        {{ $client->contact_name }}
+                                                    @endif
+                                                </td>
                                                 <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                                     @if ($billing->category == 'Media')
                                                         Sewa Media

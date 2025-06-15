@@ -199,7 +199,14 @@
                                         @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ $content->client->company }}</td>
+                                        @if (isset($content->client->company))
+                                            {{ $content->client->company }}
+                                        @elseif (isset($content->client->name))
+                                            {{ $content->client->name }}
+                                        @else
+                                            {{ $content->client->contact_name }}
+                                        @endif
+                                    </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">
                                             <a href="/accounting/bill-cover-letters/{{ $bill_cover_letter->id }}"

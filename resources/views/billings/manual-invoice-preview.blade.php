@@ -94,17 +94,27 @@
                     <label class="text-sm w-24">Nama</label>
                     <label class="text-sm">:</label>
                     <label class="w-[250px] ml-1 text-sm font-semibold">
-                        @if ($client->contact_name != '')
-                            {{ $client->contact_name }}
+                        @if ($client->type == 'Perusahaan')
+                            @if ($client->contact_name != '')
+                                {{ $client->contact_name }}
+                            @else
+                                -
+                            @endif
                         @else
-                            -
+                            {{ $client->name }}
                         @endif
                     </label>
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Perusahaan</label>
                     <label class="text-sm">:</label>
-                    <label class="text-sm ml-2 font-semibold">{{ $client->company }}</label>
+                    <label class="text-sm ml-2 font-semibold">
+                        @if ($client->type == 'Perusahaan')
+                            {{ $client->company }}
+                        @else
+                            -
+                        @endif
+                    </label>
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Alamat</label>
@@ -116,10 +126,18 @@
                     <label class="text-sm w-24">No. Telp.</label>
                     <label class="text-sm">:</label>
                     <label class="w-[250px] ml-1 text-sm font-semibold">
-                        @if ($client->contact_phone != '')
-                            {{ $client->contact_phone }}
+                        @if ($client->type == 'Perusahaan')
+                            @if ($client->contact_phone != '')
+                                {{ $client->contact_phone }}
+                            @else
+                                -
+                            @endif
                         @else
-                            -
+                            @if ($client->phone != '')
+                                {{ $client->phone }}
+                            @else
+                                -
+                            @endif
                         @endif
                     </label>
                 </div>
@@ -127,10 +145,18 @@
                     <label class="text-sm w-24">Email</label>
                     <label class="text-sm">:</label>
                     <label class="w-[250px] ml-1 text-sm font-semibold">
-                        @if ($client->contact_email != '')
-                            {{ $client->contact_email }}
+                        @if ($client->type == 'Perusahaan')
+                            @if ($client->email != '')
+                                {{ $client->email }}
+                            @else
+                                -
+                            @endif
                         @else
-                            -
+                            @if ($client->email != '')
+                                {{ $client->email }}
+                            @else
+                                -
+                            @endif
                         @endif
                     </label>
                 </div>

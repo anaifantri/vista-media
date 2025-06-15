@@ -179,7 +179,25 @@
                                         {{ date('d', strtotime($vat_tax->billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($vat_tax->billing->created_at))] }}-{{ date('Y', strtotime($vat_tax->billing->created_at)) }}
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-xs px-1">
-                                        {{ $client->company }}
+                                        @if (isset($client->company))
+                                            @if (strlen($client->company) > 25)
+                                                {{ substr($client->company, 0, 25) }}..
+                                            @else
+                                                {{ $client->company }}
+                                            @endif
+                                        @elseif (isset($client->name))
+                                            @if (strlen($client->name) > 25)
+                                                {{ substr($client->name, 0, 25) }}..
+                                            @else
+                                                {{ $client->name }}
+                                            @endif
+                                        @else
+                                            @if (strlen($client->contact_name) > 25)
+                                                {{ substr($client->contact_name, 0, 25) }}..
+                                            @else
+                                                {{ $client->contact_name }}
+                                            @endif
+                                        @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-right">
                                         Rp. {{ number_format($vat_tax->nominal) }},-

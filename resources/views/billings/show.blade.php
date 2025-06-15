@@ -183,34 +183,30 @@
                         <!-- Sign start -->
                         @include('billings.receipt-service-sign-preview')
                         <!-- Sign end -->
-                        {{-- <div class="flex w-full justify-center items-center pt-2">
-                            <div class="border-t h-2 border-slate-500 border-dashed w-full">
-                            </div>
-                        </div> --}}
-                        <!-- Header start -->
-                        {{-- @include('billings.receipt-header-preview') --}}
-                        <!-- Header end -->
-                        <!-- Body start -->
-                        {{-- @if ($category == 'Media')
-                            @include('billings.receipt-media-body-preview')
-                        @elseif ($category == 'Service')
-                            @include('billings.receipt-service-body-preview')
-                        @endif --}}
-                        <!-- Body end -->
-                        <!-- Sign start -->
-                        {{-- @include('billings.receipt-service-sign-preview') --}}
-                        <!-- Sign end -->
                     </div>
                     <!-- Kwitansi end -->
                 </div>
             </div>
         </div>
         @if ($category == 'Media')
-            <input id="saveName" type="text"
-                value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->company }}" hidden>
+            @if ($client->type == 'Perusahaan')
+                <input id="saveName" type="text"
+                    value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->company }}" hidden>
+            @else
+                <input id="saveName" type="text"
+                    value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->name }}" hidden>
+            @endif
         @elseif($category == 'Service')
-            <input id="saveName" type="text"
-                value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->company }}" hidden>
+            @if (isset($client->company))
+                <input id="saveName" type="text"
+                    value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->company }}" hidden>
+            @elseif (isset($client->name))
+                <input id="saveName" type="text"
+                    value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->name }}" hidden>
+            @else
+                <input id="saveName" type="text"
+                    value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->contact_name }}" hidden>
+            @endif
         @endif
     </div>
 

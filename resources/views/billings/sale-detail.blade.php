@@ -78,7 +78,13 @@
                 <div class="flex">
                     <label class="w-32">Nama Perusahaan</label>
                     <label>:</label>
-                    <label class="ml-2">{{ $client->company }}</label>
+                    <label class="ml-2">
+                        @if ($client->type == 'Perusahaan')
+                            {{ $client->company }}
+                        @else
+                            {{ $client->name }}
+                        @endif
+                    </label>
                 </div>
             </div>
         </div>

@@ -65,7 +65,15 @@
                             <div class="flex">
                                 <label class="w-32">Perusahaan</label>
                                 <label class="ml-2">:</label>
-                                <label class="ml-2">{{ $client->company }}</label>
+                                <label class="ml-2">
+                                    @if (isset($client->company))
+                                        {{ $client->company }}
+                                    @elseif (isset($client->name))
+                                        {{ $client->name }}
+                                    @else
+                                        {{ $client->contact_name }}
+                                    @endif
+                                </label>
                             </div>
                             <div class="flex mt-1">
                                 <label class="w-32">Alamat</label>

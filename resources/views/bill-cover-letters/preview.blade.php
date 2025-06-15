@@ -68,8 +68,15 @@
                                 <div class="flex mt-4">
                                     <div>
                                         <label class="ml-1 text-sm text-black flex w-20">Kepada Yth</label>
-                                        <label
-                                            class="ml-1 text-sm text-black font-semibold flex">{{ $client->company }}</label>
+                                        <label class="ml-1 text-sm text-black font-semibold flex">
+                                            @if (isset($client->company))
+                                                {{ $client->company }}
+                                            @elseif (isset($client->name))
+                                                {{ $client->name }}
+                                            @else
+                                                {{ $client->contact_name }}
+                                            @endif
+                                        </label>
                                         <label class="ml-1 text-sm text-black flex">Di -</label>
                                         <label class="ml-6 text-sm text-black flex">Tempat</label>
                                     </div>
@@ -130,11 +137,24 @@
         </div>
     </div>
     @if ($content->category == 'Service')
-        <input id="saveName" type="text"
-            value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Revisual-{{ $client->company }}" hidden>
+        @if (isset($client->type) && $client->type == 'Perusahaan')
+            <input id="saveName" type="text"
+                value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Revisual-{{ $client->company }}" hidden>
+        @elseif (isset($client->name))
+            <input id="saveName" type="text"
+                value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Revisual-{{ $client->name }}" hidden>
+        @else
+            <input id="saveName" type="text"
+                value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Revisual-{{ $client->contact_name }}" hidden>
+        @endif
     @else
-        <input id="saveName" type="text"
-            value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->company }}" hidden>
+        @if ($client->type == 'Perusahaan')
+            <input id="saveName" type="text"
+                value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->company }}" hidden>
+        @else
+            <input id="saveName" type="text"
+                value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->name }}" hidden>
+        @endif
     @endif
 
     <!-- Script start-->

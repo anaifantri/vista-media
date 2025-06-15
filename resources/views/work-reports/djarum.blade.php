@@ -107,7 +107,13 @@
                 <div class="flex text-md justify-center items-center ml-2 mt-1">
                     <div>
                         <label class="flex w-full justify-center font-semibold">PIHAK KEDUA,</label>
-                        <label class="flex w-full justify-center font-semibold">{{ $client->company }}</label>
+                        <label class="flex w-full justify-center font-semibold">
+                            @if ($client->type == 'Perusahaan')
+                                {{ $client->company }}
+                            @else
+                                {{ $client->name }}
+                            @endif
+                        </label>
                         <input type="text"
                             class="flex text-center outline-none px-1 border rounded-md mt-20 border-b-2 border-black"
                             value="{{ $content->second_contact }}" onchange="changeSecondContact(this)">
@@ -368,7 +374,13 @@
             <div class="flex text-md justify-center items-center ml-2 mt-1 ">
                 <div>
                     <label class="flex w-full justify-center font-semibold">Mengetahui,</label>
-                    <label class="flex w-full justify-center font-semibold">{{ $client->company }}</label>
+                    <label class="flex w-full justify-center font-semibold">
+                        @if ($client->type == 'Perusahaan')
+                            {{ $client->company }}
+                        @else
+                            {{ $client->name }}
+                        @endif
+                    </label>
                     <input type="text" class="flex text-center outline-none px-1 mt-20 border-b-2 border-black"
                         placeholder="........................................................."
                         onchange="changeSecondContact(this)">

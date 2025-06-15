@@ -96,23 +96,36 @@
                     <label class="text-sm w-24">Nama</label>
                     <label class="text-sm">:</label>
                     @php
-                        if ($client->contact_gender == 'Male') {
-                            $client->contact_name = 'Bapak ' . $client->contact_name;
-                        } else {
-                            $client->contact_name = 'Ibu ' . $client->contact_name;
+                        if ($client->type == 'Perusahaan') {
+                            if ($client->contact_gender == 'Male') {
+                                $client->contact_name = 'Bapak ' . $client->contact_name;
+                            } else {
+                                $client->contact_name = 'Ibu ' . $client->contact_name;
+                            }
                         }
                     @endphp
                     <input type="text" id="client" name="client" value="{{ json_encode($client) }}" hidden>
-                    <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
-                        name="client_contact" type="text" value="{{ $client->contact_name }}"
-                        onchange="changeClient(this)">
+                    @if ($client->type == 'Perusahaan')
+                        <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                            name="client_contact" type="text" value="{{ $client->contact_name }}"
+                            onchange="changeClient(this)">
+                    @else
+                        <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                            name="client_contact" type="text" value="{{ $client->name }}"
+                            onchange="changeClient(this)">
+                    @endif
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Perusahaan</label>
                     <label class="text-sm">:</label>
-                    <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
-                        name="client_company" type="text" value="{{ $client->company }}"
-                        onchange="changeClient(this)">
+                    @if ($client->type == 'Perusahaan')
+                        <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                            name="client_company" type="text" value="{{ $client->company }}"
+                            onchange="changeClient(this)">
+                    @else
+                        <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                            name="client_company" type="text" value="-" onchange="changeClient(this)">
+                    @endif
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Alamat</label>
@@ -123,23 +136,35 @@
                 <div class="flex ml-2">
                     <label class="text-sm w-24">No. Telp.</label>
                     <label class="text-sm">:</label>
-                    <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
-                        name="contact_phone" type="text" value="{{ $client->contact_phone }}"
-                        onchange="changeClient(this)">
+                    @if ($client->type == 'Perusahaan')
+                        <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                            name="contact_phone" type="text" value="{{ $client->contact_phone }}"
+                            onchange="changeClient(this)">
+                    @else
+                        <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                            name="contact_phone" type="text" value="{{ $client->phone }}"
+                            onchange="changeClient(this)">
+                    @endif
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Email</label>
                     <label class="text-sm">:</label>
-                    <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
-                        name="contact_email" type="text" value="{{ $client->contact_email }}"
-                        onchange="changeClient(this)">
+                    @if ($client->type == 'Perusahaan')
+                        <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                            name="contact_email" type="text" value="{{ $client->contact_email }}"
+                            onchange="changeClient(this)">
+                    @else
+                        <input class="w-[250px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                            name="contact_email" type="text" value="{{ $client->email }}"
+                            onchange="changeClient(this)">
+                    @endif
                 </div>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">NPWP</label>
                     <label class="text-sm">:</label>
                     <input id="inputNpwp"
-                        class="w-[175px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold" name="npwp"
-                        type="text" value="{{ $npwp }}">
+                        class="w-[175px] ml-1 px-1 text-sm outline-none border rounded-md font-semibold"
+                        name="npwp" type="text" value="{{ $npwp }}">
                     <input name="old_npwp" type="text" value="{{ $npwp }}" hidden>
                 </div>
             </div>

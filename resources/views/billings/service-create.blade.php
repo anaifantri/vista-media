@@ -295,26 +295,45 @@
 
         $bill_client = new stdClass();
         $bill_client->id = $client->id;
-        $bill_client->company = $client->company;
+        $bill_client->type = $client->type;
+        if ($bill_client->type == 'Perusahaan') {
+            $bill_client->company = $client->company;
+        } else {
+            $bill_client->name = $client->name;
+        }
         $bill_client->address = $client->address;
-        if ($quotationClient->contact_name) {
-            if ($quotationClient->contact_gender == 'Male') {
-                $bill_client->contact_name = 'Bapak ' . $quotationClient->contact_name;
+        if ($quotationClient->type == 'Perusahaan') {
+            if ($quotationClient->contact_name) {
+                if ($quotationClient->contact_gender == 'Male') {
+                    $bill_client->contact_name = 'Bapak ' . $quotationClient->contact_name;
+                } else {
+                    $bill_client->contact_name = 'Ibu ' . $quotationClient->contact_name;
+                }
             } else {
-                $bill_client->contact_name = 'Ibu ' . $quotationClient->contact_name;
+                $bill_client->contact_name = '-';
+            }
+            if ($quotationClient->contact_phone) {
+                $bill_client->contact_phone = $quotationClient->contact_phone;
+            } else {
+                $bill_client->contact_phone = '-';
+            }
+            if ($quotationClient->contact_email) {
+                $bill_client->contact_email = $quotationClient->contact_email;
+            } else {
+                $bill_client->contact_email = '-';
             }
         } else {
-            $bill_client->contact_name = '-';
-        }
-        if ($quotationClient->contact_phone) {
-            $bill_client->contact_phone = $quotationClient->contact_phone;
-        } else {
-            $bill_client->contact_phone = '-';
-        }
-        if ($quotationClient->contact_email) {
-            $bill_client->contact_email = $quotationClient->contact_email;
-        } else {
-            $bill_client->contact_email = '-';
+            $bill_client->contact_name = $quotationClient->name;
+            if ($quotationClient->phone) {
+                $bill_client->contact_phone = $quotationClient->phone;
+            } else {
+                $bill_client->contact_phone = '-';
+            }
+            if ($quotationClient->email) {
+                $bill_client->contact_email = $quotationClient->email;
+            } else {
+                $bill_client->contact_email = '-';
+            }
         }
 
         $bill_documents = new stdClass();

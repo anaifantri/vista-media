@@ -342,10 +342,24 @@
                                                                 {{ date('d', strtotime($billing->created_at)) }}-{{ $bulan[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
                                                             </td>
                                                             <td class="text-stone-900 border border-black text-sm px-1 ">
-                                                                @if (strlen($client->company) > 20)
-                                                                    {{ substr($client->company, 0, 20) }}..
+                                                                @if (isset($client->company))
+                                                                    @if (strlen($client->company) > 20)
+                                                                        {{ substr($client->company, 0, 20) }}..
+                                                                    @else
+                                                                        {{ $client->company }}
+                                                                    @endif
+                                                                @elseif (isset($client->name))
+                                                                    @if (strlen($client->name) > 20)
+                                                                        {{ substr($client->name, 0, 20) }}..
+                                                                    @else
+                                                                        {{ $client->name }}
+                                                                    @endif
                                                                 @else
-                                                                    {{ $client->company }}
+                                                                    @if (strlen($client->contact_name) > 20)
+                                                                        {{ substr($client->contact_name, 0, 20) }}..
+                                                                    @else
+                                                                        {{ $client->contact_name }}
+                                                                    @endif
                                                                 @endif
                                                             </td>
                                                             <td class="text-stone-900 px-1 border border-black text-sm">
@@ -559,10 +573,24 @@
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 border border-black text-sm px-1 ">
-                                                                    @if (strlen($client->company) > 20)
-                                                                        {{ substr($client->company, 0, 20) }}..
+                                                                    @if (isset($client->company))
+                                                                        @if (strlen($client->company) > 20)
+                                                                            {{ substr($client->company, 0, 20) }}..
+                                                                        @else
+                                                                            {{ $client->company }}
+                                                                        @endif
+                                                                    @elseif (isset($client->name))
+                                                                        @if (strlen($client->name) > 20)
+                                                                            {{ substr($client->name, 0, 20) }}..
+                                                                        @else
+                                                                            {{ $client->name }}
+                                                                        @endif
                                                                     @else
-                                                                        {{ $client->company }}
+                                                                        @if (strlen($client->contact_name) > 20)
+                                                                            {{ substr($client->contact_name, 0, 20) }}..
+                                                                        @else
+                                                                            {{ $client->contact_name }}
+                                                                        @endif
                                                                     @endif
                                                                 </td>
                                                                 <td

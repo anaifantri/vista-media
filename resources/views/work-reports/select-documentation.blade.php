@@ -155,7 +155,11 @@
                                 <label class="w-32">Nama Perusahaan</label>
                                 <label>:</label>
                                 <label class="ml-2">
-                                    {{ $client->company }}
+                                    @if ($client->type == 'Perusahaan')
+                                        {{ $client->company }}
+                                    @else
+                                        -
+                                    @endif
                                 </label>
                             </div>
                         </div>

@@ -335,10 +335,24 @@
                                                                 {{ $vat_tax->number }}
                                                             </td>
                                                             <td class="text-stone-900 border border-black text-sm px-1">
-                                                                @if (strlen($client->company) > 25)
-                                                                    {{ substr($client->company, 0, 25) }}..
+                                                                @if (isset($client->company))
+                                                                    @if (strlen($client->company) > 25)
+                                                                        {{ substr($client->company, 0, 25) }}..
+                                                                    @else
+                                                                        {{ $client->company }}
+                                                                    @endif
+                                                                @elseif (isset($client->name))
+                                                                    @if (strlen($client->name) > 25)
+                                                                        {{ substr($client->name, 0, 25) }}..
+                                                                    @else
+                                                                        {{ $client->name }}
+                                                                    @endif
                                                                 @else
-                                                                    {{ $client->company }}
+                                                                    @if (strlen($client->contact_name) > 25)
+                                                                        {{ substr($client->contact_name, 0, 25) }}..
+                                                                    @else
+                                                                        {{ $client->contact_name }}
+                                                                    @endif
                                                                 @endif
                                                             </td>
                                                             <td
@@ -394,7 +408,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="flex items-end justify-end mt-1 text-black">
+                                    <div class="flex items-end justify-end mt-6 text-black">
                                         <label for="">Halaman {{ $i + 1 }} dari
                                             {{ $pageQty }}</label>
                                     </div>
@@ -529,10 +543,24 @@
                                                                 {{ $vat_tax->number }}
                                                             </td>
                                                             <td class="text-stone-900 border border-black text-sm px-1 ">
-                                                                @if (strlen($client->company) > 25)
-                                                                    {{ substr($client->company, 0, 25) }}..
+                                                                @if (isset($client->company))
+                                                                    @if (strlen($client->company) > 25)
+                                                                        {{ substr($client->company, 0, 25) }}..
+                                                                    @else
+                                                                        {{ $client->company }}
+                                                                    @endif
+                                                                @elseif (isset($client->name))
+                                                                    @if (strlen($client->name) > 25)
+                                                                        {{ substr($client->name, 0, 25) }}..
+                                                                    @else
+                                                                        {{ $client->name }}
+                                                                    @endif
                                                                 @else
-                                                                    {{ $client->company }}
+                                                                    @if (strlen($client->contact_name) > 25)
+                                                                        {{ substr($client->contact_name, 0, 25) }}..
+                                                                    @else
+                                                                        {{ $client->contact_name }}
+                                                                    @endif
                                                                 @endif
                                                             </td>
                                                             <td
@@ -569,7 +597,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="flex justify-end mt-1 text-black">
+                                    <div class="flex justify-end mt-6 text-black">
                                         <label for="">Halaman {{ $i + 1 }} dari
                                             {{ $pageQty }}</label>
                                     </div>

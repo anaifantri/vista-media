@@ -187,13 +187,25 @@
             </div>
         </div>
         @if ($content->category == 'Service')
-            <input id="saveName" type="text"
-                value="{{ substr($work_report->number, 0, 4) }}-BAPP-Revisual-{{ $content->client->company }}-{{ $content->location_address }}"
-                hidden>
+            @if (isset($content->client->company))
+                <input id="saveName" type="text"
+                    value="{{ substr($work_report->number, 0, 4) }}-BAPP-Revisual-{{ $content->client->company }}-{{ $content->location_address }}"
+                    hidden>
+            @else
+                <input id="saveName" type="text"
+                    value="{{ substr($work_report->number, 0, 4) }}-BAPP-Revisual-{{ $content->client->name }}-{{ $content->location_address }}"
+                    hidden>
+            @endif
         @else
-            <input id="saveName" type="text"
-                value="{{ substr($work_report->number, 0, 4) }}-BAPP-Media-{{ $content->client->company }}-{{ $content->location_address }}"
-                hidden>
+            @if (isset($content->client->company))
+                <input id="saveName" type="text"
+                    value="{{ substr($work_report->number, 0, 4) }}-BAPP-Media-{{ $content->client->company }}-{{ $content->location_address }}"
+                    hidden>
+            @else
+                <input id="saveName" type="text"
+                    value="{{ substr($work_report->number, 0, 4) }}-BAPP-Media-{{ $content->client->name }}-{{ $content->location_address }}"
+                    hidden>
+            @endif
         @endif
     </div>
 

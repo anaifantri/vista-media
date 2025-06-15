@@ -83,7 +83,13 @@
                     <div class="flex text-md justify-center ml-2 mt-1">
                         <div>
                             <label class="flex w-full justify-center font-semibold">PIHAK KEDUA,</label>
-                            <label class="flex w-full justify-center font-semibold">{{ $client->company }}</label>
+                            <label class="flex w-full justify-center font-semibold">
+                                @if ($client->type == 'Perusahaan')
+                                    {{ $client->company }}
+                                @else
+                                    {{ $client->name }}
+                                @endif
+                            </label>
                             <label
                                 class="flex w-full justify-center font-semibold mt-20 border-b-2 border-black">{{ $content->second_contact }}</label>
                         </div>
@@ -326,7 +332,13 @@
                 <div class="flex text-md justify-center items-center ml-2 mt-1 ">
                     <div>
                         <label class="flex w-full justify-center font-semibold">Mengetahui,</label>
-                        <label class="flex w-full justify-center font-semibold">{{ $client->company }}</label>
+                        <label class="flex w-full justify-center font-semibold">
+                            @if ($client->type == 'Perusahaan')
+                                {{ $client->company }}
+                            @else
+                                {{ $client->name }}
+                            @endif
+                        </label>
                         <label
                             class="flex w-full justify-center font-semibold mt-20 border-b-2 border-black">.........................................................</label>
                     </div>
