@@ -192,7 +192,7 @@
                     value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->company }}" hidden>
             @else
                 <input id="saveName" type="text"
-                    value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->contact_name }}" hidden>
+                    value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->name }}" hidden>
             @endif
         @elseif($category == 'Service')
             @if (isset($client->company))
