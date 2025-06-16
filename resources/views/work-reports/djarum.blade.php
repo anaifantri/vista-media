@@ -44,7 +44,9 @@
                     <label class="ml-14 w-36">Nomor perjanjian</label>
                     <label>:</label>
                     @if ($content->agreement_number != '')
-                        <label class="ml-2">{{ $content->agreement_number }}</label>
+                        <input id="bastAgreement" type="text" value="{{ $content->agreement_number }}"
+                            class="outline-none border rounded-md w-[550px] ml-2 px-1"
+                            onchange="changeDjarumAgreement(this, 'bast')">
                     @else
                         <input id="bastAgreement" type="text"
                             class="outline-none border rounded-md w-[550px] ml-2 px-1"
@@ -144,7 +146,9 @@
                 <label class="w-52">Nomor SPK/SPKS</label>
                 <label>:</label>
                 @if ($content->agreement_number != '')
-                    <label class="ml-2">{{ $content->agreement_number }}</label>
+                    <input id="lpjAgreement" type="text" value="{{ $content->agreement_number }}"
+                        class="outline-none border rounded-md w-[350px] ml-2 px-1"
+                        onchange="changeDjarumAgreement(this, 'lpj')">
                 @else
                     <input id="lpjAgreement" type="text"
                         class="outline-none border rounded-md w-[350px] ml-2 px-1"

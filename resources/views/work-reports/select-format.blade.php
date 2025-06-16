@@ -481,6 +481,8 @@
                                                 <div class="flex w-full font-serif text-sm tracking-wider font-bold ml-24">
                                                     <span class="w-28">Periode</span>
                                                     <span>:</span>
+                                                    <span id="docTheme" class="ml-2"
+                                                        hidden>{{ $content->theme }}</span>
                                                     <span class="ml-2">{{ $content->periode }}</span>
                                                 </div>
                                             @endif
