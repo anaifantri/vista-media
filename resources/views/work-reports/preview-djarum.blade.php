@@ -30,7 +30,7 @@
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-14 w-36">Nomor perjanjian</label>
                         <label>:</label>
-                        <label class="ml-4">{{ $content->agreement_number }}</label>
+                        <label class="ml-2">{{ $content->agreement_number }}</label>
                     </div>
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-14 w-36">Jenis Reklame</label>
@@ -50,7 +50,7 @@
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-14 w-36">Jenis Penerangan</label>
                         <label>:</label>
-                        <label class="ml-4">{{ $content->location_lighting }}</label>
+                        <label class="ml-2">{{ $content->location_lighting }}</label>
                     </div>
                     <div class="flex text-md items-center ml-2 mt-4">
                         <label class="text-justify w-[780px]">Dari hasil pemeriksaan tersebut diatas dinyatakan
@@ -173,7 +173,7 @@
                         <td class="border px-1 text-center align-top">1</td>
                         <td class="border px-1 align-top">{{ $content->type }}</td>
                         <td class="border px-1 text-center align-top">{{ $content->location_lighting }}</td>
-                        <td id="tdBrand" class="border px-1 align-top">{{ $content->theme }}</td>
+                        <td id="tdBrand" class="border px-1 align-top">{{ $content->brand }}</td>
                         <td class="border px-1 align-top">
                             <textarea type="text" class="outline-none w-full" rows="4" onchange="changeTheme(this)">{{ $content->theme }}</textarea>
                         </td>

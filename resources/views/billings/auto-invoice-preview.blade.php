@@ -165,7 +165,7 @@
                     <label class="w-[250px] ml-1 text-sm font-semibold">
                         @if ($client->type == 'Perusahaan')
                             @if ($client->contact_email != '')
-                                {{ $client->_contact_email }}
+                                {{ $client->contact_email }}
                             @else
                                 -
                             @endif
