@@ -353,20 +353,20 @@
                                                                         <td
                                                                             class="text-stone-900 border-t border-x border-black text-sm px-1 align-top">
                                                                             @if (isset($client->company))
-                                                                                @if (strlen($client->company) > 25)
-                                                                                    {{ substr($client->company, 0, 25) }}..
+                                                                                @if (strlen($client->company) > 20)
+                                                                                    {{ substr($client->company, 0, 20) }}..
                                                                                 @else
                                                                                     {{ $client->company }}
                                                                                 @endif
                                                                             @elseif (isset($client->name))
-                                                                                @if (strlen($client->name) > 25)
-                                                                                    {{ substr($client->name, 0, 25) }}..
+                                                                                @if (strlen($client->name) > 20)
+                                                                                    {{ substr($client->name, 0, 20) }}..
                                                                                 @else
                                                                                     {{ $client->name }}
                                                                                 @endif
                                                                             @else
-                                                                                @if (strlen($client->contact_name) > 25)
-                                                                                    {{ substr($client->contact_name, 0, 25) }}..
+                                                                                @if (strlen($client->contact_name) > 20)
+                                                                                    {{ substr($client->contact_name, 0, 20) }}..
                                                                                 @else
                                                                                     {{ $client->contact_name }}
                                                                                 @endif
@@ -380,14 +380,14 @@
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm">
                                                                             @if (isset(json_decode($itemBilling->invoice_content)->manual_detail))
-                                                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 50)
-                                                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 50) }}
+                                                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 45)
+                                                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 45) }}
                                                                                 @else
                                                                                     {{ json_decode($itemBilling->invoice_content)->manual_detail[0]->title }}
                                                                                 @endif
                                                                             @else
-                                                                                @if (strlen($description->title) > 50)
-                                                                                    {{ substr($description->title, 5, 50) }}
+                                                                                @if (strlen($description->title) > 45)
+                                                                                    {{ substr($description->title, 5, 45) }}
                                                                                 @else
                                                                                     {{ $description->title }}
                                                                                 @endif
@@ -411,7 +411,7 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm bg-red-50 align-top text-right">
-                                                                            @if ($totalPayment >= $totalBilling)
+                                                                            @if (round($totalPayment) >= round($totalBilling))
                                                                                 <span
                                                                                     class="flex w-full justify-center">LUNAS</span>
                                                                             @else
@@ -632,20 +632,20 @@
                                                                         <td
                                                                             class="text-stone-900 border-t border-x border-black text-sm px-1 align-top">
                                                                             @if (isset($client->company))
-                                                                                @if (strlen($client->company) > 25)
-                                                                                    {{ substr($client->company, 0, 25) }}..
+                                                                                @if (strlen($client->company) > 20)
+                                                                                    {{ substr($client->company, 0, 20) }}..
                                                                                 @else
                                                                                     {{ $client->company }}
                                                                                 @endif
                                                                             @elseif (isset($client->name))
-                                                                                @if (strlen($client->name) > 25)
-                                                                                    {{ substr($client->name, 0, 25) }}..
+                                                                                @if (strlen($client->name) > 20)
+                                                                                    {{ substr($client->name, 0, 20) }}..
                                                                                 @else
                                                                                     {{ $client->name }}
                                                                                 @endif
                                                                             @else
-                                                                                @if (strlen($client->contact_name) > 25)
-                                                                                    {{ substr($client->contact_name, 0, 25) }}..
+                                                                                @if (strlen($client->contact_name) > 20)
+                                                                                    {{ substr($client->contact_name, 0, 20) }}..
                                                                                 @else
                                                                                     {{ $client->contact_name }}
                                                                                 @endif
@@ -659,14 +659,14 @@
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm">
                                                                             @if (isset(json_decode($itemBilling->invoice_content)->manual_detail))
-                                                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 50)
-                                                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 50) }}
+                                                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 45)
+                                                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 45) }}
                                                                                 @else
                                                                                     {{ json_decode($itemBilling->invoice_content)->manual_detail[0]->title }}
                                                                                 @endif
                                                                             @else
-                                                                                @if (strlen($description->title) > 50)
-                                                                                    {{ substr($description->title, 5, 50) }}
+                                                                                @if (strlen($description->title) > 45)
+                                                                                    {{ substr($description->title, 5, 45) }}
                                                                                 @else
                                                                                     {{ $description->title }}
                                                                                 @endif
@@ -690,11 +690,11 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm bg-red-50 align-top text-right">
-                                                                            @if ($payment->nominal >= $totalBilling)
+                                                                            @if (round($totalPayment) >= round($totalBilling))
                                                                                 <span
                                                                                     class="flex w-full justify-center">LUNAS</span>
                                                                             @else
-                                                                                {{ number_format($totalBilling - $payment->nominal) }}
+                                                                                {{ number_format($totalBilling - $totalPayment) }}
                                                                             @endif
                                                                         </td>
                                                                     </tr>
