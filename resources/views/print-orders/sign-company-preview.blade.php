@@ -31,14 +31,14 @@
                     <td class="text-black text-sm border text-center">
                         <div class="flex w-full justify-center items-center">
                             <div>
-                                {{ QrCode::size(75)->generate('https://vistamedia.co.id/media/locations/' . $product->location_id) }}
+                                {{ QrCode::size(75)->generate('https://' . $company->website . '/media/locations/' . $product->location_id) }}
                             </div>
                         </div>
                     </td>
                     @if ($print_order->sale_id)
                         <td class="text-black text-sm border align-middle text-center">
                             <div class="flex w-full justify-center items-center">
-                                {{ QrCode::size(75)->generate('https://vistamedia.co.id/marketing/sales/' . $print_order->sale->id) }}
+                                {{ QrCode::size(75)->generate('https://' . $company->website . '/marketing/sales/' . $print_order->sale->id) }}
                             </div>
                         </td>
                     @else

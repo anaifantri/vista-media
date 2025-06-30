@@ -1,7 +1,7 @@
-<div class="h-[330px] mt-4">
+<div class="h-[310px] mt-2">
     <div class="flex w-full items-center px-10">
         <div class="w-[950px]">
-            <label class="flex text-md font-semibold justify-center w-full mt-6"><u>SPK CETAK GAMBAR</u></label>
+            <label class="flex text-md font-semibold justify-center w-full mt-2"><u>SPK CETAK GAMBAR</u></label>
             <label class="flex text-md text-slate-500 justify-center w-full">{{ $print_order->number }}</label>
             <div class="flex justify-center w-full mt-4">
                 <div class="w-[500px] border p-2">

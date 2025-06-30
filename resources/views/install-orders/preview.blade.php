@@ -412,9 +412,9 @@
                                                                 @endif
                                                                 <div class="flex w-full justify-center items-center mt-4">
                                                                     @if ($product->order_type == 'sales' || $product->order_type == 'free')
-                                                                        {{ QrCode::size(100)->generate('https://vistamedia.co.id/marketing/sales/' . $install_order->sale->id) }}
+                                                                        {{ QrCode::size(100)->generate('https://' . $company->website . '/marketing/sales/' . $install_order->sale->id) }}
                                                                     @else
-                                                                        {{ QrCode::size(100)->generate('https://vistamedia.co.id/media/locations/' . $product->location_id) }}
+                                                                        {{ QrCode::size(100)->generate('https://' . $company->website . '/media/locations/' . $product->location_id) }}
                                                                     @endif
                                                                 </div>
                                                             </td>

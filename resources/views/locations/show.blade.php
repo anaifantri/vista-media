@@ -20,7 +20,9 @@
             for ($i = 0; $i < count($description->lat); $i++) {
                 $mapsMarkers =
                     $mapsMarkers .
-                    '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                    '&markers=icon:https://' .
+                    $company->website .
+                    '/img/marker-red.png%7C' .
                     $description->lat[$i] .
                     ',' .
                     $description->lng[$i];
@@ -32,7 +34,9 @@
                 $description->lat .
                 ',' .
                 $description->lng .
-                '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://' .
+                $company->website .
+                '/img/marker-red.png%7C' .
                 $description->lat .
                 ',' .
                 $description->lng .

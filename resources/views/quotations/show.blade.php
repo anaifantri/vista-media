@@ -192,29 +192,59 @@
                             <input type="text" name="quotation_id" value="{{ $quotation->id }}" hidden>
                             <input type="text" name="updated_by" value="{{ json_encode($updated_by) }}" hidden>
                             @if ($last_status->status == 'Deal' || $last_status->status == 'Closed' || count($data_revisions) != 0)
-                                @canany(['isAdmin', 'isMarketing'])
+                                @canany(['isAdmin', 'isMarketing', 'isAccounting'])
                                     @can('isQuotation')
-                                        @can('isMarketingCreate')
+                                        @if (Gate::check('isMarketingCreate'))
                                             <div class="mt-1" hidden>
                                                 <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
                                                 <input type="text" id="cbUpdateValue" name="cb-update-value"
                                                     value="{{ old('cb-update-value') }}" hidden>
                                                 <label class="text-sm font-semibold text-teal-50"> Update Progress</label>
                                             </div>
-                                        @endcan
+                                        @else
+                                            <div class="mt-1" hidden>
+                                                <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)" hidden>
+                                                <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                    value="{{ old('cb-update-value') }}" hidden>
+                                                <label class="text-sm font-semibold text-teal-50" hidden> Update Progress</label>
+                                            </div>
+                                        @endif
+                                        {{-- @can('isMarketingCreate')
+                                            <div class="mt-1" hidden>
+                                                <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
+                                                <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                    value="{{ old('cb-update-value') }}" hidden>
+                                                <label class="text-sm font-semibold text-teal-50"> Update Progress</label>
+                                            </div>
+                                        @endcan --}}
                                     @endcan
                                 @endcanany
                             @else
-                                @canany(['isAdmin', 'isMarketing'])
+                                @canany(['isAdmin', 'isMarketing', 'isAccounting'])
                                     @can('isQuotation')
-                                        @can('isMarketingCreate')
+                                        @if (Gate::check('isMarketingCreate'))
                                             <div class="mt-1">
                                                 <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
                                                 <input type="text" id="cbUpdateValue" name="cb-update-value"
                                                     value="{{ old('cb-update-value') }}" hidden>
                                                 <label class="text-sm font-semibold text-teal-50">Update Progress</label>
                                             </div>
-                                        @endcan
+                                        @else
+                                            <div class="mt-1">
+                                                <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)" hidden>
+                                                <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                    value="{{ old('cb-update-value') }}" hidden>
+                                                <label class="text-sm font-semibold text-teal-50" hidden>Update Progress</label>
+                                            </div>
+                                        @endif
+                                        {{-- @can('isMarketingCreate')
+                                            <div class="mt-1">
+                                                <input type="checkbox" id="cbUpdate" onclick="updateProgress(this)">
+                                                <input type="text" id="cbUpdateValue" name="cb-update-value"
+                                                    value="{{ old('cb-update-value') }}" hidden>
+                                                <label class="text-sm font-semibold text-teal-50">Update Progress</label>
+                                            </div>
+                                        @endcan --}}
                                     @endcan
                                 @endcanany
                             @endif
@@ -523,7 +553,7 @@
                                                     {{ $created_by->phone }}</label>
                                             </div>
                                             <div class="flex ml-4 mt-2">
-                                                {{ QrCode::size(100)->generate('http://vistamedia.co.id/quotations/preview/' . $category . '/' . Crypt::encrypt($quotation->id)) }}
+                                                {{ QrCode::size(100)->generate('http://' . $company->website . '/quotations/preview/' . $category . '/' . Crypt::encrypt($quotation->id)) }}
                                             </div>
                                         </div>
                                     </div>
@@ -554,7 +584,9 @@
                                     for ($i = 0; $i < count($description->lat); $i++) {
                                         $mapsMarkers =
                                             $mapsMarkers .
-                                            '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                                            '&markers=icon:https://' .
+                                            $company->website .
+                                            '/img/marker-red.png%7C' .
                                             $description->lat[$i] .
                                             ',' .
                                             $description->lng[$i];
@@ -566,7 +598,9 @@
                                         $description->lat .
                                         ',' .
                                         $description->lng .
-                                        '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' .
+                                        '&zoom=16&size=480x355&maptype=terrain&markers=icon:https://' .
+                                        $company->website .
+                                        '/img/marker-red.png%7C' .
                                         $description->lat .
                                         ',' .
                                         $description->lng .
@@ -675,7 +709,7 @@
                                                                 class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                                             </span>
                                                             <span class="w-[100px] flex mt-[40px] ml-2">
-                                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/locations/guest-preview/' . $category . '/' . Crypt::encrypt($product->id)) }}
+                                                                {{ QrCode::size(100)->generate('https://' . $company->website . '/locations/guest-preview/' . $category . '/' . Crypt::encrypt($product->id)) }}
                                                             </span>
                                                         </div>
                                                         <span

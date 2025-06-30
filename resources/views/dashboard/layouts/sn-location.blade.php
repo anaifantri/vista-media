@@ -7,7 +7,7 @@
     $mapsMarkers = '';
     $googleKey = '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
     for ($i = 0; $i < $locationQty; $i++) {
-        $mapsMarkers = $mapsMarkers . '&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $objLocations->signageLocations[$i]->lat . ',' . $objLocations->signageLocations[$i]->lng;
+        $mapsMarkers = $mapsMarkers . '&markers=icon:https://' . $company->website . '/img/marker-red.png%7C' . $objLocations->signageLocations[$i]->lat . ',' . $objLocations->signageLocations[$i]->lng;
     }
     $src = $mapsLink . $mapsMarkers . $googleKey;
     ?>
@@ -54,7 +54,7 @@
                                     {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $signage->lat . ',' . $signage->lng . '/@' . $signage->lat . ',' . $signage->lng . ',16z') }}
                                 </div>
                                 {{-- <?php
-                                $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $signage->lat . ',' . $signage->lng . '&zoom=16&size=544x430&maptype=terrain&markers=icon:https://vistamedia.co.id/img/marker-red.png%7C' . $signage->lat . ',' . $signage->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
+                                $src = 'https://maps.googleapis.com/maps/api/staticmap?center=' . $signage->lat . ',' . $signage->lng . '&zoom=16&size=544x430&maptype=terrain&markers=icon:https://' . $company->website . '/img/marker-red.png%7C' . $signage->lat . ',' . $signage->lng . '&key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg';
                                 ?> --}}
                                 <img class="w-[544px] h-[430px] border rounded-b-xl" id="myImage" name="myImage"
                                     src="{{ $src }}" alt="">
@@ -135,7 +135,7 @@
                                     <div class="flex">
                                         <span class="w-[100px] text-xs font-mono font-thin text-teal-900 ml-2">Kawasan
                                             <br><br><br><br><br>
-                                            {{ QrCode::size(100)->generate('https://vistamedia.co.id/dashboard/media/videotrons/preview/' . $signage->id) }}
+                                            {{ QrCode::size(100)->generate('https://' . $company->website . '/dashboard/media/videotrons/preview/' . $signage->id) }}
                                         </span>
                                         <span class="flex w-[120px] text-xs font-mono font-thin text-teal-900">
                                             <div>:</div>

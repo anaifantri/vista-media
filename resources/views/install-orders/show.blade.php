@@ -182,7 +182,7 @@
                                                         </td>
                                                         <td class="border p-1 text-center">
                                                             <div class="flex w-full justify-center items-center">
-                                                                {{ QrCode::size(100)->generate('https://vistamedia.co.id/') }}
+                                                                {{ QrCode::size(100)->generate('https://' . $company->website . '/') }}
                                                             </div>
                                                         </td>
                                                     </tr>

@@ -30,13 +30,13 @@
                     <td class="td-sign">(___________________________)</td>
                     <td class="text-teal-900 text-sm border text-center">
                         <div class="flex w-full justify-center items-center">
-                            {{ QrCode::size(75)->generate('https://vistamedia.co.id/') }}
+                            {{ QrCode::size(75)->generate('https://' . $company->website . '/') }}
                         </div>
                     </td>
                     @if ($orderType == 'sale')
                         <td class="text-teal-900 text-sm border align-middle text-center">
                             <div class="flex w-full justify-center items-center">
-                                {{ QrCode::size(75)->generate('https://vistamedia.co.id/') }}
+                                {{ QrCode::size(75)->generate('https://' . $company->website . '/') }}
                             </div>
                         </td>
                     @else
