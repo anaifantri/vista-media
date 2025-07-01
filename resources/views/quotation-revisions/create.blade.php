@@ -201,7 +201,8 @@
                                 </div>
                                 <div class="flex justify-center">
                                     <div class="w-[725px]">
-                                        <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista Media</label>
+                                        <label
+                                            class="ml-1 text-sm text-black flex font-semibold">{{ $company->name }}</label>
                                     </div>
                                 </div>
                                 <div class="flex justify-center">

@@ -543,8 +543,8 @@
                                     <div class="flex justify-center">
                                         <div class="flex w-[725px]">
                                             <div class="mt-2">
-                                                <label class="ml-1 text-sm text-black flex font-semibold">PT. Vista
-                                                    Media</label>
+                                                <label
+                                                    class="ml-1 text-sm text-black flex font-semibold">{{ $company->name }}</label>
                                                 <label
                                                     class="ml-1 mt-10 text-sm text-black flex font-semibold"><u>{{ $created_by->name }}</u></label>
                                                 <label

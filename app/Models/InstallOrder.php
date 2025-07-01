@@ -102,6 +102,7 @@ class InstallOrder extends Model
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
                 $query->where('theme', 'like', '%' . $search . '%')
+                    ->orWhere('number', 'like', '%' . $search . '%')
                     ->orWhere('type', 'like', '%' . $search . '%')
                     ->orWhere('created_at', 'like', '%' . $search . '%')
                     ->orWhereHas('sale', function($query) use ($search){
