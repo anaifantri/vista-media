@@ -250,7 +250,7 @@ class SaleController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isSale') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isSale') && Gate::allows('isMarketingCreate'))){
             $sales = json_decode($request->salesData);
-            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $sales[0]->company_id)->firstOrFail();
             $request->validate([
                 'document_po.*'=> 'image|file|mimes:jpeg,png,jpg|max:2048',

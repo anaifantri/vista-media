@@ -100,7 +100,7 @@ class BillCoverLetterController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
-            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
             $lastLetter = BillCoverLetter::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->orderBy("number", "asc")->get()->last();

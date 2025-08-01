@@ -402,7 +402,7 @@ class InstallOrderController extends Controller
                     'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
                 ]);
             }
-            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
             $lastOrder = InstallOrder::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->orderBy("number", "asc")->get()->last();

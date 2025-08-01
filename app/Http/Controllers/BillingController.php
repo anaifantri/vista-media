@@ -288,7 +288,7 @@ class BillingController extends Controller
                 }
             }
             
-            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+            $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
             $lastBilling = Billing::where('company_id', $request->company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->orderBy("invoice_number", "asc")->get()->last();

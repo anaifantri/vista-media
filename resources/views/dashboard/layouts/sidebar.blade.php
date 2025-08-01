@@ -36,7 +36,7 @@
                         <!-- Sidebar Accounting End-->
 
                         <!-- Sidebar Workshop start-->
-                        @canany(['isAdmin', 'isOwner', 'isWorkshop', 'isMarketing', 'isAccounting'])
+                        @canany(['isAdmin', 'isOwner', 'isMedia', 'isWorkshop', 'isMarketing', 'isAccounting'])
                             @include('dashboard.layouts.sidebar-workshop')
                         @endcanany
                         <!-- Sidebar Workshop End-->
