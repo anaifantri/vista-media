@@ -25,7 +25,7 @@ class PaymentController extends Controller
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('payments.index', [
-                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("payment_date", "desc")->paginate(30)->withQueryString(),
+                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->yearReport()->monthReport()->sortable()->orderBy("payment_date", "desc")->paginate(30)->withQueryString(),
                 'title' => 'Daftar Pembayaran'
             ]);
         } else {
@@ -37,7 +37,7 @@ class PaymentController extends Controller
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('payments.payment-report', [
-                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("payment_date", "asc")->get(),
+                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->yearReport()->monthReport()->sortable()->orderBy("payment_date", "asc")->get(),
                 'billing_total'=>Billing::where('company_id', $company_id)->whereHas('bill_payments')->filter(request('search'))->year()->month()->sum('nominal'),
                 'title' => 'Laporan Kas Masuk'
             ]);

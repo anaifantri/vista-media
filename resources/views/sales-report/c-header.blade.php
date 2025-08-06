@@ -19,6 +19,10 @@
                                 @endfor
                             @else
                                 @for ($i = 1; $i < 13; $i++)
+                                    @if ($i == date('m'))
+                                        <option value="{{ $i }}" selected>{{ $bulan[$i] }}
+                                        </option>
+                                    @endif
                                     <option value="{{ $i }}">{{ $bulan[$i] }}</option>
                                 @endfor
                             @endif

@@ -46,18 +46,12 @@
                         @else
                             <label id="labelPeriode" class="month-report text-xl font-semibold text-center">JAN -
                                 DES
-                                {{ date('Y') }}</label>
+                                {{ request('year') }}</label>
                         @endif
                     @else
-                        @if (request('year'))
-                            <label id="labelPeriode" class="month-report text-xl font-semibold text-center">JAN -
-                                DES
-                                {{ request('year') }}</label>
-                        @else
-                            <label id="labelPeriode" class="month-report text-xl font-semibold text-center">JAN -
-                                DES
-                                {{ date('Y') }}</label>
-                        @endif
+                        <label id="labelPeriode" class="month-report text-xl font-semibold text-center">
+                            {{ $bulan[(int) date('m')] }}
+                            {{ date('Y') }}</label>
                     @endif
                 </div>
                 <div class="flex justify-center w-56 border border-black rounded-md mt-2">
@@ -227,16 +221,22 @@
                             </td>
                             <td class="border border-black text-[0.65rem] text-start align-top">
                                 <div>
-                                    <div class="flex ml-1">
-                                        <label class="w-8">Klien</label>
-                                        <label class="ml-1">:</label>
-                                        <label class="ml-2 w-28">{{ $clients->name }}</label>
-                                    </div>
                                     @if ($clients->type == 'Perusahaan')
+                                        <div class="flex ml-1">
+                                            <label class="w-8">Klien</label>
+                                            <label class="ml-1">:</label>
+                                            <label class="ml-2 w-28">{{ $clients->company }}</label>
+                                        </div>
                                         <div class="flex ml-1">
                                             <label class="w-8">Kontak</label>
                                             <label class="ml-1">:</label>
                                             <label class="ml-2 w-28">{{ $clients->contact_name }}</label>
+                                        </div>
+                                    @else
+                                        <div class="flex ml-1">
+                                            <label class="w-8">Klien</label>
+                                            <label class="ml-1">:</label>
+                                            <label class="ml-2 w-28">{{ $clients->name }}</label>
                                         </div>
                                     @endif
                                     <div class="flex ml-1">
@@ -322,6 +322,11 @@
                                             </label>
                                         </div>
                                     @endif
+                                    <div class="flex ml-1">
+                                        <label class="w-14">Produk</label>
+                                        <label>:</label>
+                                        <label class="ml-1"></label>
+                                    </div>
                                 </div>
                             </td>
                             <td class="border border-black text-[0.65rem] text-start align-top px-1">
@@ -336,16 +341,36 @@
                                                         <label
                                                             class="ml-1 w-16 text-right">{{ number_format($sale->price) }}</label>
                                                     @else
-                                                        <label class="w-12 text-red-800">Harga</label>
-                                                        <label>:</label>
-                                                        <label
-                                                            class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->price) }})</label>
+                                                        <div>
+                                                            <div class="flex">
+                                                                <label class="w-12 text-red-800">Harga</label>
+                                                                <label>:</label>
+                                                                <label
+                                                                    class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->price) }})</label>
+                                                            </div>
+                                                            <div class="flex">
+                                                                <label class="w-12 text-red-800">PPN</label>
+                                                                <label>:</label>
+                                                                <label
+                                                                    class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->dpp * ($sale->ppn / 100)) }})</label>
+                                                            </div>
+                                                        </div>
                                                     @endif
                                                 @else
-                                                    <label class="w-12 text-red-800">Harga</label>
-                                                    <label>:</label>
-                                                    <label
-                                                        class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->price) }})</label>
+                                                    <div>
+                                                        <div class="flex">
+                                                            <label class="w-12 text-red-800">Harga</label>
+                                                            <label>:</label>
+                                                            <label
+                                                                class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->price) }})</label>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <label class="w-12 text-red-800">PPN</label>
+                                                            <label>:</label>
+                                                            <label
+                                                                class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->dpp * ($sale->ppn / 100)) }})</label>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             @else
                                                 @if (date('m', strtotime($sale->created_at)) == request('month'))
@@ -354,10 +379,20 @@
                                                     <label
                                                         class="ml-1 w-16 text-right">{{ number_format($sale->price) }}</label>
                                                 @else
-                                                    <label class="w-12 text-red-800">Harga</label>
-                                                    <label>:</label>
-                                                    <label
-                                                        class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->price) }})</label>
+                                                    <div>
+                                                        <div class="flex">
+                                                            <label class="w-12 text-red-800">Harga</label>
+                                                            <label>:</label>
+                                                            <label
+                                                                class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->price) }})</label>
+                                                        </div>
+                                                        <div class="flex">
+                                                            <label class="w-12 text-red-800">PPN</label>
+                                                            <label>:</label>
+                                                            <label
+                                                                class="ml-1 w-16 text-right text-red-800">({{ number_format($sale->dpp * ($sale->ppn / 100)) }})</label>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             @endif
                                         @elseif ($sale->change_sale)

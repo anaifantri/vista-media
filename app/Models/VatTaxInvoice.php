@@ -34,7 +34,7 @@ class VatTaxInvoice extends Model
                     ->orWhere('created_at', 'like', '%' . $search . '%')
                     ->orWhereHas('billing', function($query) use ($search){
                         $query->where('invoice_number', 'like', '%' . $search . '%')
-                            ->orWhere('client', 'like', '%' . $search . '%');
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(client, "$.company")) like ?', ['"%' . strtolower($search) . '%"']);
                     })
                 );
     }

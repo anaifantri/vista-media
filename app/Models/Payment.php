@@ -12,11 +12,27 @@ class Payment extends Model
     use Sortable;
     protected $guarded = ['id'];
             
+    public function scopeYearReport($query){
+        if(request('year')){
+            return $query->whereYear('payment_date', request('year'));
+        }else{
+            return $query->whereYear('payment_date',  Carbon::now()->year);
+        }
+    }
+            
     public function scopeYear($query){
         if(request('year')){
             return $query->whereYear('created_at', request('year'));
         }else{
             return $query->whereYear('created_at',  Carbon::now()->year);
+        }
+    }
+
+    public function scopeMonthReport($query){
+        if(request('month')){
+            return $query->whereYear('payment_date', request('year'))->whereMonth('payment_date', request('month'));
+        }else{
+            return $query->whereYear('payment_date',  Carbon::now()->year)->whereMonth('payment_date', Carbon::now()->month);
         }
     }
 

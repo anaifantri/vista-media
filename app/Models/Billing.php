@@ -33,7 +33,7 @@ class Billing extends Model
                 $query->where('invoice_number', 'like', '%' . $search . '%')
                     ->orWhere('invoice_content', 'like', '%' . $search . '%')
                     ->orWhere('created_at', 'like', '%' . $search . '%')
-                    ->orWhere('client', 'like', '%' . $search . '%')
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(client, "$.company")) like ?', ['"%' . strtolower($search) . '%"'])
                     ->orWhereHas('sales', function($query) use ($search){
                         $query->where('number', 'like', '%' . $search . '%');
                     })
