@@ -18,13 +18,21 @@ class VoidSale extends Model
         }
     }
 
-    public function scopeMonth($query){
+    public function scopeMonthReport($query){
         if(request('month')){
             if(request('month') != 'All'){
                 return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
             }
         }else{
             return $query->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month);
+        }
+    }
+
+    public function scopeMonth($query){
+        if(request('month')){
+            if(request('month') != 'All'){
+                return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+            }
         }
     }
     

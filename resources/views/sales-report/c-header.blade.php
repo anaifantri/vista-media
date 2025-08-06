@@ -8,7 +8,7 @@
                         <select name="month"
                             class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"
                             onchange="submit()">
-                            <option value="All">All</option>
+                            {{-- <option value="All">All</option> --}}
                             @if (request('month'))
                                 @for ($i = 1; $i < 13; $i++)
                                     @if ($i == request('month'))

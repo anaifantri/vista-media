@@ -186,7 +186,6 @@ class ClientController extends Controller
     
             if($request->type == "Perorangan"){
                 $validateData['client_category_id'] = null;
-                $validateData['company'] = "";
             }
     
     
@@ -196,7 +195,7 @@ class ClientController extends Controller
                 }
                 $validateData['logo'] = $request->file('logo')->store('client-images');
             }
-    
+            
             Client::where('id', $client->id)
                     ->update($validateData);
     

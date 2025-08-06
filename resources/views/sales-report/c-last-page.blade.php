@@ -119,6 +119,10 @@
                                 $pphTotal = $pphTotal + ($sale->dpp * (2 / 100)) / 2;
                                 $ppnTotal = $ppnTotal + ($sale->dpp * ($sale->ppn / 100)) / 2;
                                 $priceTotal = $priceTotal + $sale->price / 2;
+                            } else {
+                                $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                                $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
+                                $priceTotal = $priceTotal + $sale->price;
                             }
                         } elseif ($sale->change_sale) {
                             $changeSale = $sales->where('id', $sale->id);
@@ -126,6 +130,10 @@
                                 $pphTotal = $pphTotal + ($sale->dpp * (2 / 100)) / 2;
                                 $ppnTotal = $ppnTotal + ($sale->dpp * ($sale->ppn / 100)) / 2;
                                 $priceTotal = $priceTotal + $sale->price / 2;
+                            } else {
+                                $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                                $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
+                                $priceTotal = $priceTotal + $sale->price;
                             }
                         } else {
                             $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
@@ -225,7 +233,13 @@
                                         <div class="flex ml-1">
                                             <label class="w-8">Klien</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2 w-28">{{ $clients->company }}</label>
+                                            <label class="ml-2 w-28">
+                                                @if (strlen($clients->company) > 20)
+                                                    {{ substr($clients->company, 0, 20) }}..
+                                                @else
+                                                    {{ $clients->company }}
+                                                @endif
+                                            </label>
                                         </div>
                                         <div class="flex ml-1">
                                             <label class="w-8">Kontak</label>
@@ -1048,7 +1062,8 @@
                     <td class="border border-black text-sm text-right align-top font-semibold px-2" colspan="4">PPN
                     </td>
                     <td class="border border-black text-sm text-right align-top font-semibold px-2">
-                        {{ number_format($ppnTotal - $void_sales->sum('ppn') + $change_sales->sum('ppn_diff')) }}</td>
+                        {{ number_format($ppnTotal - $void_sales->sum('ppn') + $change_sales->sum('ppn_diff')) }}
+                    </td>
                     <td class="text-black bg-slate-200 border border-black text-sm text-right align-top font-semibold"
                         colspan="10"></td>
                 </tr>

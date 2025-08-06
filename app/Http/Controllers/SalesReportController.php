@@ -103,9 +103,9 @@ class SalesReportController extends Controller
             $change_sales = VoidSale::with('sale')->get();
             $billings = Billing::with('sales')->get();
             return view ('sales-report.c-reports', [
-                'sales'=>Sale::unionAll(Sale::void()->where('company_id', $company_id))->unionAll(Sale::change()->where('company_id', $company_id))->where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("number", "asc")->get(),
-                'void_sales'=>VoidSale::where('company_id', $company_id)->filter(request('search'))->year()->month()->get(),
-                'change_sales'=>ChangeSale::where('company_id', $company_id)->filter(request('search'))->year()->month()->get(),
+                'sales'=>Sale::unionAll(Sale::void()->where('company_id', $company_id))->unionAll(Sale::change()->where('company_id', $company_id))->where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->sortable()->orderBy("number", "asc")->get(),
+                'void_sales'=>VoidSale::where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->get(),
+                'change_sales'=>ChangeSale::where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->get(),
                 'title' => 'Data Penjualan',
                 compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations', 'void_sales', 'change_sales', 'billings')
             ]);
