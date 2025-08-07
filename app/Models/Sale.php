@@ -18,6 +18,10 @@ class Sale extends Model
         }
     }
 
+    public function scopeCustomReport($query){
+        return $query->whereBetween('created_at',  [request('fromDate'), request('toDate')]);
+    }
+
     public function scopeWeekday($query){
         if (request('weekday') == true) {
             return $query->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)]);

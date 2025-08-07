@@ -144,6 +144,7 @@ Route::get('/change-sales/create/{saleid}', [ChangeSaleController::class,'create
 Route::get('/marketing/sales-report/{companyid}', [SalesReportController::class,'index'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales-report/chart-report/{areaId}', [SalesReportController::class,'chartReports'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales-report/c-report/{companyid}', [SalesReportController::class,'cReports'])->middleware(['auth','user_access']);
+Route::get('/marketing/sales-report/custom-report/{companyid}', [SalesReportController::class,'customReports'])->middleware(['auth','user_access']);
 // Route Sales Report --> end
 
 // Route Quotation Report --> start

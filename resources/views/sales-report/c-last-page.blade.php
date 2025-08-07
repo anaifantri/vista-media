@@ -113,6 +113,8 @@
             <tbody>
                 @foreach ($sales as $sale)
                     @php
+                        $voidFound = false;
+                        $cahngeFound = false;
                         if ($sale->void_sale) {
                             $voidSale = $sales->where('id', $sale->id);
                             if (count($voidSale) == 2) {
@@ -120,9 +122,16 @@
                                 $ppnTotal = $ppnTotal + ($sale->dpp * ($sale->ppn / 100)) / 2;
                                 $priceTotal = $priceTotal + $sale->price / 2;
                             } else {
-                                $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
-                                $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
-                                $priceTotal = $priceTotal + $sale->price;
+                                foreach ($void_sales as $void_sale) {
+                                    if ($void_sale->sale_id == $sale->id) {
+                                        $voidFound = true;
+                                    }
+                                }
+                                if ($voidFound == false) {
+                                    $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                                    $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
+                                    $priceTotal = $priceTotal + $sale->price;
+                                }
                             }
                         } elseif ($sale->change_sale) {
                             $changeSale = $sales->where('id', $sale->id);
@@ -131,9 +140,16 @@
                                 $ppnTotal = $ppnTotal + ($sale->dpp * ($sale->ppn / 100)) / 2;
                                 $priceTotal = $priceTotal + $sale->price / 2;
                             } else {
-                                $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
-                                $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
-                                $priceTotal = $priceTotal + $sale->price;
+                                foreach ($change_sales as $change_sale) {
+                                    if ($change_sale->sale_id == $sale->id) {
+                                        $changeFound = true;
+                                    }
+                                }
+                                if ($changeFound == false) {
+                                    $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                                    $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
+                                    $priceTotal = $priceTotal + $sale->price;
+                                }
                             }
                         } else {
                             $pphTotal = $pphTotal + $sale->dpp * (2 / 100);

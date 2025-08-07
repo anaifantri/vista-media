@@ -113,4 +113,25 @@ class SalesReportController extends Controller
             abort(403);
         }
     }
+
+    public function customReports(String $company_id): View
+    {
+        if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
+            $sales_categories = MediaCategory::with('sales')->get();
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $location_categories = MediaCategory::with('locations')->get();
+            $companies = Company::with('sales')->get();
+            $quotations = Quotation::with('sales')->get();
+            $locations = Location::with('sales')->get();
+            return view ('sales-report.custom-reports', [
+                'sales'=>Sale::where('company_id', $company_id)->filter(request('search'))->customReport()->sortable()->orderBy("number", "asc")->get(),
+                'title' => 'Data Penjualan',
+                compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
 }

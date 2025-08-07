@@ -36,6 +36,14 @@
                                 </div>
                             </a>
                         </div>
+                        <div class="grid grid-cols-1 gap-2 w-[500px] p-2">
+                            <a href="/marketing/sales-report/custom-report/{{ $company->id }}"
+                                class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                                <div>
+                                    <label class="flex justify-center font-serif text-4xl cursor-pointer">MINGGUAN</label>
+                                </div>
+                            </a>
+                        </div>
                         <div class="grid grid-cols-3 gap-2 w-[500px] p-4 mt-4 border-t">
                             <div
                                 class="flex justify-center text-teal-400 h-[200px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">

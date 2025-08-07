@@ -1024,10 +1024,6 @@ video {
   height: 1345px;
 }
 
-.h-\[136px\] {
-  height: 136px;
-}
-
 .h-\[140px\] {
   height: 140px;
 }
@@ -1110,6 +1106,10 @@ video {
 
 .h-\[340px\] {
   height: 340px;
+}
+
+.h-\[350px\] {
+  height: 350px;
 }
 
 .h-\[370px\] {
@@ -1224,20 +1224,12 @@ video {
   height: 780px;
 }
 
-.h-\[832px\] {
-  height: 832px;
-}
-
 .h-\[850px\] {
   height: 850px;
 }
 
 .h-\[875px\] {
   height: 875px;
-}
-
-.h-\[890px\] {
-  height: 890px;
 }
 
 .h-\[900px\] {
@@ -1265,8 +1257,12 @@ video {
   height: 100vh;
 }
 
-.h-\[350px\] {
-  height: 350px;
+.h-\[760px\] {
+  height: 760px;
+}
+
+.h-\[740px\] {
+  height: 740px;
 }
 
 .max-h-\[180px\] {
@@ -1794,6 +1790,10 @@ video {
   width: max-content;
 }
 
+.w-9 {
+  width: 2.25rem;
+}
+
 .max-w-\[260px\] {
   max-width: 260px;
 }
@@ -2241,11 +2241,6 @@ video {
 .bg-slate-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(100 116 139 / var(--tw-bg-opacity));
-}
-
-.bg-slate-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(71 85 105 / var(--tw-bg-opacity));
 }
 
 .bg-slate-700 {
@@ -2709,6 +2704,11 @@ video {
   color: rgb(190 242 100 / var(--tw-text-opacity));
 }
 
+.text-lime-700 {
+  --tw-text-opacity: 1;
+  color: rgb(77 124 15 / var(--tw-text-opacity));
+}
+
 .text-orange-400 {
   --tw-text-opacity: 1;
   color: rgb(251 146 60 / var(--tw-text-opacity));
@@ -2827,6 +2827,11 @@ video {
 .text-yellow-400 {
   --tw-text-opacity: 1;
   color: rgb(250 204 21 / var(--tw-text-opacity));
+}
+
+.text-teal-600 {
+  --tw-text-opacity: 1;
+  color: rgb(13 148 136 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -4617,6 +4622,11 @@ video {
   color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
+.hover\:text-lime-400:hover {
+  --tw-text-opacity: 1;
+  color: rgb(163 230 53 / var(--tw-text-opacity));
+}
+
 .hover\:text-stone-400:hover {
   --tw-text-opacity: 1;
   color: rgb(168 162 158 / var(--tw-text-opacity));
@@ -4625,6 +4635,11 @@ video {
 .hover\:text-teal-600:hover {
   --tw-text-opacity: 1;
   color: rgb(13 148 136 / var(--tw-text-opacity));
+}
+
+.hover\:text-teal-400:hover {
+  --tw-text-opacity: 1;
+  color: rgb(45 212 191 / var(--tw-text-opacity));
 }
 
 .focus\:z-10:focus {
@@ -4880,20 +4895,11 @@ video {
   .xl\:w-5 {
     width: 1.25rem;
   }
-
-  .xl\:text-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-  }
 }
 
 @media (min-width: 1536px) {
   .\32xl\:ml-3 {
     margin-left: 0.75rem;
-  }
-
-  .\32xl\:h-10 {
-    height: 2.5rem;
   }
 
   .\32xl\:w-6 {
