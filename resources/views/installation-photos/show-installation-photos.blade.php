@@ -61,14 +61,22 @@
                         <label class="w-28">No. Penjualan</label>
                         <label>:</label>
                         <label class="ml-1">
-                            {{ $install_order->sale->number }}
+                            @if ($install_order->sale_id == '')
+                                -
+                            @else
+                                {{ $install_order->sale->number }}
+                            @endif
                         </label>
                     </div>
                     <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-28">Klien</label>
                         <label>:</label>
                         <label class="ml-1">
-                            {{ $client->name }}
+                            @if ($client == '-')
+                                {{ $client }}
+                            @else
+                                {{ $client->name }}
+                            @endif
                         </label>
                     </div>
                     <div class="flex text-stone-900 text-sm font-semibold">
