@@ -51,9 +51,17 @@
                     <form id="formFilter" action="/income-taxes/report/{{ $company->id }}">
                         <div class="flex">
                             <div class="flex h-14">
-                                <div class="w-24">
-                                    <span class="text-base text-stone-100">Bulan</span>
-                                    <select name="month"
+                                <div class="w-40">
+                                    <span class="text-base text-stone-100">Masa Pajak</span>
+                                    @if (request('period'))
+                                        <input type="month" name="period"
+                                            class="text-md outline-none rounded-md p-1 w-36" value="{{ request('period') }}"
+                                            onchange="submit()">
+                                    @else
+                                        <input type="month" name="period"
+                                            class="text-md outline-none rounded-md p-1 w-36" onchange="submit()">
+                                    @endif
+                                    {{-- <select name="month"
                                         class="p-1 outline-none border w-full text-md text-stone-900 rounded-md bg-stone-100"
                                         onchange="submit()">
                                         @if (request('month'))
@@ -74,9 +82,9 @@
                                                 <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
                                             @endfor
                                         @endif
-                                    </select>
+                                    </select> --}}
                                 </div>
-                                <div class="ml-2 w-20">
+                                {{-- <div class="ml-2 w-20">
                                     <span class="text-base text-stone-100">Tahun</span>
                                     <select name="year"
                                         class="p-1 text-center outline-none border w-full text-md text-stone-900 rounded-md bg-stone-100"
@@ -96,7 +104,7 @@
                                             @endfor
                                         @endif
                                     </select>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="w-48 ml-2">
                                 <span class="text-base text-stone-100">Pencarian</span>
@@ -163,15 +171,16 @@
                                             <label class="text-md text-center"></label>
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md">
-                                            @if (request('month'))
+                                            @if (request('period'))
                                                 <label class="month-report text-xl font-semibold text-center">
-                                                    {{ $bulan_full[request('month')] }}
-                                                    {{ request('year') }}
+                                                    {{ $bulan_full[(int) substr(request('period'), -2)] }}
+                                                    {{ substr(request('period'), 0, 4) }}
                                                 </label>
                                             @else
-                                                <label
-                                                    class="month-report text-xl font-semibold text-center">{{ $bulan_full[(int) date('m')] }}
-                                                    {{ date('Y') }}</label>
+                                                <label class="month-report text-xl font-semibold text-center">-
+                                                    {{-- {{ $bulan_full[(int) date('m')] }}
+                                                    {{ date('Y') }} --}}
+                                                </label>
                                             @endif
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -185,19 +194,16 @@
                                 </div>
                             </div>
                             <div class="flex justify-center h-[875px] mt-2">
-                                @if (request('month'))
+                                @if (request('period'))
                                     <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada data
                                         pemotongan PPH
                                         pada bulan
-                                        {{ $bulan_full[request('month')] }}
-                                        {{ request('year') }} ~~
+                                        {{ $bulan_full[(int) substr(request('period'), -2)] }}
+                                        {{ substr(request('period'), 0, 4) }} ~~
                                     </label>
                                 @else
-                                    <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Tidak ada data
-                                        pemotongan PPH
-                                        pada bulan
-                                        {{ $bulan_full[(int) date('m')] }}
-                                        {{ date('Y') }} ~~
+                                    <label class="flex text-base text-red-600 font-serif tracking-wider">~~ Silahkan Pilih
+                                        Masa Pajak Terlebih Dahulu..!! ~~
                                     </label>
                                 @endif
                             </div>
@@ -247,15 +253,16 @@
                                                     <label class="text-md text-center"></label>
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md">
-                                                    @if (request('month'))
+                                                    @if (request('period'))
                                                         <label class="month-report text-xl font-semibold text-center">
-                                                            {{ $bulan_full[request('month')] }}
-                                                            {{ request('year') }}
+                                                            {{ $bulan_full[(int) substr(request('period'), -2)] }}
+                                                            {{ substr(request('period'), 0, 4) }}
                                                         </label>
                                                     @else
-                                                        <label
-                                                            class="month-report text-xl font-semibold text-center">{{ $bulan_full[(int) date('m')] }}
-                                                            {{ date('Y') }}</label>
+                                                        <label class="month-report text-xl font-semibold text-center">-
+                                                            {{-- {{ $bulan_full[(int) date('m')] }}
+                                                            {{ date('Y') }} --}}
+                                                        </label>
                                                     @endif
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -276,7 +283,7 @@
                                                         class="text-stone-900 border border-black text-md w- text-center w-8">
                                                         No.</th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-md text-center w-24">
+                                                        class="text-stone-900 border border-black text-md text-center w-36">
                                                         Masa
                                                     </th>
                                                     <th class="text-stone-900 border border-black text-md text-center">
@@ -345,21 +352,14 @@
                                                             </td>
                                                             <td
                                                                 class="text-stone-900 px-1 border border-black text-md  text-center">
-                                                                {{ $income_tax->payment->income_tax_document->period }}
+                                                                {{ $bulan_full[(int) substr($income_tax->payment->income_tax_document->period, -2)] }}
+                                                                {{ substr($income_tax->payment->income_tax_document->period, 0, 4) }}
                                                             </td>
                                                             <td class="text-stone-900 px-1 border border-black text-md">
                                                                 @if (isset($client->company))
-                                                                    @if (strlen($client->company) > 25)
-                                                                        {{ substr($client->company, 0, 25) }}..
-                                                                    @else
-                                                                        {{ $client->company }}
-                                                                    @endif
+                                                                    {{ $client->company }}
                                                                 @elseif (isset($client->name))
-                                                                    @if (strlen($client->name) > 25)
-                                                                        {{ substr($client->name, 0, 25) }}..
-                                                                    @else
-                                                                        {{ $client->name }}
-                                                                    @endif
+                                                                    {{ $client->name }}
                                                                 @else
                                                                     @if (strlen($client->contact_name) > 25)
                                                                         {{ substr($client->contact_name, 0, 25) }}..

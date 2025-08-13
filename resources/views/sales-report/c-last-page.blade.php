@@ -355,7 +355,7 @@
                                     <div class="flex ml-1">
                                         <label class="w-14">Produk</label>
                                         <label>:</label>
-                                        <label class="ml-1"></label>
+                                        <label class="ml-1">{{ $sale->product_name }}</label>
                                     </div>
                                 </div>
                             </td>

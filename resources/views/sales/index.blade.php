@@ -208,7 +208,7 @@
                                 <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
                             </div>
                         @elseif (session()->has('order_success'))
-                            <div class="ml-2 flex alert-success">
+                            <div class="mt-2 ml-2 flex alert-success">
                                 <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path
                                         d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
@@ -216,12 +216,21 @@
                                 <span class="font-semibold mx-1">Success!</span> {{ session('order_success') }}
                             </div>
                         @elseif (session()->has('agreement_success'))
-                            <div class="ml-2 flex alert-success">
+                            <div class="mt-2 ml-2 flex alert-success">
                                 <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path
                                         d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
                                 </svg>
                                 <span class="font-semibold mx-1">Success!</span> {{ session('agreement_success') }}
+                            </div>
+                        @elseif (session()->has('product_name'))
+                            <div class="mt-2 ml-2 flex alert-success">
+                                <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                                </svg>
+                                <span class="font-semibold mx-1">Success!</span> {{ session('product_name') }}
                             </div>
                         @endif
                     </form>
@@ -417,6 +426,50 @@
                                                     <label class="ml-1 w-40">{{ $clients->phone }}</label>
                                                 </div>
                                             @endif
+                                            <form class="flex items-center" action="/marketing/sales/{{ $sale->id }}"
+                                                method="post" enctype="multipart/form-data">
+                                                @method('put')
+                                                @csrf
+                                                <input type="text" name="company_id" value="{{ $company->id }}"
+                                                    hidden>
+                                                @if ($sale->product_name == null)
+                                                    <div>
+                                                        <div class="flex ml-1">
+                                                            <label class="w-14">Produk</label>
+                                                            <label>:</label>
+                                                            <input
+                                                                class="text-[0.65rem] text-stone-900 ml-1 outline-none border rounded-md px-1"
+                                                                type="text" name="product_name" required>
+                                                        </div>
+                                                        <input type="text" name="category"
+                                                            value="{{ $category }}" hidden>
+                                                        <input type="text" name="sales_id"
+                                                            value="{{ $sale->id }}" hidden>
+                                                    </div>
+                                                    <div class="ml-2">
+                                                        <button
+                                                            class="index-link text-white w-8 h-5 rounded bg-green-700 hover:bg-green-900 drop-shadow-md mr-1"
+                                                            onclick="return confirm('Apakah anda yakin ingin update data penjualan {{ $sale->number }} ?')"
+                                                            title="Update" type="submit">
+                                                            <svg class="fill-current w-4" clip-rule="evenodd"
+                                                                fill-rule="evenodd" stroke-linejoin="round"
+                                                                stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 20l-1.359-2.038c-1.061.653-2.305 1.038-3.641 1.038-3.859 0-7-3.14-7-7h2c0 2.757 2.243 5 5 5 .927 0 1.786-.264 2.527-.708l-1.527-2.292h5.719l-1.719 6zm0-8c0-2.757-2.243-5-5-5-.927 0-1.786.264-2.527.708l1.527 2.292h-5.719l1.719-6 1.359 2.038c1.061-.653 2.305-1.038 3.641-1.038 3.859 0 7 3.14 7 7h-2z" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                @else
+                                                    <div>
+                                                        <div class="flex ml-1">
+                                                            <label class="w-14">Produk</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">{{ $sale->product_name }}</label>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </form>
                                         </div>
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-start align-top">

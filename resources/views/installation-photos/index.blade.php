@@ -238,7 +238,11 @@
                                         {{ $number++ }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ substr($order->sale->number, 0, 15) }}..
+                                        @if ($order->sale_id == '')
+                                            -
+                                        @else
+                                            {{ substr($order->sale->number, 0, 15) }}..
+                                        @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ substr($order->number, 0, 15) }}..

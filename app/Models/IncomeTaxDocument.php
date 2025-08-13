@@ -12,6 +12,14 @@ class IncomeTaxDocument extends Model
     use Sortable;
     protected $guarded = ['id'];
         
+    public function scopePeriod($query){
+        if(request('period')){
+            return $query->where('period', request('period'));
+        }else{
+            return $query->where('period', "");
+        }
+    }
+        
     public function scopeYearReport($query){
         if(request('year')){
             return $query->whereYear('tax_date', request('year'));

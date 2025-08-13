@@ -171,7 +171,7 @@
                                         <div class="flex ml-1">
                                             <label class="w-12">Produk</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2"></label>
+                                            <label class="ml-2">{{ $sale->product_name }}</label>
                                         </div>
                                     @else
                                         <div class="flex ml-1">
@@ -187,7 +187,7 @@
                                         <div class="flex ml-1">
                                             <label class="w-12">Produk</label>
                                             <label class="ml-1">:</label>
-                                            <label class="ml-2"></label>
+                                            <label class="ml-2">{{ $sale->product_name }}</label>
                                         </div>
                                     @endif
                                 </div>

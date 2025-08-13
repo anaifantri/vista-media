@@ -98,13 +98,15 @@
                                 <label class="text-md text-stone-100 w-40">Tgl. Bukti Potong</label>
                                 <label class="text-md text-stone-100 ml-2">:</label>
                                 <input id="taxDate" name="tax_date" type="date"
-                                    class="text-md outline-none rounded-md px-1 ml-2" value="{{ old('tax_date') }}"
+                                    class="text-md outline-none rounded-md px-1 ml-2 w-36" value="{{ old('tax_date') }}"
                                     required>
                             </div>
                             <div class="flex mt-2">
                                 <label class="text-md text-stone-100 w-40">Masa Pajak</label>
                                 <label class="text-md text-stone-100 ml-2">:</label>
-                                <select id="period" name="period" class="text-md outline-none rounded-md px-1 ml-2 w-32"
+                                <input type="month" name="period" class="text-md outline-none rounded-md px-1 ml-2 w-36"
+                                    required>
+                                {{-- <select id="period" name="period" class="text-md outline-none rounded-md px-1 ml-2 w-32"
                                     required>
                                     <option value="">-- pilih --</option>
                                     @foreach ($periods as $period)
@@ -118,7 +120,7 @@
                                             <option value="{{ $period }}">{{ $period }}</option>
                                         @endif
                                     @endforeach
-                                </select>
+                                </select> --}}
 
                             </div>
                         </div>
