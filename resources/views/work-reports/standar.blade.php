@@ -99,7 +99,7 @@
                         <label class="mt-4 text-md flex justify-center w-full">Yang menyerahkan,</label>
                         <label class="text-md flex justify-center w-full font-semibold">{{ $company->name }}</label>
                         <label class="mt-24 text-md flex justify-center w-full font-semibold">
-                            <span class="border-b-2 border-black">Texun Sandy Kamboy</span>
+                            <span class="border-b-2 border-black">{{ $bank_account->director }}</span>
                         </label>
                         <label class="text-md flex justify-center w-full">Direktur</label>
                     </div>

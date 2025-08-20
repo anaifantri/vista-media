@@ -14,6 +14,8 @@ use App\Models\QuotationStatus;
 use App\Models\QuotationRevision;
 use App\Models\QuotRevisionStatus;
 use App\Models\Sale;
+use App\Models\billing;
+use App\Models\payment;
 use App\Models\Company;
 use App\Models\PrintOrder;
 use App\Models\InstallOrder;
@@ -56,6 +58,16 @@ class DashboardController extends Controller
             $prevYearSales = Sale::where('company_id', $company_id)->whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price');
             $thisYearTotal[] = $thisYearSales;
             $prevYearTotal[] = $prevYearSales;
+        }
+
+        for ($i=1; $i <= 12; $i++) { 
+            $billingTotal = Billing::where('company_id', $company_id)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('nominal');
+            $thisYearBillings[] = $billingTotal;
+        }
+
+        for ($i=1; $i <= 12; $i++) { 
+            $paymentTotal = Payment::where('company_id', $company_id)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('nominal');
+            $thisYearPayments[] = $paymentTotal;
         }
 
         for ($i=1; $i <= 12; $i++) { 
@@ -122,6 +134,14 @@ class DashboardController extends Controller
             'monthSales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price'),
             'yearSales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->sum('price'),
             'sales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->get(),
+
+            'monthBillings' => Billing::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
+            'thisYearBillings' => $thisYearBillings,
+            'thisYearPayments' => $thisYearPayments,
+            'yearBillings' => Billing::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->get(),
+            'monthPayments' => Payment::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('nominal'),
+            'yearPayments' => Payment::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->sum('nominal'),
+
             'thisYearTotal' => $thisYearTotal,
             'prevYearTotal' => $prevYearTotal,
             compact('locations', 'cities', 'quotation_revisions', 'quotation_statuses', 'quot_revision_statuses')

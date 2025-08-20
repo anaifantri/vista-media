@@ -410,7 +410,7 @@
                 <label class="mt-2 text-sm flex justify-center w-72">Hormat kami,</label>
                 <label class="text-sm flex justify-center w-72 font-semibold">{{ $company->name }}</label>
                 <label class="mt-10 text-sm flex justify-center w-72 font-semibold">
-                    <u>Texun Sandy Kamboy</u>
+                    <u>{{ $bank_account->director }}</u>
                 </label>
                 <label class="text-sm flex justify-center w-72">Direktur</label>
             @endif
@@ -600,7 +600,7 @@
             <label class="mt-4 text-sm flex justify-center w-72">Hormat kami,</label>
             <label class="text-sm flex justify-center w-72 font-semibold">{{ $company->name }}</label>
             <label class="mt-16 text-sm flex justify-center w-72 font-semibold">
-                <u>Texun Sandy Kamboy</u>
+                <u>{{ $bank_account->director }}</u>
             </label>
             <label class="text-sm flex justify-center w-72">Direktur</label>
         @endif

@@ -117,7 +117,7 @@
                     <label class="mt-4 flex justify-center w-72">Hormat kami,</label>
                     <label class="flex justify-center w-72 font-semibold">{{ $company->name }}</label>
                     <label class="mt-24 flex justify-center w-72 font-semibold">
-                        <u>Texun Sandy Kamboy</u>
+                        <u>{{ $bank_account->director }}</u>
                     </label>
                     <label class="flex justify-center w-72">Direktur</label>
                 </div>
@@ -202,9 +202,10 @@
                 </div>
                 <div class="flex ml-10">
                     <label>2. </label>
-                    <label class="ml-2 text-justify w-[750px]">PT. Vista Media, dalam penandatanganan Berita Acara ini
-                        diwakili secara sah oleh Texun Sandy Kamboy, jabatan Direktur, selanjutnya disebut sebagai Vista
-                        Media</label>
+                    <label class="ml-2 text-justify w-[750px]">{{ $company->name }}, dalam penandatanganan Berita Acara
+                        ini
+                        diwakili secara sah oleh {{ $bank_account->director }}, jabatan Direktur, selanjutnya disebut
+                        sebagai {{ $company->name }}</label>
                 </div>
                 <div class="font-sans mt-4 w-full">
                     @if ($content->agreement_number != '')
@@ -245,7 +246,7 @@
                             <label class="flex w-full justify-center font-semibold">PIHAK KEDUA,</label>
                             <label class="flex w-full justify-center font-semibold">{{ $company->name }}</label>
                             <label class="flex w-full justify-center font-semibold mt-20 border-b-2 border-black">
-                                Texun Sandy Kamboy
+                                {{ $bank_account->director }}
                             </label>
                             <label class="flex w-full justify-center">Direktur</label>
                         </div>

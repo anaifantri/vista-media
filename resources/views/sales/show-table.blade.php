@@ -155,7 +155,7 @@
                 </td>
             @endif
             <td class="text-xs text-black border border-black text-right px-2">
-                {{ number_format($sale->price + $totalPrint + $totalInstall) }}</td>
+                {{ number_format($sale->price) }}</td>
         </tr>
         <tr>
             @if ($category == 'Signage')

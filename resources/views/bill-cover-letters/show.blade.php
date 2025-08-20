@@ -121,8 +121,8 @@
                             </div>
                             <div class="flex justify-center">
                                 <div class="w-[725px] mt-16">
-                                    <label id="salesUser" class="ml-1 text-sm text-black flex font-semibold"><u>Texun
-                                            Sandy Kamboy</u></label>
+                                    <label id="salesUser"
+                                        class="ml-1 text-sm text-black flex font-semibold"><u>{{ $bank_account->director }}</u></label>
                                     <label id="salesPhone" class="ml-1 text-xs text-black flex">Direktur</label>
                                 </div>
                             </div>

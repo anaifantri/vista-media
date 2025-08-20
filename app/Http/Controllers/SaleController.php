@@ -380,6 +380,7 @@ class SaleController extends Controller
             $install_orders = InstallOrder::whereJsonContains('product->main_sale_id','')->get();
             $paid_print_orders = PrintOrder::whereJsonContains('product->main_sale_id',(string)$sale->id)->get();
             $paid_install_orders = InstallOrder::whereJsonContains('product->main_sale_id',(string)$sale->id)->get();
+            $billings = Billing::with('sales')->get();
             return response()->view('sales.show', [
                 'sale'=>$sale,
                 'quotation'=>$quotation,
@@ -399,7 +400,7 @@ class SaleController extends Controller
                 'paid_install_orders' => $paid_install_orders,
                 'category'=>$category,
                 'title' => 'Data Penjualan'.$category,
-                compact('media_categories', 'print_orders', 'install_orders')
+                compact('media_categories', 'print_orders', 'install_orders', 'billings')
             ]);
         } else {
             abort(403);

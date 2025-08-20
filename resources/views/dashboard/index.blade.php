@@ -9,6 +9,9 @@
             @can('isMarketing')
                 @include('dashboard.marketing')
             @endcan
+            @can('isAccounting')
+                @include('dashboard.accounting')
+            @endcan
             @canany(['isAdmin', 'isOwner'])
                 @include('dashboard.media')
                 @include('dashboard.marketing')
@@ -360,6 +363,136 @@
         };
 
         var chart = new ApexCharts(document.querySelector("#install-pie-chart"), options);
+        chart.render();
+
+        var options = {
+            series: [{
+                name: @json(date('Y')),
+                data: @json($thisYearBillings)
+            }],
+            chart: {
+                type: 'bar',
+                height: 220
+            },
+            title: {
+                text: 'Total Invoice Tahun Ini',
+                align: 'left'
+            },
+            plotOptions: {
+                bar: {
+                    vertical: true,
+                    dataLabels: {
+                        position: 'top',
+                    },
+                }
+            },
+            dataLabels: {
+                enabled: false,
+                offsetX: -6,
+                style: {
+                    fontSize: '12px',
+                    rotate: 90,
+                    colors: ['#fff']
+                },
+                formatter: function(val, opts) {
+                    if (val < 1000000000) {
+                        return (val / 1000000).toFixed(2) + 'Jt'
+                    } else if (val >= 1000000000) {
+
+                        return (val / 1000000000).toFixed(2) + 'M'
+                    }
+                }
+            },
+            stroke: {
+                show: true,
+                width: 1,
+                colors: ['#fff']
+            },
+            tooltip: {
+                shared: true,
+                intersect: false
+            },
+            xaxis: {
+                categories: @json($monthData),
+            },
+            yaxis: {
+                labels: {
+                    formatter: function(value) {
+                        return value.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR"
+                        });
+                    }
+                },
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#billing-bar-chart"), options);
+        chart.render();
+
+        var options = {
+            series: [{
+                name: @json(date('Y')),
+                data: @json($thisYearPayments)
+            }],
+            chart: {
+                type: 'bar',
+                height: 220
+            },
+            title: {
+                text: 'Total Pembayaran Tahun Ini',
+                align: 'left'
+            },
+            plotOptions: {
+                bar: {
+                    vertical: true,
+                    dataLabels: {
+                        position: 'top',
+                    },
+                }
+            },
+            dataLabels: {
+                enabled: false,
+                offsetX: -6,
+                style: {
+                    fontSize: '12px',
+                    rotate: 90,
+                    colors: ['#fff']
+                },
+                formatter: function(val, opts) {
+                    if (val < 1000000000) {
+                        return (val / 1000000).toFixed(2) + 'Jt'
+                    } else if (val >= 1000000000) {
+
+                        return (val / 1000000000).toFixed(2) + 'M'
+                    }
+                }
+            },
+            stroke: {
+                show: true,
+                width: 1,
+                colors: ['#fff']
+            },
+            tooltip: {
+                shared: true,
+                intersect: false
+            },
+            xaxis: {
+                categories: @json($monthData),
+            },
+            yaxis: {
+                labels: {
+                    formatter: function(value) {
+                        return value.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR"
+                        });
+                    }
+                },
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#payment-bar-chart"), options);
         chart.render();
     </script>
     <!-- Script end -->

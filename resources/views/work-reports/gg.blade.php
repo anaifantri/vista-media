@@ -346,7 +346,8 @@
             <div class="flex text-md justify-center ml-2 mt-1">
                 <div>
                     <label class="flex w-full justify-center">Yang menyerahkan,</label>
-                    <label class="flex w-full justify-center mt-20 border-b-2 border-black">Texun Sandy Kamboy</label>
+                    <label
+                        class="flex w-full justify-center mt-20 border-b-2 border-black">{{ $bank_account->director }}</label>
                     <label class="flex w-full justify-center">Direktur</label>
                 </div>
             </div>
@@ -705,7 +706,8 @@
             <div class="flex text-md justify-center ml-2 mt-1">
                 <div>
                     <label class="flex w-full justify-center">Yang menyerahkan,</label>
-                    <label class="flex w-full justify-center mt-20 border-b-2 border-black">Texun Sandy Kamboy</label>
+                    <label
+                        class="flex w-full justify-center mt-20 border-b-2 border-black">{{ $bank_account->director }}</label>
                     <label class="flex w-full justify-center">Direktur</label>
                 </div>
             </div>

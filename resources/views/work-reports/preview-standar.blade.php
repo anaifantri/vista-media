@@ -87,7 +87,7 @@
                         <label class="mt-4 text-md flex justify-center w-72">Yang menyerahkan,</label>
                         <label class="text-md flex justify-center w-72 font-semibold">{{ $company->name }}</label>
                         <label class="mt-24 text-md flex justify-center w-72 font-semibold">
-                            <u>Texun Sandy Kamboy</u>
+                            <u>{{ $bank_account->director }}</u>
                         </label>
                         <label class="text-md flex justify-center w-72">Direktur</label>
                     </div>

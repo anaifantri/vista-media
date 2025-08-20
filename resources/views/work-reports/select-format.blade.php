@@ -233,7 +233,7 @@
                 $content->pmlr = true;
                 $content->first_contact = 'Yoni Eka Sari';
                 $content->first_contact_title = 'SCE Teritory';
-                $content->second_contact = 'Texun Sandy Kamboy';
+                $content->second_contact = $bank_account->director;
                 $content->second_contact_title = 'Direktur';
                 $content->known_contact = 'Raka Joe Soekarta';
                 $content->known_contact_title = 'Manager Area Consumer Engagement (MICE)';
@@ -280,10 +280,12 @@
                 $content->lpj = true;
                 $content->bast = true;
                 $content->first =
-                    'Nama : Texun Sandy Kamboy dalam hal ini bertindak atas nama PT. Vista Media berkedudukan di Jl. Pulau Kawe No 40 Dauh Puri Kauh Denpaasar Barat-Denpasar Bali, untuk selanjutnya disebut sebagai Pihak Pertama.';
+                    'Nama : ' .
+                    $bank_account->director .
+                    ' dalam hal ini bertindak atas nama PT. Vista Media berkedudukan di Jl. Pulau Kawe No 40 Dauh Puri Kauh Denpaasar Barat-Denpasar Bali, untuk selanjutnya disebut sebagai Pihak Pertama.';
                 $content->second =
                     'Nama : Jonny Andriyanto dalam hal ini bertindak atas nama PT. Perada Swara Produtions berkedudukan di The Vida Office Building Lt.7 Jl Raya Perjuangan No. 8 Rt.001/Rw 007 Kebon Jeruk Jakarta Barat DKI Jakarta, untuk selanjutnya disebut sebagai Pihak Kedua.';
-                $content->first_contact = 'Texun Sandy Kamboy';
+                $content->first_contact = $bank_account->director;
                 $content->second_contact = 'Jonny Andriyanto';
             } elseif (request('bast_format') == 'xl') {
                 $content->detail = [];

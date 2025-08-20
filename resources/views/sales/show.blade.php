@@ -48,6 +48,20 @@
             'November',
             'Desember',
         ];
+        $bulanShort = [
+            1 => 'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'Mei',
+            'Jun',
+            'Jul',
+            'Agu',
+            'Sep',
+            'Okt',
+            'Nov',
+            'Des',
+        ];
         $product = json_decode($sale->product);
         $description = json_decode($product->description);
         if ($product->category == 'Signage') {
@@ -454,7 +468,7 @@
                                                                 {{ $sale->ppn }} %
                                                             </th>
                                                             <th class="w-16 text-[0.7rem] text-black border">PPh
-                                                                {{ $sale->pph }} %</th>
+                                                                {{ $sale->pph }} 2 %</th>
                                                             <th class="w-20 text-[0.7rem] text-black border">Total</th>
 
                                                         </tr>
@@ -463,7 +477,7 @@
                                                         @foreach ($payment_terms->dataPayments as $terms)
                                                             <?php
                                                             $ppn = $sale['dpp'] * ($sale->ppn / 100);
-                                                            $pph = $sale['dpp'] * ($sale->pph / 100);
+                                                            $pph = $sale['dpp'] * (2 / 100);
                                                             ?>
                                                             <tr>
                                                                 <td class="text-[0.7rem] text-center text-black border">
@@ -492,7 +506,7 @@
                                                 <table class="table-auto w-[740px] mt-1">
                                                     <thead>
                                                         <tr>
-                                                            <th class="w-12 text-[0.7rem] text-black border">Termin
+                                                            <th class="w-12 text-[0.7rem] text-black border">No.
                                                             </th>
                                                             <th class="w-24 text-[0.7rem] text-black border">No.
                                                                 Invoice</th>
@@ -506,27 +520,46 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($payment_terms->dataPayments as $terms)
+                                                        @foreach ($sale->billings as $billing)
                                                             <?php
-                                                            $ppn = $sale['dpp'] * (11 / 100);
-                                                            $pph = 0;
-                                                            // $pph = $sale['dpp'] * (2 / 100);
+                                                            $billingNominal = 0;
+                                                            $descriptions = json_decode($billing->invoice_content)->description;
+                                                            foreach ($descriptions as $description) {
+                                                                if ($description->sale_id == $sale->id) {
+                                                                    $billingNominal = $description->nominal;
+                                                                }
+                                                            }
                                                             ?>
                                                             <tr>
                                                                 <td class="text-[0.7rem] text-center text-black border">
                                                                     {{ $loop->iteration }}.
-                                                                    {{ $terms->term }} %</td>
-                                                                <td class="text-[0.7rem] text-center text-black border">
-                                                                    -
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ $billing->invoice_number }}
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
-                                                                    {{ number_format((($sale['price'] + $ppn - $pph) * $terms->term) / 100) }}
+                                                                    {{ date('d', strtotime($billing->created_at)) }}-{{ $bulanShort[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
                                                                 </td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
-                                                                    terkirim / lunas </td>
+                                                                    {{ number_format($billingNominal) }}
+                                                                </td>
                                                                 <td class="text-[0.7rem] text-center text-black border">
+                                                                    @if (count($billing->bill_payments) > 0)
+                                                                        Paid
+                                                                    @else
+                                                                        Unpaid
+                                                                    @endif
+                                                                </td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    @if (count($billing->bill_payments) > 0)
+                                                                        @php
+                                                                            $lastPayment = $billing->bill_payments->last();
+                                                                            $paymentDate = $lastPayment->payment_date;
+                                                                        @endphp
+                                                                        {{ date('d', strtotime($paymentDate)) }}-{{ $bulanShort[(int) date('m', strtotime($paymentDate))] }}-{{ date('Y', strtotime($paymentDate)) }}
+                                                                    @else
+                                                                        -
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -698,6 +731,147 @@
                                                                 <td class="text-[0.65rem] text-black border text-center">
                                                                     <a
                                                                         href="/marketing/sales/{{ $paid_install_order->sale->id }}">{{ substr($paid_install_order->sale->number, 0, 8) }}..</a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Body end -->
+                            <!-- Footer start -->
+                            @include('dashboard.layouts.letter-footer')
+                            <!-- Footer end -->
+                        </div>
+                    </div>
+                @else
+                    <div class="mt-2 w-[950px]">
+                        <div class="w-[950px] h-[1345px] mt-1 bg-white p-4">
+                            <!-- Header start -->
+                            @include('dashboard.layouts.letter-header')
+                            <!-- Header end -->
+                            <!-- Body start -->
+                            <div class="h-[1100px]">
+                                <div>
+                                    <div class="flex justify-center mt-2 w-full">
+                                        <label class="flex text-lg text-center font-bold underline text-black mt-4">DETAIL
+                                            PENJUALAN</label>
+                                    </div>
+                                    <div class="flex justify-center w-full">
+                                        <label class="flex text-sm text-center font-bold text-black">Nomor :
+                                            {{ $sale->number }}</label>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center mx-1 w-full mt-4">
+                                    <div class="w-[780px]">
+                                        <div class="border rounded-lg mt-1 w-[760px] p-2">
+                                            <div>
+                                                <label class="flex text-sm text-black">Termin Pembayaran</label>
+                                                <table class="table-auto w-[740px] mt-1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="w-12 text-[0.7rem] text-black border">Termin</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">Harga</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">DPP</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">PPN
+                                                                {{ $sale->ppn }} %
+                                                            </th>
+                                                            <th class="w-16 text-[0.7rem] text-black border">PPh
+                                                                {{ $sale->pph }} 2 %</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">Total</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($payment_terms->dataPayments as $terms)
+                                                            <?php
+                                                            $ppn = $sale['dpp'] * ($sale->ppn / 100);
+                                                            $pph = $sale['dpp'] * (2 / 100);
+                                                            ?>
+                                                            <tr>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ $loop->iteration }}.
+                                                                    {{ $terms->term }} %</td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ number_format(($sale['price'] * $terms->term) / 100) }}
+                                                                </td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ number_format(($sale['dpp'] * $terms->term) / 100) }}
+                                                                </td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ number_format(($ppn * $terms->term) / 100) }}</td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ number_format(($pph * $terms->term) / 100) }}</td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ number_format((($sale['price'] + $ppn - $pph) * $terms->term) / 100) }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="mt-2">
+                                                <label class="text-sm text-black underline">Data Penagihan</label>
+                                                <table class="table-auto w-[740px] mt-1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="w-12 text-[0.7rem] text-black border">No.
+                                                            </th>
+                                                            <th class="w-40 text-[0.7rem] text-black border">No.
+                                                                Invoice</th>
+                                                            <th class="w-24 text-[0.7rem] text-black border">Tgl.
+                                                                Invoice</th>
+                                                            <th class="w-28 text-[0.7rem] text-black border">Nominal
+                                                            </th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">Status</th>
+                                                            <th class="w-20 text-[0.7rem] text-black border">Tgl. Bayar
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($sale->billings as $billing)
+                                                            <?php
+                                                            $billingNominal = 0;
+                                                            $descriptions = json_decode($billing->invoice_content)->description;
+                                                            foreach ($descriptions as $description) {
+                                                                if ($description->sale_id == $sale->id) {
+                                                                    $billingNominal = $description->nominal;
+                                                                }
+                                                            }
+                                                            ?>
+                                                            <tr>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ $loop->iteration }}.
+                                                                </td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ $billing->invoice_number }}
+                                                                </td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ date('d', strtotime($billing->created_at)) }}-{{ $bulanShort[(int) date('m', strtotime($billing->created_at))] }}-{{ date('Y', strtotime($billing->created_at)) }}
+                                                                </td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    {{ number_format($billingNominal) }}
+                                                                </td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    @if (count($billing->bill_payments) > 0)
+                                                                        Paid
+                                                                    @else
+                                                                        Unpaid
+                                                                    @endif
+                                                                </td>
+                                                                <td class="text-[0.7rem] text-center text-black border">
+                                                                    @if (count($billing->bill_payments) > 0)
+                                                                        @php
+                                                                            $lastPayment = $billing->bill_payments->last();
+                                                                            $paymentDate = $lastPayment->payment_date;
+                                                                        @endphp
+                                                                        {{ date('d', strtotime($paymentDate)) }}-{{ $bulanShort[(int) date('m', strtotime($paymentDate))] }}-{{ date('Y', strtotime($paymentDate)) }}
+                                                                    @else
+                                                                        -
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         @endforeach

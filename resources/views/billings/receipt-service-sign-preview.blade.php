@@ -27,7 +27,7 @@
                 </label>
                 <label class="text-sm flex justify-center w-72 font-semibold">{{ $company->name }}</label>
                 <label class="mt-28 text-sm flex justify-center w-72 font-semibold">
-                    <u>Texun Sandy Kamboy</u>
+                    <u>{{ $bank_account->director }}</u>
                 </label>
                 <label class="text-sm flex justify-center w-72">Direktur</label>
 
