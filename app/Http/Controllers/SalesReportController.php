@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sale;
 use App\Models\Billing;
+use App\Models\Payment;
 use App\Models\VoidSale;
 use App\Models\ChangeSale;
 use App\Models\Quotation;
@@ -106,7 +107,7 @@ class SalesReportController extends Controller
                 'sales'=>Sale::unionAll(Sale::void()->where('company_id', $company_id))->unionAll(Sale::change()->where('company_id', $company_id))->where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->sortable()->orderBy("number", "asc")->get(),
                 'void_sales'=>VoidSale::where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->get(),
                 'change_sales'=>ChangeSale::where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->get(),
-                'title' => 'Data Penjualan',
+                'title' => 'Laporan C1',
                 compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations', 'void_sales', 'change_sales', 'billings')
             ]);
         } else {
@@ -129,6 +130,34 @@ class SalesReportController extends Controller
                 'sales'=>Sale::where('company_id', $company_id)->filter(request('search'))->customReport()->sortable()->orderBy("number", "asc")->get(),
                 'title' => 'Data Penjualan',
                 compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function receivablesReports(String $company_id): View
+    {
+        if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
+            $receivables = collect([]);
+            $dataPayments = [];
+            $billings = Billing::where('company_id', $company_id)->filter(request('search'))->orderBy('client')->get();
+            foreach ($billings as $billing) {
+                $billPayment = 0;
+                $billPayment = $billing->bill_payments->sum('nominal');
+                $billingTotal = $billing->nominal + $billing->ppn - ($billing->nominal * 2/100);
+                if($billPayment <= $billingTotal){
+                    $receivables->push($billing);
+                    array_push($dataPayments, $billPayment);
+                }
+            }
+            $payments = Payment::with('billings')->get();
+            $sales = Sale::with('billings')->get();
+            return view ('receivables.receivables-reports', [
+                'receivables'=>$receivables,
+                'data_payments'=>$dataPayments,
+                'title' => 'List Piutang',
+                compact('sales', 'payments')
             ]);
         } else {
             abort(403);

@@ -145,6 +145,7 @@ Route::get('/marketing/sales-report/{companyid}', [SalesReportController::class,
 Route::get('/marketing/sales-report/chart-report/{areaId}', [SalesReportController::class,'chartReports'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales-report/c-report/{companyid}', [SalesReportController::class,'cReports'])->middleware(['auth','user_access']);
 Route::get('/marketing/sales-report/custom-report/{companyid}', [SalesReportController::class,'customReports'])->middleware(['auth','user_access']);
+Route::get('/marketing/sales-report/receivables-report/{companyid}', [SalesReportController::class,'receivablesReports'])->middleware(['auth','user_access']);
 // Route Sales Report --> end
 
 // Route Quotation Report --> start

@@ -181,7 +181,7 @@
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         @foreach ($bill_cover_letter->billings as $dataBilling)
                                             @if (count($bill_cover_letter->billings) > 1)
-                                                @if ($dataBilling->id == $bill_cover_letter->billings[count($bill_cover_letter->billings)])
+                                                @if ($dataBilling->id == $bill_cover_letter->billings[count($bill_cover_letter->billings) - 1]->id)
                                                     {{ $dataBilling->invoice_number }}
                                                 @else
                                                     {{ $dataBilling->invoice_number }},

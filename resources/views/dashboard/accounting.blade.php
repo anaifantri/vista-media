@@ -36,8 +36,17 @@
                                 INVOICE</label>
                         </div>
                     </a>
-                    <a href="/billings/report/{{ $company->id }}"
-                        class="flex justify-center col-span-2 text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                    <a href="/marketing/sales-report/c-report/{{ $company->id }}?month={{ (int) date('m') }}&year={{ date('Y') }}"
+                        class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
+                        <div>
+                            <label
+                                class="flex justify-center text-yellow-400 font-serif text-md font-semibold cursor-pointer">LAPORAN
+                                C1</label>
+                        </div>
+                    </a>
+                    </a>
+                    <a href="/marketing/sales-report/receivables-report/{{ $company->id }}"
+                        class="flex justify-center text-teal-400 items-center h-[60px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer">
                         <div>
                             <label
                                 class="flex justify-center text-yellow-400 font-serif text-md font-semibold cursor-pointer">LIST
