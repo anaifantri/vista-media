@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use App\Models\Billing;
 use App\Models\Payment;
+use App\Models\OtherFee;
 use App\Models\VoidSale;
 use App\Models\ChangeSale;
 use App\Models\Quotation;
@@ -139,28 +140,77 @@ class SalesReportController extends Controller
     public function receivablesReports(String $company_id): View
     {
         if(Gate::allows('isSale') && Gate::allows('isMarketingRead')){
-            $receivables = collect([]);
-            $dataPayments = [];
-            $billings = Billing::where('company_id', $company_id)->filter(request('search'))->orderBy('client')->get();
-            foreach ($billings as $billing) {
-                $billPayment = 0;
-                $billPayment = $billing->bill_payments->sum('nominal');
-                $billingTotal = $billing->nominal + $billing->ppn - ($billing->nominal * 2/100);
-                if($billPayment <= $billingTotal){
-                    $receivables->push($billing);
-                    array_push($dataPayments, $billPayment);
+            if(request('fromData') && request('fromData') == 'PENJUALAN'){
+                $sales_categories = MediaCategory::with('sales')->get();
+                $areas = Area::with('locations')->get();
+                $cities = City::with('locations')->get();
+                $media_sizes = MediaSize::with('locations')->get();
+                $location_categories = MediaCategory::with('locations')->get();
+                $companies = Company::with('sales')->get();
+                $quotations = Quotation::with('sales')->get();
+                $locations = Location::with('sales')->get();
+                $receivables = collect([]);
+                $dataPayments = [];
+                $billingNominals = [];
+                $sales = Sale::with('quotation')->where('company_id', $company_id)->receivables()->orderBy(Quotation::select('clients')->whereColumn('quotations.id', 'sales.quotation_id'))->get();
+                foreach ($sales as $sale) {
+                    $billPayment = 0;
+                    $otherFees = 0;
+                    $billingTotal = 0;
+                    foreach ($sale->billings as $billing) {
+                        $billPayment = $billing->bill_payments->sum('nominal');
+                        foreach ($billing->bill_payments as $payment) {
+                            if($payment->other_fee){
+                                $otherFees = $otherFees + $payment->other_fee->nominal;
+                            }
+                        }
+                        $billingTotal = $billing->nominal + $billing->ppn - ((($billing->dpp/11)*12) * (2/100)) - $otherFees;
+                    }
+                    if(round($billPayment)< round($billingTotal)){
+                        $receivables->push($sale);
+                        array_push($dataPayments, $billPayment);
+                        array_push($billingNominals, $billingTotal);
+                    }
                 }
+                return view ('receivables.receivables-reports', [
+                    'sales'=>$receivables,
+                    'title' => 'Laporan G1',
+                    compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations')
+                ]);
+            }else{
+                $receivables = collect([]);
+                $dataPayments = [];
+                $billingNominals = [];
+                $billings = Billing::where('company_id', $company_id)->receivables()->orderBy('client')->get();
+                foreach ($billings as $billing) {
+                    $billPayment = 0;
+                    $otherFees = 0;
+                    $billPayment = $billing->bill_payments->sum('nominal');
+                    foreach ($billing->bill_payments as $payment) {
+                        if($payment->other_fee){
+                            $otherFees = $otherFees + $payment->other_fee->nominal;
+                        }
+                    }
+                    $billingTotal = $billing->nominal + $billing->ppn - ((($billing->dpp/11)*12) * (2/100)) - $otherFees;
+                    if(round($billPayment)< round($billingTotal)){
+                        $receivables->push($billing);
+                        array_push($dataPayments, $billPayment);
+                        array_push($billingNominals, $billingTotal);
+                    }
+                }
+                $payments = Payment::with('billings')->get();
+                $sales = Sale::with('billings')->get();
+                return view ('receivables.receivables-reports', [
+                    'receivables'=>$receivables,
+                    'data_payments'=>$dataPayments,
+                    'billing_nominals'=>$billingNominals,
+                    'title' => 'List Piutang',
+                    compact('sales', 'payments')
+                ]);
             }
-            $payments = Payment::with('billings')->get();
-            $sales = Sale::with('billings')->get();
-            return view ('receivables.receivables-reports', [
-                'receivables'=>$receivables,
-                'data_payments'=>$dataPayments,
-                'title' => 'List Piutang',
-                compact('sales', 'payments')
-            ]);
         } else {
             abort(403);
         }
     }
+
 }

@@ -4,7 +4,7 @@
             <u>INVOICE</u>
         </label>
         <div class="flex mt-4">
-            <div class="w-[380px] h-[185px] border rounded-lg p-1">
+            <div class="w-[380px] border rounded-lg p-1">
                 <div class="flex items-center ml-2">
                     <label class="text-lg w-24">Nomor</label>
                     <label class="text-lg">:</label>
@@ -88,7 +88,7 @@
                     @endforeach
                 @endif
             </div>
-            <div class="w-[380px] h-[185px] border rounded-lg p-1 ml-2">
+            <div class="w-[380px] border rounded-lg p-1 ml-2">
                 <label class="text-lg font-mono font-semibold ml-2">Kepada Yth.</label>
                 <div class="flex ml-2">
                     <label class="text-sm w-24">Nama</label>

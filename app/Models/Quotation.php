@@ -147,6 +147,7 @@ class Quotation extends Model
     public function quotation_revisions(){
         return $this->hasMany(QuotationRevision::class, 'quotation_id', 'id');
     }
+
     public function sales(){
         return $this->hasMany(Sale::class, 'quotation_id', 'id');
     }

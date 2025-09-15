@@ -1,30 +1,53 @@
-<form action="/marketing/sales-report/custom-report/{{ $company->id }}">
+<form action="/marketing/sales-report/receivables-report/{{ $company->id }}">
     <div class="flex justify-center">
         <div class="flex justify-center items-center border rounded-lg mt-2 p-2 w-[1580px]">
             <div>
                 <div class="flex h-14">
                     <div>
                         <span class="text-base text-stone-100">Pilih Klien</span>
-                        <select name="" id=""
-                            class="p-1 outline-none border w-32 text-md text-stone-900 rounded-md bg-stone-100">
-                            <option value="">All</option>
+                        <select name="client" id="" onchange="submit()"
+                            class="p-1 outline-none border w-72 text-md text-stone-900 rounded-md bg-stone-100">
+                            <option value="All">All</option>
+                            @if (request('client'))
+                                @foreach ($dataClients as $showClient)
+                                    @if ($showClient == request('client'))
+                                        <option value="{{ $showClient }}" selected>{{ $showClient }}</option>
+                                    @else
+                                        <option value="{{ $showClient }}">{{ $showClient }}</option>
+                                    @endif
+                                @endforeach
+                            @else
+                                @foreach ($dataClients as $showClient)
+                                    <option value="{{ $showClient }}">{{ $showClient }}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="ml-4">
                         <span class="text-base text-stone-100">Pilih Data</span>
                         <div class="flex">
-                            <select name="" id=""
+                            <select name="fromData" id="" onchange="submit()"
                                 class="p-1 outline-none border w-32 text-md text-stone-900 rounded-md bg-stone-100">
-                                <option value="">Invoice</option>
-                                <option value="">Penjualan</option>
+                                @if (request('fromData'))
+                                    @if (request('fromData') == 'INVOICE')
+                                        <option value="INVOICE" selected>Invoice</option>
+                                        <option value="PENJUALAN">Penjualan</option>
+                                    @else
+                                        <option value="INVOICE">Invoice</option>
+                                        <option value="PENJUALAN" selected>Penjualan</option>
+                                    @endif
+                                @else
+                                    <option value="INVOICE">Invoice</option>
+                                    <option value="PENJUALAN">Penjualan</option>
+                                @endif
                             </select>
-                            <button class="flex ml-4 text-teal-400 hover:text-teal-600" type="submit">
+                            {{-- <button class="flex ml-4 text-teal-400 hover:text-teal-600" type="submit">
                                 <svg class="fill-current w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path
                                         d="m12.007 2c-5.518 0-9.998 4.48-9.998 9.998 0 5.517 4.48 9.997 9.998 9.997s9.998-4.48 9.998-9.997c0-5.518-4.48-9.998-9.998-9.998zm1.523 6.21s1.502 1.505 3.255 3.259c.147.147.22.339.22.531s-.073.383-.22.53c-1.753 1.754-3.254 3.258-3.254 3.258-.145.145-.335.217-.526.217-.192-.001-.384-.074-.531-.221-.292-.293-.294-.766-.003-1.057l1.977-1.977h-6.693c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h6.693l-1.978-1.979c-.29-.289-.287-.762.006-1.054.147-.147.339-.221.53-.222.19 0 .38.071.524.215z"
                                         fill-rule="nonzero" />
                                 </svg>
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                 </div>

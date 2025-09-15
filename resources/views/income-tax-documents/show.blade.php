@@ -68,9 +68,9 @@
                                 <label class="text-md w-40">Tgl. Bukti Potong</label>
                                 <label class="text-md ml-2">:</label>
                                 <label class="text-md ml-2">
-                                    {{ date('d', strtotime($income_tax_document->created_at)) }}
-                                    {{ $fullMonth[(int) date('m', strtotime($income_tax_document->created_at))] }}
-                                    {{ date('Y', strtotime($income_tax_document->created_at)) }}
+                                    {{ date('d', strtotime($income_tax_document->tax_date)) }}
+                                    {{ $fullMonth[(int) date('m', strtotime($income_tax_document->tax_date))] }}
+                                    {{ date('Y', strtotime($income_tax_document->tax_date)) }}
                                 </label>
                             </div>
                             <div class="flex mt-1">

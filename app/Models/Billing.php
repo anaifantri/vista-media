@@ -12,6 +12,12 @@ class Billing extends Model
     use Sortable;
     protected $guarded = ['id'];
         
+    public function scopeReceivables($query){
+        if(request('client') && request('client') != 'All'){
+            return $query->whereRaw('LOWER(JSON_EXTRACT(client, "$.company")) like ?', ['"%' . strtolower(request('client')) . '%"']);
+        }
+    }
+        
     public function scopeYear($query){
         if(request('year')){
             return $query->whereYear('created_at', request('year'));

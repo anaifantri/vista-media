@@ -70,5 +70,9 @@ class Payment extends Model
         return $this->hasOne(IncomeTaxDocument::class, 'payment_id', 'id');
     }
 
+    public function other_fee(){
+        return $this->hasOne(OtherFee::class, 'payment_id', 'id');
+    }
+
     public $sortable = ['number'];
 }

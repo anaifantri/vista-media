@@ -57,6 +57,10 @@ class Company extends Model
         return $this->hasMany(Payment::class, 'company_id', 'id');
     }
 
+    public function other_fees(){
+        return $this->hasMany(Payment::class, 'company_id', 'id');
+    }
+
     public function print_orders(){
         return $this->hasMany(PrintOrder::class, 'company_id', 'id');
     }

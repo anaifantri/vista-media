@@ -266,7 +266,25 @@ class WorkReportController extends Controller
      */
     public function edit(WorkReport $workReport): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            $first_photo = json_decode($workReport->first_photo);
+            $second_photo = json_decode($workReport->second_photo);
+            $content = json_decode($workReport->content);
+            $sale = Sale::with('work_reports')->get();
+            return response()->view('work-reports.edit', [
+                'work_report' => $workReport,
+                'first_photo' => $first_photo->image,
+                'first_photo_title' => $first_photo->title,
+                'second_photo' => $second_photo->image,
+                'second_photo_title' => $second_photo->title,
+                'content' => $content,
+                'client' => $content->client,
+                'title' => 'Edit DBAST No.'.$workReport->number,
+                compact('sale')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -274,7 +292,22 @@ class WorkReportController extends Controller
      */
     public function update(Request $request, WorkReport $workReport): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            $rules = [
+                'content' => 'required',
+                'updated_by' => 'required'
+            ];
+
+            $validateData = $request->validate($rules);
+            dd($validateData);
+
+            WorkReport::where('id', $workReport->id)
+                ->update($validateData);
+        
+            return redirect('/work-reports/preview/'.$workReport->id)->with('success','BAST dengan nomor '. $workReport->number . ' berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**

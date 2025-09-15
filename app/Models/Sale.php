@@ -12,6 +12,14 @@ class Sale extends Model
     use Sortable;
     protected $guarded = ['id'];
 
+    public function scopeReceivables($query){
+        if(request('client') && request('client') != 'All'){
+            return $query->whereHas('quotation', function($query){
+                        $query->whereRaw('LOWER(JSON_EXTRACT(clients, "$.company")) like ?', ['"%' . strtolower(request('client')) . '%"']);
+                    });
+        }
+    }
+
     public function scopeCategory($query){
         if (request('media_category_id') != "All") {
             return $query->where('media_category_id', 'like', '%' . request('media_category_id') . '%');
@@ -208,9 +216,11 @@ class Sale extends Model
     public function company(){
         return $this->belongsTo(Company::class);
     }
+    
     public function quotation(){
         return $this->belongsTo(Quotation::class);
     }
+
     public function location(){
         return $this->belongsTo(Location::class);
     }
