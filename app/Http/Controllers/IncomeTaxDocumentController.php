@@ -69,7 +69,7 @@ class IncomeTaxDocumentController extends Controller
             ]);
 
             $validateData = $request->validate([
-                'number' => 'required|unique:income_tax_documents',
+                'number' => 'required',
                 'company' => 'required',
                 'payment_id' => 'required',
                 'company_id' => 'required',

@@ -231,7 +231,7 @@ class LicenseController extends Controller
             ]);
             $request->request->add(['user_id' => auth()->user()->id]);
             $validateData = $request->validate([
-                'number' => 'required|unique:licenses',
+                'number' => 'required',
                 'licensing_category_id' => 'required',
                 'company_id' => 'required',
                 'user_id' => 'required',
@@ -333,7 +333,7 @@ class LicenseController extends Controller
             ];
     
             if($request->number != $license->number){
-                $rules['number'] = 'required|unique:licenses';
+                $rules['number'] = 'required';
             }
             $validateData = $request->validate($rules);
 

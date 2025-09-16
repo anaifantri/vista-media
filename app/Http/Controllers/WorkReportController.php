@@ -273,10 +273,8 @@ class WorkReportController extends Controller
             $sale = Sale::with('work_reports')->get();
             return response()->view('work-reports.edit', [
                 'work_report' => $workReport,
-                'first_photo' => $first_photo->image,
-                'first_photo_title' => $first_photo->title,
-                'second_photo' => $second_photo->image,
-                'second_photo_title' => $second_photo->title,
+                'first_photo' => $first_photo,
+                'second_photo' => $second_photo,
                 'content' => $content,
                 'client' => $content->client,
                 'title' => 'Edit DBAST No.'.$workReport->number,
@@ -293,13 +291,37 @@ class WorkReportController extends Controller
     public function update(Request $request, WorkReport $workReport): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            if($request->file('image_1')){
+                $request->validate([
+                    'image_1'=> 'image|file|mimes:jpeg,png,jpg|max:2048'
+                ]);
+            }
+            if($request->file('image_2')){
+                $request->validate([
+                    'image_2'=> 'image|file|mimes:jpeg,png,jpg|max:2048'
+                ]);
+            }
+            if($request->file('image_1')){
+                $firstPhoto = json_decode(request('first_photo'));
+                $firstImage = $request->file('image_1');
+                $firstPhoto->image = $firstImage->store('installation-photos');
+                $request->request->add(['first_photo' => json_encode($firstPhoto)]);
+            }
+            if($request->file('image_2')){
+                $secondPhoto = json_decode(request('second_photo'));
+                $secondImage = $request->file('image_2');
+                $secondPhoto->image = $secondImage->store('installation-photos');
+                $request->request->add(['second_photo' => json_encode($secondPhoto)]);
+            }
+
             $rules = [
                 'content' => 'required',
+                'first_photo' => 'required',
+                'second_photo' => 'required',
                 'updated_by' => 'required'
             ];
 
             $validateData = $request->validate($rules);
-            dd($validateData);
 
             WorkReport::where('id', $workReport->id)
                 ->update($validateData);

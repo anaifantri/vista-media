@@ -50,27 +50,31 @@
                 <div class="flex text-md mt-2 ml-10">
                     <label class="w-40">Jenis</label>
                     <label>:</label>
-                    <input id="productType" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
-                        value="{{ $content->location_type }} - {{ $content->location_lighting }}"
-                        onchange="changeProductType(this)" required>
+                    <input id="locationType" type="text"
+                        class="ml-2 mr-2 outline-none px-1 border rounded-md w-[200px]"
+                        value="{{ $content->location_type }}" onchange="changeLocationType(this)" required> -
+                    <input id="locationLighting" type="text"
+                        class="ml-2 outline-none px-1 border rounded-md w-[200px]"
+                        value="{{ $content->location_lighting }}" onchange="changeLocationLighting(this)" required>
                 </div>
                 <div class="flex text-md mt-2 ml-10">
                     <label class="w-40">Jumlah</label>
                     <label>:</label>
-                    <input id="productQty" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                    <input id="qty" type="text" class="ml-2 outline-none px-1 border rounded-md w-16"
                         value="{{ $content->qty }}" onchange="changeQty(this)" required>
                 </div>
                 <div class="flex text-md mt-2 ml-10">
                     <label class="w-40">Lokasi</label>
                     <label>:</label>
-                    <input id="location" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
-                        value="{{ $content->location_address }}" onchange="changeLocation(this)" required>
+                    <input id="locationAddress" type="text"
+                        class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                        value="{{ $content->location_address }}" onchange="changeLocationAddress(this)" required>
                 </div>
                 <div class="flex text-md mt-2 ml-10">
                     <label class="w-40">Ukuran</label>
                     <label>:</label>
-                    <input id="size" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
-                        value="{{ $content->location_size }}" onchange="changeSize(this)" required>
+                    <input id="locationSize" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                        value="{{ $content->location_size }}" onchange="changeLocationSize(this)" required>
                 </div>
                 @if ($work_report->sale->media_category->name == 'Service')
                     <div class="flex text-md mt-2 ml-10">

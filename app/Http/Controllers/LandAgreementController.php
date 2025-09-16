@@ -180,7 +180,7 @@ class LandAgreementController extends Controller
 
             $request->request->add(['first_party' => json_encode($firstParty), 'second_party' => json_encode($secondParty)]);
             $validateData = $request->validate([
-                'number' => 'required|unique:land_agreements',
+                'number' => 'required',
                 'company_id' => 'required',
                 'user_id' => 'required',
                 'location_id' => 'required',
@@ -326,7 +326,7 @@ class LandAgreementController extends Controller
             ];
     
             if($request->number != $landAgreement->number){
-                $rules['number'] = 'required|unique:land_agreements';
+                $rules['number'] = 'required';
             }
             $validateData = $request->validate($rules);
 

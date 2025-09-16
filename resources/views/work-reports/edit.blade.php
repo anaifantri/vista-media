@@ -84,6 +84,8 @@
         @endphp
         <div class="flex justify-center bg-black p-10">
             <input id="inputContent" type="text" name="content" value="{{ json_encode($content) }}" hidden>
+            <input type="text" name="first_photo" value="{{ json_encode($first_photo) }}" hidden>
+            <input type="text" name="second_photo" value="{{ json_encode($second_photo) }}" hidden>
             <input type="text" name="updated_by" value="{{ json_encode($updated_by) }}" hidden>
             <div>
                 <!-- Title start -->
@@ -131,7 +133,7 @@
                                                 DOKUMENTASI PEKERJAAN
                                             </label>
                                         </div>
-                                        <div class="flex w-full font-serif text-sm tracking-wider font-bold ml-24 mt-8">
+                                        <div class="flex w-full font-serif text-sm tracking-wider font-bold ml-24 mt-6">
                                             <span class="w-28">Pekerjaan</span>
                                             <span>:</span>
                                             <span class="ml-2">
@@ -158,25 +160,63 @@
                                                 <span class="ml-2">{{ $content->periode }}</span>
                                             </div>
                                         @endif
-                                        <div class="flex w-full justify-center font-serif mt-6 text-sm font-semibold">
-                                            @if ($first_photo_title != 'null' && $first_photo_title != '')
-                                                <u>{{ $first_photo_title }}</u>
+                                        <div class="flex w-full justify-center font-serif mt-2 text-sm font-semibold">
+                                            @if ($first_photo->title != 'null' && $first_photo->title != '')
+                                                <u>{{ $first_photo->title }}</u>
                                             @endif
                                         </div>
+                                        <div class="flex w-full justify-center mt-2">
+                                            <input type="file" id="firstPhoto" name="image_1"
+                                                onchange="previewImage(this)" hidden>
+                                            <button id="btnChooseImages"
+                                                class="flex justify-center items-center w-44 btn-primary-small"
+                                                title="Chose Files" type="button"
+                                                onclick="document.getElementById('firstPhoto').click()">
+                                                <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
+                                                    fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
+                                                </svg>
+                                                <span class="ml-2">Ganti Foto</span>
+                                            </button>
+                                        </div>
+                                        @error('image_1')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                         <div class="flex justify-center w-full mt-2">
-                                            <img id="previewFirstPhoto"
-                                                class="border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
-                                                src="{{ asset('storage/' . $first_photo) }}">
+                                            <img class="img-first-preview border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
+                                                src="{{ asset('storage/' . $first_photo->image) }}">
                                         </div>
                                         <div class="flex w-full justify-center font-serif mt-6 text-sm font-semibold">
-                                            @if ($second_photo_title != 'null' && $second_photo_title != '')
-                                                <u>{{ $second_photo_title }}</u>
+                                            @if ($second_photo->title != 'null' && $second_photo->title != '')
+                                                <u>{{ $second_photo->title }}</u>
                                             @endif
                                         </div>
+                                        <div class="flex w-full justify-center mt-2">
+                                            <input type="file" id="secondPhoto" name="image_2"
+                                                onchange="previewImage(this)" hidden>
+                                            <button id="btnChooseImages"
+                                                class="flex justify-center items-center w-44 btn-primary-small"
+                                                title="Chose Files" type="button"
+                                                onclick="document.getElementById('secondPhoto').click()">
+                                                <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
+                                                    fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
+                                                </svg>
+                                                <span class="ml-2">Ganti Foto</span>
+                                            </button>
+                                        </div>
+                                        @error('image_2')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                         <div class="flex justify-center w-full mt-2">
-                                            <img id="previewSecondPhoto"
-                                                class="border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
-                                                src="{{ asset('storage/' . $second_photo) }}">
+                                            <img class="img-second-preview border m-auto w-[600px] h-[410px] flex items-center bg-white rounded-lg"
+                                                src="{{ asset('storage/' . $second_photo->image) }}">
                                         </div>
                                     </div>
                                 </div>
@@ -217,6 +257,78 @@
             getContent.type = sel.value;
 
             inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeLocationType = (sel) => {
+            getContent.location_type = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeLocationLighting = (sel) => {
+            getContent.location_lighting = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeLocationAddress = (sel) => {
+            getContent.location_address = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeLocationSize = (sel) => {
+            getContent.location_size = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeQty = (sel) => {
+            getContent.qty = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeTheme = (sel) => {
+            getContent.theme = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changePeriode = (sel) => {
+            getContent.periode = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeNote = (sel) => {
+            getContent.note = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        function previewImage(sel) {
+            if (sel.name == "image_1") {
+                const imgPreview = document.querySelector('.img-first-preview');
+
+                const oFReader = new FileReader();
+
+                oFReader.readAsDataURL(sel.files[0]);
+
+                oFReader.onload = function(oFREvent) {
+                    imgPreview.src = oFREvent.target.result;
+                }
+            } else {
+                const imgPreview = document.querySelector('.img-second-preview');
+
+                const oFReader = new FileReader();
+
+                oFReader.readAsDataURL(sel.files[0]);
+
+                oFReader.onload = function(oFREvent) {
+                    imgPreview.src = oFREvent.target.result;
+                }
+            }
         }
     </script>
 
