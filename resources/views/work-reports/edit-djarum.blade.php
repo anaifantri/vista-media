@@ -9,16 +9,24 @@
                     Nomor : {{ $work_report->number }}
                 </label>
                 <div class="p-4">
+                    <div class="flex mt-6">
+                        <label class="w-40">Tanggal BAST</label>
+                        <label>:</label>
+                        <input type="date" class="ml-2 outline-none px-2 border rounded-md"
+                            value="{{ $content->date }}" onchange="changeDate(this)" id="inputBastDate" required>
+                    </div>
                     <div class="flex text-md items-center ml-2 mt-4">
                         <label>Yang bertandatangan di bawah ini :</label>
                     </div>
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-6">1.</label>
-                        <label class="px-1 ml-4 text-justify w-[725px]">{{ $content->first }}</label>
+                        <textarea class="px-1 ml-4 text-justify w-[725px] outline-none border rounded-md" rows="4"
+                            onchange="changeFirst(this)">{{ $content->first }}</textarea>
                     </div>
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-6">2.</label>
-                        <label class="px-1 ml-4 text-justify w-[725px]">{{ $content->second }}</label>
+                        <textarea class="px-1 ml-4 text-justify w-[725px] outline-none border rounded-md" rows="4"
+                            onchange="changeSecond(this)">{{ $content->second }}</textarea>
                     </div>
                     <div class="flex text-md items-center ml-2 mt-4">
                         <label class="text-justify w-[780px]">Bersama ini Pihak Pertama dan Pihak Kedua telah
@@ -30,27 +38,36 @@
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-14 w-36">Nomor perjanjian</label>
                         <label>:</label>
-                        <label class="ml-2">{{ $content->agreement_number }}</label>
+                        <input id="agreementNumber" type="text"
+                            class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                            value="{{ $content->agreement_number }}" onchange="changeAgreementNumber(this)" required>
                     </div>
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-14 w-36">Jenis Reklame</label>
                         <label>:</label>
-                        <label class="ml-2">{{ $content->type }}</label>
+                        <input id="type" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                            value="{{ $content->type }}" onchange="changeType(this)" required>
                     </div>
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-14 w-36">Lokasi</label>
                         <label>:</label>
-                        <label class="ml-2">{{ $content->location_address }}</label>
+                        <input id="locationAddress" type="text"
+                            class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                            value="{{ $content->location_address }}" onchange="changeLocationAddress(this)" required>
                     </div>
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-14 w-36">Ukuran</label>
                         <label>:</label>
-                        <label class="ml-2">{{ $content->location_size }}</label>
+                        <input id="locationSize" type="text"
+                            class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                            value="{{ $content->location_size }}" onchange="changeLocationSize(this)" required>
                     </div>
                     <div class="flex text-md ml-2 mt-2">
                         <label class="ml-14 w-36">Jenis Penerangan</label>
                         <label>:</label>
-                        <label class="ml-2">{{ $content->location_lighting }}</label>
+                        <input id="locationLighting" type="text"
+                            class="ml-2 outline-none px-1 border rounded-md w-[200px]"
+                            value="{{ $content->location_lighting }}" onchange="changeLocationLighting(this)" required>
                     </div>
                     <div class="flex text-md items-center ml-2 mt-4">
                         <label class="text-justify w-[780px]">Dari hasil pemeriksaan tersebut diatas dinyatakan
@@ -90,8 +107,9 @@
                                     {{ $client->name }}
                                 @endif
                             </label>
-                            <label
-                                class="flex w-full justify-center font-semibold mt-20 border-b-2 border-black">{{ $content->second_contact }}</label>
+                            <input id="secondContact" type="text"
+                                class="ml-2 outline-none text-center font-serif px-1 border-b-2 border-black mt-20 rounded-md w-full"
+                                value="{{ $content->second_contact }}" onchange="changeSecondContact(this)" required>
                         </div>
                     </div>
                 </div>
@@ -139,7 +157,8 @@
                 <div class="flex mt-2">
                     <label class="w-52">Brand</label>
                     <label>:</label>
-                    <label class="ml-2">{{ $content->brand }}</label>
+                    <input id="brand" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                        value="{{ $content->brand }}" onchange="changeBrand(this)" required>
                 </div>
                 <div class="flex mt-2">
                     <label class="w-52">Lokasi</label>
@@ -149,10 +168,12 @@
                 <div class="flex mt-2">
                     <label class="w-52">Tanggal mulai</label>
                     <label>:</label>
-                    <label class="ml-2">{{ $content->lpj_start }}</label>
+                    <input id="lpjStart" type="date" class="ml-2 outline-none px-1 border rounded-md w-32"
+                        value="{{ $content->lpj_start }}" onchange="changeLpjStart(this)" required>
                     <label class="ml-56">Tanggal selesai</label>
                     <label class="ml-2">:</label>
-                    <label class="ml-2">{{ $content->lpj_end }}</label>
+                    <input id="lpjEnd" type="date" class="ml-2 outline-none px-1 border rounded-md w-32"
+                        value="{{ $content->lpj_end }}" onchange="changeLpjEnd(this)" required>
                 </div>
             </div>
             <table class="table-auto w-full mt-4">

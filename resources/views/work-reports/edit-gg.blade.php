@@ -16,13 +16,10 @@
             <label class="font-semibold w-24 ml-2">Nomor</label>
             <label>:</label>
             <label class="ml-2">{{ $work_report->number }}</label>
-            <label class="font-semibold w-24 ml-60">Tanggal</label>
+            <label class="font-semibold w-24 ml-56">Tanggal</label>
             <label>:</label>
-            <label class="ml-4">
-                {{ date('d', strtotime($content->date)) }}
-                {{ $fullMonth[(int) date('m', strtotime($content->date))] }}
-                {{ date('Y', strtotime($content->date)) }}
-            </label>
+            <input type="date" class="ml-2 outline-none px-2 border rounded-md" value="{{ $content->date }}"
+                onchange="changeDate(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="font-semibold">2.</label>
@@ -50,12 +47,14 @@
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Tanggal PO</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->po_date }}</label>
+            <input id="poDate" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->po_date }}" onchange="changePoDate(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Nomor PO</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->po_number }}</label>
+            <input id="poNumber" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->po_number }}" onchange="changePoNumber(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="font-semibold">4.</label>
@@ -64,31 +63,51 @@
         <div class="flex text-md items-center ml-2 mt-1">
             @if ($content->category == 'Service')
                 <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                    <input name="bast_sale_status" value="new" type="radio" class="outline-none"
+                        onclick="changeBastSaleStatus(this)">
                 </div>
                 <label class="w-40 ml-2">Kontrak Baru</label>
                 <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                    <input name="bast_sale_status" value="extend" type="radio" class="outline-none"
+                        onclick="changeBastSaleStatus(this)">
                 </div>
                 <label class="w-40 ml-2">Perpanjangan</label>
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="bast_sale_status" value="revisual" type="radio" class="outline-none" checked
+                        onclick="changeBastSaleStatus(this)">
                 </div>
                 <label class="w-40 ml-2">Revisual</label>
             @else
                 <div class="flex justify-center items-center w-10 h-6 border border-black ml-5 font-bold text-black">
                     @if ($content->bast_sale_status == 'new')
-                        ✓
+                        <input name="bast_sale_status" value="new" type="radio" class="outline-none"
+                            onclick="changeBastSaleStatus(this)" checked>
+                    @else
+                        <input name="bast_sale_status" value="new" type="radio" class="outline-none"
+                            onclick="changeBastSaleStatus(this)">
                     @endif
                 </div>
                 <label class="w-40 ml-2">Kontrak Baru</label>
                 <div class="flex justify-center items-center w-10 h-6 border border-black ml-5 font-bold text-black">
                     @if ($content->bast_sale_status == 'extend')
-                        ✓
+                        <input name="bast_sale_status" value="extend" type="radio" class="outline-none"
+                            onclick="changeBastSaleStatus(this)" checked>
+                    @else
+                        <input name="bast_sale_status" value="extend" type="radio" class="outline-none"
+                            onclick="changeBastSaleStatus(this)">
                     @endif
                 </div>
                 <label class="w-40 ml-2">Perpanjangan</label>
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    @if ($content->bast_sale_status == 'revisual')
+                        <input name="bast_sale_status" value="revisual" type="radio" class="outline-none"
+                            onclick="changeBastSaleStatus(this)" checked>
+                    @else
+                        <input name="bast_sale_status" value="revisual" type="radio" class="outline-none"
+                            onclick="changeBastSaleStatus(this)">
+                    @endif
                 </div>
                 <label class="w-40 ml-2">Revisual</label>
             @endif
@@ -103,25 +122,42 @@
                     @if ($ggCategory == $content->location_type)
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'LED' && $content->location_type == 'Videotron')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'JPO' && $content->location_type == 'Bando')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'Neon Box' && $content->location_type == 'Signage')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @else
                         <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                            @if ($ggCategory == 'LED')
+                                <input name="location_type" value="Videotron" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @elseif ($ggCategory == 'JPO')
+                                <input name="location_type" value="Bando" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @elseif ($ggCategory == 'Neon Box')
+                                <input name="location_type" value="Signage" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @else
+                                <input name="location_type" value="{{ $ggCategory }}" type="radio"
+                                    class="outline-none" onclick="changeLocationType(this)">
+                            @endif
                         </div>
                     @endif
                     <label class="w-40 ml-2">{{ $ggCategory }}</label>
@@ -134,26 +170,42 @@
                     @if ($ggCategory == $content->location_type)
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'LED' && $content->location_type == 'Videotron')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'JPO' && $content->location_type == 'Bando')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'Neon Box' && $content->location_type == 'Signage')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @else
-                        <div
-                            class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                        <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                            @if ($ggCategory == 'LED')
+                                <input name="location_type" value="Videotron" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @elseif ($ggCategory == 'JPO')
+                                <input name="location_type" value="Bando" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @elseif ($ggCategory == 'Neon Box')
+                                <input name="location_type" value="Signage" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @else
+                                <input name="location_type" value="{{ $ggCategory }}" type="radio"
+                                    class="outline-none" onclick="changeLocationType(this)">
+                            @endif
                         </div>
                     @endif
                     <label class="w-40 ml-2">{{ $ggCategory }}</label>
@@ -163,39 +215,49 @@
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Ukuran</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->location_size }}</label>
+            <input type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->location_size }}" onchange="changeLocationSize(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             @if ($content->location_lighting == 'Backlight')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lighting" value="Backlight" type="radio" class="outline-none" checked
+                        onclick="changeLighting(this)">
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lighting" value="Backlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">Back Light</label>
             @if ($content->location_lighting == 'Frontlight')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lighting" value="Frontlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)" checked>
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lighting" value="Frontlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">Front Light</label>
             @if ($content->location_lighting == 'Nonlight')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lighting" value="Nonlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)" checked>
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lighting" value="Nonlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">No Light</label>
@@ -204,22 +266,28 @@
             @if ($content->location_orientation == 'Vertikal')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="orientation" value="Vertikal" type="radio" class="outline-none"
+                        onclick="changeLocationOrientation(this)" checked>
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="orientation" value="Vertikal" type="radio" class="outline-none"
+                        onclick="changeLocationOrientation(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">Vertical</label>
             @if ($content->location_orientation == 'Horizontal')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="orientation" value="Horizontal" type="radio" class="outline-none"
+                        onclick="changeLocationOrientation(this)" checked>
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="orientation" value="Horizontal" type="radio" class="outline-none"
+                        onclick="changeLocationOrientation(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">Horizontal</label>
@@ -227,23 +295,25 @@
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="w-40 ml-5">Lokasi</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->location_address }}</label>
+            <input id="locationAddress" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->location_address }}" onchange="changeLocationAddress(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Desain Visual</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->theme }}</label>
+            <input id="theme" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->theme }}" onchange="changeTheme(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Brand</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->brand }}</label>
+            <input id="brand" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->brand }}" onchange="changeBrand(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="font-semibold">6.</label>
-            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama PT
-                Gudang
-                Garam Tbk</label>
+            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama
+                Perusahaan Rokok Tjap Gudang Garamk</label>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Tanggal Pemeriksaan</label>
@@ -348,13 +418,10 @@
             <label class="font-semibold w-24 ml-2">Nomor</label>
             <label>:</label>
             <label class="ml-2">{{ $work_report->number }}</label>
-            <label class="font-semibold w-24 ml-60">Tanggal</label>
+            <label class="font-semibold w-24 ml-56">Tanggal</label>
             <label>:</label>
-            <label class="ml-4">
-                {{ date('d', strtotime($content->date)) }}
-                {{ $fullMonth[(int) date('m', strtotime($content->date))] }}
-                {{ date('Y', strtotime($content->date)) }}
-            </label>
+            <input type="date" class="ml-2 outline-none px-2 border rounded-md" value="{{ $content->date }}"
+                onchange="changeDate(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="font-semibold">2.</label>
@@ -382,12 +449,14 @@
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Tanggal PO</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->po_date }}</label>
+            <input id="poDate" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->po_date }}" onchange="changePoDate(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Nomor PO</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->po_number }}</label>
+            <input id="poNumber" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->po_number }}" onchange="changePoNumber(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="font-semibold">4.</label>
@@ -396,31 +465,40 @@
         <div class="flex text-md items-center ml-2 mt-1">
             @if ($content->category == 'Service')
                 <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                    <input name="lep_sale_status" value="new" type="radio" class="outline-none"
+                        onclick="changeLepSaleStatus(this)">
                 </div>
                 <label class="w-40 ml-2">Kontrak Baru</label>
                 <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                    <input name="lep_sale_status" value="extend" type="radio" class="outline-none"
+                        onclick="changeLepSaleStatus(this)">
                 </div>
                 <label class="w-40 ml-2">Perpanjangan</label>
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lep_sale_status" value="revisual" type="radio" class="outline-none" checked
+                        onclick="changeLepSaleStatus(this)">
                 </div>
                 <label class="w-40 ml-2">Revisual</label>
             @else
                 <div class="flex justify-center items-center w-10 h-6 border border-black ml-5 font-bold text-black">
                     @if ($content->lep_sale_status == 'new')
-                        ✓
+                        <input name="lep_sale_status" value="new" type="radio" class="outline-none"
+                            onclick="changeLepSaleStatus(this)" checked>
                     @endif
                 </div>
                 <label class="w-40 ml-2">Kontrak Baru</label>
                 <div class="flex justify-center items-center w-10 h-6 border border-black ml-5 font-bold text-black">
                     @if ($content->lep_sale_status == 'extend')
-                        ✓
+                        <input name="lep_sale_status" value="extend" type="radio" class="outline-none"
+                            onclick="changeLepSaleStatus(this)" checked>
                     @endif
                 </div>
                 <label class="w-40 ml-2">Perpanjangan</label>
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lep_sale_status" value="revisual" type="radio" class="outline-none"
+                        onclick="changeLepSaleStatus(this)">
                 </div>
                 <label class="w-40 ml-2">Revisual</label>
             @endif
@@ -435,25 +513,42 @@
                     @if ($ggCategory == $content->location_type)
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="lep_location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'LED' && $content->location_type == 'Videotron')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="lep_location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'JPO' && $content->location_type == 'Bando')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="lep_location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'Neon Box' && $content->location_type == 'Signage')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="lep_location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @else
                         <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                            @if ($ggCategory == 'LED')
+                                <input name="lep_location_type" value="Videotron" type="radio"
+                                    class="outline-none" onclick="changeLocationType(this)">
+                            @elseif ($ggCategory == 'JPO')
+                                <input name="lep_location_type" value="Bando" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @elseif ($ggCategory == 'Neon Box')
+                                <input name="lep_location_type" value="Signage" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @else
+                                <input name="lep_location_type" value="{{ $ggCategory }}" type="radio"
+                                    class="outline-none" onclick="changeLocationType(this)">
+                            @endif
                         </div>
                     @endif
                     <label class="w-40 ml-2">{{ $ggCategory }}</label>
@@ -466,26 +561,42 @@
                     @if ($ggCategory == $content->location_type)
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="lep_location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'LED' && $content->location_type == 'Videotron')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="lep_location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'JPO' && $content->location_type == 'Bando')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="lep_location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @elseif ($ggCategory == 'Neon Box' && $content->location_type == 'Signage')
                         <div
                             class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                            ✓
+                            <input name="lep_location_type" value="{{ $content->location_type }}" type="radio"
+                                class="outline-none" onclick="changeLocationType(this)" checked>
                         </div>
                     @else
-                        <div
-                            class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                        <div class="flex justify-center items-center w-10 h-6 border border-black ml-5">
+                            @if ($ggCategory == 'LED')
+                                <input name="lep_location_type" value="Videotron" type="radio"
+                                    class="outline-none" onclick="changeLocationType(this)">
+                            @elseif ($ggCategory == 'JPO')
+                                <input name="lep_location_type" value="Bando" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @elseif ($ggCategory == 'Neon Box')
+                                <input name="lep_location_type" value="Signage" type="radio" class="outline-none"
+                                    onclick="changeLocationType(this)">
+                            @else
+                                <input name="lep_location_type" value="{{ $ggCategory }}" type="radio"
+                                    class="outline-none" onclick="changeLocationType(this)">
+                            @endif
                         </div>
                     @endif
                     <label class="w-40 ml-2">{{ $ggCategory }}</label>
@@ -495,39 +606,49 @@
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Ukuran</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->location_size }}</label>
+            <input type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->location_size }}" onchange="changeLocationSize(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             @if ($content->location_lighting == 'Backlight')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lep_lighting" value="Backlight" type="radio" class="outline-none" checked
+                        onclick="changeLighting(this)">
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lep_lighting" value="Backlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">Back Light</label>
             @if ($content->location_lighting == 'Frontlight')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lep_lighting" value="Frontlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)" checked>
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lep_lighting" value="Frontlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">Front Light</label>
             @if ($content->location_lighting == 'Nonlight')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lep_lighting" value="Nonlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)" checked>
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lep_lighting" value="Nonlight" type="radio" class="outline-none"
+                        onclick="changeLighting(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">No Light</label>
@@ -536,22 +657,28 @@
             @if ($content->location_orientation == 'Vertikal')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lep_orientation" value="Vertikal" type="radio" class="outline-none"
+                        onclick="changeLocationOrientation(this)" checked>
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lep_orientation" value="Vertikal" type="radio" class="outline-none"
+                        onclick="changeLocationOrientation(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">Vertical</label>
             @if ($content->location_orientation == 'Horizontal')
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
-                    ✓
+                    <input name="lep_orientation" value="Horizontal" type="radio" class="outline-none"
+                        onclick="changeLocationOrientation(this)" checked>
                 </div>
             @else
                 <div
                     class="flex justify-center items-center w-10 h-6 border border-black ml-5 text-lg font-bold text-black">
+                    <input name="lep_orientation" value="Horizontal" type="radio" class="outline-none"
+                        onclick="changeLocationOrientation(this)">
                 </div>
             @endif
             <label class="w-40 ml-2">Horizontal</label>
@@ -559,23 +686,25 @@
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="w-40 ml-5">Lokasi</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->location_address }}</label>
+            <input id="locationAddress" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->location_address }}" onchange="changeLocationAddress(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Desain Visual</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->theme }}</label>
+            <input id="theme" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->theme }}" onchange="changeTheme(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Brand</label>
             <label class="">:</label>
-            <label class="ml-4">{{ $content->brand }}</label>
+            <input id="brand" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                value="{{ $content->brand }}" onchange="changeBrand(this)" required>
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="font-semibold">6.</label>
-            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama PT
-                Gudang
-                Garam Tbk</label>
+            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama
+                Perusahaan Rokok Tjap Gudang Garam</label>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Tanggal Pemeriksaan</label>

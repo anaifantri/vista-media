@@ -22,6 +22,7 @@
     }
     
     $nominalObject = 0;
+    $nominalObjectAll = 0;
     $incomeType = [];
     ?>
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -42,6 +43,15 @@
                                                     d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
                                             </svg>
                                             <span class="mx-1 text-white">Save PDF</span>
+                                        </button>
+                                        <button id="btnExportExcel" class="flex justify-center items-center mx-1 btn-success mb-2"
+                                            title="Create PDF" type="button">
+                                            <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                            </svg>
+                                            <span class="mx-1 text-white">Export to EXCEL</span>
                                         </button>
                                     @endcan
                                 @endcan
@@ -260,8 +270,6 @@
                                                         </label>
                                                     @else
                                                         <label class="month-report text-xl font-semibold text-center">-
-                                                            {{-- {{ $bulan_full[(int) date('m')] }}
-                                                            {{ date('Y') }} --}}
                                                         </label>
                                                     @endif
                                                 </div>
@@ -410,7 +418,7 @@
                                                 @endforeach
                                                 <tr class="h-[25px]">
                                                     <td class="text-stone-900 px-1 border border-black text-md text-right font-semibold"
-                                                        colspan="6">Total PPN</td>
+                                                        colspan="6">TOTAL</td>
                                                     <td
                                                         class="text-stone-900 bg-red-50 px-1 border border-black text-md text-right font-semibold">
                                                         {{ number_format($nominalObject) }}
@@ -480,15 +488,14 @@
                                                     <label class="text-md text-center"></label>
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md">
-                                                    @if (request('month'))
+                                                    @if (request('period'))
                                                         <label class="month-report text-xl font-semibold text-center">
-                                                            {{ $bulan_full[request('month')] }}
-                                                            {{ request('year') }}
+                                                            {{ $bulan_full[(int) substr(request('period'), -2)] }}
+                                                            {{ substr(request('period'), 0, 4) }}
                                                         </label>
                                                     @else
-                                                        <label
-                                                            class="month-report text-xl font-semibold text-center">{{ $bulan_full[(int) date('m')] }}
-                                                            {{ date('Y') }}</label>
+                                                        <label class="month-report text-xl font-semibold text-center">-
+                                                        </label>
                                                     @endif
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md mt-2">
@@ -655,6 +662,133 @@
             </div>
         </div>
     </div>
+
+    <table id="exportExcelTable" class="table-auto w-full mt-4" hidden>
+        <thead>
+            <tr class="bg-stone-200 h-8">
+                <th class="text-stone-900 border border-black text-md w- text-center w-8">
+                    No.</th>
+                <th class="text-stone-900 border border-black text-md text-center w-36">
+                    Masa
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center">
+                    Nama Pemotong
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center w-36">
+                    NPWP
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center w-16">
+                    Jenis
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center w-48">
+                    Jenis Penghasilan
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center w-28">
+                    Objek Potput
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center w-24">
+                    PPH Potput
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center w-28">
+                    No. Bukti
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center w-28">
+                    Tgl.
+                </th>
+                <th class="text-stone-900 border border-black text-md text-center w-36">
+                    Alamat
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($income_taxes as $income_tax)
+                @php
+                    $client = json_decode($income_tax->payment->billings[0]->client);
+                    foreach ($income_tax->payment->billings as $billing) {
+                        if ($billing->category == 'Service') {
+                            if (!in_array('Revisual', $incomeType)) {
+                                array_push($incomeType, 'Revisual');
+                            }
+                        } elseif ($billing->category == 'Media') {
+                            if (!in_array('Sewa', $incomeType)) {
+                                array_push($incomeType, 'Sewa');
+                            }
+                        }
+                    }
+                    $nominalObjectAll = $nominalObjectAll + $income_tax->payment->billings->sum('nominal');
+                @endphp
+                <tr class="h-[25px]">
+                    <td class="text-stone-900 px-1 border border-black text-md  text-center">
+                        {{ $loop->iteration }}
+                    </td>
+                    <td class="text-stone-900 px-1 border border-black text-md  text-center">
+                        {{ $bulan_full[(int) substr($income_tax->payment->income_tax_document->period, -2)] }}
+                        {{ substr($income_tax->payment->income_tax_document->period, 0, 4) }}
+                    </td>
+                    <td class="text-stone-900 px-1 border border-black text-md">
+                        @if (isset($client->company))
+                            {{ $client->company }}
+                        @elseif (isset($client->name))
+                            {{ $client->name }}
+                        @else
+                            @if (strlen($client->contact_name) > 25)
+                                {{ substr($client->contact_name, 0, 25) }}..
+                            @else
+                                {{ $client->contact_name }}
+                            @endif
+                        @endif
+                    </td>
+                    <td class="text-stone-900 border border-black text-md px-1 text-center">
+                        @if (isset($client->npwp))
+                            {{ $client->npwp }}
+                        @endif
+                    </td>
+                    <td class="text-stone-900 border border-black text-md px-1 text-center">
+                        PPh 23
+                    </td>
+                    <td class="text-stone-900 border border-black text-md px-1">
+                        @if (count($incomeType) == 1)
+                            {{ $incomeType[0] }} Reklame
+                        @elseif(count($incomeType) == 2)
+                            {{ $incomeType[0] }} & {{ $incomeType[1] }} Reklame
+                        @endif
+                    </td>
+                    <td class="text-stone-900  bg-red-50 px-1 border border-black text-md text-right">
+                        {{ Number_format($income_tax->payment->billings->sum('nominal')) }}
+                    </td>
+                    <td class="text-stone-900 bg-teal-50 px-1 border border-black text-md text-right ">
+                        {{ number_format(round($income_tax->nominal)) }}
+                    </td>
+                    <td class="text-stone-900 px-1 border border-black text-md text-center">
+                        {{ $income_tax->number }}
+                    </td>
+                    <td class="text-stone-900 px-1 border border-black text-md text-center">
+                        {{ date('d', strtotime($income_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($income_tax->tax_date))] }}-{{ date('Y', strtotime($income_tax->tax_date)) }}
+                    </td>
+                    <td class="text-stone-900 px-1 border border-black text-md">
+                        {{-- {{ $income_tax->client_city }} --}}
+                        Jakarta Selatan
+                    </td>
+                </tr>
+            @endforeach
+            <tr class="h-[25px]">
+                <td class="text-stone-900 px-1 border border-black text-md text-right font-semibold" colspan="6">TOTAL
+                </td>
+                <td class="text-stone-900 bg-red-50 px-1 border border-black text-md text-right font-semibold">
+                    {{ number_format($nominalObjectAll) }}
+                </td>
+                <td class="text-stone-900 px-1 border border-black text-md bg-teal-50 text-right font-semibold">
+                    {{ number_format($income_taxes->sum('nominal')) }}
+                </td>
+                <td class="text-stone-900 px-1 border border-black text-md  text-right bg-slate-400 font-semibold">
+                </td>
+                <td class="text-stone-900 px-1 border border-black text-md  text-right bg-slate-400 font-semibold">
+                </td>
+                <td class="text-stone-900 px-1 border border-black text-md  text-right bg-slate-400 font-semibold">
+                </td>
+            </tr>
+        </tbody>
+    </table>
     @if (request('month'))
         <input id="saveName" type="text"
             value="LIST PEMOTONGAN PPH - {{ $bulan_full[request('month')] }} {{ request('year') }}" hidden>
@@ -667,6 +801,8 @@
     <!-- Script start -->
     <script src="/js/html2canvas.min.js"></script>
     <script src="/js/html2pdf.bundle.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.table2excel.min.js"></script>
 
     <script>
         const saveName = document.querySelectorAll("[id=saveName]");
@@ -700,6 +836,14 @@
                 html2pdf().set(opt).from(element).save();
             }
         };
+
+        $(document).ready(function() {
+            $('#btnExportExcel').on('click', function() {
+                $('#exportExcelTable').table2excel({
+                    filename: "List Bukti Potong PPH.xls"
+                });
+            });
+        });
     </script>
     <!-- Script end -->
 @endsection

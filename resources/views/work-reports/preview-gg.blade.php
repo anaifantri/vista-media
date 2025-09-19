@@ -241,9 +241,8 @@
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="font-semibold">6.</label>
-            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama PT
-                Gudang
-                Garam Tbk</label>
+            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama
+                Perusahaan Rokok Tjap Gudang Garam</label>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Tanggal Pemeriksaan</label>
@@ -573,9 +572,8 @@
         </div>
         <div class="flex text-md items-center ml-2 mt-2">
             <label class="font-semibold">6.</label>
-            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama PT
-                Gudang
-                Garam Tbk</label>
+            <label class="font-semibold ml-2">Pemeriksaan oleh Area Office yang bertindak untuk dan atas nama
+                Perusahaan Rokok Tjap Gudang Garam</label>
         </div>
         <div class="flex text-md items-center ml-2 mt-1">
             <label class="w-40 ml-5">Tanggal Pemeriksaan</label>

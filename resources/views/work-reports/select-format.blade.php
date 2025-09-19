@@ -293,7 +293,7 @@
                     $content->detail,
                     'Vista Media, telah menyelesaikan pekerjaan Media Luar Ruang di Site ' .
                         $content->location_address .
-                        ' sesuan dengan SP3 tanggal ...........................................',
+                        ' sesuai dengan SP3 tanggal ...........................................',
                 );
                 array_push(
                     $content->detail,

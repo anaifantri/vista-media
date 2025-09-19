@@ -13,22 +13,26 @@
             <div class="flex text-md items-center ml-2 mt-6">
                 <label class="w-28 ml-5">Nomor PO</label>
                 <label class="">:</label>
-                <label class="ml-2">{{ $content->po_number }}</label>
+                <input id="poNumber" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                    value="{{ $content->po_number }}" onchange="changePoNumber(this)" required>
             </div>
             <div class="flex text-md items-center ml-2 mt-1">
                 <label class="w-28 ml-5">Tanggal PO</label>
                 <label class="">:</label>
-                <label class="ml-2">{{ $content->po_date }}</label>
+                <input id="poDate" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                    value="{{ $content->po_date }}" onchange="changePoDate(this)" required>
             </div>
             <div class="flex text-md items-center ml-2 mt-1">
                 <label class="w-28 ml-5">Pekerjaan</label>
                 <label class="">:</label>
-                <label class="ml-2">{{ $content->type }}</label>
+                <input id="bastType" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                    value="{{ $content->type }}" onchange="changeType(this)">
             </div>
             <div class="flex text-md items-center ml-2 mt-1">
                 <label class="w-28 ml-5">Lokasi</label>
                 <label class="">:</label>
-                <label class="ml-2">{{ $content->location_address }}</label>
+                <input id="locationAddress" type="text" class="ml-2 outline-none px-1 border rounded-md w-[575px]"
+                    value="{{ $content->location_address }}" onchange="changeLocationAddress(this)" required>
             </div>
             <div class="flex text-md items-center ml-2 mt-1">
                 <label class="w-28 ml-5">Quantity</label>
@@ -47,26 +51,49 @@
                         @if ($content->pmlr == true && $content->tax == true)
                             <tr class="text-md text-sans">
                                 <td class="border border-black text-center">1.</td>
-                                <td class="border border-black px-1 text-justify">{{ $content->detail[0] }}</td>
-                                <td class="border border-black text-center">{{ number_format($content->pmlr_qty) }}</td>
+                                <td class="border border-black px-1 text-justify">
+                                    <textarea rows="2" class="border rounded-lg outline-none text-justify px-1 w-full"
+                                        onchange="changePmlrDetail(this)">{{ $content->detail[0] }}</textarea>
+                                </td>
+                                <td class="border border-black text-center">
+                                    <input type="number" class="w-10 border rounded-md outline-none px-1 text-center"
+                                        value="{{ $content->pmlr_qty }}" onchange="changePmlrQty(this)">
+                                </td>
                             </tr>
                             <tr class="text-md text-sans">
                                 <td class="border border-black text-center">2.</td>
-                                <td class="border border-black px-1 text-justify">{{ $content->detail[1] }}</td>
-                                <td class="border border-black text-center">{{ number_format($content->tax_qty) }}</td>
+                                <td class="border border-black px-1 text-justify">
+                                    <textarea rows="2" class="border rounded-lg outline-none text-justify px-1 w-full"
+                                        onchange="changeTaxDetail(this)">{{ $content->detail[1] }}</textarea>
+                                </td>
+                                <td class="border border-black text-center">
+                                    <input type="number" class="w-10 border rounded-md outline-none px-1 text-center"
+                                        value="{{ $content->tax_qty }}" onchange="changeTaxQty(this)">
+                                </td>
                             </tr>
                         @elseif ($content->pmlr == true && $content->tax == false)
                             <tr class="text-md text-sans">
                                 <td class="border border-black text-center">1.</td>
-                                <td class="border border-black px-1 text-justify">{{ $content->detail[0] }}</td>
-                                <td class="border border-black text-center">{{ number_format($content->pmlr_qty) }}
+                                <td class="border border-black px-1 text-justify">
+                                    <textarea rows="2" class="border rounded-lg outline-none text-justify px-1 w-full"
+                                        onchange="changePmlrDetail(this)">{{ $content->detail[0] }}</textarea>
+                                </td>
+                                <td class="border border-black text-center">
+                                    <input type="number" class="w-10 border rounded-md outline-none px-1 text-center"
+                                        value="{{ $content->pmlr_qty }}" onchange="changePmlrQty(this)">
                                 </td>
                             </tr>
                         @elseif ($content->pmlr == false && $content->tax == true)
                             <tr class="text-md text-sans">
                                 <td class="border border-black text-center">1.</td>
-                                <td class="border border-black px-1 text-justify">{{ $content->detail[1] }}</td>
-                                <td class="border border-black text-center">{{ number_format($content->tax_qty) }}</td>
+                                <td class="border border-black px-1 text-justify">
+                                    <textarea rows="2" class="border rounded-lg outline-none text-justify px-1 w-full"
+                                        onchange="changeTaxDetail(this)">{{ $content->detail[1] }}</textarea>
+                                </td>
+                                <td class="border border-black text-center">
+                                    <input type="number" class="w-10 border rounded-md outline-none px-1 text-center"
+                                        value="{{ $content->tax_qty }}" onchange="changeTaxQty(this)">
+                                </td>
                             </tr>
                         @endif
                     </tbody>
@@ -81,8 +108,13 @@
             <div class="flex text-md justify-center ml-2 mt-1">
                 <div>
                     <label class="flex w-max">Pihak Pertama,</label>
-                    <label class="flex w-max mt-20 border-b-2 border-black">{{ $content->first_contact }}</label>
-                    <label class="flex w-max">Jabatan : {{ $content->first_contact_title }}</label>
+                    <input type="text" class="flex mt-20 px-1 border rounded-lg outline-none"
+                        onchange="changeFirstContact(this)" value="{{ $content->first_contact }}">
+                    <div class="flex">
+                        <label for="flex">Jabatan :</label>
+                        <input type="text" class="flex px-1 border rounded-lg outline-none ml-2"
+                            onchange="changeFirstContactTitle(this)" value="{{ $content->first_contact_title }}">
+                    </div>
                 </div>
             </div>
             <div class="flex text-md justify-center items-center ml-2 mt-1">
@@ -93,10 +125,12 @@
                 </div>
             </div>
         </div>
-        <div class="mx-36 mt-10">
+        <div class="mx-20 mt-10">
             <label class="flex w-max">Mengetahui,</label>
-            <label class="flex w-max mt-20 border-b-2 border-black">{{ $content->known_contact }}</label>
-            <label class="flex w-max">Jabatan : {{ $content->known_contact_title }}</label>
+            <input type="text" class="flex mt-20 px-1 border rounded-lg outline-none"
+                onchange="changeKnownContact(this)" value="{{ $content->known_contact }}">
+            <input type="text" class="flex px-1 border rounded-lg outline-none w-[420px]"
+                onchange="changeKnownContactTitle(this)" value="{{ $content->known_contact_title }}">
         </div>
     </div>
 </div>

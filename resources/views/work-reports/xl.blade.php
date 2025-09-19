@@ -8,7 +8,7 @@
                     <div>
                         <label class="flex justify-center w-full">Perjanjian Media Luar Ruang</label>
                         <label class="flex justify-center w-full">Oleh dan antara</label>
-                        <label class="flex justify-center w-full">PT. XL Axiata Tbk</label>
+                        <label class="flex justify-center w-full">PT. XLSMART TELECOM SEJAHTERA</label>
                         <label class="flex justify-center w-full">dan</label>
                         <label class="flex justify-center w-full">{{ $company->name }}</label>
                     </div>
@@ -42,10 +42,10 @@
                         Kepada Yth.
                     </label>
                     <label class="flex font-semibold">
-                        PT. XL Axiata Tbk.
+                        PT. XLSMART TELECOM SEJAHTERA.
                     </label>
                     <label class="flex">
-                        Gedung XL Axiata Tower
+                        GEDUNG XLSMART TOWER
                     </label>
                     <label class="flex">
                         Jl. HR. Rasuna Said Ka. 11-12, Blok X-5 RT. 007 RW. 002
@@ -121,7 +121,7 @@
                     <div>
                         <label class="flex justify-center w-full">Perjanjian Media Luar Ruang</label>
                         <label class="flex justify-center w-full">Oleh dan antara</label>
-                        <label class="flex justify-center w-full">PT. XL Axiata Tbk</label>
+                        <label class="flex justify-center w-full">PT. XLSMART TELECOM SEJAHTERA</label>
                         <label class="flex justify-center w-full">dan</label>
                         <label class="flex justify-center w-full">{{ $company->name }}</label>
                     </div>
@@ -162,7 +162,7 @@
                 </div>
                 <div class="flex justify-center w-full font-sans font-semibold">
                     <label>
-                        PT. XL Axiata Tbk
+                        PT. XLSMART TELECOM SEJAHTERA
                     </label>
                 </div>
                 <div class="flex justify-center w-full font-sans font-semibold">
@@ -180,7 +180,8 @@
                 </div>
                 <div class="flex ml-10">
                     <label>1. </label>
-                    <label class="ml-2 text-justify w-[750px]">PT. XL Axiata Tbk, dalam penandatanganan Berita Acara ini
+                    <label class="ml-2 text-justify w-[750px]">PT. XLSMART TELECOM SEJAHTERA, dalam penandatanganan
+                        Berita Acara ini
                         diwakili secara sah oleh ......................................, jabatan
                         ............................................, selanjutnya disebut sebagai XL.</label>
                 </div>
@@ -223,7 +224,8 @@
                     <div class="flex text-md justify-center ml-2 mt-1">
                         <div>
                             <label class="flex w-full justify-center font-semibold">PIHAK PERTAMA,</label>
-                            <label class="flex w-full justify-center font-semibold">PT. XL Axiata Tbk.</label>
+                            <label class="flex w-full justify-center font-semibold">PT. XLSMART TELECOM
+                                SEJAHTERA.</label>
                             <label
                                 class="flex w-full justify-center font-semibold mt-20 border-b-2 border-black">............................................................</label>
                         </div>

@@ -99,7 +99,8 @@
                         </svg>
                         <span class="mx-2"> Save </span>
                     </button>
-                    <a href="#" class="flex items-center justify-center btn-danger mx-1">
+                    <a href="/work-reports/index/{{ $company->id }}"
+                        class="flex items-center justify-center btn-danger mx-1">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -303,6 +304,145 @@
 
         changeNote = (sel) => {
             getContent.note = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeAgreementNumber = (sel) => {
+            getContent.agreement_number = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeFirst = (sel) => {
+            getContent.first = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeSecond = (sel) => {
+            getContent.second = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeSecondContact = (sel) => {
+            getContent.second_contact = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeBrand = (sel) => {
+            getContent.brand = sel.value;
+            document.getElementById("tdBrand").innerHTML = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeLpjStart = (sel) => {
+            getContent.lpj_start = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeLpjEnd = (sel) => {
+            getContent.lpj_end = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changePoDate = (sel) => {
+            getContent.po_date = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changePoNumber = (sel) => {
+            getContent.po_number = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeBastSaleStatus = (sel) => {
+            getContent.bast_sale_status = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeLepSaleStatus = (sel) => {
+            getContent.lep_sale_status = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeLocationOrientation = (sel) => {
+            getContent.location_orientation = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changePmlrDetail = (sel) => {
+            getContent.detail[0] = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeTaxDetail = (sel) => {
+            getContent.detail[1] = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeXlDetail1 = (sel) => {
+            getContent.detail[0] = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeXlDetail2 = (sel) => {
+            getContent.detail[1] = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeXlDetail3 = (sel) => {
+            getContent.detail[2] = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changePmlrQty = (sel) => {
+            getContent.pmlr_qty = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeTaxQty = (sel) => {
+            getContent.tax_qty = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeFirstContact = (sel) => {
+            getContent.first_contact = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeFirstContactTitle = (sel) => {
+            getContent.first_contact_title = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeKnownContact = (sel) => {
+            getContent.known_contact = sel.value;
+
+            inputContent.value = JSON.stringify(getContent);
+        }
+
+        changeKnownContactTitle = (sel) => {
+            getContent.known_contact_title = sel.value;
 
             inputContent.value = JSON.stringify(getContent);
         }
