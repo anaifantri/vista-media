@@ -271,7 +271,7 @@
                                             @canany(['isAdmin', 'isAccounting'])
                                                 @can('isCollect')
                                                     @can('isAccountingEdit')
-                                                        <a href="#"
+                                                        <a href="/accounting/payments/{{ $payment->id }}/edit"
                                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md ml-1">
                                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"

@@ -124,7 +124,14 @@ class IncomeTaxDocumentController extends Controller
      */
     public function edit(IncomeTaxDocument $incomeTaxDocument): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            return  response()-> view ('income-tax-documents.edit', [
+                'income_tax_document' => $incomeTaxDocument,
+                'title' => 'Edit Dokumen Bukti Potong PPh'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -132,7 +139,39 @@ class IncomeTaxDocumentController extends Controller
      */
     public function update(Request $request, IncomeTaxDocument $incomeTaxDocument): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            if($request->file('documents')){
+                $request->validate([
+                'documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024'
+            ]);
+            }
+
+            $rules = [
+                'number' => 'required',
+                'nominal' => 'required',
+                'tax_date' => 'required',
+                'period' => 'required'
+            ];
+
+            $validateData = $request->validate($rules);
+
+            if($request->file('documents')){
+                $getImages = $request->file('documents');
+                $images = [];
+                foreach($getImages as $image){
+                        array_push($images,$image->store('income_tax_documents'));
+                }
+                
+                $validateData['images'] = json_encode($images);
+            }
+
+            IncomeTaxDocument::where('id', $incomeTaxDocument->id)
+                ->update($validateData);
+        
+            return redirect('/accounting/income-tax-documents/'.$incomeTaxDocument->id)->with('success','Bukti Potong dengan nomor '. $incomeTaxDocument->number . ' berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**

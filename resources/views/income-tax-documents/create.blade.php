@@ -106,22 +106,6 @@
                                 <label class="text-md text-stone-100 ml-2">:</label>
                                 <input type="month" name="period" class="text-md outline-none rounded-md px-1 ml-2 w-36"
                                     required>
-                                {{-- <select id="period" name="period" class="text-md outline-none rounded-md px-1 ml-2 w-32"
-                                    required>
-                                    <option value="">-- pilih --</option>
-                                    @foreach ($periods as $period)
-                                        @if (old('period'))
-                                            @if ($period == old('period'))
-                                                <option value="{{ $period }}" selected>{{ $period }}</option>
-                                            @else
-                                                <option value="{{ $period }}">{{ $period }}</option>
-                                            @endif
-                                        @else
-                                            <option value="{{ $period }}">{{ $period }}</option>
-                                        @endif
-                                    @endforeach
-                                </select> --}}
-
                             </div>
                         </div>
                         <div class="flex w-full justify-center mt-4">

@@ -287,7 +287,7 @@
                                                         Klien
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-52">
+                                                        class="text-stone-900 border border-black text-sm text-center w-56">
                                                         Nomor Invoice
                                                     </th>
                                                     <th class="text-stone-900 border border-black text-sm text-center">
@@ -314,9 +314,14 @@
                                                 @php
                                                     $index = 0;
                                                     $number = 0;
+                                                    $billing_total = 0;
                                                 @endphp
                                                 @foreach ($payments as $payment)
                                                     @php
+                                                        $billing_total =
+                                                            $billing_total +
+                                                            ($payment->billings->sum('nominal') +
+                                                                $payment->billings->sum('ppn'));
                                                         $client = json_decode($payment->billings[0]->client);
                                                         $number++;
                                                         $totalSales = 0;
@@ -380,14 +385,14 @@
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm">
                                                                             @if (isset(json_decode($itemBilling->invoice_content)->manual_detail))
-                                                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 45)
-                                                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 45) }}
+                                                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 40)
+                                                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 40) }}
                                                                                 @else
                                                                                     {{ json_decode($itemBilling->invoice_content)->manual_detail[0]->title }}
                                                                                 @endif
                                                                             @else
-                                                                                @if (strlen($description->title) > 45)
-                                                                                    {{ substr($description->title, 5, 45) }}
+                                                                                @if (strlen($description->title) > 40)
+                                                                                    {{ substr($description->title, 5, 40) }}
                                                                                 @else
                                                                                     {{ $description->title }}
                                                                                 @endif
@@ -395,8 +400,8 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm">
-                                                                            @if (strlen($description->location) > 45)
-                                                                                {{ substr($description->location, 0, 45) }}..
+                                                                            @if (strlen($description->location) > 40)
+                                                                                {{ substr($description->location, 0, 40) }}..
                                                                             @else
                                                                                 {{ $description->location }}
                                                                             @endif
@@ -435,16 +440,16 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-x border-black text-sm">
-                                                                            @if (strlen($description->title) > 50)
-                                                                                {{ substr($description->title, 5, 50) }}
+                                                                            @if (strlen($description->title) > 40)
+                                                                                {{ substr($description->title, 5, 40) }}
                                                                             @else
                                                                                 {{ $description->title }}
                                                                             @endif
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-x border-black text-sm">
-                                                                            @if (strlen($description->location) > 45)
-                                                                                {{ substr($description->location, 0, 45) }}..
+                                                                            @if (strlen($description->location) > 40)
+                                                                                {{ substr($description->location, 0, 40) }}..
                                                                             @else
                                                                                 {{ $description->location }}
                                                                             @endif
@@ -566,7 +571,7 @@
                                                         Klien
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-52">
+                                                        class="text-stone-900 border border-black text-sm text-center w-56">
                                                         Nomor Invoice
                                                     </th>
                                                     <th class="text-stone-900 border border-black text-sm text-center">
@@ -659,14 +664,14 @@
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm">
                                                                             @if (isset(json_decode($itemBilling->invoice_content)->manual_detail))
-                                                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 45)
-                                                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 45) }}
+                                                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 40)
+                                                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 40) }}
                                                                                 @else
                                                                                     {{ json_decode($itemBilling->invoice_content)->manual_detail[0]->title }}
                                                                                 @endif
                                                                             @else
-                                                                                @if (strlen($description->title) > 45)
-                                                                                    {{ substr($description->title, 5, 45) }}
+                                                                                @if (strlen($description->title) > 40)
+                                                                                    {{ substr($description->title, 5, 40) }}
                                                                                 @else
                                                                                     {{ $description->title }}
                                                                                 @endif
@@ -674,8 +679,8 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-t border-x border-black text-sm">
-                                                                            @if (strlen($description->location) > 45)
-                                                                                {{ substr($description->location, 0, 45) }}..
+                                                                            @if (strlen($description->location) > 40)
+                                                                                {{ substr($description->location, 0, 40) }}..
                                                                             @else
                                                                                 {{ $description->location }}
                                                                             @endif
@@ -714,16 +719,16 @@
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-x border-black text-sm">
-                                                                            @if (strlen($description->title) > 50)
-                                                                                {{ substr($description->title, 5, 50) }}
+                                                                            @if (strlen($description->title) > 40)
+                                                                                {{ substr($description->title, 5, 40) }}
                                                                             @else
                                                                                 {{ $description->title }}
                                                                             @endif
                                                                         </td>
                                                                         <td
                                                                             class="text-stone-900 px-1 border-x border-black text-sm">
-                                                                            @if (strlen($description->location) > 45)
-                                                                                {{ substr($description->location, 0, 45) }}..
+                                                                            @if (strlen($description->location) > 40)
+                                                                                {{ substr($description->location, 0, 40) }}..
                                                                             @else
                                                                                 {{ $description->location }}
                                                                             @endif

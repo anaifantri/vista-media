@@ -60,8 +60,9 @@
                                                 @if ($i == date('m'))
                                                     <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
                                                     </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
                                                 @endif
-                                                <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
                                             @endfor
                                         @endif
                                     </select>
@@ -220,7 +221,7 @@
                                             @canany(['isAdmin', 'isAccounting'])
                                                 @can('isCollect')
                                                     @can('isAccountingEdit')
-                                                        <a href="#"
+                                                        <a href="/accounting/vat-tax-invoices/{{ $vat_tax->id }}/edit"
                                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md ml-1">
                                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"

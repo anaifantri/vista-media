@@ -129,7 +129,15 @@ class VatTaxInvoiceController extends Controller
      */
     public function edit(VatTaxInvoice $vatTaxInvoice): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            return  response()-> view ('vat-tax-invoices.edit', [
+                'vat_tax_invoice' => $vatTaxInvoice,
+                'billing' => Billing::findOrFail($vatTaxInvoice->billing_id),
+                'title' => 'Edit Data PPN'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -137,7 +145,38 @@ class VatTaxInvoiceController extends Controller
      */
     public function update(Request $request, VatTaxInvoice $vatTaxInvoice): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            if($request->file('documents')){
+                $request->validate([
+                'documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024'
+            ]);
+            }
+
+            $rules = [
+                'number' => 'required',
+                'nominal' => 'required',
+                'tax_date' => 'required'
+            ];
+
+            $validateData = $request->validate($rules);
+
+            if($request->file('documents')){
+                $getImages = $request->file('documents');
+                $images = [];
+                foreach($getImages as $image){
+                        array_push($images,$image->store('vat_tax_images'));
+                }
+                
+                $validateData['images'] = json_encode($images);
+            }
+
+            VatTaxInvoice::where('id', $vatTaxInvoice->id)
+                ->update($validateData);
+        
+            return redirect('/accounting/vat-tax-invoices/'.$vatTaxInvoice->id)->with('success','Data PPN dengan nomor '. $vatTaxInvoice->number . ' berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**

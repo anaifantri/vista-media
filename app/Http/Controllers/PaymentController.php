@@ -38,7 +38,6 @@ class PaymentController extends Controller
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             return response()-> view ('payments.payment-report', [
                 'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->yearReport()->monthReport()->sortable()->orderBy("payment_date", "asc")->get(),
-                'billing_total'=>Billing::where('company_id', $company_id)->whereHas('bill_payments')->filter(request('search'))->year()->month()->sum('nominal'),
                 'title' => 'Laporan Kas Masuk'
             ]);
         } else {
@@ -144,7 +143,23 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            $billings = $payment->billings;
+            $billingId = [];
+            foreach ($billings as $billing) {
+                array_push($billingId, $billing->id);
+            }
+            $income_taxes = $payment->income_taxes;
+            return  response()-> view ('payments.edit', [
+                'payment' => $payment,
+                'income_taxes' => $income_taxes,
+                'billings' => $billings,
+                'billing_id' => $billingId,
+                'title' => 'Edit Data Pembayaran'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**

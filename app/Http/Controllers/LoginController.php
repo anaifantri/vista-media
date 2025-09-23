@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
 {
@@ -22,7 +23,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)){
             $request -> session() -> regenerate();
 
-            return redirect()->intended('/dashboard/'.$request->company_id);
+            return redirect()->intended('/dashboard/'.encrypt($request->company_id));
         }
 
         return back()->with('loginError', 'Login Failed');
