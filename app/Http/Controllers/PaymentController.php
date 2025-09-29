@@ -145,16 +145,11 @@ class PaymentController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
             $billings = $payment->billings;
-            $billingId = [];
-            foreach ($billings as $billing) {
-                array_push($billingId, $billing->id);
-            }
             $income_taxes = $payment->income_taxes;
             return  response()-> view ('payments.edit', [
                 'payment' => $payment,
                 'income_taxes' => $income_taxes,
                 'billings' => $billings,
-                'billing_id' => $billingId,
                 'title' => 'Edit Data Pembayaran'
             ]);
         } else {
@@ -167,7 +162,65 @@ class PaymentController extends Controller
      */
     public function update(Request $request, Payment $payment): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            $rules = [
+                'note' => 'nullable',
+                'nominal' => 'required',
+                'updated_by' => 'required',
+                'payment_date' => 'required'
+            ];
+
+            $validateData = $request->validate($rules);
+            $income_taxes = json_decode(request('income_taxes'));
+            $data_pph = json_decode(request('data_pph'));
+            $other_fee = json_decode(request('other_fee'));
+            if(count($income_taxes) != 0){
+                foreach($income_taxes as $incomeTax){
+                    if($incomeTax->nominal != 0){
+                        $dataIncomeTax['nominal'] = $incomeTax->nominal;
+                        IncomeTax::where('id', $incomeTax->id)
+                        ->update($dataIncomeTax);
+                    }else{
+                        IncomeTax::destroy($incomeTax->id);
+                    }
+                }
+            }
+            if(count($data_pph) != 0){
+                foreach($data_pph as $itemPph){
+                    if($itemPph->nominal != 0){
+                        $dataPph['company_id'] = $itemPph->company_id;
+                        $dataPph['payment_id'] = $payment->id;
+                        $dataPph['billing_id'] = $itemPph->billing_id;
+                        $dataPph['sale_id'] = $itemPph->sale_id;
+                        $dataPph['nominal'] = $itemPph->nominal;
+                        IncomeTax::create($dataPph);
+                    }
+                }
+            }
+            if(isset($other_fee->id)){
+                if($other_fee->nominal != 0){
+                    $dataOtherFee['nominal'] = $other_fee->nominal;
+                    OtherFee::where('id', $other_fee->id)
+                    ->update($dataOtherFee);
+                }else{
+                    OtherFee::destroy($other_fee->id);
+                }
+            }else{
+                if($other_fee->nominal !=0){
+                    $dataOtherFee['company_id'] = $other_fee->company_id;
+                    $dataOtherFee['payment_id'] = $other_fee->payment_id;
+                    $dataOtherFee['nominal'] = $other_fee->nominal;
+                    OtherFee::create($dataOtherFee);
+                }
+            }
+
+            Payment::where('id', $payment->id)
+                ->update($validateData);
+        
+            return redirect('/accounting/payments/'.$payment->id)->with('success','Data pembayaran berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**

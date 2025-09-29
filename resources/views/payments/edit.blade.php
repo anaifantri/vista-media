@@ -5,8 +5,16 @@
     @php
         $client = json_decode($billings[0]->client);
         $data_pph = [];
-        $sale_nominal = [];
-        $billing_nominal = [];
+
+        if ($payment->other_fee) {
+            $other_fee = $payment->other_fee;
+        } else {
+            $other_fee = new stdClass();
+            $other_fee->company_id = $company->id;
+            $other_fee->payment_id = $payment->id;
+            $other_fee->nominal = 0;
+            $other_fee->note = '';
+        }
 
         $updated_by = new stdClass();
         $updated_by->id = auth()->user()->id;
@@ -14,8 +22,11 @@
         $updated_by->position = auth()->user()->position;
     @endphp
     <form action="/accounting/payments/{{ $payment->id }}" method="post" enctype="multipart/form-data">
+        @method('put')
         @csrf
         <input type="text" name="updated_by" value="{{ json_encode($updated_by) }}" hidden>
+        <input id="inputIncomeTaxes" type="text" name="income_taxes" value="{{ json_encode($income_taxes) }}" hidden>
+        <input id="dataOtherFee" type="text" name="other_fee" value="{{ json_encode($other_fee) }}" hidden>
         <div class="flex justify-center pl-14 py-10 bg-stone-800">
             <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <!-- Title start -->
@@ -87,17 +98,13 @@
                                 @php
                                     $totalPph = $income_taxes->sum('nominal');
                                     $totalPpn = 0;
+                                    $nNew = 0;
+                                    $nTax = 0;
                                 @endphp
                                 @foreach ($billings as $billing)
                                     @php
                                         $invoice_content = json_decode($billing->invoice_content);
                                         $invoice_description = $invoice_content->description;
-
-                                        $billingNominal = new stdClass();
-                                        $billingNominal->billing_id = $billing->id;
-                                        $billingNominal->nominal =
-                                            $billing->nominal + $billing->ppn - ($billing->nominal * 2) / 100;
-                                        array_push($billing_nominal, $billingNominal);
                                     @endphp
                                     <tr class="bg-stone-200">
                                         <td class="text-stone-900 border border-stone-900 text-sm px-1  text-center">
@@ -134,45 +141,53 @@
                                         </td>
                                         <td class="text-stone-900 border border-stone-900 text-sm px-1 text-right">
                                             <div class="w-full">
-                                                @foreach ($income_taxes as $income_tax)
-                                                    <input id="inputPph" type="number" placeholder="Input Nominal PPh"
-                                                        value="{{ round($income_tax->nominal) }}"
-                                                        title="{{ $billing->id }}"
-                                                        class="ml-1 text-sm outline-none border rounded-md px-1 w-full text-right in-out-spin-none"
-                                                        onchange="setPph(this)" onfocus="inputPphAction(this)">
+                                                @foreach ($invoice_description as $itemDescription)
+                                                    @php
+                                                        $pphCheck = false;
+                                                    @endphp
+                                                    @foreach ($income_taxes as $nUpdate => $income_tax)
+                                                        @if ($billing->id == $income_tax->billing_id && $itemDescription->sale_id == $income_tax->sale_id)
+                                                            @php
+                                                                $pphCheck = true;
+                                                                $getIncomeTax = $income_tax;
+                                                                $nTax = $nUpdate;
+                                                            @endphp
+                                                        @endif
+                                                        @php
+                                                            $nUpdate++;
+                                                        @endphp
+                                                    @endforeach
+                                                    @if ($pphCheck == true)
+                                                        <input id="inputPph" type="number" placeholder="Input Nominal PPh"
+                                                            value="{{ round($getIncomeTax->nominal) }}"
+                                                            onchange="inputPphChange(this)"
+                                                            title="{{ $getIncomeTax->id }}*{{ $nTax }}"
+                                                            class="ml-1 text-sm outline-none border rounded-md px-1 w-full text-right in-out-spin-none">
+                                                    @else
+                                                        <input id="inputPph" type="number" placeholder="Input Nominal PPh"
+                                                            value="0" title="-*{{ $nNew }}"
+                                                            onchange="inputPphChange(this)"
+                                                            class="ml-1 text-sm outline-none border rounded-md px-1 w-full text-right in-out-spin-none">
+                                                        @php
+                                                            $dataPph = new stdClass();
+                                                            $dataPph->company_id = $company->id;
+                                                            $dataPph->sale_id = $itemDescription->sale_id;
+                                                            $dataPph->billing_id = $billing->id;
+                                                            $dataPph->payment_id = $payment->id;
+                                                            $dataPph->nominal = 0;
+                                                            array_push($data_pph, $dataPph);
+                                                            $nNew++;
+                                                        @endphp
+                                                    @endif
                                                 @endforeach
                                             </div>
                                         </td>
                                         <td class="text-stone-900 border border-stone-900 text-sm px-1 text-right">
-                                            <div class="w-full">
-                                                @php
-                                                    $indexPph = 0;
-                                                @endphp
-                                                @foreach ($invoice_description as $itemDescription)
-                                                    @php
-                                                        $ppn = ($itemDescription->nominal * 11) / 100;
-                                                        $itemNominal = new stdClass();
-                                                        $itemNominal->sale_id = $itemDescription->sale_id;
-                                                        $itemNominal->nominal =
-                                                            $itemDescription->nominal +
-                                                            $ppn -
-                                                            $income_taxes[$indexPph]->nominal;
-                                                        array_push($sale_nominal, $itemNominal);
-                                                    @endphp
-                                                    <input id="inputNominal" type="number" title="{{ $billing->id }}"
-                                                        placeholder="Input Nominal Pembayaran" onchange="setNominal(this)"
-                                                        onfocus="inputNominalAction(this)"
-                                                        value="{{ round($itemDescription->nominal + $ppn - $income_taxes[$indexPph]->nominal) }}"
-                                                        class="text-sm outline-none border rounded-md px-1 w-full text-right in-out-spin-none"
-                                                        required>
-                                                    @php
-                                                        $indexPph++;
-                                                    @endphp
-                                                @endforeach
-                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
+                                <input id="inputDataPph" type="text" name="data_pph"
+                                    value="{{ json_encode($data_pph) }}" hidden>
                                 <tr class="bg-stone-200">
                                     <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right"
                                         colspan="4">Sub Total</td>
@@ -186,9 +201,13 @@
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
                                         <input id="subTotal" type="number"
-                                            value="{{ $billings->sum('nominal') + $billings->sum('ppn') - $totalPph }}"
+                                            value="{{ $payment->nominal + $other_fee->nominal }}"
+                                            onchange="changeSubTotal(this)"
+                                            class="border rounded-md outline-none in-out-spin-none px-1 text-right w-full">
+                                        <input id="oldSubTotal" type="number"
+                                            value="{{ $payment->nominal + $other_fee->nominal + $totalPph }}"
                                             class="border rounded-md outline-none in-out-spin-none px-1 text-right w-full"
-                                            readonly>
+                                            hidden>
 
                                     </td>
                                 </tr>
@@ -200,13 +219,13 @@
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
                                         @if ($payment->other_fee)
-                                            <input type="number" name="other_fee" id="otherFee"
+                                            <input type="number" id="inputOtherFee"
                                                 value="{{ $payment->other_fee->nominal }}"
-                                                onchange="otherFeeChange(this)"
+                                                onchange="inputOtherFeeChange(this)"
                                                 class="border rounded-md outline-none in-out-spin-none px-1 text-right w-full">
                                         @else
-                                            <input type="number" name="other_fee" id="otherFee" value="0"
-                                                onchange="otherFeeChange(this)"
+                                            <input type="number" id="inputOtherFee" value="0"
+                                                onchange="inputOtherFeeChange(this)"
                                                 class="border rounded-md outline-none in-out-spin-none px-1 text-right w-full">
                                         @endif
                                     </td>
@@ -219,19 +238,12 @@
                                     </td>
                                     <td id="totalPayment"
                                         class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
-                                        {{ number_format($billings->sum('nominal') + $billings->sum('ppn') - $totalPph) }}
+                                        {{ number_format($payment->nominal) }}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <input id="inputDataPph" type="text" name="data_pph" value="{{ json_encode($data_pph) }}"
-                            hidden>
-                        <input id="inputSaleNominal" type="text" name="sale_nominal"
-                            value="{{ json_encode($sale_nominal) }}" hidden>
-                        <input id="inputBillingNominal" type="text" name="billing_nominal"
-                            value="{{ json_encode($billing_nominal) }}" hidden>
-                        <input id="nominal" name="nominal"
-                            value="{{ $billings->sum('nominal') + $billings->sum('ppn') - $totalPph }}"
+                        <input id="nominal" name="nominal" value="{{ $payment->nominal }}"
                             class="text-sm px-1 outline-none rounded-md w-full text-right" hidden>
                         <div class="text-sm text-stone-900 p-2 bg-stone-300 border border-stone-900 rounded-lg mt-4">
                             <div class="flex mt-4">
@@ -256,100 +268,69 @@
     <!-- Container end -->
     <!-- Script start -->
     <script>
-        const inputBilling = document.querySelectorAll("[id=inputBilling]");
-        const inputNominal = document.querySelectorAll("[id=inputNominal]");
         const inputPph = document.querySelectorAll("[id=inputPph]");
+        const inputIncomeTaxes = document.getElementById("inputIncomeTaxes");
+        const inputDataPph = document.getElementById("inputDataPph");
         const totalPayment = document.getElementById("totalPayment");
         const subTotal = document.getElementById("subTotal");
-        const otherFee = document.getElementById("otherFee");
+        const oldSubTotal = document.getElementById("oldSubTotal");
+        const inputOtherFee = document.getElementById("inputOtherFee");
+        const dataOtherFee = document.getElementById("dataOtherFee");
         const totalPph = document.getElementById("totalPph");
         const nominal = document.getElementById("nominal");
-        const inputDataPph = document.getElementById("inputDataPph");
-        const inputSaleNominal = document.getElementById("inputSaleNominal");
-        const inputBillingNominal = document.getElementById("inputBillingNominal");
-        var billings = @json($billings);
+        var incomeTaxes = @json($income_taxes);
         var dataPph = @json($data_pph);
-        var saleNominal = @json($sale_nominal);
-        var billingNominal = @json($billing_nominal);
-        var index = "";
+        var otherFee = @json($other_fee);
 
-        inputPphAction = (sel) => {
-            for (let i = 0; i < inputPph.length; i++) {
-                if (inputPph[i] == document.activeElement) {
-                    index = i;
-                }
-            }
-        }
 
-        setPph = (sel) => {
-            if (sel.value > sel.defaultValue) {
-                alert("Nominal pph tidak boleh melebihi 2% dari tagihan..!!");
-                sel.value = sel.defaultValue;
-            } else {
-                var pphTitle = sel.title;
-                inputNominal[index].value = Number(inputBilling[index].innerText.replace(/,/g, "")) - Number(
-                    sel.value);
-                dataPph[index].pph = sel.value;
+        inputPphChange = (sel) => {
+            const inputOtherFee = document.getElementById("inputOtherFee");
+            var getTitle = sel.title.split("*");
+            var incomeTaxId = getTitle[0];
+            var indexTax = getTitle[1];
+            var getSubTotal = Number(oldSubTotal.value) - countPphTotal();
+            var getGrandTotal = getSubTotal - Number(inputOtherFee.value);
+
+            if (incomeTaxId == "-") {
+                dataPph[indexTax].nominal = sel.value;
                 inputDataPph.value = JSON.stringify(dataPph);
-
-                countTotalPayment(pphTitle);
-            }
-        }
-
-        inputNominalAction = (sel) => {
-            for (let i = 0; i < inputNominal.length; i++) {
-                if (inputNominal[i] == document.activeElement) {
-                    index = i;
-                }
-            }
-        }
-
-        setNominal = (sel) => {
-            var nominalTitle = sel.title;
-            if (sel.value > Number(inputBilling[index].innerText.replace(/,/g, "")) || sel.value == 0) {
-                alert("Nominal pembayaran tidak boleh 0 dan tidak boleh melebihi total tagihan..!!");
-                sel.value = sel.defaultValue;
+                totalPph.innerText = countPphTotal().toLocaleString();
+                totalPayment.innerText = getGrandTotal.toLocaleString();
+                subTotal.value = getSubTotal;
+                nominal.value = getGrandTotal;
             } else {
-                countTotalPayment(nominalTitle);
+                incomeTaxes[indexTax].nominal = sel.value;
+                inputIncomeTaxes.value = JSON.stringify(incomeTaxes);
+                totalPph.innerText = countPphTotal().toLocaleString();
+                totalPayment.innerText = getGrandTotal.toLocaleString();
+                subTotal.value = getSubTotal;
+                nominal.value = getGrandTotal;
             }
         }
 
-        countTotalPayment = (title) => {
-            var total = 0;
-            var getPph = 0;
-            var grandTotal = 0;
-            for (let i = 0; i < inputNominal.length; i++) {
-                saleNominal[i].nominal = Number(inputNominal[i].value);
-                total = total + Number(inputNominal[i].value);
-                getPph = getPph + Number(inputPph[i].value);
+        countPphTotal = () => {
+            var sumPph = 0;
+            for (let i = 0; i < inputPph.length; i++) {
+                sumPph = sumPph + Number(inputPph[i].value);
             }
-            grandTotal = total - Number(otherFee.value);
-            subTotal.value = total;
-            totalPayment.innerText = grandTotal.toLocaleString();
-            totalPph.innerText = getPph.toLocaleString();
-            nominal.value = Number(total);
-            inputSaleNominal.value = JSON.stringify(saleNominal);
-
-            var getBillingNominal = 0;
-            for (let i = 0; i < inputNominal.length; i++) {
-                if (inputNominal[i].title == title) {
-                    getBillingNominal = getBillingNominal + Number(inputNominal[i].value);
-                }
-            }
-
-            for (let i = 0; i < billingNominal.length; i++) {
-                if (billingNominal[i].billing_id == title) {
-                    billingNominal[i].nominal = getBillingNominal;
-                    inputBillingNominal.value = JSON.stringify(billingNominal);
-                }
-            }
+            return sumPph;
         }
 
-        otherFeeChange = (sel) => {
-            var getTotal = Number(subTotal.value) - Number(sel.value);
+        changeSubTotal = (sel) => {
+            const inputOtherFee = document.getElementById("inputOtherFee");
+            var getTotal = Number(sel.value) - Number(inputOtherFee.value);
 
             totalPayment.innerText = getTotal.toLocaleString();
-            nominal.value = Number(getTotal);
+            nominal.value = getTotal;
+        }
+        inputOtherFeeChange = (sel) => {
+            const subTotal = document.getElementById("subTotal");
+            var getTotal = Number(subTotal.value) - Number(sel.value);
+
+            otherFee.nominal = sel.value;
+            totalPayment.innerText = getTotal.toLocaleString();
+            nominal.value = getTotal;
+            dataOtherFee.value = JSON.stringify(otherFee);
         }
     </script>
     <!-- Script end -->

@@ -254,9 +254,6 @@
                                     <div class="w-[721px] mt-4 text-sm text-justify">Demikian surat ini kami sampaikan dan
                                         mohon kiranya dapat diterima dengan baik, atas perhatian dan kerjasamanya kami
                                         ucapkan terima kasih.
-                                        {{-- <textarea id="createBodyEnd" class="ml-1 w-[721px] outline-none border rounded-md "
-                                            rows="2">Demikian surat ini kami sampaikan dan mohon kiranya dapat diterima dengan baik, atas perhatian dan kerjasamanya kami ucapkan terima kasih.
-                                        </textarea> --}}
                                     </div>
                                 </div>
                                 <div class="flex justify-center">
@@ -334,9 +331,9 @@
             content.attachments = [];
 
             if (sel.checked == true) {
-                attachmentValue[index].setAttribute('disabled', 'disabled');
-            } else {
                 attachmentValue[index].removeAttribute('disabled');
+            } else {
+                attachmentValue[index].setAttribute('disabled', 'disabled');
             }
 
             for (let i = 0; i < cbAttachment.length; i++) {

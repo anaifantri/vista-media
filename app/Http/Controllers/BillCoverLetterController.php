@@ -173,7 +173,14 @@ class BillCoverLetterController extends Controller
      */
     public function edit(BillCoverLetter $billCoverLetter): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            return  response()-> view ('bill-cover-letters.edit', [
+                'bill_cover_letter' => $billCoverLetter,
+                'title' => 'Edit Surat Pengantar'
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -181,7 +188,21 @@ class BillCoverLetterController extends Controller
      */
     public function update(Request $request, BillCoverLetter $billCoverLetter): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            $rules = [
+                'content' => 'required',
+                'updated_by' => 'required'
+            ];
+
+            $validateData = $request->validate($rules);
+
+            BillCoverLetter::where('id', $billCoverLetter->id)
+                ->update($validateData);
+        
+            return redirect('/accounting/bill-cover-letters/'.$billCoverLetter->id)->with('success','Surat pengantar dengan nomor '.$billCoverLetter->number.' berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**

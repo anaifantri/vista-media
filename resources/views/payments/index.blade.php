@@ -138,7 +138,7 @@
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-48">
                                     Klien
                                 </th>
-                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-52">
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-56">
                                     Nomor Invoice
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
@@ -167,10 +167,10 @@
                                     $client = json_decode($payment->billings[0]->client);
                                 @endphp
                                 <tr>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center align-top">
                                         {{ $loop->iteration }}
                                     </td>
-                                    <td class="text-stone-900 border border-stone-900 text-sm px-1">
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-1 align-top">
                                         @if (isset($client->company))
                                             @if (strlen($client->company) > 25)
                                                 {{ substr($client->company, 0, 25) }}..
@@ -227,7 +227,8 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="text-stone-900 px-1 bg-amber-100 border border-stone-900 text-sm text-right">
+                                    <td
+                                        class="text-stone-900 px-1 bg-amber-100 border border-stone-900 text-sm text-right align-top">
                                         <div>
                                             @php
                                                 $totalTaxes = 0;
@@ -247,16 +248,17 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="text-stone-900 px-1 bg-amber-100 border border-stone-900 text-sm text-right">
+                                    <td
+                                        class="text-stone-900 px-1 bg-amber-100 border border-stone-900 text-sm text-right align-top">
                                         {{ number_format($payment->nominal) }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm  text-center align-top">
                                         {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm align-top">
                                         {{ $payment->note }}
                                     </td>
-                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center">
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center align-top">
                                         <div class="flex justify-center items-center">
                                             <a href="/accounting/payments/{{ $payment->id }}"
                                                 class="index-link text-white w-8 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md">

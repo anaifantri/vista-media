@@ -394,7 +394,28 @@ class BillingController extends Controller
      */
     public function edit(Billing $billing): Response
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            $sales = $billing->sales;
+            $product = json_decode($sales[0]->product);
+            $approvals = json_decode($billing->invoice_content)->approval;
+            $orders = json_decode($billing->invoice_content)->orders;
+            if($billing->category == "Media"){
+                $agreements = json_decode($billing->invoice_content)->agreements;
+            }else{
+                $agreements = [];
+            }   
+            return  response()-> view ('billings.edit', [
+                'billing' => $billing,
+                'category' => $billing->category,
+                'approvals' => $approvals,
+                'orders' => $orders,
+                'agreements' => $agreements,
+                'product' => $product,
+                'title' => 'Detail Invoice '.$billing->invoice_number
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -402,7 +423,7 @@ class BillingController extends Controller
      */
     public function update(Request $request, Billing $billing): RedirectResponse
     {
-        //
+        dd("dalam tahap pengembangan");
     }
 
     /**
