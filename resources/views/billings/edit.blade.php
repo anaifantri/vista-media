@@ -111,10 +111,18 @@
         } else {
             $subTotal = 0;
         }
+        $indexTitle = 0;
     @endphp
     <form id="formCreate" action="/accounting/billings/{{ $billing->id }}" method="post" enctype="multipart/form-data">
         @method('put')
         @csrf
+        <input type="text" id="inputClient" name="client" value="{{ json_encode($client) }}" hidden>
+        <input type="text" id="inputInvoiceContent" name="invoice_content" value="{{ json_encode($invoice_content) }}"
+            hidden>
+        <input type="text" id="inputReceiptContent" name="receipt_content" value="{{ json_encode($receipt_content) }}"
+            hidden>
+        <input type="text" id="inputNominalInvoice" name="nominal" value="{{ $billing->nominal }}" hidden>
+        <input type="text" id="inputPpn" name="ppn" value="{{ $billing->ppn }}" hidden>
         <div class="flex justify-center pl-14 py-10 bg-stone-800">
             <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <div class="flex border-b py-1 justify-end">
@@ -155,12 +163,12 @@
                                 <!-- Body start -->
                                 @if ($category == 'Media')
                                     @if (isset($invoice_content->manual_detail))
-                                        @include('billings.manual-invoice-preview')
+                                        @include('billings.manual-invoice-edit')
                                     @else
                                         @include('billings.auto-invoice-edit')
                                     @endif
                                 @elseif($category == 'Service')
-                                    @include('billings.invoice-service-body-preview')
+                                    @include('billings.invoice-service-edit')
                                 @endif
                                 <!-- Body end -->
                                 @if ($pageQty > 1)
@@ -182,45 +190,190 @@
                             <!-- Header end -->
                             <!-- Body start -->
                             @if ($category == 'Media')
-                                @include('billings.receipt-media-body-preview')
+                                @include('billings.receipt-media-body-edit')
                             @elseif ($category == 'Service')
-                                @include('billings.receipt-service-body-preview')
+                                @include('billings.receipt-service-edit')
                             @endif
                             <!-- Body end -->
                             <!-- Sign start -->
-                            @include('billings.receipt-service-sign-preview')
+                            @include('billings.receipt-sign-edit')
                             <!-- Sign end -->
                         </div>
                         <!-- Kwitansi end -->
                     </div>
                 </div>
             </div>
-            @if ($category == 'Media')
-                @if ($client->type == 'Perusahaan')
-                    <input id="saveName" type="text"
-                        value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->company }}" hidden>
-                @else
-                    <input id="saveName" type="text"
-                        value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Media-{{ $client->name }}" hidden>
-                @endif
-            @elseif($category == 'Service')
-                @if (isset($client->company))
-                    <input id="saveName" type="text"
-                        value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->company }}" hidden>
-                @elseif (isset($client->name))
-                    <input id="saveName" type="text"
-                        value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->name }}" hidden>
-                @else
-                    <input id="saveName" type="text"
-                        value="{{ substr($billing->invoice_number, 0, 3) }}-INV-Revisual-{{ $client->contact_name }}"
-                        hidden>
-                @endif
-            @endif
         </div>
     </form>
 
     <!-- Script start-->
 
-    <script></script>
+    <script>
+        const inputClient = document.getElementById("inputClient");
+        const inputInvoiceContent = document.getElementById("inputInvoiceContent");
+        const inputReceiptContent = document.getElementById("inputReceiptContent");
+        const receiptClient = document.getElementById("receiptClient");
+        const receiptTitle = document.getElementById("receiptTitle");
+        const labelReceiptNominal = document.getElementById("labelReceiptNominal");
+        const labelTerbilang = document.getElementById("labelTerbilang");
+        const subTotal = document.getElementById("subTotal");
+        const inputNominalInvoice = document.getElementById("inputNominalInvoice");
+        const inputDpp = document.getElementById("inputDpp");
+        const inputPpn = document.getElementById("inputPpn");
+        const labelPpn = document.getElementById("labelPpn");
+        const labelGrandTotal = document.getElementById("labelGrandTotal");
+        const labelNominal = document.querySelectorAll("[id=labelNominal]");
+        var client = @json($client);
+        var invoiceContent = @json($invoice_content);
+        var receiptContent = @json($receipt_content);
+
+
+        changeClient = (sel) => {
+            if (sel.name == "client_contact") {
+                client.contact_name = sel.value;
+            } else if (sel.name == "client_company") {
+                client.company = sel.value;
+                receiptClient.innerText = sel.value;
+            } else if (sel.name == "client_address") {
+                client.address = sel.value;
+            } else if (sel.name == "contact_phone") {
+                client.contact_phone = sel.value;
+            } else if (sel.name == "contact_email") {
+                client.contact_email = sel.value;
+            } else if (sel.name == "npwp") {
+                client.npwp = sel.value;
+            }
+
+            inputClient.value = JSON.stringify(client);
+        }
+
+        changeInvoiceTitle = (sel) => {
+            var getTitle = sel.title.split('*');
+            var indexTitle = getTitle[1];
+
+            if (invoiceContent.manual_detail) {
+                invoiceContent.manual_detail[indexTitle].title = sel.value;
+            } else {
+                invoiceContent.description[indexTitle].title = sel.value;
+            }
+
+            receiptTitle.value = sel.value;
+            receiptContent.title = sel.value;
+
+            inputInvoiceContent.value = JSON.stringify(invoiceContent);
+            inputReceiptContent.value = JSON.stringify(receiptContent);
+        }
+
+        changeReceiptTitle = (sel) => {
+            receiptContent.title = sel.value;
+            inputReceiptContent.value = JSON.stringify(receiptContent);
+        }
+
+        changeNominal = (sel) => {
+            var getTitle = sel.title.split('*');
+            var indexTitle = getTitle[1];
+            var nominal = Number(sel.value);
+            var getSubTotal = countNominal();
+            var getDpp = getSubTotal / 12 * 11;
+            var getPpn = Math.round(getDpp * 11 / 100);
+            var getGrandTotal = getSubTotal + getPpn;
+            var getTerbilang = terbilang(getGrandTotal);
+
+            labelNominal[indexTitle].innerText = nominal.toLocaleString();
+            subTotal.innerText = getSubTotal.toLocaleString();
+            inputNominalInvoice.value = getSubTotal;
+            inputDpp.value = Math.round(getDpp);
+            inputPpn.value = getPpn;
+            labelPpn.innerText = getPpn.toLocaleString();
+            labelGrandTotal.innerText = getGrandTotal.toLocaleString();
+            labelReceiptNominal.innerText = getGrandTotal.toLocaleString();
+            if (getGrandTotal == 0) {
+                labelTerbilang.innerText = '#  #';
+                receiptContent.terbilang = '#  #';
+            } else {
+                labelTerbilang.innerText = '# ' + getTerbilang + ' rupiah #';
+                receiptContent.terbilang = '# ' + getTerbilang + ' rupiah #';
+            }
+
+            if (invoiceContent.manual_detail) {
+                invoiceContent.manual_detail[indexTitle].nominal = sel.value;
+            } else {
+                invoiceContent.description[indexTitle].nominal = sel.value;
+            }
+
+            receiptContent.nominal = getGrandTotal;
+            inputInvoiceContent.value = JSON.stringify(invoiceContent);
+            inputReceiptContent.value = JSON.stringify(receiptContent);
+        }
+
+        countNominal = () => {
+            const inputNominal = document.querySelectorAll("[id=inputNominal]");
+            var getSubTotal = 0;
+
+            for (let i = 0; i < inputNominal.length; i++) {
+                getSubTotal = getSubTotal + Number(inputNominal[i].value);
+            }
+            return getSubTotal;
+        }
+
+        function terbilang(nilai) {
+            // deklarasi variabel nilai sebagai angka matemarika
+            // Objek Math bertujuan agar kita bisa melakukan tugas matemarika dengan javascript
+            nilai = Math.floor(Math.abs(nilai));
+
+            // deklarasi nama angka dalam bahasa indonesia
+            var huruf = [
+                '',
+                'Satu',
+                'Dua',
+                'Tiga',
+                'Empat',
+                'Lima',
+                'Enam',
+                'Tujuh',
+                'Delapan',
+                'Sembilan',
+                'Sepuluh',
+                'Sebelas',
+            ];
+
+            // menyimpan nilai default untuk pembagian
+            var bagi = 0;
+            // deklarasi variabel penyimpanan untuk menyimpan proses rumus terbilang
+            var penyimpanan = '';
+
+            // rumus terbilang
+            if (nilai < 12) {
+                penyimpanan = ' ' + huruf[nilai];
+            } else if (nilai < 20) {
+                penyimpanan = terbilang(Math.floor(nilai - 10)) + ' Belas';
+            } else if (nilai < 100) {
+                bagi = Math.floor(nilai / 10);
+                penyimpanan = terbilang(bagi) + ' Puluh' + terbilang(nilai % 10);
+            } else if (nilai < 200) {
+                penyimpanan = ' Seratus' + terbilang(nilai - 100);
+            } else if (nilai < 1000) {
+                bagi = Math.floor(nilai / 100);
+                penyimpanan = terbilang(bagi) + ' Ratus' + terbilang(nilai % 100);
+            } else if (nilai < 2000) {
+                penyimpanan = ' Seribu' + terbilang(nilai - 1000);
+            } else if (nilai < 1000000) {
+                bagi = Math.floor(nilai / 1000);
+                penyimpanan = terbilang(bagi) + ' Ribu' + terbilang(nilai % 1000);
+            } else if (nilai < 1000000000) {
+                bagi = Math.floor(nilai / 1000000);
+                penyimpanan = terbilang(bagi) + ' Juta' + terbilang(nilai % 1000000);
+            } else if (nilai < 1000000000000) {
+                bagi = Math.floor(nilai / 1000000000);
+                penyimpanan = terbilang(bagi) + ' Miliar' + terbilang(nilai % 1000000000);
+            } else if (nilai < 1000000000000000) {
+                bagi = Math.floor(nilai / 1000000000000);
+                penyimpanan = terbilang(nilai / 1000000000000) + ' Triliun' + terbilang(nilai % 1000000000000);
+            }
+
+            // mengambalikan nilai yang ada dalam variabel penyimpanan
+            return penyimpanan;
+        }
+    </script>
     <!-- Script end-->
 @endsection

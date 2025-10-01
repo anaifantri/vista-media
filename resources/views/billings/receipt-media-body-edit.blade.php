@@ -1,0 +1,126 @@
+<div class="mt-4">
+    <div class="flex w-full items-center px-10">
+        <div class="w-[950px] h-[275px] p-4 border-2 border-black text-sm">
+            <div class="flex">
+                <label class="w-40">Telah terima dari</label>
+                <label>:</label>
+                <label id="receiptClient" class="ml-2 border-b border-dotted w-[650px]"><b>
+                        @if ($client->type == 'Perusahaan')
+                            {{ $client->company }}
+                        @else
+                            {{ $client->name }}
+                        @endif
+                    </b></label>
+            </div>
+            <div class="flex">
+                <label class="w-40">Banyaknya Uang</label>
+                <label>:</label>
+                <label id="labelTerbilang"
+                    class="ml-2 border-b border-dotted font-semibold italic w-[650px]">{{ $receipt_content->terbilang }}</label>
+            </div>
+            <div class="flex">
+                <label class="w-40">Untuk Pembayaran</label>
+                <label>:</label>
+                <input id="receiptTitle"
+                    class="ml-2 border text-sm font-semibold rounded-md px-1 w-[650px] outline-none" type="text"
+                    value="{{ $receipt_content->title }}" onchange="changeReceiptTitle(this)">
+            </div>
+            <div class="flex">
+                <label class="w-40"></label>
+                <label></label>
+                <label class="ml-2 border-b border-dotted font-semibold w-[650px]">
+                    <div class="flex w-full">
+                        <span class="w-16">Jenis</span>
+                        <span>:</span>
+                        <span class="ml-2">{{ $receipt_content->type }}</span>
+                    </div>
+                </label>
+            </div>
+            <div class="flex">
+                <label class="w-40"></label>
+                <label></label>
+                <label class="ml-2 border-b border-dotted font-semibold w-[650px]">
+                    <div class="flex w-full">
+                        <span class="w-16">Ukuran</span>
+                        <span>:</span>
+                        <span class="ml-2">{{ $receipt_content->size }}</span>
+                    </div>
+                </label>
+            </div>
+            <div class="flex">
+                <label class="w-40"></label>
+                <label></label>
+                <label class="ml-2 border-b border-dotted font-semibold w-[650px]">
+                    <div class="flex w-full">
+                        <span class="w-16">Jumlah</span>
+                        <span>:</span>
+                        <span class="ml-2">{{ $receipt_content->qty }}</span>
+                    </div>
+                </label>
+            </div>
+            <div class="flex">
+                <label class="w-40"></label>
+                <label></label>
+                <label class="ml-2 border-b border-dotted font-semibold w-[650px]">
+                    <div class="flex w-full">
+                        <span class="w-16">Periode</span>
+                        <span>:</span>
+                        <span class="ml-2">{{ $receipt_content->periode }}</span>
+                    </div>
+                </label>
+            </div>
+            @if (count($receipt_content->locations) > 1)
+                @if (count($receipt_content->locations) > 4)
+                    <div class="flex">
+                        <label class="w-40"></label>
+                        <label></label>
+                        <div class="flex ml-2 border-b border-dotted font-semibold w-[650px]">
+                            <span class="w-16">Lokasi</span>
+                            <span>: </span>
+                            <span class="ml-2 w-[580px]">Tertera pada invoice</span>
+                        </div>
+                    </div>
+                @else
+                    @foreach ($receipt_content->locations as $itemLocation)
+                        @if ($loop->iteration == 1)
+                            <div class="flex">
+                                <label class="w-40"></label>
+                                <label></label>
+                                <div class="flex ml-2 border-b border-dotted font-semibold w-[650px]">
+                                    <span class="w-16">Lokasi</span>
+                                    <span>: </span>
+                                    <span class="ml-2 w-[580px]">{{ $loop->iteration }}. {{ $itemLocation }}</span>
+                                </div>
+                            </div>
+                        @else
+                            <div class="flex">
+                                <label class="w-40"></label>
+                                <label></label>
+                                <div class="flex ml-2 border-b border-dotted font-semibold w-[650px]">
+                                    <span class="w-16"></span>
+                                    <span></span>
+                                    <span class="ml-3 w-[580px]">{{ $loop->iteration }}. {{ $itemLocation }}</span>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                @endif
+            @else
+                <div class="flex">
+                    <label class="w-40"></label>
+                    <label></label>
+                    <div class="flex ml-2 border-b border-dotted font-semibold w-[650px]">
+                        <span class="w-16">Lokasi</span>
+                        <span>: </span>
+                        <span class="ml-2 w-[580px]">{{ $receipt_content->locations[0] }}</span>
+                    </div>
+                </div>
+            @endif
+            <div class="flex">
+                <label class="w-40">Nomor Invoice</label>
+                <label>:</label>
+                <label class="ml-2 border-b border-dotted w-[650px]"><b>{{ $billing->invoice_number }}</b></label>
+            </div>
+        </div>
+    </div>
+</div>

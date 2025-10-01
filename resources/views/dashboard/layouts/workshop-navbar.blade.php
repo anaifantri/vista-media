@@ -2,7 +2,7 @@
     <nav class="flex w-full">
         <ul class="flex justify-start group w-max  h-6 transition duration-300 ease-in-out">
             <a class="right-nav text-stone-100 {{ Request::is('dashboard') ? 'active' : '' }}"
-                href="/dashboard/{{ $company->id }}">
+                href="/dashboard/{{ encrypt($company->id) }}">
                 <svg class="fill-current w-5 mx-2" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <title>DASHBOARD</title>
                     <path

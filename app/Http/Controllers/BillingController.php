@@ -423,7 +423,25 @@ class BillingController extends Controller
      */
     public function update(Request $request, Billing $billing): RedirectResponse
     {
-        dd("dalam tahap pengembangan");
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            $rules = [
+                'dpp' => 'required',
+                'ppn' => 'required',
+                'nominal' => 'required',
+                'client' => 'required',
+                'invoice_content' => 'required',
+                'receipt_content' => 'required'
+            ];
+
+            $validateData = $request->validate($rules);
+
+            Billing::where('id', $billing->id)
+                ->update($validateData);
+        
+            return redirect('/accounting/billings/'.$billing->id)->with('success','Invoice nomor '. $billing->number .' berhasil dirubah');
+        } else {
+            abort(403);
+        }
     }
 
     /**

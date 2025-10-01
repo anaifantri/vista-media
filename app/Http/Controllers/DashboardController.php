@@ -134,15 +134,15 @@ class DashboardController extends Controller
             
             'weekSales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->sum('price'),
             'monthSales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price'),
-            'yearSales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->sum('price'),
-            'sales' => Sale::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->get(),
+            'yearSales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price'),
+            'sales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->get(),
 
-            'monthBillings' => Billing::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
+            'monthBillings' => Billing::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
             'thisYearBillings' => $thisYearBillings,
             'thisYearPayments' => $thisYearPayments,
-            'yearBillings' => Billing::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->get(),
-            'monthPayments' => Payment::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('nominal'),
-            'yearPayments' => Payment::where('company_id', $company_id)->whereYear('created_at', Carbon::now()->year)->sum('nominal'),
+            'yearBillings' => Billing::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->get(),
+            'monthPayments' => Payment::where('company_id', $companyId)->whereYear('payment_date', Carbon::now()->year)->whereMonth('payment_date', Carbon::now()->month)->sum('nominal'),
+            'yearPayments' => Payment::where('company_id', $companyId)->whereYear('payment_date', Carbon::now()->year)->sum('nominal'),
 
             'thisYearTotal' => $thisYearTotal,
             'prevYearTotal' => $prevYearTotal,

@@ -190,13 +190,13 @@
                                                                         <input id="{{ $client->id }}"
                                                                             value="{{ $sale->id }}" type="checkbox"
                                                                             name="chooseSale" title="pilih"
-                                                                            onclick="getMediaSales(this)">
+                                                                            onclick="getAutoSales(this)">
                                                                         <label class="ml-1">Pilih</label>
                                                                     @else
                                                                         <input id="{{ $client->id }}"
                                                                             value="{{ $sale->id }}" type="radio"
                                                                             name="chooseSale" title="pilih"
-                                                                            onclick="getMediaSales(this)">
+                                                                            onclick="getManualSales(this)">
                                                                         <label class="ml-1">Pilih</label>
                                                                     @endif
                                                                 @else
@@ -283,13 +283,13 @@
                                                                     <input id="{{ $client->id }}"
                                                                         value="{{ $sale->id }}" type="checkbox"
                                                                         name="chooseSale" title="pilih"
-                                                                        onclick="getMediaSales(this)">
+                                                                        onclick="getAutoSales(this)">
                                                                     <label class="ml-1">Pilih</label>
                                                                 @else
                                                                     <input id="{{ $client->id }}"
                                                                         value="{{ $sale->id }}" type="radio"
                                                                         name="chooseSale" title="pilih"
-                                                                        onclick="getMediaSales(this)">
+                                                                        onclick="getManualSales(this)">
                                                                     <label class="ml-1">Pilih</label>
                                                                 @endif
                                                             @else
@@ -361,7 +361,7 @@
         let saleId = [];
         var clientId = '';
 
-        getMediaSales = (sel) => {
+        getAutoSales = (sel) => {
             if (Object.keys(saleId).length == 0) {
                 saleId.push((sel.value));
                 clientId = sel.id;
@@ -386,6 +386,20 @@
                     }
                 }
             }
+        }
+
+        getManualSales = (sel) => {
+            if (Object.keys(saleId).length == 0) {
+                saleId.push((sel.value));
+                formSelectSale.setAttribute('action', '/billings/select-terms/' + JSON.stringify(saleId));
+            } else {
+                saleId.splice(0, 1);
+                saleId.push(sel.value);
+                formSelectSale.setAttribute('action', '/billings/select-terms/' + JSON.stringify(
+                    saleId));
+            }
+            console.log(saleId);
+
         }
 
         getServiceSales = (sel) => {

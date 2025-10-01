@@ -1,5 +1,5 @@
 <div class="nav-a mx-2">
-    <a class="nav-a" href="/dashboard/{{ $company->id }}">
+    <a class="nav-a" href="/dashboard/{{ encrypt($company->id) }}">
         <svg class="nav-svg transition duration-300 ease-in-out {{ Request::is('dashboard') ? 'active' : '' }}"
             role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>DASHBOARD</title>
