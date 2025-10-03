@@ -11,7 +11,7 @@
     if ($installStatus == true) {
         $indexInstall = 0;
         foreach ($price->objInstalls as $objInstall) {
-            if ($objInstall->code == $product->code) {
+            if ($objInstall->code == $product->code && $quotationSale[$indexInstall]->id == $sale->id) {
                 $priceInstall = $objInstall;
                 $getPriceInstall = $priceInstall->price;
                 $side = $price->objSideView[$indexInstall]->side;
@@ -30,7 +30,7 @@
     if ($printStatus == true) {
         $indexPrint = 0;
         foreach ($price->objPrints as $objPrint) {
-            if ($objPrint->code == $product->code) {
+            if ($objPrint->code == $product->code && $quotationSale[$indexPrint]->id == $sale->id) {
                 $pricePrint = $objPrint;
                 $getPricePrint = $pricePrint->price;
                 $side = $price->objSideView[$indexPrint]->side;

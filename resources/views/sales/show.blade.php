@@ -3,6 +3,7 @@
 @section('container')
     @php
         $salesNote = [];
+        $quotationSale = $quotation->sales;
         $description = json_decode($products[0]->description);
         if ($category == 'Service') {
             for ($i = 0; $i < count($notes->dataNotes); $i++) {

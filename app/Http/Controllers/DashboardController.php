@@ -68,7 +68,7 @@ class DashboardController extends Controller
         }
 
         for ($i=1; $i <= 12; $i++) { 
-            $paymentTotal = Payment::where('company_id', $companyId)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('nominal');
+            $paymentTotal = Payment::where('company_id', $companyId)->whereYear('payment_date', $year)->whereMonth('payment_date', $i)->sum('nominal');
             $thisYearPayments[] = $paymentTotal;
         }
 
