@@ -120,6 +120,33 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <div class="p-2 mt-2 border rounded-lg bg-stone-300 text-stone-900">
+                            <div class="flex border-b border-stone-900 font-semibold">Detail Objek Pajak</div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40">Kode Objek</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">
+                                    @if ($income_tax_document->income_tax_category)
+                                        {{ $income_tax_document->income_tax_category->code }}
+                                    @else
+                                        -
+                                    @endif
+                                </label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40">Nama Objek</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2 w-[750px]">
+                                    @if ($income_tax_document->income_tax_category)
+                                        {{ $income_tax_document->income_tax_category->name }}
+                                    @else
+                                        -
+                                    @endif
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="flex items-center mt-2 w-full justify-center border rounded-lg">
                         <label class="text-md text-stone-100 w-20">Jumlah File</label>
                         <label class="text-md text-stone-100 ml-2">:</label>

@@ -222,6 +222,15 @@
                     <!-- Child Faktur PPh start -->
                     <ul id="pphChild" name="pphChild" class="hidden">
                         <li class="group">
+                            <a class="nav-a ml-5 border-b-[1px]" href="/accounting/income-tax-categories">
+                                <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24">
+                                    <path d="M10 9h-6l8-9 8 9h-6v11h-4v-11zm11 11v2h-18v-2h-2v4h22v-4h-2z" />
+                                </svg>
+                                <span class="flex w-40"> Data Objek PPh </span>
+                            </a>
+                        </li>
+                        <li class="group">
                             <a class="nav-a ml-5 border-b-[1px]" href="/income-taxes/index/{{ $company->id }}">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
@@ -239,7 +248,7 @@
                                         d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-12.751 8.306c-.165-.147-.249-.351-.249-.556 0-.411.333-.746.748-.746.178 0 .355.062.499.19l2.371 2.011 4.453-4.962c.149-.161.35-.243.554-.243.417 0 .748.336.748.746 0 .179-.065.359-.196.503l-4.953 5.508c-.148.161-.35.243-.553.243-.177 0-.356-.063-.498-.19z"
                                         fill-rule="nonzero" />
                                 </svg>
-                                <span class="flex w-40"> Laporan</span>
+                                <span class="flex w-40"> List Pemotongan PPh</span>
                             </a>
                         </li>
                     </ul>

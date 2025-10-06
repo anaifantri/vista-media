@@ -48,6 +48,7 @@ use App\Http\Controllers\QuotationStatusController;
 use App\Http\Controllers\ElectricityTopUpController;
 use App\Http\Controllers\QuotationsReportController;
 use App\Http\Controllers\ElectricityReportController;
+use App\Http\Controllers\IncomeTaxCategoryController;
 use App\Http\Controllers\IncomeTaxDocumentController;
 use App\Http\Controllers\InstallationPhotoController;
 use App\Http\Controllers\InstallationPriceController;
@@ -238,6 +239,10 @@ Route::get('/payments/create/{billingid}', [PaymentController::class,'create'])-
 Route::resource('/accounting/income-taxes', IncomeTaxController::class)->except(['index'])->middleware(['auth','user_access']);
 Route::get('/income-taxes/index/{companyid}', [IncomeTaxController::class,'index'])->middleware(['auth','user_access']);
 // Income Taxes  --> end
+
+// Income Tax Categories  --> start
+Route::resource('/accounting/income-tax-categories', IncomeTaxCategoryController::class)->middleware(['auth','user_access']);
+// Income Tax Categories  --> end
 
 // Income Taxes  --> start
 Route::resource('/accounting/income-tax-documents', IncomeTaxDocumentController::class)->except(['create'])->middleware(['auth','user_access']);

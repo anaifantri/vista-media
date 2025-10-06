@@ -116,11 +116,41 @@
                                 </div>
                             </div>
                         </div>
+                        <div>
+                            <div class="p-2 mt-2 border rounded-lg bg-stone-300 text-stone-900">
+                                <div class="flex border-b border-stone-900 font-semibold">Detail Objek Pajak</div>
+                                <div class="flex mt-1">
+                                    <label class="text-md w-40">Kode Objek Pajak</label>
+                                    <label class="text-md ml-2">:</label>
+                                    <select name="income_tax_category_id" onchange="changeObjectCode(this)"
+                                        class="outline-none border rounded-lg w-[200px] ml-2 px-2">
+                                        <option value="pilih">-- pilih --</option>
+                                        @foreach ($income_tax_categories as $income_tax_category)
+                                            <option value="{{ $income_tax_category->id }}"
+                                                title="{{ $income_tax_category->name }}">
+                                                {{ $income_tax_category->code }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('income_tax_category_id')
+                                    <div class="text-red-600 flex mx-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <div class="flex mt-1">
+                                    <label class="text-md w-40">Nama Objek Pajak</label>
+                                    <label class="text-md ml-2">:</label>
+                                    <textarea id="objectName" rows="3" class="border rounded-lg outline-none w-[750px] ml-2 px-2"></textarea>
+                                </div>
+                            </div>
+                        </div>
                         <div class="flex w-full justify-center mt-4">
                             <input id="documentTax" name="documents[]" type="file"
                                 accept="image/png, image/jpg, image/jpeg" onchange="imagePreview(this)" multiple hidden>
                             <button id="btnChooseImages" class="flex justify-center items-center w-44 btn-primary-small"
-                                title="Chose Files" type="button" onclick="document.getElementById('documentTax').click()">
+                                title="Chose Files" type="button"
+                                onclick="document.getElementById('documentTax').click()">
                                 <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
                                     clip-rule="evenodd" viewBox="0 0 24 24">
                                     <path d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
@@ -296,6 +326,14 @@
                 imageViews[indexShow - 1].removeAttribute('hidden');
                 indexShow = indexShow - 1;
             }
+        }
+
+        changeObjectCode = (sel) => {
+            const objectName = document.getElementById("objectName");
+
+            objectName.value = sel.options[sel.selectedIndex].title;
+            console.log(objectName.value);
+
         }
     </script>
 @endsection

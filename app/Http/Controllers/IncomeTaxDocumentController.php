@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\IncomeTaxDocument;
+use App\Models\IncomeTaxCategory;
 use App\Models\Payment;
 use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
@@ -47,6 +48,7 @@ class IncomeTaxDocumentController extends Controller
             $client = Client::findOrFail($billingClient->id);
             return  response()-> view ('income-tax-documents.create', [
                 'payment' => $payment,
+                'income_tax_categories' => IncomeTaxCategory::all(),
                 'bill_client' => $billingClient,
                 'client' => $client,
                 'client_company' => $clientCompany,
@@ -63,6 +65,10 @@ class IncomeTaxDocumentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+            if ($request->income_tax_category_id == 'pilih'){
+                return back()->withErrors(['income_tax_category_id' => ['Silahkan pilih kode objek pajak']])->withInput();
+            }
+            
             $request->validate([
                 'documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
                 'documents' => 'required',
@@ -76,7 +82,8 @@ class IncomeTaxDocumentController extends Controller
                 'nominal' => 'required',
                 'client_city' => 'required',
                 'period' => 'required',
-                'tax_date'=>'required'
+                'tax_date'=>'required',
+                'income_tax_category_id' => 'required'
             ]);
 
             if($request->file('documents')){
@@ -127,6 +134,7 @@ class IncomeTaxDocumentController extends Controller
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
             return  response()-> view ('income-tax-documents.edit', [
                 'income_tax_document' => $incomeTaxDocument,
+                'income_tax_categories' => IncomeTaxCategory::all(),
                 'title' => 'Edit Dokumen Bukti Potong PPh'
             ]);
         } else {
@@ -140,6 +148,10 @@ class IncomeTaxDocumentController extends Controller
     public function update(Request $request, IncomeTaxDocument $incomeTaxDocument): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+            if ($request->income_tax_category_id == 'pilih'){
+                return back()->withErrors(['income_tax_category_id' => ['Silahkan pilih kode objek pajak']])->withInput();
+            }
+
             if($request->file('documents')){
                 $request->validate([
                 'documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024'
@@ -150,7 +162,8 @@ class IncomeTaxDocumentController extends Controller
                 'number' => 'required',
                 'nominal' => 'required',
                 'tax_date' => 'required',
-                'period' => 'required'
+                'period' => 'required',
+                'income_tax_category_id' => 'required'
             ];
 
             $validateData = $request->validate($rules);

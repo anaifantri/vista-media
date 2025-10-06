@@ -62,8 +62,13 @@ class IncomeTaxDocument extends Model
     public function company(){
         return $this->belongsTo(Company::class);
     }
+    
     public function payment(){
         return $this->belongsTo(Payment::class);
+    }
+
+    public function income_tax_category(){
+        return $this->belongsTo(IncomeTaxCategory::class);
     }
     
     public $sortable = ['number'];

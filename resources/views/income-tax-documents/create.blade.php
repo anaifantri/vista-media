@@ -67,8 +67,8 @@
                                 <label class="text-md text-stone-100 w-40">Alamat (Kota/Kab.)</label>
                                 <label class="text-md text-stone-100 ml-2">:</label>
                                 <input name="client_city" type="text" placeholder="Input Alamat (Kota/Kab.)"
-                                    value="{{ $client->city }}" class="text-md outline-none rounded-md px-1 ml-2 w-[330px]"
-                                    required>
+                                    value="{{ old('client_city') }}" value="{{ $client->city }}"
+                                    class="text-md outline-none rounded-md px-1 ml-2 w-[330px]" required>
                                 <input type="text" name="old_city" value="{{ $client->city }}" hidden>
                                 <input type="text" name="client_id" value="{{ $client->id }}" hidden>
                             </div>
@@ -105,7 +105,38 @@
                                 <label class="text-md text-stone-100 w-40">Masa Pajak</label>
                                 <label class="text-md text-stone-100 ml-2">:</label>
                                 <input type="month" name="period" class="text-md outline-none rounded-md px-1 ml-2 w-36"
-                                    required>
+                                    value="{{ old('period') }}" required>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40 text-stone-100">Kode Objek Pajak</label>
+                                <label class="text-md ml-2 text-stone-100">:</label>
+                                <select name="income_tax_category_id" onchange="changeObjectCode(this)"
+                                    class="outline-none border rounded-lg w-[200px] ml-2 px-2">
+                                    <option value="pilih">-- pilih --</option>
+                                    @foreach ($income_tax_categories as $income_tax_category)
+                                        @if (old('income_tax_category_id') == $income_tax_category->id)
+                                            <option value="{{ $income_tax_category->id }}"
+                                                title="{{ $income_tax_category->name }}" selected>
+                                                {{ $income_tax_category->code }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $income_tax_category->id }}"
+                                                title="{{ $income_tax_category->name }}">
+                                                {{ $income_tax_category->code }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('income_tax_category_id')
+                                <div class="text-red-600 flex mx-1">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            <div class="flex mt-1">
+                                <label class="text-md w-40 text-stone-100">Nama Objek Pajak</label>
+                                <label class="text-md ml-2 text-stone-100">:</label>
+                                <textarea id="objectName" name="object_name" rows="4" class="border rounded-lg outline-none w-[270px] ml-2">{{ old('object_name') }}</textarea>
                             </div>
                         </div>
                         <div class="flex w-full justify-center mt-4">
@@ -174,5 +205,14 @@
     <!-- Container end -->
     <!-- Script start -->
     <script src="/js/addlegaldocuments.js"></script>
+    <script>
+        changeObjectCode = (sel) => {
+            const objectName = document.getElementById("objectName");
+
+            objectName.value = sel.options[sel.selectedIndex].title;
+            console.log(objectName.value);
+
+        }
+    </script>
     <!-- Script end -->
 @endsection
