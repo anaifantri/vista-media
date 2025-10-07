@@ -807,6 +807,7 @@ checkSlot = (sel) =>{
 // Function Remove Location --> start
 removeLocation = (sel) => {
     const locationView = document.querySelectorAll('[id=locationView]');
+    const divInclude = document.getElementById("divInclude");
     const tableBody = document.getElementById("tableBody");
     const trButton = tableBody.getElementsByTagName("button");
 
@@ -840,6 +841,11 @@ removeLocation = (sel) => {
         }
     }else{
         alert('Minimal harus ada 1 lokasi');
+    }
+    
+    if(objProducts.length == 1){
+        divInclude.classList.remove("hidden");
+        divInclude.classList.add("flex");
     }
 }
 // Function Remove Location --> end
