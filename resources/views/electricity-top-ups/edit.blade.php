@@ -1,9 +1,6 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <?php
-    $description = json_decode($location->description);
-    ?>
     <!-- Form Create start -->
     <form action="/workshop/electricity-top-ups/{{ $electricity_top_up->id }}" method="post" enctype="multipart/form-data">
         @method('put')
@@ -24,8 +21,7 @@
                             </svg>
                             <span class="mx-2"> Save </span>
                         </button>
-                        <a href="/show-electricity-top-up/{{ $location->id }}"
-                            class="flex items-center justify-center btn-danger mx-1">
+                        <a href="/workshop/electricity-top-ups" class="flex items-center justify-center btn-danger mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -37,6 +33,39 @@
                     </div>
                 </div>
                 <!-- View Create start -->
+                <div class="flex w-full justify-center mt-4">
+                    <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
+                        <div>
+                            <label class="text-sm text-stone-900">ID Pelanggan</label>
+                            <label
+                                class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->id_number }}</label>
+                        </div>
+                        <div>
+                            <label class="text-sm text-stone-900">Nama</label>
+                            <label
+                                class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->name }}</label>
+                        </div>
+                        <div>
+                            <label class="text-sm text-stone-900">Daya</label>
+                            <label
+                                class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->power }}</label>
+                        </div>
+                    </div>
+                    <div class="w-[485px] border rounded-lg p-2 bg-stone-200 ml-4">
+                        <div>
+                            <div class="flex items-center text-md text-stone-900 font-semibold border-b border-stone-900">
+                                Daftar Lokasi Yang Menggunakan
+                            </div>
+                            @foreach ($electrical_power->locations as $location)
+                                <div>
+                                    <label class="text-sm text-stone-900">{{ $loop->iteration }}.</label>
+                                    <label class="ml-2 text-sm text-stone-900">{{ $location->code }} |
+                                        {{ $location->address }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
                 <div class="flex w-full justify-center mt-4">
                     <div class="flex w-[485px] border rounded-lg p-2 bg-stone-300">
                         <div>
@@ -81,7 +110,7 @@
                                     step="any"
                                     class="flex w-[200px] p-1 text-sm in-out-spin-none font-semibold text-stone-900 border rounded-lg px-1 outline-none @error('remaining_kwh_qty') is-invalid @enderror"
                                     value="{{ $electricity_top_up->remaining_kwh_qty }}" type="number" min="0"
-                                    placeholder="0" required>
+                                    placeholder="0">
                             </div>
                             @error('remaining_kwh_qty')
                                 <div class="invalid-feedback">
@@ -93,7 +122,7 @@
                                 <input id="last_kwh_qty" name="last_kwh_qty" step="any"
                                     class="flex w-[200px] p-1 text-sm in-out-spin-none font-semibold text-stone-900 border rounded-lg px-1 outline-none @error('last_kwh_qty') is-invalid @enderror"
                                     value="{{ $electricity_top_up->last_kwh_qty }}" type="number" min="0"
-                                    placeholder="0" readonly required>
+                                    placeholder="0" readonly>
                             </div>
                             @error('last_kwh_qty')
                                 <div class="invalid-feedback">
@@ -106,22 +135,36 @@
                                 <div class="flex justify-center items-center w-full">
                                     <label class="text-sm text-stone-900">Foto Kwh Sebelum Pengisian</label>
                                 </div>
-                                <img class="m-auto img-preview-remaining flex border rounded-lg items-center w-[200px] h-[100px] mt-1"
-                                    src="{{ asset('storage/' . $electricity_top_up->remaining_image) }}">
+                                @if ($electricity_top_up->remaining_image)
+                                    <img class="m-auto img-preview-remaining flex border rounded-lg items-center w-[200px] h-[100px] mt-1"
+                                        src="{{ asset('storage/' . $electricity_top_up->remaining_image) }}">
+                                @else
+                                    <img
+                                        class="m-auto img-preview-remaining flex border rounded-lg items-center w-[200px] h-[100px] mt-1">
+                                @endif
                                 <div class="flex justify-center w-[225px] mt-1">
                                     <button id="btnChooseImages"
-                                        class="flex justify-center items-center w-44 btn-primary-small" title="Chose Files"
-                                        type="button" onclick="document.getElementById('remaining_image').click()">
-                                        <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-                                            clip-rule="evenodd" viewBox="0 0 24 24">
+                                        class="flex justify-center items-center w-44 btn-primary-small"
+                                        title="Chose Files" type="button"
+                                        onclick="document.getElementById('remaining_image').click()">
+                                        <svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
+                                            fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 24 24">
                                             <path
                                                 d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
                                         </svg>
-                                        <span class="ml-2 text-xs">Ganti Foto</span>
+                                        @if ($electricity_top_up->remaining_image)
+                                            <span class="ml-2 text-xs">Ganti Foto</span>
+                                        @else
+                                            <span class="ml-2 text-xs">Upload Foto</span>
+                                        @endif
                                     </button>
                                 </div>
-                                <input type="text" name="oldRemainingImage"
-                                    value="{{ $electricity_top_up->remaining_image }}" hidden>
+                                @if ($electricity_top_up->remaining_image)
+                                    <input type="text" name="oldRemainingImage"
+                                        value="{{ $electricity_top_up->remaining_image }}" hidden>
+                                @else
+                                    <input type="text" name="oldRemainingImage" hidden>
+                                @endif
                                 <input accept="image/png, image/gif, image/jpeg, image/jpg"
                                     class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('remaining_image') is-invalid @enderror"
                                     type="file" id="remaining_image" name="remaining_image"
@@ -136,8 +179,13 @@
                                 <div class="flex justify-center items-center ww-full">
                                     <label class="text-sm text-stone-900">Foto Kwh Setelah Pengisian</label>
                                 </div>
-                                <img class="m-auto img-preview-last flex border rounded-lg items-center w-[200px] h-[100px] mt-1"
-                                    src="{{ asset('storage/' . $electricity_top_up->last_image) }}">
+                                @if ($electricity_top_up->last_image)
+                                    <img class="m-auto img-preview-last flex border rounded-lg items-center w-[200px] h-[100px] mt-1"
+                                        src="{{ asset('storage/' . $electricity_top_up->last_image) }}">
+                                @else
+                                    <img
+                                        class="m-auto img-preview-last flex border rounded-lg items-center w-[200px] h-[100px] mt-1">
+                                @endif
                                 <div class="flex justify-center w-[225px] mt-1">
                                     <button id="btnChooseImages"
                                         class="flex justify-center items-center w-44 btn-primary-small"
@@ -148,11 +196,19 @@
                                             <path
                                                 d="M23 0v20h-8v-2h6v-16h-18v16h6v2h-8v-20h22zm-12 13h-4l5-6 5 6h-4v11h-2v-11z" />
                                         </svg>
-                                        <span class="ml-2 text-xs">Ganti Foto</span>
+                                        @if ($electricity_top_up->last_image)
+                                            <span class="ml-2 text-xs">Ganti Foto</span>
+                                        @else
+                                            <span class="ml-2 text-xs">Upload Foto</span>
+                                        @endif
                                     </button>
                                 </div>
-                                <input type="text" name="oldLastImage" value="{{ $electricity_top_up->last_image }}"
-                                    hidden>
+                                @if ($electricity_top_up->last_image)
+                                    <input type="text" name="oldLastImage"
+                                        value="{{ $electricity_top_up->last_image }}" hidden>
+                                @else
+                                    <input type="text" name="oldLastImage" hidden>
+                                @endif
                                 <input accept="image/png, image/gif, image/jpeg, image/jpg"
                                     class="border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-72 mt-5 @error('last_image') is-invalid @enderror"
                                     type="file" id="last_image" name="last_image"
@@ -165,9 +221,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center w-[485px] border rounded-lg p-2 bg-stone-300 ml-4">
+                    <div class="flex justify-center w-[485px] border rounded-lg p-2 bg-stone-300 ml-4">
                         <div>
-                            <div class="flex justify-center items-center w-full mt-1">
+                            <div class="flex justify-center items-center w-full">
+                                <label class="text-sm text-stone-900">Foto Nota Pembelian</label>
+                            </div>
+                            <div class="flex justify-center w-full mt-1">
+                                <img class="m-auto img-preview-receipt flex border rounded-lg items-center max-w-[450px] max-h-[280px] mt-1"
+                                    src="{{ asset('storage/' . $electricity_top_up->receipt_image) }}">
+                            </div>
+                            <div class="flex justify-center items-center w-full mt-2">
                                 <button id="btnChooseImages"
                                     class="flex justify-center items-center w-64 btn-primary-small" title="Chose Files"
                                     type="button" onclick="document.getElementById('receipt_image').click()">
@@ -178,10 +241,6 @@
                                     </svg>
                                     <span class="ml-2 text-xs">Ganti Foto Nota Pembelian</span>
                                 </button>
-                            </div>
-                            <div class="flex justify-center w-full mt-1">
-                                <img class="m-auto img-preview-receipt flex border rounded-lg items-center max-w-[450px] max-h-[280px] mt-1"
-                                    src="{{ asset('storage/' . $electricity_top_up->receipt_image) }}">
                             </div>
                             <input type="text" name="oldReceiptImage"
                                 value="{{ $electricity_top_up->receipt_image }}" hidden>
@@ -198,62 +257,6 @@
                     </div>
                 </div>
                 <!-- View Create end -->
-                <!-- Location start -->
-                <div class="flex w-full justify-center mt-4">
-                    <div class="flex w-full justify-center mt-1">
-                        <div class="w-[485px] border rounded-lg p-2 bg-stone-300">
-                            <div>
-                                <label class="text-sm text-stone-900">Kode Lokasi</label>
-                                <label
-                                    class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
-                            </div>
-                            <div>
-                                <label class="text-sm text-stone-900">Alamat</label>
-                                <textarea class="flex w-[460px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none"
-                                    rows="2" readonly>{{ $location->address }}</textarea>
-                            </div>
-                            <div class="flex">
-                                <div>
-                                    <div>
-                                        <label class="text-sm text-stone-900">Jenis</label>
-                                        <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
-                                            {{ $location->media_category->name }}
-                                            @if (
-                                                $location->media_category->name != 'Videotron' ||
-                                                    ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
-                                                - {{ $description->lighting }}
-                                            @endif
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="text-sm text-stone-900">Ukuran</label>
-                                        <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_size->size }}
-                                            - {{ $location->orientation }}</label>
-                                    </div>
-                                </div>
-                                <div class="ml-4">
-                                    <div>
-                                        <label class="text-sm text-stone-900">Area</label>
-                                        <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->area->area }}</label>
-                                    </div>
-                                    <div>
-                                        <label class="text-sm text-stone-900">Kota</label>
-                                        <label
-                                            class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->city->city }}</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-300 ml-4">
-                            <img class="w-[420px] border rounded-lg"
-                                src="{{ asset('storage/' . $location_photo->photo) }}" alt="">
-                        </div>
-                    </div>
-                </div>
-                <!-- Location end -->
             </div>
         </div>
     </form>

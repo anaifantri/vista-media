@@ -151,6 +151,8 @@
                                 if ($sale) {
                                     if ($sale->end_at > date('Y-m-d')) {
                                         $client = json_decode($sale->quotation->clients);
+                                    } else {
+                                        $client = null;
                                     }
                                 } else {
                                     $client = null;
@@ -169,7 +171,7 @@
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     {{ $location->city->city }}</td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    @if ($client)
+                                    @if ($client != null)
                                         {{ $client->name }}
                                     @else
                                         -

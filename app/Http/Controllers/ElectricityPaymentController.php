@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ElectricityPayment;
+use App\Models\ElectricalPower;
 use App\Models\Location;
 use App\Models\Sale;
 use App\Models\LocationPhoto;
@@ -28,16 +29,16 @@ class ElectricityPaymentController extends Controller
         if(Gate::allows('isElectricity') && Gate::allows('isWorkshopRead')){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
-            $sales = Sale::with('location')->get();
             $media_sizes = MediaSize::with('locations')->get();
             $media_categories = MediaCategory::with('locations')->get();
-            $electricity_payments = ElectricityPayment::with('location')->get();
+            $electrical_powers = ElectricalPower::with('electricity_payments')->get();
+            $locations = Location::with('electrical_powers')->get();
             return response()-> view ('electricity-payments.index', [
-                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'electricity_payments'=>ElectricityPayment::filter(request('search'))->area()->city()->month()->year()->sortable()->paginate(30)->withQueryString(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'title' => 'Daftar Data Pembayaran Tagihan Listrik',
-                compact('areas', 'cities', 'media_sizes', 'media_categories', 'electricity_payments', 'sales')
+                'title' => 'Daftar Data Pembayaran Listrik',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'electrical_powers', 'locations')
             ]);
         } else {
             abort(403);
@@ -65,35 +66,40 @@ class ElectricityPaymentController extends Controller
         }
     }
 
-    public function showElectricityPayment(String $locationId): View
+    public function showElectricityPayment(String $electricalId): View
     { 
         if(Gate::allows('isElectricity') && Gate::allows('isWorkshopRead')){
-            $dataPayments = ElectricityPayment::where('location_id', $locationId)->get();
-            $location = Location::where('id', $locationId)->firstOrFail();
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
-            $media_categories = MediaCategory::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $electrical_power = ElectricalPower::findOrFail($electricalId);
+            $locations = Location::with('electrical_powers')->get();
+            $payments = ElectricityPayment::where('electrical_power_id', $electricalId)->year()->get();
             return view ('electricity-payments.show-payments', [
-                'payments' => $dataPayments,
-                'location' => $location,
+                'electrical_power' => $electrical_power,
+                'payments' => $payments,
                 'title' => 'Detail Data Pembayaran Listrik',
-                compact('areas', 'cities', 'media_categories', 'media_sizes')
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'locations')
             ]);
         } else {
             abort(403);
         }
     }
 
-    public function createElectricityPayment(String $locationId): View
+    public function createElectricityPayment(String $electricalId): View
     { 
         if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
-            $location = Location::findOrFail($locationId);
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $electrical_power = ElectricalPower::findOrFail($electricalId);
+            $locations = Location::with('electrical_powers')->get();
             return view ('electricity-payments.create', [
-                'location_id' => $locationId,
-                'location' => $location,
-                'location_photo'=>LocationPhoto::where('location_id', $locationId)->where('company_id', $location->company_id)->where('set_default', true)->get()->last(),
-                'title' => 'Menambahkan Data Pembayaran Listrik'
+                'electrical_power' => $electrical_power,
+                'title' => 'Menambahkan Data Pembayaran Listrik',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'locations')
             ]);
         } else {
             abort(403);
@@ -105,7 +111,24 @@ class ElectricityPaymentController extends Controller
      */
     public function create(): Response
     {
-        //
+        if(Gate::allows('isElectricity') && Gate::allows('isWorkshopRead')){
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $sales = Sale::with('location')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $electrical_powers = ElectricalPower::with('electricity_top_ups')->get();
+            $locations = Location::with('electrical_powers')->get();
+            return response()-> view ('electricity-payments.select-power', [
+                'electrical_powers'=>ElectricalPower::where('type', 'Pascabayar')->filter(request('search'))->area()->city()->get(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'title' => 'Daftar Data Pengisian Pulsa Listrik',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'sales', 'locations')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -115,7 +138,7 @@ class ElectricityPaymentController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
             $validateData = $request->validate([
-                'location_id' => 'required',
+                'electrical_power_id' => 'required',
                 'user_id' => 'required',
                 'bill_date' => 'required',
                 'payment_date' => 'required',
@@ -139,17 +162,17 @@ class ElectricityPaymentController extends Controller
     public function show(ElectricityPayment $electricityPayment): Response
     {
         if(Gate::allows('isElectricity') && Gate::allows('isWorkshopRead')){
-            $location = Location::findOrFail($electricityPayment->location->id);
-            $cities = City::with('locations')->get();
             $areas = Area::with('locations')->get();
-            $media_categories = MediaCategory::with('locations')->get();
+            $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $electrical_power = ElectricalPower::findOrFail($electricityPayment->electrical_power_id);
+            $locations = Location::with('electrical_powers')->get();
             return response()-> view ('electricity-payments.show', [
+                'electrical_power' => $electrical_power,
                 'electricity_payment' => $electricityPayment,
-                'location' => $location,
-                'location_photo'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->where('set_default', true)->get()->last(),
-                'title' => 'Detail Pembayaran Listrik',
-                compact('location', 'cities', 'areas', 'media_sizes', 'media_categories')
+                'title' => 'Detail Pembayaran Tagihan Listrik',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'locations')
             ]);
         } else {
             abort(403);
@@ -161,13 +184,17 @@ class ElectricityPaymentController extends Controller
      */
     public function edit(ElectricityPayment $electricityPayment): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
-            $location = Location::findOrFail($electricityPayment->location->id);
+        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){$areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $electrical_power = ElectricalPower::findOrFail($electricityPayment->electrical_power_id);
+            $locations = Location::with('electrical_powers')->get();
             return response()-> view ('electricity-payments.edit', [
+                'electrical_power' => $electrical_power,
                 'electricity_payment' => $electricityPayment,
-                'location' => $location,
-                'location_photo'=>LocationPhoto::where('location_id', $location->id)->where('company_id', $location->company_id)->where('set_default', true)->get()->last(),
-                'title' => 'Edit Data Pembayaran Listrik'
+                'title' => 'Edit Data Pembayaran Listrik',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'locations')
             ]);
         } else {
             abort(403);
@@ -202,7 +229,7 @@ class ElectricityPaymentController extends Controller
 
             ElectricityPayment::where('id', $electricityPayment->id)->update($validateData);
 
-            return redirect('/show-electricity-payment/'.$electricityPayment->location->id)->with('success','Data pembayaran listrik berhasil dirubah');
+            return redirect('/workshop/electricity-payments')->with('success','Data pembayaran listrik berhasil dirubah');
         } else {
             abort(403);
         }
@@ -218,7 +245,7 @@ class ElectricityPaymentController extends Controller
                 Storage::delete($electricityPayment->payment_image);
             }
             ElectricityPayment::destroy($electricityPayment->id);
-            return redirect('/show-electricity-payment/'.$electricityPayment->location->id)->with('success', 'Data pembayaran listrik berhasil dihapus');
+            return redirect('/workshop/electricity-payments')->with('success', 'Data pembayaran listrik berhasil dihapus');
         } else {
             abort(403);
         }

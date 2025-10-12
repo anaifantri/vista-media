@@ -1,9 +1,6 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <?php
-    $description = json_decode($location->description);
-    ?>
     <!-- Form Create start -->
     <form action="/workshop/electrical-powers/{{ $electrical_power->id }}" method="post">
         @method('put')
@@ -124,61 +121,110 @@
                     </div>
                 </div>
                 <!-- View Create end -->
-                <!-- Location start -->
-                <div class="flex w-full justify-center mt-4">
-                    <div class="flex w-full justify-center mt-1">
-                        <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
-                            <div>
-                                <label class="text-sm text-stone-900">Kode Lokasi</label>
-                                <label
-                                    class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
-                            </div>
-                            <div>
-                                <label class="text-sm text-stone-900">Alamat</label>
-                                <textarea class="flex w-[460px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none"
-                                    rows="2" readonly>{{ $location->address }}</textarea>
-                            </div>
-                            <div class="flex">
-                                <div>
-                                    <div>
-                                        <label class="text-sm text-stone-900">Jenis</label>
-                                        <label
-                                            class="flex w-[220px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
-                                            {{ $location->media_category->name }}
-                                            @if (
-                                                $location->media_category->name != 'Videotron' ||
-                                                    ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
-                                                - {{ $description->lighting }}
-                                            @endif
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="text-sm text-stone-900">Ukuran</label>
-                                        <label
-                                            class="flex w-[220px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_size->size }}
-                                            - {{ $location->orientation }}</label>
-                                    </div>
-                                </div>
-                                <div class="ml-4">
-                                    <div>
-                                        <label class="text-sm text-stone-900">Area</label>
-                                        <label
-                                            class="flex w-[220px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->area->area }}</label>
-                                    </div>
-                                    <div>
-                                        <label class="text-sm text-stone-900">Kota</label>
-                                        <label
-                                            class="flex w-[220px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->city->city }}</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-200 ml-4">
-                            <img class="w-[420px] border rounded-lg" src="{{ asset('storage/' . $location_photo->photo) }}"
-                                alt="">
-                        </div>
+                <div class="flex border-b items-center">
+                    <div class="flex items-center text-md text-stone-900 mt-4 font-semibold w-96">
+                        Daftar Lokasi Yang Menggunakan
+                    </div>
+                    <div class="flex w-full justify-end">
+                        <a href="/electrical-power/show-location/{{ $electrical_power->area_id }}/{{ $electrical_power->city_id }}/{{ $electrical_power->id }}"
+                            class="flex items-center justify-center btn-primary mx-1">
+                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="mx-1"> Tambah Lokasi </span>
+                        </a>
                     </div>
                 </div>
+                <!-- Alert start -->
+                @if (session()->has('success'))
+                    <div class="ml-2 flex alert-success">
+                        <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                        </svg>
+                        <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                    </div>
+                @endif
+                <!-- Alert end -->
+                <!-- Location start -->
+                @foreach ($electrical_power->locations as $location)
+                    @php
+                        $description = json_decode($location->description);
+                        $location_photos = $location->location_photos
+                            ->where('company_id', $company->id)
+                            ->where('set_default', true);
+                    @endphp
+                    <div class="flex justify-end mt-2">
+                        <a href="/electrical-power/delete-location/{{ $location->id }}/{{ $electrical_power->id }}"
+                            class="flex items-center justify-center btn-danger mx-1">
+                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="mx-1"> Hapus Lokasi </span>
+                        </a>
+                    </div>
+                    <div class="flex w-full justify-center mt-1">
+                        <div class="flex w-full justify-center mt-1">
+                            <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
+                                <div>
+                                    <label class="text-sm text-stone-900">Kode Lokasi</label>
+                                    <label
+                                        class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
+                                </div>
+                                <div>
+                                    <label class="text-sm text-stone-900">Alamat</label>
+                                    <textarea class="flex w-[460px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none"
+                                        rows="2" disabled>{{ $location->address }}</textarea>
+                                </div>
+                                <div class="flex">
+                                    <div>
+                                        <div>
+                                            <label class="text-sm text-stone-900">Jenis</label>
+                                            <label
+                                                class="flex w-[220px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
+                                                {{ $location->media_category->name }}
+                                                @if (
+                                                    $location->media_category->name != 'Videotron' ||
+                                                        ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
+                                                    - {{ $description->lighting }}
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label class="text-sm text-stone-900">Ukuran</label>
+                                            <label
+                                                class="flex w-[220px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_size->size }}
+                                                - {{ $location->orientation }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div>
+                                            <label class="text-sm text-stone-900">Area</label>
+                                            <label
+                                                class="flex w-[220px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->area->area }}</label>
+                                        </div>
+                                        <div>
+                                            <label class="text-sm text-stone-900">Kota</label>
+                                            <label
+                                                class="flex w-[220px] bg-slate-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->city->city }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-200 ml-4">
+                                <img class="w-[420px] border rounded-lg"
+                                    src="{{ asset('storage/' . $location_photos[0]->photo) }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
                 <!-- Location end -->
             </div>
         </div>

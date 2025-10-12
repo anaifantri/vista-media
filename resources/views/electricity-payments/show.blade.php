@@ -2,18 +2,16 @@
 
 @section('container')
     <?php
-    $description = json_decode($location->description);
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="p-4 w-[1000px] border rounded-lg bg-stone-700">
             <div class="flex items-center border-b">
-                <h4 class="text-xl font-semibold tracking-wider text-stone-100 w-[600px]">DETAIL DATA PEMBAYARAN LISTRIK
+                <h4 class="text-xl font-semibold tracking-wider text-stone-100 w-[850px]">DETAIL DATA PEMBAYARAN LISTRIK
                 </h4>
                 <div class="flex items-center w-full justify-end">
-                    <a href="/show-electricity-payment/{{ $location->id }}"
-                        class="flex items-center justify-center btn-primary mx-1">
+                    <a href="/workshop/electricity-payments" class="flex items-center justify-center btn-primary mx-1">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -46,7 +44,7 @@
                                     @method('delete')
                                     @csrf
                                     <button class="flex items-center justify-center btn-danger"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus data pembayaran listrik..?')">
+                                        onclick="return confirm('Apakah anda yakin ingin menghapus data pengisian pulsa listrik..?')">
                                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -63,19 +61,51 @@
             </div>
 
             <!-- View start -->
-            <div class="flex w-full justify-center mt-4">
-                <div class="flex w-[485px] border rounded-lg p-2 bg-stone-300">
+            <div class="grid grid-cols-2 mt-4">
+                <div class="border rounded-lg p-2 bg-stone-200">
+                    <div>
+                        <label class="text-sm text-stone-900">ID Pelanggan</label>
+                        <label
+                            class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->id_number }}</label>
+                    </div>
+                    <div>
+                        <label class="text-sm text-stone-900">Nama</label>
+                        <label
+                            class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->name }}</label>
+                    </div>
+                    <div>
+                        <label class="text-sm text-stone-900">Daya</label>
+                        <label
+                            class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->power }}</label>
+                    </div>
+                </div>
+                <div class="border rounded-lg p-2 bg-stone-200 ml-4">
+                    <div>
+                        <div class="flex items-center text-md text-stone-900 font-semibold border-b border-stone-900">
+                            Daftar Lokasi Yang Menggunakan
+                        </div>
+                        @foreach ($electrical_power->locations as $location)
+                            <div>
+                                <label class="text-sm text-stone-900">{{ $loop->iteration }}.</label>
+                                <label class="ml-2 text-sm text-stone-900">{{ $location->code }} |
+                                    {{ $location->address }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 mt-4">
+                <div class="flex border rounded-lg p-2 bg-stone-300">
                     <div>
                         <div>
-                            <label class="text-sm text-stone-900">Bulan</label>
+                            <label class="text-sm text-stone-900">Tagihan Bulan</label>
                             <label
                                 class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
                                 {{ $bulan[(int) date('m', strtotime($electricity_payment->bill_date))] }}
-                                {{ date('Y', strtotime($electricity_payment->bill_date)) }}
                             </label>
                         </div>
                         <div>
-                            <label class="text-sm text-stone-900">Tanggal Pembayaran</label>
+                            <label class="text-sm text-stone-900">Tanggal Pembayarn</label>
                             <label
                                 class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
                                 {{ date('d', strtotime($electricity_payment->payment_date)) }}
@@ -84,13 +114,13 @@
                             </label>
                         </div>
                         <div>
-                            <label class="text-sm text-stone-900">Nominal Pembayaran</label>
+                            <label class="text-sm text-stone-900">Nominal</label>
                             <label
                                 class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ number_format($electricity_payment->payment) }}</label>
                         </div>
                     </div>
                 </div>
-                <div class="w-[485px] border rounded-lg p-2 bg-stone-300 ml-4">
+                <div class="border rounded-lg p-2 bg-stone-300 ml-4">
                     <div class="flex justify-center w-full">
                         <label class="text-sm text-stone-900">Bukti Pembayaran</label>
                     </div>
@@ -101,62 +131,6 @@
                 </div>
             </div>
             <!-- View end -->
-            <!-- Location start -->
-            <div class="flex w-full justify-center mt-1">
-                <div class="flex w-full justify-center mt-1">
-                    <div class="w-[485px] border rounded-lg p-2 bg-stone-300">
-                        <div>
-                            <label class="text-sm text-stone-900">Kode Lokasi</label>
-                            <label
-                                class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
-                        </div>
-                        <div>
-                            <label class="text-sm text-stone-900">Alamat</label>
-                            <textarea class="flex w-[460px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none"
-                                rows="2" readonly>{{ $location->address }}</textarea>
-                        </div>
-                        <div class="flex">
-                            <div>
-                                <div>
-                                    <label class="text-sm text-stone-900">Jenis</label>
-                                    <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
-                                        {{ $location->media_category->name }}
-                                        @if (
-                                            $location->media_category->name != 'Videotron' ||
-                                                ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
-                                            - {{ $description->lighting }}
-                                        @endif
-                                    </label>
-                                </div>
-                                <div>
-                                    <label class="text-sm text-stone-900">Ukuran</label>
-                                    <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_size->size }}
-                                        - {{ $location->orientation }}</label>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <div>
-                                    <label class="text-sm text-stone-900">Area</label>
-                                    <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->area->area }}</label>
-                                </div>
-                                <div>
-                                    <label class="text-sm text-stone-900">Kota</label>
-                                    <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->city->city }}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-300 ml-4">
-                        <img class="w-[420px] border rounded-lg" src="{{ asset('storage/' . $location_photo->photo) }}"
-                            alt="">
-                    </div>
-                </div>
-            </div>
-            <!-- Location end -->
         </div>
     </div>
     <!-- Container end -->

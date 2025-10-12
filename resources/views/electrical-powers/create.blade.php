@@ -3,11 +3,12 @@
 @section('container')
     <?php
     $description = json_decode($location->description);
+    $powers = ['1.300', '2.200', '3.500', '5.500', '7.700', '23.000', '33.000', '41.500'];
     ?>
     <!-- Form Create start -->
     <form action="/workshop/electrical-powers" method="post">
         @csrf
-        <input name="location_id" value="{{ $location_id }}" type="text" hidden>
+        <input name="location_id" value="{{ $location->id }}" type="text" hidden>
         <input name="user_id" value="{{ auth()->user()->id }}" type="text" hidden>
         <div class="flex justify-center pl-14 py-10 bg-stone-800">
             <div class="p-4 w-[1000px] border rounded-lg bg-stone-300">
@@ -38,6 +39,67 @@
                 <div class="flex w-full justify-center mt-4">
                     <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
                         <div class="mt-2">
+                            <div class="flex mt-1">
+                                <label class="text-sm text-stone-900">Area</label>
+                            </div>
+                            <div class="mt-1">
+                                <select name="area_id"
+                                    class="w-[450px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('area_id') is-invalid @enderror"
+                                    type="text" value="{{ $location->area_id }}">
+                                    <option value="pilih">- pilih -</option>
+                                    @foreach ($areas as $area)
+                                        @if ($location->area_id == $area->id)
+                                            <option value="{{ $area->id }}" selected>
+                                                {{ $area->area }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $area->id }}">
+                                                {{ $area->area }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @error('area_id')
+                            <div class="text-red-600 flex mx-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                        <div class="mt-2">
+                            <div class="flex mt-1">
+                                <label class="text-sm text-stone-900">Kota</label>
+                            </div>
+                            <div class="mt-1">
+                                <select name="city_id"
+                                    class="w-[450px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('city_id') is-invalid @enderror"
+                                    type="text" value="{{ $location->city_id }}">
+                                    <option value="pilih">- pilih -</option>
+                                    @foreach ($cities as $city)
+                                        @if ($location->city_id == $city->id)
+                                            <option value="{{ $city->id }}" selected>
+                                                {{ $city->city }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $city->id }}">
+                                                {{ $city->city }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @error('city_id')
+                            <div class="text-red-600 flex mx-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="w-[485px] border rounded-lg p-2 bg-stone-200 ml-4">
+                        @php
+                            $types = ['Prabayar', 'Pascabayar'];
+                        @endphp
+                        <div class="mt-4">
                             <span class="text-sm text-stone-900">ID Pelanggan</span>
                             <input name="id_number"
                                 class="flex w-[450px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('id_number') is-invalid @enderror"
@@ -60,11 +122,6 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div>
-                    <div class="w-[485px] border rounded-lg p-2 bg-stone-200 ml-4">
-                        @php
-                            $types = ['Prabayar', 'Pascabayar'];
-                        @endphp
                         <div class="flex mt-1">
                             <label class="text-sm text-stone-900">Jenis Daya Listrik</label>
                         </div>
@@ -93,9 +150,6 @@
                             </div>
                         @enderror
                         <div class="mt-2">
-                            @php
-                                $powers = ['1300', '2200', '3500', '5500'];
-                            @endphp
                             <div class="flex mt-1">
                                 <label class="text-sm text-stone-900">Besaran Daya Listrik</label>
                             </div>
@@ -127,6 +181,11 @@
                     </div>
                 </div>
                 <!-- View Create end -->
+                <div class="flex border-b items-center">
+                    <div class="flex items-center text-md text-stone-900 mt-4 font-semibold w-96">
+                        Data Lokasi Yang Menggunakan
+                    </div>
+                </div>
                 <!-- Location start -->
                 <div class="flex w-full justify-center mt-4">
                     <div class="flex w-full justify-center mt-1">
@@ -177,8 +236,8 @@
                             </div>
                         </div>
                         <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-200 ml-4">
-                            <img class="w-[420px] border rounded-lg" src="{{ asset('storage/' . $location_photo->photo) }}"
-                                alt="">
+                            <img class="w-[420px] border rounded-lg"
+                                src="{{ asset('storage/' . $location_photo->photo) }}" alt="">
                         </div>
                     </div>
                 </div>

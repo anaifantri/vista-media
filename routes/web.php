@@ -308,15 +308,18 @@ Route::get('/show-monitoring/{locationId}', [MonitoringController::class,'showMo
 Route::get('/create-monitoring/{locationId}', [MonitoringController::class,'createMonitoring'])->middleware(['auth','user_access']);
 
 Route::resource('/workshop/electricity-payments', ElectricityPaymentController::class)->middleware(['auth','user_access']);
-Route::get('/show-electricity-payment/{locationId}', [ElectricityPaymentController::class,'showElectricityPayment'])->middleware(['auth','user_access']);
-Route::get('/create-electricity-payment/{locationId}', [ElectricityPaymentController::class,'createElectricityPayment'])->middleware(['auth','user_access']);
+Route::get('/show-electricity-payment/{electricalId}', [ElectricityPaymentController::class,'showElectricityPayment'])->middleware(['auth','user_access']);
+Route::get('/create-electricity-payment/{electricalId}', [ElectricityPaymentController::class,'createElectricityPayment'])->middleware(['auth','user_access']);
 
 Route::resource('/workshop/electricity-top-ups', ElectricityTopUpController::class)->middleware(['auth','user_access']);
-Route::get('/show-electricity-top-up/{locationId}', [ElectricityTopUpController::class,'showElectricityTopUp'])->middleware(['auth','user_access']);
-Route::get('/create-electricity-top-up/{locationId}', [ElectricityTopUpController::class,'createElectricityTopUp'])->middleware(['auth','user_access']);
+Route::get('/show-electricity-top-up/{electricalId}', [ElectricityTopUpController::class,'showElectricityTopUp'])->middleware(['auth','user_access']);
+Route::get('/create-electricity-top-up/{electricalId}', [ElectricityTopUpController::class,'createElectricityTopUp'])->middleware(['auth','user_access']);
 
 Route::resource('/workshop/electrical-powers', ElectricalPowerController::class)->middleware(['auth','user_access']);
 Route::get('/create-electrical-power/{locationId}', [ElectricalPowerController::class,'createElectricalPower'])->middleware(['auth','user_access']);
+Route::get('/electrical-power/delete-location/{locationId}/{electricalId}', [ElectricalPowerController::class,'deleteLocation'])->middleware(['auth','user_access']);
+Route::get('/electrical-power/add-location/{locationId}/{electricalId}', [ElectricalPowerController::class,'addLocation'])->middleware(['auth','user_access']);
+Route::get('/electrical-power/show-location/{areaId}/{cityId}/{electricalId}', [ElectricalPowerController::class,'showLocation'])->middleware(['auth','user_access']);
 
 Route::get('/workshop/electricity-reports', [ElectricityReportController::class,'index'])->middleware(['auth','user_access']);
 // Workshop Group --> end

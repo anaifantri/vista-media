@@ -29,6 +29,10 @@ class City extends Model
     public function area(){
         return $this->belongsTo(Area::class);
     }
+    
+    public function electrical_powers(){
+        return $this->hasMany(ElectricalPower::class, 'area_id', 'id');
+    }
 
     public function user(){
         return $this->belongsTo(User::class);

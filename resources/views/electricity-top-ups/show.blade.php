@@ -2,7 +2,7 @@
 
 @section('container')
     <?php
-    $description = json_decode($location->description);
+    // $description = json_decode($location->description);
     $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
@@ -12,8 +12,7 @@
                 <h4 class="text-xl font-semibold tracking-wider text-stone-100 w-[850px]">DETAIL DATA PENGISIAN PULSA LISTRIK
                 </h4>
                 <div class="flex items-center w-full justify-end">
-                    <a href="/show-electricity-top-up/{{ $location->id }}"
-                        class="flex items-center justify-center btn-primary mx-1">
+                    <a href="/workshop/electricity-top-ups" class="flex items-center justify-center btn-primary mx-1">
                         <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                             stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -63,8 +62,41 @@
             </div>
 
             <!-- View start -->
-            <div class="flex w-full justify-center mt-4">
-                <div class="flex w-[485px] border rounded-lg p-2 bg-stone-300">
+            <div class="grid grid-cols-2 mt-4">
+                <div class="border rounded-lg p-2 bg-stone-200">
+                    <div>
+                        <label class="text-sm text-stone-900">ID Pelanggan</label>
+                        <label
+                            class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->id_number }}</label>
+                    </div>
+                    <div>
+                        <label class="text-sm text-stone-900">Nama</label>
+                        <label
+                            class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->name }}</label>
+                    </div>
+                    <div>
+                        <label class="text-sm text-stone-900">Daya</label>
+                        <label
+                            class="flex w-[310px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electrical_power->power }}</label>
+                    </div>
+                </div>
+                <div class="border rounded-lg p-2 bg-stone-200 ml-4">
+                    <div>
+                        <div class="flex items-center text-md text-stone-900 font-semibold border-b border-stone-900">
+                            Daftar Lokasi Yang Menggunakan
+                        </div>
+                        @foreach ($electrical_power->locations as $location)
+                            <div>
+                                <label class="text-sm text-stone-900">{{ $loop->iteration }}.</label>
+                                <label class="ml-2 text-sm text-stone-900">{{ $location->code }} |
+                                    {{ $location->address }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 mt-4">
+                <div class="flex border rounded-lg p-2 bg-stone-300">
                     <div>
                         <div>
                             <label class="text-sm text-stone-900">Tanggal Pengisian</label>
@@ -83,17 +115,23 @@
                         <div>
                             <label class="text-sm text-stone-900">Jumlah Kwh Pembelian</label>
                             <label
-                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electricity_top_up->kwh_qty }}</label>
+                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ number_format($electricity_top_up->kwh_qty) }}</label>
                         </div>
                         <div>
                             <label class="text-sm text-stone-900">Jumlah Kwh Sebelum Pengisian</label>
                             <label
-                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electricity_top_up->remaining_kwh_qty }}</label>
+                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
+                                @if ($electricity_top_up->remaining_kwh_qty)
+                                    {{ $electricity_top_up->remaining_kwh_qty }}
+                                @else
+                                    -
+                                @endif
+                            </label>
                         </div>
                         <div>
                             <label class="text-sm text-stone-900">Jumlah Kwh Setelah Pengisian</label>
                             <label
-                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $electricity_top_up->last_kwh_qty }}</label>
+                                class="flex w-[200px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ Number_format($electricity_top_up->last_kwh_qty) }}</label>
                         </div>
                     </div>
                     <div class="ml-4 w-[250px]">
@@ -101,19 +139,31 @@
                             <label class="text-sm text-stone-900">Foto Kwh Sebelum Pengisian</label>
                         </div>
                         <div class="flex justify-center w-full">
-                            <img class="m-auto flex border rounded-lg items-center w-[200px] h-[100px] mt-1"
-                                src="{{ asset('storage/' . $electricity_top_up->remaining_image) }}">
+                            @if ($electricity_top_up->remaining_image)
+                                <img class="m-auto flex border rounded-lg items-center w-[200px] h-[100px] mt-1"
+                                    src="{{ asset('storage/' . $electricity_top_up->remaining_image) }}">
+                            @else
+                                <div class="m-auto flex border rounded-lg items-center w-[200px] h-[100px] mt-1">
+
+                                </div>
+                            @endif
                         </div>
-                        <div class="flex justify-center w-full">
+                        <div class="flex justify-center w-full mt-2">
                             <label class="text-sm text-stone-900">Foto Kwh Setelah Pengisian</label>
                         </div>
                         <div class="flex justify-center w-full">
-                            <img class="m-auto flex border rounded-lg items-center w-[200px] h-[100px] mt-1"
-                                src="{{ asset('storage/' . $electricity_top_up->last_image) }}">
+                            @if ($electricity_top_up->last_image != '')
+                                <img class="m-auto flex border rounded-lg items-center w-[200px] h-[100px] mt-1"
+                                    src="{{ asset('storage/' . $electricity_top_up->last_image) }}">
+                            @else
+                                <div class="m-auto flex border rounded-lg items-center w-[200px] h-[100px] mt-1">
+
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="w-[485px] border rounded-lg p-2 bg-stone-300 ml-4">
+                <div class="border rounded-lg p-2 bg-stone-300 ml-4">
                     <div class="flex justify-center w-full">
                         <label class="text-sm text-stone-900">Foto Nota Pembelian</label>
                     </div>
@@ -124,62 +174,6 @@
                 </div>
             </div>
             <!-- View end -->
-            <!-- Location start -->
-            <div class="flex w-full justify-center mt-1">
-                <div class="flex w-full justify-center mt-1">
-                    <div class="w-[485px] border rounded-lg p-2 bg-stone-300">
-                        <div>
-                            <label class="text-sm text-stone-900">Kode Lokasi</label>
-                            <label
-                                class="flex w-[150px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->code }}-{{ $location->city->code }}</label>
-                        </div>
-                        <div>
-                            <label class="text-sm text-stone-900">Alamat</label>
-                            <textarea class="flex w-[460px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none"
-                                rows="2" readonly>{{ $location->address }}</textarea>
-                        </div>
-                        <div class="flex">
-                            <div>
-                                <div>
-                                    <label class="text-sm text-stone-900">Jenis</label>
-                                    <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">
-                                        {{ $location->media_category->name }}
-                                        @if (
-                                            $location->media_category->name != 'Videotron' ||
-                                                ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
-                                            - {{ $description->lighting }}
-                                        @endif
-                                    </label>
-                                </div>
-                                <div>
-                                    <label class="text-sm text-stone-900">Ukuran</label>
-                                    <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->media_size->size }}
-                                        - {{ $location->orientation }}</label>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <div>
-                                    <label class="text-sm text-stone-900">Area</label>
-                                    <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->area->area }}</label>
-                                </div>
-                                <div>
-                                    <label class="text-sm text-stone-900">Kota</label>
-                                    <label
-                                        class="flex w-[220px] bg-neutral-50 text-sm font-semibold text-stone-900 border rounded-lg p-1">{{ $location->city->city }}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-300 ml-4">
-                        <img class="w-[420px] border rounded-lg" src="{{ asset('storage/' . $location_photo->photo) }}"
-                            alt="">
-                    </div>
-                </div>
-            </div>
-            <!-- Location end -->
         </div>
     </div>
     <!-- Container end -->

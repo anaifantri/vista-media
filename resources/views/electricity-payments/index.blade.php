@@ -2,7 +2,8 @@
 
 @section('container')
     <?php
-    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agst', 'Sept', 'Okt', 'Nov', 'Des'];
+    $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -10,6 +11,24 @@
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
                 <h1 class="index-h1">DAFTAR PEMBAYARAN TAGIHAN LISTRIK</h1>
+                @canany(['isAdmin', 'isWorkshop', 'isMedia'])
+                    @can('isElectricity')
+                        @can('isWorkshopCreate')
+                            <div class="flex">
+                                <a href="/workshop/electricity-payments/create" title="Tambah Data Pembayaran Listrik"
+                                    class="index-link btn-primary">
+                                    <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                            fill-rule="nonzero" />
+                                    </svg>
+                                    <span class="mx-1">Tambah Data</span>
+                                </a>
+                            </div>
+                        @endcan
+                    @endcan
+                @endcanany
                 <!-- Title end -->
             </div>
             <div>
@@ -60,36 +79,78 @@
                             </div>
                         @endif
                         <div class="ml-2 w-36">
-                            <span class="text-base text-stone-100">Katagori</span>
-                            <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
-                                name="media_category_id" id="media_category_id" onchange="submit()"
-                                value="{{ request('media_category_id') }}">
-                                <option value="All">All</option>
-                                @foreach ($categories as $category)
-                                    @if ($category->name != 'Service')
-                                        @if (request('media_category_id') == $category->id)
-                                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                            <span class="text-base text-stone-100">Bulan</span>
+                            <select name="month"
+                                class="outline-none border w-full text-base text-stone-900 rounded-md bg-stone-100"
+                                onchange="submit()">
+                                @if (request('month'))
+                                    @for ($i = 1; $i < 13; $i++)
+                                        @if ($i == request('month'))
+                                            <option value="{{ $i }}" selected>
+                                                {{ $bulan_full[$i] }}
+                                            </option>
                                         @else
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $i }}">{{ $bulan_full[$i] }}
+                                            </option>
                                         @endif
-                                    @endif
-                                @endforeach
+                                    @endfor
+                                @else
+                                    @for ($i = 1; $i < 13; $i++)
+                                        @if ($i == date('m'))
+                                            <option value="{{ $i }}" selected>
+                                                {{ $bulan_full[$i] }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $i }}">{{ $bulan_full[$i] }}
+                                            </option>
+                                        @endif
+                                    @endfor
+                                @endif
                             </select>
                         </div>
-                    </div>
-                    <div class="flex mt-2">
-                        <div class="flex">
-                            <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
-                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
-                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
-                            <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
-                                type="submit">
-                                <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
-                                </svg>
-                            </button>
+                        <div class="ml-2 w-32">
+                            <span class="text-base text-stone-100">Tahun</span>
+                            <div class="flex items-center">
+                                <select name="year"
+                                    class="text-center outline-none border w-20 text-base text-stone-900 rounded-md bg-stone-100"
+                                    onchange="submit()">
+                                    @php
+                                        $oldYear = 2020;
+                                    @endphp
+                                    @if (request('year'))
+                                        @for ($i = date('Y'); $i > $oldYear; $i--)
+                                            @if ($i == request('year'))
+                                                <option value="{{ $i }}" selected>
+                                                    {{ $i }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $i }}">{{ $i }}
+                                                </option>
+                                            @endif
+                                        @endfor
+                                    @else
+                                        @for ($i = date('Y'); $i > $oldYear; $i--)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ml-2 w-full">
+                            <span class="text-base text-stone-100">Pencarian</span>
+                            <div class="flex w-full">
+                                <input id="search" name="search"
+                                    class="flex border rounded-l-lg px-1 outline-none text-base text-stone-900"
+                                    type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
+                                    onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
+                                <button class="flex border px-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                                    type="submit">
+                                    <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -113,97 +174,83 @@
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs w-20 text-center" rowspan="2">
-                                <button class="flex justify-center items-center w-20">@sortablelink('code', 'Kode')
+                            <th class="text-stone-900 border border-stone-900 w-20 text-xs text-center" rowspan="2">
+                                <button class="flex justify-center items-center w-20">@sortablelink('id_number', 'ID Pelanggan')
                                     <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                                     </svg>
                                 </button>
                             </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">Nama
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-10" rowspan="2">Daya
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]" rowspan="2">
+                                Area</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]" rowspan="2">
+                                Kota</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Lokasi
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">Area
-                            </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">Kota
-                            </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">Klien
-                            </th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="3">Data
-                                Pembayaran Terakhir
-                            </th>
+                                Pembayaran</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
                                 Action</th>
                         </tr>
                         <tr class="bg-stone-400">
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Bulan</th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Tgl. Pembayaran</th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Nominal</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Tagihan Bulan</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Tgl. Bayar</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Nominal</th>
                         </tr>
                     </thead>
                     <tbody class="bg-stone-200">
                         @php
-                            $number = 1 + ($locations->currentPage() - 1) * $locations->perPage();
+                            $number = 1 + ($electricity_payments->currentPage() - 1) * $electricity_payments->perPage();
                         @endphp
-                        @foreach ($locations as $location)
-                            @php
-                                $last_payment = $location->electricity_payments->last();
-                                $sale = $location->sales->last();
-                                if ($sale) {
-                                    if ($sale->end_at > date('Y-m-d')) {
-                                        $client = json_decode($sale->quotation->clients);
-                                    }
-                                } else {
-                                    $client = null;
-                                }
-                            @endphp
+                        @foreach ($electricity_payments as $payment)
                             <tr>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $number++ }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    {{ $location->code }} -
-                                    {{ $location->city->code }}</td>
-                                <td class="text-stone-900 border border-stone-900 text-xs px-1">{{ $location->address }}
+                                    {{ $payment->electrical_power->id_number }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $payment->electrical_power->name }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                                    {{ $payment->electrical_power->power }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    {{ $location->area->area }}</td>
-                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    {{ $location->city->city }}</td>
-                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    @if ($client)
-                                        {{ $client->name }}
-                                    @else
-                                        -
-                                    @endif
+                                    {{ $payment->electrical_power->area->area }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    @if ($last_payment)
-                                        {{ $bulan[(int) date('m', strtotime($last_payment->bill_date))] }}
-                                        {{ date('Y', strtotime($last_payment->bill_date)) }}
-                                    @else
-                                        -
-                                    @endif
+                                    {{ $payment->electrical_power->city->city }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-xs px-1">
+                                    <div>
+                                        @if (count($payment->electrical_power->locations) > 0)
+                                            @foreach ($payment->electrical_power->locations as $location)
+                                                <span class="flex">
+                                                    {{ $location->code }} | {{ $location->address }}
+                                                </span>
+                                            @endforeach
+                                        @else
+                                            -
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    @if ($last_payment)
-                                        {{ date('d', strtotime($last_payment->payment_date)) }}
-                                        {{ $bulan[(int) date('m', strtotime($last_payment->payment_date))] }}
-                                        {{ date('Y', strtotime($last_payment->payment_date)) }}
-                                    @else
-                                        -
-                                    @endif
+                                    {{ $bulan_full[(int) date('m', strtotime($payment->bill_date))] }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    @if ($last_payment)
-                                        {{ number_format($last_payment->payment) }}
-                                    @else
-                                        -
-                                    @endif
+                                    {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                                    {{ number_format($payment->payment) }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
-                                        <a href="/show-electricity-payment/{{ $location->id }}"
-                                            title="Lihat Data Pembayaran Listrik"
+                                        <a href="/workshop/electricity-payments/{{ $payment->id }}"
                                             class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
                                             <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -213,20 +260,41 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        @canany(['isAdmin', 'isWorkshop'])
+                                        @canany(['isAdmin', 'isWorkshop', 'isMedia'])
                                             @can('isElectricity')
-                                                @can('isWorkshopCreate')
-                                                    <a href="/create-electricity-payment/{{ $location->id }}"
-                                                        title="Tambah Data Pembayaran Listrik"
-                                                        class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md">
+                                                @can('isWorkshopEdit')
+                                                    <a href="/workshop/electricity-payments/{{ $payment->id }}/edit"
+                                                        class="index-link text-white w-7 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md mx-1">
                                                         <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd"
                                                             stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                             xmlns="http://www.w3.org/2000/svg">
                                                             <path
-                                                                d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.749c0-.414.336-.75.75-.75s.75.336.75.75v9.249c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm1.521 9.689 9.012-9.012c.133-.133.217-.329.217-.532 0-.179-.065-.363-.218-.515l-2.423-2.415c-.143-.143-.333-.215-.522-.215s-.378.072-.523.215l-9.027 8.996c-.442 1.371-1.158 3.586-1.264 3.952-.126.433.198.834.572.834.41 0 .696-.099 4.176-1.308zm-2.258-2.392 1.17 1.171c-.704.232-1.274.418-1.729.566zm.968-1.154 7.356-7.331 1.347 1.342-7.346 7.347z"
                                                                 fill-rule="nonzero" />
                                                         </svg>
                                                     </a>
+                                                @endcan
+                                            @endcan
+                                        @endcanany
+                                        @canany(['isAdmin', 'isWorkshop'])
+                                            @can('isElectricity')
+                                                @can('isWorkshopDelete')
+                                                    <form action="/workshop/electricity-payments/{{ $payment->id }}" method="post"
+                                                        class="d-inline m-1">
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button
+                                                            class="index-link text-white w-7 h-5 rounded bg-red-700 hover:bg-red-500 drop-shadow-md"
+                                                            onclick="return confirm('Apakah anda yakin ingin menghapus data pembayaran listrik..?')">
+                                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+                                                                    fill-rule="nonzero" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
                                                 @endcan
                                             @endcan
                                         @endcanany
@@ -237,12 +305,13 @@
                     </tbody>
                 </table>
             </div>
-            <!-- View end -->
+
             <!-- Pagination start -->
             <div class="flex justify-center text-stone-100 mt-2">
-                {!! $locations->appends(Request::query())->render('dashboard.layouts.pagination') !!}
+                {!! $electricity_payments->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
             <!-- Pagination end -->
+            <!-- View end -->
         </div>
     </div>
     <!-- Container end -->
