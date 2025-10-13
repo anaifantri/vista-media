@@ -3,7 +3,7 @@
 @section('container')
     <?php
     $description = json_decode($location->description);
-    $powers = ['1.300', '2.200', '3.500', '5.500', '7.700', '23.000', '33.000', '41.500'];
+    $powers = ['1.300', '2.200', '3.500', '4.400', '5.500', '6.600', '7.700', '13.200', '23.000', '33.000', '41.500'];
     ?>
     <!-- Form Create start -->
     <form action="/workshop/electrical-powers" method="post">

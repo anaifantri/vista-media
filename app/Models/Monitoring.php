@@ -5,11 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
+use Carbon\Carbon;
 
 class Monitoring extends Model
 {
     use Sortable;
     protected $guarded = ['id'];
+    
+    public function scopeYear($query){
+        if (request('year')) {
+            return $query->whereYear('month', request('year'));
+        }else{
+            return $query->whereYear('month', Carbon::now()->year);
+        }
+    }
 
     public function user(){
         return $this->belongsTo(User::class);

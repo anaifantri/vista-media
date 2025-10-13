@@ -22,7 +22,7 @@ class MonitoringPhotoController extends Controller
     }
     public function createPhotos(String $monitoringId): View
     { 
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
             $monitoring = Monitoring::where('id', $monitoringId)->firstOrFail();
             return view ('monitoring-photos.create', [
                 'monitoring_id' => $monitoringId,
@@ -46,7 +46,7 @@ class MonitoringPhotoController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
             $request->validate([
                 'photos.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
                 'photos'=> 'required'
@@ -84,7 +84,7 @@ class MonitoringPhotoController extends Controller
      */
     public function edit(MonitoringPhoto $monitoringPhoto): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit'))){
             return response()-> view ('monitoring-photos.edit', [
                 'monitoring_photo' => $monitoringPhoto,
                 'title' => 'Mengganti Foto Pemantauan'
@@ -99,7 +99,7 @@ class MonitoringPhotoController extends Controller
      */
     public function update(Request $request, MonitoringPhoto $monitoringPhoto): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit'))){
             $request->validate([
                 'photo' => 'required|image|file|mimes:jpeg,png,jpg|max:1024'
             ]);
@@ -119,7 +119,7 @@ class MonitoringPhotoController extends Controller
      */
     public function destroy(MonitoringPhoto $monitoringPhoto): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopDelete')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopDelete'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopDelete'))){
             $monitoringPhotos = MonitoringPhoto::where('monitoring_id', $monitoringPhoto->monitoring_id)->get();
             if(count($monitoringPhotos) > 1){
                 Storage::delete($monitoringPhoto->photo);

@@ -47,8 +47,8 @@
             @enderror
             <!-- Alert end -->
             <!-- Location start -->
-            <div class="flex w-full justify-center mt-2">
-                <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
+            <div class="grid grid-cols-2 gap-4 mt-2 p-4">
+                <div class="border rounded-lg p-2 bg-stone-200">
                     <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Kode Lokasi</label>
                         <label>:</label>
@@ -71,7 +71,7 @@
                         <label class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
                     </div>
                 </div>
-                <div class="w-[485px] border rounded-lg p-2 bg-stone-200 ml-4">
+                <div class="border rounded-lg p-2 bg-stone-200 ml-4">
                     <div class="flex text-stone-900 text-sm font-semibold">
                         <label class="w-24">Jenis</label>
                         <label>:</label>
@@ -98,8 +98,53 @@
             </div>
             <!-- Location end -->
             <!-- View start -->
-            <div class="w-[1000px] mt-2 p-2">
-                <label class="lex text-stone-100 test-sm font-semibold mt-2">DATA PEMANTAUAN</label>
+            <div class="w-[1000px] p-2">
+                <form id="formFilter" action="/show-monitoring/{{ $location->id }}">
+                    <div class="flex mt-2 p-2 border-b">
+                        <div class="flex items-center w-[200px]">
+                            <span class="flex text-base text-stone-100">Tahun</span>
+                            <select name="year"
+                                class="ml-2 flex px-1 text-center outline-none border border-stone-900 w-20 text-base text-stone-900 rounded-md bg-stone-100"
+                                onchange="submit()">
+                                @php
+                                    $oldYear = 2020;
+                                @endphp
+                                @if (request('year'))
+                                    @for ($i = date('Y'); $i > $oldYear; $i--)
+                                        @if ($i == request('year'))
+                                            <option value="{{ $i }}" selected>{{ $i }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endif
+                                    @endfor
+                                @else
+                                    @for ($i = date('Y'); $i > $oldYear; $i--)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                @endif
+                            </select>
+                        </div>
+                        <div class="flex w-full justify-end">
+                            @canany(['isAdmin', 'isWorkshop', 'isMedia'])
+                                @can('isElectricity')
+                                    @can('isWorkshopCreate')
+                                        <a href="/create-monitoring/{{ $location->id }}" class="index-link btn-primary">
+                                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                                                    fill-rule="nonzero" />
+                                            </svg>
+                                            <span class="mx-1">Tambah Data</span>
+                                        </a>
+                                    @endcan
+                                @endcan
+                            @endcanany
+                        </div>
+                    </div>
+                </form>
                 <table class="table-auto w-full mt-2">
                     <thead>
                         <tr class="bg-stone-400">
@@ -145,7 +190,7 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        @canany(['isAdmin', 'isWorkshop'])
+                                        @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isMarketing', 'isaccounting'])
                                             @can('isMonitoring')
                                                 @can('isWorkshopEdit')
                                                     <a href="/workshop/monitorings/{{ $monitoring->id }}/edit"
@@ -161,7 +206,7 @@
                                                 @endcan
                                             @endcan
                                         @endcanany
-                                        @canany(['isAdmin', 'isWorkshop'])
+                                        @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isMarketing', 'isaccounting'])
                                             @can('isMonitoring')
                                                 @can('isWorkshopDelete')
                                                     <form action="/workshop/monitorings/{{ $monitoring->id }}" method="post"
@@ -208,26 +253,76 @@
                         <!-- Header end -->
                         <!-- Body start -->
                         <div class="h-[1110px]">
-                            <div class="flex justify-center w-full">
-                                <div class="grid grid-cols-2 gap-2 w-[800px] p-2">
-                                    @foreach ($monitorings as $monitoring)
-                                        @if ($loop->iteration < 13)
-                                            <div>
-                                                <label class="ml-2 font-semibold">
-                                                    {{ $bulan[(int) date('m', strtotime($monitoring->month))] }}
-                                                    {{ date('Y', strtotime($monitoring->month)) }}</label>
-                                                <div
-                                                    class="flex justify-center items-center p-2 border rounded-lg w-[380px] h-[150px]">
-                                                    <img class="w-[250px] h-[140px] border rounded-lg"
-                                                        src="{{ asset('storage/' . $monitoring->monitoring_photos[0]->photo) }}"
-                                                        alt="">
-                                                    <label
-                                                        class="w-[130px] h-[140px] ml-2 text-[0.7rem] text-justify">{{ $monitoring->notes }}</label>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
+                            <!-- Location start -->
+                            <h1 class="w-full text-center underline font-bold mt-4">PEMANTAUAN BULANAN</h1>
+                            <div class="grid grid-cols-3 gap-4 mt-4 px-16">
+                                <div class="border border-black rounded-lg p-2 col-span-2">
+                                    <div class="flex text-stone-900 text-sm font-semibold">
+                                        <label class="w-24">Kode Lokasi</label>
+                                        <label>:</label>
+                                        <label class="ml-1">{{ $location->code }}-{{ $location->city->code }}</label>
+                                    </div>
+                                    <div class="flex text-stone-900 text-sm font-semibold">
+                                        <label class="w-24">Lokasi</label>
+                                        <label>:</label>
+                                        <label class="ml-1">
+                                            @if (strlen($location->address) > 65)
+                                                {{ substr($location->address, 0, 65) }}..
+                                            @else
+                                                {{ $location->address }}
+                                            @endif
+                                        </label>
+                                    </div>
+                                    <div class="flex text-stone-900 text-sm font-semibold">
+                                        <label class="w-24">Ukuran</label>
+                                        <label>:</label>
+                                        <label
+                                            class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
+                                    </div>
                                 </div>
+                                <div class="border border-black rounded-lg p-2">
+                                    <div class="flex text-stone-900 text-sm font-semibold">
+                                        <label class="w-14">Jenis</label>
+                                        <label>:</label>
+                                        <label class="ml-1">
+                                            {{ $location->media_category->name }}
+                                            @if (
+                                                $location->media_category->name != 'Videotron' ||
+                                                    ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
+                                                - {{ $description->lighting }}
+                                            @endif
+                                        </label>
+                                    </div>
+                                    <div class="flex text-stone-900 text-sm font-semibold">
+                                        <label class="w-14">Area</label>
+                                        <label>:</label>
+                                        <label class="ml-1">{{ $location->area->area }}</label>
+                                    </div>
+                                    <div class="flex text-stone-900 text-sm font-semibold">
+                                        <label class="w-14">Kota</label>
+                                        <label>:</label>
+                                        <label class="ml-1">{{ $location->city->city }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Location end -->
+                            <div class="grid grid-cols-2 gap-8 px-16 mt-8">
+                                @foreach ($monitorings as $monitoring)
+                                    @if ($loop->iteration < 13)
+                                        <div>
+                                            <label class="ml-2 font-semibold">
+                                                {{ $bulan[(int) date('m', strtotime($monitoring->month))] }}
+                                                {{ date('Y', strtotime($monitoring->month)) }}</label>
+                                            <div class="flex justify-center items-center p-2 border rounded-lg">
+                                                <img class="w-[360px] h-[240px] border rounded-lg"
+                                                    src="{{ asset('storage/' . $monitoring->monitoring_photos[0]->photo) }}"
+                                                    alt="">
+                                                {{-- <label
+                                                    class="w-[130px] h-[140px] ml-2 text-[0.7rem] text-justify">{{ $monitoring->notes }}</label> --}}
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                         <!-- Body start -->

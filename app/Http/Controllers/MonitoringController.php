@@ -48,7 +48,7 @@ class MonitoringController extends Controller
     public function showMonitoring(String $locationId): View
     { 
         if(Gate::allows('isMonitoring') && Gate::allows('isWorkshopRead')){
-            $dataMonitorings = Monitoring::where('location_id', $locationId)->get();
+            $dataMonitorings = Monitoring::where('location_id', $locationId)->year()->orderBy("month", "asc")->get();
             $location = Location::where('id', $locationId)->firstOrFail();
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
@@ -67,7 +67,7 @@ class MonitoringController extends Controller
 
     public function createMonitoring(String $locationId): View
     { 
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
             $location = Location::findOrFail($locationId);
             return view ('monitorings.create', [
                 'location_id' => $locationId,
@@ -93,7 +93,7 @@ class MonitoringController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
             $validateData = $request->validate([
                 'location_id' => 'required',
                 'user_id' => 'required',
@@ -124,7 +124,7 @@ class MonitoringController extends Controller
                 }
             }
 
-            return redirect('/workshop/monitorings')->with('success','Foto monitoring berhasil di upload');
+            return redirect('/show-monitoring/'.request('location_id'))->with('success','Data monitoring berhasil di tambahkan');
         } else {
             abort(403);
         }
@@ -159,7 +159,7 @@ class MonitoringController extends Controller
      */
     public function edit(Monitoring $monitoring): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit'))){
             $location = Location::findOrFail($monitoring->location_id);
             return response()-> view ('monitorings.edit', [
                 'monitoring' => $monitoring,
@@ -178,7 +178,7 @@ class MonitoringController extends Controller
      */
     public function update(Request $request, Monitoring $monitoring): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopEdit'))){
             $rules = [
                 'user_id' => 'required',
                 'month' => 'required',
@@ -203,7 +203,7 @@ class MonitoringController extends Controller
      */
     public function destroy(Monitoring $monitoring): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopDelete')) || (Gate::allows('isWorkshop') && Gate::allows('isMonitoring') && Gate::allows('isWorkshopDelete'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopDelete'))){
             $monitoringPhotos = MonitoringPhoto::where('monitoring_id', $monitoring->id)->get();
 
             foreach($monitoringPhotos as $photo){

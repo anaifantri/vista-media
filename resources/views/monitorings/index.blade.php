@@ -2,7 +2,7 @@
 
 @section('container')
     <?php
-    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -127,17 +127,16 @@
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">Kota
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">Klien
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-48" rowspan="2">Klien
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="3">Data
-                                Pemantauan</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="2">Data
+                                Pemantauan Terakhir</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">
                                 Action</th>
                         </tr>
                         <tr class="bg-stone-400">
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-16">Bulan</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Bulan</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Tgl. Foto</th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-40">Keterangan</th>
                         </tr>
                     </thead>
                     <tbody class="bg-stone-200">
@@ -146,7 +145,7 @@
                         @endphp
                         @foreach ($locations as $location)
                             @php
-                                $last_monitoring = $location->monitorings->last();
+                                $last_monitoring = $location->monitorings->sortBy('month')->last();
                                 $sale = $location->sales->last();
                                 if ($sale) {
                                     if ($sale->end_at > date('Y-m-d')) {
@@ -193,17 +192,6 @@
                                     @endif
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs text-center">
-                                    @if ($last_monitoring)
-                                        @if (strlen($last_monitoring->notes) > 25)
-                                            {{ substr($last_monitoring->notes, 0, 25) }}..
-                                        @else
-                                            {{ $last_monitoring->notes }}
-                                        @endif
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td class="text-stone-900 border border-stone-900 text-xs text-center">
                                     <div class="flex justify-center items-center">
                                         <a href="/show-monitoring/{{ $location->id }}" title="Lihat Foto Monitoring"
                                             class="index-link text-white w-7 h-5 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-md mx-1">
@@ -215,7 +203,7 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        @canany(['isAdmin', 'isWorkshop'])
+                                        @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isMarketing', 'isAccounting'])
                                             @can('isMonitoring')
                                                 @can('isWorkshopCreate')
                                                     <a href="/create-monitoring/{{ $location->id }}" title="Upload Foto Monitoring"
