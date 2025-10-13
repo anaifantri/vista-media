@@ -238,7 +238,8 @@
                     if (n != 0) {
                         slidePreviewImage[n].classList.add("hidden");
                     }
-                    slidePreviewImage[n].classList.add("w-full");
+                    slidePreviewImage[n].classList.add("w-[480px]");
+                    slidePreviewImage[n].classList.add("h-[280px]");
                     slidePreviewImage[n].src = objectUrl;
                     slidePreview[n].appendChild(slidePreviewImage[n]);
                     slidesPreview.appendChild(slidePreview[n]);

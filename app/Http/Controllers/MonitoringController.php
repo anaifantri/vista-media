@@ -94,6 +94,11 @@ class MonitoringController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isMonitoring') && Gate::allows('isWorkshopCreate'))){
+            $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            if(Monitoring::where('location_id', request('location_id'))->where('month', request('month').'-01')->exists()){
+                return back()->withErrors(['month' => ['Periode bulan '.$bulan[(int) substr(request('month'), -2)].' tahun '.substr(request('month'),0,4).' sudah diinput']])->withInput();
+            }
+
             $validateData = $request->validate([
                 'location_id' => 'required',
                 'user_id' => 'required',
@@ -105,18 +110,17 @@ class MonitoringController extends Controller
             $request->validate([
                 'photos.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024'
             ]);
+
             $validateData['month'] = $request->month.'-01';
 
-            Monitoring::create($validateData);
-
-            $dataMonitoring = Monitoring::where('month', $validateData['month'])->firstOrFail();
+            $id = Monitoring::create($validateData)->id;
 
             if($request->file('photos')){
                 $images = $request->file('photos');
                 foreach($images as $image){
                     $photos = [];
                     $photos = [
-                        'monitoring_id' => $dataMonitoring->id,
+                        'monitoring_id' => $id,
                         'user_id' => $request->user_id,
                         'photo' => $image->store('monitoring-images')
                     ];

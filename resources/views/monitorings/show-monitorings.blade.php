@@ -3,7 +3,8 @@
 @section('container')
     <?php
     $description = json_decode($location->description);
-    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -157,7 +158,7 @@
                         </tr>
                         <tr class="bg-stone-400">
                             <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Bulan</th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-28">Tgl. Foto</th>
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Tgl. Foto</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center">Keterangan</th>
                         </tr>
                     </thead>
@@ -167,13 +168,11 @@
                                 <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
                                     {{ $loop->iteration }}</td>
                                 <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
-                                    {{ $bulan[(int) date('m', strtotime($monitoring->month))] }}
+                                    {{ $bulan_full[(int) date('m', strtotime($monitoring->month))] }}
                                     {{ date('Y', strtotime($monitoring->month)) }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
-                                    {{ date('d', strtotime($monitoring->monitoring_date)) }}
-                                    {{ $bulan[(int) date('m', strtotime($monitoring->monitoring_date))] }}
-                                    {{ date('Y', strtotime($monitoring->monitoring_date)) }}
+                                    {{ date('d', strtotime($monitoring->monitoring_date)) }}-{{ $bulan[(int) date('m', strtotime($monitoring->monitoring_date))] }}-{{ date('Y', strtotime($monitoring->monitoring_date)) }}
                                 </td>
                                 <td class="text-stone-900 border border-stone-900 text-xs px-1">
                                     {{ $monitoring->notes }}</td>
@@ -247,88 +246,173 @@
                     </div>
                 </div>
                 <div class="flex justify-center w-full">
-                    <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 p-4 bg-white">
-                        <!-- Header start -->
-                        @include('dashboard.layouts.letter-header')
-                        <!-- Header end -->
-                        <!-- Body start -->
-                        <div class="h-[1110px]">
-                            <!-- Location start -->
-                            <h1 class="w-full text-center underline font-bold mt-4">PEMANTAUAN BULANAN</h1>
-                            <div class="grid grid-cols-3 gap-4 mt-4 px-16">
-                                <div class="border border-black rounded-lg p-2 col-span-2">
-                                    <div class="flex text-stone-900 text-sm font-semibold">
-                                        <label class="w-24">Kode Lokasi</label>
-                                        <label>:</label>
-                                        <label class="ml-1">{{ $location->code }}-{{ $location->city->code }}</label>
+                    <div id="pdfPreview">
+                        <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 p-4 bg-white">
+                            <!-- Header start -->
+                            @include('dashboard.layouts.letter-header')
+                            <!-- Header end -->
+                            <!-- Body start -->
+                            <div class="h-[1110px]">
+                                <!-- Location start -->
+                                <h1 class="w-full text-center underline font-bold mt-4">PEMANTAUAN BULANAN</h1>
+                                <div class="grid grid-cols-3 gap-4 mt-4 px-16">
+                                    <div class="border border-black rounded-lg p-2 col-span-2">
+                                        <div class="flex text-stone-900 text-sm font-semibold">
+                                            <label class="w-24">Kode Lokasi</label>
+                                            <label>:</label>
+                                            <label
+                                                class="ml-1">{{ $location->code }}-{{ $location->city->code }}</label>
+                                        </div>
+                                        <div class="flex text-stone-900 text-sm font-semibold">
+                                            <label class="w-24">Lokasi</label>
+                                            <label>:</label>
+                                            <label class="ml-1">
+                                                @if (strlen($location->address) > 65)
+                                                    {{ substr($location->address, 0, 65) }}..
+                                                @else
+                                                    {{ $location->address }}
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <div class="flex text-stone-900 text-sm font-semibold">
+                                            <label class="w-24">Ukuran</label>
+                                            <label>:</label>
+                                            <label
+                                                class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
+                                        </div>
                                     </div>
-                                    <div class="flex text-stone-900 text-sm font-semibold">
-                                        <label class="w-24">Lokasi</label>
-                                        <label>:</label>
-                                        <label class="ml-1">
-                                            @if (strlen($location->address) > 65)
-                                                {{ substr($location->address, 0, 65) }}..
-                                            @else
-                                                {{ $location->address }}
-                                            @endif
-                                        </label>
-                                    </div>
-                                    <div class="flex text-stone-900 text-sm font-semibold">
-                                        <label class="w-24">Ukuran</label>
-                                        <label>:</label>
-                                        <label
-                                            class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
+                                    <div class="border border-black rounded-lg p-2">
+                                        <div class="flex text-stone-900 text-sm font-semibold">
+                                            <label class="w-14">Jenis</label>
+                                            <label>:</label>
+                                            <label class="ml-1">
+                                                {{ $location->media_category->name }}
+                                                @if (
+                                                    $location->media_category->name != 'Videotron' ||
+                                                        ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
+                                                    - {{ $description->lighting }}
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <div class="flex text-stone-900 text-sm font-semibold">
+                                            <label class="w-14">Area</label>
+                                            <label>:</label>
+                                            <label class="ml-1">{{ $location->area->area }}</label>
+                                        </div>
+                                        <div class="flex text-stone-900 text-sm font-semibold">
+                                            <label class="w-14">Kota</label>
+                                            <label>:</label>
+                                            <label class="ml-1">{{ $location->city->city }}</label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="border border-black rounded-lg p-2">
-                                    <div class="flex text-stone-900 text-sm font-semibold">
-                                        <label class="w-14">Jenis</label>
-                                        <label>:</label>
-                                        <label class="ml-1">
-                                            {{ $location->media_category->name }}
-                                            @if (
-                                                $location->media_category->name != 'Videotron' ||
-                                                    ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
-                                                - {{ $description->lighting }}
-                                            @endif
-                                        </label>
-                                    </div>
-                                    <div class="flex text-stone-900 text-sm font-semibold">
-                                        <label class="w-14">Area</label>
-                                        <label>:</label>
-                                        <label class="ml-1">{{ $location->area->area }}</label>
-                                    </div>
-                                    <div class="flex text-stone-900 text-sm font-semibold">
-                                        <label class="w-14">Kota</label>
-                                        <label>:</label>
-                                        <label class="ml-1">{{ $location->city->city }}</label>
-                                    </div>
+                                <!-- Location end -->
+                                <div class="grid grid-cols-2 gap-8 px-16 mt-8">
+                                    @foreach ($monitorings as $monitoring)
+                                        @if ($loop->iteration < 7)
+                                            <div>
+                                                <label class="ml-2 font-semibold">
+                                                    {{ $bulan_full[(int) date('m', strtotime($monitoring->month))] }}
+                                                    {{ date('Y', strtotime($monitoring->month)) }}</label>
+                                                <div class="flex justify-center items-center p-2 border rounded-lg">
+                                                    <img class="w-[360px] h-[240px] border rounded-lg"
+                                                        src="{{ asset('storage/' . $monitoring->monitoring_photos[0]->photo) }}"
+                                                        alt="">
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
-                            <!-- Location end -->
-                            <div class="grid grid-cols-2 gap-8 px-16 mt-8">
-                                @foreach ($monitorings as $monitoring)
-                                    @if ($loop->iteration < 13)
-                                        <div>
-                                            <label class="ml-2 font-semibold">
-                                                {{ $bulan[(int) date('m', strtotime($monitoring->month))] }}
-                                                {{ date('Y', strtotime($monitoring->month)) }}</label>
-                                            <div class="flex justify-center items-center p-2 border rounded-lg">
-                                                <img class="w-[360px] h-[240px] border rounded-lg"
-                                                    src="{{ asset('storage/' . $monitoring->monitoring_photos[0]->photo) }}"
-                                                    alt="">
-                                                {{-- <label
-                                                    class="w-[130px] h-[140px] ml-2 text-[0.7rem] text-justify">{{ $monitoring->notes }}</label> --}}
+                            <!-- Body start -->
+                            <!-- Footer start -->
+                            @include('dashboard.layouts.letter-footer')
+                            <!-- Footer end -->
+                        </div>
+                        @if (count($monitorings) > 6)
+                            <div id="pdfPreview" class="w-[950px] h-[1345px] mt-1 p-4 bg-white">
+                                <!-- Header start -->
+                                @include('dashboard.layouts.letter-header')
+                                <!-- Header end -->
+                                <!-- Body start -->
+                                <div class="h-[1110px]">
+                                    <!-- Location start -->
+                                    <h1 class="w-full text-center underline font-bold mt-4">PEMANTAUAN BULANAN</h1>
+                                    <div class="grid grid-cols-3 gap-4 mt-4 px-16">
+                                        <div class="border border-black rounded-lg p-2 col-span-2">
+                                            <div class="flex text-stone-900 text-sm font-semibold">
+                                                <label class="w-24">Kode Lokasi</label>
+                                                <label>:</label>
+                                                <label
+                                                    class="ml-1">{{ $location->code }}-{{ $location->city->code }}</label>
+                                            </div>
+                                            <div class="flex text-stone-900 text-sm font-semibold">
+                                                <label class="w-24">Lokasi</label>
+                                                <label>:</label>
+                                                <label class="ml-1">
+                                                    @if (strlen($location->address) > 65)
+                                                        {{ substr($location->address, 0, 65) }}..
+                                                    @else
+                                                        {{ $location->address }}
+                                                    @endif
+                                                </label>
+                                            </div>
+                                            <div class="flex text-stone-900 text-sm font-semibold">
+                                                <label class="w-24">Ukuran</label>
+                                                <label>:</label>
+                                                <label
+                                                    class="ml-1">{{ $location->media_size->size }}-{{ $location->side }}</label>
                                             </div>
                                         </div>
-                                    @endif
-                                @endforeach
+                                        <div class="border border-black rounded-lg p-2">
+                                            <div class="flex text-stone-900 text-sm font-semibold">
+                                                <label class="w-14">Jenis</label>
+                                                <label>:</label>
+                                                <label class="ml-1">
+                                                    {{ $location->media_category->name }}
+                                                    @if (
+                                                        $location->media_category->name != 'Videotron' ||
+                                                            ($location->media_category->name == 'Signage' && $description->type != 'Videotron'))
+                                                        - {{ $description->lighting }}
+                                                    @endif
+                                                </label>
+                                            </div>
+                                            <div class="flex text-stone-900 text-sm font-semibold">
+                                                <label class="w-14">Area</label>
+                                                <label>:</label>
+                                                <label class="ml-1">{{ $location->area->area }}</label>
+                                            </div>
+                                            <div class="flex text-stone-900 text-sm font-semibold">
+                                                <label class="w-14">Kota</label>
+                                                <label>:</label>
+                                                <label class="ml-1">{{ $location->city->city }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Location end -->
+                                    <div class="grid grid-cols-2 gap-8 px-16 mt-8">
+                                        @foreach ($monitorings as $monitoring)
+                                            @if ($loop->iteration > 6 && $loop->iteration < 13)
+                                                <div>
+                                                    <label class="ml-2 font-semibold">
+                                                        {{ $bulan_full[(int) date('m', strtotime($monitoring->month))] }}
+                                                        {{ date('Y', strtotime($monitoring->month)) }}</label>
+                                                    <div class="flex justify-center items-center p-2 border rounded-lg">
+                                                        <img class="w-[360px] h-[240px] border rounded-lg"
+                                                            src="{{ asset('storage/' . $monitoring->monitoring_photos[0]->photo) }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <!-- Body start -->
+                                <!-- Footer start -->
+                                @include('dashboard.layouts.letter-footer')
+                                <!-- Footer end -->
                             </div>
-                        </div>
-                        <!-- Body start -->
-                        <!-- Footer start -->
-                        @include('dashboard.layouts.letter-footer')
-                        <!-- Footer end -->
+                        @endif
                     </div>
                 </div>
             </div>
