@@ -308,10 +308,10 @@
                                         {{ number_format($electrical->power) }}
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        <div class="flex justify-center">
+                                        <div>
                                             @if (count($electrical->locations) > 0)
                                                 @foreach ($electrical->locations as $location)
-                                                    <span class="flex">
+                                                    <span class="flex w-full justify-center">
                                                         {{ $location->code }} - {{ $location->city->code }}
                                                     </span>
                                                 @endforeach
@@ -334,10 +334,10 @@
                                         </div>
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                        <div class="flex justify-center">
+                                        <div>
                                             @if (count($electrical->locations) > 0)
                                                 @foreach ($electrical->locations as $location)
-                                                    <span class="flex">
+                                                    <span class="flex w-full justify-center">
                                                         {{ $location->media_size->size }} -
                                                         @if ($location->orientation == 'Vertikal')
                                                             V
@@ -352,13 +352,13 @@
                                         </div>
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center px-1">
-                                        <div class="flex justify-center">
+                                        <div>
                                             @if (count($electrical->locations) > 0)
                                                 @php
                                                     $description = json_decode($location->description);
                                                 @endphp
                                                 @foreach ($electrical->locations as $location)
-                                                    <span class="flex">
+                                                    <span class="flex w-full justify-center">
                                                         @if (isset($description->lighting))
                                                             @if ($description->lighting == 'Backlight')
                                                                 BL

@@ -168,7 +168,8 @@
                         $description = json_decode($location->description);
                         $location_photos = $location->location_photos
                             ->where('company_id', $company->id)
-                            ->where('set_default', true);
+                            ->where('set_default', true)
+                            ->last();
                     @endphp
                     <div class="flex justify-end mt-2">
                         <a href="/electrical-power/delete-location/{{ $location->id }}/{{ $electrical_power->id }}"
@@ -233,7 +234,7 @@
                             <div
                                 class="flex justify-center items-center w-[485px] border rounded-lg py-4 bg-stone-200 ml-4">
                                 <img class="w-[420px] border rounded-lg"
-                                    src="{{ asset('storage/' . $location_photos[0]->photo) }}" alt="">
+                                    src="{{ asset('storage/' . $location_photos->photo) }}" alt="">
                             </div>
                         </div>
                     </div>
