@@ -11,12 +11,12 @@
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
                 <h1 class="index-h1">DAFTAR PENGISIAN PULSA LISTRIK</h1>
-                @canany(['isAdmin', 'isWorkshop', 'isMedia'])
-                    @can('isElectricity')
-                        @can('isWorkshopCreate')
-                            <div class="flex">
+                <div class="flex">
+                    @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
+                        @can('isElectricity')
+                            @can('isWorkshopCreate')
                                 <a href="/workshop/electricity-top-ups/create" title="Tambah Data Pengisian Pulsa Listrik"
-                                    class="index-link btn-primary">
+                                    class="index-link btn-primary mx-1">
                                     <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                         stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -25,10 +25,34 @@
                                     </svg>
                                     <span class="mx-1">Tambah Data</span>
                                 </a>
-                            </div>
+                            @endcan
                         @endcan
-                    @endcan
-                @endcanany
+                    @endcanany
+                    @canany(['isAdmin', 'isWorkshop', 'isAccounting', 'isMarketing', 'isMedia'])
+                        @can('isElectricity')
+                            @can('isWorkshopRead')
+                                <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-warning mb-2"
+                                    title="Create PDF" type="button">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                    </svg>
+                                    <span class="mx-1 text-white">Save PDF</span>
+                                </button>
+                                <button id="btnExportExcel" class="flex justify-center items-center mx-1 btn-success mb-2"
+                                    title="Create PDF" type="button">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                    </svg>
+                                    <span class="mx-1 text-white">Export to EXCEL</span>
+                                </button>
+                            @endcan
+                        @endcan
+                    @endcanany
+                </div>
                 <!-- Title end -->
             </div>
             <div>
@@ -184,13 +208,17 @@
                                     </svg>
                                 </button>
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">Nama
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-32" rowspan="2">
+                                Nama
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-10" rowspan="2">Daya
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-10" rowspan="2">
+                                Daya
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]"
+                                rowspan="2">
                                 Area</th>
-                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]" rowspan="2">
+                            <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]"
+                                rowspan="2">
                                 Kota</th>
                             <th class="text-stone-900 border border-stone-900 text-xs text-center" rowspan="2">Lokasi
                             </th>
@@ -268,7 +296,7 @@
                                                     fill-rule="nonzero" />
                                             </svg>
                                         </a>
-                                        @canany(['isAdmin', 'isWorkshop', 'isMedia'])
+                                        @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
                                             @can('isElectricity')
                                                 @can('isWorkshopEdit')
                                                     <a href="/workshop/electricity-top-ups/{{ $top_up->id }}/edit"
@@ -284,7 +312,7 @@
                                                 @endcan
                                             @endcan
                                         @endcanany
-                                        @canany(['isAdmin', 'isWorkshop'])
+                                        @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
                                             @can('isElectricity')
                                                 @can('isWorkshopDelete')
                                                     <form action="/workshop/electricity-top-ups/{{ $top_up->id }}" method="post"
@@ -313,13 +341,99 @@
                     </tbody>
                 </table>
             </div>
+            @if (count($electricity_top_ups) == 0)
+                <div class="flex justify-center">
+                    @if (request('month'))
+                        <label class="flex text-base text-red-600 font-serif tracking-wider">
+                            ~~ Tidak ada data pengisian pulsa listrik pada bulan
+                            {{ $bulan_full[(int) request('month')] }} {{ request('year') }} ~~
+                        </label>
+                    @else
+                        <label class="flex text-base text-red-600 font-serif tracking-wider">
+                            ~~ Tidak ada data pengisian pulsa listrik
+                            {{ $bulan[(int) date('m')] }}
+                            {{ date('Y') }} ~~
+                        </label>
+                    @endif
+                </div>
+            @endif
 
             <!-- Pagination start -->
             <div class="flex justify-center text-stone-100 mt-2">
                 {!! $electricity_top_ups->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>
             <!-- Pagination end -->
+
+            @include('electricity-top-ups.pdf-format')
+            @include('electricity-top-ups.excel-format')
         </div>
     </div>
+
+    @if (request('month'))
+        <input id="saveName" type="text"
+            value="LIST PENGISIAN PULSA LISTRIK - {{ $bulan_full[(int) request('month')] }} - {{ request('year') }}"
+            hidden>
+    @else
+        <input id="saveName" type="text"
+            value="LIST PENGISIAN PULSA LISTRIK - {{ $bulan_full[(int) date('m')] }} - {{ date('Y') }}" hidden>
+    @endif
     <!-- Container end -->
+
+    <!-- Script start -->
+    <script src="/js/html2canvas.min.js"></script>
+    <script src="/js/html2pdf.bundle.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.table2excel.min.js"></script>
+
+    <script>
+        const saveName = document.querySelectorAll("[id=saveName]");
+        const pdfPreview = document.querySelectorAll("[id=pdfPreview]");
+        document.getElementById("btnCreatePdf").onclick = function() {
+            for (let i = 0; i < pdfPreview.length; i++) {
+                var element = document.getElementById('pdfPreview');
+                var opt = {
+                    margin: 0,
+                    filename: saveName[i].value,
+                    image: {
+                        type: 'jpeg',
+                        quality: 1
+                    },
+                    pagebreak: {
+                        mode: ['avoid-all', 'css', 'legacy']
+                    },
+                    html2canvas: {
+                        dpi: 300,
+                        scale: 2.5,
+                        letterRendering: true,
+                        useCORS: true
+                    },
+                    jsPDF: {
+                        unit: 'px',
+                        format: [1550, 1000],
+                        orientation: 'landscape',
+                        putTotalPages: true
+                    }
+                };
+                html2pdf().set(opt).from(element).save();
+            }
+        };
+
+        $(document).ready(function() {
+            $('#btnExportExcel').on('click', function() {
+                $('#exportExcelTable').table2excel({
+                    filename: "List Data Pengisian Pulsa Listrik.xls"
+                });
+            });
+        });
+
+        changeArea = () => {
+            const cityId = document.getElementById("city");
+            const formFilter = document.getElementById("formFilter");
+
+            cityId.value = "All"
+
+            formFilter.submit();
+        }
+    </script>
+    <!-- Script end -->
 @endsection

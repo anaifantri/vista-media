@@ -322,6 +322,9 @@ Route::get('/electrical-power/add-location/{locationId}/{electricalId}', [Electr
 Route::get('/electrical-power/show-location/{areaId}/{cityId}/{electricalId}', [ElectricalPowerController::class,'showLocation'])->middleware(['auth','user_access']);
 
 Route::get('/workshop/electricity-reports', [ElectricityReportController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/workshop/electricity-reports/power', [ElectricityReportController::class,'electricalPower'])->middleware(['auth','user_access']);
+Route::get('/workshop/electricity-reports/topup', [ElectricityReportController::class,'electricalTopUp'])->middleware(['auth','user_access']);
+Route::get('/workshop/electricity-reports/payment', [ElectricityReportController::class,'electricalPayment'])->middleware(['auth','user_access']);
 // Workshop Group --> end
 
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth','user_access']);

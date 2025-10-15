@@ -68,7 +68,7 @@ class ElectricityTopUpController extends Controller
 
     public function createElectricityTopUp(String $electricalId): View
     { 
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
@@ -115,7 +115,7 @@ class ElectricityTopUpController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
             $validateData = $request->validate([
                 'electrical_power_id' => 'required',
                 'user_id' => 'required',
@@ -174,7 +174,7 @@ class ElectricityTopUpController extends Controller
      */
     public function edit(ElectricityTopUp $electricityTopUp): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
@@ -197,7 +197,7 @@ class ElectricityTopUpController extends Controller
      */
     public function update(Request $request, ElectricityTopUp $electricityTopUp): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
             $rules = [
                 'user_id' => 'required',
                 'topup_date' => 'required',
@@ -248,7 +248,7 @@ class ElectricityTopUpController extends Controller
      */
     public function destroy(ElectricityTopUp $electricityTopUp): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete'))){
             if($electricityTopUp->receipt_image){
                 Storage::delete($electricityTopUp->receipt_image);
             }

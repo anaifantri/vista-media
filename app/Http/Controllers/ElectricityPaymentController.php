@@ -45,26 +45,26 @@ class ElectricityPaymentController extends Controller
         }
     }
 
-    public function electricityPaymentReport(): View
-    { 
-        if(Gate::allows('isElectricity') && Gate::allows('isWorkshopRead')){
-            $areas = Area::with('locations')->get();
-            $cities = City::with('locations')->get();
-            $sales = Sale::with('location')->get();
-            $media_sizes = MediaSize::with('locations')->get();
-            $media_categories = MediaCategory::with('locations')->get();
-            $electricity_payments = ElectricityPayment::with('location')->get();
-            return view ('electricity-payments.report', [
-                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
-                'areas'=>Area::all(),
-                'cities'=>City::all(),
-                'title' => 'Laporan Pembayaran Listrik',
-                compact('areas', 'cities', 'media_sizes', 'media_categories', 'electricity_payments', 'sales')
-            ]);
-        } else {
-            abort(403);
-        }
-    }
+    // public function electricityPaymentReport(): View
+    // { 
+    //     if(Gate::allows('isElectricity') && Gate::allows('isWorkshopRead')){
+    //         $areas = Area::with('locations')->get();
+    //         $cities = City::with('locations')->get();
+    //         $sales = Sale::with('location')->get();
+    //         $media_sizes = MediaSize::with('locations')->get();
+    //         $media_categories = MediaCategory::with('locations')->get();
+    //         $electricity_payments = ElectricityPayment::with('location')->get();
+    //         return view ('electricity-payments.report', [
+    //             'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+    //             'areas'=>Area::all(),
+    //             'cities'=>City::all(),
+    //             'title' => 'Laporan Pembayaran Listrik',
+    //             compact('areas', 'cities', 'media_sizes', 'media_categories', 'electricity_payments', 'sales')
+    //         ]);
+    //     } else {
+    //         abort(403);
+    //     }
+    // }
 
     public function showElectricityPayment(String $electricalId): View
     { 
@@ -89,7 +89,7 @@ class ElectricityPaymentController extends Controller
 
     public function createElectricityPayment(String $electricalId): View
     { 
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
@@ -136,7 +136,7 @@ class ElectricityPaymentController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
             $validateData = $request->validate([
                 'electrical_power_id' => 'required',
                 'user_id' => 'required',
@@ -184,7 +184,8 @@ class ElectricityPaymentController extends Controller
      */
     public function edit(ElectricityPayment $electricityPayment): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){$areas = Area::with('locations')->get();
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
+            $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
             $media_categories = MediaCategory::with('locations')->get();
@@ -206,7 +207,7 @@ class ElectricityPaymentController extends Controller
      */
     public function update(Request $request, ElectricityPayment $electricityPayment): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){    
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
             $rules = [
                 'user_id' => 'required',
                 'bill_date' => 'required',
@@ -240,7 +241,7 @@ class ElectricityPaymentController extends Controller
      */
     public function destroy(ElectricityPayment $electricityPayment): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete')) || (Gate::allows('isWorkshop') && Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isWorkshop') || Gate::allows('isMedia') || Gate::allows('isMarketing') || Gate::allows('isAccounting')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete'))){
             if($electricityPayment->payment_image){
                 Storage::delete($electricityPayment->payment_image);
             }

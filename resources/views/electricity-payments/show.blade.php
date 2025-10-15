@@ -20,7 +20,7 @@
                         </svg>
                         <span class="mx-1"> Back </span>
                     </a>
-                    @canany(['isAdmin', 'isWorkshop'])
+                    @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
                         @can('isElectricity')
                             @can('isWorkshopEdit')
                                 <a href="/workshop/electricity-payments/{{ $electricity_payment->id }}/edit"
@@ -36,7 +36,7 @@
                             @endcan
                         @endcan
                     @endcanany
-                    @canany(['isAdmin', 'isWorkshop'])
+                    @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
                         @can('isElectricity')
                             @can('isWorkshopDelete')
                                 <form action="/workshop/electricity-payments/{{ $electricity_payment->id }}" method="post"

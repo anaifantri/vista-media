@@ -20,7 +20,8 @@
                             </svg>
                             <span class="mx-2"> Save </span>
                         </button>
-                        <a href="/workshop/electrical-powers" class="flex items-center justify-center btn-danger mx-1">
+                        <a href="/workshop/electrical-powers/{{ $electrical_power->id }}"
+                            class="flex items-center justify-center btn-danger mx-1">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                 stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -89,7 +90,19 @@
                         @enderror
                         <div class="mt-2">
                             @php
-                                $powers = ['1300', '2200', '3500', '5500'];
+                                $powers = [
+                                    '1300',
+                                    '2200',
+                                    '3500',
+                                    '4400',
+                                    '5500',
+                                    '6600',
+                                    '7700',
+                                    '13200',
+                                    '23000',
+                                    '33000',
+                                    '41500',
+                                ];
                             @endphp
                             <div class="flex mt-1">
                                 <label class="text-sm text-stone-900">Besaran Daya Listrik</label>

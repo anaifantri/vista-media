@@ -11,6 +11,12 @@ class ElectricalPower extends Model
     use Sortable;
     protected $guarded = ['id'];
     
+    public function scopeType($query){
+        if (request('type') != 'All') {
+            return $query->where('type', 'like', '%' . request('type') . '%');
+        }
+    }
+    
     public function scopeArea($query){
         if (request('area') != 'All') {
             return $query->where('area_id', 'like', '%' . request('area') . '%');

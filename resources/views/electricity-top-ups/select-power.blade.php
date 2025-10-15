@@ -7,12 +7,12 @@
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
                 <h1 class="index-h1">PILIH DAYA LISTRIK</h1>
-                @canany(['isAdmin', 'isWorkshop', 'isMedia'])
+                @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
                     @can('isElectricity')
                         @can('isWorkshopCreate')
                             <div class="flex">
-                                <a id="linkCreate" title="Tambah Data Pengisian Pulsa Listrik" class="index-link btn-primary"
-                                    onclick="linkCreateAction()">
+                                <a id="linkCreate" title="Tambah Data Pengisian Pulsa Listrik"
+                                    class="index-link btn-primary cursor-pointer" onclick="linkCreateAction()">
                                     <svg class="fill-current w-[18px]" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
                                         stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path

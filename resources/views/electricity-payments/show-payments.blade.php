@@ -88,7 +88,7 @@
                                 </select>
                             </div>
                             <div class="flex w-full justify-end">
-                                @canany(['isAdmin', 'isWorkshop', 'isMedia'])
+                                @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
                                     @can('isElectricity')
                                         @can('isWorkshopCreate')
                                             <a href="/create-electricity-payment/{{ $electrical_power->id }}"
@@ -174,7 +174,7 @@
                                                             fill-rule="nonzero" />
                                                     </svg>
                                                 </a>
-                                                @canany(['isAdmin', 'isWorkshop', 'isMedia'])
+                                                @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
                                                     @can('isElectricity')
                                                         @can('isWorkshopEdit')
                                                             <a href="/workshop/electricity-payments/{{ $payment->id }}/edit"
@@ -190,7 +190,7 @@
                                                         @endcan
                                                     @endcan
                                                 @endcanany
-                                                @canany(['isAdmin', 'isWorkshop'])
+                                                @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting', 'isMarketing'])
                                                     @can('isElectricity')
                                                         @can('isWorkshopDelete')
                                                             <form action="/workshop/electricity-payments/{{ $payment->id }}"

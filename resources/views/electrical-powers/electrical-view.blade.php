@@ -1,22 +1,43 @@
-<div class="w-[1250px] mt-2">
-    <table class="table-auto w-full">
+<div class="w-[1550px] mt-2">
+    <table class="w-full">
         <thead>
             <tr class="bg-stone-400">
-                <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center">No</th>
-                <th class="text-stone-900 border border-stone-900 w-24 text-xs text-center">
+                <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">No</th>
+                <th class="text-stone-900 border border-stone-900 w-24 text-xs text-center" rowspan="2">
                     <button class="flex justify-center items-center w-24">@sortablelink('id_number', 'ID Pelanggan')
                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
                         </svg>
                     </button>
                 </th>
-                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Type</th>
-                <th class="text-stone-900 border border-stone-900 text-xs text-center w-48">Nama</th>
-                <th class="text-stone-900 border border-stone-900 text-xs text-center w-16">Daya</th>
-                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Area</th>
-                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Kota</th>
+                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20" rowspan="2">Type</th>
+                <th class="text-stone-900 border border-stone-900 text-xs text-center w-36" rowspan="2">Nama</th>
+                <th class="text-stone-900 border border-stone-900 text-xs text-center w-12" rowspan="2">Daya</th>
+                <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="4">Lokasi</th>
+                <th class="text-stone-900 border border-stone-900 text-xs text-center" colspan="6">
+                    @if (request('type'))
+                        @if (request('type') == 'Pascabayar')
+                            Nominal Pembayaran Listrik
+                        @elseif (request('type') == 'Prabayar')
+                            Nominal Pengisian Pulsa Listrik
+                        @else
+                            Nominal
+                        @endif
+                    @else
+                        Nominal
+                    @endif
+                </th>
+                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24" rowspan="2">Action</th>
+            </tr>
+            <tr class="bg-stone-400">
+                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">Kode</th>
                 <th class="text-stone-900 border border-stone-900 text-xs text-center">Lokasi</th>
-                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Action</th>
+                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Ukuran</th>
+                <th class="text-stone-900 border border-stone-900 text-xs text-center w-10">BL/FL</th>
+                @for ($i = 0; $i < 6; $i++)
+                    <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">{{ $bulan[$i + 1] }}
+                    </th>
+                @endfor
             </tr>
         </thead>
         <tbody class="bg-stone-200">
@@ -31,18 +52,15 @@
                     <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $electrical->type }}</td>
                     <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">{{ $electrical->name }}
                     </td>
-                    <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">{{ $electrical->power }}
+                    <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                        {{ number_format($electrical->power) }}
                     </td>
-                    <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $electrical->area->area }}
-                    </td>
-                    <td class="text-stone-900 border border-stone-900 text-xs text-center">{{ $electrical->city->city }}
-                    </td>
-                    <td class="text-stone-900 border border-stone-900 text-xs px-1">
-                        <div>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                        <div class="flex justify-center">
                             @if (count($electrical->locations) > 0)
                                 @foreach ($electrical->locations as $location)
                                     <span class="flex">
-                                        {{ $location->code }} | {{ $location->address }}
+                                        {{ $location->code }} - {{ $location->city->code }}
                                     </span>
                                 @endforeach
                             @else
@@ -50,6 +68,101 @@
                             @endif
                         </div>
                     </td>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center px-1">
+                        <div>
+                            @if (count($electrical->locations) > 0)
+                                @foreach ($electrical->locations as $location)
+                                    <span class="flex">
+                                        {{ $location->address }}
+                                    </span>
+                                @endforeach
+                            @else
+                                -
+                            @endif
+                        </div>
+                    </td>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center">
+                        <div class="flex justify-center">
+                            @if (count($electrical->locations) > 0)
+                                @foreach ($electrical->locations as $location)
+                                    <span class="flex">
+                                        {{ $location->media_size->size }} -
+                                        @if ($location->orientation == 'Vertikal')
+                                            V
+                                        @else
+                                            H
+                                        @endif
+                                    </span>
+                                @endforeach
+                            @else
+                                -
+                            @endif
+                        </div>
+                    </td>
+                    <td class="text-stone-900 border border-stone-900 text-xs text-center px-1">
+                        <div class="flex justify-center">
+                            @if (count($electrical->locations) > 0)
+                                @php
+                                    $description = json_decode($location->description);
+                                @endphp
+                                @foreach ($electrical->locations as $location)
+                                    <span class="flex">
+                                        @if (isset($description->lighting))
+                                            @if ($description->lighting == 'Backlight')
+                                                BL
+                                            @elseif ($description->lighting == 'Frontlight')
+                                                FL
+                                            @else
+                                                t
+                                            @endif
+                                        @else
+                                            -
+                                        @endif
+                                    </span>
+                                @endforeach
+                            @else
+                                -
+                            @endif
+                        </div>
+                    </td>
+                    @for ($i = 0; $i < 6; $i++)
+                        <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
+                            @if ($electrical->type == 'Pascabayar')
+                                @php
+                                    if (count($electrical->electricity_payments) > 0) {
+                                        $getNominal = $electrical->electricity_payments
+                                            ->where('bill_date', $getYear . '-0' . $i + 1 . '-01')
+                                            ->sum('payment');
+                                    } else {
+                                        $getNominal = 0;
+                                    }
+                                @endphp
+                                @if ($getNominal != 0)
+                                    {{ number_format($getNominal) }}
+                                @else
+                                    -
+                                @endif
+                            @else
+                                @php
+                                    $startDate = $getYear . '-0' . $i + 1 . '-01';
+                                    $getDate = new DateTime($startDate);
+                                    $endDate = $getDate->modify('last day of this month');
+                                    if (count($electrical->electricity_top_ups) > 0) {
+                                        $getNominal = $electrical->electricity_top_ups
+                                            ->whereBetween('topup_date', [$startDate, $endDate->format('Y-m-d')])
+                                            ->sum('top_up_nominal');
+                                    } else {
+                                        $getNominal = 0;
+                                    }
+                                @endphp
+                                @if ($getNominal != 0)
+                                    {{ number_format($getNominal) }}
+                                @else
+                                    -
+                                @endif
+                            @endif
+                        </td>
+                    @endfor
                     <td class="text-stone-900 border border-stone-900 text-xs text-center">
                         <div class="flex justify-center items-center">
                             <a href="/workshop/electrical-powers/{{ $electrical->id }}"
@@ -105,6 +218,27 @@
         </tbody>
     </table>
 </div>
+@if (count($electrical_powers) == 0)
+    <div class="flex justify-center h-[875px] mt-2">
+        @if (request('area') && request('area') != 'All')
+            @if (request('city') && request('city') != 'All')
+                <label class="flex text-base text-red-600 font-serif tracking-wider">
+                    ~~ Belum ada data daya listrik untuk area
+                    {{ $getArea->area }} kota {{ $getCity->city }} ~~
+                </label>
+            @else
+                <label class="flex text-base text-red-600 font-serif tracking-wider">
+                    ~~ Belum ada data daya listrik untuk area
+                    {{ $getArea->area }} ~~
+                </label>
+            @endif
+        @else
+            <label class="flex text-base text-red-600 font-serif tracking-wider">
+                ~~ Belum ada data daya listrik ~~
+            </label>
+        @endif
+    </div>
+@endif
 
 <!-- Pagination start -->
 <div class="flex justify-center text-stone-100 mt-2">

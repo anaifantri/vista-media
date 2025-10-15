@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ElectricalPower;
+use App\Models\ElectricityTopUp;
+use App\Models\ElectricityPayment;
 use App\Models\ElectricalLocation;
 use App\Models\Location;
 use App\Models\LocationPhoto;
@@ -31,13 +33,15 @@ class ElectricalPowerController extends Controller
             $media_categories = MediaCategory::with('locations')->get();
             $locations = Location::with('electrical_powers')->get();
             $electrical_powers = ElectricalPower::with('locations')->get();
+            $electricity_top_ups = ElectricityTopUp::with('electrical_power')->year()->get();
+            $electricity_payments = ElectricityPayment::with('electrical_power')->year()->get();
             return response()-> view ('electrical-powers.index', [
                 'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(30)->withQueryString(),
-                'electrical_powers'=>ElectricalPower::filter(request('search'))->area()->city()->sortable()->paginate(30)->withQueryString(),
+                'electrical_powers'=>ElectricalPower::filter(request('search'))->type()->area()->city()->sortable()->paginate(30)->withQueryString(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
                 'title' => 'Daftar Data Daya Listrik',
-                compact('areas', 'cities', 'media_sizes', 'media_categories', 'locations')
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'locations', 'electricity_top_ups', 'electricity_payments')
             ]);
         } else {
             abort(403);
@@ -46,7 +50,7 @@ class ElectricalPowerController extends Controller
 
     public function deleteLocation(String $locationId, String $electricalId): RedirectResponse
     {
-        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop') || Gate::allows('isAccounting') || Gate::allows('isMarketing')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete'))){
                 $getData = ElectricalPower::findOrFail($electricalId);
                 $getData->locations()->detach($locationId);
                 return redirect('workshop/electrical-powers/'.$electricalId.'/edit')->with('success', 'Lokasi berhasil dihapus');
@@ -57,7 +61,7 @@ class ElectricalPowerController extends Controller
 
     public function addLocation(String $locationId, String $electricalId): RedirectResponse
     {
-        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop') || Gate::allows('isAccounting') || Gate::allows('isMarketing')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopDelete'))){
                 $getData = ElectricalPower::findOrFail($electricalId);
                 if($getData->locations()->where('location_id', $locationId)->exists()){
                     return redirect('workshop/electrical-powers/'.$electricalId.'/edit')->with('success', 'Lokasi sudah terdaftar');
@@ -88,7 +92,7 @@ class ElectricalPowerController extends Controller
 
     public function createElectricalPower(String $locationId): View
     { 
-        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop') || Gate::allows('isAccounting') || Gate::allows('isMarketing')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
             $location = Location::findOrFail($locationId);
             return view ('electrical-powers.create', [
                 'location' => $location,
@@ -107,7 +111,26 @@ class ElectricalPowerController extends Controller
      */
     public function create(): Response
     {
-        //
+        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop') || Gate::allows('isAccounting') || Gate::allows('isMarketing')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopRead'))){
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $locations = Location::with('electrical_powers')->get();
+            $electrical_powers = ElectricalPower::with('locations')->get();
+            $electricity_top_ups = ElectricityTopUp::with('electrical_power')->year()->get();
+            $electricity_payments = ElectricityPayment::with('electrical_power')->year()->get();
+            return response()-> view ('electrical-powers.location-view', [
+                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(30)->withQueryString(),
+                'electrical_powers'=>ElectricalPower::filter(request('search'))->type()->area()->city()->sortable()->paginate(30)->withQueryString(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'title' => 'Daftar Data Daya Listrik',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'locations', 'electricity_top_ups', 'electricity_payments')
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -115,7 +138,7 @@ class ElectricalPowerController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if(Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate')){
+        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop') || Gate::allows('isAccounting') || Gate::allows('isMarketing')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopCreate'))){
             if ($request->type == 'pilih'){
                 return back()->withErrors(['type' => ['Silahkan pilih jenis daya']])->withInput();
             }
@@ -176,7 +199,7 @@ class ElectricalPowerController extends Controller
      */
     public function edit(ElectricalPower $electricalPower): Response
     {
-        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop') || Gate::allows('isAccounting') || Gate::allows('isMarketing')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
             $locations = Location::with('electrical_powers')->get();
             $location_photos = LocationPhoto::with('location')->get();
             return response()-> view ('electrical-powers.edit', [
@@ -197,7 +220,7 @@ class ElectricalPowerController extends Controller
      */
     public function update(Request $request, ElectricalPower $electricalPower): RedirectResponse
     {
-        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isMedia') || Gate::allows('isWorkshop') || Gate::allows('isAccounting') || Gate::allows('isMarketing')) && (Gate::allows('isElectricity') && Gate::allows('isWorkshopEdit'))){
             $rules = [
                 'user_id' => 'required',
                 'type' => 'required',
