@@ -37,9 +37,15 @@
                     <div class="w-[485px] border rounded-lg p-2 bg-stone-200">
                         <div class="mt-2">
                             <span class="text-sm text-stone-900">ID Pelanggan</span>
-                            <input name="id_number"
-                                class="flex w-[450px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('id_number') is-invalid @enderror"
-                                value="{{ $electrical_power->id_number }}" type="text" autofocus required>
+                            @if (old('id_number'))
+                                <input name="id_number"
+                                    class="flex w-[450px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('id_number') is-invalid @enderror"
+                                    value="{{ old('id_number') }}" type="text" autofocus required>
+                            @else
+                                <input name="id_number"
+                                    class="flex w-[450px] text-sm font-semibold text-stone-900 border rounded-lg p-1 outline-none @error('id_number') is-invalid @enderror"
+                                    value="{{ $electrical_power->id_number }}" type="text" autofocus required>
+                            @endif
                         </div>
                         @error('id_number')
                             <div class="text-red-600 flex mx-2">

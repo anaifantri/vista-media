@@ -157,7 +157,7 @@ class ElectricalPowerController extends Controller
                 'city_id' => 'required',
                 'type' => 'required',
                 'power' => 'nullable',
-                'id_number' => 'required',
+                'id_number' => 'required|unique:electrical_powers',
                 'name' => 'required'
             ]);
 
@@ -228,6 +228,10 @@ class ElectricalPowerController extends Controller
                 'id_number' => 'required',
                 'name' => 'required'
             ];
+                
+            if($request->id_number != $electricalPower->id_number){
+                $rules['id_number'] = 'required|unique:electrical_powers';
+            }
 
             $validateData = $request->validate($rules);
 
