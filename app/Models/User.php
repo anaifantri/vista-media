@@ -129,6 +129,10 @@ class User extends Authenticatable
         return $this->hasMany(IncomeTaxCategory::class, 'user_id', 'id');
     }
 
+    public function take_out_contents(){
+        return $this->hasMany(TakeOutContent::class, 'user_id', 'id');
+    }
+
     public $sortable = ['name', 'username'];
     /**
      * The attributes that should be hidden for serialization.

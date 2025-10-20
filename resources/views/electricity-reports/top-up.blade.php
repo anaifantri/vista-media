@@ -419,7 +419,7 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                                        {{ date('d', strtotime($electrical->top_up_date)) }}-{{ $bulan[(int) date('m', strtotime($electrical->top_up_date))] }}-{{ date('Y', strtotime($electrical->top_up_date)) }}
+                                                        {{ date('d', strtotime($electrical->topup_date)) }}-{{ $bulan[(int) date('m', strtotime($electrical->topup_date))] }}-{{ date('Y', strtotime($electrical->topup_date)) }}
                                                     </td>
                                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                                         {{ $electrical->kwh_qty }}
@@ -523,7 +523,7 @@
                                 </div>
                             </td>
                             <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                                {{ date('d', strtotime($electrical->top_up_date)) }}-{{ $bulan[(int) date('m', strtotime($electrical->top_up_date))] }}-{{ date('Y', strtotime($electrical->top_up_date)) }}
+                                {{ date('d', strtotime($electrical->topup_date)) }}-{{ $bulan[(int) date('m', strtotime($electrical->topup_date))] }}-{{ date('Y', strtotime($electrical->topup_date)) }}
                             </td>
                             <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                 {{ $electrical->kwh_qty }}

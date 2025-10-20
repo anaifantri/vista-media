@@ -13,6 +13,13 @@ class Location extends Model
 
     protected $guarded = ['id'];
 
+    public function scopeVideotron($query){
+        return $query->whereHas('media_category', function($query){
+                        $query->where('name', '=', 'Videotron');
+                        })
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(description, "$.type")) like ?', ['"%' . strtolower('Videotron') . '%"']);
+    }
+
     public function scopeArea($query){
         if (request('area') != 'All') {
             return $query->where('area_id', 'like', '%' . request('area') . '%');
@@ -198,7 +205,6 @@ class Location extends Model
             })
             ->where('end_at', '>', date('Y-m-d'));
     }
-    
 
     public function latestSale() {
         return $this->hasOne(Sale::class)->latestOfMany();
@@ -241,6 +247,14 @@ class Location extends Model
 
     public function monitorings(){
         return $this->hasMany(Monitoring::class, 'location_id', 'id');
+    }
+
+    public function publish_contents(){
+        return $this->hasMany(PublishContent::class, 'location_id', 'id');
+    }
+
+    public function take_out_contents(){
+        return $this->hasMany(TakeOutContent::class, 'location_id', 'id');
     }
 
     // public static function boot(){

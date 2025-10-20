@@ -12,6 +12,17 @@ class Sale extends Model
     use Sortable;
     protected $guarded = ['id'];
 
+    public function scopeVideotron($query){
+        return $query->whereHas('media_category', function($query){
+                        $query->where('name', '=', 'Videotron');
+                        })
+                    ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.description.type")) like ?', ['"%' . strtolower('Videotron') . '%"']);
+    }
+
+    public function scopeActiveSale($query){
+        return $query->where('end_at', '>', date('Y-m-d'));
+    }
+
     public function scopeReceivables($query){
         if(request('client') && request('client') != 'All'){
             return $query->whereHas('quotation', function($query){
@@ -272,6 +283,14 @@ class Sale extends Model
     public function billings()
     {
         return $this->belongsToMany(Billing::class, 'billing_sales');
+    }
+    
+    public function publish_contents(){
+        return $this->hasMany(PublishContent::class, 'sale_id', 'id');
+    }
+
+    public function take_out_contents(){
+        return $this->hasMany(TakeOutContent::class, 'sale_id', 'id');
     }
 
     public $sortable = ['number'];

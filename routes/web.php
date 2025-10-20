@@ -37,7 +37,9 @@ use App\Http\Controllers\TakedownOrderController;
 use App\Http\Controllers\VatTaxInvoiceController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\ClientCategoryController;
+use App\Http\Controllers\PublishContentController;
 use App\Http\Controllers\QuotationOrderController;
+use App\Http\Controllers\TakeOutContentController;
 use App\Http\Controllers\VendorCategoryController;
 use App\Http\Controllers\BillCoverLetterController;
 use App\Http\Controllers\ElectricalPowerController;
@@ -325,6 +327,15 @@ Route::get('/workshop/electricity-reports', [ElectricityReportController::class,
 Route::get('/workshop/electricity-reports/power', [ElectricityReportController::class,'electricalPower'])->middleware(['auth','user_access']);
 Route::get('/workshop/electricity-reports/topup', [ElectricityReportController::class,'electricalTopUp'])->middleware(['auth','user_access']);
 Route::get('/workshop/electricity-reports/payment', [ElectricityReportController::class,'electricalPayment'])->middleware(['auth','user_access']);
+
+Route::resource('/workshop/publish-contents', PublishContentController::class)->middleware(['auth','user_access']);
+Route::get('/publish-contents/free', [PublishContentController::class,'publishContentFree'])->middleware(['auth','user_access']);
+Route::get('/publish-contents/sale', [PublishContentController::class,'publishContentSale'])->middleware(['auth','user_access']);
+Route::get('/publish-contents/create/sale/{saleId}', [PublishContentController::class,'publishCreateSale'])->middleware(['auth','user_access']);
+Route::get('/publish-contents/create/free/{locationId}', [PublishContentController::class,'publishCreateFree'])->middleware(['auth','user_access']);
+
+Route::resource('/workshop/takeout-contents', TakeOutContentController::class)->middleware(['auth','user_access']);
+Route::get('/takeout-contents/create/{contentId}', [TakeOutContentController::class,'takeoutCreate'])->middleware(['auth','user_access']);
 // Workshop Group --> end
 
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth','user_access']);

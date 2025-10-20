@@ -272,7 +272,7 @@
                     <ul>
                         <li class="group">
                             <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('workshop/contents*') ? 'active' : '' }}"
-                                href="#">
+                                href="/workshop/publish-contents">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +284,7 @@
                         </li>
                         <li class="group">
                             <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px] {{ Request::is('workshop/contents*') ? 'active' : '' }}"
-                                href="#">
+                                href="/workshop/takeout-contents">
                                 <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
                                     stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
