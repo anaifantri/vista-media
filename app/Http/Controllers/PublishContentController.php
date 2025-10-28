@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PublishContent;
+use App\Models\TakeOutContent;
 use App\Models\Sale;
 use App\Models\Location;
 use App\Models\Quotation;
@@ -33,6 +34,22 @@ class PublishContentController extends Controller
                 'publish_contents'=>PublishContent::filter(request('search'))->month()->year()->sortable()->paginate(30)->withQueryString(),
                 'title' => 'Daftar Penayangan Materi Videotron',
                 compact('sale', 'location')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function publishReport(): View
+    {
+        if(Gate::allows('isContent') && Gate::allows('isWorkshopRead')){
+            $sale = Sale::with('publish_contents')->get();
+            $location = Location::with('publish_contents')->get();
+            $takeout_content = TakeOutContent::with('publish_content')->get();
+            return view ('publish-contents.publish-report', [
+                'publish_contents'=>PublishContent::filter(request('search'))->month()->year()->sortable()->get(),
+                'title' => 'List Penayangan Materi Videotron',
+                compact('sale', 'location', 'takeout_content')
             ]);
         } else {
             abort(403);
@@ -186,7 +203,7 @@ class PublishContentController extends Controller
                 'publish_content'=>$publishContent,
                 'sale'=>$sale,
                 'location'=>$location,
-                'title' => 'Detail Penayangan Materi Videotron'
+                'title' => 'Edit Data Penayangan Materi Videotron'
             ]);
         } else {
             abort(403);

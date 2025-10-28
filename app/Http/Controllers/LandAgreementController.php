@@ -27,17 +27,35 @@ class LandAgreementController extends Controller
     public function index(): Response
     {
         if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+            $active_agreements = count(Location::activeAgreements()->get());
+            $expired_agreements = count(Location::expiredAgreements()->get());
+            $expired_soon_agreements = count(Location::expiredSoonAgreements()->get());
+            return response()-> view ('land-agreements.index', [
+                'active_agreements' => $active_agreements,
+                'expired_agreements' => $expired_agreements,
+                'expired_soon_agreements' => $expired_soon_agreements,
+                'title' => 'Data Sewa Lahan'
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function allAgreement(): View
+    {
+        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
             $media_categories = MediaCategory::with('locations')->get();
             $land_agreements = LandAgreement::with('location')->get();
             $land_documents = LandDocument::with('land_agreement')->get();
-            return response()-> view ('land-agreements.index', [
-                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+            return view ('land-agreements.all-agreements', [
+                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy('code', 'asc')->paginate(30)->withQueryString(),
+                'export_locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy('code', 'asc')->get(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'title' => 'Daftar Perjanjian Sewa',
+                'title' => 'List Sewa Lahan',
                 compact('areas', 'cities', 'media_sizes', 'media_categories', 'land_agreements', 'land_documents')
             ]);
         } else {
@@ -55,10 +73,11 @@ class LandAgreementController extends Controller
             $land_agreements = LandAgreement::with('location')->get();
             $land_documents = LandDocument::with('land_agreement')->get();
             return view ('land-agreements.active-agreements', [
-                'locations'=>Location::activeAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'locations'=>Location::activeAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy('code', 'asc')->paginate(30)->withQueryString(),
+                'export_locations'=>Location::activeAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy('code', 'asc')->get(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'title' => 'Daftar Perjanjian Sewa',
+                'title' => 'List Sewa Lahan - Masih Berlaku',
                 compact('areas', 'cities', 'media_sizes', 'media_categories', 'land_agreements', 'land_documents')
             ]);
         } else {
@@ -76,10 +95,11 @@ class LandAgreementController extends Controller
             $land_agreements = LandAgreement::with('location')->get();
             $land_documents = LandDocument::with('land_agreement')->get();
             return view ('land-agreements.expired-agreements', [
-                'locations'=>Location::expiredAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'locations'=>Location::expiredAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy('code', 'asc')->paginate(30)->withQueryString(),
+                'export_locations'=>Location::expiredAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy('code', 'asc')->get(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'title' => 'Daftar Perjanjian Sewa',
+                'title' => 'List Sewa Lahan - Masa Sewa Habis',
                 compact('areas', 'cities', 'media_sizes', 'media_categories', 'land_agreements', 'land_documents')
             ]);
         } else {
@@ -97,10 +117,11 @@ class LandAgreementController extends Controller
             $land_agreements = LandAgreement::with('location')->get();
             $land_documents = LandDocument::with('land_agreement')->get();
             return view ('land-agreements.expired-soon-agreements', [
-                'locations'=>Location::expiredSoonAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'locations'=>Location::expiredSoonAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy('code', 'asc')->paginate(30)->withQueryString(),
+                'export_locations'=>Location::expiredSoonAgreements()->filter(request('search'))->area()->city()->condition()->category()->sortable()->orderBy('code', 'asc')->get(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'title' => 'Daftar Perjanjian Sewa',
+                'title' => 'List Sewa Lahan - Masa Sewa Akan Segera Berakhir',
                 compact('areas', 'cities', 'media_sizes', 'media_categories', 'land_agreements', 'land_documents')
             ]);
         } else {

@@ -133,6 +133,10 @@ class User extends Authenticatable
         return $this->hasMany(TakeOutContent::class, 'user_id', 'id');
     }
 
+    public function complaint_responses(){
+        return $this->hasMany(ComplaintResponse::class, 'user_id', 'id');
+    }
+
     public $sortable = ['name', 'username'];
     /**
      * The attributes that should be hidden for serialization.

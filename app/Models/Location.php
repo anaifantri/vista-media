@@ -152,7 +152,8 @@ class Location extends Model
     }
     public function scopeExpiredSoonAgreements($query){
         return $query->whereHas('latestAgreement', function($query){
-                                    $query->where('end_at', '<', date('Y-m-d', strtotime("+30 days")));
+                    $query->where('end_at', '>', date('Y-m-d'))
+                        ->where('end_at', '<', date('Y-m-d', strtotime("+30 days")));
                     });
     }
 
@@ -255,6 +256,14 @@ class Location extends Model
 
     public function take_out_contents(){
         return $this->hasMany(TakeOutContent::class, 'location_id', 'id');
+    }
+
+    public function complaints(){
+        return $this->hasMany(Complaint::class, 'location_id', 'id');
+    }
+
+    public function complaint_responses(){
+        return $this->hasMany(ComplaintResponse::class, 'location_id', 'id');
     }
 
     // public static function boot(){

@@ -1,6 +1,43 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
+    @php
+        if (request('yearReport')) {
+            $thisYear = request('yearReport');
+        } else {
+            $thisYear = date('Y');
+        }
+        $prevYear = $thisYear - 1;
+        $nextYear = $thisYear + 1;
+        $addPages = true;
+        $countPages = true;
+        $pageNumber = 0;
+        $totalPages = 0;
+        $number = 1;
+        $index = 1;
+        $dataNumber = 0;
+        $totalData = 0;
+        foreach ($locations as $location) {
+            $description = json_decode($location->description);
+            $index++;
+
+            if (
+                $location->media_category->name == 'Videotron' ||
+                ($location->media_category->name == 'Signage' && $description->type == 'Videotron')
+            ) {
+                $pageSlots = $description->slots;
+                for ($i = 0; $i < $pageSlots; $i++) {
+                    $index++;
+                }
+            }
+        }
+
+        if (fmod($index, 35) == 0) {
+            $totalPages = $index / 35;
+        } else {
+            $totalPages = ($index - fmod($index, 35)) / 35 + 1;
+        }
+    @endphp
     <!-- Create Sales Report start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="bg-stone-700 p-2 border rounded-md">
@@ -9,60 +46,6 @@
             </div>
             @include('sales-report.chart-header')
             <div id="chartReport" class="flex justify-center z-0">
-                <?php
-                // if (fmod(count($locations), 35) == 0) {
-                //     $pageQtyChart = count($locations) / 35;
-                // } else {
-                //     $pageQtyChart = (count($locations) - fmod(count($locations), 35)) / 35 + 1;
-                // }
-                if (request('yearReport')) {
-                    $thisYear = request('yearReport');
-                } else {
-                    $thisYear = date('Y');
-                }
-                $prevYear = $thisYear - 1;
-                $nextYear = $thisYear + 1;
-                $addPages = true;
-                $countPages = true;
-                $pageNumber = 0;
-                $totalPages = 0;
-                $number = 1;
-                $index = 1;
-                $dataNumber = 0;
-                $totalData = 0;
-                ?>
-                @if (count($locations) != 0)
-                    @while ($countPages == true)
-                        @foreach ($locations as $location)
-                            @if ($index > $totalPages * 35 && $index <= $totalPages * 35 + 35 && $loop->iteration > $totalData)
-                                @php
-                                    $description = json_decode($location->description);
-                                    $index++;
-                                    $totalData = $loop->iteration - 1;
-                                @endphp
-                                @if (
-                                    $location->media_category->name == 'Videotron' ||
-                                        ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
-                                    @php
-                                        $pageSlots = $description->slots;
-                                    @endphp
-                                    @for ($pageSlot = 0; $pageSlot < $pageSlots; $pageSlot++)
-                                        @php
-                                            $index++;
-                                        @endphp
-                                    @endfor
-                                @endif
-                            @endif
-                        @endforeach
-                        @php
-                            $totalData++;
-                            $totalPages++;
-                            if ($totalData == count($locations)) {
-                                $countPages = false;
-                            }
-                        @endphp
-                    @endwhile
-                @endif
                 <div id="pdfPreview">
                     @if (count($locations) != 0)
                         @while ($addPages == true)
@@ -225,7 +208,9 @@
                                                             ($location->media_category->name == 'Signage' &&
                                                                 $description->type == 'Videotron')
                                                         ) {
-                                                            $videotronSales = $location->videotron_active_sales;
+                                                            $videotronSales = $location->videotron_active_sales
+                                                                ->where('end_at', '>', $thisYear . '-01-01')
+                                                                ->where('start_at', '<', $thisYear . '-12-31');
                                                             $slots = $description->slots;
                                                         } else {
                                                             if ($location->active_sale) {
@@ -421,11 +406,399 @@
         <input id="saveName" type="text" value="Grafik Kontrak Klien - {{ date('d-m-Y') }}" hidden>
     </div>
 
+    <table id="exportExcelTable" class="table-auto w-full" hidden>
+        <thead class="bg-yellow-100">
+            <tr>
+                <th class="text-black border text-[0.65rem] w-8 text-center" rowspan="2">
+                    No.
+                </th>
+                <th class="text-black border text-[0.65rem] w-[60px] text-center" rowspan="2">
+                    Kode
+                </th>
+                <th class="text-black border text-[0.65rem] text-center" rowspan="2">
+                    Lokasi</th>
+                <th class="text-black border text-[0.65rem] text-center " colspan="5">
+                    Jenis Reklame</th>
+                <th class="text-black border text-[0.65rem] text-center " colspan="4">
+                    Detail Kontrak Aktif</th>
+                <th class="text-black border text-[0.65rem] text-center " colspan="2">
+                    Periode Kontrak</th>
+            </tr>
+            <tr>
+                <th class="text-black border text-[0.65rem] text-center w-8">Jns</th>
+                <th class="text-black border text-[0.65rem] text-center w-8">BL/FL</th>
+                <th class="text-black border text-[0.65rem] text-center w-8">Side</th>
+                <th class="text-black border text-[0.65rem] text-center w-8">Qty</th>
+                <th class="text-black border text-[0.65rem] text-center w-20">Size</th>
+                <th class="text-black border text-[0.65rem] text-center w-24">No.
+                    Penjualan
+                </th>
+                <th class="text-black border text-[0.65rem] text-center w-28">Klien</th>
+                <th class="text-black border text-[0.65rem] text-center w-20">Nilai</th>
+                <th class="text-black border text-[0.65rem] text-center w-14">Durasi</th>
+                <th class="text-black border text-[0.65rem] text-center w-16">Awal</th>
+                <th class="text-black border text-[0.65rem] text-center w-16">Akhir</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($locations as $location)
+                @php
+                    $number++;
+                    $dataNumber = $loop->iteration - 1;
+                    $lastNumber = null;
+                    $lastClient = null;
+                    $lastPrice = null;
+                    $duration = null;
+                    $start_at = null;
+                    $end_at = null;
+                    $description = json_decode($location->description);
+                    if (
+                        $location->media_category->name == 'Videotron' ||
+                        ($location->media_category->name == 'Signage' && $description->type == 'Videotron')
+                    ) {
+                        $videotronSales = $location->videotron_active_sales
+                            ->where('end_at', '>', $thisYear . '-01-01')
+                            ->where('start_at', '<', $thisYear . '-12-31');
+                        $slots = $description->slots;
+                    } else {
+                        if ($location->active_sale) {
+                            $lastClient = json_decode($location->active_sale->quotation->clients);
+                            $lastNumber = $location->active_sale->number;
+                            $lastPrice = $location->active_sale->price;
+                            $start_at = $location->active_sale->start_at;
+                            $end_at = $location->active_sale->end_at;
+                            $duration = $location->active_sale->duration;
+                        }
+                    }
+                @endphp
+                @if (
+                    $location->media_category->name == 'Videotron' ||
+                        ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                    <tr class="bg-stone-100">
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ $loop->iteration }}
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ $location->code }}-{{ $location->city->code }}</td>
+                        <td class="text-black border text-[0.65rem] px-2">
+                            {{ $location->address }}
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ $location->media_category->code }}</td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if (
+                                $location->media_category->name == 'Videotron' ||
+                                    ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                -
+                            @else
+                                @if ($description->lighting == 'Backlight')
+                                    BL
+                                @elseif ($description->lighting == 'Frontlight')
+                                    FL
+                                @elseif ($description->lighting == 'Nonlight')
+                                    NL
+                                @endif
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ preg_replace('/[^0-9]/', '', $location->side) }}</td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if ($location->media_category->name == 'Signage')
+                                {{ $description->qty }}
+                            @else
+                                1
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ $location->media_size->size }}
+                            -
+                            @if ($location->orientation == 'Vertikal')
+                                V
+                            @elseif ($location->orientation == 'Horizontal')
+                                H
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center"></td>
+                        <td class="text-black border text-[0.65rem] text-center"></td>
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center"></td>
+                        <td class="text-black border text-[0.65rem] text-center"></td>
+                        <td class="text-black border text-[0.65rem] text-center"></td>
+                        <td class="text-black border text-[0.65rem] text-center"></td>
+                    </tr>
+                    @if (count($videotronSales) != 0)
+                        @php
+                            $usedSlot = 0;
+                        @endphp
+                        @foreach ($videotronSales as $videotronSale)
+                            @php
+                                $slotQty = 0;
+                                $lastClient = json_decode($videotronSale->quotation->clients);
+                                $getPrice = json_decode($videotronSale->quotation->price);
+                                $slotQty = $getPrice->slotQty;
+                                $lastNumber = $videotronSale->number;
+                                $lastPrice = $videotronSale->price;
+                                $duration = $videotronSale->duration;
+                                $start_at = $videotronSale->start_at;
+                                $end_at = $videotronSale->end_at;
+                            @endphp
+                            @for ($indexSlot = 0; $indexSlot < $slotQty; $indexSlot++)
+                                @php
+                                    $number++;
+                                    $usedSlot++;
+                                @endphp
+                                @if ($indexSlot == 0)
+                                    <tr>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50"
+                                            colspan="7">
+                                            @if (count($videotronSales) != 0)
+                                                Slot ke {{ $usedSlot }}
+                                            @else
+                                                Slot ke {{ $indexSlot + 1 }}
+                                            @endif
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50"
+                                            rowspan="{{ $slotQty }}">
+                                            @if ($lastNumber)
+                                                {{ $lastNumber }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50"
+                                            rowspan="{{ $slotQty }}">
+                                            @if ($lastClient)
+                                                @if ($lastClient->type == 'Perusahaan')
+                                                    {{ $lastClient->company }}
+                                                @else
+                                                    {{ $lastClient->name }}
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50"
+                                            rowspan="{{ $slotQty }}">
+                                            @if ($lastPrice)
+                                                {{ $lastPrice }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50"
+                                            rowspan="{{ $slotQty }}">
+                                            @if ($duration)
+                                                {{ $duration }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50"
+                                            rowspan="{{ $slotQty }}">
+                                            @if ($start_at)
+                                                {{ date('d-m-Y', strtotime($start_at)) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50"
+                                            rowspan="{{ $slotQty }}">
+                                            @if ($end_at)
+                                                {{ date('d-m-Y', strtotime($end_at)) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td></td>
+                                        <td class="text-black border text-[0.65rem] text-center bg-lime-50"
+                                            colspan="7">
+                                            @if (count($videotronSales) != 0)
+                                                Slot ke {{ $usedSlot }}
+                                            @else
+                                                Slot ke {{ $indexSlot + 1 }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endfor
+                        @endforeach
+                        @if ($usedSlot < $slots)
+                            @for ($indexSlot = $usedSlot; $indexSlot < $slots; $indexSlot++)
+                                @php
+                                    $number++;
+                                    $usedSlot++;
+                                @endphp
+                                <tr>
+                                    <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                    </td>
+                                    <td class="text-black border text-[0.65rem] text-center bg-lime-50" colspan="7">
+                                        Slot ke {{ $indexSlot + 1 }}
+                                    </td>
+                                    <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                        -
+                                    </td>
+                                    <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                        -
+                                    </td>
+                                    </td>
+                                    <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                        -
+                                    </td>
+                                    <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                        -
+                                    </td>
+                                    <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                        -
+                                    </td>
+                                    <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                        -
+                                    </td>
+                                </tr>
+                            @endfor
+                        @endif
+                    @else
+                        @for ($indexSlot = 0; $indexSlot < $slots; $indexSlot++)
+                            @php
+                                $number++;
+                            @endphp
+                            <tr>
+                                <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center bg-lime-50" colspan="7">
+                                    Slot ke {{ $indexSlot + 1 }}
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                    -
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                    -
+                                </td>
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                    -
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                    -
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                    -
+                                </td>
+                                <td class="text-black border text-[0.65rem] text-center bg-lime-50">
+                                    -
+                                </td>
+                            </tr>
+                        @endfor
+                    @endif
+                @else
+                    <tr>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ $loop->iteration }}
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ $location->code }}-{{ $location->city->code }}</td>
+                        <td class="text-black border text-[0.65rem] px-2">
+                            {{ $location->address }}
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ $location->media_category->code }}</td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if (
+                                $location->media_category->name == 'Videotron' ||
+                                    ($location->media_category->name == 'Signage' && $description->type == 'Videotron'))
+                                -
+                            @else
+                                @if ($description->lighting == 'Backlight')
+                                    BL
+                                @elseif ($description->lighting == 'Frontlight')
+                                    FL
+                                @elseif ($description->lighting == 'Nonlight')
+                                    NL
+                                @endif
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ preg_replace('/[^0-9]/', '', $location->side) }}</td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if ($location->media_category->name == 'Signage')
+                                {{ $description->qty }}
+                            @else
+                                1
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            {{ $location->media_size->size }}
+                            -
+                            @if ($location->orientation == 'Vertikal')
+                                V
+                            @elseif ($location->orientation == 'Horizontal')
+                                H
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if ($lastNumber)
+                                {{ $lastNumber }}
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if ($lastClient)
+                                @if ($lastClient->type == 'Perusahaan')
+                                    {{ $lastClient->company }}
+                                @else
+                                    {{ $lastClient->name }}
+                                @endif
+                            @else
+                                -
+                            @endif
+                        </td>
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if ($lastPrice)
+                                {{ $lastPrice }}
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if ($duration)
+                                {{ $duration }}
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if ($start_at)
+                                {{ date('d-m-Y', strtotime($start_at)) }}
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td class="text-black border text-[0.65rem] text-center">
+                            @if ($end_at)
+                                {{ date('d-m-Y', strtotime($end_at)) }}
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
+        </tbody>
+    </table>
+
 
     <!-- Script start -->
     <script src="/js/html2canvas.min.js"></script>
     <script src="/js/html2pdf.bundle.min.js"></script>
-    <script src="/js/qrcode.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.table2excel.min.js"></script>
 
     <script>
         // Save PDF --> start
@@ -502,6 +875,14 @@
             }
         }
         // getCategory --> end
+
+        $(document).ready(function() {
+            $('#btnExportExcel').on('click', function() {
+                $('#exportExcelTable').table2excel({
+                    filename: "List Kontrak Klien.xls"
+                });
+            });
+        });
     </script>
     <!-- Script end -->
 @endsection

@@ -1,9 +1,29 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <?php
-    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agst', 'Sept', 'Okt', 'Nov', 'Des'];
-    ?>
+    @php
+        $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sept', 'Okt', 'Nov', 'Des'];
+        $bulan_full = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+
+        if (fmod(count($export_locations), 15) == 0) {
+            $totalPages = count($export_locations) / 15;
+        } else {
+            $totalPages = (count($export_locations) - fmod(count($export_locations), 15)) / 15 + 1;
+        }
+    @endphp
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
@@ -16,7 +36,7 @@
                 <!-- Form search start -->
                 <form action="/media/expired-soon-licenses/">
                     <div class="flex mt-1 ml-2">
-                        <div class="w-36">
+                        <div class="w-48">
                             <span class="text-base text-stone-100">Area</span>
                             <select class="w-full border rounded-lg text-base text-stone-900 outline-none" name="area"
                                 id="area" onchange="submit()" value="{{ request('area') }}">
@@ -31,7 +51,7 @@
                             </select>
                         </div>
                         @if (request('area') && request('area') != 'All')
-                            <div class="w-36 ml-2">
+                            <div class="w-48 ml-2">
                                 <span class="text-base text-stone-100">Kota</span>
                                 <select id="city" name="city"
                                     class="flex text-base text-stone-900 w-full border rounded-lg px-1 outline-none"
@@ -59,7 +79,7 @@
                                 </select>
                             </div>
                         @endif
-                        <div class="ml-2 w-36">
+                        <div class="ml-2 w-48">
                             <span class="text-base text-stone-100">Katagori</span>
                             <select class="w-full border rounded-lg text-base text-stone-900 outline-none"
                                 name="media_category_id" id="media_category_id" onchange="submit()"
@@ -74,20 +94,45 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="flex mt-2">
-                        <div class="flex">
-                            <input id="search" name="search"
-                                class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"
-                                type="text" placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
-                                onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
-                            <button class="flex border p-1 rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
-                                type="submit">
-                                <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
-                                </svg>
-                            </button>
+                        <div class="flex w-full items-end">
+                            <div class="ml-2 w-52">
+                                <span class="text-base text-stone-100">Pencarian</span>
+                                <div class="flex">
+                                    <input id="search" name="search"
+                                        class="flex border rounded-l-lg outline-none text-base text-stone-900 px-1"
+                                        type="text" placeholder="Search" value="{{ request('search') }}"
+                                        onkeyup="submit()"
+                                        onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
+                                    <button class="flex border rounded-r-lg text-slate-700 justify-center w-10 bg-slate-50"
+                                        type="submit">
+                                        <svg class="fill-current w-5" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="divButton" class="flex justify-end w-full items-end">
+                                <button id="btnCreatePdf" class="flex justify-center items-center mx-1 btn-primary"
+                                    title="Simpan dalam bentuk pdf" type="button">
+                                    <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24">
+                                        <path
+                                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                    </svg>
+                                    <span class="mx-1">Save PDF</span>
+                                </button>
+                                <button id="btnExportExcel" class="flex justify-center items-center mx-1 btn-success"
+                                    title="Create PDF" type="button">
+                                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24">
+                                        <path
+                                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                                    </svg>
+                                    <span class="mx-1 text-white">Export to EXCEL</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -815,5 +860,62 @@
             <!-- Pagination end -->
         </div>
     </div>
+
+    @include('licenses.export-pdf')
+    @include('licenses.export-excel')
+
+    <input id="saveName" type="text" value="LIST PERIZINAN SEGERA BERAKHIR" hidden>
+    <!-- Container end -->
+
+    <!-- Script start -->
+    <script src="/js/html2canvas.min.js"></script>
+    <script src="/js/html2pdf.bundle.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.table2excel.min.js"></script>
+
+    <script>
+        // Save PDF --> start
+        const saveName = document.querySelectorAll("[id=saveName]");
+        const pdfPreview = document.querySelectorAll("[id=pdfPreview]");
+        document.getElementById("btnCreatePdf").onclick = function() {
+            for (let i = 0; i < pdfPreview.length; i++) {
+                var element = document.getElementById('pdfPreview');
+                var opt = {
+                    margin: 0,
+                    filename: saveName[i].value,
+                    image: {
+                        type: 'jpeg',
+                        quality: 1
+                    },
+                    pagebreak: {
+                        mode: ['avoid-all', 'css', 'legacy']
+                    },
+                    html2canvas: {
+                        dpi: 300,
+                        scale: 2,
+                        letterRendering: true,
+                        useCORS: true
+                    },
+                    jsPDF: {
+                        unit: 'px',
+                        format: [1590, 1130],
+                        orientation: 'landscape',
+                        putTotalPages: true
+                    }
+                };
+                html2pdf().set(opt).from(element).save();
+            }
+        };
+        // Save PDF --> end
+
+        $(document).ready(function() {
+            $('#btnExportExcel').on('click', function() {
+                $('#exportExcelTable').table2excel({
+                    filename: "List Perizinan Segera Berakhir.xls"
+                });
+            });
+        });
+    </script>
+    <!-- Script end -->
     <!-- Container end -->
 @endsection

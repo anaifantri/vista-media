@@ -30,7 +30,9 @@ class TakeOutContent extends Model
                 
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
-            $query->where('theme', 'like', '%' . $search . '%')
+            $query->whereHas('publish_content', function($query) use ($search){
+                    $query->where('theme', 'like', '%' . $search . '%');
+                })
                 ->orWhereHas('sale', function($query) use ($search){
                 $query->whereRaw('LOWER(JSON_EXTRACT(created_by, "$.name")) like ?', ['"%' . strtolower($search) . '%"'])
                     ->orWhereRaw('LOWER(JSON_EXTRACT(product, "$.code")) like ?', ['"%' . strtolower($search) . '%"'])

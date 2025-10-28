@@ -19,6 +19,13 @@ use App\Models\Payment;
 use App\Models\Company;
 use App\Models\PrintOrder;
 use App\Models\InstallOrder;
+use App\Models\ElectricalPower;
+use App\Models\ElectricityTopUp;
+use App\Models\ElectricityPayment;
+use App\Models\Complaint;
+use App\Models\ComplaintResponse;
+use App\Models\PublishContent;
+use App\Models\TakeOutContent;
 use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Http\Request;
@@ -89,6 +96,13 @@ class DashboardController extends Controller
         $freeInstallSales = InstallOrder::where('company_id', $companyId)->freeSales()->year()->get();
         $freeInstallOther = InstallOrder::where('company_id', $companyId)->freeOther()->year()->get();
         $installOrderData = [count($installSales), count($freeInstallSales), count($freeInstallOther)];
+        $electrical_powers = ElectricalPower::all();
+        $electricity_top_ups = ElectricityTopUp::month()->year()->get();
+        $electricity_payments = ElectricityPayment::month()->year()->get();
+        $complaints = Complaint::month()->year()->get();
+        $complaint_responses = ComplaintResponse::month()->year()->get();
+        $publish_contents = PublishContent::month()->year()->get();
+        $takeout_contents = TakeOutContent::month()->year()->get();
 
         $labelDataOrder = ['Berbayar', 'Gratis Penjualan', 'Gratis Lain-Lain'];
         return view('dashboard.index',[
@@ -146,6 +160,13 @@ class DashboardController extends Controller
 
             'thisYearTotal' => $thisYearTotal,
             'prevYearTotal' => $prevYearTotal,
+            'electrical_powers' => $electrical_powers,
+            'electricity_top_ups' => $electricity_top_ups,
+            'electricity_payments' => $electricity_payments,
+            'complaints' => $complaints,
+            'complaint_responses' => $complaint_responses,
+            'publish_contents' => $publish_contents,
+            'takeout_contents' => $takeout_contents,
             compact('locations', 'cities', 'quotation_revisions', 'quotation_statuses', 'quot_revision_statuses')
         ]);
     }

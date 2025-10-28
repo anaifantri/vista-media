@@ -105,6 +105,7 @@
                     @php
                         $client = json_decode($payment->billings[0]->client);
                         $number++;
+                        $indexBilling = 0;
                         $totalSales = 0;
                         $totalBilling = 0;
                         $otherFee = 0;
@@ -120,7 +121,7 @@
                         @php
                             $descriptions = json_decode($itemBilling->invoice_content)->description;
                             $descriptionNumber = 0;
-                            $totalPayment = $itemBilling->bill_payments->sum('nominal');
+                            $indexBilling++;
                             $totalBilling =
                                 $totalBilling +
                                 ($itemBilling->nominal + $itemBilling->ppn - ($itemBilling->nominal * 2) / 100);
@@ -131,120 +132,209 @@
                                 $descriptionNumber++;
                             @endphp
                             @if ($index > $i * 25 && $index < ($i + 1) * 25 + 1)
-                                @if ($descriptionNumber == 1)
-                                    <tr class="h-[25px]">
-                                        <td
-                                            class="text-stone-900 px-1 border-t border-x border-black text-sm align-top text-center">
-                                            {{ $number }}
-                                        </td>
-                                        <td
-                                            class="text-stone-900 px-1 border-t border-x border-black text-sm align-top text-center">
-                                            {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
-                                        </td>
-                                        <td
-                                            class="text-stone-900 border-t border-x border-black text-sm px-1 align-top">
-                                            @if (isset($client->company))
-                                                @if (strlen($client->company) > 20)
-                                                    {{ substr($client->company, 0, 20) }}..
+                                @if ($indexBilling == 1)
+                                    @if ($descriptionNumber == 1)
+                                        <tr class="h-[25px]">
+                                            <td
+                                                class="text-stone-900 px-1 border-t border-x border-black text-sm align-top text-center">
+                                                {{ $number }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-t border-x border-black text-sm align-top text-center">
+                                                {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 border-t border-x border-black text-sm px-1 align-top">
+                                                @if (isset($client->company))
+                                                    @if (strlen($client->company) > 20)
+                                                        {{ substr($client->company, 0, 20) }}..
+                                                    @else
+                                                        {{ $client->company }}
+                                                    @endif
+                                                @elseif (isset($client->name))
+                                                    @if (strlen($client->name) > 20)
+                                                        {{ substr($client->name, 0, 20) }}..
+                                                    @else
+                                                        {{ $client->name }}
+                                                    @endif
                                                 @else
-                                                    {{ $client->company }}
+                                                    @if (strlen($client->contact_name) > 20)
+                                                        {{ substr($client->contact_name, 0, 20) }}..
+                                                    @else
+                                                        {{ $client->contact_name }}
+                                                    @endif
                                                 @endif
-                                            @elseif (isset($client->name))
-                                                @if (strlen($client->name) > 20)
-                                                    {{ substr($client->name, 0, 20) }}..
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-t border-x border-black text-sm align-top">
+                                                <a
+                                                    href="/accounting/billings/{{ $itemBilling->id }}">{{ $itemBilling->invoice_number }}</a>
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-t border-x border-black text-sm">
+                                                @if (isset(json_decode($itemBilling->invoice_content)->manual_detail))
+                                                    @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 40)
+                                                        {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 40) }}
+                                                    @else
+                                                        {{ json_decode($itemBilling->invoice_content)->manual_detail[0]->title }}
+                                                    @endif
                                                 @else
-                                                    {{ $client->name }}
+                                                    @if (strlen($description->title) > 40)
+                                                        {{ substr($description->title, 5, 40) }}
+                                                    @else
+                                                        {{ $description->title }}
+                                                    @endif
                                                 @endif
-                                            @else
-                                                @if (strlen($client->contact_name) > 20)
-                                                    {{ substr($client->contact_name, 0, 20) }}..
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-t border-x border-black text-sm">
+                                                @if (strlen($description->location) > 40)
+                                                    {{ substr($description->location, 0, 40) }}..
                                                 @else
-                                                    {{ $client->contact_name }}
+                                                    {{ $description->location }}
                                                 @endif
-                                            @endif
-                                        </td>
-                                        <td
-                                            class="text-stone-900 px-1 border-t border-x border-black text-sm align-top">
-                                            <a
-                                                href="/accounting/billings/{{ $itemBilling->id }}">{{ $itemBilling->invoice_number }}</a>
-                                        </td>
-                                        <td class="text-stone-900 px-1 border-t border-x border-black text-sm">
-                                            @if (isset(json_decode($itemBilling->invoice_content)->manual_detail))
-                                                @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 40)
-                                                    {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 40) }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 bg-teal-50 px-1 border-t border-x border-black text-sm text-right align-top">
+                                                {{ number_format($description->nominal) }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 bg-yellow-50 border-t border-x border-black text-sm align-top text-right">
+                                                {{ number_format($payment->nominal) }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-t border-x border-black text-sm bg-red-50 align-top text-right">
+                                                @if (round($totalPayment) >= round($totalBilling))
+                                                    <span class="flex w-full justify-center">LUNAS</span>
                                                 @else
-                                                    {{ json_decode($itemBilling->invoice_content)->manual_detail[0]->title }}
+                                                    {{ number_format($totalBilling - $totalPayment) }}
                                                 @endif
-                                            @else
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr class="h-[25px]">
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm align-top text-center">
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm align-top text-center">
+                                            </td>
+                                            <td class="text-stone-900 border-x border-black text-sm px-1 align-top">
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm text-center align-top">
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-x border-black text-sm">
                                                 @if (strlen($description->title) > 40)
                                                     {{ substr($description->title, 5, 40) }}
                                                 @else
                                                     {{ $description->title }}
                                                 @endif
-                                            @endif
-                                        </td>
-                                        <td class="text-stone-900 px-1 border-t border-x border-black text-sm">
-                                            @if (strlen($description->location) > 40)
-                                                {{ substr($description->location, 0, 40) }}..
-                                            @else
-                                                {{ $description->location }}
-                                            @endif
-                                        </td>
-                                        <td
-                                            class="text-stone-900 bg-teal-50 px-1 border-t border-x border-black text-sm text-right align-top">
-                                            {{ number_format($description->nominal) }}
-                                        </td>
-                                        <td
-                                            class="text-stone-900 px-1 bg-yellow-50 border-t border-x border-black text-sm align-top text-right">
-                                            {{ number_format($payment->nominal) }}
-                                        </td>
-                                        <td
-                                            class="text-stone-900 px-1 border-t border-x border-black text-sm bg-red-50 align-top text-right">
-                                            @if (round($totalPayment) >= round($totalBilling))
-                                                <span class="flex w-full justify-center">LUNAS</span>
-                                            @else
-                                                {{ number_format($totalBilling - $totalPayment) }}
-                                            @endif
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-x border-black text-sm">
+                                                @if (strlen($description->location) > 40)
+                                                    {{ substr($description->location, 0, 40) }}..
+                                                @else
+                                                    {{ $description->location }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 bg-teal-50 px-1 border-x border-black text-sm text-right align-top">
+                                                {{ number_format($description->nominal) }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 bg-yellow-50 border-x border-black text-sm align-top text-right">
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm bg-red-50 align-top text-right">
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @else
-                                    <tr class="h-[25px]">
-                                        <td
-                                            class="text-stone-900 px-1 border-x border-black text-sm align-top text-center">
-                                        </td>
-                                        <td
-                                            class="text-stone-900 px-1 border-x border-black text-sm align-top text-center">
-                                        </td>
-                                        <td class="text-stone-900 border-x border-black text-sm px-1 align-top">
-                                        </td>
-                                        <td
-                                            class="text-stone-900 px-1 border-x border-black text-sm text-center align-top">
-                                        </td>
-                                        <td class="text-stone-900 px-1 border-x border-black text-sm">
-                                            @if (strlen($description->title) > 40)
-                                                {{ substr($description->title, 5, 40) }}
-                                            @else
-                                                {{ $description->title }}
-                                            @endif
-                                        </td>
-                                        <td class="text-stone-900 px-1 border-x border-black text-sm">
-                                            @if (strlen($description->location) > 40)
-                                                {{ substr($description->location, 0, 40) }}..
-                                            @else
-                                                {{ $description->location }}
-                                            @endif
-                                        </td>
-                                        <td
-                                            class="text-stone-900 bg-teal-50 px-1 border-x border-black text-sm text-right align-top">
-                                            {{ number_format($description->nominal) }}
-                                        </td>
-                                        <td
-                                            class="text-stone-900 px-1 bg-yellow-50 border-x border-black text-sm align-top text-right">
-                                        </td>
-                                        <td
-                                            class="text-stone-900 px-1 border-x border-black text-sm bg-red-50 align-top text-right">
-                                        </td>
-                                    </tr>
+                                    @if ($descriptionNumber == 1)
+                                        <tr class="h-[25px]">
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm align-top text-center">
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm align-top text-center">
+                                            </td>
+                                            <td class="text-stone-900 border-x border-black text-sm px-1 align-top">
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-x border-black text-sm align-top">
+                                                <a
+                                                    href="/accounting/billings/{{ $itemBilling->id }}">{{ $itemBilling->invoice_number }}</a>
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-x border-black text-sm">
+                                                @if (isset(json_decode($itemBilling->invoice_content)->manual_detail))
+                                                    @if (strlen(json_decode($itemBilling->invoice_content)->manual_detail[0]->title) > 40)
+                                                        {{ substr(json_decode($itemBilling->invoice_content)->manual_detail[0]->title, 5, 40) }}
+                                                    @else
+                                                        {{ json_decode($itemBilling->invoice_content)->manual_detail[0]->title }}
+                                                    @endif
+                                                @else
+                                                    @if (strlen($description->title) > 40)
+                                                        {{ substr($description->title, 5, 40) }}
+                                                    @else
+                                                        {{ $description->title }}
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-x border-black text-sm">
+                                                @if (strlen($description->location) > 40)
+                                                    {{ substr($description->location, 0, 40) }}..
+                                                @else
+                                                    {{ $description->location }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 bg-teal-50 px-1 border-x border-black text-sm text-right align-top">
+                                                {{ number_format($description->nominal) }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 bg-yellow-50 border-x border-black text-sm align-top text-right">
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm bg-red-50 align-top text-right">
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr class="h-[25px]">
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm align-top text-center">
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm align-top text-center">
+                                            </td>
+                                            <td class="text-stone-900 border-x border-black text-sm px-1 align-top">
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm text-center align-top">
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-x border-black text-sm">
+                                                @if (strlen($description->title) > 40)
+                                                    {{ substr($description->title, 5, 40) }}
+                                                @else
+                                                    {{ $description->title }}
+                                                @endif
+                                            </td>
+                                            <td class="text-stone-900 px-1 border-x border-black text-sm">
+                                                @if (strlen($description->location) > 40)
+                                                    {{ substr($description->location, 0, 40) }}..
+                                                @else
+                                                    {{ $description->location }}
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="text-stone-900 bg-teal-50 px-1 border-x border-black text-sm text-right align-top">
+                                                {{ number_format($description->nominal) }}
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 bg-yellow-50 border-x border-black text-sm align-top text-right">
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border-x border-black text-sm bg-red-50 align-top text-right">
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endif
                             @endif
                         @endforeach

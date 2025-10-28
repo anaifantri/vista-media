@@ -76,6 +76,16 @@ class InstallOrder extends Model
         }
     }
 
+    public function scopeMonthReport($query){
+        if(request('month')){
+            if(request('month') != 'All'){
+                return $query->whereYear('install_at', request('year'))->whereMonth('install_at', request('month'));
+            }
+        }else{
+                return $query->whereYear('install_at', Carbon::now()->year)->whereMonth('install_at', Carbon::now()->month);
+            }
+    }
+
     public function scopeDays($query){
         if(request('days')){
             if(request('days') != 'All'){

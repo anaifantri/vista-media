@@ -38,6 +38,22 @@ class InstallationPhotoController extends Controller
         }
     }
 
+    public function installationReport(String $company_id): View
+    {
+        if(Gate::allows('isDocumentation') && Gate::allows('isWorkshopRead')){
+            $installation_photos = InstallationPhoto::with('install_order')->get();
+            $sale = Sale::with('install_order')->get();
+            $quotations = Quotation::with('sales')->get();
+            return view ('installation-photos.installation-report', [
+                'install_orders'=>InstallOrder::where('company_id', $company_id)->filter(request('search'))->area()->city()->year()->monthReport()->sortable()->orderBy("number", "desc")->get(),
+                'title' => 'List Pemasangan Gambar',
+                compact('installation_photos','sale', 'quotations')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
     public function showInstallationPhotos(String $installOrderId): View
     { 
         if((Gate::allows('isAdmin') && Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate')) || (Gate::allows('isDocumentation') && Gate::allows('isWorkshopCreate'))){

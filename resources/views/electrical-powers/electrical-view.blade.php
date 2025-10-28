@@ -34,10 +34,19 @@
                 <th class="text-stone-900 border border-stone-900 text-xs text-center">Lokasi</th>
                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Ukuran</th>
                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-10">BL/FL</th>
-                @for ($i = 0; $i < 6; $i++)
-                    <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">{{ $bulan[$i + 1] }}
-                    </th>
-                @endfor
+                @if (request('period') && request('period') == 'Juli - Desember')
+                    @for ($i = 6; $i < 12; $i++)
+                        <th class="text-stone-900 border border-stone-900 text-sm text-center w-[72px]">
+                            {{ $bulan[$i + 1] }}
+                        </th>
+                    @endfor
+                @else
+                    @for ($i = 0; $i < 6; $i++)
+                        <th class="text-stone-900 border border-stone-900 text-sm text-center w-[72px]">
+                            {{ $bulan[$i + 1] }}
+                        </th>
+                    @endfor
+                @endif
             </tr>
         </thead>
         <tbody class="bg-stone-200">
@@ -113,7 +122,7 @@
                                             @elseif ($description->lighting == 'Frontlight')
                                                 FL
                                             @else
-                                                t
+                                                -
                                             @endif
                                         @else
                                             -
@@ -125,44 +134,85 @@
                             @endif
                         </div>
                     </td>
-                    @for ($i = 0; $i < 6; $i++)
-                        <td class="text-stone-900 border border-stone-900 text-xs px-1 text-center">
-                            @if ($electrical->type == 'Pascabayar')
-                                @php
-                                    if (count($electrical->electricity_payments) > 0) {
-                                        $getNominal = $electrical->electricity_payments
-                                            ->where('bill_date', $getYear . '-0' . $i + 1 . '-01')
-                                            ->sum('payment');
-                                    } else {
-                                        $getNominal = 0;
-                                    }
-                                @endphp
-                                @if ($getNominal != 0)
-                                    {{ number_format($getNominal) }}
+                    @if (request('period') && request('period') == 'Juli - Desember')
+                        @for ($i = 6; $i < 12; $i++)
+                            <td class="text-stone-900 border border-stone-900 text-sm px-1 text-center">
+                                @if ($electrical->type == 'Pascabayar')
+                                    @php
+                                        if (count($electrical->electricity_payments) > 0) {
+                                            $getNominal = $electrical->electricity_payments
+                                                ->where('bill_date', $getYear . '-0' . $i + 1 . '-01')
+                                                ->sum('payment');
+                                        } else {
+                                            $getNominal = 0;
+                                        }
+                                    @endphp
+                                    @if ($getNominal != 0)
+                                        {{ number_format($getNominal) }}
+                                    @else
+                                        -
+                                    @endif
                                 @else
-                                    -
+                                    @php
+                                        $startDate = $getYear . '-0' . $i + 1 . '-01';
+                                        $getDate = new DateTime($startDate);
+                                        $endDate = $getDate->modify('last day of this month');
+                                        if (count($electrical->electricity_top_ups) > 0) {
+                                            $getNominal = $electrical->electricity_top_ups
+                                                ->whereBetween('topup_date', [$startDate, $endDate->format('Y-m-d')])
+                                                ->sum('top_up_nominal');
+                                        } else {
+                                            $getNominal = 0;
+                                        }
+                                    @endphp
+                                    @if ($getNominal != 0)
+                                        {{ number_format($getNominal) }}
+                                    @else
+                                        -
+                                    @endif
                                 @endif
-                            @else
-                                @php
-                                    $startDate = $getYear . '-0' . $i + 1 . '-01';
-                                    $getDate = new DateTime($startDate);
-                                    $endDate = $getDate->modify('last day of this month');
-                                    if (count($electrical->electricity_top_ups) > 0) {
-                                        $getNominal = $electrical->electricity_top_ups
-                                            ->whereBetween('topup_date', [$startDate, $endDate->format('Y-m-d')])
-                                            ->sum('top_up_nominal');
-                                    } else {
-                                        $getNominal = 0;
-                                    }
-                                @endphp
-                                @if ($getNominal != 0)
-                                    {{ number_format($getNominal) }}
+                            </td>
+                        @endfor
+                    @else
+                        @for ($i = 0; $i < 6; $i++)
+                            <td class="text-stone-900 border border-stone-900 text-sm px-1 text-center">
+                                @if ($electrical->type == 'Pascabayar')
+                                    @php
+                                        if (count($electrical->electricity_payments) > 0) {
+                                            $getNominal = $electrical->electricity_payments
+                                                ->where('bill_date', $getYear . '-0' . $i + 1 . '-01')
+                                                ->sum('payment');
+                                        } else {
+                                            $getNominal = 0;
+                                        }
+                                    @endphp
+                                    @if ($getNominal != 0)
+                                        {{ number_format($getNominal) }}
+                                    @else
+                                        -
+                                    @endif
                                 @else
-                                    -
+                                    @php
+                                        $startDate = $getYear . '-0' . $i + 1 . '-01';
+                                        $getDate = new DateTime($startDate);
+                                        $endDate = $getDate->modify('last day of this month');
+                                        if (count($electrical->electricity_top_ups) > 0) {
+                                            $getNominal = $electrical->electricity_top_ups
+                                                ->whereBetween('topup_date', [$startDate, $endDate->format('Y-m-d')])
+                                                ->sum('top_up_nominal');
+                                        } else {
+                                            $getNominal = 0;
+                                        }
+                                    @endphp
+                                    @if ($getNominal != 0)
+                                        {{ number_format($getNominal) }}
+                                    @else
+                                        -
+                                    @endif
                                 @endif
-                            @endif
-                        </td>
-                    @endfor
+                            </td>
+                        @endfor
+                    @endif
                     <td class="text-stone-900 border border-stone-900 text-xs text-center">
                         <div class="flex justify-center items-center">
                             <a href="/workshop/electrical-powers/{{ $electrical->id }}"

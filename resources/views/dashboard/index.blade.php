@@ -12,9 +12,14 @@
             @can('isAccounting')
                 @include('dashboard.accounting')
             @endcan
+            @can('isWorkshop')
+                @include('dashboard.workshop')
+            @endcan
             @canany(['isAdmin', 'isOwner'])
                 @include('dashboard.media')
                 @include('dashboard.marketing')
+                @include('dashboard.accounting')
+                @include('dashboard.workshop')
             @endcanany
         </div>
     </div>

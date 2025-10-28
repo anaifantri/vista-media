@@ -16,6 +16,7 @@ use App\Http\Controllers\LicenseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\VoidSaleController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncomeTaxController;
 use App\Http\Controllers\MediaSizeController;
@@ -49,6 +50,7 @@ use App\Http\Controllers\PrintingProductController;
 use App\Http\Controllers\QuotationStatusController;
 use App\Http\Controllers\ElectricityTopUpController;
 use App\Http\Controllers\QuotationsReportController;
+use App\Http\Controllers\ComplaintResponseController;
 use App\Http\Controllers\ElectricityReportController;
 use App\Http\Controllers\IncomeTaxCategoryController;
 use App\Http\Controllers\IncomeTaxDocumentController;
@@ -284,6 +286,7 @@ Route::get('/show-land-agreement/{locationId}', [LandAgreementController::class,
 Route::get('/media/active-agreements', [LandAgreementController::class,'activeAgreement'])->middleware(['auth','user_access']);
 Route::get('/media/expired-agreements', [LandAgreementController::class,'expiredAgreement'])->middleware(['auth','user_access']);
 Route::get('/media/expired-soon-agreements', [LandAgreementController::class,'expiredSoonAgreement'])->middleware(['auth','user_access']);
+Route::get('/media/all-agreements', [LandAgreementController::class,'allAgreement'])->middleware(['auth','user_access']);
 Route::resource('/media/licenses', LicenseController::class)->middleware(['auth','user_access']);
 Route::get('/create-license/{locationId}', [LicenseController::class,'createLicense'])->middleware(['auth','user_access']);
 Route::get('/show-license/{locationId}', [LicenseController::class,'showLicense'])->middleware(['auth','user_access']);
@@ -300,12 +303,14 @@ Route::get('/create-land-documents/{landAgreementId}/{name}', [LandDocumentContr
 // Workshop Group --> start
 Route::resource('/workshop/installation-photos', InstallationPhotoController::class)->except(['index','create'])->middleware(['auth','user_access']);
 Route::get('/installation-photos/index/{companyid}', [InstallationPhotoController::class,'index'])->middleware(['auth','user_access']);
+Route::get('/installation-photos/report/{companyid}', [InstallationPhotoController::class,'installationReport'])->middleware(['auth','user_access']);
 Route::get('/installation-photos/show/{installorderid}', [InstallationPhotoController::class,'showInstallationPhotos'])->middleware(['auth','user_access']);
 Route::get('/installation-photos/create/{installorderId}/{type}', [InstallationPhotoController::class,'createInstallationPhotos'])->middleware(['auth','user_access']);
 
 Route::resource('/workshop/monitoring-photos', MonitoringPhotoController::class)->middleware(['auth','user_access']);
 Route::get('/create-photos/{monitoringId}', [MonitoringPhotoController::class,'createPhotos'])->middleware(['auth','user_access']);
 Route::resource('/workshop/monitorings', MonitoringController::class)->middleware(['auth','user_access']);
+Route::get('/workshop/monitoring-report', [MonitoringController::class,'monitoringReport'])->middleware(['auth','user_access']);
 Route::get('/show-monitoring/{locationId}', [MonitoringController::class,'showMonitoring'])->middleware(['auth','user_access']);
 Route::get('/create-monitoring/{locationId}', [MonitoringController::class,'createMonitoring'])->middleware(['auth','user_access']);
 
@@ -333,9 +338,17 @@ Route::get('/publish-contents/free', [PublishContentController::class,'publishCo
 Route::get('/publish-contents/sale', [PublishContentController::class,'publishContentSale'])->middleware(['auth','user_access']);
 Route::get('/publish-contents/create/sale/{saleId}', [PublishContentController::class,'publishCreateSale'])->middleware(['auth','user_access']);
 Route::get('/publish-contents/create/free/{locationId}', [PublishContentController::class,'publishCreateFree'])->middleware(['auth','user_access']);
+Route::get('/publish-contents/report', [PublishContentController::class,'publishReport'])->middleware(['auth','user_access']);
 
 Route::resource('/workshop/takeout-contents', TakeOutContentController::class)->middleware(['auth','user_access']);
 Route::get('/takeout-contents/create/{contentId}', [TakeOutContentController::class,'takeoutCreate'])->middleware(['auth','user_access']);
+
+Route::resource('/workshop/complaints', ComplaintController::class)->middleware(['auth','user_access']);
+Route::get('/complaints/create/{saleId}', [ComplaintController::class,'complaintCreate'])->middleware(['auth','user_access']);
+Route::get('/complaints/report', [ComplaintController::class,'complaintReport'])->middleware(['auth','user_access']);
+
+Route::resource('/workshop/complaint-responses', ComplaintResponseController::class)->middleware(['auth','user_access']);
+Route::get('/complaint-responses/create/{complaintId}', [ComplaintResponseController::class,'responseCreate'])->middleware(['auth','user_access']);
 // Workshop Group --> end
 
 Route::get('/showArea', [AreaController::class,'showArea'])->middleware(['auth','user_access']);

@@ -89,151 +89,151 @@
         <div class="flex h-5 items-center relative">
             @php
                 $counter = 0;
+                $sales = $location->sales
+                    ->where('end_at', '>', $thisYear . '-01-01')
+                    ->where('start_at', '<', $thisYear . '-12-31');
             @endphp
-            @foreach ($location->sales as $locationSale)
+            @foreach ($sales as $sale)
                 @php
-                    $clients = json_decode($locationSale->quotation->clients);
+                    $clients = json_decode($sale->quotation->clients);
                     $counter++;
                 @endphp
-                @if ($locationSale->end_at > date('Y-m-d'))
-                    @php
-                        if (strtotime($locationSale->start_at) > strtotime(date($thisYear . '-01-01'))) {
+                @php
+                    if ($sale->end_at > date('Y-m-d')) {
+                        if (strtotime($sale->start_at) > strtotime(date($thisYear . '-01-01'))) {
                             $start =
-                                (strtotime($locationSale->start_at) - strtotime(date($thisYear . '-01-01'))) /
-                                60 /
-                                60 /
-                                24;
+                                (strtotime($sale->start_at) - strtotime(date($thisYear . '-01-01'))) / 60 / 60 / 24;
                         } else {
                             $start = 0;
                         }
-                        if (strtotime($locationSale->end_at) > strtotime(date($thisYear . '-12-31'))) {
+                        if (strtotime($sale->end_at) > strtotime(date($thisYear . '-12-31'))) {
                             $lineWidth =
-                                (strtotime(date($thisYear . '-12-31')) - strtotime($locationSale->start_at)) /
-                                60 /
-                                60 /
-                                24;
-                        } elseif (strtotime($locationSale->start_at) > strtotime(date($thisYear . '-01-01'))) {
-                            $lineWidth =
-                                (strtotime($locationSale->end_at) - strtotime($locationSale->start_at)) / 60 / 60 / 24;
+                                (strtotime(date($thisYear . '-12-31')) - strtotime($sale->start_at)) / 60 / 60 / 24;
+                        } elseif (strtotime($sale->start_at) > strtotime(date($thisYear . '-01-01'))) {
+                            $lineWidth = (strtotime($sale->end_at) - strtotime($sale->start_at)) / 60 / 60 / 24;
                         } else {
-                            $lineWidth =
-                                (strtotime($locationSale->end_at) - strtotime($thisYear . '-01-01')) / 60 / 60 / 24;
+                            $lineWidth = (strtotime($sale->end_at) - strtotime($thisYear . '-01-01')) / 60 / 60 / 24;
                         }
-                    @endphp
-                    <div class="absolute z-50">
-                        <div class="flex">
-                            @for ($i = 0; $i < 365; $i++)
-                                @if ($i < $start)
-                                    <div class="h-[2px] w-[1px]">
-                                    </div>
-                                @elseif($i == $start + 4)
-                                    @if (strtotime($locationSale->end_at) > strtotime(date($thisYear . '-01-01')))
+                    } elseif (
+                        strtotime(date($sale->end_at)) > strtotime(date($thisYear . '-01-01')) &&
+                        strtotime(date($sale->end_at)) < date('Y-m-d')
+                    ) {
+                        if (strtotime(date($sale->start_at)) > strtotime(date($thisYear . '-01-01'))) {
+                            $start =
+                                (strtotime($sale->start_at) - strtotime(date($thisYear . '-01-01'))) / 60 / 60 / 24;
+                            $lineWidth = (strtotime(date($sale->end_at)) - strtotime($sale->start_at)) / 60 / 60 / 24;
+                        } else {
+                            $start = 0;
+                            $lineWidth =
+                                (strtotime(date($sale->end_at)) - strtotime(date($thisYear . '-01-01'))) / 60 / 60 / 24;
+                        }
+                    }
+                @endphp
+                <div class="absolute z-50">
+                    <div class="flex">
+                        @for ($i = 0; $i <= $start; $i++)
+                            @if ($i == $start)
+                                @if ($sale->end_at > date('Y-m-d'))
+                                    @if (strtotime($sale->end_at) > strtotime(date($thisYear . '-01-01')))
                                         @if ($lineWidth <= 31)
                                             <a
-                                                href="/marketing/sales/{{ $locationSale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
+                                                href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
                                         @elseif ($lineWidth > 31 && $lineWidth <= 45)
                                             <a
-                                                href="/marketing/sales/{{ $locationSale->id }}">{{ substr($clients->name, 0, 6) }}..</a>
+                                                href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 6) }}..</a>
                                         @elseif ($lineWidth > 45 && $lineWidth <= 60)
                                             <a
-                                                href="/marketing/sales/{{ $locationSale->id }}">{{ substr($clients->name, 0, 8) }}..</a>
+                                                href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 8) }}..</a>
                                         @else
-                                            <a
-                                                href="/marketing/sales/{{ $locationSale->id }}">{{ $clients->name }}</a>
+                                            <a href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
                                         @endif
                                     @endif
+                                @elseif (strtotime(date($sale->end_at)) > strtotime(date($thisYear . '-01-01')) &&
+                                        strtotime(date($sale->end_at)) < date('Y-m-d'))
+                                    @if ($lineWidth - $start <= 31)
+                                        <a
+                                            href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
+                                    @else
+                                        <a href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
+                                    @endif
                                 @endif
-                            @endfor
-                        </div>
-                        <div class="flex">
-                            @if ($locationSale->start_at < date('Y-m-d'))
+                            @else
+                                <div class="h-[2px] w-[1px]">
+                                </div>
+                            @endif
+                        @endfor
+                    </div>
+                    <div class="flex">
+                        @if ($sale->start_at < date('Y-m-d'))
+                            @if (date($sale->end_at) < date('Y-m-d'))
                                 @for ($i = 0; $i < 365; $i++)
                                     @if ($i < $start)
                                         <div class="h-[2px] w-[1px]">
                                         </div>
                                     @elseif($i >= $start && $i <= $lineWidth + $start)
-                                        @if ($locationSale->company_id == '1')
-                                            <div class="h-[2px] bg-red-700 w-[1px]">
-                                            </div>
-                                        @elseif ($locationSale->company_id == '3')
-                                            <div class="h-[2px] bg-lime-700 w-[1px]">
+                                        @if ($counter % 2 == 0)
+                                            <div class="h-[2px] bg-stone-600 w-[1px]">
                                             </div>
                                         @else
-                                            <div class="h-[2px] bg-blue-700 w-[1px]">
+                                            <div class="h-[2px] bg-stone-400 w-[1px]">
                                             </div>
                                         @endif
                                     @endif
                                 @endfor
                             @else
-                                @for ($i = 0; $i < 365; $i++)
-                                    @if ($i < $start)
-                                        <div class="h-[2px] w-[1px]">
-                                        </div>
-                                    @elseif($i >= $start && $i <= $lineWidth + $start)
-                                        <div class="h-[2px] bg-stone-700 w-[1px]">
-                                        </div>
-                                    @endif
-                                @endfor
-                            @endif
-                        </div>
-                    </div>
-                @elseif (strtotime(date($locationSale->end_at)) > strtotime(date($thisYear . '-01-01')) &&
-                        strtotime(date($locationSale->end_at)) < date('Y-m-d'))
-                    @php
-                        if (strtotime(date($locationSale->start_at)) > strtotime(date($thisYear . '-01-01'))) {
-                            $start =
-                                (strtotime($locationSale->start_at) - strtotime(date($thisYear . '-01-01'))) /
-                                60 /
-                                60 /
-                                24;
-                            $lineWidth =
-                                (strtotime(date($locationSale->end_at)) - strtotime($locationSale->start_at)) /
-                                60 /
-                                60 /
-                                24;
-                        } else {
-                            $start = 0;
-                            $lineWidth =
-                                (strtotime(date($locationSale->end_at)) - strtotime(date($thisYear . '-01-01'))) /
-                                60 /
-                                60 /
-                                24;
-                        }
-                    @endphp
-                    <div class="absolute z-50">
-                        <div class="flex">
-                            @for ($i = 0; $i < 365; $i++)
-                                @if ($i < $start)
-                                    <div class="w-[1px]">
-                                    </div>
-                                @elseif($i == $start)
-                                    @if ($lineWidth - $start <= 31)
-                                        <a
-                                            href="/marketing/sales/{{ $locationSale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
-                                    @else
-                                        <a href="/marketing/sales/{{ $locationSale->id }}">{{ $clients->name }}</a>
-                                    @endif
+                                @if ($sale->company_id == '1')
+                                    @for ($i = 0; $i < 365; $i++)
+                                        @if ($i < $start)
+                                            <div class="h-[2px] w-[1px]">
+                                            </div>
+                                        @elseif($i >= $start && $i <= $lineWidth + $start)
+                                            <div class="h-[2px] bg-red-700 w-[1px]">
+                                            </div>
+                                        @endif
+                                    @endfor
+                                @elseif ($sale->company_id == '3')
+                                    @for ($i = 0; $i < 365; $i++)
+                                        @if ($i < $start)
+                                            <div class="h-[2px] w-[1px]">
+                                            </div>
+                                        @elseif($i >= $start && $i <= $lineWidth + $start)
+                                            <div class="h-[2px] bg-lime-700 w-[1px]">
+                                            </div>
+                                        @endif
+                                    @endfor
+                                @else
+                                    @for ($i = 0; $i < 365; $i++)
+                                        @if ($i < $start)
+                                            <div class="h-[2px] w-[1px]">
+                                            </div>
+                                        @elseif($i >= $start && $i <= $lineWidth + $start)
+                                            @if ($sale->company_id == '1')
+                                                <div class="h-[2px] bg-red-700 w-[1px]">
+                                                </div>
+                                            @elseif ($sale->company_id == '3')
+                                                <div class="h-[2px] bg-lime-700 w-[1px]">
+                                                </div>
+                                            @else
+                                                <div class="h-[2px] bg-blue-700 w-[1px]">
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endfor
                                 @endif
-                            @endfor
-                        </div>
-                        <div class="flex">
+                            @endif
+                        @else
                             @for ($i = 0; $i < 365; $i++)
                                 @if ($i < $start)
                                     <div class="h-[2px] w-[1px]">
                                     </div>
                                 @elseif($i >= $start && $i <= $lineWidth + $start)
-                                    @if ($counter % 2 == 0)
-                                        <div class="h-[2px] bg-stone-600 w-[1px]">
-                                        </div>
-                                    @else
-                                        <div class="h-[2px] bg-stone-400 w-[1px]">
-                                        </div>
-                                    @endif
+                                    <div class="h-[2px] bg-stone-700 w-[1px]">
+                                    </div>
                                 @endif
                             @endfor
-                        </div>
+                        @endif
                     </div>
-                @endif
+                </div>
             @endforeach
         </div>
     </td>

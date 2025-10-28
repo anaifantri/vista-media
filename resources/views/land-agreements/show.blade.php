@@ -185,7 +185,7 @@
                                 <div class="w-[275px] pl-2 py-2">
                                     <label
                                         class="text-xs font-semibold text-stone-900 flex justify-center w-full border-b">PIHAK
-                                        PERTAMA</label>
+                                        PENYEWA</label>
                                     <div class="flex mt-2">
                                         <label class="text-xs text-stone-900 w-16">Nama</label>
                                         <label
@@ -218,7 +218,7 @@
                                 <div class="w-[275px] pl-2 py-2">
                                     <label
                                         class="text-xs font-semibold text-stone-900 flex justify-center w-full border-b">PIHAK
-                                        KEDUA</label>
+                                        YANG MENYEWAKAN</label>
                                     <div class="flex mt-2">
                                         <label class="text-xs text-stone-900 w-16">Nama</label>
                                         <label

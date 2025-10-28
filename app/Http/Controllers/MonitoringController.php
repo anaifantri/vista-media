@@ -37,7 +37,28 @@ class MonitoringController extends Controller
                 'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(30)->withQueryString(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'title' => 'Daftar Data Pembayaran Tagihan Listrik',
+                'title' => 'Daftar Data Pemantauan Bulanan',
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'monitorings', 'sales')
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function monitoringReport(): View
+    {
+        if(Gate::allows('isMonitoring') && Gate::allows('isWorkshopRead')){
+            $areas = Area::with('locations')->get();
+            $cities = City::with('locations')->get();
+            $sales = Sale::with('location')->get();
+            $media_sizes = MediaSize::with('locations')->get();
+            $media_categories = MediaCategory::with('locations')->get();
+            $monitorings = Monitoring::with('location')->get();
+            return view ('monitorings.monitoring-report', [
+                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->get(),
+                'areas'=>Area::all(),
+                'cities'=>City::all(),
+                'title' => 'List Pemantauan Bulanan',
                 compact('areas', 'cities', 'media_sizes', 'media_categories', 'monitorings', 'sales')
             ]);
         } else {

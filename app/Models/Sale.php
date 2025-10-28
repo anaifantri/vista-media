@@ -293,5 +293,13 @@ class Sale extends Model
         return $this->hasMany(TakeOutContent::class, 'sale_id', 'id');
     }
 
+    public function complaints(){
+        return $this->hasMany(Complaint::class, 'sale_id', 'id');
+    }
+
+    public function complaint_responses(){
+        return $this->hasMany(ComplaintResponse::class, 'sale_id', 'id');
+    }
+
     public $sortable = ['number'];
 }

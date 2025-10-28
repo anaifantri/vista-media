@@ -244,16 +244,6 @@
             @include('electrical-powers.electrical-view')
             @include('electrical-powers.pdf-format')
             @include('electrical-powers.excel-format')
-            {{-- @if (request('rbView'))
-                @if (request('rbView') == 'electricalView')
-                    @include('electrical-powers.electrical-view')
-                @else
-                    @include('electrical-powers.location-view')
-                @endif
-            @else
-                @include('electrical-powers.electrical-view')
-            @endif --}}
-            <!-- View end -->
         </div>
     </div>
 

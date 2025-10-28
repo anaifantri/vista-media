@@ -60,6 +60,15 @@
                     </svg>
                     <span class="mx-1">Save PDF</span>
                 </button>
+                <button id="btnExportExcel" class="flex justify-center items-center mx-1 btn-success mb-2"
+                    title="Create PDF" type="button">
+                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M14 3h2.997v5h-2.997v-5zm9 1v20h-22v-24h17.997l4.003 4zm-17 5h12v-7h-12v7zm14 4h-16v9h16v-9z" />
+                    </svg>
+                    <span class="mx-1 text-white">Export to EXCEL</span>
+                </button>
                 <a class="flex justify-center items-center mx-1 btn-danger"
                     href="/marketing/sales-report/{{ $company->id }}">
                     <svg class="fill-current w-5 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"

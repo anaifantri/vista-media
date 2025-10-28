@@ -39,15 +39,16 @@ class LicenseController extends Controller
             $licenses = License::with('location')->get();
             $licensing_categories = LicensingCategory::with('licenses')->get();
             return response()-> view ('licenses.index', [
-                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(30)->withQueryString(),
+                'export_locations'=>Location::filter(request('search'))->area()->city()->condition()->category()->sortable()->get(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
-                'prinsip'=>$prinsip,
-                'pbg'=>$pbg,
-                'slf'=>$slf,
-                'ipr'=>$ipr,
-                'skpd'=>$skpd,
-                'sspd'=>$sspd,
+                'prinsip'=>$prinsip->id,
+                'pbg'=>$pbg->id,
+                'slf'=>$slf->id,
+                'ipr'=>$ipr->id,
+                'skpd'=>$skpd->id,
+                'sspd'=>$sspd->id,
                 'title' => 'Daftar Data Perizinan',
                 compact('areas', 'cities', 'media_sizes', 'media_categories', 'licenses', 'licensing_categories')
             ]);
@@ -72,7 +73,8 @@ class LicenseController extends Controller
             $licenses = License::with('location')->get();
             $licensing_categories = LicensingCategory::with('licenses')->get();
             return view ('licenses.active-licenses', [
-                'locations'=>Location::activeLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'locations'=>Location::activeLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(30)->withQueryString(),
+                'export_locations'=>Location::activeLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->get(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
                 'prinsip'=>$prinsip->id,
@@ -105,7 +107,8 @@ class LicenseController extends Controller
             $licenses = License::with('location')->get();
             $licensing_categories = LicensingCategory::with('licenses')->get();
             return view ('licenses.expired-licenses', [
-                'locations'=>Location::expiredLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'locations'=>Location::expiredLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(30)->withQueryString(),
+                'export_locations'=>Location::expiredLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->get(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
                 'prinsip'=>$prinsip->id,
@@ -138,7 +141,8 @@ class LicenseController extends Controller
             $licenses = License::with('location')->get();
             $licensing_categories = LicensingCategory::with('licenses')->get();
             return view ('licenses.expired-soon-licenses', [
-                'locations'=>Location::expiredSoonLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(15)->withQueryString(),
+                'locations'=>Location::expiredSoonLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->paginate(30)->withQueryString(),
+                'export_locations'=>Location::expiredSoonLicenses()->filter(request('search'))->area()->city()->condition()->category()->sortable()->get(),
                 'areas'=>Area::all(),
                 'cities'=>City::all(),
                 'prinsip'=>$prinsip->id,

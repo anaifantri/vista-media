@@ -365,7 +365,7 @@
                                                             @elseif ($description->lighting == 'Frontlight')
                                                                 FL
                                                             @else
-                                                                t
+                                                                -
                                                             @endif
                                                         @else
                                                             -

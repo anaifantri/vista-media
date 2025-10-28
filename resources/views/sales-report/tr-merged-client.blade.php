@@ -67,47 +67,58 @@
             @endphp
             <div class="absolute z-50">
                 <div class="flex">
-                    @for ($i = 0; $i < 365; $i++)
-                        @if ($i < $start)
-                            <div class="h-[2px] w-[1px]">
-                            </div>
-                        @elseif($i == $start + 4)
-                            @if (strtotime($videotronSale->end_at) > strtotime(date($thisYear . '-01-01')))
-                                @if ($lineWidth <= 31)
-                                    <a
-                                        href="/marketing/sales/{{ $videotronSale->id }}">{{ substr($lastClient->name, 0, 4) }}</a>
-                                @elseif ($lineWidth > 31 && $lineWidth <= 45)
-                                    <a
-                                        href="/marketing/sales/{{ $videotronSale->id }}">{{ substr($lastClient->name, 0, 6) }}</a>
-                                @elseif ($lineWidth > 45 && $lineWidth <= 60)
-                                    <a
-                                        href="/marketing/sales/{{ $videotronSale->id }}">{{ substr($lastClient->name, 0, 8) }}</a>
-                                @else
-                                    <a href="/marketing/sales/{{ $videotronSale->id }}">{{ $lastClient->name }}</a>
-                                @endif
-                            @endif
-                        @endif
+                    @for ($i = 0; $i < $start; $i++)
+                        <div class="h-[2px] w-[1px]">
+                        </div>
                     @endfor
+                    @if (strtotime($videotronSale->end_at) > strtotime(date($thisYear . '-01-01')))
+                        @if ($lineWidth <= 31)
+                            <a
+                                href="/marketing/sales/{{ $videotronSale->id }}">{{ substr($lastClient->name, 0, 4) }}</a>
+                        @elseif ($lineWidth > 31 && $lineWidth <= 45)
+                            <a
+                                href="/marketing/sales/{{ $videotronSale->id }}">{{ substr($lastClient->name, 0, 6) }}</a>
+                        @elseif ($lineWidth > 45 && $lineWidth <= 60)
+                            <a
+                                href="/marketing/sales/{{ $videotronSale->id }}">{{ substr($lastClient->name, 0, 8) }}</a>
+                        @else
+                            <a href="/marketing/sales/{{ $videotronSale->id }}">{{ $lastClient->name }}</a>
+                        @endif
+                    @endif
                 </div>
                 <div class="flex">
                     @if ($videotronSale->start_at < date('Y-m-d'))
-                        @for ($i = 0; $i < 365; $i++)
-                            @if ($i < $start)
-                                <div class="h-[2px] w-[1px]">
-                                </div>
-                            @elseif($i >= $start && $i <= $lineWidth + $start)
-                                @if ($videotronSale->company_id == '1')
+                        @if ($videotronSale->company_id == '1')
+                            @for ($i = 0; $i < 365; $i++)
+                                @if ($i < $start)
+                                    <div class="h-[2px] w-[1px]">
+                                    </div>
+                                @elseif($i >= $start && $i <= $lineWidth + $start)
                                     <div class="h-[2px] bg-red-700 w-[1px]">
                                     </div>
-                                @elseif ($videotronSale->company_id == '3')
+                                @endif
+                            @endfor
+                        @elseif ($videotronSale->company_id == '3')
+                            @for ($i = 0; $i < 365; $i++)
+                                @if ($i < $start)
+                                    <div class="h-[2px] w-[1px]">
+                                    </div>
+                                @elseif($i >= $start && $i <= $lineWidth + $start)
                                     <div class="h-[2px] bg-lime-700 w-[1px]">
                                     </div>
-                                @else
-                                    <div class="h-[2px] bg-blue-700 w-[1px]">
+                                @endif
+                            @endfor
+                        @else
+                            @for ($i = 0; $i < 365; $i++)
+                                @if ($i < $start)
+                                    <div class="h-[2px] w-[1px]">
+                                    </div>
+                                @elseif($i >= $start && $i <= $lineWidth + $start)
+                                    <div class="h-[2px] bg-lime-700 w-[1px]">
                                     </div>
                                 @endif
-                            @endif
-                        @endfor
+                            @endfor
+                        @endif
                     @else
                         @for ($i = 0; $i < 365; $i++)
                             @if ($i < $start)
