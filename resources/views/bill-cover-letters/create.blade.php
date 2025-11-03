@@ -1,120 +1,243 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <?php
-    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
-    $receiptContent = json_decode($billings[0]->receipt_content);
-    $invoiceContent = json_decode($billings[0]->invoice_content);
-    $billTitle = $receiptContent->title;
-    if (count($receiptContent->locations) > 1) {
-        $billLocation = 'tertera pada invoice';
-    } else {
-        $billLocation = $receiptContent->locations[0];
-    }
-    $approvals = $invoiceContent->approval;
-    $orders = $invoiceContent->orders;
-    if (isset($invoiceContent->agreements)) {
-        $agreements = $invoiceContent->agreements;
-    } else {
-        $agreements = [];
-    }
-    
-    $attachments = [];
-    if ($category == 'Service') {
-        $approvalId = $approvals->id;
-    } else {
-        if (!empty($approvals)) {
-            if (is_array($approvals)) {
-                $approvalId = $approvals[0]->id;
+    @php
+        $bulan = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+        $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+        $receiptContent = json_decode($billings[0]->receipt_content);
+        $invoiceContent = json_decode($billings[0]->invoice_content);
+        $billTitle = $receiptContent->title;
+        if (count($receiptContent->locations) > 1) {
+            $billLocation = 'tertera pada invoice';
+        } else {
+            $billLocation = $receiptContent->locations[0];
+        }
+        $approvals = $invoiceContent->approval;
+        $orders = $invoiceContent->orders;
+        if (isset($invoiceContent->agreements)) {
+            $agreements = $invoiceContent->agreements;
+        } else {
+            $agreements = [];
+        }
+
+        $attachments = [];
+        if ($category == 'Service') {
+            $approvalId = $approvals->id;
+        } else {
+            if (!empty($approvals)) {
+                if (is_array($approvals)) {
+                    $approvalId = $approvals[0]->id;
+                } else {
+                    $approvalId = $approvals->id;
+                }
             } else {
-                $approvalId = $approvals->id;
+                $approvalId = '';
+            }
+        }
+        $orderId = [];
+        $agreementId = [];
+        $vatTaxId = [];
+        $billingNumber = [];
+        $workReportId = [];
+        if (isset($client->company) && $client->company == 'PT. Gudang Garam Tbk') {
+            array_push($attachments, 'Surat Pengantar');
+            $indexOrder = 1;
+            $firstOrderNumber = $orders[0]->number;
+            $i = 0;
+            foreach ($orders as $order) {
+                if ($i == 0) {
+                    array_push($orderId, $order->id);
+                    array_push(
+                        $attachments,
+                        'Copy Purchase Order (PO) No. ' .
+                            $order->number .
+                            ' Tanggal ' .
+                            date('d', strtotime($order->date)) .
+                            ' ' .
+                            $bulan[(int) date('m', strtotime($order->date))] .
+                            ' ' .
+                            date('Y', strtotime($order->date)),
+                    );
+                } elseif ($order->number != $firstOrderNumber) {
+                    array_push($orderId, $order->id);
+                    array_push(
+                        $attachments,
+                        'Copy Purchase Order (PO) No. ' .
+                            $order->number .
+                            ' Tanggal ' .
+                            date('d', strtotime($order->date)) .
+                            ' ' .
+                            $bulan[(int) date('m', strtotime($order->date))] .
+                            ' ' .
+                            date('Y', strtotime($order->date)),
+                    );
+                }
+                $i++;
+            }
+            foreach ($agreements as $agreement) {
+                array_push($agreementId, $agreement->id);
+                array_push(
+                    $attachments,
+                    'Copy Surat Perjanjian No. ' .
+                        $agreement->number .
+                        ' Tanggal ' .
+                        date('d', strtotime($agreement->date)) .
+                        ' ' .
+                        $bulan[(int) date('m', strtotime($agreement->date))] .
+                        ' ' .
+                        date('Y', strtotime($agreement->date)),
+                );
+            }
+            array_push($attachments, 'Lembar Evaluasi Pekerjaan (LEP)');
+            array_push($attachments, 'Berita Acara Serah Terima Pekerjaan (BASTP)');
+            array_push($attachments, 'Dokumentasi Pekerjaan');
+            foreach ($billings as $billing) {
+                array_push($billingNumber, $billing->invoice_number);
+                array_push(
+                    $attachments,
+                    'Invoice No. ' .
+                        $billing->invoice_number .
+                        ' Tanggal ' .
+                        date('d', strtotime($billing->created_at)) .
+                        ' ' .
+                        $bulan[(int) date('m', strtotime($billing->created_at))] .
+                        ' ' .
+                        date('Y', strtotime($billing->created_at)),
+                );
+                array_push(
+                    $attachments,
+                    'Kwitansi No. ' .
+                        $billing->receipt_number .
+                        ' Tanggal ' .
+                        date('d', strtotime($billing->created_at)) .
+                        ' ' .
+                        $bulan[(int) date('m', strtotime($billing->created_at))] .
+                        ' ' .
+                        date('Y', strtotime($billing->created_at)),
+                );
+                if ($billing->vat_tax_invoice) {
+                    array_push($vatTaxId, $billing->vat_tax_invoice->id);
+                    array_push(
+                        $attachments,
+                        'Faktur Pajak No. ' .
+                            $billing->vat_tax_invoice->number .
+                            ' Tanggal ' .
+                            date('d', strtotime($billing->vat_tax_invoice->created_at)) .
+                            ' ' .
+                            $bulan[(int) date('m', strtotime($billing->vat_tax_invoice->created_at))] .
+                            ' ' .
+                            date('Y', strtotime($billing->vat_tax_invoice->created_at)),
+                    );
+                }
             }
         } else {
-            $approvalId = '';
-        }
-    }
-    $orderId = [];
-    $agreementId = [];
-    $vatTaxId = [];
-    $billingNumber = [];
-    $workReportId = [];
-    if (isset($client->company) && $client->company == 'PT. Gudang Garam Tbk') {
-        array_push($attachments, 'Surat Pengantar');
-        $indexOrder = 1;
-        $firstOrderNumber = $orders[0]->number;
-        $i = 0;
-        foreach ($orders as $order) {
-            if ($i == 0) {
+            $attachments[0] = 'Surat Pengantar';
+            $attachments[1] = 'Copy Penawaran';
+            $index = 2;
+            foreach ($orders as $order) {
                 array_push($orderId, $order->id);
-                array_push($attachments, 'Copy Purchase Order (PO) No. ' . $order->number . ' Tanggal ' . date('d', strtotime($order->date)) . ' ' . $bulan[(int) date('m', strtotime($order->date))] . ' ' . date('Y', strtotime($order->date)));
-            } elseif ($order->number != $firstOrderNumber) {
-                array_push($orderId, $order->id);
-                array_push($attachments, 'Copy Purchase Order (PO) No. ' . $order->number . ' Tanggal ' . date('d', strtotime($order->date)) . ' ' . $bulan[(int) date('m', strtotime($order->date))] . ' ' . date('Y', strtotime($order->date)));
+                $attachments[$index] =
+                    'Copy Purchase Order (PO) No. ' .
+                    $order->number .
+                    ' Tanggal ' .
+                    date('d', strtotime($order->date)) .
+                    ' ' .
+                    $bulan[(int) date('m', strtotime($order->date))] .
+                    ' ' .
+                    date('Y', strtotime($order->date));
+                $index++;
             }
-            $i++;
-        }
-        foreach ($agreements as $agreement) {
-            array_push($agreementId, $agreement->id);
-            array_push($attachments, 'Copy Surat Perjanjian No. ' . $agreement->number . ' Tanggal ' . date('d', strtotime($agreement->date)) . ' ' . $bulan[(int) date('m', strtotime($agreement->date))] . ' ' . date('Y', strtotime($agreement->date)));
-        }
-        array_push($attachments, 'Lembar Evaluasi Pekerjaan (LEP)');
-        array_push($attachments, 'Berita Acara Serah Terima Pekerjaan (BASTP)');
-        array_push($attachments, 'Dokumentasi Pekerjaan');
-        foreach ($billings as $billing) {
-            array_push($billingNumber, $billing->invoice_number);
-            array_push($attachments, 'Invoice No. ' . $billing->invoice_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at)));
-            array_push($attachments, 'Kwitansi No. ' . $billing->receipt_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at)));
-            if ($billing->vat_tax_invoice) {
-                array_push($vatTaxId, $billing->vat_tax_invoice->id);
-                array_push($attachments, 'Faktur Pajak No. ' . $billing->vat_tax_invoice->number . ' Tanggal ' . date('d', strtotime($billing->vat_tax_invoice->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->vat_tax_invoice->created_at))] . ' ' . date('Y', strtotime($billing->vat_tax_invoice->created_at)));
+            foreach ($agreements as $agreement) {
+                array_push($agreementId, $agreement->id);
+                $attachments[$index] =
+                    'Copy Surat Perjanjian No. ' .
+                    $agreement->number .
+                    ' Tanggal ' .
+                    date('d', strtotime($agreement->date)) .
+                    ' ' .
+                    $bulan[(int) date('m', strtotime($agreement->date))] .
+                    ' ' .
+                    date('Y', strtotime($agreement->date));
+                $index++;
             }
-        }
-    } else {
-        $attachments[0] = 'Surat Pengantar';
-        $attachments[1] = 'Copy Penawaran';
-        $index = 2;
-        foreach ($orders as $order) {
-            array_push($orderId, $order->id);
-            $attachments[$index] = 'Copy Purchase Order (PO) No. ' . $order->number . ' Tanggal ' . date('d', strtotime($order->date)) . ' ' . $bulan[(int) date('m', strtotime($order->date))] . ' ' . date('Y', strtotime($order->date));
-            $index++;
-        }
-        foreach ($agreements as $agreement) {
-            array_push($agreementId, $agreement->id);
-            $attachments[$index] = 'Copy Surat Perjanjian No. ' . $agreement->number . ' Tanggal ' . date('d', strtotime($agreement->date)) . ' ' . $bulan[(int) date('m', strtotime($agreement->date))] . ' ' . date('Y', strtotime($agreement->date));
-            $index++;
-        }
-        foreach ($billings as $billing) {
-            $attachments[$index] = 'Invoice No. ' . $billing->invoice_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at));
-            $attachments[$index + 1] = 'Kwitansi No. ' . $billing->receipt_number . ' Tanggal ' . date('d', strtotime($billing->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->created_at))] . ' ' . date('Y', strtotime($billing->created_at));
-            if ($billing->vat_tax_invoice) {
-                array_push($vatTaxId, $billing->vat_tax_invoice->id);
-                $attachments[$index + 2] = 'Faktur Pajak No. ' . $billing->vat_tax_invoice->number . ' Tanggal ' . date('d', strtotime($billing->vat_tax_invoice->created_at)) . ' ' . $bulan[(int) date('m', strtotime($billing->vat_tax_invoice->created_at))] . ' ' . date('Y', strtotime($billing->vat_tax_invoice->created_at));
+            foreach ($billings as $billing) {
+                $attachments[$index] =
+                    'Invoice No. ' .
+                    $billing->invoice_number .
+                    ' Tanggal ' .
+                    date('d', strtotime($billing->created_at)) .
+                    ' ' .
+                    $bulan[(int) date('m', strtotime($billing->created_at))] .
+                    ' ' .
+                    date('Y', strtotime($billing->created_at));
+                $attachments[$index + 1] =
+                    'Kwitansi No. ' .
+                    $billing->receipt_number .
+                    ' Tanggal ' .
+                    date('d', strtotime($billing->created_at)) .
+                    ' ' .
+                    $bulan[(int) date('m', strtotime($billing->created_at))] .
+                    ' ' .
+                    date('Y', strtotime($billing->created_at));
+                if ($billing->vat_tax_invoice) {
+                    array_push($vatTaxId, $billing->vat_tax_invoice->id);
+                    $attachments[$index + 2] =
+                        'Faktur Pajak No. ' .
+                        $billing->vat_tax_invoice->number .
+                        ' Tanggal ' .
+                        date('d', strtotime($billing->vat_tax_invoice->created_at)) .
+                        ' ' .
+                        $bulan[(int) date('m', strtotime($billing->vat_tax_invoice->created_at))] .
+                        ' ' .
+                        date('Y', strtotime($billing->vat_tax_invoice->created_at));
+                }
+                $index = $index + 2;
             }
-            $index = $index + 2;
+            $attachments[$index + 1] = 'Surat Pemberitahuan Nomor Seri Faktur Pajak dari Kantor Pajak';
+            $attachments[$index + 2] = 'Berita Acara Serah Terima Pekerjaan (BASTP)';
+            $attachments[$index + 3] = 'Dokumentasi Pekerjaan';
         }
-        $attachments[$index + 1] = 'Surat Pemberitahuan Nomor Seri Faktur Pajak dari Kantor Pajak';
-        $attachments[$index + 2] = 'Berita Acara Serah Terima Pekerjaan (BASTP)';
-        $attachments[$index + 3] = 'Dokumentasi Pekerjaan';
-    }
-    
-    $content = new stdClass();
-    if ($category == 'Service') {
-        $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' . $billTitle . ' dengan tema ' . $receiptContent->theme . ' dengan perincian sebagai berikut :';
-    } else {
-        $content->letter_top = 'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' . $billTitle . ' yang berlokasi di ' . $billLocation . ', dengan perincian sebagai berikut :';
-    }
-    $content->attachments = $attachments;
-    $content->client = $client;
-    $content->billing_number = $billingNumber;
-    $content->category = $category;
-    
-    $created_by = new stdClass();
-    $created_by->id = auth()->user()->id;
-    $created_by->name = auth()->user()->name;
-    $created_by->position = auth()->user()->position;
-    $created_by->phone = auth()->user()->phone;
-    ?>
+
+        $content = new stdClass();
+        if ($category == 'Service') {
+            $content->letter_top =
+                'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' .
+                $billTitle .
+                ' dengan tema ' .
+                $receiptContent->theme .
+                ' dengan perincian sebagai berikut :';
+        } else {
+            $content->letter_top =
+                'Bersama ini kami sampaikan perlengkapan dokumen untuk memenuhi persyaratan penagihan atas jasa ' .
+                $billTitle .
+                ' yang berlokasi di ' .
+                $billLocation .
+                ', dengan perincian sebagai berikut :';
+        }
+        $content->attachments = $attachments;
+        $content->client = $client;
+        $content->billing_number = $billingNumber;
+        $content->category = $category;
+
+        $created_by = new stdClass();
+        $created_by->id = auth()->user()->id;
+        $created_by->name = auth()->user()->name;
+        $created_by->position = auth()->user()->position;
+        $created_by->phone = auth()->user()->phone;
+    @endphp
     <!-- Quotation start -->
     <form id="formCreate" action="/accounting/bill-cover-letters" method="post" enctype="multipart/form-data">
         @csrf
@@ -224,7 +347,7 @@
                                                 checked>
                                             <input id="attachmentValue" type="text"
                                                 class="ml-1 text-sm text-black outline-none border rounded-md px-1 w-full"
-                                                value="{{ $item }}" onchange="changeAttachment(this)">
+                                                value="{{ $item }}" onchange="changeAttachments(this)">
                                         </div>
                                     @endforeach
                                     <div class="flex mt-2">
@@ -297,12 +420,19 @@
             const divAttachment = document.createElement("div");
             const cbAttachment = document.createElement("input");
             const inputAttachment = document.createElement("input");
+            const cbValue = "cbAttachment" + (attachmentQty - 1);
             divAttachment.classList.add("flex");
             inputAttachment.classList.add("input-attachment");
+            inputAttachment.setAttribute("id", "attachmentValue");
             inputAttachment.setAttribute("type", "text");
+            inputAttachment.setAttribute("onchange", "changeAttachments(this)");
             divAttachment.classList.add("flex");
             cbAttachment.classList.add("outline-none");
             cbAttachment.setAttribute("type", "checkbox");
+            cbAttachment.setAttribute("value", cbValue);
+            cbAttachment.setAttribute("checked", "checked");
+            cbAttachment.setAttribute("id", "cbAttachment");
+            cbAttachment.setAttribute("onchange", "cbAttachmentChange(this)");
 
             divAttachment.appendChild(cbAttachment);
             divAttachment.appendChild(inputAttachment);
@@ -318,6 +448,7 @@
             const attachment = document.getElementById("attachment");
             if (attachment.children.length > attachmentQty) {
                 attachment.removeChild(attachment.children[attachment.children.length - 2]);
+                setAttachments();
             } else {
                 alert("Tidak ada tambahan lampiran yang bisa dihapus");
             }
@@ -328,20 +459,13 @@
             const attachmentValue = document.querySelectorAll('[id=attachmentValue]');
             const cbAttachment = document.querySelectorAll('[id=cbAttachment]');
             var index = parseInt(sel.value.replace(/[A-Za-z$-]/g, ""));
-            content.attachments = [];
 
             if (sel.checked == true) {
                 attachmentValue[index].removeAttribute('disabled');
             } else {
                 attachmentValue[index].setAttribute('disabled', 'disabled');
             }
-
-            for (let i = 0; i < cbAttachment.length; i++) {
-                if (cbAttachment[i].checked == true && attachmentValue[i].value != "") {
-                    content.attachments.push(attachmentValue[i].value);
-                }
-            }
-            document.getElementById("letterContent").value = JSON.stringify(content);
+            setAttachments();
         }
 
         changeLetterTop = (sel) => {
@@ -352,6 +476,20 @@
                 content.letter_top = sel.value;
                 document.getElementById("letterContent").value = JSON.stringify(content);
             }
+        }
+
+        changeAttachments = (sel) => {
+            setAttachments();
+        }
+
+        setAttachments = () => {
+            content.attachments = [];
+            for (let i = 0; i < cbAttachment.length; i++) {
+                if (cbAttachment[i].checked == true && attachmentValue[i].value != "") {
+                    content.attachments.push(attachmentValue[i].value);
+                }
+            }
+            document.getElementById("letterContent").value = JSON.stringify(content);
         }
     </script>
 @endsection

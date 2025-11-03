@@ -216,7 +216,7 @@ class Location extends Model
     }
 
     public function latestAgreement(){
-        return $this->hasOne(LandAgreement::class)->latestOfMany();
+        return $this->hasOne(LandAgreement::class)->latestOfMany('end_at');
     }
 
     public function print_orders(){

@@ -195,7 +195,7 @@
                                 $agreement = null;
                                 $secondParty = null;
                                 if (count($location->land_agreements) != 0) {
-                                    $agreement = $location->land_agreements->last();
+                                    $agreement = $location->latestAgreement;
                                     $secondParty = json_decode($agreement->second_party);
                                 }
                             @endphp

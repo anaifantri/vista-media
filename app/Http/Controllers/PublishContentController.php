@@ -31,7 +31,7 @@ class PublishContentController extends Controller
             $sale = Sale::with('publish_contents')->get();
             $location = Location::with('publish_contents')->get();
             return response()-> view ('publish-contents.index', [
-                'publish_contents'=>PublishContent::filter(request('search'))->month()->year()->sortable()->paginate(30)->withQueryString(),
+                'publish_contents'=>PublishContent::filter(request('search'))->month()->year()->sortable()->orderBy('publish_date', 'desc')->paginate(30)->withQueryString(),
                 'title' => 'Daftar Penayangan Materi Videotron',
                 compact('sale', 'location')
             ]);
@@ -47,7 +47,7 @@ class PublishContentController extends Controller
             $location = Location::with('publish_contents')->get();
             $takeout_content = TakeOutContent::with('publish_content')->get();
             return view ('publish-contents.publish-report', [
-                'publish_contents'=>PublishContent::filter(request('search'))->month()->year()->sortable()->get(),
+                'publish_contents'=>PublishContent::filter(request('search'))->month()->year()->sortable()->orderBy('publish_date', 'asc')->get(),
                 'title' => 'List Penayangan Materi Videotron',
                 compact('sale', 'location', 'takeout_content')
             ]);

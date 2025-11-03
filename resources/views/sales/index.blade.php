@@ -34,7 +34,7 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
-                <div class="w-[1200px]">
+                <div class="w-[1550px]">
                     <div class="flex  border-b">
                         @if (request('media_category_id'))
                             @if (request('media_category_id') == 'All')
@@ -237,7 +237,7 @@
                 </div>
             </div>
             <div class="flex justify-center">
-                <div class="w-[1200px] overflow-x-scroll overflow-y-auto bg-stone-300">
+                <div class="w-[1550px] overflow-x-scroll overflow-y-auto bg-stone-300">
                     <table class="table-auto w-max mb-6">
                         <thead class="sticky top-0 z-10">
                             <tr class="bg-stone-400">
@@ -294,7 +294,7 @@
                                 </th>
                             </tr>
                             <tr class="bg-stone-400">
-                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-10">Termin</th>
+                                <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-12">Termin</th>
                                 <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-[72px]">Nominal</th>
                                 <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-16">PPN</th>
                                 <th class="text-stone-900 border border-stone-900 text-[0.65rem] w-14">PPh</th>
@@ -682,7 +682,7 @@
                                         <div>
                                             @foreach ($payment_terms->dataPayments as $payment)
                                                 <div class="flex ml-1 justify-center">
-                                                    <label>{{ $payment->term }} %</label>
+                                                    <label>{{ round($payment->term, 2) }} %</label>
                                                 </div>
                                             @endforeach
                                         </div>

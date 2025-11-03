@@ -146,7 +146,7 @@
                                     </div>
                                     <div class="flex mt-2">
                                         <label class="text-xs text-stone-900 w-36">Harga Sewa</label>
-                                        <input id="price" name="price" onkeyup="countTotal()"
+                                        <input id="price" name="price" onkeyup="countTotal()" step="any"
                                             class="flex text-semibold in-out-spin-none w-32 border rounded-lg px-1 outline-none @error('price') is-invalid @enderror"
                                             type="number" min="0" placeholder="0" value="{{ old('price') }}"
                                             required>
@@ -159,10 +159,11 @@
                                     </div>
                                     <div class="flex mt-2">
                                         <label class="text-xs text-stone-900 w-36">Total Harga</label>
-                                        <input id="totalPrice" name="totalPrice"
+                                        <input id="totalPrice" name="totalPrice" onkeyup="totalPriceChange(this)"
+                                            step="any"
                                             class="flex text-semibold in-out-spin-none w-32 border rounded-lg px-1 outline-none"
                                             type="number" min="0" placeholder="0"
-                                            value="{{ old('totalPrice') }}" readonly>
+                                            value="{{ old('totalPrice') }}">
                                     </div>
                                     <div class="flex mt-2">
                                         <label class="text-xs text-stone-900 w-36">Tgl. Awal Perjanjian</label>
@@ -456,6 +457,13 @@
             oFReader.onload = function(oFREvent) {
                 imgPreview.src = oFREvent.target.result;
             }
+        }
+
+        totalPriceChange = (sel) => {
+            const duration = document.getElementById("duration");
+            const price = document.getElementById("price");
+
+            price.value = Number(sel.value) / Number(duration.value);
         }
 
         countTotal = () => {

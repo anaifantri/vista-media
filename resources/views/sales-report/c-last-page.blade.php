@@ -98,7 +98,7 @@
                     </th>
                 </tr>
                 <tr class="bg-teal-100">
-                    <th class="border border-black text-[0.65rem] w-10">Termin</th>
+                    <th class="border border-black text-[0.65rem] w-12">Termin</th>
                     <th class="border border-black text-[0.65rem] w-[72px]">Nominal</th>
                     <th class="border border-black text-[0.65rem] w-16">PPN</th>
                     <th class="border border-black text-[0.65rem] w-12">PPh</th>
@@ -114,7 +114,7 @@
                 @foreach ($sales as $sale)
                     @php
                         $voidFound = false;
-                        $cahngeFound = false;
+                        $changeFound = false;
                         if ($sale->void_sale) {
                             $voidSale = $sales->where('id', $sale->id);
                             if (count($voidSale) == 2) {
@@ -776,7 +776,7 @@
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex ml-1 justify-center">
-                                                        <label>{{ $terms->term }} %</label>
+                                                        <label>{{ round($terms->term, 2) }} %</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -861,7 +861,7 @@
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex ml-1 justify-center">
-                                                        <label>{{ $terms->term }} %</label>
+                                                        <label>{{ round($terms->term, 2) }} %</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -944,7 +944,7 @@
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex ml-1 justify-center">
-                                                <label>{{ $terms->term }} %</label>
+                                                <label>{{ round($terms->term, 2) }} %</label>
                                             </div>
                                         @endforeach
                                     </div>

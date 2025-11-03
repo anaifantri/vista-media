@@ -246,6 +246,7 @@
                     content.attachments.push(itemAttachment[i].value);
                 }
             }
+            inputContent.value = JSON.stringify(content);
         }
 
         changeLetterTop = (sel) => {

@@ -176,13 +176,16 @@
                             </tr>
                         </thead>
                         <tbody class="bg-stone-200">
+                            @php
+                                $number = 1 + ($billings->currentPage() - 1) * $billings->perPage();
+                            @endphp
                             @foreach ($billings as $billing)
                                 @php
                                     $client = json_decode($billing->client);
                                 @endphp
                                 <tr>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
-                                        {{ $loop->iteration }}
+                                        {{ $number++ }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ $billing->invoice_number }}

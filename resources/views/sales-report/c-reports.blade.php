@@ -215,7 +215,7 @@
             @foreach ($sales as $sale)
                 @php
                     $voidFound = false;
-                    $cahngeFound = false;
+                    $changeFound = false;
                     if ($sale->void_sale) {
                         $voidSale = $sales->where('id', $sale->id);
                         if (count($voidSale) == 2) {

@@ -68,7 +68,7 @@
                     <th class="sticky top-0 border border-black text-sm w-8">
                         No.
                     </th>
-                    <th class="sticky top-0 border border-black text-sm w-72">
+                    <th class="sticky top-0 border border-black text-sm w-64">
                         Klien
                     </th>
                     <th class="sticky top-0 border border-black text-sm text-center">
@@ -77,126 +77,113 @@
                     <th class="sticky top-0 border border-black text-sm w-[72px]">
                         Deskripsi
                     </th>
-                    <th class="sticky top-0 border border-black text-sm w-56">
+                    <th class="sticky top-0 border border-black text-sm w-52">
                         No. Invoice
                     </th>
                     <th class="sticky top-0 border border-black text-sm w-24">
                         Tgl. Invoice
                     </th>
-                    <th class="sticky top-0 border border-black text-sm w-32">
+                    <th class="sticky top-0 border border-black text-sm w-24">
                         Nominal
                     </th>
-                    <th class="sticky top-0 border border-black text-sm w-32">
+                    <th class="sticky top-0 border border-black text-sm w-24">
                         Pembayaran
                     </th>
-                    <th class="sticky top-0 border border-black text-sm w-32">
+                    <th class="sticky top-0 border border-black text-sm w-24">
                         Piutang
                     </th>
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $number = 0;
+                    $index = 0;
+                @endphp
                 @foreach ($receivables as $receivable)
                     @php
+                        $number++;
+                        $descriptionNumber = 0;
                         $client = json_decode($receivable->client);
                         $descriptions = json_decode($receivable->invoice_content)->description;
+                        $payment = $data_payments[$loop->iteration - 1];
                     @endphp
-                    @if ($i == 0)
-                        @if ($loop->iteration < 26)
-                            <tr>
-                                <td class="border border-black text-sm text-center align-center px-1">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="border border-black text-sm text-start align-center px-1">
-                                    {{ $client->company }}
-                                </td>
-                                <td class="border border-black text-sm text-start align-center px-1">
-                                    @foreach ($descriptions as $description)
-                                        @if ($description == end($descriptions))
-                                            {{ substr($description->location, 0, 8) }}
+                    @foreach ($descriptions as $description)
+                        @php
+                            $index++;
+                            $descriptionNumber++;
+                        @endphp
+                        @if ($index > $i * 30 && $index < ($i + 1) * 30 + 1)
+                            @if ($descriptionNumber == 1)
+                                <tr>
+                                    <td class="border-t border-x border-black text-sm text-center align-center px-1">
+                                        {{ $number }}
+                                    </td>
+                                    <td class="border-t border-x border-black text-sm text-start align-center px-1">
+                                        @if (isset($client->company))
+                                            @if (strlen($client->company) > 32)
+                                                {{ substr($client->company, 0, 30) }}..
+                                            @else
+                                                {{ $client->company }}
+                                            @endif
                                         @else
-                                            {{ substr($description->location, 0, 8) }} |
+                                            {{ $client->name }}
                                         @endif
-                                    @endforeach
-                                </td>
-                                <td class="border border-black text-sm text-center align-center px-1">
-                                    @if ($receivable->category == 'Media')
-                                        Media
-                                    @else
-                                        Revisual
-                                    @endif
-                                </td>
-                                <td class="border border-black text-sm text-center align-center px-1">
-                                    {{ $receivable->invoice_number }}
-                                </td>
-                                <td class="border border-black text-sm text-center align-center px-1">
-                                    {{ date('d-m-Y', strtotime($receivable->created_at)) }}
-                                </td>
-                                <td class="border border-black text-sm text-right align-center px-1">
-                                    @php
-                                        $billingNominal =
-                                            $receivable->nominal +
-                                            $receivable->ppn -
-                                            ($receivable->dpp / 11) * 12 * (2 / 100);
-                                    @endphp
-                                    {{ number_format($billingNominal) }}
-                                </td>
-                                <td class="border border-black text-sm text-right align-center px-1">
-                                    {{ number_format($data_payments[$loop->iteration - 1]) }}
-                                </td>
-                                <td class="border border-black text-sm text-right align-center px-1">
-                                    {{ number_format($billingNominal - $data_payments[$loop->iteration - 1]) }}
-                                </td>
-                            </tr>
-                        @endif
-                    @else
-                        @if ($loop->iteration > $i * 25 && $loop->iteration < ($i + 1) * 25 + 1)
-                            <tr>
-                                <td class="border border-black text-sm text-center align-center px-1">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="border border-black text-sm text-start align-center px-1">
-                                    {{ $client->company }}
-                                </td>
-                                <td class="border border-black text-sm text-start align-center px-1">
-                                    @foreach ($descriptions as $description)
-                                        @if ($description == end($descriptions))
-                                            {{ substr($description->location, 0, 8) }}
+                                    </td>
+                                    <td class="border-t border-x border-black text-sm text-start align-center px-1">
+                                        {{ $description->location }}
+                                    </td>
+                                    <td class="border-t border-x border-black text-sm text-center align-center px-1">
+                                        @if ($receivable->category == 'Media')
+                                            Media
                                         @else
-                                            {{ substr($description->location, 0, 8) }} |
+                                            Revisual
                                         @endif
-                                    @endforeach
-                                </td>
-                                <td class="border border-black text-sm text-center align-center px-1">
-                                    @if ($receivable->category == 'Media')
-                                        Media
-                                    @else
-                                        Revisual
-                                    @endif
-                                </td>
-                                <td class="border border-black text-sm text-center align-center px-1">
-                                    {{ $receivable->invoice_number }}
-                                </td>
-                                <td class="border border-black text-sm text-center align-center px-1">
-                                    {{ date('d-m-Y', strtotime($receivable->created_at)) }}
-                                </td>
-                                <td class="border border-black text-sm text-right align-center px-1">
-                                    @php
-                                        $billingNominal =
-                                            $receivable->nominal +
-                                            $receivable->ppn -
-                                            ($receivable->dpp / 11) * 12 * (2 / 100);
-                                    @endphp
-                                    {{ number_format($billingNominal) }}
-                                </td>
-                                <td class="border border-black text-sm text-right align-center px-1">
-                                    {{ number_format($data_payments[$loop->iteration - 1]) }}
-                                </td>
-                                <td class="border border-black text-sm text-right align-center px-1">
-                                    {{ number_format($billingNominal - $data_payments[$loop->iteration - 1]) }}
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="border-t border-x border-black text-sm text-center align-center px-1">
+                                        <a href="/accounting/billings/{{ $receivable->id }}">
+                                            {{ $receivable->invoice_number }}</a>
+                                    </td>
+                                    <td class="border-t border-x border-black text-sm text-center align-center px-1">
+                                        {{ date('d-m-Y', strtotime($receivable->created_at)) }}
+                                    </td>
+                                    <td class="border-t border-x border-black text-sm text-right align-center px-1">
+                                        @php
+                                            $billingNominal = $receivable->nominal + $receivable->ppn;
+                                        @endphp
+                                        {{ number_format($billingNominal) }}
+                                    </td>
+                                    <td class="border-t border-x border-black text-sm text-right align-center px-1">
+                                        {{ number_format($payment) }}
+                                    </td>
+                                    <td class="border-t border-x border-black text-sm text-right align-center px-1">
+                                        {{ number_format($billingNominal - $payment) }}
+                                    </td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td class="border-x border-black text-sm text-center align-center px-1">
+                                    </td>
+                                    <td class="border-x border-black text-sm text-start align-center px-1">
+                                    </td>
+                                    <td class="border-x border-black text-sm text-start align-center px-1">
+                                        {{ $description->location }}
+                                    </td>
+                                    <td class="border-x border-black text-sm text-center align-center px-1">
+                                    </td>
+                                    <td class="border-x border-black text-sm text-center align-center px-1">
+                                    </td>
+                                    <td class="border-x border-black text-sm text-center align-center px-1">
+                                    </td>
+                                    <td class="border-x border-black text-sm text-right align-center px-1">
+                                    </td>
+                                    <td class="border-x border-black text-sm text-right align-center px-1">
+                                    </td>
+                                    <td class="border-x border-black text-sm text-right align-center px-1">
+                                    </td>
+                                </tr>
+                            @endif
                         @endif
-                    @endif
+                    @endforeach
                 @endforeach
             </tbody>
         </table>

@@ -14,6 +14,8 @@ use App\Models\QuotationStatus;
 use App\Models\QuotationRevision;
 use App\Models\QuotRevisionStatus;
 use App\Models\Sale;
+use App\Models\ChangeSale;
+use App\Models\VoidSale;
 use App\Models\Billing;
 use App\Models\Payment;
 use App\Models\Company;
@@ -63,20 +65,27 @@ class DashboardController extends Controller
         $quotation_statuses = QuotationStatus::with('quotation')->get();
 
         for ($i=1; $i <= 12; $i++) { 
-            $thisYearSales = Sale::where('company_id', $companyId)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('price');
-            $prevYearSales = Sale::where('company_id', $companyId)->whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price');
+            $getSales = Sale::where('company_id', $companyId)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('price');
+            $getChangeSales = ChangeSale::where('company_id', $companyId)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('price_diff');
+            $getVoidSales = VoidSale::where('company_id', $companyId)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('price');
+            $thisYearSales = $getSales + $getChangeSales - $getVoidSales;
+            $getPrevSales = Sale::where('company_id', $companyId)->whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price');
+            $getPrevChangeSales = ChangeSale::where('company_id', $companyId)->whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price_diff');
+            $getPrevVoidSales = VoidSale::where('company_id', $companyId)->whereYear('created_at', $year - 1)->whereMonth('created_at', $i)->sum('price');
+            $prevYearSales = $getPrevSales + $getPrevChangeSales - $getPrevVoidSales;
             $thisYearTotal[] = $thisYearSales;
             $prevYearTotal[] = $prevYearSales;
         }
 
         for ($i=1; $i <= 12; $i++) { 
             $billingTotal = Billing::where('company_id', $companyId)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('nominal');
-            $thisYearBillings[] = $billingTotal;
+            $billingPpn = Billing::where('company_id', $companyId)->whereYear('created_at', $year)->whereMonth('created_at', $i)->sum('ppn');
+            $thisYearBillings[] = $billingTotal + $billingPpn;
         }
 
         for ($i=1; $i <= 12; $i++) { 
             $paymentTotal = Payment::where('company_id', $companyId)->whereYear('payment_date', $year)->whereMonth('payment_date', $i)->sum('nominal');
-            $thisYearPayments[] = $paymentTotal;
+            $thisYearPayments[] = round($paymentTotal);
         }
 
         for ($i=1; $i <= 12; $i++) { 
@@ -105,6 +114,16 @@ class DashboardController extends Controller
         $takeout_contents = TakeOutContent::month()->year()->get();
 
         $labelDataOrder = ['Berbayar', 'Gratis Penjualan', 'Gratis Lain-Lain'];
+
+        $getMonthSales = Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price');
+        $getChangeMonthSales = ChangeSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price_diff');
+        $getVoidMonthSales = ChangeSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price');
+        $monthSales = $getMonthSales + $getChangeSales - $getVoidSales;
+
+        $getYearSales = Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price');
+        $getChangeYearSales = ChangeSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price_diff');
+        $getVoidYearSales = VoidSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price');
+        $yearSales = $getYearSales + $getChangeYearSales - $getVoidYearSales;
         return view('dashboard.index',[
             'title' => "Dashboard",
             'printOrderQty' => $printOrderQty,
@@ -147,8 +166,8 @@ class DashboardController extends Controller
             'yearQuots' => Quotation::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->get(),
             
             'weekSales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->whereBetween('created_at', [Carbon::now()->startOfWeek(Carbon::SUNDAY), Carbon::now()->endOfWeek(Carbon::SATURDAY)])->sum('price'),
-            'monthSales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price'),
-            'yearSales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price'),
+            'monthSales' => $monthSales,
+            'yearSales' => $yearSales,
             'sales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->get(),
 
             'monthBillings' => Billing::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),

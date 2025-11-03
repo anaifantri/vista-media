@@ -131,6 +131,48 @@
                         $product = json_decode($sale->product);
                         $description = json_decode($product->description);
                         $saleBillings = $sale->billings;
+                        $billingNominal = 0;
+                        $paymentNominal = 0;
+                        if ($sale->media_category->name == 'Service') {
+                            foreach ($saleBillings as $itemBilling) {
+                                if (count($itemBilling->bill_payments) > 0) {
+                                    $paymentNominal = $paymentNominal + $itemBilling->bill_payments->sum('nominal');
+                                }
+                                foreach (json_decode($itemBilling->invoice_content)->description as $itemDescription) {
+                                    if ($itemDescription->sale_id == $sale->id) {
+                                        $billingNominal =
+                                            $billingNominal +
+                                            ($itemDescription->nominal +
+                                                ($sale->ppn / 100) * $itemDescription->nominal);
+                                    }
+                                }
+                            }
+                        } else {
+                            foreach ($saleBillings as $itemBilling) {
+                                if (count($itemBilling->bill_payments) > 0) {
+                                    $paymentNominal = $paymentNominal + $itemBilling->bill_payments->sum('nominal');
+                                }
+                                if (isset(json_decode($itemBilling->invoice_content)->manual_detail)) {
+                                    $billingNominal = $billingNominal + ($itemBilling->nominal + $itemBilling->ppn);
+                                } elseif (isset(json_decode($itemBilling->invoice_content)->data_sales)) {
+                                    foreach (json_decode($itemBilling->invoice_content)->data_sales as $itemSales) {
+                                        if ($itemSales->id == $sale->id) {
+                                            $billingNominal =
+                                                $billingNominal +
+                                                ($itemSales->nominal + ($sale->ppn / 100) * $itemSales->nominal);
+                                        }
+                                    }
+                                } else {
+                                    foreach (json_decode($itemBilling->invoice_content)->description as $itemDesc) {
+                                        if ($itemDesc->sale_id == $sale->id) {
+                                            $billingNominal =
+                                                $billingNominal +
+                                                ($itemDesc->nominal + ($sale->ppn / 100) * $itemDesc->nominal);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     @endphp
                     @if ($loop->iteration > $i * 30 && $loop->iteration < ($i + 1) * 30 + 1)
                         <tr>
@@ -150,11 +192,6 @@
                                 <div>
                                     @if ($clients->type == 'Perusahaan')
                                         {{ $clients->company }}
-                                        {{-- @if (strlen($clients->company) > 20)
-                                                {{ substr($clients->company, 0, 20) }}..
-                                            @else
-                                                {{ $clients->company }}
-                                            @endif --}}
                                     @else
                                         {{ $clients->name }}
                                     @endif
@@ -171,79 +208,15 @@
                                 {{ number_format($sale->price + ($sale->dpp * $sale->ppn) / 100) }}
                             </td>
                             <td class="border border-black text-sm text-right px-1">
-                                @php
-                                    $billingNominal = 0;
-                                    if ($sale->media_category->name == 'Service') {
-                                        foreach ($saleBillings as $itemBilling) {
-                                            foreach (
-                                                json_decode($itemBilling->invoice_content)->description
-                                                as $itemDescription
-                                            ) {
-                                                if ($itemDescription->sale_id == $sale->id) {
-                                                    $billingNominal =
-                                                        $billingNominal +
-                                                        ($itemDescription->nominal +
-                                                            ($sale->ppn / 100) * $itemDescription->nominal);
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        foreach ($saleBillings as $itemBilling) {
-                                            if (isset(json_decode($itemBilling->invoice_content)->manual_detail)) {
-                                                $billingNominal =
-                                                    $billingNominal + ($itemBilling->nominal + $itemBilling->ppn);
-                                            } elseif (isset(json_decode($itemBilling->invoice_content)->data_sales)) {
-                                                foreach (
-                                                    json_decode($itemBilling->invoice_content)->data_sales
-                                                    as $itemSales
-                                                ) {
-                                                    if ($itemSales->id == $sale->id) {
-                                                        $billingNominal =
-                                                            $billingNominal +
-                                                            ($itemSales->nominal +
-                                                                ($sale->ppn / 100) * $itemSales->nominal);
-                                                    }
-                                                }
-                                            } else {
-                                                foreach (
-                                                    json_decode($itemBilling->invoice_content)->description
-                                                    as $itemDesc
-                                                ) {
-                                                    if ($itemDesc->sale_id == $sale->id) {
-                                                        $billingNominal =
-                                                            $billingNominal +
-                                                            ($itemDesc->nominal +
-                                                                ($sale->ppn / 100) * $itemDesc->nominal);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                @endphp
                                 {{ number_format($billingNominal) }}
                             </td>
                             <td class="border border-black text-sm text-right px-1">
-                                @php
-                                    $paymentNominal = 0;
-                                    foreach ($saleBillings as $itemBilling) {
-                                        if (count($itemBilling->bill_payments) > 0) {
-                                            $paymentNominal =
-                                                $paymentNominal + $itemBilling->bill_payments->sum('nominal');
-                                        }
-                                    }
-                                @endphp
                                 {{ number_format($paymentNominal) }}
                             </td>
                             <td class="border border-black text-sm text-right px-1">
-                                {{-- <div>
-                                        @foreach ($saleBillings as $itemBilling)
-                                            @if (count($itemBilling->bill_payments) > 0)
-                                                <span>{{ number_format($itemBilling->bill_payments->sum('nominal')) }}</span>
-                                            @endif
-                                        @endforeach
-                                    </div> --}}
                             </td>
                             <td class="border border-black text-sm text-right px-1">
+                                {{ number_format($billingNominal - $paymentNominal) }}
                             </td>
                         </tr>
                     @endif

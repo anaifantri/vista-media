@@ -148,12 +148,15 @@
                 value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Revisual-{{ $client->contact_name }}" hidden>
         @endif
     @else
-        @if ($client->type == 'Perusahaan')
+        @if (isset($client->type) && $client->type == 'Perusahaan')
             <input id="saveName" type="text"
                 value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->company }}" hidden>
-        @else
+        @elseif (isset($client->name))
             <input id="saveName" type="text"
                 value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->name }}" hidden>
+        @else
+            <input id="saveName" type="text"
+                value="{{ substr($bill_cover_letter->number, 0, 4) }}-SP-Media-{{ $client->contact_name }}" hidden>
         @endif
     @endif
 

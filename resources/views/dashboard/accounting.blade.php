@@ -56,7 +56,7 @@
                 </div>
                 <div class="grid grid-cols-2 gap-2 w-[500px] p-4 mt-4 border-t">
                     <a href="#"
-                        class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
+                        class="flex justify-center text-teal-400 bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
                                 class="flex justify-center font-serif text-md font-semibold cursor-pointer w-full text-teal-400">BULAN
@@ -69,10 +69,18 @@
                                 class="flex justify-center items-center font-serif text-2XL cursor-pointer w-full text-yellow-400">
                                 {{ count($monthBillings) }}
                             </label>
+                            <label
+                                class="flex justify-center items-center font-serif text-xl cursor-pointer w-full text-white mt-4">
+                                Nominal Invoice :
+                            </label>
+                            <label
+                                class="flex justify-center items-center font-serif text-2XL cursor-pointer w-full text-yellow-400">
+                                {{ number_format($monthBillings->sum('nominal') + $monthBillings->sum('ppn')) }}
+                            </label>
                         </div>
                     </a>
                     <a href="#"
-                        class="flex justify-center text-teal-400 h-[180px] bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
+                        class="flex justify-center text-teal-400 bg-stone-900 hover:bg-stone-700 border rounded-lg shadow-lg cursor-pointer p-2">
                         <div>
                             <label
                                 class="flex justify-center font-serif text-md font-semibold cursor-pointer w-full text-teal-400">TAHUN
@@ -84,6 +92,14 @@
                             <label
                                 class="flex justify-center items-center font-serif text-2XL cursor-pointer w-full text-yellow-400">
                                 {{ count($yearBillings) }}
+                            </label>
+                            <label
+                                class="flex justify-center items-center font-serif text-xl cursor-pointer w-full text-white mt-4">
+                                Nominal Invoice :
+                            </label>
+                            <label
+                                class="flex justify-center items-center font-serif text-2XL cursor-pointer w-full text-yellow-400">
+                                {{ number_format($yearBillings->sum('nominal') + $yearBillings->sum('ppn')) }}
                             </label>
                         </div>
                     </a>
