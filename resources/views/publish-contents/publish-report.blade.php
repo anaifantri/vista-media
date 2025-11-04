@@ -356,7 +356,7 @@
                                                         <td
                                                             class="text-stone-900 border border-stone-900 text-sm text-center">
                                                             @if ($content->take_out_content)
-                                                                {{ date('d', strtotime($content->take_out_content->takeout_date)) }}-{{ $bulan[(int) date('m', strtotime($content->take_out_content->takeout_date))] }}-{{ date('Y', strtotime($content->take_out_content->takeout_date)) }}
+                                                                {{ date('d', strtotime($content->take_out_content->take_out_date)) }}-{{ $bulan[(int) date('m', strtotime($content->take_out_content->take_out_date))] }}-{{ date('Y', strtotime($content->take_out_content->take_out_date)) }}
                                                             @else
                                                                 -
                                                             @endif
@@ -452,7 +452,7 @@
                     </td>
                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
                         @if ($content->take_out_content)
-                            {{ date('d', strtotime($content->take_out_content->takeout_date)) }}-{{ $bulan[(int) date('m', strtotime($content->take_out_content->takeout_date))] }}-{{ date('Y', strtotime($content->take_out_content->takeout_date)) }}
+                            {{ date('d', strtotime($content->take_out_content->take_out_date)) }}-{{ $bulan[(int) date('m', strtotime($content->take_out_content->take_out_date))] }}-{{ date('Y', strtotime($content->take_out_content->take_out_date)) }}
                         @else
                             -
                         @endif

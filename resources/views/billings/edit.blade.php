@@ -122,7 +122,6 @@
         <input type="text" id="inputReceiptContent" name="receipt_content" value="{{ json_encode($receipt_content) }}"
             hidden>
         <input type="text" id="inputNominalInvoice" name="nominal" value="{{ $billing->nominal }}" hidden>
-        <input type="text" id="inputPpn" name="ppn" value="{{ $billing->ppn }}" hidden>
         <div class="flex justify-center pl-14 py-10 bg-stone-800">
             <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <div class="flex border-b py-1 justify-end">
@@ -220,7 +219,7 @@
         const inputNominalInvoice = document.getElementById("inputNominalInvoice");
         const inputDpp = document.getElementById("inputDpp");
         const inputPpn = document.getElementById("inputPpn");
-        const labelPpn = document.getElementById("labelPpn");
+        // const labelPpn = document.getElementById("labelPpn");
         const labelGrandTotal = document.getElementById("labelGrandTotal");
         const labelNominal = document.querySelectorAll("[id=labelNominal]");
         var client = @json($client);
@@ -284,7 +283,7 @@
             inputNominalInvoice.value = getSubTotal;
             inputDpp.value = Math.round(getDpp);
             inputPpn.value = getPpn;
-            labelPpn.innerText = getPpn.toLocaleString();
+            // labelPpn.innerText = getPpn.toLocaleString();
             labelGrandTotal.innerText = getGrandTotal.toLocaleString();
             labelReceiptNominal.innerText = getGrandTotal.toLocaleString();
             if (getGrandTotal == 0) {
@@ -373,6 +372,55 @@
 
             // mengambalikan nilai yang ada dalam variabel penyimpanan
             return penyimpanan;
+        }
+
+        inputDppChange = (sel) => {
+            var getSubTotal = countNominal();
+            var getDpp = sel.value;
+            var getPpn = Math.round(getDpp * 11 / 100);
+            var getGrandTotal = getSubTotal + getPpn;
+            var getTerbilang = terbilang(getGrandTotal);
+
+            inputNominalInvoice.value = getSubTotal;
+            inputPpn.value = getPpn;
+            // labelPpn.innerText = getPpn.toLocaleString();
+            labelGrandTotal.innerText = getGrandTotal.toLocaleString();
+            labelReceiptNominal.innerText = getGrandTotal.toLocaleString();
+            if (getGrandTotal == 0) {
+                labelTerbilang.innerText = '#  #';
+                receiptContent.terbilang = '#  #';
+            } else {
+                labelTerbilang.innerText = '# ' + getTerbilang + ' rupiah #';
+                receiptContent.terbilang = '# ' + getTerbilang + ' rupiah #';
+            }
+
+            receiptContent.nominal = getGrandTotal;
+            inputInvoiceContent.value = JSON.stringify(invoiceContent);
+            inputReceiptContent.value = JSON.stringify(receiptContent);
+
+        }
+
+        inputPpnChange = (sel) => {
+            var getSubTotal = countNominal();
+            var getPpn = Math.round(sel.value);
+            var getGrandTotal = getSubTotal + getPpn;
+            var getTerbilang = terbilang(getGrandTotal);
+
+            inputNominalInvoice.value = getSubTotal;
+            // labelPpn.innerText = getPpn.toLocaleString();
+            labelGrandTotal.innerText = getGrandTotal.toLocaleString();
+            labelReceiptNominal.innerText = getGrandTotal.toLocaleString();
+            if (getGrandTotal == 0) {
+                labelTerbilang.innerText = '#  #';
+                receiptContent.terbilang = '#  #';
+            } else {
+                labelTerbilang.innerText = '# ' + getTerbilang + ' rupiah #';
+                receiptContent.terbilang = '# ' + getTerbilang + ' rupiah #';
+            }
+
+            receiptContent.nominal = getGrandTotal;
+            inputInvoiceContent.value = JSON.stringify(invoiceContent);
+            inputReceiptContent.value = JSON.stringify(receiptContent);
         }
     </script>
     <!-- Script end-->

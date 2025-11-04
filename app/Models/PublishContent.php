@@ -27,6 +27,10 @@ class PublishContent extends Model
             return $query->whereYear('publish_date', Carbon::now()->year)->whereMonth('publish_date', Carbon::now()->month);
         }
     }
+    
+    public function scopeTakeout($query){
+        return $query->whereDoesntHave('take_out_content');
+    }
                 
     public function scopeFilter($query, $filter){
         $query->when($filter ?? false, fn($query, $search) => 
@@ -58,8 +62,8 @@ class PublishContent extends Model
         return $this->belongsTo(Location::class);
     }
 
-    public function take_out_contents(){
-        return $this->hasMany(TakeOutContent::class, 'publish_content_id', 'id');
+    public function take_out_content(){
+        return $this->hasOne(TakeOutContent::class, 'publish_content_id', 'id');
     }
     
     public $sortable = ['publish_date'];

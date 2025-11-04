@@ -308,7 +308,7 @@
                         <td class="border text-right px-2 font-semibold">DPP</td>
                         <td class="border text-right font-semibold">
                             <div class="flex w-full justify-end px-1">
-                                <input id="inputDpp" name="dpp"
+                                <input id="inputDpp" name="dpp" onchange="inputDppChange(this)"
                                     class="border rounded-md in-out-spin-none text-right px-3 w-32 outline-none"
                                     type="number" value="{{ $billing->dpp }}">
                             </div>
@@ -318,10 +318,13 @@
                         <td class="border text-right px-2 font-semibold">PPN</td>
                         <td class="border text-right font-semibold">
                             <div class="flex w-full justify-end px-1">
-                                <label class="w-6">Rp. </label>
-                                <label id="labelPpn"
+                                {{-- <label class="w-6">Rp. </label> --}}
+                                <input id="inputPpn" name="ppn" onchange="inputPpnChange(this)"
+                                    class="border rounded-md in-out-spin-none text-right px-3 w-32 outline-none"
+                                    type="number" value="{{ $billing->ppn }}">
+                                {{-- <label id="labelPpn"
                                     class="w-full flex justify-end">{{ number_format($billing->ppn) }}</label>
-                                <label class="w-4">,-</label>
+                                <label class="w-4">,-</label> --}}
                             </div>
                         </td>
                     </tr>

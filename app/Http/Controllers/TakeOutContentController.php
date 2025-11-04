@@ -69,7 +69,7 @@ class TakeOutContentController extends Controller
             $sale = Sale::with('publish_contents')->get();
             $location = Location::with('publish_contents')->get();
             return response()->view ('takeout-contents.select-publish-content', [
-                'publish_contents'=>PublishContent::filter(request('search'))->month()->year()->sortable()->paginate(30)->withQueryString(),
+                'publish_contents'=>PublishContent::filter(request('search'))->takeout()->sortable()->orderBy('publish_date', 'desc')->paginate(30)->withQueryString(),
                 'title' => 'Pilih Data Penayangan Materi Videotron Yang Akan Di Take Out',
                 compact('quotation', 'sale', 'location')
             ]);
