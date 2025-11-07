@@ -6,6 +6,7 @@ use App\Models\Sale;
 use App\Models\Billing;
 use App\Models\Payment;
 use App\Models\OtherFee;
+use App\Models\IncomeTax;
 use App\Models\VoidSale;
 use App\Models\ChangeSale;
 use App\Models\Quotation;
@@ -152,28 +153,50 @@ class SalesReportController extends Controller
                 $receivables = collect([]);
                 $dataPayments = [];
                 $billingNominals = [];
+                $incomeTaxes = [];
+                $otherFees = [];
                 $sales = Sale::with('quotation')->where('company_id', $company_id)->receivables()->orderBy(Quotation::select('clients')->whereColumn('quotations.id', 'sales.quotation_id'))->get();
                 foreach ($sales as $sale) {
+                    $otherFeeTotal = 0;
                     $billPayment = 0;
-                    $otherFees = 0;
                     $billingTotal = 0;
+                    $incomeTaxTotal = 0;
                     foreach ($sale->billings as $billing) {
-                        $billPayment = $billing->bill_payments->sum('nominal');
+                        $saleQty = count(json_decode($billing->sale_id));
+                        $descriptions = json_decode($billing->invoice_content)->description;
+                        $incomeTax = IncomeTax::where('sale_id', $sale->id)->where('billing_id', $billing->id)->sum('nominal');
+                        $incomeTaxTotal = $incomeTaxTotal + $incomeTax;
                         foreach ($billing->bill_payments as $payment) {
+                            $salePayments = json_decode($payment->sale_nominal);
+                            foreach ($salePayments as $saleNominal) {
+                                if($saleNominal->sale_id == $sale->id){
+                                    $billPayment = $billPayment + $saleNominal->nominal;
+                                }
+                            }
                             if($payment->other_fee){
-                                $otherFees = $otherFees + $payment->other_fee->nominal;
+                                $otherFeeTotal = $otherFeeTotal + ($payment->other_fee->nominal / $saleQty);
                             }
                         }
-                        $billingTotal = $billing->nominal + $billing->ppn - ((($billing->dpp/11)*12) * (2/100)) - $otherFees;
+                        foreach($descriptions as $description){
+                            if($description->sale_id == $sale->id){
+                                $billingTotal = $billingTotal + $description->nominal;
+                            }
+                        }
                     }
-                    if(round($billPayment)< round($billingTotal)){
+                    if(round($billPayment) < round($billingTotal - $otherFeeTotal - $incomeTaxTotal)){
                         $receivables->push($sale);
                         array_push($dataPayments, $billPayment);
+                        array_push($incomeTaxes, $incomeTaxTotal);
+                        array_push($otherFees, $otherFeeTotal);
                         array_push($billingNominals, $billingTotal);
                     }
                 }
                 return view ('receivables.receivables-reports', [
-                    'sales'=>$receivables,
+                    'receivables'=>$receivables,
+                    'data_payments'=>$dataPayments,
+                    'data_billings'=>$billingNominals,
+                    'income_taxes'=>$incomeTaxes,
+                    'other_fees'=>$otherFees,
                     'title' => 'Laporan G1',
                     compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations')
                 ]);

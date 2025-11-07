@@ -33,7 +33,7 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
-                <div class="w-[1200px] p-2">
+                <div class="w-[1550px] p-2">
                     <div class="flex border-b">
                         <h1 class="index-h1">Daftar SPK Cetak -
                             @if (request('todays'))
@@ -304,13 +304,13 @@
                 </div>
             </div>
             <div class="flex justify-center w-full">
-                <div class="w-[1200px]">
+                <div class="w-[1550px]">
                     <table class="table-auto w-full">
                         <thead>
                             <tr class="bg-stone-400 h-10">
                                 <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">
                                     No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-28"
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-40"
                                     rowspan="2">
                                     <button class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor SPK')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
@@ -329,7 +329,7 @@
                                     rowspan="2">Action</th>
                             </tr>
                             <tr class="bg-stone-400 h-10">
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-20">No. Penj.
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-36">No. Penj.
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-[72px]">Lokasi</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24">Klien</th>
@@ -362,7 +362,7 @@
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         <a href="/marketing/print-orders/{{ $order->id }}">
-                                            {{ substr($order->number, 0, 15) }}..
+                                            {{ $order->number }}
                                         </a>
                                     </td>
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
@@ -376,7 +376,7 @@
                                     <td class="text-stone-900 p-1 border border-stone-900 text-xs text-center">
                                         @if ($order->sale)
                                             <a href="/marketing/sales/{{ $order->sale->id }}">
-                                                {{ substr($order->sale->number, 0, 8) }}..
+                                                {{ $order->sale->number }}
                                             </a>
                                         @else
                                             -

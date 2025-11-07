@@ -9,7 +9,7 @@
             $pphTotal = 0;
             $priceTotal = 0;
             $dataClients = [];
-            foreach ($sales as $getReceivable) {
+            foreach ($receivables as $getReceivable) {
                 $getClient = json_decode($getReceivable->quotation->clients);
                 if ($getClient->type == 'Perusahaan') {
                     if (!in_array($getClient->company, $dataClients)) {
@@ -58,14 +58,14 @@
                 @include('receivables.receivables-header')
                 <div id="chartReport" class="flex justify-center z-0">
                     <?php
-                    if (fmod(count($sales), 30) == 0) {
-                        $pageQty = count($sales) / 30;
+                    if (fmod(count($receivables), 30) == 0) {
+                        $pageQty = count($receivables) / 30;
                     } else {
-                        $pageQty = (count($sales) - fmod(count($sales), 30)) / 30 + 1;
+                        $pageQty = (count($receivables) - fmod(count($receivables), 30)) / 30 + 1;
                     }
                     ?>
                     <div id="pdfPreview">
-                        @if (count($sales) == 0)
+                        @if (count($receivables) == 0)
                             <div class="w-[1580px] h-[1000px] px-10 py-4 mt-2 bg-white z-0">
                                 <div class="flex items-center border rounded-lg p-4 mt-8">
                                     <div class="w-44">
@@ -226,7 +226,7 @@
                 </tr>
             </thead>
             <tbody class="bg-stone-300">
-                @foreach ($sales as $sale)
+                @foreach ($receivables as $sale)
                     @php
                         $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
                         $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);

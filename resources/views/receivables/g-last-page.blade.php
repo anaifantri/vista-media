@@ -93,94 +93,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($sales as $sale)
+                @foreach ($receivables as $receivable)
                     @php
-                        $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
-                        $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
-                        $priceTotal = $priceTotal + $sale->price;
-
-                        $quotId = null;
-                        $quotRevisionId = null;
-                        $created_by = json_decode($sale->created_by);
-                        $revisions = $sale->quotation->quotation_revisions;
-
-                        if (count($revisions) != 0) {
-                            $revision =
-                                $sale->quotation->quotation_revisions[count($sale->quotation->quotation_revisions) - 1];
-                            $number = $revision->number;
-                            $quotRevisionId = $revision->id;
-                            $notes = json_decode($revision->notes);
-                            $created_at = $revision->created_at;
-                            $payment_terms = json_decode($revision->payment_terms);
-                            $price = json_decode($revision->price);
-                            $dataApprovals = $sale->quotation->quotation_approvals;
-                            $dataAgreements = $sale->quotation->quotation_agreements;
-                            $dataOrders = $sale->quotation->quotation_orders;
-                        } else {
-                            $number = $sale->quotation->number;
-                            $quotId = $sale->quotation->id;
-                            $notes = json_decode($sale->quotation->notes);
-                            $created_at = $sale->quotation->created_at;
-                            $payment_terms = json_decode($sale->quotation->payment_terms);
-                            $price = json_decode($sale->quotation->price);
-                            $dataApprovals = $sale->quotation->quotation_approvals;
-                            $dataAgreements = $sale->quotation->quotation_agreements;
-                            $dataOrders = $sale->quotation->quotation_orders;
-                        }
-                        $clients = json_decode($sale->quotation->clients);
-                        $product = json_decode($sale->product);
+                        $clients = json_decode($receivable->quotation->clients);
+                        $product = json_decode($receivable->product);
                         $description = json_decode($product->description);
-                        $saleBillings = $sale->billings;
-                        $billingNominal = 0;
-                        $paymentNominal = 0;
-                        if ($sale->media_category->name == 'Service') {
-                            foreach ($saleBillings as $itemBilling) {
-                                if (count($itemBilling->bill_payments) > 0) {
-                                    $paymentNominal = $paymentNominal + $itemBilling->bill_payments->sum('nominal');
-                                }
-                                foreach (json_decode($itemBilling->invoice_content)->description as $itemDescription) {
-                                    if ($itemDescription->sale_id == $sale->id) {
-                                        $billingNominal =
-                                            $billingNominal +
-                                            ($itemDescription->nominal +
-                                                ($sale->ppn / 100) * $itemDescription->nominal);
-                                    }
-                                }
-                            }
-                        } else {
-                            foreach ($saleBillings as $itemBilling) {
-                                if (count($itemBilling->bill_payments) > 0) {
-                                    $paymentNominal = $paymentNominal + $itemBilling->bill_payments->sum('nominal');
-                                }
-                                if (isset(json_decode($itemBilling->invoice_content)->manual_detail)) {
-                                    $billingNominal = $billingNominal + ($itemBilling->nominal + $itemBilling->ppn);
-                                } elseif (isset(json_decode($itemBilling->invoice_content)->data_sales)) {
-                                    foreach (json_decode($itemBilling->invoice_content)->data_sales as $itemSales) {
-                                        if ($itemSales->id == $sale->id) {
-                                            $billingNominal =
-                                                $billingNominal +
-                                                ($itemSales->nominal + ($sale->ppn / 100) * $itemSales->nominal);
-                                        }
-                                    }
-                                } else {
-                                    foreach (json_decode($itemBilling->invoice_content)->description as $itemDesc) {
-                                        if ($itemDesc->sale_id == $sale->id) {
-                                            $billingNominal =
-                                                $billingNominal +
-                                                ($itemDesc->nominal + ($sale->ppn / 100) * $itemDesc->nominal);
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     @endphp
                     @if ($loop->iteration > $i * 30 && $loop->iteration < ($i + 1) * 30 + 1)
                         <tr>
                             <td class="border border-black text-sm text-center">
                                 {{ $loop->iteration }}</td>
                             <td class="border border-black text-sm text-center">
-                                <a href="/marketing/sales/{{ $sale->id }}">
-                                    {{ substr($sale->number, 0, 5) }}..{{ substr($sale->number, -5) }}
+                                <a href="/marketing/sales/{{ $receivable->id }}">
+                                    {{ substr($receivable->number, 0, 5) }}..{{ substr($receivable->number, -5) }}
                                 </a>
                             </td>
                             <td class="border border-black text-sm text-start px-1">
@@ -198,25 +123,26 @@
                                 </div>
                             </td>
                             <td class="border border-black text-sm text-center px-1">
-                                @if ($sale->media_category->name == 'Service')
+                                @if ($receivable->media_category->name == 'Service')
                                     Revisual
                                 @else
-                                    {{ $sale->media_category->name }}
+                                    {{ $receivable->media_category->name }}
                                 @endif
                             </td>
                             <td class="border border-black text-sm text-right px-1">
-                                {{ number_format($sale->price + ($sale->dpp * $sale->ppn) / 100) }}
+                                {{ number_format($receivable->price) }}
                             </td>
                             <td class="border border-black text-sm text-right px-1">
-                                {{ number_format($billingNominal) }}
+                                {{ number_format($data_billings[$loop->iteration - 1]) }}
                             </td>
                             <td class="border border-black text-sm text-right px-1">
-                                {{ number_format($paymentNominal) }}
+                                {{ number_format($data_payments[$loop->iteration - 1]) }}
                             </td>
                             <td class="border border-black text-sm text-right px-1">
+                                {{ number_format($income_taxes[$loop->iteration - 1]) }}
                             </td>
                             <td class="border border-black text-sm text-right px-1">
-                                {{ number_format($billingNominal - $paymentNominal) }}
+                                {{ number_format($data_billings[$loop->iteration - 1] - $data_payments[$loop->iteration - 1] - $income_taxes[$loop->iteration - 1]) }}
                             </td>
                         </tr>
                     @endif

@@ -33,7 +33,7 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
-                <div class="w-[1200px]">
+                <div class="w-[1550px]">
                     <div class="flex border-b">
                         <h1 class="index-h1">Daftar SPK Pemasangan Gambar -
                             @if (request('todays'))
@@ -304,13 +304,13 @@
                 </div>
             </div>
             <div class="flex justify-center w-full mt-2">
-                <div class="w-[1200px]">
+                <div class="w-[1550px]">
                     <table class="table-auto w-full">
                         <thead>
                             <tr class="bg-stone-400">
                                 <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">
                                     No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-32"
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-40"
                                     rowspan="2">
                                     <button class="flex justify-center items-center w-full">@sortablelink('number', 'No. SPK')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
@@ -365,7 +365,7 @@
                                         {{ $number++ }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ substr($order->number, 0, 15) }}..
+                                        {{ $order->number }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ date('d', strtotime($order->install_at)) }}-{{ $bulan[(int) date('m', strtotime($order->install_at))] }}-{{ date('Y', strtotime($order->install_at)) }}
@@ -386,8 +386,8 @@
                                         @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        @if (strlen($order->theme) > 20)
-                                            {{ substr($order->theme, 0, 20) }}..
+                                        @if (strlen($order->theme) > 40)
+                                            {{ substr($order->theme, 0, 40) }}..
                                         @else
                                             {{ $order->theme }}
                                         @endif

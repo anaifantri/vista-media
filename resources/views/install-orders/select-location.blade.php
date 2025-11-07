@@ -4,7 +4,7 @@
     <!-- Quotation Signage start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
-            <div class="flex w-[1200px] border-b">
+            <div class="flex w-[1550px] border-b">
                 <h1 class="flex text-xl text-stone-100 font-bold tracking-wider w-[600px] py-1">Pilih Lokasi Pasang Gambar
                 </h1>
                 <div class="flex justify-end w-full">
@@ -170,7 +170,7 @@
                     </div>
                 </div>
             </form>
-            <div class="w-[1200px] mt-4">
+            <div class="w-[1550px] mt-4">
                 @if (request('orderType'))
                     @if (request('orderType') == 'locations')
                         @include('install-orders.locations-table')

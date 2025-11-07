@@ -8,8 +8,8 @@
                 <div class="mt-1">
                     <label class="text-sm text-stone-900">Kode Lokasi</label>
                     <input
-                        class="flex in-out-spin-none text-semibold w-32 border rounded-lg px-1 outline-none @error('code') is-invalid @enderror"
-                        type="number" min="0" id="code" name="code" value="{{ old('code') }}" autofocus
+                        class="flex text-semibold w-32 border rounded-lg px-1 outline-none @error('code') is-invalid @enderror"
+                        type="text" id="code" name="code" value="{{ old('code') }}" autofocus
                         placeholder="Input Kode" required>
                     @error('code')
                         <div class="invalid-feedback">

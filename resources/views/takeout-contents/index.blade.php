@@ -266,13 +266,13 @@
                                             'isAccounting'])
                                             @can('isContent')
                                                 @can('isWorkshopDelete')
-                                                    <form action="/workshop/take-contents/{{ $content->id }}" method="post"
+                                                    <form action="/workshop/takeout-contents/{{ $content->id }}" method="post"
                                                         class="d-inline m-1">
                                                         @method('delete')
                                                         @csrf
                                                         <button
                                                             class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                            onclick="return confirm('Apakah anda yakin ingin menghapus data penayangan materi videotron ?')">
+                                                            onclick="return confirm('Apakah anda yakin ingin menghapus data penurunan materi videotron ?')">
                                                             <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                                                 width="24" height="24" viewBox="0 0 24 24">
                                                                 <title>DELETE</title>

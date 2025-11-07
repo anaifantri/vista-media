@@ -12,7 +12,7 @@
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">Jenis</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Size - V/H</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-12">BL/FL</th>
-            <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">No. Penjualan</th>
+            <th class="text-stone-900 border border-stone-900 text-sm text-center w-40">No. Penjualan</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Klien</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">Bahan Cetak</th>
         </tr>
@@ -69,8 +69,7 @@
                     @endif
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                    <a href="/marketing/sales/{{ $sale->id }}"
-                        class="ml-1 w-32">{{ substr($sale->number, 0, 8) }}..</a>
+                    <a href="/marketing/sales/{{ $sale->id }}" class="ml-1 w-32">{{ $sale->number }}</a>
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
                     {{ $clients[$loop->iteration - 1]->name }}

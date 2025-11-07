@@ -11,7 +11,7 @@
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-16" rowspan="2">Action</th>
         </tr>
         <tr class="bg-stone-400">
-            <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">No. Penj.</th>
+            <th class="text-stone-900 border border-stone-900 text-sm text-center w-44">No. Penj.</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-32">Klien</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-10">Free</th>
             <th class="text-stone-900 border border-stone-900 text-sm text-center w-16">Terpakai</th>
@@ -64,8 +64,7 @@
                     @endif
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
-                    <a href="/marketing/sales/{{ $sale->id }}"
-                        class="ml-1 w-32">{{ substr($sale->number, 0, 8) }}..</a>
+                    <a href="/marketing/sales/{{ $sale->id }}" class="ml-1 w-32">{{ $sale->number }}</a>
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-sm text-center">
                     {{ $clients[$loop->iteration - 1]->name }}
