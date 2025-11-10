@@ -117,7 +117,7 @@ class PaymentController extends Controller
                 OtherFee::create($dataOtherFee);
             }
 
-            return redirect('/payments/index/'.$request->company_id)->with('success', 'Data pembayaran berhasil diinput');
+            return redirect('/payments/index/'.$request->company_id.'?month='.(int) date('m', strtotime($request->payment_date)).'&year='.date('Y', strtotime($request->payment_date)))->with('success', 'Data pembayaran berhasil diinput');
         } else {
             abort(403);
         }

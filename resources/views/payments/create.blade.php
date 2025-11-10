@@ -36,7 +36,7 @@
                             </svg>
                             <span class="mx-1 text-white">Back</span>
                         </a>
-                        <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-primary"
+                        <button id="btnSave" name="btnSave" class="flex justify-center items-center ml-1 btn-success"
                             type="submit">
                             <svg class="fill-current w-4 ml-1" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
@@ -211,7 +211,7 @@
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm px-1 font-bold text-right">
                                         <input id="subTotal" type="number"
-                                            value="{{ $billings->sum('nominal') + $billings->sum('ppn') - $totalPph }}"
+                                            value="{{ round($billings->sum('nominal') + $billings->sum('ppn') - $totalPph) }}"
                                             class="border rounded-md outline-none in-out-spin-none px-1 text-right w-full"
                                             readonly>
 
@@ -300,7 +300,7 @@
         }
 
         setPph = (sel) => {
-            if (sel.value > sel.defaultValue) {
+            if (sel.value > Number(sel.defaultValue)) {
                 alert("Nominal pph tidak boleh melebihi 2% dari tagihan..!!");
                 sel.value = sel.defaultValue;
             } else {

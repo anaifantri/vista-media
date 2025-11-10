@@ -203,9 +203,9 @@
                             <label class="text-md text-stone-100 w-40">Tgl. Pembayaran</label>
                             <label class="text-md text-stone-100 ml-2">:</label>
                             <label class="text-md text-stone-100 ml-2">
-                                {{ date('d', strtotime($payment->created_at)) }}
-                                {{ $fullMonth[(int) date('m', strtotime($payment->created_at))] }}
-                                {{ date('Y', strtotime($payment->created_at)) }}
+                                {{ date('d', strtotime($payment->payment_date)) }}
+                                {{ $fullMonth[(int) date('m', strtotime($payment->payment_date))] }}
+                                {{ date('Y', strtotime($payment->payment_date)) }}
                             </label>
                         </div>
                     </div>
