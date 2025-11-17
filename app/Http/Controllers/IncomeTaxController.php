@@ -20,7 +20,7 @@ class IncomeTaxController extends Controller
      */
     public function index(String $company_id): Response
     {
-        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+        if(Gate::allows('isPPh') && Gate::allows('isAccountingRead')){
             return response()-> view ('income-taxes.index', [
                 'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("payment_date", "desc")->paginate(30)->withQueryString(),
                 'title' => 'Daftar Pemotongan PPh'

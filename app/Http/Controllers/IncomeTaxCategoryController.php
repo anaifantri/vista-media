@@ -19,7 +19,7 @@ class IncomeTaxCategoryController extends Controller
      */
     public function index(): Response
     {
-        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+        if(Gate::allows('isPPh') && Gate::allows('isAccountingRead')){
             return response()-> view ('income-tax-categories.index', [
                 'income_tax_categories'=>IncomeTaxCategory::filter(request('search'))->paginate(30)->withQueryString(),
                 'title' => 'Daftar Objek PPh'
@@ -34,7 +34,7 @@ class IncomeTaxCategoryController extends Controller
      */
     public function create(): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingCreate'))){
             return  response()-> view ('income-tax-categories.create', [
                 'title' => 'Menambahkan Objek PPh'
             ]);
@@ -48,7 +48,7 @@ class IncomeTaxCategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingCreate'))){
             $validateData = $request->validate([
                 'user_id' => 'required',
                 'code' => 'required|unique:income_tax_categories',
@@ -69,7 +69,7 @@ class IncomeTaxCategoryController extends Controller
      */
     public function show(IncomeTaxCategory $incomeTaxCategory): Response
     {
-        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+        if(Gate::allows('isPPh') && Gate::allows('isAccountingRead')){
             return response()-> view('income-tax-categories.show', [
                 'income_tax_category' => $incomeTaxCategory,
                 'title' => 'Detail Objek PPH'
@@ -84,7 +84,7 @@ class IncomeTaxCategoryController extends Controller
      */
     public function edit(IncomeTaxCategory $incomeTaxCategory): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingEdit'))){
             return  response()-> view ('income-tax-categories.edit', [
                 'income_tax_category' => $incomeTaxCategory,
                 'title' => 'Edit Data Objek PPh'
@@ -99,7 +99,7 @@ class IncomeTaxCategoryController extends Controller
      */
     public function update(Request $request, IncomeTaxCategory $incomeTaxCategory): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingEdit'))){
             $rules = [
                 'rates' => 'required'
             ];

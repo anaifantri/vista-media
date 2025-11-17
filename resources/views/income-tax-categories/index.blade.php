@@ -8,8 +8,8 @@
                     <div class="flex border-b">
                         <h1 class="index-h1">DAFTAR OBJEK PPH</h1>
                         <div class="flex">
-                            @canany(['isAdmin', 'isAccounting'])
-                                @can('isCollect')
+                            @canany(['isAdmin', 'isAccounting', 'isMarketing', 'isMedia', 'isWorkshop'])
+                                @can('isPPh')
                                     @can('isAccountingCreate')
                                         <a href="/accounting/income-tax-categories/create" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
@@ -113,8 +113,8 @@
                                                         fill-rule="nonzero" />
                                                 </svg>
                                             </a>
-                                            @canany(['isAdmin', 'isAccounting'])
-                                                @can('isCollect')
+                                            @canany(['isAdmin', 'isAccounting', 'isMarketing', 'isMedia', 'isWorkshop'])
+                                                @can('isPPh')
                                                     @can('isAccountingEdit')
                                                         <a href="/accounting/income-tax-categories/{{ $income_tax_category->id }}/edit"
                                                             class="index-link text-white w-8 h-5 rounded bg-amber-400 hover:bg-amber-500 drop-shadow-md ml-1">
@@ -130,7 +130,7 @@
                                                 @endcan
                                             @endcanany
                                             @can('isAdmin')
-                                                @can('isCollect')
+                                                @can('isPPh')
                                                     @can('isAccountingDelete')
                                                         <form action="#" method="post" class="d-inline m-1">
                                                             @method('delete')

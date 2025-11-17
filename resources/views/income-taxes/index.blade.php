@@ -204,8 +204,9 @@
                                                 {{ count(json_decode($payment->income_tax_document->images)) }} Dokumen
                                             @else
                                                 <div class="flex w-full justify-center">
-                                                    @canany(['isAdmin', 'isAccounting'])
-                                                        @can('isCollect')
+                                                    @canany(['isAdmin', 'isAccounting', 'isMarketing', 'isMedia',
+                                                        'isWorkshop'])
+                                                        @can('isPPh')
                                                             @can('isAccountingCreate')
                                                                 <a href="/income-tax-documents/create/{{ $payment->id }}/{{ $getClient }}"
                                                                     title="Upload Dokumen"
@@ -252,8 +253,8 @@
                                                         </svg>
                                                     </a>
                                                 @endif
-                                                @canany(['isAdmin', 'isAccounting'])
-                                                    @can('isCollect')
+                                                @canany(['isAdmin', 'isAccounting', 'isMarketing', 'isMedia', 'isWorkshop'])
+                                                    @can('isPPh')
                                                         @can('isAccountingEdit')
                                                             @if (!empty($payment->income_tax_document))
                                                                 <a href="/accounting/income-tax-documents/{{ $payment->income_tax_document->id }}/edit"

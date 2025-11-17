@@ -27,7 +27,7 @@ class IncomeTaxDocumentController extends Controller
 
     public function report(String $company_id): Response
     {
-        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+        if(Gate::allows('isPPh') && Gate::allows('isAccountingRead')){
             return response()-> view ('income-taxes.income-tax-report', [
                 'income_taxes'=>IncomeTaxDocument::where('company_id', $company_id)->filter(request('search'))->period()->sortable()->orderBy("tax_date", "asc")->get(),
                 'title' => 'List Pemotongan Pph'
@@ -42,7 +42,7 @@ class IncomeTaxDocumentController extends Controller
      */
     public function create(String $paymentId, String $clientCompany): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingCreate'))){
             $payment = Payment::findOrFail($paymentId);
             $billingClient = json_decode($payment->billings[0]->client);
             $client = Client::findOrFail($billingClient->id);
@@ -64,7 +64,7 @@ class IncomeTaxDocumentController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingCreate'))){
             if ($request->income_tax_category_id == 'pilih'){
                 return back()->withErrors(['income_tax_category_id' => ['Silahkan pilih kode objek pajak']])->withInput();
             }
@@ -115,7 +115,7 @@ class IncomeTaxDocumentController extends Controller
      */
     public function show(IncomeTaxDocument $incomeTaxDocument): Response
     {
-        if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+        if(Gate::allows('isPPh') && Gate::allows('isAccountingRead')){
             return response()-> view('income-tax-documents.show', [
                 'income_tax_document' => $incomeTaxDocument,
                 'payment' => Payment::findOrFail($incomeTaxDocument->payment_id),
@@ -131,7 +131,7 @@ class IncomeTaxDocumentController extends Controller
      */
     public function edit(IncomeTaxDocument $incomeTaxDocument): Response
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingEdit'))){
             return  response()-> view ('income-tax-documents.edit', [
                 'income_tax_document' => $incomeTaxDocument,
                 'income_tax_categories' => IncomeTaxCategory::all(),
@@ -147,7 +147,7 @@ class IncomeTaxDocumentController extends Controller
      */
     public function update(Request $request, IncomeTaxDocument $incomeTaxDocument): RedirectResponse
     {
-        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingEdit'))){
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingEdit'))){
             if ($request->income_tax_category_id == 'pilih'){
                 return back()->withErrors(['income_tax_category_id' => ['Silahkan pilih kode objek pajak']])->withInput();
             }

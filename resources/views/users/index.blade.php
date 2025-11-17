@@ -176,7 +176,7 @@
                     </table>
                 </div>
             </div>
-            <div class="flex justify-center text-stone-900">
+            <div class="flex justify-center text-stone-100 mt-2">
                 {{-- {{ $users->links() }} --}}
                 {!! $users->appends(Request::query())->render('dashboard.layouts.pagination') !!}
             </div>

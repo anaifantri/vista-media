@@ -18,19 +18,19 @@
                         <!-- Sidebar Dashboard End-->
 
                         <!-- Sidebar Media OOH start-->
-                        @canany(['isAdmin', 'isOwner', 'isMedia', 'isMarketing', 'isAccounting'])
+                        @canany(['isAdmin', 'isOwner', 'isMedia', 'isMarketing', 'isAccounting', 'isWorkshop'])
                             @include('dashboard.layouts.sidebar-media')
                         @endcanany
                         <!-- Sidebar Media OOH End-->
 
                         <!-- Sidebar Marketing start-->
-                        @canany(['isAdmin', 'isOwner', 'isMarketing', 'isAccounting'])
+                        @canany(['isAdmin', 'isOwner', 'isMedia', 'isMarketing', 'isAccounting', 'isWorkshop'])
                             @include('dashboard.layouts.sidebar-marketing')
                         @endcanany
                         <!-- Sidebar Marketing End-->
 
                         <!-- Sidebar Accounting start-->
-                        @canany(['isAdmin', 'isOwner', 'isMarketing', 'isAccounting'])
+                        @canany(['isAdmin', 'isOwner', 'isMedia', 'isMarketing', 'isAccounting', 'isWorkshop'])
                             @include('dashboard.layouts.sidebar-accounting')
                         @endcanany
                         <!-- Sidebar Accounting End-->
