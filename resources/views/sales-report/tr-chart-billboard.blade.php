@@ -131,7 +131,35 @@
                 @endphp
                 <div class="absolute z-50">
                     <div class="flex">
-                        @for ($i = 0; $i <= $start; $i++)
+                        @for ($i = 0; $i < $start; $i++)
+                            <div class="h-[2px] w-[1px]">
+                            </div>
+                        @endfor
+                        @if ($sale->end_at > date('Y-m-d'))
+                            @if (strtotime($sale->end_at) > strtotime(date($thisYear . '-01-01')))
+                                @if ($lineWidth <= 31)
+                                    <a
+                                        href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
+                                @elseif ($lineWidth > 31 && $lineWidth <= 45)
+                                    <a
+                                        href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 6) }}..</a>
+                                @elseif ($lineWidth > 45 && $lineWidth <= 60)
+                                    <a
+                                        href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 8) }}..</a>
+                                @else
+                                    <a href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
+                                @endif
+                            @endif
+                        @elseif (strtotime(date($sale->end_at)) > strtotime(date($thisYear . '-01-01')) &&
+                                strtotime(date($sale->end_at)) < date('Y-m-d'))
+                            @if ($lineWidth - $start <= 31)
+                                <a
+                                    href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
+                            @else
+                                <a href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
+                            @endif
+                        @endif
+                        {{-- @for ($i = 0; $i <= $start; $i++)
                             @if ($i == $start)
                                 @if ($sale->end_at > date('Y-m-d'))
                                     @if (strtotime($sale->end_at) > strtotime(date($thisYear . '-01-01')))
@@ -161,7 +189,7 @@
                                 <div class="h-[2px] w-[1px]">
                                 </div>
                             @endif
-                        @endfor
+                        @endfor --}}
                     </div>
                     <div class="flex">
                         @if ($sale->start_at < date('Y-m-d'))

@@ -118,7 +118,7 @@
                         if ($sale->void_sale) {
                             $voidSale = $sales->where('id', $sale->id);
                             if (count($voidSale) == 2) {
-                                $pphTotal = $pphTotal + ($sale->dpp * (2 / 100)) / 2;
+                                $pphTotal = $pphTotal + ($sale->dpp * ($sale->pph / 100)) / 2;
                                 $ppnTotal = $ppnTotal + ($sale->dpp * ($sale->ppn / 100)) / 2;
                                 $priceTotal = $priceTotal + $sale->price / 2;
                             } else {
@@ -128,7 +128,7 @@
                                     }
                                 }
                                 if ($voidFound == false) {
-                                    $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                                    $pphTotal = $pphTotal + $sale->dpp * ($sale->pph / 100);
                                     $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
                                     $priceTotal = $priceTotal + $sale->price;
                                 }
@@ -136,7 +136,7 @@
                         } elseif ($sale->change_sale) {
                             $changeSale = $sales->where('id', $sale->id);
                             if (count($changeSale) == 2) {
-                                $pphTotal = $pphTotal + ($sale->dpp * (2 / 100)) / 2;
+                                $pphTotal = $pphTotal + ($sale->dpp * ($sale->pph / 100)) / 2;
                                 $ppnTotal = $ppnTotal + ($sale->dpp * ($sale->ppn / 100)) / 2;
                                 $priceTotal = $priceTotal + $sale->price / 2;
                             } else {
@@ -146,13 +146,13 @@
                                     }
                                 }
                                 if ($changeFound == false) {
-                                    $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                                    $pphTotal = $pphTotal + $sale->dpp * ($sale->pph / 100);
                                     $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
                                     $priceTotal = $priceTotal + $sale->price;
                                 }
                             }
                         } else {
-                            $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                            $pphTotal = $pphTotal + $sale->dpp * ($sale->pph / 100);
                             $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
                             $priceTotal = $priceTotal + $sale->price;
                         }
@@ -803,7 +803,7 @@
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
-                                                        <label>{{ number_format($sale->dpp * ($terms->term / 100) * (2 / 100)) }}</label>
+                                                        <label>{{ number_format($sale->dpp * ($terms->term / 100) * ($sale->pph / 100)) }}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -820,7 +820,9 @@
                                                                     ($terms->term / 100) *
                                                                     ($sale->ppn / 100);
                                                                 $pphTerm =
-                                                                    $sale->dpp * ($terms->term / 100) * (2 / 100);
+                                                                    $sale->dpp *
+                                                                    ($terms->term / 100) *
+                                                                    ($sale->pph / 100);
                                                             @endphp
                                                             <label>{{ number_format($subTotal + $ppnTerm - $pphTerm) }}</label>
                                                         @else
@@ -888,7 +890,7 @@
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
-                                                        <label>{{ number_format($sale->dpp * ($terms->term / 100) * (2 / 100)) }}</label>
+                                                        <label>{{ number_format($sale->dpp * ($terms->term / 100) * ($sale->pph / 100)) }}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -905,7 +907,9 @@
                                                                     ($terms->term / 100) *
                                                                     ($sale->ppn / 100);
                                                                 $pphTerm =
-                                                                    $sale->dpp * ($terms->term / 100) * (2 / 100);
+                                                                    $sale->dpp *
+                                                                    ($terms->term / 100) *
+                                                                    ($sale->pph / 100);
                                                             @endphp
                                                             <label>{{ number_format($subTotal + $ppnTerm - $pphTerm) }}</label>
                                                         @else
@@ -971,7 +975,7 @@
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex mr-1 justify-end">
-                                                <label>{{ number_format($sale->dpp * ($terms->term / 100) * (2 / 100)) }}</label>
+                                                <label>{{ number_format($sale->dpp * ($terms->term / 100) * ($sale->pph / 100)) }}</label>
                                             </div>
                                         @endforeach
                                     </div>
@@ -985,7 +989,8 @@
                                                         $subTotal = $sale->price * ($terms->term / 100);
                                                         $ppnTerm =
                                                             $sale->dpp * ($terms->term / 100) * ($sale->ppn / 100);
-                                                        $pphTerm = $sale->dpp * ($terms->term / 100) * (2 / 100);
+                                                        $pphTerm =
+                                                            $sale->dpp * ($terms->term / 100) * ($sale->pph / 100);
                                                     @endphp
                                                     <label>{{ number_format($subTotal + $ppnTerm - $pphTerm) }}</label>
                                                 @else
@@ -1083,14 +1088,14 @@
                     <td class="text-black bg-slate-200 border border-black text-sm text-right align-top font-semibold"
                         colspan="10"></td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <td class="border border-black text-sm text-right align-top font-semibold px-2" colspan="4">PPh
                     </td>
                     <td class="border border-black text-sm text-right align-top font-semibold px-2">
                         {{ number_format($pphTotal) }}</td>
                     <td class="text-black bg-slate-200 border border-black text-sm text-right align-top font-semibold"
                         colspan="10"></td>
-                </tr>
+                </tr> --}}
                 <tr>
                     <td class="border border-black text-sm text-right align-top font-semibold px-2" colspan="4">
                         Grand Total</td>

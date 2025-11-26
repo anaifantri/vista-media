@@ -133,7 +133,7 @@
                                     }
                                 }
                                 if ($voidFound == false) {
-                                    $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                                    $pphTotal = $pphTotal + $sale->dpp * ($sale->pph / 100);
                                     $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
                                     $priceTotal = $priceTotal + $sale->price;
                                 }
@@ -151,7 +151,7 @@
                                     }
                                 }
                                 if ($changeFound == false) {
-                                    $pphTotal = $pphTotal + $sale->dpp * (2 / 100);
+                                    $pphTotal = $pphTotal + $sale->dpp * ($sale->pph / 100);
                                     $ppnTotal = $ppnTotal + $sale->dpp * ($sale->ppn / 100);
                                     $priceTotal = $priceTotal + $sale->price;
                                 }

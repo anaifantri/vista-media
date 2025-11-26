@@ -893,6 +893,22 @@ video {
   margin-top: 40px;
 }
 
+.ml-96 {
+  margin-left: 24rem;
+}
+
+.ml-\[89px\] {
+  margin-left: 89px;
+}
+
+.ml-\[80px\] {
+  margin-left: 80px;
+}
+
+.ml-80 {
+  margin-left: 20rem;
+}
+
 .block {
   display: block;
 }
