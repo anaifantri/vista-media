@@ -67,7 +67,7 @@
                     <div id="pdfPreview">
                         @if (count($receivables) == 0)
                             <div class="w-[1580px] h-[1000px] px-10 py-4 mt-2 bg-white z-0">
-                                <div class="flex items-center border rounded-lg p-4 mt-8">
+                                <div class="flex items-center border rounded-lg p-2 mt-6">
                                     <div class="w-44">
                                         <img class="ml-2 w-[125px]" src="{{ asset('storage/' . $company->logo) }}"
                                             alt="">

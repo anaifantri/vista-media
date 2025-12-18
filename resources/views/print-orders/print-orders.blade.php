@@ -11,7 +11,7 @@
                     <div class="flex border-b">
                         <h1 class="index-h1">Daftar SPK Cetak {{ $getStatus }}</h1>
                     </div>
-                    <form class="flex mt-2" action="/print-orders/{{ $status }}">
+                    <form class="flex mt-2" action="/print-orders/{{ $status }}/{{ $company->id }}">
                         <div class="flex">
                             <input id="search" name="search"
                                 class="flex border rounded-l-lg ml-2 p-1 outline-none text-base text-stone-900"

@@ -182,7 +182,7 @@
                                                         </td>
                                                         <td class="border p-1 text-center">
                                                             <div class="flex w-full justify-center items-center">
-                                                                {{ QrCode::size(100)->generate('https://' . $company->website . '/') }}
+                                                                {{ QrCode::size(100)->generate('https://www.google.co.id/maps/place/' . $product->location_lat . ',' . $product->location_lng . '/@' . $product->location_lat . ',' . $product->location_lng . ',16z') }}
                                                             </div>
                                                         </td>
                                                     </tr>

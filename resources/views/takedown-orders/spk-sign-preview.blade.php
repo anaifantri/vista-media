@@ -1,5 +1,5 @@
 <!-- sign area start -->
-<div class="flex justify-center h-40 mt-2">
+<div class="flex justify-center h-40 mt-10">
     <table class="w-[280px]">
         <thead>
             <tr class="h-6">

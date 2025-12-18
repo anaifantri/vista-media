@@ -33,7 +33,7 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
-                <div class="w-[1200px]">
+                <div class="w-[1550px]">
                     <div class="flex border-b">
                         <h1 class="index-h1">Daftar SPK Penurunan Gambar -
                             @if (request('todays'))
@@ -73,7 +73,7 @@
                             @canany(['isAdmin', 'isMarketing'])
                                 @can('isOrder')
                                     @can('isMarketingCreate')
-                                        <a href="/takedown-orders/select-locations" class="index-link btn-primary">
+                                        <a href="/takedown-orders/select-locations/{{ $company->id }}" class="index-link btn-primary">
                                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -304,13 +304,13 @@
                 </div>
             </div>
             <div class="flex justify-center w-full mt-2">
-                <div class="w-[1200px]">
+                <div class="w-[1550px]">
                     <table class="table-auto w-full">
                         <thead>
                             <tr class="bg-stone-400">
                                 <th class="text-stone-900 border border-stone-900 text-xs w-8 text-center" rowspan="2">
                                     No.</th>
-                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-32"
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-48"
                                     rowspan="2">
                                     <button class="flex justify-center items-center w-full">@sortablelink('number', 'No. SPK')
                                         <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
@@ -319,6 +319,9 @@
                                         </svg>
                                     </button>
                                 </th>
+                                <th class="text-stone-900 border border-stone-900 text-xs text-center w-24"
+                                    rowspan="2">
+                                    Tgl. Pasang</th>
                                 <th class="text-stone-900 border border-stone-900 text-xs text-center w-24"
                                     rowspan="2">
                                     Tgl. Turun</th>
@@ -349,14 +352,17 @@
                             @foreach ($takedown_orders as $order)
                                 @php
                                     $product = json_decode($order->product);
-                                    $description = $product->description;
+                                    $description = json_decode($order->location->description);
                                 @endphp
                                 <tr>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
                                         {{ $number++ }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ substr($order->number, 0, 15) }}..
+                                        {{ $order->number }}
+                                    </td>
+                                    <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
+                                        {{ date('d', strtotime($order->install_order->install_at)) }}-{{ $bulan[(int) date('m', strtotime($order->install_order->install_at))] }}-{{ date('Y', strtotime($order->install_order->install_at)) }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ date('d', strtotime($order->takedown_at)) }}-{{ $bulan[(int) date('m', strtotime($order->takedown_at))] }}-{{ date('Y', strtotime($order->takedown_at)) }}
@@ -369,12 +375,12 @@
                                         @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        <a href="/media/locations/{{ $product->id }}">
-                                            {{ $product->code }}-{{ $product->city_code }}
+                                        <a href="/media/locations/{{ $order->location->id }}">
+                                            {{ $product->location_code }}-{{ $product->city_code }}
                                         </a>
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs">
-                                        {{ $product->address }}
+                                        {{ $product->location_address }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         @if ($description->lighting == 'Frontlight')
@@ -384,7 +390,7 @@
                                         @endif
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs  text-center">
-                                        {{ $product->size }}
+                                        {{ $product->location_size }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         <div class="flex justify-center items-center">

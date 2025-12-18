@@ -53,7 +53,8 @@
                         <div class="flex">
                             <input type="text" id="productSide" value="{{ $location->side }}" hidden>
                             <label class="w-10">Lokasi</label>
-                            <label id="locationCode" class="ml-2">:
+                            <input id="locationCode" type="text" value="{{ $location->code }}" hidden>
+                            <label class="ml-2">:
                                 {{ $location->code }} - {{ $location->city_code }}
                             </label>
                             <label class="ml-2">|

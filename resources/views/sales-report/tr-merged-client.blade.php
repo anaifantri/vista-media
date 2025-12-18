@@ -64,11 +64,58 @@
                 } else {
                     $lineWidth = (strtotime($end_at) - strtotime($thisYear . '-01-01')) / 60 / 60 / 24;
                 }
+                $GLOBALS['col_start'] = $start + 1;
+                $GLOBALS['col_end'] = $lineWidth + $start;
             @endphp
             <div class="absolute z-50">
+                <div class="grid grid-cols-365 gap-0 w-[365px]">
+                    @if ($videotronSale->end_at > date('Y-m-d'))
+                        @if (strtotime($videotronSale->end_at) > strtotime(date($thisYear . '-01-01')))
+                            @if ($lineWidth <= 45)
+                                <a class="col-start-[--col-start] w-20" style="--col-start: <?php echo $GLOBALS['col_start']; ?>;"
+                                    href="/marketing/sales/{{ $videotronSale->id }}">{{ substr($lastClient->name, 0, 6) }}..</a>
+                            @else
+                                <a class="col-start-[--col-start] w-20" style="--col-start: <?php echo $GLOBALS['col_start']; ?>;"
+                                    href="/marketing/sales/{{ $videotronSale->id }}">{{ $lastClient->name }}</a>
+                            @endif
+                        @endif
+                    @elseif (strtotime(date($videotronSale->end_at)) > strtotime(date($thisYear . '-01-01')) &&
+                            strtotime(date($videotronSale->end_at)) < date('Y-m-d'))
+                        @if ($lineWidth - $start <= 45)
+                            <a class="col-start-[--col-start] w-20" style="--col-start: <?php echo $GLOBALS['col_start']; ?>;"
+                                href="/marketing/sales/{{ $videotronSale->id }}">{{ substr($lastClient->name, 0, 6) }}..</a>
+                        @else
+                            <a class="col-start-[--col-start] w-20" style="--col-start: <?php echo $GLOBALS['col_start']; ?>;"
+                                href="/marketing/sales/{{ $videotronSale->id }}">{{ $lastClient->name }}</a>
+                        @endif
+                    @endif
+                </div>
+                <div class="grid grid-cols-365 gap-0 w-[365px]">
+                    @if ($videotronSale->start_at < date('Y-m-d'))
+                        @if ($videotronSale->company_id == '1')
+                            <div class="h-[3px] bg-red-700 col-start-[--col-start] col-end-[--col-end]"
+                                style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                            </div>
+                        @elseif ($videotronSale->company_id == '3')
+                            <div class="h-[3px] bg-lime-700 col-start-[--col-start] col-end-[--col-end]"
+                                style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                            </div>
+                        @else
+                            <div class="h-[3px] bg-blue-700 col-start-[--col-start] col-end-[--col-end]"
+                                style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                            </div>
+                        @endif
+                    @else
+                        <div class="h-[3px] bg-stone-700 col-start-[--col-start] col-end-[--col-end]"
+                            style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                        </div>
+                    @endif
+                </div>
+            </div>
+            {{-- <div class="absolute z-50">
                 <div class="flex">
                     @for ($i = 0; $i < $start; $i++)
-                        <div class="h-[2px] w-[1px]">
+                        <div class="h-[3px] w-[1px]">
                         </div>
                     @endfor
                     @if (strtotime($videotronSale->end_at) > strtotime(date($thisYear . '-01-01')))
@@ -91,30 +138,30 @@
                         @if ($videotronSale->company_id == '1')
                             @for ($i = 0; $i < 365; $i++)
                                 @if ($i < $start)
-                                    <div class="h-[2px] w-[1px]">
+                                    <div class="h-[3px] w-[1px]">
                                     </div>
                                 @elseif($i >= $start && $i <= $lineWidth + $start)
-                                    <div class="h-[2px] bg-red-700 w-[1px]">
+                                    <div class="h-[3px] bg-red-700 w-[1px]">
                                     </div>
                                 @endif
                             @endfor
                         @elseif ($videotronSale->company_id == '3')
                             @for ($i = 0; $i < 365; $i++)
                                 @if ($i < $start)
-                                    <div class="h-[2px] w-[1px]">
+                                    <div class="h-[3px] w-[1px]">
                                     </div>
                                 @elseif($i >= $start && $i <= $lineWidth + $start)
-                                    <div class="h-[2px] bg-lime-700 w-[1px]">
+                                    <div class="h-[3px] bg-lime-700 w-[1px]">
                                     </div>
                                 @endif
                             @endfor
                         @else
                             @for ($i = 0; $i < 365; $i++)
                                 @if ($i < $start)
-                                    <div class="h-[2px] w-[1px]">
+                                    <div class="h-[3px] w-[1px]">
                                     </div>
                                 @elseif($i >= $start && $i <= $lineWidth + $start)
-                                    <div class="h-[2px] bg-lime-700 w-[1px]">
+                                    <div class="h-[3px] bg-lime-700 w-[1px]">
                                     </div>
                                 @endif
                             @endfor
@@ -122,16 +169,16 @@
                     @else
                         @for ($i = 0; $i < 365; $i++)
                             @if ($i < $start)
-                                <div class="h-[2px] w-[1px]">
+                                <div class="h-[3px] w-[1px]">
                                 </div>
                             @elseif($i >= $start && $i <= $lineWidth + $start)
-                                <div class="h-[2px] bg-stone-700 w-[1px]">
+                                <div class="h-[3px] bg-stone-700 w-[1px]">
                                 </div>
                             @endif
                         @endfor
                     @endif
                 </div>
-            </div>
+            </div> --}}
         </div>
     </td>
     <td class="relative text-black border text-[0.65rem] text-center bg-green-50" rowspan="{{ $slotQty }}">

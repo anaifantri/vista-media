@@ -18,8 +18,8 @@
         ];
         $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
         $product = json_decode($takedown_order->product);
-        $description = $product->description;
-        if ($product->category == 'Signage') {
+        $description = json_decode($location->description);
+        if ($product->location_category == 'Signage') {
             $location_lat = $description->lat[0];
             $location_lng = $description->lng[0];
         } else {
@@ -93,13 +93,14 @@
                                                         <input id="theme" type="text" name="theme"
                                                             placeholder="Input Tema Design"
                                                             value="{{ $takedown_order->theme }}" onkeyup="getTheme(this)"
-                                                            class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1 @error('area') is-invalid @enderror"
-                                                            required>
+                                                            class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
+                                                            readonly>
                                                     </div>
                                                     <div class="flex mt-1">
                                                         <label class="flex text-sm text-black w-24">Ukuran</label>
                                                         <label class="flex text-sm text-black">:</label>
-                                                        <input id="size" type="text" value="{{ $product->size }}"
+                                                        <input id="size" type="text"
+                                                            value="{{ $product->location_size }}"
                                                             class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
                                                             readonly>
                                                     </div>
@@ -109,7 +110,15 @@
                                                         <label class="flex text-sm text-black w-20">Tipe</label>
                                                         <label class="flex text-sm text-black">:</label>
                                                         <label id="type"
-                                                            class="flex ml-1 text-sm text-black border rounded-sm w-[140px] px-1">{{ $product->category }}</label>
+                                                            class="flex ml-1 text-sm text-black border rounded-sm w-[140px] px-1">{{ $product->location_category }}</label>
+                                                    </div>
+                                                    <div class="flex mt-1">
+                                                        <label class="flex text-sm text-black w-20">Tgl. Tayang</label>
+                                                        <label class="flex text-sm text-black">:</label>
+                                                        <label
+                                                            class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1 w-[140px]">
+                                                            {{ date('d', strtotime($install_order->install_at)) }}-{{ $bulan[(int) date('m', strtotime($install_order->install_at))] }}-{{ date('Y', strtotime($install_order->install_at)) }}
+                                                        </label>
                                                     </div>
                                                     <div class="flex mt-1">
                                                         <label class="flex text-sm text-black w-20">Tgl. Turun</label>
@@ -119,16 +128,6 @@
                                                             class="flex ml-1 text-sm text-black border rounded-sm outline-none px-1"
                                                             required>
                                                     </div>
-                                                    @if ((int) filter_var($product->side, FILTER_SANITIZE_NUMBER_INT) == 2)
-                                                        <div class="flex mt-1">
-                                                            <input id="cbRight" class="outline-none" type="checkbox"
-                                                                onclick="cbRightAction(this)" checked>
-                                                            <label class="flex ml-1 text-sm text-black w-16">Kanan</label>
-                                                            <input id="cbLeft" class="ml-2 outline-none" type="checkbox"
-                                                                onclick="cbLeftAction(this)" checked>
-                                                            <label class="flex ml-1 text-sm text-black w-16">Kiri</label>
-                                                        </div>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="flex mt-1">
@@ -141,8 +140,20 @@
                                                 <label class="flex text-sm text-black w-14">Lokasi</label>
                                                 <label class="flex text-sm text-black">:</label>
                                                 <label
-                                                    class="flex w-[350px] ml-1 text-sm text-black px-1">{{ $product->address }}</label>
+                                                    class="flex w-[350px] ml-1 text-sm text-black px-1">{{ $product->location_address }}</label>
                                             </div>
+                                            @if ((int) filter_var($product->location_side, FILTER_SANITIZE_NUMBER_INT) == 2)
+                                                <div class="flex mt-1">
+                                                    @if ($product->side_right == true)
+                                                        <input class="outline-none" type="checkbox" checked disabled>
+                                                        <label class="flex ml-1 text-sm text-black w-16">Sisi Kanan</label>
+                                                    @endif
+                                                    @if ($product->side_left == true)
+                                                        <input class="ml-2 outline-none" type="checkbox" checked disabled>
+                                                        <label class="flex ml-1 text-sm text-black w-16">Sisi Kiri</label>
+                                                    @endif
+                                                </div>
+                                            @endif
                                             <!-- SPK Sign start-->
                                             <div class="flex justify-center mt-1">
                                                 <div class="flex justify-center w-[790px] h-44">
@@ -152,7 +163,7 @@
                                                                 <th
                                                                     class="text-black font-semibold text-sm border w-[260px]">
                                                                     Kode Lokasi :
-                                                                    {{ $product->code }}-{{ $product->city_code }}
+                                                                    {{ $product->location_code }}-{{ $product->city_code }}
                                                                 </th>
                                                                 <th class="text-black font-semibold text-sm border">
                                                                     Google Maps</th>
@@ -164,7 +175,7 @@
                                                                     <div
                                                                         class="flex justify-center items-center border mt-1 p-1">
                                                                         <img class="m-auto flex items-center justify-center max-w-[260px]"
-                                                                            src="{{ asset('storage/' . $product->photo) }}">
+                                                                            src="{{ asset('storage/' . $product->location_photo) }}">
                                                                     </div>
                                                                 </td>
                                                                 <td class="border p-1 text-center">
@@ -180,14 +191,14 @@
                                         </div>
                                         <div class="w-[280px] border ml-2 p-1">
                                             <label
-                                                class="flex text-sm text-black justify-center w-full px-1 font-semibold">
-                                                @if ($takedown_order->design)
+                                                class="flex text-sm text-black justify-center w-full px-1 font-semibold">Design
+                                                {{-- @if ($takedown_order->design)
                                                     Ganti Design
                                                 @else
                                                     Tambah Design
-                                                @endif
+                                                @endif --}}
                                             </label>
-                                            <input type="text" name="oldDesign" value="{{ $takedown_order->design }}"
+                                            {{-- <input type="text" name="oldDesign" value="{{ $takedown_order->design }}"
                                                 hidden>
                                             <input id="design" name="design"
                                                 class="flex border-t border-b border-r rounded-r-lg cursor-pointer text-gray-500 w-full"
@@ -196,18 +207,18 @@
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
-                                            @enderror
+                                            @enderror --}}
                                             <div class="flex justify-center items-center border mt-3 p-1 h-[200px]">
-                                                @if ($takedown_order->design)
+                                                @if ($install_order->design)
                                                     <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
-                                                        src="{{ asset('storage/' . $takedown_order->design) }}">
+                                                        src="{{ asset('storage/' . $install_order->design) }}">
                                                 @else
                                                     <img class="m-auto img-preview flex items-center justify-center max-w-[260px] max-h-[180px]"
                                                         src="">
                                                 @endif
                                             </div>
                                             <!-- SPK Sign start-->
-                                            <div class="flex justify-center h-40 mt-2">
+                                            <div class="flex justify-center h-40 mt-10">
                                                 <table class="w-[280px]">
                                                     <thead>
                                                         <tr class="h-6">

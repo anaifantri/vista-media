@@ -12,6 +12,10 @@ class InstallOrder extends Model
     use Sortable;
     protected $guarded = ['id'];
 
+    public function scopeTakedown($query){
+        return $query->whereDoesntHave('takedown_order');
+    }
+
     public function scopeArea($query){
         if (request('area') != 'All') {
             return $query->whereHas('location', function($query){

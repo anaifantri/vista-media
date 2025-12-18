@@ -81,7 +81,7 @@ getTotalInstall = () =>{
     for(let i = 0; i < Number(locationQty.value); i++){
         if(document.getElementById("cbInstall").checked == true){
             objInstalls[i] =  {
-                code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
+                code : locationCode[i].value,
                 price : installPrice[i].value,
                 type : installProduct[i].innerText,
                 freeInstall : freeInstalls[i].value
@@ -113,7 +113,7 @@ getTotalPrint = () =>{
     for(let i = 0; i < Number(locationQty.value); i++){
         if(document.getElementById("cbPrint").checked == true){
             objPrints[i] =  {
-                code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
+                code : locationCode[i].value,
                 price : printPrice[i].value,
                 printProduct : selectPrint[i].value
             }
@@ -138,7 +138,7 @@ getServiceNote = () => {
 
     for(let i = 0; i < serviceNotes.length; i++){
         dataServiceNotes[i] = {
-            code : parseInt(locationCode[i].innerHTML.replace ( /[^\d.]/g, '' )),
+            code : locationCode[i].value,
             serviceNote : serviceNotes[i].value
         }
     }

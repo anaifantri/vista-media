@@ -289,7 +289,7 @@
                                                     </th>
                                                     <th
                                                         class="text-stone-900 border border-black text-sm text-center w-12">
-                                                        Tarif
+                                                        Tarif (%)
                                                     </th>
                                                     <th
                                                         class="text-stone-900 border border-black text-sm text-center w-24">
@@ -539,7 +539,7 @@
                                                     </th>
                                                     <th
                                                         class="text-stone-900 border border-black text-sm text-center w-12">
-                                                        Tarif
+                                                        Tarif (%)
                                                     </th>
                                                     <th
                                                         class="text-stone-900 border border-black text-sm text-center w-24">
@@ -682,7 +682,7 @@
         </div>
     </div>
 
-    <table id="exportExcelTable" class="table-auto w-full mt-4" hidden>
+    <table id="exportExcelTable" class="table-auto w-full mt-4">
         <thead>
             <tr class="bg-stone-200 h-8">
                 <th class="text-stone-900 border border-black text-sm w- text-center w-8">

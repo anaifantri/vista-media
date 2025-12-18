@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TakedownOrder;
 use App\Models\Location;
+use App\Models\Sale;
+use App\Models\Quotation;
 use App\Models\InstallOrder;
 use App\Models\Area;
 use App\Models\City;
@@ -47,28 +49,32 @@ class TakedownOrderController extends Controller
     public function preview(String $id): View
     { 
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
-            $install_order = InstallOrder::with('takedown_order')->get();
+            $takedownOrder = TakedownOrder::findOrFail($id);
+            $location = Location::findOrFail($takedownOrder->location_id);
+            $installOrder = InstallOrder::findOrFail($takedownOrder->install_order_id);
             return view('takedown-orders.preview', [
-                'takedown_order' => TakedownOrder::findOrFail($id),
-                'title' => 'Preview SPK Penurunan Gambar',
-                compact('install_order')
+                'takedown_order' => $takedownOrder,
+                'install_order' => $installOrder,
+                'location' => $location,
+                'title' => 'SPK Penurunan Gambar'
             ]);
         } else {
             abort(403);
         }
     }
     
-    public function selectLocations(Request $request): View
+    public function selectLocations(Request $request, String $company_id): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
-            $locations = Location::takedown()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("code", "asc")->paginate(30)->withQueryString();
-            $install_orders = InstallOrder::with('location')->orderBy("number", "asc")->get();
+            $sale = Sale::with('install_order')->get();
+            $quotations = Quotation::with('sales')->get();
+            $locations = Location::with('install_orders')->get();
             return view ('takedown-orders.select-location', [
-                'locations'=>$locations,
+                'install_orders'=>InstallOrder::where('company_id', $company_id)->takedown()->area()->city()->filter(request('search'))->sortable()->orderBy("install_at", "desc")->paginate(20)->withQueryString(),
                 'areas' => Area::all(),
                 'cities' => City::all(),
-                'title' => 'Pilih Lokasi Pemasangan',
-                compact('install_orders')
+                'title' => 'Pilih Lokasi',
+                compact('sale', 'locations', 'quotations')
             ]);
         } else {
             abort(403);
@@ -78,17 +84,12 @@ class TakedownOrderController extends Controller
     public function createOrder(String $dataId, Request $request): View
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
-            $location = Location::findOrFail($dataId);
-            $areas = Area::with('locations')->get();
-            $cities = City::with('locations')->get();
-            $media_sizes = MediaSize::with('locations')->get();
-            $location_photos = LocationPhoto::with('location')->get();
-            $media_categories = MediaCategory::with('locations')->get();
+            $installOrder = InstallOrder::findOrFail($dataId);
+            $location = Location::findOrFail($installOrder->location_id);
             return view('takedown-orders.create', [
+                'install_order'=>$installOrder,
                 'location'=>$location,
-                'title' => 'Tambah SPK Penurunan Gambar',
-                'dataId'=>$dataId,
-                compact('areas', 'media_categories', 'cities', 'media_sizes', 'location_photos')
+                'title' => 'Tambah SPK Penurunan Gambar'
             ]);
         } else {
             abort(403);
@@ -109,11 +110,11 @@ class TakedownOrderController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingCreate'))){
-            if($request->file('design')){
-                $request->validate([
-                    'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
-                ]);
-            }
+            // if($request->file('design')){
+            //     $request->validate([
+            //         'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
+            //     ]);
+            // }
             $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
             $dataCompany = Company::where('id', $request->company_id)->firstOrFail();
             // Set number --> start
@@ -152,9 +153,9 @@ class TakedownOrderController extends Controller
             ]);
             // dd($validateData);
 
-            if($request->file('design')){
-                $validateData['design'] = $request->file('design')->store('takedown-designs');
-            }
+            // if($request->file('design')){
+            //     $validateData['design'] = $request->file('design')->store('takedown-designs');
+            // }
             
             TakedownOrder::create($validateData);
 
@@ -172,12 +173,13 @@ class TakedownOrderController extends Controller
     public function show(TakedownOrder $takedownOrder): Response
     {
         if(Gate::allows('isOrder') && Gate::allows('isMarketingRead')){
-            $locations = Location::with('takedown_orders')->get();
-            $install_order = InstallOrder::with('takedown_order')->get();
+            $location = Location::findOrFail($takedownOrder->location_id);
+            $installOrder = InstallOrder::findOrFail($takedownOrder->install_order_id);
             return response()-> view ('takedown-orders.show', [
                 'takedown_order' => $takedownOrder,
-                'title' => 'Detail SPK Penurunan',
-                compact('locations', 'install_order')
+                'install_order' => $installOrder,
+                'location' => $location,
+                'title' => 'Detail SPK Penurunan'
             ]);
         } else {
             abort(403);
@@ -190,11 +192,13 @@ class TakedownOrderController extends Controller
     public function edit(TakedownOrder $takedownOrder): Response
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit'))){
-            $locations = Location::with('takedown_orders')->get();
+            $location = Location::findOrFail($takedownOrder->location_id);
+            $installOrder = InstallOrder::findOrFail($takedownOrder->install_order_id);
             return response()-> view ('takedown-orders.edit', [
                 'takedown_order' => $takedownOrder,
-                'title' => 'Edit Data SPK Penurunan Gambar',
-                compact('locations')
+                'install_order' => $installOrder,
+                'location' => $location,
+                'title' => 'Edit Data SPK Penurunan Gambar'
             ]);
         } else {
             abort(403);
@@ -207,13 +211,12 @@ class TakedownOrderController extends Controller
     public function update(Request $request, TakedownOrder $takedownOrder): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingEdit'))){
-            if($request->file('design')){
-                $request->validate([
-                    'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
-                ]);
-            }
+            // if($request->file('design')){
+            //     $request->validate([
+            //         'design'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
+            //     ]);
+            // }
             $rules = [
-                'theme' => 'required',
                 'takedown_at' => 'required',
                 'updated_by' => 'required',
                 'notes' => 'nullable'
@@ -221,12 +224,12 @@ class TakedownOrderController extends Controller
 
             $validateData = $request->validate($rules);
                 
-            if($request->file('design')){
-                if($request->oldDesign){
-                    Storage::delete($request->oldDesign);
-                }
-                $validateData['design'] = $request->file('design')->store('takedown-designs');
-            }
+            // if($request->file('design')){
+            //     if($request->oldDesign){
+            //         Storage::delete($request->oldDesign);
+            //     }
+            //     $validateData['design'] = $request->file('design')->store('takedown-designs');
+            // }
             
             TakedownOrder::where('id', $takedownOrder->id)
                 ->update($validateData);

@@ -14,7 +14,7 @@
                     <td class="border p-1 text-center">
                         <div class="flex justify-center items-center border mt-1 p-1">
                             <img class="m-auto flex items-center justify-center max-w-[260px]"
-                                src="{{ asset('storage/' . $photo->photo) }}">
+                                src="{{ asset('storage/' . $product->location_photo) }}">
                         </div>
                     </td>
                     <td class="border p-1 text-center">

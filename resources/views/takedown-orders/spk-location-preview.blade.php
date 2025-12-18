@@ -5,7 +5,7 @@
             <thead>
                 <tr>
                     <th class="text-black font-semibold text-sm border w-[260px]">Kode Lokasi :
-                        {{ $product->code }}-{{ $product->city_code }}</th>
+                        {{ $product->location_code }}-{{ $product->city_code }}</th>
                     <th class="text-black font-semibold text-sm border">Google Maps</th>
                 </tr>
             </thead>
@@ -14,7 +14,7 @@
                     <td class="border p-1 text-center">
                         <div class="flex justify-center items-center border mt-1 p-1">
                             <img class="m-auto flex items-center justify-center max-w-[260px]"
-                                src="{{ asset('storage/' . $product->photo) }}">
+                                src="{{ asset('storage/' . $product->location_photo) }}">
                         </div>
                     </td>
                     <td class="border p-1 text-center">

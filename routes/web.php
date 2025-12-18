@@ -171,7 +171,7 @@ Route::resource('/marketing/installation-prices', InstallationPriceController::c
 
 Route::resource('/marketing/takedown-orders', TakedownOrderController::class)->except(['index'])->middleware(['auth','user_access']);
 Route::get('/takedown-orders/index/{companyid}', [TakedownOrderController::class,'index'])->middleware(['auth','user_access']);
-Route::get('/takedown-orders/select-locations', [TakedownOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
+Route::get('/takedown-orders/select-locations/{companyid}', [TakedownOrderController::class,'selectLocations'])->middleware(['auth','user_access']);
 Route::get('/takedown-orders/create-order/{id}', [TakedownOrderController::class,'createOrder'])->middleware(['auth','user_access']);
 Route::get('/marketing/takedown-orders/preview/{id}', [TakedownOrderController::class,'preview'])->middleware(['auth','user_access']);
 

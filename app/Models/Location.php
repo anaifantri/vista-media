@@ -77,15 +77,6 @@ class Location extends Model
         return $query->whereHas('active_sale');
     }
 
-    public function scopeTakedown($query){
-        return $query->whereHas('media_category', function($query){
-                                    $query->where('name', '!=', 'Videotron');
-                    })
-                    ->whereHas('media_category', function($query){
-                                    $query->where('name', '!=', 'Service');
-                    });
-    }
-
     public function scopePrint($query){
         return $query->whereHas('media_category', function($query){
                                     $query->where('name', '!=', 'Videotron');

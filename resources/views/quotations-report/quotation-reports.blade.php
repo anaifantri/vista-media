@@ -261,7 +261,11 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $client->contact_name }}
+                                                                @if ($client->type == 'Perusahaan')
+                                                                    {{ $client->contact_name }}
+                                                                @else
+                                                                    -
+                                                                @endif
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top px-1">
@@ -286,9 +290,17 @@
                                                             </td>
                                                             <td class="text-black border text-[0.65rem] align-top px-1">
                                                                 @if (count($quotation->quotation_revisions) != 0)
-                                                                    {{ $quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->description }}
+                                                                    @if (strlen($quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->description) > 50)
+                                                                        ..{{ substr($quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->description, 32) }}
+                                                                    @else
+                                                                        {{ $quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->description }}
+                                                                    @endif
                                                                 @else
-                                                                    {{ $quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->description }}
+                                                                    @if (strlen($quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->description) > 50)
+                                                                        ..{{ substr($quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->description, 32) }}
+                                                                    @else
+                                                                        {{ $quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->description }}
+                                                                    @endif
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -322,7 +334,11 @@
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
-                                                                {{ $client->contact_name }}
+                                                                @if ($client->type == 'Perusahaan')
+                                                                    {{ $client->contact_name }}
+                                                                @else
+                                                                    -
+                                                                @endif
                                                             </td>
                                                             <td
                                                                 class="text-black border text-[0.65rem] text-center align-top">
@@ -347,9 +363,17 @@
                                                             </td>
                                                             <td class="text-black border text-[0.65rem] align-top px-1">
                                                                 @if (count($quotation->quotation_revisions) != 0)
-                                                                    {{ $quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->description }}
+                                                                    @if (strlen($quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->description) > 50)
+                                                                        ..{{ substr($quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->description, 32) }}
+                                                                    @else
+                                                                        {{ $quotation->quot_revision_statuses[count($quotation->quot_revision_statuses) - 1]->description }}
+                                                                    @endif
                                                                 @else
-                                                                    {{ $quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->description }}
+                                                                    @if (strlen($quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->description) > 50)
+                                                                        ..{{ substr($quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->description, 32) }}
+                                                                    @else
+                                                                        {{ $quotation->quotation_statuses[count($quotation->quotation_statuses) - 1]->description }}
+                                                                    @endif
                                                                 @endif
                                                             </td>
                                                         </tr>

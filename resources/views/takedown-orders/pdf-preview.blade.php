@@ -71,7 +71,7 @@
                             <!-- Body start -->
                             <div class="h-[1080px]">
                                 <label class="flex text-md font-semibold justify-center w-full mt-6"><u>DAFTAR SPK
-                                        PEMASANGAN
+                                        PENURUNAN
                                         GAMBAR</u></label>
                                 <label class="flex text-md justify-center w-full">
                                     <b class="ml-2">
@@ -129,7 +129,7 @@
                                                 @foreach ($data_takedowns as $order)
                                                     @php
                                                         $product = json_decode($order->product);
-                                                        $description = $product->description;
+                                                        $description = json_decode($order->location->description);
                                                     @endphp
                                                     @if ($i == 0)
                                                         @if ($loop->iteration <= 35)
@@ -152,19 +152,19 @@
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
-                                                                    {{ $product->code }}-{{ $product->city_code }}
+                                                                    {{ $product->location_code }}-{{ $product->city_code }}
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem]">
-                                                                    @if (strlen($product->address) > 55)
-                                                                        {{ substr($productaddress, 0, 55) }}..
+                                                                    @if (strlen($product->location_address) > 55)
+                                                                        {{ substr($product->location_address, 0, 55) }}..
                                                                     @else
-                                                                        {{ $product->address }}
+                                                                        {{ $product->location_address }}
                                                                     @endif
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem]  text-center">
-                                                                    {{ $product->size }}
+                                                                    {{ $product->location_size }}
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
@@ -197,19 +197,19 @@
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">
-                                                                    {{ $product->code }}-{{ $product->city_code }}
+                                                                    {{ $product->location_code }}-{{ $product->city_code }}
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem]">
-                                                                    @if (strlen($product->address) > 55)
-                                                                        {{ substr($product->address, 0, 55) }}..
+                                                                    @if (strlen($product->location_address) > 55)
+                                                                        {{ substr($product->location_address, 0, 55) }}..
                                                                     @else
-                                                                        {{ $product->address }}
+                                                                        {{ $product->location_address }}
                                                                     @endif
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem]  text-center">
-                                                                    {{ $product->size }}
+                                                                    {{ $product->location_size }}
                                                                 </td>
                                                                 <td
                                                                     class="text-stone-900 px-1 border border-stone-900 text-[0.7rem] text-center">

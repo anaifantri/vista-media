@@ -18,8 +18,8 @@
         ];
         $spkDate = date('d') . ' ' . $bulan[(int) date('m')] . ' ' . date('Y');
         $product = json_decode($takedown_order->product);
-        $description = $product->description;
-        if ($product->category == 'Signage') {
+        $description = json_decode($location->description);
+        if ($product->location_category == 'Signage') {
             $location_lat = $description->lat[0];
             $location_lng = $description->lng[0];
         } else {
@@ -95,7 +95,7 @@
             </div>
         </div>
         <input id="saveName" type="text"
-            value="{{ substr($takedown_order->number, 0, 4) }}-SPK Penurunan-{{ $product->address }}" hidden>
+            value="{{ substr($takedown_order->number, 0, 4) }}-SPK Penurunan-{{ $product->location_address }}" hidden>
     </div>
 
     <!-- Script start-->

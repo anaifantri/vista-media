@@ -19,7 +19,7 @@
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">
-                <div class="w-[1200px]">
+                <div class="w-[1550px]">
                     <div class="flex border-b">
                         <h1 class="index-h1">DAFTAR PEMOTONGAN PPH</h1>
                     </div>
@@ -45,8 +45,9 @@
                                                 @if ($i == date('m'))
                                                     <option value="{{ $i }}" selected>{{ $bulan_full[$i] }}
                                                     </option>
+                                                @else
+                                                    <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
                                                 @endif
-                                                <option value="{{ $i }}">{{ $bulan_full[$i] }}</option>
                                             @endfor
                                         @endif
                                     </select>
@@ -105,7 +106,7 @@
                 </div>
             </div>
             <div class="flex justify-center w-full mt-2">
-                <div class="w-[1200px]">
+                <div class="w-[1550px]">
                     <table class="table-auto w-full">
                         <thead>
                             <tr class="bg-stone-400 h-8">
@@ -120,6 +121,9 @@
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
                                     Tgl. Invoice
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-52">
+                                    Nomor Faktur
                                 </th>
                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
                                     DPP
@@ -190,6 +194,15 @@
                                                 @foreach ($payment->billings as $itemBilling)
                                                     <span
                                                         class="flex justify-center w-full">{{ date('d', strtotime($itemBilling->created_at)) }}-{{ $bulan[(int) date('m', strtotime($itemBilling->created_at))] }}-{{ date('Y', strtotime($itemBilling->created_at)) }}</span>
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td class="text-stone-900 px-2 border border-stone-900 text-sm text-center">
+                                            <div>
+                                                @foreach ($payment->billings as $itemBilling)
+                                                    @if ($itemBilling->vat_tax_invoice)
+                                                        <span>{{ $itemBilling->vat_tax_invoice->number }}</span>
+                                                    @endif
                                                 @endforeach
                                             </div>
                                         </td>

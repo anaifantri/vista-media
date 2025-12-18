@@ -97,8 +97,6 @@
                 @php
                     $clients = json_decode($sale->quotation->clients);
                     $counter++;
-                @endphp
-                @php
                     if ($sale->end_at > date('Y-m-d')) {
                         if (strtotime($sale->start_at) > strtotime(date($thisYear . '-01-01'))) {
                             $start =
@@ -128,70 +126,66 @@
                                 (strtotime(date($sale->end_at)) - strtotime(date($thisYear . '-01-01'))) / 60 / 60 / 24;
                         }
                     }
+                    $GLOBALS['col_start'] = $start + 1;
+                    $GLOBALS['col_end'] = $lineWidth + $start;
                 @endphp
                 <div class="absolute z-50">
-                    <div class="flex">
-                        @for ($i = 0; $i < $start; $i++)
-                            <div class="h-[2px] w-[1px]">
-                            </div>
-                        @endfor
+                    <div class="grid grid-cols-365 gap-0 w-[365px]">
                         @if ($sale->end_at > date('Y-m-d'))
                             @if (strtotime($sale->end_at) > strtotime(date($thisYear . '-01-01')))
-                                @if ($lineWidth <= 31)
-                                    <a
-                                        href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
-                                @elseif ($lineWidth > 31 && $lineWidth <= 45)
-                                    <a
+                                @if ($lineWidth <= 45)
+                                    <a class="col-start-[--col-start] w-20" style="--col-start: <?php echo $GLOBALS['col_start']; ?>;"
                                         href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 6) }}..</a>
-                                @elseif ($lineWidth > 45 && $lineWidth <= 60)
-                                    <a
-                                        href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 8) }}..</a>
                                 @else
-                                    <a href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
+                                    <a class="col-start-[--col-start] w-20" style="--col-start: <?php echo $GLOBALS['col_start']; ?>;"
+                                        href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
                                 @endif
                             @endif
                         @elseif (strtotime(date($sale->end_at)) > strtotime(date($thisYear . '-01-01')) &&
                                 strtotime(date($sale->end_at)) < date('Y-m-d'))
-                            @if ($lineWidth - $start <= 31)
-                                <a
-                                    href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
+                            @if ($lineWidth - $start <= 45)
+                                <a class="col-start-[--col-start] w-20" style="--col-start: <?php echo $GLOBALS['col_start']; ?>;"
+                                    href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 6) }}..</a>
                             @else
-                                <a href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
+                                <a class="col-start-[--col-start] w-20" style="--col-start: <?php echo $GLOBALS['col_start']; ?>;"
+                                    href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
                             @endif
                         @endif
-                        {{-- @for ($i = 0; $i <= $start; $i++)
-                            @if ($i == $start)
-                                @if ($sale->end_at > date('Y-m-d'))
-                                    @if (strtotime($sale->end_at) > strtotime(date($thisYear . '-01-01')))
-                                        @if ($lineWidth <= 31)
-                                            <a
-                                                href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
-                                        @elseif ($lineWidth > 31 && $lineWidth <= 45)
-                                            <a
-                                                href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 6) }}..</a>
-                                        @elseif ($lineWidth > 45 && $lineWidth <= 60)
-                                            <a
-                                                href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 8) }}..</a>
-                                        @else
-                                            <a href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
-                                        @endif
-                                    @endif
-                                @elseif (strtotime(date($sale->end_at)) > strtotime(date($thisYear . '-01-01')) &&
-                                        strtotime(date($sale->end_at)) < date('Y-m-d'))
-                                    @if ($lineWidth - $start <= 31)
-                                        <a
-                                            href="/marketing/sales/{{ $sale->id }}">{{ substr($clients->name, 0, 4) }}..</a>
-                                    @else
-                                        <a href="/marketing/sales/{{ $sale->id }}">{{ $clients->name }}</a>
-                                    @endif
+                    </div>
+                    <div class="grid grid-cols-365 gap-0 w-[365px]">
+                        @if ($sale->start_at < date('Y-m-d'))
+                            @if (date($sale->end_at) < date('Y-m-d'))
+                                @if ($counter % 2 == 0)
+                                    <div class="h-[3px] bg-stone-600 col-start-[--col-start] col-end-[--col-end]"
+                                        style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                                    </div>
+                                @else
+                                    <div class="h-[3px] bg-stone-400 col-start-[--col-start] col-end-[--col-end]"
+                                        style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                                    </div>
                                 @endif
                             @else
-                                <div class="h-[2px] w-[1px]">
-                                </div>
+                                @if ($sale->company_id == '1')
+                                    <div class="h-[3px] bg-red-700 col-start-[--col-start] col-end-[--col-end]"
+                                        style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                                    </div>
+                                @elseif ($sale->company_id == '3')
+                                    <div class="h-[3px] bg-lime-700 col-start-[--col-start] col-end-[--col-end]"
+                                        style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                                    </div>
+                                @else
+                                    <div class="h-[3px] bg-blue-700 col-start-[--col-start] col-end-[--col-end]"
+                                        style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                                    </div>
+                                @endif
                             @endif
-                        @endfor --}}
+                        @else
+                            <div class="h-[3px] bg-stone-700 col-start-[--col-start] col-end-[--col-end]"
+                                style="--col-start: <?php echo $GLOBALS['col_start']; ?>;--col-end: <?php echo $GLOBALS['col_end']; ?>;">
+                            </div>
+                        @endif
                     </div>
-                    <div class="flex">
+                    {{-- <div class="flex">
                         @if ($sale->start_at < date('Y-m-d'))
                             @if (date($sale->end_at) < date('Y-m-d'))
                                 @for ($i = 0; $i < 365; $i++)
@@ -260,7 +254,7 @@
                                 @endif
                             @endfor
                         @endif
-                    </div>
+                    </div> --}}
                 </div>
             @endforeach
         </div>
