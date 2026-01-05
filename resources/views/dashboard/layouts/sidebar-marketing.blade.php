@@ -295,7 +295,7 @@
                     <ul class="hidden" id="materiChild" name="materiChild">
                         <li class="group">
                             <a class="nav-a ml-5 {{ Request::is('marketing/print-orders*') ? 'active' : '' }}"
-                                href="/print-orders/index/{{ $company->id }}?month={{ date('m') }}&year={{ date('Y') }}">
+                                href="/print-orders/index/{{ $company->id }}?month={{ (int) date('m') }}&year={{ date('Y') }}">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
@@ -306,7 +306,7 @@
                         </li>
                         <li class="group">
                             <a class="nav-a ml-5 {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
-                                href="/install-orders/index/{{ $company->id }}?month={{ date('m') }}&year={{ date('Y') }}">
+                                href="/install-orders/index/{{ $company->id }}?month={{ (int) date('m') }}&year={{ date('Y') }}">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
@@ -317,7 +317,7 @@
                         </li>
                         <li class="group">
                             <a class="nav-a ml-5 {{ Request::is('marketing/install-orders*') ? 'active' : '' }}"
-                                href="/takedown-orders/index/{{ $company->id }}?month={{ date('m') }}&year={{ date('Y') }}">
+                                href="/takedown-orders/index/{{ $company->id }}?month={{ (int) date('m') }}&year={{ date('Y') }}">
                                 <svg class="child-nav-svg" role="img" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
