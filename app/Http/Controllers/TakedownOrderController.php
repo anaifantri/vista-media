@@ -246,7 +246,9 @@ class TakedownOrderController extends Controller
     public function destroy(TakedownOrder $takedownOrder): RedirectResponse
     {
         if((Gate::allows('isAdmin') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete')) || (Gate::allows('isMarketing') && Gate::allows('isOrder') && Gate::allows('isMarketingDelete'))){
-            Storage::delete($takedownOrder->design);
+            if($takedownOrder->design){
+                Storage::delete($takedownOrder->design);
+            }
             TakedownOrder::destroy($takedownOrder->id);
             return redirect('/takedown-orders/index/'.$takedownOrder->company_id)->with('success', 'Data SPK penurunan gambar dengan nomor '.$takedownOrder->number.' berhasil dihapus');
         } else {
