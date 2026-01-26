@@ -216,6 +216,7 @@ class QuotationController extends Controller
             $quotations = Quotation::with('sales')->get();
             return view ('quotations.select-location', [
                 'areas' => Area::all(),
+                'client_groups' => ClientGroup::all(),
                 'cities' => City::all(),
                 'locations'=>$dataLocations,
                 'clients'=>$clients,

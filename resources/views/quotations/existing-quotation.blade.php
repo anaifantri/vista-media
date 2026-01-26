@@ -150,8 +150,21 @@
                     @endif
                 </td>
                 <td class="text-stone-900 border border-stone-900 text-center text-xs">
+                    @php
+                    $groupId = "";
+                    $clientName = $clients[$loop->iteration - 1]->name;
+                        foreach ($client_groups as $clientGroup) {
+                            $members = json_decode($clientGroup->member);
+                            $filteredGroup = array_filter($members, function ($member) use ($clientName) {
+                                return $member->name == $clientName;
+                            });
+                            if($filteredGroup){
+                                $groupId =  $clientGroup->id;
+                            }
+                        }
+                    @endphp
                     <input id="{{ $clients[$loop->iteration - 1]->name }}"
-                        value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="pilih"
+                        value="{{ $sales[$loop->iteration - 1]->id }}" type="checkbox" title="{{ $groupId }}"
                         onclick="getExistingLocation(this)">
                 </td>
             </tr>
