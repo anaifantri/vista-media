@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Billing;
 use App\Models\BillingSale;
 use App\Models\Company;
+use App\Models\Payment;
 use App\Models\Sale;
 use App\Models\Client;
 use App\Models\Quotation;
@@ -42,9 +43,11 @@ class BillingController extends Controller
     public function report(String $company_id): Response
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
+            $payments = Payment::with('billings')->get();
             return response()-> view ('billings.billing-report', [
                 'billings'=>Billing::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("invoice_number", "asc")->get(),
-                'title' => 'List Invoice'
+                'title' => 'List Invoice',
+                compact('payments')
             ]);
         } else {
             abort(403);

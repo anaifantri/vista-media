@@ -73,6 +73,17 @@ class Payment extends Model
     public function other_fee(){
         return $this->hasOne(OtherFee::class, 'payment_id', 'id');
     }
+    
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function($payment){
+            $payment->billings()->detach();
+            $payment->income_tax_document()->get()->each->delete();
+            $payment->income_taxes()->get()->each->delete();
+            $payment->other_fee()->get()->each->delete();
+        });
+    }
 
     public $sortable = ['number'];
 }

@@ -274,7 +274,7 @@
             var nominal = Number(sel.value);
             var getSubTotal = countNominal();
             var getDpp = getSubTotal / 12 * 11;
-            var getPpn = Math.round(getDpp * 11 / 100);
+            var getPpn = Math.round(getDpp * 12 / 100);
             var getGrandTotal = getSubTotal + getPpn;
             var getTerbilang = terbilang(getGrandTotal);
 
@@ -377,7 +377,7 @@
         inputDppChange = (sel) => {
             var getSubTotal = countNominal();
             var getDpp = sel.value;
-            var getPpn = Math.round(getDpp * 11 / 100);
+            var getPpn = Math.round(getDpp * 12 / 100);
             var getGrandTotal = getSubTotal + getPpn;
             var getTerbilang = terbilang(getGrandTotal);
 

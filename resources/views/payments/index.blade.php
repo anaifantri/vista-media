@@ -286,13 +286,15 @@
                                                     @endcan
                                                 @endcan
                                             @endcanany
-                                            @can('isAdmin')
-                                                <form action="#" method="post" class="d-inline m-1">
+                                            @canany(['isAdmin', 'isAccounting'])
+                                                @can('isCollect')
+                                                    @can('isAccountingDelete')
+                                                <form action="/accounting/payments/{{ $payment->id }}" method="post" class="d-inline m-1">
                                                     @method('delete')
                                                     @csrf
                                                     <button
                                                         class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data pembayaran dengan nomor ?')">
+                                                        onclick="return confirm('Apakah anda yakin ingin menghapus data pembayaran ini ?')">
                                                         <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                                             width="24" height="24" viewBox="0 0 24 24">
                                                             <title>DELETE</title>
@@ -301,7 +303,9 @@
                                                         </svg>
                                                     </button>
                                                 </form>
-                                            @endcan
+                                                    @endcan
+                                                @endcan
+                                            @endcanany
                                         </div>
                                     </td>
                                 </tr>

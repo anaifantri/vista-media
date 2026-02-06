@@ -228,6 +228,11 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment): RedirectResponse
     {
-        //
+        if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingDelete')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingDelete'))){
+            Payment::destroy($payment->id);
+            return redirect('/payments/index/'.$payment->company_id)->with('success', 'Data pembayaran berhasil dihapus');
+        } else {
+            abort(403);
+        }
     }
 }
