@@ -16,6 +16,8 @@
     $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
     
     $totalPayment = 0;
+    $totalPph = 0;
+    $totalOtherFee = 0;
     
     if (fmod(count($billings), 25) == 0) {
         $pageQty = count($billings) / 25;

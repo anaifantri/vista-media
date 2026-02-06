@@ -43,6 +43,9 @@ class IncomeTax extends Model
     public function billing(){
         return $this->belongsTo(Billing::class);
     }
+    public function payment(){
+        return $this->belongsTo(Payment::class);
+    }
     public function sale(){
         return $this->belongsTo(Sale::class);
     }

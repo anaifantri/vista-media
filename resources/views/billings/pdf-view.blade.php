@@ -170,7 +170,7 @@
                                     <th class="text-stone-900 border border-black text-sm text-center" colspan="3">
                                         Detail Invoice
                                     </th>
-                                    <th class="text-stone-900 border border-black text-sm text-center" colspan="2">
+                                    <th class="text-stone-900 border border-black text-sm text-center" colspan="4">
                                         Detail Pembayaran
                                     </th>
                                 </tr>
@@ -189,6 +189,12 @@
                                     </th>
                                     <th class="text-stone-900 border border-black text-sm text-center w-24">
                                         Nominal
+                                    </th>
+                                    <th class="text-stone-900 border border-black text-sm text-center w-24">
+                                        Pot. PPh
+                                    </th>
+                                    <th class="text-stone-900 border border-black text-sm text-center w-24">
+                                        Pot. Lainnya
                                     </th>
                                 </tr>
                             </thead>
@@ -238,12 +244,13 @@
                                                 {{ number_format($billing->nominal + $billing->ppn) }}
                                             </td>
                                             <td
-                                                class="text-stone-900 px-1 border border-black text-sm bg-red-50 text-center">
+                                                class="text-stone-900 px-1 border border-black text-sm bg-teal-50 text-center">
                                                 <div class="w-full">
                                                     @if ($billing->bill_payments)
                                                         @foreach ($billing->bill_payments as $payment)
-                                                            <label class="flex justify-center w-full">
-                                                                {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}</label>
+                                                            <div class="flex justify-center w-full">
+                                                                {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
+                                                            </div>
                                                         @endforeach
                                                     @endif
                                                 </div>
@@ -252,13 +259,45 @@
                                                 class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
                                                 <div class="w-full">
                                                     @foreach ($billing->bill_payments as $payment)
-                                                        <label
-                                                            class="flex justify-end px-1 w-full">{{ number_format($payment->nominal) }}</label>
+                                                        <div class="flex justify-end px-1 w-full">
+                                                            {{ number_format($payment->nominal) }}</div>
                                                         @php
                                                             $totalPayment = $totalPayment + $payment->nominal;
                                                         @endphp
                                                     @endforeach
                                                 </div>
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-black text-sm bg-teal-50  text-right">
+                                                <div class="w-full">
+                                                    @foreach ($billing->bill_payments as $payment)
+                                                        @php
+                                                            $totalPph =
+                                                                $totalPph + $payment->income_taxes->sum('nominal');
+                                                        @endphp
+                                                        <div class="flex justify-end px-1 w-full">
+                                                            {{ number_format($payment->income_taxes->sum('nominal')) }}
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
+                                                @foreach ($billing->bill_payments as $payment)
+                                                    @php
+                                                        if ($payment->other_fee) {
+                                                            $totalOtherFee =
+                                                                $totalOtherFee + $payment->other_fee->nominal;
+                                                        }
+                                                    @endphp
+                                                    <div class="flex justify-end px-1 w-full">
+                                                        @if ($payment->other_fee)
+                                                            {{ number_format($payment->other_fee->nominal) }}
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </div>
+                                                @endforeach
                                             </td>
                                         </tr>
                                     @endif
@@ -285,11 +324,19 @@
                                         {{ number_format($billings->sum('nominal') + $billings->sum('ppn')) }}
                                     </td>
                                     <td
-                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-red-50 font-semibold">
+                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-gray-500 font-semibold">
                                     </td>
                                     <td
                                         class="text-stone-900 px-1 border border-black text-sm  text-right bg-red-50 font-semibold">
                                         {{ number_format($totalPayment) }}
+                                    </td>
+                                    <td
+                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-teal-50 font-semibold">
+                                        {{ number_format($totalPph) }}
+                                    </td>
+                                    <td
+                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-red-50 font-semibold">
+                                        {{ number_format($totalOtherFee) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -388,7 +435,7 @@
                                     <th class="text-stone-900 border border-black text-sm text-center" colspan="3">
                                         Detail Invoice
                                     </th>
-                                    <th class="text-stone-900 border border-black text-sm text-center" colspan="2">
+                                    <th class="text-stone-900 border border-black text-sm text-center" colspan="4">
                                         Detail Pembayaran
                                     </th>
                                 </tr>
@@ -407,6 +454,12 @@
                                     </th>
                                     <th class="text-stone-900 border border-black text-sm text-center w-24">
                                         Nominal
+                                    </th>
+                                    <th class="text-stone-900 border border-black text-sm text-center w-24">
+                                        Pot. PPh
+                                    </th>
+                                    <th class="text-stone-900 border border-black text-sm text-center w-24">
+                                        Pot. Lainnya
                                     </th>
                                 </tr>
                             </thead>
@@ -455,7 +508,7 @@
                                                 class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
                                                 {{ number_format($billing->nominal + $billing->ppn) }}
                                             </td>
-                                            <td class="text-stone-900 px-1 border border-black text-sm bg-red-50">
+                                            <td class="text-stone-900 px-1 border border-black text-sm bg-teal-50">
                                                 <div class="w-full">
                                                     @if ($billing->bill_payments)
                                                         @foreach ($billing->bill_payments as $payment)
@@ -477,6 +530,38 @@
                                                         @endphp
                                                     @endforeach
                                                 </div>
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-black text-sm bg-teal-50  text-right">
+                                                <div class="w-full">
+                                                    @foreach ($billing->bill_payments as $payment)
+                                                        @php
+                                                            $totalPph =
+                                                                $totalPph + $payment->income_taxes->sum('nominal');
+                                                        @endphp
+                                                        <div class="flex justify-end px-1 w-full">
+                                                            {{ number_format($payment->income_taxes->sum('nominal')) }}
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            <td
+                                                class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
+                                                @foreach ($billing->bill_payments as $payment)
+                                                    @php
+                                                        if ($payment->other_fee) {
+                                                            $totalOtherFee =
+                                                                $totalOtherFee + $payment->other_fee->nominal;
+                                                        }
+                                                    @endphp
+                                                    <div class="flex justify-end px-1 w-full">
+                                                        @if ($payment->other_fee)
+                                                            {{ number_format($payment->other_fee->nominal) }}
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </div>
+                                                @endforeach
                                             </td>
                                         </tr>
                                     @endif

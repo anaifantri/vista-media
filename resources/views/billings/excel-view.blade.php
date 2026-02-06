@@ -19,7 +19,7 @@
                 <th class="text-stone-900 border border-black text-sm text-center" colspan="3">
                     Detail Invoice
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center" colspan="2">
+                <th class="text-stone-900 border border-black text-sm text-center" colspan="4">
                     Detail Pembayaran
                 </th>
             </tr>
@@ -38,6 +38,12 @@
                 </th>
                 <th class="text-stone-900 border border-black text-sm text-center w-24">
                     Nominal
+                </th>
+                <th class="text-stone-900 border border-black text-sm text-center w-24">
+                    Pot. Pph
+                </th>
+                <th class="text-stone-900 border border-black text-sm text-center w-24">
+                    Pot. Lainnya
                 </th>
             </tr>
         </thead>
@@ -75,20 +81,21 @@
                         @endif
                     </td>
                     <td class="text-stone-900 px-1 border border-black text-sm text-right">
-                        {{ number_format($billing->nominal) }}
+                        {{ $billing->nominal }}
                     </td>
                     <td class="text-stone-900 px-1 border border-black text-sm text-right ">
-                        {{ number_format($billing->ppn) }}
+                        {{ $billing->ppn }}
                     </td>
                     <td class="text-stone-900 px-1 border border-black text-sm text-right">
-                        {{ number_format($billing->nominal + $billing->ppn) }}
+                        {{ $billing->nominal + $billing->ppn }}
                     </td>
                     <td class="text-stone-900 px-1 border border-black text-smtext-center">
                         <div class="w-full">
                             @if ($billing->bill_payments)
                                 @foreach ($billing->bill_payments as $payment)
-                                    <label class="flex justify-center w-full">
-                                        {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}</label>
+                                    <div class="flex justify-center w-full">
+                                        {{ date('d', strtotime($payment->payment_date)) }}-{{ $bulan[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
+                                    </div>
                                 @endforeach
                             @endif
                         </div>
@@ -96,13 +103,40 @@
                     <td class="text-stone-900 px-1 border border-black text-sm text-right">
                         <div class="w-full">
                             @foreach ($billing->bill_payments as $payment)
-                                <label
-                                    class="flex justify-end px-1 w-full">{{ number_format($payment->nominal) }}</label>
+                                <div class="flex justify-end px-1 w-full">{{ $payment->nominal }}</div>
                                 @php
                                     $totalPayment = $totalPayment + $payment->nominal;
                                 @endphp
                             @endforeach
                         </div>
+                    </td>
+                    <td class="text-stone-900 px-1 border border-black text-sm bg-teal-50  text-right">
+                        <div class="w-full">
+                            @foreach ($billing->bill_payments as $payment)
+                                @php
+                                    $totalPph = $totalPph + $payment->income_taxes->sum('nominal');
+                                @endphp
+                                <div class="flex justify-end px-1 w-full">
+                                    {{ number_format($payment->income_taxes->sum('nominal')) }}
+                                </div>
+                            @endforeach
+                        </div>
+                    </td>
+                    <td class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
+                        @foreach ($billing->bill_payments as $payment)
+                            @php
+                                if ($payment->other_fee) {
+                                    $totalOtherFee = $totalOtherFee + $payment->other_fee->nominal;
+                                }
+                            @endphp
+                            <div class="flex justify-end px-1 w-full">
+                                @if ($payment->other_fee)
+                                    {{ number_format($payment->other_fee->nominal) }}
+                                @else
+                                    -
+                                @endif
+                            </div>
+                        @endforeach
                     </td>
                 </tr>
             @endforeach
@@ -110,18 +144,24 @@
                 <td class="text-stone-900 px-1 border border-black text-sm  text-right font-semibold" colspan="5">
                     Total Penagihan</td>
                 <td class="text-stone-900 px-1 border border-black text-sm text-right font-semibold">
-                    {{ number_format($billings->sum('nominal')) }}
+                    {{ $billings->sum('nominal') }}
                 </td>
                 <td class="text-stone-900 px-1 border border-black text-sm text-right font-semibold">
-                    {{ number_format($billings->sum('ppn')) }}
+                    {{ $billings->sum('ppn') }}
                 </td>
                 <td class="text-stone-900 px-1 border border-black text-sm  text-right font-semibold">
-                    {{ number_format($billings->sum('nominal') + $billings->sum('ppn')) }}
+                    {{ $billings->sum('nominal') + $billings->sum('ppn') }}
                 </td>
                 <td class="text-stone-900 px-1 border border-black text-sm  text-right font-semibold">
                 </td>
                 <td class="text-stone-900 px-1 border border-black text-sm  text-right font-semibold">
-                    {{ number_format($totalPayment) }}
+                    {{ $totalPayment }}
+                </td>
+                <td class="text-stone-900 px-1 border border-black text-sm  text-right font-semibold">
+                    {{ $totalPph }}
+                </td>
+                <td class="text-stone-900 px-1 border border-black text-sm  text-right font-semibold">
+                    {{ $totalOtherFee }}
                 </td>
             </tr>
         </tbody>

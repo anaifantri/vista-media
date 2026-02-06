@@ -6,6 +6,8 @@ use App\Models\Billing;
 use App\Models\BillingSale;
 use App\Models\Company;
 use App\Models\Payment;
+use App\Models\IncomeTax;
+use App\Models\OtherFee;
 use App\Models\Sale;
 use App\Models\Client;
 use App\Models\Quotation;
@@ -44,10 +46,12 @@ class BillingController extends Controller
     {
         if(Gate::allows('isCollect') && Gate::allows('isAccountingRead')){
             $payments = Payment::with('billings')->get();
+            $other_fee = OtherFee::with('payment')->get();
+            $income_taxes = IncomeTax::with('payment')->get();
             return response()-> view ('billings.billing-report', [
                 'billings'=>Billing::where('company_id', $company_id)->filter(request('search'))->year()->month()->sortable()->orderBy("invoice_number", "asc")->get(),
                 'title' => 'List Invoice',
-                compact('payments')
+                compact('payments', 'other_fee', 'income_taxes')
             ]);
         } else {
             abort(403);
