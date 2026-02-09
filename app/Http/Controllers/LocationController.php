@@ -9,6 +9,10 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Led;
 use App\Models\Sale;
+use App\Models\LandAgreement;
+use App\Models\ElectricalPower;
+use App\Models\ElectricityTopUp;
+use App\Models\ElectricityPayment;
 use App\Models\MediaSize;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -300,6 +304,11 @@ class LocationController extends Controller
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
             $media_categories = MediaCategory::with('locations')->get();
+            $sales = Sale::with('location')->get();
+            $land_agreements = LandAgreement::with('location')->get();
+            $electrical_powers = ElectricalPower::with('locations')->get();
+            $electricity_top_ups = ElectricityTopUp::with('electrical_power')->get();
+            $electricity_payments = ElectricityPayment::with('electrical_power')->get();
     
             return response()->view('locations.show', [
                 'location' => $location,
@@ -307,7 +316,7 @@ class LocationController extends Controller
                 'leds'=>Led::all(),
                 'category'=>$location->media_category->name,
                 'data_photos'=>LocationPhoto::where('location_id', $location->id)->get(),
-                compact('areas', 'cities', 'media_sizes', 'media_categories')
+                compact('areas', 'cities', 'media_sizes', 'media_categories', 'sales', 'land_agreements', 'electrical_powers', 'electricity_top_ups', 'electricity_payments')
             ]);
         } else {
             abort(403);

@@ -57,6 +57,20 @@
             'November',
             'Desember',
         ];
+        $month = [
+            1 => 'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'Mei',
+            'Jun',
+            'Jul',
+            'Agu',
+            'Sep',
+            'Okt',
+            'Nov',
+            'Des',
+        ];
     @endphp
     <input id="lat" type="text" value="{{ json_encode($description->lat) }}" hidden>
     <input id="lng" type="text" value="{{ json_encode($description->lng) }}" hidden>
@@ -133,8 +147,337 @@
                 @include('dashboard.layouts.location-show')
             </div>
             <!-- Show Location end -->
+
         </div>
     </div>
+
+    <!-- Detail Location start -->
+    <div class="flex justify-center pl-14 bg-stone-800">
+        <div class="z-0 mb-8 bg-stone-700 p-4 border rounded-md w-[1180px] text-stone-100">
+            <div class="flex items-center border-b font-semibold text-xl">DATA PENJUALAN / SEWA MEDIA</div>
+            <div class="flex justify-center items-center w-full">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-sm w-10 text-center">No.</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Tgl. Penjualan</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-48 text-center">No. Penjualan</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center">Nama Klien
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center">Periode</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Awal Kontrak
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Akhir Kontrak
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-32 text-center">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $number = 0;
+                            $totalMediaSales = 0;
+                        @endphp
+                        @foreach ($location->sales as $sale)
+                            @if ($sale->media_category->name != 'Service')
+                                @php
+                                    $number++;
+                                    $totalMediaSales = $totalMediaSales + $sale->price;
+                                    $client = json_decode($sale->quotation->clients);
+                                @endphp
+                                <tr class="bg-white">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $number }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ date('d', strtotime($sale->created_at)) }}-{{ $month[(int) date('m', strtotime($sale->created_at))] }}-{{ date('Y', strtotime($sale->created_at)) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $sale->number }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                        {{ $client->company }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $sale->duration }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ date('d', strtotime($sale->start_at)) }}-{{ $month[(int) date('m', strtotime($sale->start_at))] }}-{{ date('Y', strtotime($sale->start_at)) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ date('d', strtotime($sale->end_at)) }}-{{ $month[(int) date('m', strtotime($sale->end_at))] }}-{{ date('Y', strtotime($sale->end_at)) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                        {{ number_format($sale->price) }}
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        <tr class="bg-white">
+                            <td class="text-stone-900 border border-stone-900 text-sm font-semibold text-right px-2"
+                                colspan="7">
+                                Total Penjualan
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-sm text-right px-2 font-semibold">
+                                {{ number_format($totalMediaSales) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex items-center border-b font-semibold text-xl mt-6">DATA PENJUALAN CETAK / PASANG</div>
+            <div class="flex justify-center items-center w-full">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-sm w-10 text-center">No.</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Tgl. Penjualan</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-48 text-center">No. Penjualan</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center">
+                                Nama Klien
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-32 text-center">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $number = 0;
+                            $totalServiceSales = 0;
+                        @endphp
+                        @foreach ($location->sales as $sale)
+                            @if ($sale->media_category->name == 'Service')
+                                @php
+                                    $number++;
+                                    $totalServiceSales = $totalServiceSales + $sale->price;
+                                    $client = json_decode($sale->quotation->clients);
+                                @endphp
+                                <tr class="bg-white">
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $number }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ date('d', strtotime($sale->created_at)) }}-{{ $month[(int) date('m', strtotime($sale->created_at))] }}-{{ date('Y', strtotime($sale->created_at)) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $sale->number }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                        {{ $client->company }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                        {{ number_format($sale->price) }}
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        <tr class="bg-white">
+                            <td class="text-stone-900 border border-stone-900 text-sm font-semibold text-right px-2"
+                                colspan="4">
+                                Total Penjualan
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-sm text-right px-2 font-semibold">
+                                {{ number_format($totalServiceSales) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex items-center border-b font-semibold text-xl mt-6">DATA SEWA LAHAN</div>
+            <div class="flex justify-center items-center w-full">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr class="bg-stone-400">
+                            <th class="text-stone-900 border border-stone-900 text-sm w-10 text-center">No.</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-28 text-center">Tgl. Perjanjian
+                            </th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-48 text-center">No. Perjanjian</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center">Pemilik</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-36 text-center">No. Hp</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center">Masa Sewa</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-32 text-center">Harga</th>
+                            <th class="text-stone-900 border border-stone-900 text-sm w-32 text-center">Total Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $number = 0;
+                            $totalRentalPrice = 0;
+                        @endphp
+                        @foreach ($location->land_agreements as $agreement)
+                            @php
+                                $number++;
+                                $landOwner = json_decode($agreement->second_party);
+                                $totalRentalPrice = $totalRentalPrice + $agreement->price * $agreement->duration;
+                            @endphp
+                            <tr class="bg-white">
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $number }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ date('d', strtotime($agreement->published)) }}-{{ $month[(int) date('m', strtotime($agreement->published))] }}-{{ date('Y', strtotime($agreement->published)) }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $agreement->number }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                    {{ $landOwner->name }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $landOwner->phone }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    {{ $agreement->duration }} tahun
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                    {{ number_format($agreement->price) }}
+                                </td>
+                                <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                    {{ number_format($agreement->price * $agreement->duration) }}
+                                </td>
+                            </tr>
+                        @endforeach
+                        <tr class="bg-white">
+                            <td class="text-stone-900 border border-stone-900 text-sm font-semibold text-right px-2"
+                                colspan="7">
+                                Total Harga Sewa Lahan
+                            </td>
+                            <td class="text-stone-900 border border-stone-900 text-sm text-right px-2 font-semibold">
+                                {{ number_format($totalRentalPrice) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex items-center border-b font-semibold text-xl mt-6">DATA LISTRIK</div>
+            @if ($location->electrical_powers)
+                @foreach ($location->electrical_powers as $electrical)
+                    <div>
+                        <div class="flex mt-2">
+                            <label class="text-sm w-36">ID Pelanggan</label>
+                            <label class="text-sm">:</label>
+                            <label class="text-sm ml-2">{{ $electrical->id_number }}</label>
+                        </div>
+                        <div class="flex mt-1">
+                            <label class="text-sm w-36">Nama Pelanggan</label>
+                            <label class="text-sm">:</label>
+                            <label class="text-sm ml-2">{{ $electrical->name }}</label>
+                        </div>
+                        <div class="flex mt-1">
+                            <label class="text-sm w-36">Daya Listrik</label>
+                            <label class="text-sm">:</label>
+                            <label class="text-sm ml-2">{{ $electrical->power }}</label>
+                        </div>
+                        <div class="flex mt-1">
+                            <label class="text-sm w-36">Jenis</label>
+                            <label class="text-sm">:</label>
+                            <label class="text-sm ml-2">{{ $electrical->type }}</label>
+                        </div>
+                        @if ($electrical->type == 'Prabayar')
+                            <div class="flex items-center w-full mt-2">
+                                <table class="table-auto">
+                                    <thead>
+                                        <tr class="bg-stone-400">
+                                            <th class="text-stone-900 border border-stone-900 text-sm w-10 text-center">No.
+                                            </th>
+                                            <th class="text-stone-900 border border-stone-900 text-sm w-32 text-center">
+                                                Tgl. Isi Pulsa</th>
+                                            <th class="text-stone-900 border border-stone-900 text-sm w-36 text-center">
+                                                Nominal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $number = 0;
+                                            $totalTopup = 0;
+                                        @endphp
+                                        @foreach ($electrical->electricity_top_ups as $topup)
+                                            @php
+                                                $number++;
+                                                $totalTopup = $totalTopup + $topup->top_up_nominal;
+                                            @endphp
+                                            <tr class="bg-white">
+                                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                    {{ $number }}
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                    {{ date('d', strtotime($topup->topup_date)) }}-{{ $month[(int) date('m', strtotime($topup->topup_date))] }}-{{ date('Y', strtotime($topup->topup_date)) }}
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                                    {{ number_format($topup->top_up_nominal) }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        <tr class="bg-white">
+                                            <td class="text-stone-900 border border-stone-900 text-sm font-semibold text-right px-2"
+                                                colspan="2">
+                                                Total Pengisian Pulsa
+                                            </td>
+                                            <td
+                                                class="text-stone-900 border border-stone-900 text-sm text-right px-2 font-semibold">
+                                                {{ number_format($totalTopup) }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="flex items-center w-full mt-2">
+                                <table class="table-auto">
+                                    <thead>
+                                        <tr class="bg-stone-400">
+                                            <th class="text-stone-900 border border-stone-900 text-sm w-10 text-center">No.
+                                            </th>
+                                            <th class="text-stone-900 border border-stone-900 text-sm w-36 text-center">
+                                                Tgl. Pembayaran</th>
+                                            <th class="text-stone-900 border border-stone-900 text-sm w-36 text-center">
+                                                Nominal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $number = 0;
+                                            $totalPayment = 0;
+                                        @endphp
+                                        @foreach ($electrical->electricity_payments as $payment)
+                                            @php
+                                                $number++;
+                                                $totalPayment = $totalPayment + $payment->payment;
+                                            @endphp
+                                            <tr class="bg-white">
+                                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                    {{ $number }}
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                                    {{ date('d', strtotime($payment->payment_date)) }}-{{ $month[(int) date('m', strtotime($payment->payment_date))] }}-{{ date('Y', strtotime($payment->payment_date)) }}
+                                                </td>
+                                                <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                                    {{ number_format($payment->payment) }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        <tr class="bg-white">
+                                            <td class="text-stone-900 border border-stone-900 text-sm font-semibold text-right px-2"
+                                                colspan="2">
+                                                Total Pembayaran Listrik
+                                            </td>
+                                            <td
+                                                class="text-stone-900 border border-stone-900 text-sm text-right px-2 font-semibold">
+                                                {{ number_format($totalPayment) }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            @endif
+        </div>
+    </div>
+    <!-- Detail Location end -->
+
     <!-- Script Show Location start -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
         defer></script>

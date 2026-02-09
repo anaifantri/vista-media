@@ -373,3 +373,15 @@ Route::get('/marketing', function () {
         'title' => 'Data Pemasaran'
     ]);   
 })->middleware(['auth','user_access']);
+
+Route::get('/accounting', function () {
+    return view('home.accounting-home',[
+        'title' => 'Data Keuangan'
+    ]);   
+})->middleware(['auth','user_access']);
+
+Route::get('/workshop', function () {
+    return view('home.workshop-home',[
+        'title' => 'Data Produksi'
+    ]);   
+})->middleware(['auth','user_access']);

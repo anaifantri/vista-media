@@ -45,7 +45,7 @@
             </a>
         </ul>
         <ul class="flex justify-start group w-max  h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-white {{ Request::is('accounting') ? 'active' : '' }}" href="/workshop">
+            <a class="right-nav text-white {{ Request::is('workshop') ? 'active' : '' }}" href="/workshop">
                 <svg class="fill-current w-5 mx-2" role="img" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <title>DATA PRODUKSI</title>
@@ -56,7 +56,7 @@
             </a>
         </ul>
         <ul class="flex justify-start group w-max  h-6 transition duration-300 ease-in-out">
-            <a class="right-nav text-white {{ Request::is('accounting') ? 'active' : '' }}" href="/user/users">
+            <a class="right-nav text-white {{ Request::is('user') ? 'active' : '' }}" href="/user/users">
                 <svg class="fill-current w-5 mx-2" role="img" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <title>DATA PENGGUNA</title>

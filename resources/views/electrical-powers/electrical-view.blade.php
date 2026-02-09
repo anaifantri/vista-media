@@ -249,7 +249,7 @@
                                             @method('delete')
                                             @csrf
                                             <button class="index-link text-white w-7 h-5 bg-red-500 rounded-md hover:bg-red-600"
-                                                onclick="return confirm('Apakah anda yakin ingin menghapus daya listrik dengan id {{ $electrical->electrical_powers[0]->id_number }} ?')">
+                                                onclick="return confirm('Apakah anda yakin ingin menghapus daya listrik dengan id {{ $electrical->id_number }} ?')">
                                                 <svg class="w-4 fill-current" xmlns="http://www.w3.org/2000/svg" width="24"
                                                     height="24" viewBox="0 0 24 24">
                                                     <title>DELETE</title>
