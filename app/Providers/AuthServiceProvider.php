@@ -41,6 +41,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isOwner', function($user){
             return $user->level === 'Owner';
         });
+        Gate::define('isReview', function($user){
+            return $user->position === 'Manager' || $user->position === 'Owner';
+        });
 
         //Gate Media --> start
         Gate::define('isLocation', function($user){

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
 use Carbon\Carbon;
@@ -299,6 +298,17 @@ class Sale extends Model
 
     public function complaint_responses(){
         return $this->hasMany(ComplaintResponse::class, 'sale_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'sales_reviews')
+        ->withPivot('note')
+        ->withTimestamps();
+    }
+    
+    public function sales_reviews(){
+        return $this->hasMany(SalesReview::class, 'sale_id', 'id');
     }
 
     public $sortable = ['number'];

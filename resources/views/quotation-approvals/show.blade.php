@@ -55,15 +55,17 @@
                         <label class="text-sm text-stone-900 w-24">Jml. Dokumen</label>
                         <label class="label-sale-02">:</label>
                         <label class="label-sale-02">{{ count($quotation_approvals) }} dokumen</label>
-                        <button id="approval"
-                            class="flex justify-center items-center ml-2 px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
-                            onclick="btnImages(this, document.getElementById('approvalImages'))">
-                            <svg class="fill-current w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z" />
-                            </svg>
-                            <span class="text-sm ml-1">Tambah</span>
-                        </button>
+                        @canany(['isAdmin', 'isMarketing'])
+                            <button id="approval"
+                                class="flex justify-center items-center ml-2 px-1 w-20 h-5 bg-teal-500 rounded-md text-white hover:bg-teal-600 drop-shadow-md"
+                                onclick="btnImages(this, document.getElementById('approvalImages'))">
+                                <svg class="fill-current w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z" />
+                                </svg>
+                                <span class="text-sm ml-1">Tambah</span>
+                            </button>
+                        @endcanany
                     </div>
                 </div>
                 <div class="w-[310px] border-l p-1">

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
 use Carbon\Carbon;
@@ -72,6 +71,17 @@ class Payment extends Model
 
     public function other_fee(){
         return $this->hasOne(OtherFee::class, 'payment_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'payment_reviews')
+        ->withPivot('note')
+        ->withTimestamps();
+    }
+    
+    public function payment_reviews(){
+        return $this->hasMany(PaymentReview::class, 'payment_id', 'id');
     }
     
     public static function boot(){

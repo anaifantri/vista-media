@@ -204,7 +204,7 @@
                 </a>
                 <li id="pphChildNav"
                     class="absolute border rounded-b-lg mt-4 w-max p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
-                    <!-- Child PPN Start -->
+                    <!-- Child PPh Start -->
                     <ul>
                         <li class="group">
                             <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
@@ -243,9 +243,61 @@
                             </a>
                         </li>
                     </ul>
-                    <!-- Child PPN End -->
+                    <!-- Child PPh End -->
                 </li>
             </ul>
         @endcan
+        @canany(['isOwner', 'isAccounting'])
+            @can('isReview')
+                <ul id="reviewNav" class="relative group transition duration-300 ease-in-out"
+                    onclick="headerDropdown(event, this)">
+                    <a class="right-nav w-40 p-1 h-6 text-stone-200" href="#">
+                        <svg class="fill-current w-5 mx-2" xmlns="http://www.w3.org/2000/svg" role="img"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M19 2c-1.229 0-2.18-1.084-3-2h-8c-.82.916-1.771 2-3 2h-3v22h20v-22h-3zm-7 0c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1zm8 20h-3.824c1.377-1.103 2.751-2.51 3.824-3.865v3.865zm0-8.457c0 4.107-6 2.457-6 2.457s1.518 6-2.638 6h-7.362v-18h4l2.102 2h3.898l2-2h4v9.543z" />
+                        </svg>
+                        <span class="flex"> Reviews </span>
+                        <svg id="pphArrowNav" class="ml-1 fill-current transition duration-300 ease-in-out w-5"
+                            role="img" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="m16.843 10.211c.108-.141.157-.3.157-.456 0-.389-.306-.755-.749-.755h-8.501c-.445 0-.75.367-.75.755 0 .157.05.316.159.457 1.203 1.554 3.252 4.199 4.258 5.498.142.184.36.29.592.29.23 0 .449-.107.591-.291 1.002-1.299 3.044-3.945 4.243-5.498z" />
+                        </svg>
+                    </a>
+                    <li id="reviewChildNav"
+                        class="absolute border rounded-b-lg mt-4 w-max p-1 bg-stone-700 drop-shadow-md bg-opacity-90 hidden">
+                        <!-- Child Review Start -->
+                        <ul>
+                            <li class="group">
+                                <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                    href="/payment-review/{{ $company->id }}">
+                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                    </svg>
+                                    <span class="flex font-semibold"> Review Penjualan </span>
+                                </a>
+                            </li>
+                            <li class="group">
+                                <a class="nav-a hover:bg-teal-50 p-1 rounded-md border-b-[1px]"
+                                    href="/payment-review/{{ $company->id }}">
+                                    <svg class="child-nav-svg" role="img" clip-rule="evenodd" fill-rule="evenodd"
+                                        stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z" />
+                                    </svg>
+                                    <span class="flex font-semibold"> Review Pembayaran </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- Child Review End -->
+                    </li>
+                </ul>
+            @endcan
+        @endcanany
     </nav>
 </div>

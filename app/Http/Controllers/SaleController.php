@@ -22,10 +22,8 @@ use App\Models\QuotRevisionStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Carbon\Carbon;
-use Validator;
 use Gate;
 
 class SaleController extends Controller

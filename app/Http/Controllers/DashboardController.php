@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Location;
-use App\Models\LocationPhoto;
-use App\Models\MediaCategory;
+// use App\Models\LocationPhoto;
+// use App\Models\MediaCategory;
 use App\Models\Area;
 use App\Models\City;
-use App\Models\License;
-use App\Models\LicensingCategory;
+// use App\Models\License;
+// use App\Models\LicensingCategory;
 use App\Models\Quotation;
 use App\Models\QuotationStatus;
 use App\Models\QuotationRevision;
@@ -18,7 +18,7 @@ use App\Models\ChangeSale;
 use App\Models\VoidSale;
 use App\Models\Billing;
 use App\Models\Payment;
-use App\Models\Company;
+// use App\Models\Company;
 use App\Models\PrintOrder;
 use App\Models\InstallOrder;
 use App\Models\ElectricalPower;
@@ -30,7 +30,7 @@ use App\Models\PublishContent;
 use App\Models\TakeOutContent;
 use Illuminate\Support\Facades\Crypt;
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -124,8 +124,14 @@ class DashboardController extends Controller
         $getChangeYearSales = ChangeSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price_diff');
         $getVoidYearSales = VoidSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price');
         $yearSales = $getYearSales + $getChangeYearSales - $getVoidYearSales;
+        if(request('area')){
+            $dataLocations = Location::where('area_id', request('area'))->orderBy("code", "asc")->get();
+        }else{
+            $dataLocations = Location::where('area_id', 1)->orderBy("code", "asc")->get();
+        }
         return view('dashboard.index',[
             'title' => "Dashboard",
+            'area' => Area::all(),
             'printOrderQty' => $printOrderQty,
             'printOrderData' => $printOrderData,
             'todaysPrint' => PrintOrder::where('company_id', $companyId)->whereDate('created_at', Carbon::today())->get(),
@@ -186,6 +192,7 @@ class DashboardController extends Controller
             'complaint_responses' => $complaint_responses,
             'publish_contents' => $publish_contents,
             'takeout_contents' => $takeout_contents,
+            'locations' => $dataLocations,
             compact('locations', 'cities', 'quotation_revisions', 'quotation_statuses', 'quot_revision_statuses')
         ]);
     }

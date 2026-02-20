@@ -195,7 +195,11 @@
                                         {{ $sale->number }}
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm px-2">
-                                        {{ $client->company }}
+                                        @if ($client->type == 'Perusahaan')
+                                            {{ $client->company }}
+                                        @else
+                                            {{ $client->name }}
+                                        @endif
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-center">
                                         {{ $sale->duration }}
@@ -262,7 +266,11 @@
                                         {{ $sale->number }}
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm px-2">
-                                        {{ $client->company }}
+                                        @if ($client->type == 'Perusahaan')
+                                            {{ $client->company }}
+                                        @else
+                                            {{ $client->name }}
+                                        @endif
                                     </td>
                                     <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
                                         {{ number_format($sale->price) }}

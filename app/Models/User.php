@@ -137,6 +137,28 @@ class User extends Authenticatable
         return $this->hasMany(ComplaintResponse::class, 'user_id', 'id');
     }
 
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class, 'sales_reviews')
+        ->withPivot('note')
+        ->withTimestamps();
+    }
+
+    public function sales_reviews(){
+        return $this->hasMany(SalesReview::class, 'user_id', 'id');
+    }
+
+    public function payments()
+    {
+        return $this->belongsToMany(Payment::class, 'payment_reviews')
+        ->withPivot('note')
+        ->withTimestamps();
+    }
+
+    public function payment_reviews(){
+        return $this->hasMany(PaymentReview::class, 'user_id', 'id');
+    }
+
     public $sortable = ['name', 'username'];
     /**
      * The attributes that should be hidden for serialization.

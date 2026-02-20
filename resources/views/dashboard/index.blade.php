@@ -15,17 +15,23 @@
             @can('isWorkshop')
                 @include('dashboard.workshop')
             @endcan
-            @canany(['isAdmin', 'isOwner'])
+            @can('isOwner')
+                @include('dashboard.owner')
+            @endcan
+            @can('isAdmin')
                 @include('dashboard.media')
                 @include('dashboard.marketing')
                 @include('dashboard.accounting')
                 @include('dashboard.workshop')
-            @endcanany
+            @endcan
         </div>
     </div>
 
     <!-- Script start -->
     <script src="{{ asset('js/apexcharts.min.js') }}"></script>
+    <script src="/js/showarea.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZT6TYRimJY8YoPn0cABAdGnbVLGVusWg&callback=initMap"
+        defer></script>
     <script>
         var options = {
             series: [{
@@ -499,6 +505,22 @@
 
         var chart = new ApexCharts(document.querySelector("#payment-bar-chart"), options);
         chart.render();
+
+
+        // Init Map --> start
+        // let zoomMaps = 10;
+        // let myLatLng = {
+        //     lat: -8.417338,
+        //     lng: 115.207694
+        // };
+
+        // function initMap() {
+        //     map = new google.maps.Map(document.getElementById("map"), {
+        //         zoom: Number(zoomMaps),
+        //         center: myLatLng,
+        //     });
+        // }
+        // Init Map --> end
     </script>
     <!-- Script end -->
 @endsection
