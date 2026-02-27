@@ -24,20 +24,20 @@
                         <label class="flex justify-center w-full text-sm">Marketing :</label>
                         <label class="flex justify-center w-full font-semibold text-md">{{ $salesUser->name }}</label>
                         <label class="flex w-full text-sm mt-2">Penjualan Tahun Ini</label>
-                        @foreach ($companies as $company)
+                        @foreach ($companies as $getCompany)
                             @php
                                 $totalUserSales = 0;
                             @endphp
                             @foreach ($all_year_sales as $getSale)
                                 @php
                                     $getUser = json_decode($getSale->created_by);
-                                    if ($getUser->id == $salesUser->id && $company->id == $getSale->company_id) {
+                                    if ($getUser->id == $salesUser->id && $getCompany->id == $getSale->company_id) {
                                         $totalUserSales = $totalUserSales + $getSale->price;
                                     }
                                 @endphp
                             @endforeach
                             <div class="flex items-center">
-                                <label class="flex w-24 text-sm">{{ $company->code }}</label>
+                                <label class="flex w-24 text-sm">{{ $getCompany->code }}</label>
                                 <label class="flex text-sm">:</label>
                                 <label class="flex ml-2 font-semibold text-md">Rp.
                                     {{ number_format($totalUserSales) }},-</label>

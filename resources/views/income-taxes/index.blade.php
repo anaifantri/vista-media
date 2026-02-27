@@ -94,13 +94,13 @@
                             </div>
                         </div>
                     </form>
-                    <form method="post" action="/income-tax-documents/update">
+                    {{-- <form method="post" action="/income-tax-documents/update">
                         @csrf
                         <input type="text" name="company_id" value="{{ $company->id }}" hidden>
                         <button type="submit" class="flex justify-center items-center mx-1 btn-primary">
                             <span class="mx-1 text-white">Update Data</span>
                         </button>
-                    </form>
+                    </form> --}}
                     @if (session()->has('success'))
                         <div class="mt-2 flex alert-success">
                             <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
