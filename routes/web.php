@@ -198,10 +198,12 @@ Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'get
 Route::get('/sales-review/{companyID}', [SalesReviewController::class,'index'])->middleware(['auth','user_access']);
 Route::post('/sales-review', [SalesReviewController::class,'store'])->middleware(['auth','user_access']);
 Route::get('/sales-review/review/{saleID}', [SalesReviewController::class,'review'])->middleware(['auth','user_access']);
+Route::get('/sales-review/unchecked/{reviewedID}', [SalesReviewController::class,'unReview'])->middleware(['auth','user_access']);
 
 Route::get('/payment-review/{companyID}', [PaymentReviewController::class,'index'])->middleware(['auth','user_access']);
 Route::post('/payment-review', [PaymentReviewController::class,'store'])->middleware(['auth','user_access']);
 Route::get('/payment-review/review/{paymentID}', [PaymentReviewController::class,'review'])->middleware(['auth','user_access']);
+Route::get('/payment-review/unchecked/{reviewedID}', [PaymentReviewController::class,'unReview'])->middleware(['auth','user_access']);
 // Billing  --> start
 Route::resource('/accounting/billings', BillingController::class)->except(['index', 'create'])->middleware(['auth','user_access']);
 Route::get('/billings/index/{companyid}', [BillingController::class,'index'])->middleware(['auth','user_access']);
@@ -260,7 +262,8 @@ Route::resource('/accounting/income-tax-categories', IncomeTaxCategoryController
 // Income Taxes  --> start
 Route::resource('/accounting/income-tax-documents', IncomeTaxDocumentController::class)->except(['create'])->middleware(['auth','user_access']);
 Route::get('/income-taxes/report/{companyid}', [IncomeTaxDocumentController::class,'report'])->middleware(['auth','user_access']);
-Route::get('/income-tax-documents/create/{paymentid}/{company}', [IncomeTaxDocumentController::class,'create'])->middleware(['auth','user_access']);
+Route::get('/income-tax-documents/create/{paymentid}/{company}/{billingid}', [IncomeTaxDocumentController::class,'create'])->middleware(['auth','user_access']);
+Route::post('/income-tax-documents/update', [IncomeTaxDocumentController::class,'updateData'])->middleware(['auth','user_access']);
 // Income Taxes  --> end
 // Accounting Group --> end
 

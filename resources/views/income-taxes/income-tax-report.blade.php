@@ -78,11 +78,11 @@
                                     <span class="text-base text-stone-100">Masa Pajak</span>
                                     @if (request('period'))
                                         <input type="month" name="period"
-                                            class="text-sm outline-none rounded-md p-1 w-36" value="{{ request('period') }}"
+                                            class="text-xs outline-none rounded-md p-1 w-36" value="{{ request('period') }}"
                                             onchange="submit()">
                                     @else
                                         <input type="month" name="period"
-                                            class="text-sm outline-none rounded-md p-1 w-36" onchange="submit()">
+                                            class="text-xs outline-none rounded-md p-1 w-36" onchange="submit()">
                                     @endif
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                 <span class="text-base text-stone-100">Pencarian</span>
                                 <div class="flex">
                                     <input id="search" name="search"
-                                        class="border rounded-l-lg p-1 outline-none text-sm text-stone-900" type="text"
+                                        class="border rounded-l-lg p-1 outline-none text-xs text-stone-900" type="text"
                                         placeholder="Search" value="{{ request('search') }}" onkeyup="submit()"
                                         onfocus="this.setSelectionRange(this.value.length, this.value.length);" autofocus>
                                     <button
@@ -119,23 +119,23 @@
                                 </div>
                                 <div class="w-[750px] ml-6">
                                     <div>
-                                        <span class="text-sm font-semibold">{{ $company->name }}</span>
+                                        <span class="text-xs font-semibold">{{ $company->name }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-sm">{{ $company->address }}, Desa/Kel. {{ $company->village }},
+                                        <span class="text-xs">{{ $company->address }}, Desa/Kel. {{ $company->village }},
                                             Kec.
                                             {{ $company->district }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-sm">{{ $company->city }} - {{ $company->province }}
+                                        <span class="text-xs">{{ $company->city }} - {{ $company->province }}
                                             {{ $company->post_code }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-sm">Ph. {{ $company->phone }} | Mobile.
+                                        <span class="text-xs">Ph. {{ $company->phone }} | Mobile.
                                             {{ $company->m_phone }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-sm">e-mail : {{ $company->email }} | website :
+                                        <span class="text-xs">e-mail : {{ $company->email }} | website :
                                             {{ $company->website }}</span>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                             <label class="text-lg text-center font-bold">LIST PEMOTONGAN PPH</label>
                                         </div>
                                         <div class="flex justify-center w-56">
-                                            <label class="text-sm text-center"></label>
+                                            <label class="text-xs text-center"></label>
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md">
                                             @if (request('period'))
@@ -164,8 +164,8 @@
                                             @endif
                                         </div>
                                         <div class="flex justify-center w-56 border rounded-md mt-2">
-                                            <label class="text-sm">
-                                                <span class="text-sm font-semibold text-red-600">Tgl. Cetak :
+                                            <label class="text-xs">
+                                                <span class="text-xs font-semibold text-red-600">Tgl. Cetak :
                                                 </span>
                                                 {{ date('d') }} {{ $bulan[(int) date('m')] }}
                                                 {{ date('Y') }}</label>
@@ -199,24 +199,24 @@
                                         </div>
                                         <div class="w-[750px] ml-6">
                                             <div>
-                                                <span class="text-sm font-semibold">{{ $company->name }}</span>
+                                                <span class="text-xs font-semibold">{{ $company->name }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">{{ $company->address }}, Desa/Kel.
+                                                <span class="text-xs">{{ $company->address }}, Desa/Kel.
                                                     {{ $company->village }},
                                                     Kec.
                                                     {{ $company->district }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">{{ $company->city }} - {{ $company->province }}
+                                                <span class="text-xs">{{ $company->city }} - {{ $company->province }}
                                                     {{ $company->post_code }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">Ph. {{ $company->phone }} | Mobile.
+                                                <span class="text-xs">Ph. {{ $company->phone }} | Mobile.
                                                     {{ $company->m_phone }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">e-mail : {{ $company->email }} | website :
+                                                <span class="text-xs">e-mail : {{ $company->email }} | website :
                                                     {{ $company->website }}</span>
                                             </div>
                                         </div>
@@ -230,7 +230,7 @@
                                                         PPH</label>
                                                 </div>
                                                 <div class="flex justify-center w-56">
-                                                    <label class="text-sm text-center"></label>
+                                                    <label class="text-xs text-center"></label>
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md">
                                                     @if (request('period'))
@@ -244,8 +244,8 @@
                                                     @endif
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md mt-2">
-                                                    <label class="text-sm">
-                                                        <span class="text-sm font-semibold text-red-600">Tgl. Cetak :
+                                                    <label class="text-xs">
+                                                        <span class="text-xs font-semibold text-red-600">Tgl. Cetak :
                                                         </span>
                                                         {{ date('d') }} {{ $bulan[(int) date('m')] }}
                                                         {{ date('Y') }}</label>
@@ -258,53 +258,61 @@
                                             <thead>
                                                 <tr class="bg-stone-200 h-8">
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm w- text-center w-8">
+                                                        class="text-stone-900 border border-black text-xs w- text-center w-8">
                                                         No.</th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-20">
+                                                        class="text-stone-900 border border-black text-xs text-center w-16">
                                                         Masa
                                                     </th>
-                                                    <th class="text-stone-900 border border-black text-sm text-center">
+                                                    <th class="text-stone-900 border border-black text-xs text-center">
                                                         Nama Pemotong
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-36">
+                                                        class="text-stone-900 border border-black text-xs text-center w-32">
                                                         NPWP
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-16">
+                                                        class="text-stone-900 border border-black text-xs text-center w-48">
+                                                        No. Invoice
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-xs text-center w-32">
+                                                        No. Faktur
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-xs text-center w-14">
                                                         Jenis
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-32">
+                                                        class="text-stone-900 border border-black text-xs text-center w-[72px]">
                                                         Kode Objek Pajak
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-44">
+                                                        class="text-stone-900 border border-black text-xs text-center w-[152px]">
                                                         Jenis Penghasilan
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
+                                                        class="text-stone-900 border border-black text-xs text-center w-24">
                                                         Objek Potput
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-12">
+                                                        class="text-stone-900 border border-black text-xs text-center w-10">
                                                         Tarif (%)
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-xs text-center w-[72px]">
                                                         PPH Potput
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
+                                                        class="text-stone-900 border border-black text-xs text-center w-20">
                                                         No. Bukti
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-xs text-center w-20">
                                                         Tgl.
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-36">
+                                                        class="text-stone-900 border border-black text-xs text-center w-28">
                                                         Alamat
                                                     </th>
                                                 </tr>
@@ -333,14 +341,14 @@
                                                         @endphp
                                                         <tr class="h-[25px]">
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
+                                                                class="text-stone-900 px-1 border border-black text-xs  text-center">
                                                                 {{ $loop->iteration }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
+                                                                class="text-stone-900 px-1 border border-black text-xs  text-center">
                                                                 {{ $bulan_full[(int) substr($income_tax->payment->income_tax_document->period, -2)] }}
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
+                                                            <td class="text-stone-900 px-1 border border-black text-xs">
                                                                 @if (isset($client->company))
                                                                     {{ $client->company }}
                                                                 @elseif (isset($client->name))
@@ -354,24 +362,32 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center">
                                                                 @if (isset($client->npwp))
                                                                     {{ $client->npwp }}
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center">
+                                                                {{ $income_tax->billing->invoice_number }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center">
+                                                                {{ $income_tax->billing->vat_tax_invoice->number }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center">
                                                                 PPh 23
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                                                                 @if ($income_tax->income_tax_category)
                                                                     {{ $income_tax->income_tax_category->code }}
                                                                 @else
                                                                     -
                                                                 @endif
                                                             </td>
-                                                            <td class="text-stone-900 border border-black text-sm px-1">
+                                                            <td class="text-stone-900 border border-black text-xs px-1">
                                                                 @if (count($incomeType) == 1)
                                                                     {{ $incomeType[0] }} Reklame
                                                                 @elseif(count($incomeType) == 2)
@@ -379,11 +395,11 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-sm text-right">
+                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-xs text-right">
                                                                 {{ Number_format($income_tax->payment->billings->sum('nominal')) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                                                                 @if ($income_tax->income_tax_category)
                                                                     {{ $income_tax->income_tax_category->rates }}
                                                                 @else
@@ -391,45 +407,45 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right ">
+                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-xs text-right ">
                                                                 {{ number_format(round($income_tax->nominal)) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm text-center">
+                                                                class="text-stone-900 px-1 border border-black text-xs text-center">
                                                                 {{ $income_tax->number }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm text-center">
+                                                                class="text-stone-900 px-1 border border-black text-xs text-center">
                                                                 {{ date('d', strtotime($income_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($income_tax->tax_date))] }}-{{ date('Y', strtotime($income_tax->tax_date)) }}
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
+                                                            <td class="text-stone-900 px-1 border border-black text-xs">
                                                                 {{ $income_tax->client_city }}
                                                             </td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
                                                 <tr class="h-[25px]">
-                                                    <td class="text-stone-900 px-1 border border-black text-sm text-right font-semibold"
-                                                        colspan="7">TOTAL</td>
+                                                    <td class="text-stone-900 px-1 border border-black text-xs text-right font-semibold"
+                                                        colspan="9">TOTAL</td>
                                                     <td
-                                                        class="text-stone-900 bg-red-50 px-1 border border-black text-sm text-right font-semibold">
+                                                        class="text-stone-900 bg-red-50 px-1 border border-black text-xs text-right font-semibold">
                                                         {{ number_format($nominalObject) }}
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-xs  text-right bg-slate-400 font-semibold">
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm bg-teal-50 text-right font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-xs bg-teal-50 text-right font-semibold">
                                                         {{ number_format($income_taxes->sum('nominal')) }}
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-xs  text-right bg-slate-400 font-semibold">
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-xs  text-right bg-slate-400 font-semibold">
                                                     </td>
                                                     <td
-                                                        class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                                                        class="text-stone-900 px-1 border border-black text-xs  text-right bg-slate-400 font-semibold">
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -449,24 +465,24 @@
                                         </div>
                                         <div class="w-[750px] ml-6">
                                             <div>
-                                                <span class="text-sm font-semibold">{{ $company->name }}</span>
+                                                <span class="text-xs font-semibold">{{ $company->name }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">{{ $company->address }}, Desa/Kel.
+                                                <span class="text-xs">{{ $company->address }}, Desa/Kel.
                                                     {{ $company->village }},
                                                     Kec.
                                                     {{ $company->district }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">{{ $company->city }} - {{ $company->province }}
+                                                <span class="text-xs">{{ $company->city }} - {{ $company->province }}
                                                     {{ $company->post_code }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">Ph. {{ $company->phone }} | Mobile.
+                                                <span class="text-xs">Ph. {{ $company->phone }} | Mobile.
                                                     {{ $company->m_phone }}</span>
                                             </div>
                                             <div>
-                                                <span class="text-sm">e-mail : {{ $company->email }} | website :
+                                                <span class="text-xs">e-mail : {{ $company->email }} | website :
                                                     {{ $company->website }}</span>
                                             </div>
                                         </div>
@@ -480,7 +496,7 @@
                                                         PPH</label>
                                                 </div>
                                                 <div class="flex justify-center w-56">
-                                                    <label class="text-sm text-center"></label>
+                                                    <label class="text-xs text-center"></label>
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md">
                                                     @if (request('period'))
@@ -494,8 +510,8 @@
                                                     @endif
                                                 </div>
                                                 <div class="flex justify-center w-56 border rounded-md mt-2">
-                                                    <label class="text-sm">
-                                                        <span class="text-sm font-semibold text-red-600">Tgl. Cetak :
+                                                    <label class="text-xs">
+                                                        <span class="text-xs font-semibold text-red-600">Tgl. Cetak :
                                                         </span>
                                                         {{ date('d') }} {{ $bulan[(int) date('m')] }}
                                                         {{ date('Y') }}</label>
@@ -508,53 +524,61 @@
                                             <thead>
                                                 <tr class="bg-stone-200 h-8">
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm w- text-center w-8">
+                                                        class="text-stone-900 border border-black text-xs w- text-center w-8">
                                                         No.</th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-20">
+                                                        class="text-stone-900 border border-black text-xs text-center w-16">
                                                         Masa
                                                     </th>
-                                                    <th class="text-stone-900 border border-black text-sm text-center">
+                                                    <th class="text-stone-900 border border-black text-xs text-center">
                                                         Nama Pemotong
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-36">
+                                                        class="text-stone-900 border border-black text-xs text-center w-32">
                                                         NPWP
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-16">
+                                                        class="text-stone-900 border border-black text-xs text-center w-48">
+                                                        No. Invoice
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-xs text-center w-32">
+                                                        No. Faktur
+                                                    </th>
+                                                    <th
+                                                        class="text-stone-900 border border-black text-xs text-center w-14">
                                                         Jenis
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-32">
+                                                        class="text-stone-900 border border-black text-xs text-center w-[72px]">
                                                         Kode Objek Pajak
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-44">
+                                                        class="text-stone-900 border border-black text-xs text-center w-[152px]">
                                                         Jenis Penghasilan
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
+                                                        class="text-stone-900 border border-black text-xs text-center w-24">
                                                         Objek Potput
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-12">
+                                                        class="text-stone-900 border border-black text-xs text-center w-10">
                                                         Tarif (%)
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-xs text-center w-[72px]">
                                                         PPH Potput
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-28">
+                                                        class="text-stone-900 border border-black text-xs text-center w-20">
                                                         No. Bukti
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-24">
+                                                        class="text-stone-900 border border-black text-xs text-center w-20">
                                                         Tgl.
                                                     </th>
                                                     <th
-                                                        class="text-stone-900 border border-black text-sm text-center w-36">
+                                                        class="text-stone-900 border border-black text-xs text-center w-28">
                                                         Alamat
                                                     </th>
                                                 </tr>
@@ -583,14 +607,14 @@
                                                         @endphp
                                                         <tr class="h-[25px]">
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
+                                                                class="text-stone-900 px-1 border border-black text-xs  text-center">
                                                                 {{ $loop->iteration }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm  text-center">
+                                                                class="text-stone-900 px-1 border border-black text-xs  text-center">
                                                                 {{ $bulan_full[(int) substr($income_tax->payment->income_tax_document->period, -2)] }}
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
+                                                            <td class="text-stone-900 px-1 border border-black text-xs">
                                                                 @if (isset($client->company))
                                                                     @if (strlen($client->company) > 25)
                                                                         {{ substr($client->company, 0, 25) }}..
@@ -612,24 +636,32 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center">
                                                                 @if (isset($client->npwp))
                                                                     {{ $client->npwp }}
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center">
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center">
+                                                                {{ $income_tax->billing->invoice_number }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center">
+                                                                {{ $income_tax->billing->vat_tax_invoice->number }}
+                                                            </td>
+                                                            <td
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center">
                                                                 PPh 23
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                                                                 @if ($income_tax->income_tax_category)
                                                                     {{ $income_tax->income_tax_category->code }}
                                                                 @else
                                                                     -
                                                                 @endif
                                                             </td>
-                                                            <td class="text-stone-900 border border-black text-sm px-1">
+                                                            <td class="text-stone-900 border border-black text-xs px-1">
                                                                 @if (count($incomeType) == 1)
                                                                     {{ $incomeType[0] }} Reklame
                                                                 @elseif(count($incomeType) == 2)
@@ -637,11 +669,11 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-sm text-right">
+                                                                class="text-stone-900  bg-red-50 px-1 border border-black text-xs text-right">
                                                                 {{ Number_format($income_tax->payment->billings->sum('nominal')) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                                                                class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                                                                 @if ($income_tax->income_tax_category)
                                                                     {{ $income_tax->income_tax_category->rates }}
                                                                 @else
@@ -649,18 +681,18 @@
                                                                 @endif
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right ">
+                                                                class="text-stone-900 bg-teal-50 px-1 border border-black text-xs text-right ">
                                                                 {{ number_format(round($income_tax->nominal)) }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm text-center">
+                                                                class="text-stone-900 px-1 border border-black text-xs text-center">
                                                                 {{ $income_tax->number }}
                                                             </td>
                                                             <td
-                                                                class="text-stone-900 px-1 border border-black text-sm text-center">
+                                                                class="text-stone-900 px-1 border border-black text-xs text-center">
                                                                 {{ date('d', strtotime($income_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($income_tax->tax_date))] }}-{{ date('Y', strtotime($income_tax->tax_date)) }}
                                                             </td>
-                                                            <td class="text-stone-900 px-1 border border-black text-sm">
+                                                            <td class="text-stone-900 px-1 border border-black text-xs">
                                                                 {{ $income_tax->client_city }}
                                                             </td>
                                                         </tr>
@@ -682,48 +714,54 @@
         </div>
     </div>
 
-    <table id="exportExcelTable" class="table-auto w-full mt-4">
+    <table id="exportExcelTable" class="table-auto w-full mt-4" hidden>
         <thead>
             <tr class="bg-stone-200 h-8">
-                <th class="text-stone-900 border border-black text-sm w- text-center w-8">
+                <th class="text-stone-900 border border-black text-xs w- text-center w-8">
                     No.</th>
-                <th class="text-stone-900 border border-black text-sm text-center w-36">
+                <th class="text-stone-900 border border-black text-xs text-center w-36">
                     Masa
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center">
+                <th class="text-stone-900 border border-black text-xs text-center w-96">
                     Nama Pemotong
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-36">
+                <th class="text-stone-900 border border-black text-xs text-center w-36">
                     NPWP
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-16">
+                <th class="text-stone-900 border border-black text-xs text-center w-36">
+                    No. Invoice
+                </th>
+                <th class="text-stone-900 border border-black text-xs text-center w-36">
+                    No. Faktur
+                </th>
+                <th class="text-stone-900 border border-black text-xs text-center w-16">
                     Jenis
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-20">
+                <th class="text-stone-900 border border-black text-xs text-center w-20">
                     Kode Objek Pajak
                 </th>
-                <th class="text-stone-900 border border-black text-sm">
+                <th class="text-stone-900 border border-black text-xs w-full">
                     Nama Objek Pajak
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-48">
+                <th class="text-stone-900 border border-black text-xs text-center w-48">
                     Jenis Penghasilan
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-28">
+                <th class="text-stone-900 border border-black text-xs text-center w-28">
                     Objek Potput
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-16">
+                <th class="text-stone-900 border border-black text-xs text-center w-16">
                     Tarif
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-24">
+                <th class="text-stone-900 border border-black text-xs text-center w-24">
                     PPH Potput
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-28">
+                <th class="text-stone-900 border border-black text-xs text-center w-28">
                     No. Bukti
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-28">
+                <th class="text-stone-900 border border-black text-xs text-center w-28">
                     Tgl.
                 </th>
-                <th class="text-stone-900 border border-black text-sm text-center w-36">
+                <th class="text-stone-900 border border-black text-xs text-center w-36">
                     Alamat
                 </th>
             </tr>
@@ -746,95 +784,97 @@
                     $nominalObjectAll = $nominalObjectAll + $income_tax->payment->billings->sum('nominal');
                 @endphp
                 <tr class="h-[25px]">
-                    <td class="text-stone-900 px-1 border border-black text-sm  text-center align-top">
+                    <td class="text-stone-900 px-1 border border-black text-xs  text-center align-top">
                         {{ $loop->iteration }}
                     </td>
-                    <td class="text-stone-900 px-1 border border-black text-sm  text-center align-top">
+                    <td class="text-stone-900 px-1 border border-black text-xs  text-center align-top">
                         {{ $bulan_full[(int) substr($income_tax->payment->income_tax_document->period, -2)] }}
                         {{ substr($income_tax->payment->income_tax_document->period, 0, 4) }}
                     </td>
-                    <td class="text-stone-900 px-1 border border-black text-sm align-top">
+                    <td class="text-stone-900 px-1 border border-black text-xs align-top">
                         @if (isset($client->company))
                             {{ $client->company }}
                         @elseif (isset($client->name))
                             {{ $client->name }}
                         @else
-                            @if (strlen($client->contact_name) > 25)
-                                {{ substr($client->contact_name, 0, 25) }}..
-                            @else
-                                {{ $client->contact_name }}
-                            @endif
+                            {{ $client->contact_name }}
                         @endif
                     </td>
-                    <td class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                    <td class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                         @if (isset($client->npwp))
                             {{ "'" . $client->npwp }}
                         @endif
                     </td>
-                    <td class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                    <td class="text-stone-900 border border-black text-xs px-1 text-center align-top">
+                        {{ $income_tax->billing->invoice_number }}
+                    </td>
+                    <td class="text-stone-900 border border-black text-xs px-1 text-center align-top">
+                        {{ "'" . $income_tax->billing->vat_tax_invoice->number }}
+                    </td>
+                    <td class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                         PPh 23
                     </td>
-                    <td class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                    <td class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                         @if ($income_tax->income_tax_category)
                             {{ $income_tax->income_tax_category->code }}
                         @else
                             -
                         @endif
                     </td>
-                    <td class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                    <td class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                         @if ($income_tax->income_tax_category)
                             {{ $income_tax->income_tax_category->name }}
                         @else
                             -
                         @endif
                     </td>
-                    <td class="text-stone-900 border border-black text-sm px-1 align-top">
+                    <td class="text-stone-900 border border-black text-xs px-1 align-top">
                         @if (count($incomeType) == 1)
                             {{ $incomeType[0] }} Reklame
                         @elseif(count($incomeType) == 2)
                             {{ $incomeType[0] }} & {{ $incomeType[1] }} Reklame
                         @endif
                     </td>
-                    <td class="text-stone-900  bg-red-50 px-1 border border-black text-sm text-right align-top">
-                        {{ Number_format($income_tax->payment->billings->sum('nominal')) }}
+                    <td class="text-stone-900  bg-red-50 px-1 border border-black text-xs text-right align-top">
+                        {{ $income_tax->payment->billings->sum('nominal') }}
                     </td>
-                    <td class="text-stone-900 border border-black text-sm px-1 text-center align-top">
+                    <td class="text-stone-900 border border-black text-xs px-1 text-center align-top">
                         @if ($income_tax->income_tax_category)
                             {{ $income_tax->income_tax_category->rates }}
                         @else
                             -
                         @endif
                     </td>
-                    <td class="text-stone-900 bg-teal-50 px-1 border border-black text-sm text-right align-top">
-                        {{ number_format(round($income_tax->nominal)) }}
+                    <td class="text-stone-900 bg-teal-50 px-1 border border-black text-xs text-right align-top">
+                        {{ round($income_tax->nominal) }}
                     </td>
-                    <td class="text-stone-900 px-1 border border-black text-sm text-center align-top">
+                    <td class="text-stone-900 px-1 border border-black text-xs text-center align-top">
                         {{ $income_tax->number }}
                     </td>
-                    <td class="text-stone-900 px-1 border border-black text-sm text-center align-top">
+                    <td class="text-stone-900 px-1 border border-black text-xs text-center align-top">
                         {{ date('d', strtotime($income_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($income_tax->tax_date))] }}-{{ date('Y', strtotime($income_tax->tax_date)) }}
                     </td>
-                    <td class="text-stone-900 px-1 border border-black text-sm align-top">
+                    <td class="text-stone-900 px-1 border border-black text-xs align-top">
                         {{ $income_tax->client_city }}
                     </td>
                 </tr>
             @endforeach
             <tr class="h-[25px]">
-                <td class="text-stone-900 px-1 border border-black text-sm text-right font-semibold" colspan="8">TOTAL
+                <td class="text-stone-900 px-1 border border-black text-xs text-right font-semibold" colspan="10">TOTAL
                 </td>
-                <td class="text-stone-900 bg-red-50 px-1 border border-black text-sm text-right font-semibold">
-                    {{ number_format($nominalObjectAll) }}
+                <td class="text-stone-900 bg-red-50 px-1 border border-black text-xs text-right font-semibold">
+                    {{ $nominalObjectAll }}
                 </td>
-                <td class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                <td class="text-stone-900 px-1 border border-black text-xs  text-right bg-slate-400 font-semibold">
                 </td>
-                <td class="text-stone-900 px-1 border border-black text-sm bg-teal-50 text-right font-semibold">
-                    {{ number_format($income_taxes->sum('nominal')) }}
+                <td class="text-stone-900 px-1 border border-black text-xs bg-teal-50 text-right font-semibold">
+                    {{ round($income_taxes->sum('nominal')) }}
                 </td>
-                <td class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                <td class="text-stone-900 px-1 border border-black text-xs  text-right bg-slate-400 font-semibold">
                 </td>
-                <td class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                <td class="text-stone-900 px-1 border border-black text-xs  text-right bg-slate-400 font-semibold">
                 </td>
-                <td class="text-stone-900 px-1 border border-black text-sm  text-right bg-slate-400 font-semibold">
+                <td class="text-stone-900 px-1 border border-black text-xs  text-right bg-slate-400 font-semibold">
                 </td>
             </tr>
         </tbody>

@@ -28,7 +28,7 @@
                     DETAIL BUKTI POTONG PPH
                 </label>
                 <div class="flex items-center w-full justify-end">
-                    <a href="/income-taxes/index/{{ $company->id }}"
+                    <a href="/income-taxes/index/{{ $company->id }}?month={{ (int) date('m', strtotime($payment->payment_date)) }}&year={{ date('Y', strtotime($payment->payment_date)) }}"
                         class="flex justify-center items-center mx-1 btn-primary" title="Back">
                         <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24">
@@ -67,16 +67,26 @@
                         <div class="p-2 mt-2 border rounded-lg bg-stone-300 text-stone-900">
                             <div class="flex border-b border-stone-900 font-semibold">Detail Pemotongan</div>
                             <div class="flex mt-1">
+                                <label class="text-md w-40">Nomor Invoice</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">{{ $billing->invoice_number }}</label>
+                            </div>
+                            <div class="flex mt-1">
+                                <label class="text-md w-40">Nomor Faktur</label>
+                                <label class="text-md ml-2">:</label>
+                                <label class="text-md ml-2">{{ $billing->vat_tax_invoice->number }}</label>
+                            </div>
+                            <div class="flex mt-1">
                                 <label class="text-md w-40">Total Tagihan</label>
                                 <label class="text-md ml-2">:</label>
                                 <label class="text-md ml-2">Rp.
-                                    {{ number_format($payment->billings->sum('nominal') + $payment->billings->sum('ppn')) }},-</label>
+                                    {{ number_format($billing->nominal) }},-</label>
                             </div>
                             <div class="flex mt-1">
                                 <label class="text-md w-40">Nominal PPh</label>
                                 <label class="text-md ml-2">:</label>
                                 <label class="text-md ml-2">Rp.
-                                    {{ number_format($payment->income_taxes->sum('nominal')) }},-</label>
+                                    {{ number_format($billing->income_taxes->sum('nominal')) }},-</label>
                             </div>
                             <div class="flex mt-1">
                                 <label class="text-md w-40">No. Bukti Potong</label>

@@ -1,29 +1,56 @@
 <div>
     <div class="flex justify-center items-center text-xl text-stone-100 font-semibold mt-10">
-        PETA PENJUALAN DAN PEMBAYARAN
+        PENJUALAN DAN PEMBAYARAN
     </div>
-    <div class="flex justify-center bg-stone-700 border rounded-md mt-4 p-10">
-        <div class="flex justify-center items-center w-[650px] border rounded-lg bg-stone-300 p-2">
+    <div class="flex justify-center bg-stone-700 border rounded-md p-10">
+        <div class="flex justify-center w-[650px] border rounded-lg bg-stone-300 p-4">
             <div>
-                <div class="w-[600px] h-[460px] bg-stone-300 border rounded-lg m-4">
-                    <div id="line-sales-chart"></div>
+                <div class="w-[620px] h-[460px] bg-stone-300 border rounded-lg">
+                    <div class="mt-2" id="line-sales-chart"></div>
                     <div id="bar-chart"></div>
                 </div>
-                <div class="flex justify-center items-center mt-2 p-2">
+                <div class="flex justify-center items-center border rounded-lg mt-2 p-2">
                     <a class="flex justify-center items-center btn-primary" href="/sales-review/{{ $company->id }}">
                         <span class="mx-1 text-lg">Periksa Penjualan</span>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="flex justify-center items-end w-[650px] mx-4 border rounded-lg bg-stone-300">
-            <div class="w-full">
-                <div class="flex w-full" id="payment-bar-chart"></div>
-                <div class="flex justify-center items-center mt-2 p-2">
-                    <a class="flex justify-center items-center btn-success" href="/payment-review/{{ $company->id }}">
-                        <span class="mx-1 text-lg">Periksa Pembayaran</span>
-                    </a>
-                </div>
+        <div class="w-[650px] mx-4 border rounded-lg bg-stone-300 p-4">
+            <label class=" text-lg font-bold">Detail Penjualan</label>
+            <div class="flex p-2 h-44 border rounded-lg">
+                @foreach ($salesUsers as $salesUser)
+                    <div class="border rounded-md mx-1 p-2 w-80">
+                        <label class="flex justify-center w-full text-sm">Marketing :</label>
+                        <label class="flex justify-center w-full font-semibold text-md">{{ $salesUser->name }}</label>
+                        <label class="flex w-full text-sm mt-2">Penjualan Tahun Ini</label>
+                        @foreach ($companies as $company)
+                            @php
+                                $totalUserSales = 0;
+                            @endphp
+                            @foreach ($all_year_sales as $getSale)
+                                @php
+                                    $getUser = json_decode($getSale->created_by);
+                                    if ($getUser->id == $salesUser->id && $company->id == $getSale->company_id) {
+                                        $totalUserSales = $totalUserSales + $getSale->price;
+                                    }
+                                @endphp
+                            @endforeach
+                            <div class="flex items-center">
+                                <label class="flex w-24 text-sm">{{ $company->code }}</label>
+                                <label class="flex text-sm">:</label>
+                                <label class="flex ml-2 font-semibold text-md">Rp.
+                                    {{ number_format($totalUserSales) }},-</label>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            </div>
+            <div class="flex w-full mt-4" id="payment-bar-chart"></div>
+            <div class="flex justify-center border rounded-lg mt-2 p-2 items-end">
+                <a class="flex justify-center items-center btn-success" href="/payment-review/{{ $company->id }}">
+                    <span class="mx-1 text-lg">Periksa Pembayaran</span>
+                </a>
             </div>
         </div>
     </div>
@@ -188,7 +215,8 @@
                                                         </svg>
                                                     </button>
                                                 </th>
-                                                <th class="text-black border text-[0.65rem] text-center" rowspan="2">
+                                                <th class="text-black border text-[0.65rem] text-center"
+                                                    rowspan="2">
                                                     Lokasi</th>
                                                 <th class="text-black border text-[0.65rem] text-center "
                                                     colspan="5">

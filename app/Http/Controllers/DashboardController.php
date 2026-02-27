@@ -14,6 +14,8 @@ use App\Models\QuotationStatus;
 use App\Models\QuotationRevision;
 use App\Models\QuotRevisionStatus;
 use App\Models\Sale;
+use App\Models\User;
+use App\Models\Company;
 use App\Models\ChangeSale;
 use App\Models\VoidSale;
 use App\Models\Billing;
@@ -38,6 +40,7 @@ class DashboardController extends Controller
     public function index(String $company_id){
         $companyId = Crypt::decrypt($company_id);
         $locations = Location::with('area')->get();
+        $dataUsers = User::where('position', 'Sales & Marketing')->get();
         $cities = City::with('area')->get();
         $active_licenses = count(Location::activeLicenses()->get());
         $expired_licenses = count(Location::expiredLicenses()->get());
@@ -120,6 +123,8 @@ class DashboardController extends Controller
         $getVoidMonthSales = ChangeSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->sum('price');
         $monthSales = $getMonthSales + $getChangeSales - $getVoidSales;
 
+        $allMonthSales = Sale::whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get();
+        $allYearSales = Sale::whereYear('created_at', Carbon::now()->year)->get();
         $getYearSales = Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price');
         $getChangeYearSales = ChangeSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price_diff');
         $getVoidYearSales = VoidSale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->sum('price');
@@ -175,6 +180,9 @@ class DashboardController extends Controller
             'monthSales' => $monthSales,
             'yearSales' => $yearSales,
             'sales' => Sale::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->get(),
+            'all_year_sales' => $allYearSales,
+            'all_month_sales' => $allMonthSales,
+            'companies' => Company::all(),
 
             'monthBillings' => Billing::where('company_id', $companyId)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month)->get(),
             'thisYearBillings' => $thisYearBillings,
@@ -193,6 +201,7 @@ class DashboardController extends Controller
             'publish_contents' => $publish_contents,
             'takeout_contents' => $takeout_contents,
             'locations' => $dataLocations,
+            'salesUsers' => $dataUsers,
             compact('locations', 'cities', 'quotation_revisions', 'quotation_statuses', 'quot_revision_statuses')
         ]);
     }

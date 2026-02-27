@@ -22,8 +22,9 @@
         @csrf
         <input type="text" name="company_id" value="{{ $company->id }}" hidden>
         <input type="text" name="payment_id" value="{{ $payment->id }}" hidden>
+        <input type="text" name="billing_id" value="{{ $billing->id }}" hidden>
         <input type="text" name="company" value="{{ $client_company }}" hidden>
-        <input type="text" name="nominal" value="{{ $payment->income_taxes->sum('nominal') }}" hidden>
+        <input type="text" name="nominal" value="{{ $billing->income_taxes->sum('nominal') }}" hidden>
         <div class="flex justify-center pl-14 py-10 bg-stone-800">
             <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
                 <!-- Title start -->
@@ -32,7 +33,7 @@
                         UPLOAD DOKUMEN BUKTI POTONG PPH
                     </label>
                     <div class="flex items-center w-full justify-end">
-                        <a href="/income-taxes/index/{{ $company->id }}"
+                        <a href="/income-taxes/index/{{ $company->id }}?month={{ (int) date('m', strtotime($payment->payment_date)) }}&year={{ date('Y', strtotime($payment->payment_date)) }}"
                             class="flex justify-center items-center mx-1 btn-primary" title="Back">
                             <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
@@ -82,10 +83,25 @@
                                 </label>
                             </div>
                             <div class="flex mt-2">
+                                <label class="text-md text-stone-100 w-40">Nomor Invoice</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
+                                <label class="text-md text-stone-100 ml-2">{{ $billing->invoice_number }}</label>
+                            </div>
+                            <div class="flex mt-2">
+                                <label class="text-md text-stone-100 w-40">Nomor Faktur</label>
+                                <label class="text-md text-stone-100 ml-2">:</label>
+                                <label class="text-md text-stone-100 ml-2">
+                                    @if ($billing->vat_tax_invoice)
+                                        {{ $billing->vat_tax_invoice->number }}
+                                    @endif
+                                </label>
+                            </div>
+                            <div class="flex mt-2">
                                 <label class="text-md text-stone-100 w-40">Nominal PPh</label>
                                 <label class="text-md text-stone-100 ml-2">:</label>
                                 <label class="text-md text-stone-100 ml-2">Rp.
-                                    {{ number_format($payment->income_taxes->sum('nominal')) }},-</label>
+                                    {{ number_format($billing->income_taxes->sum('nominal')) }},-
+                                </label>
                             </div>
                             <div class="flex mt-2">
                                 <label class="text-md text-stone-100 w-40">No. Bukti Potong</label>
@@ -104,8 +120,9 @@
                             <div class="flex mt-2">
                                 <label class="text-md text-stone-100 w-40">Masa Pajak</label>
                                 <label class="text-md text-stone-100 ml-2">:</label>
-                                <input type="month" name="period" class="text-md outline-none rounded-md px-1 ml-2 w-36"
-                                    value="{{ old('period') }}" required>
+                                <input type="month" name="period"
+                                    class="text-md outline-none rounded-md px-1 ml-2 w-36" value="{{ old('period') }}"
+                                    required>
                             </div>
                             <div class="flex mt-1">
                                 <label class="text-md w-40 text-stone-100">Kode Objek Pajak</label>
@@ -136,7 +153,7 @@
                             <div class="flex mt-1">
                                 <label class="text-md w-40 text-stone-100">Nama Objek Pajak</label>
                                 <label class="text-md ml-2 text-stone-100">:</label>
-                                <textarea id="objectName" name="object_name" rows="4" class="border rounded-lg outline-none w-[270px] ml-2">{{ old('object_name') }}</textarea>
+                                <textarea id="objectName" name="object_name" rows="2" class="border rounded-lg outline-none w-[750px] ml-2">{{ old('object_name') }}</textarea>
                             </div>
                         </div>
                         <div class="flex w-full justify-center mt-4">

@@ -65,6 +65,10 @@ class IncomeTaxDocument extends Model
     public function payment(){
         return $this->belongsTo(Payment::class);
     }
+    
+    public function billing(){
+        return $this->belongsTo(Billing::class);
+    }
 
     public function income_tax_category(){
         return $this->belongsTo(IncomeTaxCategory::class);

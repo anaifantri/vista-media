@@ -225,7 +225,7 @@
                                         fill-rule="nonzero" />
                                 </svg>
                             </a>
-                            @canany(['isAdmin', 'isWorkshop', 'isMedia'])
+                            @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting'])
                                 @can('isElectricity')
                                     @can('isWorkshopEdit')
                                         <a href="/workshop/electrical-powers/{{ $electrical->id }}/edit"
@@ -241,7 +241,7 @@
                                     @endcan
                                 @endcan
                             @endcanany
-                            @canany(['isAdmin'])
+                            @canany(['isAdmin', 'isWorkshop', 'isMedia', 'isAccounting'])
                                 @can('isElectricity')
                                     @can('isWorkshopDelete')
                                         <form action="/workshop/electrical-powers/{{ $electrical->id }}" method="post"

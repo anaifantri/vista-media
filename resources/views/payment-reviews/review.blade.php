@@ -3,6 +3,7 @@
 @section('container')
     <?php
     $reviewed = false;
+    $ownerReviewed = false;
     $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
     $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     
@@ -16,6 +17,26 @@
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
+            <!-- Alert start -->
+            @if (session()->has('success'))
+                <div class="ml-2 flex alert-success">
+                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                    </svg>
+                    <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                </div>
+            @endif
+            @error('delete')
+                <div class="mt-2 flex alert-warning">
+                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                    </svg>
+                    <span class="font-semibold mx-1">Warning!!</span> {{ $message }}
+                </div>
+            @enderror
+            <!-- Alert end -->
             <!-- table start -->
             <div class="flex justify-center border rounded-lg w-[1200px] p-4 mt-4">
                 <div class="w-[950px]">
@@ -173,6 +194,10 @@
                                 @php
                                     if (auth()->user()->id == $review->user_id) {
                                         $reviewed = true;
+                                        $reviewedId = $review->id;
+                                    }
+                                    if ($review->user->division == 'Owner') {
+                                        $ownerReviewed = true;
                                     }
                                 @endphp
                                 <div class="flex mt-2">
@@ -189,29 +214,31 @@
             </div>
             <!-- table end -->
 
-            <form method="post" action="/payment-review" enctype="multipart/form-data">
-                @csrf
-                <input type="text" name="payment_id" value="{{ $payment->id }}" hidden>
-                <input type="text" name="user_id" value="{{ auth()->user()->id }}" hidden>
-                <input type="text" name="note" value="Telah diperiksa oleh : {{ auth()->user()->name }}" hidden>
-                <input type="text" name="company_id" value="{{ $company->id }}" hidden>
-                <input type="text" name="payment_month"
-                    value="{{ (int) date('m', strtotime($payment->payment_date)) }}" hidden>
-                <input type="text" name="payment_year" value="{{ date('Y', strtotime($payment->payment_date)) }}"
-                    hidden>
-                <div class="flex justify-center items-center mt-2 border rounded-lg p-2">
-                    <a class="flex justify-center items-center btn-danger"
-                        href="/payment-review/{{ $company->id }}?month={{ (int) date('m', strtotime($payment->payment_date)) }}&year={{ date('Y', strtotime($payment->payment_date)) }}">
-                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
-                                fill-rule="nonzero" />
-                        </svg>
-                        <span class="mx-1 text-sm">Back</span>
-                    </a>
-                    @if ($reviewed == false)
-                        <button class="flex justify-center items-center btn-success mx-2">
+            <div class="flex justify-center items-center mt-2 border rounded-lg p-2">
+                <a class="flex justify-center items-center btn-danger"
+                    href="/payment-review/{{ $company->id }}?month={{ (int) date('m', strtotime($payment->payment_date)) }}&year={{ date('Y', strtotime($payment->payment_date)) }}">
+                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
+                            fill-rule="nonzero" />
+                    </svg>
+                    <span class="mx-1 text-sm">Back</span>
+                </a>
+                @if ($reviewed == false)
+                    <form class="d-inline m-1" method="post" action="/payment-review">
+                        @csrf
+                        <input type="text" name="payment_id" value="{{ $payment->id }}" hidden>
+                        <input type="text" name="user_id" value="{{ auth()->user()->id }}" hidden>
+                        <input type="text" name="note" value="Telah diperiksa oleh : {{ auth()->user()->name }}"
+                            hidden>
+                        <input type="text" name="company_id" value="{{ $company->id }}" hidden>
+                        <input type="text" name="payment_month"
+                            value="{{ (int) date('m', strtotime($payment->payment_date)) }}" hidden>
+                        <input type="text" name="payment_year"
+                            value="{{ date('Y', strtotime($payment->payment_date)) }}" hidden>
+                        <button class="flex justify-center items-center btn-success mx-2"
+                            onclick="return confirm('Apakah anda yakin data yang diperiksa sudah benar ?')">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -221,9 +248,24 @@
                             </svg>
                             <span class="mx-1 text-sm">Confirm</span>
                         </button>
+                    </form>
+                @else
+                    @if ($ownerReviewed == false)
+                        <a href="/payment-review/unchecked/{{ $reviewedId }}"
+                            class="flex justify-center items-center btn-success mx-2"
+                            onclick="return confirm('Apakah anda yakin ingin menghapus / membatalkan konfirmasi pemeriksaan pembayaran ini?')">
+                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m11.998 2.005c5.517 0 9.997 4.48 9.997 9.997 0 5.518-4.48 9.998-9.997 9.998-5.518 0-9.998-4.48-9.998-9.998 0-5.517 4.48-9.997 9.998-9.997zm-5.049 10.386 3.851 3.43c.142.128.321.19.499.19.202 0 .405-.081.552-.242l5.953-6.509c.131-.143.196-.323.196-.502 0-.41-.331-.747-.748-.747-.204 0-.405.082-.554.243l-5.453 5.962-3.298-2.938c-.144-.127-.321-.19-.499-.19-.415 0-.748.335-.748.746 0 .205.084.409.249.557z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="mx-1 text-sm">Unchecked</span>
+                        </a>
                     @endif
-                </div>
-            </form>
+                @endif
+            </div>
         </div>
     </div>
     <!-- Container end -->

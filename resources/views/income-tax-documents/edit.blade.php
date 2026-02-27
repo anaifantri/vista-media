@@ -41,7 +41,7 @@
                             </svg>
                             <span class="mx-2"> Save </span>
                         </button>
-                        <a href="/income-taxes/index/{{ $company->id }}"
+                        <a href="/income-taxes/index/{{ $company->id }}?month={{ (int) date('m', strtotime($payment->payment_date)) }}&year={{ date('Y', strtotime($payment->payment_date)) }}"
                             class="flex justify-center items-center mx-1 btn-danger" title="Back">
                             <svg class="fill-current w-5 mx-1 rotate-180" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24">
@@ -62,10 +62,20 @@
                             <div class="p-2 mt-2 border rounded-lg bg-stone-300 text-stone-900">
                                 <div class="flex border-b border-stone-900 font-semibold">Detail Pemotongan</div>
                                 <div class="flex mt-1">
+                                    <label class="text-md w-40">Nomor Invoice</label>
+                                    <label class="text-md ml-2">:</label>
+                                    <label class="text-md ml-2">{{ $billing->invoice_number }}</label>
+                                </div>
+                                <div class="flex mt-1">
+                                    <label class="text-md w-40">Nomor Faktur</label>
+                                    <label class="text-md ml-2">:</label>
+                                    <label class="text-md ml-2">{{ $billing->vat_tax_invoice->number }}</label>
+                                </div>
+                                <div class="flex mt-1">
                                     <label class="text-md w-40">Total Tagihan</label>
                                     <label class="text-md ml-2">:</label>
                                     <label class="text-md ml-2">Rp.
-                                        {{ number_format($income_tax_document->payment->billings->sum('nominal') + $income_tax_document->payment->billings->sum('ppn')) }},-</label>
+                                        {{ number_format($billing->nominal) }},-</label>
                                 </div>
                                 <div class="flex mt-1">
                                     <label class="text-md w-40">Nominal PPh</label>
@@ -124,12 +134,21 @@
                                     <label class="text-md ml-2">:</label>
                                     <select name="income_tax_category_id" onchange="changeObjectCode(this)"
                                         class="outline-none border rounded-lg w-[200px] ml-2 px-2">
-                                        <option value="pilih">-- pilih --</option>
+                                        @if ($income_tax_document->income_tax_category_id == '')
+                                            <option value="pilih">-- pilih --</option>
+                                        @endif
                                         @foreach ($income_tax_categories as $income_tax_category)
-                                            <option value="{{ $income_tax_category->id }}"
-                                                title="{{ $income_tax_category->name }}">
-                                                {{ $income_tax_category->code }}
-                                            </option>
+                                            @if ($income_tax_category->id == $income_tax_document->income_tax_category_id)
+                                                <option value="{{ $income_tax_category->id }}"
+                                                    title="{{ $income_tax_category->name }}" selected>
+                                                    {{ $income_tax_category->code }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $income_tax_category->id }}"
+                                                    title="{{ $income_tax_category->name }}">
+                                                    {{ $income_tax_category->code }}
+                                                </option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -141,7 +160,11 @@
                                 <div class="flex mt-1">
                                     <label class="text-md w-40">Nama Objek Pajak</label>
                                     <label class="text-md ml-2">:</label>
-                                    <textarea id="objectName" rows="3" class="border rounded-lg outline-none w-[750px] ml-2 px-2"></textarea>
+                                    @if ($income_tax_document->income_tax_category_id != '')
+                                        <textarea id="objectName" rows="3" class="border rounded-lg outline-none w-[750px] ml-2 px-2">{{ $income_tax_document->income_tax_category->name }}</textarea>
+                                    @else
+                                        <textarea id="objectName" rows="3" class="border rounded-lg outline-none w-[750px] ml-2 px-2"></textarea>
+                                    @endif
                                 </div>
                             </div>
                         </div>

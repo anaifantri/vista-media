@@ -53,4 +53,30 @@ class PaymentReviewController extends Controller
             abort(403);
         }
     }
+
+    public function unReview(String $reviewedId): RedirectResponse
+    {
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isOwner')) && Gate::allows('isReview')){
+            $paymentReview = PaymentReview::findOrFail($reviewedId);
+            $payment = Payment::findOrFail($paymentReview->payment_id);
+            $ownerReviewed = false;
+            foreach ($payment->payment_reviews as $review) {
+                if ($review->user->division == 'Owner') {
+                    $ownerReviewed = true;
+                }
+            }
+            if(auth()->user()->id == $paymentReview->user->id){
+                if($ownerReviewed == true){
+                    return back()->withErrors(['delete' => ['Gagal untuk menghapus konfirmasi pembayaran, pembayaran telah diperiksa oleh Owner']]);
+                }else{
+                    PaymentReview::destroy($reviewedId);
+                    return redirect('/payment-review/review/'.$paymentReview->payment_id)->with('success', 'Konfirmasi pemeriksaan pembayaran berhasil dihapus');
+                }
+            }else{
+                abort(403);
+            }
+        } else {
+            abort(403);
+        }
+    }
 }

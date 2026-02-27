@@ -1,66 +1,100 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <?php
-    $reviewed = false;
-    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-    $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    $totalPpn = 0;
-    $category = $sale->media_category->name;
-    $salesNote = [];
-    $quotationSale = $quotation->sales;
-    $description = json_decode($products[0]->description);
-    if ($category == 'Service') {
-        for ($i = 0; $i < count($notes->dataNotes); $i++) {
-            array_push($salesNote, $notes->dataNotes[$i]);
-        }
-    } else {
-        if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron')) {
+    @php
+        $reviewed = false;
+        $ownerReviewed = false;
+        $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        $bulan_full = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+        $totalPpn = 0;
+        $category = $sale->media_category->name;
+        $salesNote = [];
+        $quotationSale = $quotation->sales;
+        $description = json_decode($products[0]->description);
+        if ($category == 'Service') {
             for ($i = 0; $i < count($notes->dataNotes); $i++) {
-                if ($i == 2) {
-                    array_push($salesNote, $notes->dataNotes[$i]);
-                }
+                array_push($salesNote, $notes->dataNotes[$i]);
             }
         } else {
-            $freeInstall = $notes->freeInstall;
-            $freePrint = $notes->freePrint;
-            if ($freeInstall != 0 && $freePrint != 0) {
-                for ($i = 0; $i < count($notes->dataNotes); $i++) {
-                    if ($i == 2 || $i == 3) {
-                        array_push($salesNote, $notes->dataNotes[$i]);
-                    }
-                }
-            } elseif (($freeInstall != 0 && $freePrint == 0) || ($freeInstall == 0 && $freePrint != 0)) {
+            if ($category == 'Videotron' || ($category == 'Signage' && $description->type == 'Videotron')) {
                 for ($i = 0; $i < count($notes->dataNotes); $i++) {
                     if ($i == 2) {
                         array_push($salesNote, $notes->dataNotes[$i]);
                     }
                 }
+            } else {
+                $freeInstall = $notes->freeInstall;
+                $freePrint = $notes->freePrint;
+                if ($freeInstall != 0 && $freePrint != 0) {
+                    for ($i = 0; $i < count($notes->dataNotes); $i++) {
+                        if ($i == 2 || $i == 3) {
+                            array_push($salesNote, $notes->dataNotes[$i]);
+                        }
+                    }
+                } elseif (($freeInstall != 0 && $freePrint == 0) || ($freeInstall == 0 && $freePrint != 0)) {
+                    for ($i = 0; $i < count($notes->dataNotes); $i++) {
+                        if ($i == 2) {
+                            array_push($salesNote, $notes->dataNotes[$i]);
+                        }
+                    }
+                }
             }
         }
-    }
-    $product = json_decode($sale->product);
-    $description = json_decode($product->description);
-    if ($product->category == 'Signage') {
-        $wide = $product->width * $product->height * (int) $product->side * $description->qty;
-    } else {
-        $wide = $product->width * $product->height * (int) $product->side;
-    }
-    if (isset($notes->includedPrint) && $notes->includedPrint->checked == true) {
-        $totalPrint = $notes->includedPrint->price * $notes->includedPrint->qty * $wide;
-    } else {
-        $totalPrint = 0;
-    }
-    if (isset($notes->includedInstall) && $notes->includedInstall->checked == true) {
-        $totalInstall = $notes->includedInstall->price * $notes->includedInstall->qty * $wide;
-    } else {
-        $totalInstall = 0;
-    }
-    $getPrice = $sale->price - $totalPrint - $totalInstall;
-    ?>
+        $product = json_decode($sale->product);
+        $description = json_decode($product->description);
+        if ($product->category == 'Signage') {
+            $wide = $product->width * $product->height * (int) $product->side * $description->qty;
+        } else {
+            $wide = $product->width * $product->height * (int) $product->side;
+        }
+        if (isset($notes->includedPrint) && $notes->includedPrint->checked == true) {
+            $totalPrint = $notes->includedPrint->price * $notes->includedPrint->qty * $wide;
+        } else {
+            $totalPrint = 0;
+        }
+        if (isset($notes->includedInstall) && $notes->includedInstall->checked == true) {
+            $totalInstall = $notes->includedInstall->price * $notes->includedInstall->qty * $wide;
+        } else {
+            $totalInstall = 0;
+        }
+        $getPrice = $sale->price - $totalPrint - $totalInstall;
+    @endphp
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
+            <!-- Alert start -->
+            @if (session()->has('success'))
+                <div class="ml-2 flex alert-success">
+                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                    </svg>
+                    <span class="font-semibold mx-1">Success!</span> {{ session('success') }}
+                </div>
+            @endif
+            @error('delete')
+                <div class="mt-2 flex alert-warning">
+                    <svg class="fill-current w-4 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
+                    </svg>
+                    <span class="font-semibold mx-1">Warning!!</span> {{ $message }}
+                </div>
+            @enderror
+            <!-- Alert end -->
             <div class="flex justify-center">
                 <div class="w-[900px]">
                     <div class="flex justify-center mt-2">
@@ -276,6 +310,10 @@
                         @php
                             if (auth()->user()->id == $review->user_id) {
                                 $reviewed = true;
+                                $reviewedId = $review->id;
+                            }
+                            if ($review->user->division == 'Owner') {
+                                $ownerReviewed = true;
                             }
                         @endphp
                         <div class="flex mt-2">
@@ -290,27 +328,29 @@
             </div>
             <!-- notes end -->
 
-            <form method="post" action="/sales-review" enctype="multipart/form-data">
-                @csrf
-                <input type="text" name="sale_id" value="{{ $sale->id }}" hidden>
-                <input type="text" name="user_id" value="{{ auth()->user()->id }}" hidden>
-                <input type="text" name="note" value="Telah diperiksa oleh : {{ auth()->user()->name }}" hidden>
-                <input type="text" name="company_id" value="{{ $company->id }}" hidden>
-                <input type="text" name="sale_month" value="{{ (int) date('m', strtotime($sale->created_at)) }}"
-                    hidden>
-                <input type="text" name="sale_year" value="{{ date('Y', strtotime($sale->created_at)) }}" hidden>
-                <div class="flex justify-center items-center mt-2 border rounded-lg p-2">
-                    <a class="flex justify-center items-center btn-danger"
-                        href="/sales-review/{{ $company->id }}?month={{ (int) date('m', strtotime($sale->created_at)) }}&year={{ date('Y', strtotime($sale->created_at)) }}">
-                        <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
-                            stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
-                                fill-rule="nonzero" />
-                        </svg>
-                        <span class="mx-1 text-sm">Back</span>
-                    </a>
-                    @if ($reviewed == false)
+            <div class="flex justify-center items-center mt-2 border rounded-lg p-2">
+                <a class="flex justify-center items-center btn-danger"
+                    href="/sales-review/{{ $company->id }}?month={{ (int) date('m', strtotime($sale->created_at)) }}&year={{ date('Y', strtotime($sale->created_at)) }}">
+                    <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
+                            fill-rule="nonzero" />
+                    </svg>
+                    <span class="mx-1 text-sm">Back</span>
+                </a>
+                @if ($reviewed == false)
+                    <form class="d-inline m-1" method="post" action="/sales-review" enctype="multipart/form-data">
+                        @csrf
+                        <input type="text" name="sale_id" value="{{ $sale->id }}" hidden>
+                        <input type="text" name="user_id" value="{{ auth()->user()->id }}" hidden>
+                        <input type="text" name="note" value="Telah diperiksa oleh : {{ auth()->user()->name }}"
+                            hidden>
+                        <input type="text" name="company_id" value="{{ $company->id }}" hidden>
+                        <input type="text" name="sale_month"
+                            value="{{ (int) date('m', strtotime($sale->created_at)) }}" hidden>
+                        <input type="text" name="sale_year" value="{{ date('Y', strtotime($sale->created_at)) }}"
+                            hidden>
                         <button class="flex justify-center items-center btn-success mx-2">
                             <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
                                 stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
@@ -321,9 +361,24 @@
                             </svg>
                             <span class="mx-1 text-sm">Confirm</span>
                         </button>
+                    </form>
+                @else
+                    @if ($ownerReviewed == false)
+                        <a href="/sales-review/unchecked/{{ $reviewedId }}"
+                            class="flex justify-center items-center btn-success mx-2"
+                            onclick="return confirm('Apakah anda yakin ingin menghapus / membatalkan konfirmasi pemeriksaan penjualan ini?')">
+                            <svg class="fill-current w-5" clip-rule="evenodd" fill-rule="evenodd"
+                                stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m11.998 2.005c5.517 0 9.997 4.48 9.997 9.997 0 5.518-4.48 9.998-9.997 9.998-5.518 0-9.998-4.48-9.998-9.998 0-5.517 4.48-9.997 9.998-9.997zm-5.049 10.386 3.851 3.43c.142.128.321.19.499.19.202 0 .405-.081.552-.242l5.953-6.509c.131-.143.196-.323.196-.502 0-.41-.331-.747-.748-.747-.204 0-.405.082-.554.243l-5.453 5.962-3.298-2.938c-.144-.127-.321-.19-.499-.19-.415 0-.748.335-.748.746 0 .205.084.409.249.557z"
+                                    fill-rule="nonzero" />
+                            </svg>
+                            <span class="mx-1 text-sm">Unchecked</span>
+                        </a>
                     @endif
-                </div>
-            </form>
+                @endif
+            </div>
         </div>
     </div>
     <!-- Container end -->

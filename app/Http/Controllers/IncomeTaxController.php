@@ -8,9 +8,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use Validator;
+// use Validator;
 use Gate;
 
 class IncomeTaxController extends Controller
@@ -22,7 +22,7 @@ class IncomeTaxController extends Controller
     {
         if(Gate::allows('isPPh') && Gate::allows('isAccountingRead')){
             return response()-> view ('income-taxes.index', [
-                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->yearReport()->monthReport()->sortable()->orderBy("payment_date", "desc")->paginate(30)->withQueryString(),
+                'payments'=>Payment::where('company_id', $company_id)->filter(request('search'))->yearReport()->monthReport()->sortable()->orderBy("payment_date", "desc")->get(),
                 'title' => 'Daftar Pemotongan PPh'
             ]);
         } else {

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IncomeTaxDocument;
-use App\Models\IncomeTaxCategory;
-use App\Models\Payment;
+use App\Models\Billing;
 use App\Models\Client;
+use App\Models\IncomeTaxCategory;
+use App\Models\IncomeTaxDocument;
+use App\Models\Payment;
+use Carbon\Carbon;
+use Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
-use Validator;
-use Gate;
 
 class IncomeTaxDocumentController extends Controller
 {
@@ -23,6 +22,23 @@ class IncomeTaxDocumentController extends Controller
     public function index(): Response
     {
         //
+    }
+
+    public function updateData(): RedirectResponse
+    {
+        $payments = Payment::where('company_id', request('company_id'))->get();
+
+        foreach ($payments as $payment) {
+            if($payment->income_taxes->sum('nominal') > 0){
+                foreach ($payment->billings as $itemBilling) {
+                    if(!empty($payment->income_tax_document) && $payment->income_tax_document->billing_id == ""){
+                        IncomeTaxDocument::where('id', $payment->income_tax_document->id)
+                            ->update(['billing_id' => $itemBilling->id]);
+                    }
+                }
+            }
+        }
+        dd('update Sukses');
     }
 
     public function report(String $company_id): Response
@@ -40,14 +56,16 @@ class IncomeTaxDocumentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(String $paymentId, String $clientCompany): Response
+    public function create(String $paymentId, String $clientCompany, String $billingId): Response
     {
         if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingCreate'))){
             $payment = Payment::findOrFail($paymentId);
-            $billingClient = json_decode($payment->billings[0]->client);
+            $billing = Billing::findOrFail($billingId);
+            $billingClient = json_decode($billing->client);
             $client = Client::findOrFail($billingClient->id);
             return  response()-> view ('income-tax-documents.create', [
                 'payment' => $payment,
+                'billing' => $billing,
                 'income_tax_categories' => IncomeTaxCategory::all(),
                 'bill_client' => $billingClient,
                 'client' => $client,
@@ -68,6 +86,7 @@ class IncomeTaxDocumentController extends Controller
             if ($request->income_tax_category_id == 'pilih'){
                 return back()->withErrors(['income_tax_category_id' => ['Silahkan pilih kode objek pajak']])->withInput();
             }
+            $payment = Payment::findOrFail(request('payment_id'));
             
             $request->validate([
                 'documents.*'=> 'image|file|mimes:jpeg,png,jpg|max:1024',
@@ -78,6 +97,7 @@ class IncomeTaxDocumentController extends Controller
                 'number' => 'required',
                 'company' => 'required',
                 'payment_id' => 'required',
+                'billing_id' => 'required',
                 'company_id' => 'required',
                 'nominal' => 'required',
                 'client_city' => 'required',
@@ -104,7 +124,7 @@ class IncomeTaxDocumentController extends Controller
                         ->update($data_city);
             }
 
-            return redirect('/income-taxes/index/'.$request->company_id)->with('success', 'Dokumen bukti potong PPh berhasil diupload');
+            return redirect('/income-taxes/index/'.$request->company_id.'?month='.(int) date('m', strtotime($payment->payment_date)).'&year='.date('Y', strtotime($payment->payment_date)))->with('success', 'Dokumen bukti potong PPh berhasil diupload');
         } else {
             abort(403);
         }
@@ -119,6 +139,7 @@ class IncomeTaxDocumentController extends Controller
             return response()-> view('income-tax-documents.show', [
                 'income_tax_document' => $incomeTaxDocument,
                 'payment' => Payment::findOrFail($incomeTaxDocument->payment_id),
+                'billing' => Billing::findOrFail($incomeTaxDocument->billing_id),
                 'title' => 'Detail Bukti Potong PPH'
             ]);
         } else {
@@ -134,6 +155,8 @@ class IncomeTaxDocumentController extends Controller
         if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isMedia') || Gate::allows('isMarketing')) && (Gate::allows('isPPh') && Gate::allows('isAccountingEdit'))){
             return  response()-> view ('income-tax-documents.edit', [
                 'income_tax_document' => $incomeTaxDocument,
+                'billing' => Billing::findOrFail($incomeTaxDocument->billing_id),
+                'payment' => Payment::findOrFail($incomeTaxDocument->payment_id),
                 'income_tax_categories' => IncomeTaxCategory::all(),
                 'title' => 'Edit Dokumen Bukti Potong PPh'
             ]);

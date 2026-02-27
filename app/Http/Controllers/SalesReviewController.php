@@ -104,4 +104,30 @@ class SalesReviewController extends Controller
             abort(403);
         }
     }
+
+    public function unReview(String $reviewedId): RedirectResponse
+    {
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isOwner')) && Gate::allows('isReview')){
+            $salesReview = SalesReview::findOrFail($reviewedId);
+            $sale = Sale::findOrFail($salesReview->sale_id);
+            $ownerReviewed = false;
+            foreach ($sale->sales_reviews as $review) {
+                if ($review->user->division == 'Owner') {
+                    $ownerReviewed = true;
+                }
+            }
+            if(auth()->user()->id == $salesReview->user->id){
+                if($ownerReviewed == true){
+                    return back()->withErrors(['delete' => ['Gagal untuk menghapus konfirmasi peenjualan, penjualan telah diperiksa oleh Owner']]);
+                }else{
+                    SalesReview::destroy($reviewedId);
+                    return redirect('/sales-review/review/'.$salesReview->sale_id)->with('success', 'Konfirmasi pemeriksaan penjualan berhasil dihapus');
+                }
+            }else{
+                abort(403);
+            }
+        } else {
+            abort(403);
+        }
+    }
 }

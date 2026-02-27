@@ -70,6 +70,10 @@ class Billing extends Model
     public function income_taxes(){
         return $this->hasMany(IncomeTax::class, 'billing_id', 'id');
     }
+    
+    public function income_tax_document(){
+        return $this->hasOne(IncomeTaxDocument::class, 'billing_id', 'id');
+    }
 
     public $sortable = ['invoice_number', 'receipt_number'];
 }

@@ -7,7 +7,7 @@
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
-        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
+        <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md w-[1280px]">
             <div class="flex p-1 w-full border-b">
                 <!-- Title start -->
                 @if (request('month'))
@@ -20,7 +20,7 @@
             </div>
             <div>
                 <form action="/payment-review/{{ $company->id }}">
-                    <div class="flex items-center border rounded-lg mt-2 p-2 w-[1580px]">
+                    <div class="flex items-center border rounded-lg mt-2 p-2 w-full">
                         <div class="w-24">
                             <span class="text-base text-stone-100">Bulan</span>
                             <select name="month"
@@ -98,11 +98,11 @@
                             </th>
                         </tr>
                         <tr class="bg-stone-400 h-8">
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-64">
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center">
                                 Klien
                             </th>
-                            <th class="text-stone-900 border border-stone-900 text-sm text-center">
-                                Lokasi
+                            <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
+                                Jenis
                             </th>
                             <th class="text-stone-900 border border-stone-900 text-sm text-center w-56">
                                 Nomor Invoice
@@ -143,7 +143,16 @@
                                         {{ $client->contact_name }}
                                     @endif
                                 </td>
-                                <td class="text-stone-900 border border-stone-900 text-sm px-1 align-top">
+                                <td class="text-stone-900 border border-stone-900 text-sm px-1 align-top text-center">
+                                    <div>
+                                        @foreach ($payment->billings as $itemBilling)
+                                            @if ($itemBilling->category == 'Service')
+                                                Revisual
+                                            @else
+                                                Sewa Media
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="text-stone-900 px-1 border border-stone-900 text-sm text-center align-top">
                                     <div>
