@@ -5,7 +5,7 @@
     <div class="flex justify-center bg-stone-700 border rounded-md p-10">
         <div class="flex justify-center w-[650px] border rounded-lg bg-stone-300 p-4">
             <div>
-                <div class="w-[620px] h-[460px] bg-stone-300 border rounded-lg">
+                <div class="w-[620px] h-[560px] bg-stone-300 border rounded-lg">
                     <div class="mt-2" id="line-sales-chart"></div>
                     <div id="bar-chart"></div>
                 </div>
@@ -18,12 +18,34 @@
         </div>
         <div class="w-[650px] mx-4 border rounded-lg bg-stone-300 p-4">
             <label class=" text-lg font-bold">Detail Penjualan</label>
-            <div class="flex p-2 h-44 border rounded-lg">
+            <div class="flex p-2 border rounded-lg">
                 @foreach ($salesUsers as $salesUser)
                     <div class="border rounded-md mx-1 p-2 w-80">
                         <label class="flex justify-center w-full text-sm">Marketing :</label>
                         <label class="flex justify-center w-full font-semibold text-md">{{ $salesUser->name }}</label>
-                        <label class="flex w-full text-sm mt-2">Penjualan Tahun Ini</label>
+                        <label class="flex w-full text-sm mt-2 font-semibold border-b border-t">Penjualan Bulan
+                            Ini</label>
+                        @foreach ($companies as $getCompany)
+                            @php
+                                $totalUserSales = 0;
+                            @endphp
+                            @foreach ($all_month_sales as $getSale)
+                                @php
+                                    $getUser = json_decode($getSale->created_by);
+                                    if ($getUser->id == $salesUser->id && $getCompany->id == $getSale->company_id) {
+                                        $totalUserSales = $totalUserSales + $getSale->price;
+                                    }
+                                @endphp
+                            @endforeach
+                            <div class="flex items-center">
+                                <label class="flex w-24 text-sm">{{ $getCompany->code }}</label>
+                                <label class="flex text-sm">:</label>
+                                <label class="flex ml-2 font-semibold text-md">Rp.
+                                    {{ number_format($totalUserSales) }},-</label>
+                            </div>
+                        @endforeach
+                        <label class="flex w-full text-sm mt-2 font-semibold border-b border-t">Penjualan Tahun
+                            Ini</label>
                         @foreach ($companies as $getCompany)
                             @php
                                 $totalUserSales = 0;
