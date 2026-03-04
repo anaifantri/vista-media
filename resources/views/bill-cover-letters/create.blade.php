@@ -198,11 +198,11 @@
                         'Faktur Pajak No. ' .
                         $billing->vat_tax_invoice->number .
                         ' Tanggal ' .
-                        date('d', strtotime($billing->vat_tax_invoice->created_at)) .
+                        date('d', strtotime($billing->vat_tax_invoice->tax_date)) .
                         ' ' .
-                        $bulan[(int) date('m', strtotime($billing->vat_tax_invoice->created_at))] .
+                        $bulan[(int) date('m', strtotime($billing->vat_tax_invoice->tax_date))] .
                         ' ' .
-                        date('Y', strtotime($billing->vat_tax_invoice->created_at));
+                        date('Y', strtotime($billing->vat_tax_invoice->tax_date));
                 }
                 $index = $index + 2;
             }
