@@ -171,7 +171,7 @@
                                         {{ $vat_tax->number }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
-                                        {{ date('d', strtotime($vat_tax->created_at)) }}-{{ $bulan[(int) date('m', strtotime($vat_tax->created_at))] }}-{{ date('Y', strtotime($vat_tax->created_at)) }}
+                                        {{ date('d', strtotime($vat_tax->tax_date)) }}-{{ $bulan[(int) date('m', strtotime($vat_tax->tax_date))] }}-{{ date('Y', strtotime($vat_tax->tax_date)) }}
                                     </td>
                                     <td class="text-stone-900 px-1 border border-stone-900 text-xs text-center">
                                         {{ $vat_tax->billing->invoice_number }}

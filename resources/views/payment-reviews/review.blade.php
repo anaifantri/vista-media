@@ -162,12 +162,25 @@
                                 <label
                                     class="text-lg text-stone-100 text-right w-28">{{ number_format($payment->billings->sum('nominal') + $payment->billings->sum('ppn')) }},-</label>
                             </div>
-                            <div class="flex mt-1 w-[360px] border-b">
+                            <div class="flex mt-1 w-[360px]">
                                 <label class="text-lg text-stone-100 w-48">Pemotongan PPh</label>
                                 <label class="text-lg text-stone-100 ml-2">:</label>
                                 <label class="text-lg text-stone-100 ml-2">Rp. </label>
                                 <label
                                     class="text-lg text-stone-100 text-right w-28">{{ number_format($payment->income_taxes->sum('nominal')) }},-</label>
+                            </div>
+                            <div class="flex mt-1 w-[360px] border-b">
+                                <label class="text-lg text-stone-100 w-48">Pemotongan Lainnya</label>
+                                <label class="text-lg text-stone-100 ml-2">:</label>
+                                <label class="text-lg text-stone-100 ml-2">Rp. </label>
+                                <label
+                                    class="text-lg text-stone-100 text-right w-28">
+                                    @if ($payment->other_fee)
+                                    {{ number_format($payment->other_fee->nominal) }},-
+                                        @else
+                                        0,-
+                                    @endif
+                                </label>
                             </div>
                             <div class="flex mt-1 w-[360px]">
                                 <label class="text-lg text-stone-100 w-48">Nominal Pembayaran</label>

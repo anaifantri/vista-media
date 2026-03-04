@@ -1088,7 +1088,7 @@
                 <td class="border border-black text-sm text-right align-top font-semibold px-2" colspan="4">PPh
                 </td>
                 <td class="border border-black text-sm text-right align-top font-semibold px-2">
-                    {{ $pphTotal }}</td>
+                    {{ round($pphTotal) }}</td>
                 <td class="text-black bg-slate-200 border border-black text-sm text-right align-top font-semibold"
                     colspan="10"></td>
             </tr>

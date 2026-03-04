@@ -87,7 +87,7 @@
                     <th class="sticky top-0 border border-black text-[0.65rem] w-[120px]" rowspan="2">
                         Harga
                     </th>
-                    <th class="sticky top-0 border border-black text-[0.65rem]" colspan="5">
+                    <th class="sticky top-0 border border-black text-[0.65rem]" colspan="4">
                         Termin Pembayaran
                     </th>
                     <th class="sticky top-0 border border-black text-[0.65rem]" colspan="3">
@@ -101,7 +101,7 @@
                     <th class="border border-black text-[0.65rem] w-12">Termin</th>
                     <th class="border border-black text-[0.65rem] w-[72px]">Nominal</th>
                     <th class="border border-black text-[0.65rem] w-16">PPN</th>
-                    <th class="border border-black text-[0.65rem] w-12">PPh</th>
+                    {{-- <th class="border border-black text-[0.65rem] w-12">PPh</th> --}}
                     <th class="border border-black text-[0.65rem] w-20">Total</th>
                     <th class="border border-black text-[0.65rem] w-20">No. Invoice</th>
                     <th class="border border-black text-[0.65rem] w-20">Tgl. Invoice</th>
@@ -799,7 +799,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="border border-black text-[0.65rem] text-center align-top">
+                                        {{-- <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -807,7 +807,7 @@
                                                     </div>
                                                 @endforeach
                                             </div>
-                                        </td>
+                                        </td> --}}
                                         <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
@@ -886,7 +886,7 @@
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="border border-black text-[0.65rem] text-center align-top">
+                                        {{-- <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
                                                     <div class="flex mr-1 justify-end">
@@ -894,7 +894,7 @@
                                                     </div>
                                                 @endforeach
                                             </div>
-                                        </td>
+                                        </td> --}}
                                         <td class="border border-black text-[0.65rem] text-center align-top">
                                             <div>
                                                 @foreach ($payment_terms->dataPayments as $terms)
@@ -971,7 +971,7 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td class="border border-black text-[0.65rem] text-center align-top">
+                                {{-- <td class="border border-black text-[0.65rem] text-center align-top">
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)
                                             <div class="flex mr-1 justify-end">
@@ -979,7 +979,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                </td>
+                                </td> --}}
                                 <td class="border border-black text-[0.65rem] text-center align-top">
                                     <div>
                                         @foreach ($payment_terms->dataPayments as $terms)

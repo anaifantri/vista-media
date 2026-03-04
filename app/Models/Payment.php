@@ -21,9 +21,9 @@ class Payment extends Model
             
     public function scopeYear($query){
         if(request('year')){
-            return $query->whereYear('created_at', request('year'));
+            return $query->whereYear('payment_at', request('year'));
         }else{
-            return $query->whereYear('created_at',  Carbon::now()->year);
+            return $query->whereYear('payment_at',  Carbon::now()->year);
         }
     }
 

@@ -199,7 +199,7 @@
                                             $totalTaxes = 0;
                                         @endphp
                                         @foreach ($payment->billings as $itemBilling)
-                                            <span>{{ number_format($itemBilling->income_taxes->where('payment_id', $payment->id)->sum('nominal')) }}</span>
+                                            <span class="flex justify-end">{{ number_format($itemBilling->income_taxes->where('payment_id', $payment->id)->sum('nominal')) }}</span>
                                             @php
                                                 $totalTaxes =
                                                     $totalTaxes +
@@ -209,7 +209,7 @@
                                             @endphp
                                         @endforeach
                                         @if (count($payment->billings) > 1)
-                                            <span class="border-t border-black">{{ number_format($totalTaxes) }}</span>
+                                            <span class="flex justify-end border-t border-black">{{ number_format($totalTaxes) }}</span>
                                         @endif
                                     </div>
                                 </td>

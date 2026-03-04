@@ -13,17 +13,17 @@ class VatTaxInvoice extends Model
         
     public function scopeYear($query){
         if(request('year')){
-            return $query->whereYear('created_at', request('year'));
+            return $query->whereYear('tax_date', request('year'));
         }else{
-            return $query->whereYear('created_at',  Carbon::now()->year);
+            return $query->whereYear('tax_date',  Carbon::now()->year);
         }
     }
 
     public function scopeMonth($query){
         if(request('month')){
-            return $query->whereYear('created_at', request('year'))->whereMonth('created_at', request('month'));
+            return $query->whereYear('tax_date', request('year'))->whereMonth('tax_date', request('month'));
         }else{
-            return $query->whereYear('created_at',  Carbon::now()->year)->whereMonth('created_at', Carbon::now()->month);
+            return $query->whereYear('tax_date',  Carbon::now()->year)->whereMonth('tax_date', Carbon::now()->month);
         }
     }
     
