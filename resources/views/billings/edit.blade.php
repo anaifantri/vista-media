@@ -226,7 +226,6 @@
         var invoiceContent = @json($invoice_content);
         var receiptContent = @json($receipt_content);
 
-
         changeClient = (sel) => {
             if (sel.name == "client_contact") {
                 client.contact_name = sel.value;
@@ -295,9 +294,21 @@
             }
 
             if (invoiceContent.manual_detail) {
-                invoiceContent.manual_detail[indexTitle].nominal = sel.value;
+                if(invoiceContent.merge){
+                    if (invoiceContent.merge != "normal") {
+                        invoiceContent.manual_detail[indexTitle].nominal = sel.value;
+                        invoiceContent.manual_detail[Number(indexTitle)+1].nominal = sel.value;
+                    }else{
+                        invoiceContent.manual_detail[indexTitle].nominal = sel.value;
+                    }
+                }
             } else {
+                    if (invoiceContent.merge != "normal") {
                 invoiceContent.description[indexTitle].nominal = sel.value;
+                invoiceContent.description[Number(indexTitle)+1].nominal = sel.value;
+                    }else{
+                invoiceContent.description[indexTitle].nominal = sel.value;
+                    }
             }
 
             receiptContent.nominal = getGrandTotal;

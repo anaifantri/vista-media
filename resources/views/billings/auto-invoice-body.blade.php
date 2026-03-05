@@ -98,9 +98,9 @@
                     @php
                         if ($client->type == 'Perusahaan') {
                             if ($client->contact_gender == 'Male') {
-                                $client->contact_name = 'Bapak ' . $client->contact_name;
+                                $client->contact_name = $client->contact_name;
                             } else {
-                                $client->contact_name = 'Ibu ' . $client->contact_name;
+                                $client->contact_name = $client->contact_name;
                             }
                         }
                     @endphp

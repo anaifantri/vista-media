@@ -372,13 +372,21 @@
                     <tr class="text-sm">
                         <td class="border px-2">1</td>
                         <td class="border px-1">
-                            <input class="border rounded-md px-1 w-full ml-2 outline-none" type="text"
-                                value="{{ $invoice_descriptions[0]->title }}">
+                                    <input class="border rounded-md px-1 w-full outline-none" type="text"
+                                        title="title*{{ $indexTitle }}" value="{{ $invoice_descriptions[0]->title }}"
+                                        onchange="changeInvoiceTitle(this)">
+                            {{-- <input class="border rounded-md px-1 w-full ml-2 outline-none" type="text"
+                                value="{{ $invoice_descriptions[0]->title }}"> --}}
                         </td>
                         <td class="border px-2 text-right">
                             <div class="flex justify-end">
-                                <input class="in-out-spin-none text-right border rounded-md px-1 w-32 outline-none"
-                                    type="number" value="{{ $subTotal }}">
+                                        {{-- <input id="inputNominal" title="inputNominal*{{ $indexTitle }}"
+                                            onchange="changeNominal(this)"
+                                            class="in-out-spin-none text-right border rounded-md px-1 w-32 outline-none"
+                                            type="number" value="{{ $invoiceItem->nominal }}"> --}}
+                                <input id="inputNominal" title="inputNominal*{{ $indexTitle }}" class="in-out-spin-none text-right border rounded-md px-1 w-32 outline-none"
+                                    type="number" value="{{ $subTotal }}" 
+                                            onchange="changeNominal(this)">
                                 {{-- <label class="w-6">Rp. </label>
                                 <label class="w-full flex justify-end">{{ number_format($subTotal) }}</label>
                                 <label class="w-4">,-</label> --}}
@@ -387,7 +395,7 @@
                         <td class="border px-2 text-right">
                             <div class="flex justify-end">
                                 <label class="w-6">Rp. </label>
-                                <label class="w-full flex justify-end">{{ number_format($subTotal) }}</label>
+                                <label id="labelNominal" class="w-full flex justify-end">{{ number_format($subTotal) }}</label>
                                 <label class="w-4">,-</label>
                             </div>
                         </td>
@@ -398,7 +406,7 @@
                             <div class="flex w-full">
                                 <span class="w-16">Jenis</span>
                                 <span>:</span>
-                                <span>{{ $invoice_descriptions[0]->type }}</span>
+                                <span class="ml-2">{{ $invoice_descriptions[0]->type }}</span>
                             </div>
                         </td>
                         <td class="border px-2"></td>
@@ -486,7 +494,7 @@
                         <td class="border text-right font-semibold">
                             <div class="flex w-full justify-end px-1">
                                 <label class="w-6">Rp. </label>
-                                <label class="w-full flex justify-end">{{ number_format($billing->nominal) }}</label>
+                                <label id="subTotal" class="w-full flex justify-end">{{ number_format($billing->nominal) }}</label>
                                 <label class="w-4">,-</label>
                             </div>
                         </td>
@@ -495,7 +503,7 @@
                         <td class="border text-right px-2 font-semibold">DPP</td>
                         <td class="border text-right font-semibold">
                             <div class="flex w-full justify-end px-1">
-                                <input class="border rounded-md in-out-spin-none text-right px-3 w-32 outline-none"
+                                <input id="inputDpp" name="dpp" onchange="inputDppChange(this)" class="border rounded-md in-out-spin-none text-right px-3 w-32 outline-none"
                                     type="number" value="{{ $billing->dpp }}">
                                 {{-- <label class="w-6">Rp. </label>
                                 <label class="w-full flex justify-end">{{ number_format($billing->dpp) }}</label>
@@ -507,9 +515,12 @@
                         <td class="border text-right px-2 font-semibold">PPN</td>
                         <td class="border text-right font-semibold">
                             <div class="flex w-full justify-end px-1">
-                                <label class="w-6">Rp. </label>
+                                    <input id="inputPpn" name="ppn" onchange="inputPpnChange(this)"
+                                        class="border rounded-md in-out-spin-none text-right px-3 w-32 outline-none"
+                                        type="number" value="{{ $billing->ppn }}">
+                                {{-- <label class="w-6">Rp. </label>
                                 <label class="w-full flex justify-end">{{ number_format($billing->ppn) }}</label>
-                                <label class="w-4">,-</label>
+                                <label class="w-4">,-</label> --}}
                             </div>
                         </td>
                     </tr>
@@ -518,7 +529,7 @@
                         <td class="border text-right font-semibold">
                             <div class="flex w-full justify-end px-1">
                                 <label class="w-6">Rp. </label>
-                                <label
+                                <label id="labelGrandTotal"
                                     class="w-full flex justify-end">{{ number_format($billing->nominal + $billing->ppn) }}</label>
                                 <label class="w-4">,-</label>
                             </div>
