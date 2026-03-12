@@ -22,6 +22,7 @@
             $product = json_decode($sale->product);
             $client = json_decode($sale->quotation->clients);
         }
+        $created_by = json_decode($publish_content->created_by);
     @endphp
     <!-- Show start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -245,6 +246,25 @@
                             @endif
                         @endforeach
                     </div>
+                                    <div>
+                                        <div class="flex">
+                                            <label class="text-sm text-yellow-400 w-40 mx-1">Tanggal
+                                                Upload Foto</label>
+                                            <label class="text-sm text-yellow-400">:</label>
+                                            <label
+                                                class="text-sm text-yellow-400 ml-2 w-40">{{ date('d', strtotime($publish_content->updated_at)) }}
+                                                {{ $bulan[(int) date('m', strtotime($publish_content->updated_at))] }}
+                                                {{ date('Y', strtotime($publish_content->updated_at)) }}</label>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="text-sm text-yellow-400 w-40 mx-1">Foto Diupload
+                                                Oleh</label>
+                                            <label class="text-sm text-yellow-400">: </label>
+                                            <label class="text-sm text-yellow-400 ml-2 w-60">
+                                                {{ $created_by->name }}
+                                            </label>
+                                        </div>
+                                    </div>
                 </div>
             </div>
             <!-- View Photos end -->

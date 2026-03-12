@@ -87,7 +87,7 @@
                                 class="h-[400px] w-[560px] rounded-lg">
                             <div class="h-14 bg-black bg-opacity-80 p-2 mt-2">
                                 <div class="flex items-center">
-                                    <div class="w-64">
+                                    <div class="w-96">
                                         <div class="flex">
                                             <label class="text-sm text-yellow-400 w-28 mx-1">Tanggal
                                                 Upload</label>
@@ -101,8 +101,8 @@
                                             <label class="text-sm text-yellow-400 w-28 mx-1">Diupload
                                                 Oleh</label>
                                             <label class="text-sm text-yellow-400">: </label>
-                                            <label class="text-sm text-yellow-400 ml-2 w-40">
-                                                {{-- {{ $photo->user->name }} --}}
+                                            <label class="text-sm text-yellow-400 ml-2 w-60">
+                                                {{ $photo->user->name }}
                                             </label>
                                         </div>
                                     </div>
