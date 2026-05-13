@@ -1,50 +1,48 @@
 @php
-    $printStatus = $price->objServiceType->print;
-    $installStatus = $price->objServiceType->install;
+    if (isset($price->objServiceType)) {
+        $printStatus = $price->objServiceType->print;
+        $installStatus = $price->objServiceType->install;
+        if ($printStatus == true && $installStatus == true) {
+            $rowSpan = 2;
+        } else {
+            $rowSpan = 1;
+        }
+    }
     $getPriceInstall = 0;
     $getPricePrint = 0;
-    if ($printStatus == true && $installStatus == true) {
-        $rowSpan = 2;
-    } else {
-        $rowSpan = 1;
-    }
-    if ($installStatus == true) {
-        $indexInstall = 0;
-        foreach ($price->objInstalls as $objInstall) {
-            if ($objInstall->code == $product->code) {
-                $priceInstall = $objInstall;
-                $getPriceInstall = $priceInstall->price;
-                $side = $price->objSideView[$indexInstall]->side;
-                $wide = $price->objSideView[$indexInstall]->wide;
-                if (isset($price->dataServiceNotes)) {
-                    $serviceNote = $price->dataServiceNotes[$indexInstall]->serviceNote;
-                } else {
-                    $serviceNote = '';
-                }
-                $leftStatus = $price->objSideView[$indexInstall]->left;
-                $rightStatus = $price->objSideView[$indexInstall]->right;
+    $indexInstall = 0;
+    foreach ($price->objInstalls as $objInstall) {
+        if ($objInstall->code == $product->code) {
+            $priceInstall = $objInstall;
+            $getPriceInstall = $priceInstall->price;
+            $side = $price->objSideView[$indexInstall]->side;
+            $wide = $price->objSideView[$indexInstall]->wide;
+            if (isset($price->dataServiceNotes)) {
+                $serviceNote = $price->dataServiceNotes[$indexInstall]->serviceNote;
+            } else {
+                $serviceNote = '';
             }
-            $indexInstall++;
+            $leftStatus = $price->objSideView[$indexInstall]->left;
+            $rightStatus = $price->objSideView[$indexInstall]->right;
         }
+        $indexInstall++;
     }
-    if ($printStatus == true) {
-        $indexPrint = 0;
-        foreach ($price->objPrints as $objPrint) {
-            if ($objPrint->code == $product->code) {
-                $pricePrint = $objPrint;
-                $getPricePrint = $pricePrint->price;
-                $side = $price->objSideView[$indexPrint]->side;
-                $wide = $price->objSideView[$indexPrint]->wide;
-                if (isset($price->dataServiceNotes)) {
-                    $serviceNote = $price->dataServiceNotes[$indexPrint]->serviceNote;
-                } else {
-                    $serviceNote = '';
-                }
-                $leftStatus = $price->objSideView[$indexPrint]->left;
-                $rightStatus = $price->objSideView[$indexPrint]->right;
+    $indexPrint = 0;
+    foreach ($price->objPrints as $objPrint) {
+        if ($objPrint->code == $product->code) {
+            $pricePrint = $objPrint;
+            $getPricePrint = $pricePrint->price;
+            $side = $price->objSideView[$indexPrint]->side;
+            $wide = $price->objSideView[$indexPrint]->wide;
+            if (isset($price->dataServiceNotes)) {
+                $serviceNote = $price->dataServiceNotes[$indexPrint]->serviceNote;
+            } else {
+                $serviceNote = '';
             }
-            $indexPrint++;
+            $leftStatus = $price->objSideView[$indexPrint]->left;
+            $rightStatus = $price->objSideView[$indexPrint]->right;
         }
+        $indexPrint++;
     }
     $getSubTotal = $getPricePrint * $wide + $getPriceInstall * $wide;
     $getPpn = $getSubTotal * ($sale->ppn / 100);
@@ -67,79 +65,8 @@
         </tr>
     </thead>
     <tbody>
-        @if ($printStatus == true && $installStatus == true)
-            <tr>
-                <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
-                    <div class="flex">
-                        <label class="w-10">Kode</label>
-                        <label class="ml-2">: {{ $product->code }} -
-                            {{ $product->city_code }}</label>
-                        @if ($product->side == '2 Sisi')
-                            @if ($leftStatus == true && $rightStatus == true)
-                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
-                                    dan Kiri</label>
-                            @elseif ($leftStatus == true)
-                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
-                            @elseif ($rightStatus == true)
-                                <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
-                            @endif
-                        @else
-                            <label class="text-[0.7rem] text-black ml-4"></label>
-                        @endif
-                    </div>
-                    <div class="flex">
-                        <label class="w-10">Lokasi</label>
-                        <label class="ml-2">: {{ $product->address }}</label>
-                    </div>
-                    <div class="flex items-center">
-                        <label class="w-10">Ukuran</label>
-                        <label class="ml-2">: {{ $product->size }} x {{ $side }} Sisi -
-                            @if ($product->orientation == 'Vertikal')
-                                V
-                            @elseif ($product->orientation == 'Horizontal')
-                                H
-                            @endif
-                        </label>
-                    </div>
-                    <div class="flex">
-                        <label class="w-10 font-bold">Catatan</label>
-                        <label class="ml-2 font-bold">: </label>
-                        <label class="ml-1 font-bold">
-                            {{ $serviceNote }}
-                        </label>
-                    </div>
-                </td>
-                <td class="text-[0.7rem] text-black border px-1 text-center">Cetak</td>
-                <td class="text-[0.7rem] text-black border text-center">
-                    {{ $pricePrint->printProduct }}
-                </td>
-                <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
-                    {{ $side }}
-                </td>
-                <td class="text-[0.7rem] text-black border text-center" rowspan="{{ $rowSpan }}">
-                    {{ $wide }}
-                </td>
-                <td class="text-[0.7rem] text-black border text-center px-1">
-                    {{ number_format($getPricePrint) }}
-                </td>
-                <td class="text-[0.7rem] text-black border text-right px-2">
-                    {{ number_format($getPricePrint * $wide) }}
-                </td>
-            </tr>
-            <tr>
-                <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
-                <td class="text-[0.7rem] text-black border text-center">
-                    {{ $priceInstall->type }}
-                </td>
-                <td class="text-[0.7rem] text-black border text-center px-1">
-                    {{ number_format($getPriceInstall) }}
-                </td>
-                <td class="text-[0.7rem] text-black border text-right px-2">
-                    {{ number_format($getPriceInstall * $wide) }}
-                </td>
-            </tr>
-        @else
-            @if ($printStatus == true)
+        @if (isset($price->objServiceType))
+            @if ($printStatus == true && $installStatus == true)
                 <tr>
                     <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
                         <div class="flex">
@@ -198,7 +125,144 @@
                         {{ number_format($getPricePrint * $wide) }}
                     </td>
                 </tr>
+                <tr>
+                    <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
+                    <td class="text-[0.7rem] text-black border text-center">
+                        {{ $priceInstall->type }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-center px-1">
+                        {{ number_format($getPriceInstall) }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-right px-2">
+                        {{ number_format($getPriceInstall * $wide) }}
+                    </td>
+                </tr>
             @else
+                @if ($printStatus == true)
+                    <tr>
+                        <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
+                            <div class="flex">
+                                <label class="w-10">Kode</label>
+                                <label class="ml-2">: {{ $product->code }} -
+                                    {{ $product->city_code }}</label>
+                                @if ($product->side == '2 Sisi')
+                                    @if ($leftStatus == true && $rightStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
+                                            dan Kiri</label>
+                                    @elseif ($leftStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
+                                    @elseif ($rightStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+                                    @endif
+                                @else
+                                    <label class="text-[0.7rem] text-black ml-4"></label>
+                                @endif
+                            </div>
+                            <div class="flex">
+                                <label class="w-10">Lokasi</label>
+                                <label class="ml-2">: {{ $product->address }}</label>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-10">Ukuran</label>
+                                <label class="ml-2">: {{ $product->size }} x {{ $side }} Sisi -
+                                    @if ($product->orientation == 'Vertikal')
+                                        V
+                                    @elseif ($product->orientation == 'Horizontal')
+                                        H
+                                    @endif
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <label class="w-10 font-bold">Catatan</label>
+                                <label class="ml-2 font-bold">: </label>
+                                <label class="ml-1 font-bold">
+                                    {{ $serviceNote }}
+                                </label>
+                            </div>
+                        </td>
+                        <td class="text-[0.7rem] text-black border px-1 text-center">Cetak</td>
+                        <td class="text-[0.7rem] text-black border text-center">
+                            {{ $pricePrint->printProduct }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
+                            {{ $side }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center" rowspan="{{ $rowSpan }}">
+                            {{ $wide }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center px-1">
+                            {{ number_format($getPricePrint) }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-right px-2">
+                            {{ number_format($getPricePrint * $wide) }}
+                        </td>
+                    </tr>
+                @else
+                    <tr>
+                        <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
+                            <div class="flex">
+                                <label class="w-10">Kode</label>
+                                <label class="ml-2">: {{ $product->code }} -
+                                    {{ $product->city_code }}</label>
+                                @if ($product->side == '2 Sisi')
+                                    @if ($leftStatus == true && $rightStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
+                                            dan Kiri</label>
+                                    @elseif ($leftStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
+                                    @elseif ($rightStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+                                    @endif
+                                @else
+                                    <label class="text-[0.7rem] text-black ml-4"></label>
+                                @endif
+                            </div>
+                            <div class="flex">
+                                <label class="w-10">Lokasi</label>
+                                <label class="ml-2">: {{ $product->address }}</label>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-10">Ukuran</label>
+                                <label class="ml-2">: {{ $product->size }} x {{ $side }} Sisi -
+                                    @if ($product->orientation == 'Vertikal')
+                                        V
+                                    @elseif ($product->orientation == 'Horizontal')
+                                        H
+                                    @endif
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <label class="w-10 font-bold">Catatan</label>
+                                <label class="ml-2 font-bold">: </label>
+                                <label class="ml-1 font-bold">
+                                    {{ $serviceNote }}
+                                </label>
+                            </div>
+                        </td>
+                        <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
+                        <td class="text-[0.7rem] text-black border text-center">
+                            {{ $priceInstall->type }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
+                            {{ $side }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center" rowspan="{{ $rowSpan }}">
+                            {{ $wide }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center px-1">
+                            {{ number_format($getPriceInstall) }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-right px-2">
+                            {{ number_format($getPriceInstall * $wide) }}
+                        </td>
+                    </tr>
+                @endif
+            @endif
+        @else
+            @if ($pricePrint->print == true && $priceInstall->install == true)
+                @php
+                    $rowSpan = 2;
+                @endphp
                 <tr>
                     <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
                         <div class="flex">
@@ -240,9 +304,9 @@
                             </label>
                         </div>
                     </td>
-                    <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
+                    <td class="text-[0.7rem] text-black border px-1 text-center">Cetak</td>
                     <td class="text-[0.7rem] text-black border text-center">
-                        {{ $priceInstall->type }}
+                        {{ $pricePrint->printProduct }}
                     </td>
                     <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
                         {{ $side }}
@@ -251,12 +315,148 @@
                         {{ $wide }}
                     </td>
                     <td class="text-[0.7rem] text-black border text-center px-1">
+                        {{ number_format($getPricePrint) }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-right px-2">
+                        {{ number_format($getPricePrint * $wide) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
+                    <td class="text-[0.7rem] text-black border text-center">
+                        {{ $priceInstall->type }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border text-center px-1">
                         {{ number_format($getPriceInstall) }}
                     </td>
                     <td class="text-[0.7rem] text-black border text-right px-2">
                         {{ number_format($getPriceInstall * $wide) }}
                     </td>
                 </tr>
+            @else
+                @php
+                    $rowSpan = 1;
+                @endphp
+                @if ($pricePrint->print == true)
+                    <tr>
+                        <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
+                            <div class="flex">
+                                <label class="w-10">Kode</label>
+                                <label class="ml-2">: {{ $product->code }} -
+                                    {{ $product->city_code }}</label>
+                                @if ($product->side == '2 Sisi')
+                                    @if ($leftStatus == true && $rightStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
+                                            dan Kiri</label>
+                                    @elseif ($leftStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
+                                    @elseif ($rightStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+                                    @endif
+                                @else
+                                    <label class="text-[0.7rem] text-black ml-4"></label>
+                                @endif
+                            </div>
+                            <div class="flex">
+                                <label class="w-10">Lokasi</label>
+                                <label class="ml-2">: {{ $product->address }}</label>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-10">Ukuran</label>
+                                <label class="ml-2">: {{ $product->size }} x {{ $side }} Sisi -
+                                    @if ($product->orientation == 'Vertikal')
+                                        V
+                                    @elseif ($product->orientation == 'Horizontal')
+                                        H
+                                    @endif
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <label class="w-10 font-bold">Catatan</label>
+                                <label class="ml-2 font-bold">: </label>
+                                <label class="ml-1 font-bold">
+                                    {{ $serviceNote }}
+                                </label>
+                            </div>
+                        </td>
+                        <td class="text-[0.7rem] text-black border px-1 text-center">Cetak</td>
+                        <td class="text-[0.7rem] text-black border text-center">
+                            {{ $pricePrint->printProduct }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
+                            {{ $side }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center" rowspan="{{ $rowSpan }}">
+                            {{ $wide }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center px-1">
+                            {{ number_format($getPricePrint) }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-right px-2">
+                            {{ number_format($getPricePrint * $wide) }}
+                        </td>
+                    </tr>
+                @endif
+                @if ($priceInstall->install == true)
+                    <tr>
+                        <td class="text-[0.7rem] text-black border px-2" rowspan="{{ $rowSpan }}">
+                            <div class="flex">
+                                <label class="w-10">Kode</label>
+                                <label class="ml-2">: {{ $product->code }} -
+                                    {{ $product->city_code }}</label>
+                                @if ($product->side == '2 Sisi')
+                                    @if ($leftStatus == true && $rightStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan
+                                            dan Kiri</label>
+                                    @elseif ($leftStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kiri</label>
+                                    @elseif ($rightStatus == true)
+                                        <label class="text-[0.7rem] text-black ml-4">-> Sisi Kanan</label>
+                                    @endif
+                                @else
+                                    <label class="text-[0.7rem] text-black ml-4"></label>
+                                @endif
+                            </div>
+                            <div class="flex">
+                                <label class="w-10">Lokasi</label>
+                                <label class="ml-2">: {{ $product->address }}</label>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-10">Ukuran</label>
+                                <label class="ml-2">: {{ $product->size }} x {{ $side }} Sisi -
+                                    @if ($product->orientation == 'Vertikal')
+                                        V
+                                    @elseif ($product->orientation == 'Horizontal')
+                                        H
+                                    @endif
+                                </label>
+                            </div>
+                            <div class="flex">
+                                <label class="w-10 font-bold">Catatan</label>
+                                <label class="ml-2 font-bold">: </label>
+                                <label class="ml-1 font-bold">
+                                    {{ $serviceNote }}
+                                </label>
+                            </div>
+                        </td>
+                        <td class="text-[0.7rem] text-black border px-1 text-center">Pasang</td>
+                        <td class="text-[0.7rem] text-black border text-center">
+                            {{ $priceInstall->type }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center px-1" rowspan="{{ $rowSpan }}">
+                            {{ $side }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center" rowspan="{{ $rowSpan }}">
+                            {{ $wide }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-center px-1">
+                            {{ number_format($getPriceInstall) }}
+                        </td>
+                        <td class="text-[0.7rem] text-black border text-right px-2">
+                            {{ number_format($getPriceInstall * $wide) }}
+                        </td>
+                    </tr>
+                @endif
             @endif
         @endif
         <tr>

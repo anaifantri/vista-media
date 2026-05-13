@@ -1,30 +1,43 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <?php
-    $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-    $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    $daftar_hari = [
-        'Sunday' => 'Minggu',
-        'Monday' => 'Senin',
-        'Tuesday' => 'Selasa',
-        'Wednesday' => 'Rabu',
-        'Thursday' => 'Kamis',
-        'Friday' => 'Jumat',
-        'Saturday' => 'Sabtu',
-    ];
-    $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
-    
-    $totalPayment = 0;
-    $totalPph = 0;
-    $totalOtherFee = 0;
-    
-    if (fmod(count($billings), 25) == 0) {
-        $pageQty = count($billings) / 25;
-    } else {
-        $pageQty = (count($billings) - fmod(count($billings), 25)) / 25 + 1;
-    }
-    ?>
+    @php
+        $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        $bulan_full = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+        $daftar_hari = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+        ];
+        $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+
+        $totalPayment = 0;
+        $totalPph = 0;
+        $totalOtherFee = 0;
+
+        if (fmod(count($billings), 25) == 0) {
+            $pageQty = count($billings) / 25;
+        } else {
+            $pageQty = (count($billings) - fmod(count($billings), 25)) / 25 + 1;
+        }
+    @endphp
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
             <div class="flex justify-center w-full">

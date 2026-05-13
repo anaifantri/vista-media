@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SalesReviewRequest;
-use App\Models\ChangeSale;
+use App\Models\VoidReview;
 use App\Models\Quotation;
 use App\Models\QuotationAgreement;
 use App\Models\QuotationApproval;
@@ -11,49 +10,29 @@ use App\Models\QuotationOrder;
 use App\Models\QuotationRevision;
 use App\Models\QuotationStatus;
 use App\Models\Sale;
-use App\Models\SalesReview;
 use App\Models\VoidSale;
 use Gate;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
-class SalesReviewController extends Controller
+class VoidReviewController extends Controller
 {
-    public function index(String $companyId): view
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): view
     {
-        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isOwner')) && Gate::allows('isReview')){
-            $sales_review = SalesReview::with('sale')->get();
-            $user_review = SalesReview::with('user')->get();
-            return view ('sales-reviews.index', [
-                'sales'=> Sale::where('company_id', $companyId)->year()->monthReport()->orderBy("number", "asc")->get(),
-                'void_sales'=> VoidSale::where('company_id', $companyId)->year()->monthReport()->get(),
-                'change_sales'=> ChangeSale::where('company_id', $companyId)->year()->monthReport()->get(),
-                'title' => 'Review Penjualan',
-                compact('sales_review', 'user_review')
-            ]);
-        } else {
-            abort(403);
-        }
+        //
     }
 
-    public function store(SalesReviewRequest $request): RedirectResponse
+    public function voidReview(String $voidId): view
     {
         if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isOwner')) && Gate::allows('isReview')){
-            $user = auth()->user();
-            $user->sales()->syncWithoutDetaching([
-                $request->sale_id => ['note' => $request->note]
-            ]);
-
-            return redirect('/sales-review/'.$request->company_id.'?month='.$request->sale_month.'&year='.$request->sale_year)->with('success', 'Konfirmasi pemeriksaan penjualan berhasil');
-        } else {
-            abort(403);
-        }
-    }
-
-    public function review(String $saleId): view
-    {
-        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isOwner')) && Gate::allows('isReview')){
-            $sale = Sale::findOrFail($saleId);$quotation = Quotation::findOrFail($sale->quotation->id);
+            $voidSale = VoidSale::findOrFail($voidId);
+            $sale = Sale::findOrFail($voidSale->sale_id);
+            $quotation = Quotation::findOrFail($sale->quotation->id);
             $revision = QuotationRevision::where('quotation_id', $sale->quotation->id)->get()->last();
             if($revision){
                 $revisionStatus = true;
@@ -84,9 +63,10 @@ class SalesReviewController extends Controller
                 $dataOrders = QuotationOrder::where('quotation_id', $sale->quotation->id)->get();
             }
             $clients = json_decode($quotation->clients);
-            $sales_review = SalesReview::with('sale')->get();
-            $user_review = SalesReview::with('user')->get();
-            return view ('sales-reviews.review', [
+            $void_review = VoidReview::with('void_sale')->get();
+            $user_review = VoidReview::with('user')->get();
+            return view ('sales-reviews.void-review', [
+                'void_sale' => $voidSale,
                 'sale'=> $sale,
                 'quotation'=>$quotation,
                 'quot_id'=>$quotId,
@@ -102,7 +82,7 @@ class SalesReviewController extends Controller
                 'quotation_agreements'=>$dataAgreements,
                 'quotation_orders'=>$dataOrders,
                 'title' => 'Review Penjualan',
-                compact('sales_review', 'user_review')
+                compact('void_review', 'user_review')
             ]);
         } else {
             abort(403);
@@ -112,20 +92,20 @@ class SalesReviewController extends Controller
     public function unReview(String $reviewedId): RedirectResponse
     {
         if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isOwner')) && Gate::allows('isReview')){
-            $salesReview = SalesReview::findOrFail($reviewedId);
-            $sale = Sale::findOrFail($salesReview->sale_id);
+            $voidReview = VoidReview::findOrFail($reviewedId);
+            $void_sale = VoidSale::findOrFail($voidReview->void_sale_id);
             $ownerReviewed = false;
-            foreach ($sale->sales_reviews as $review) {
+            foreach ($void_sale->void_reviews as $review) {
                 if ($review->user->division == 'Owner') {
                     $ownerReviewed = true;
                 }
             }
-            if(auth()->user()->id == $salesReview->user->id){
+            if(auth()->user()->id == $voidReview->user->id){
                 if($ownerReviewed == true){
-                    return back()->withErrors(['delete' => ['Gagal untuk menghapus konfirmasi peenjualan, penjualan telah diperiksa oleh Owner']]);
+                    return back()->withErrors(['delete' => ['Gagal untuk menghapus konfirmasi, pembatalan penjualan telah diperiksa oleh Owner']]);
                 }else{
-                    SalesReview::destroy($reviewedId);
-                    return redirect('/sales-review/review/'.$salesReview->sale_id)->with('success', 'Konfirmasi pemeriksaan penjualan berhasil dihapus');
+                    VoidReview::destroy($reviewedId);
+                    return redirect('/void-review/'.$voidReview->void_sale_id)->with('success', 'Konfirmasi pemeriksaan pembatalan penjualan berhasil dihapus');
                 }
             }else{
                 abort(403);
@@ -133,5 +113,62 @@ class SalesReviewController extends Controller
         } else {
             abort(403);
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): Response
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        if((Gate::allows('isAdmin') || Gate::allows('isAccounting') || Gate::allows('isOwner')) && Gate::allows('isReview')){
+            $user = auth()->user();
+            $user->void_sales()->syncWithoutDetaching([
+                $request->void_sale_id => ['note' => $request->note]
+            ]);
+
+            return redirect('/sales-review/'.$request->company_id.'?month='.$request->void_month.'&year='.$request->void_year)->with('success', 'Konfirmasi pemeriksaan pembatalan penjualan berhasil');
+        } else {
+            abort(403);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(VoidReview $voidReview): Response
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(VoidReview $voidReview): Response
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, VoidReview $voidReview): RedirectResponse
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(VoidReview $voidReview): RedirectResponse
+    {
+        //
     }
 }

@@ -13,7 +13,7 @@
 @endphp
 <div class="w-[780px]">
     <div class="hidden items-center w-full py-2">
-        <label class="text-sm text-stone-900">Opsi penawaran :</label>
+        {{-- <label class="text-sm text-stone-900">Opsi penawaran :</label>
         @if ($price->objServiceType->print == true)
             <input class="outline-none ml-2" type="checkbox" id="cbPrint" checked onclick="cbPrintAction(this)">
         @else
@@ -25,7 +25,7 @@
         @else
             <input class="outline-none ml-2" type="checkbox" id="cbInstall" onclick="cbInstallAction(this)">
         @endif
-        <label class="text-sm text-stone-900 ml-1">Pasang</label>
+        <label class="text-sm text-stone-900 ml-1">Pasang</label> --}}
         @if ($codeStatus == true)
             <label class="text-sm text-black ml-6">Jumlah :</label>
             <input id="productQty" type="number" min="0" value="{{ count($products) }}"
@@ -57,8 +57,8 @@
         </thead>
         <tbody id="serviceTBody">
             <input id="locationQty" type="text" value="{{ count($products) }}" hidden>
-            <input type="text" id="serviceTypePrint" value="{{ $price->objServiceType->print }}" hidden>
-            <input type="text" id="serviceTypeInstall" value="{{ $price->objServiceType->install }}" hidden>
+            {{-- <input type="text" id="serviceTypePrint" value="{{ $price->objServiceType->print }}" hidden>
+            <input type="text" id="serviceTypeInstall" value="{{ $price->objServiceType->install }}" hidden> --}}
             @php
                 $subTotal = 0;
             @endphp
@@ -75,7 +75,210 @@
                     <input type="number" id="totalFree" value="{{ $location->free_install }}" hidden>
                 @endif
 
-                @if ($price->objServiceType->print == true && $price->objServiceType->install == true)
+                <tr>
+                    <td class="text-[0.7rem] text-black border border-black text-center" rowspan="2">
+                        {{ $loop->iteration }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border border-black px-2" rowspan="2">
+                        <div class="flex">
+                            <input type="text" id="productSide" value="{{ $location->side }}" hidden>
+                            <label class="w-10">Lokasi</label>
+                            <input id="locationCode" type="text" value="{{ $location->code }}" hidden>
+                            <label class="ml-2">:
+                                {{ $location->code }} - {{ $location->city_code }}
+                            </label>
+                            <label class="ml-2">|
+                                @if (strlen($location->address) > 55)
+                                    {{ substr($location->address, 0, 55) }}..
+                                @else
+                                    {{ $location->address }}
+                                @endif
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="locationWidth" type="number" value="{{ $location->width }}" hidden>
+                            <input id="locationHeight" type="number" value="{{ $location->height }}" hidden>
+                            <label class="w-10">Ukuran</label>
+                            <label class="ml-2">:</label>
+                            <label class="ml-1">{{ $location->size }} x {{ $location->side }} -
+                                @if ($location->orientation == 'Vertikal')
+                                    V
+                                @elseif ($location->orientation == 'Horizontal')
+                                    H
+                                @endif
+                            </label>
+                            @if ($location->category == 'Signage')
+                                <label class="w-6 ml-2" hidden>Qty :</label>
+                                <input id="qty" type="number" min="0"
+                                    name="qty{{ $loop->iteration - 1 }}"
+                                    class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                    value="{{ $description->qty }}" onkeyup="qtyChangeAction(this)" hidden>
+                            @else
+                                <label class="w-6 ml-2" hidden>Qty :</label>
+                                <input id="qty" type="number" min="0"
+                                    name="qty{{ $loop->iteration - 1 }}"
+                                    class="ml-1 border rounded-md outline-none in-out-spin-none text-center w-6 px-1"
+                                    value="1" onkeyup="qtyChangeAction(this)" hidden>
+                            @endif
+                            @if ((int) $location->side == '2')
+                                @if ($price->objSideView[$loop->iteration - 1]->left == true)
+                                    <input class="outline-none ml-4" type="checkbox" id="cbLeft"
+                                        name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)">
+                                @else
+                                    <input class="outline-none ml-4" type="checkbox" id="cbLeft"
+                                        name="cbLeft{{ $loop->iteration - 1 }}" onclick="cbLeftAction(this)">
+                                @endif
+                                <label class="text-[0.7rem] text-stone-900 ml-1" for="cbLeft">Kiri</label>
+                                @if ($price->objSideView[$loop->iteration - 1]->right == true)
+                                    <input class="outline-none ml-4" type="checkbox" id="cbRight"
+                                        name="cbRight{{ $loop->iteration - 1 }}" checked
+                                        onclick="cbRightAction(this)">
+                                @else
+                                    <input class="outline-none ml-4" type="checkbox" id="cbRight"
+                                        name="cbRight{{ $loop->iteration - 1 }}" onclick="cbRightAction(this)">
+                                @endif
+                                <label class="text-[0.7rem] text-stone-900 ml-1" for="cbRight">Kanan</label>
+                            @else
+                                <input class="outline-none ml-4" type="checkbox" id="cbLeft"
+                                    name="cbLeft{{ $loop->iteration - 1 }}" checked onclick="cbLeftAction(this)"
+                                    hidden>
+                                <label class="text-[0.7rem] text-stone-900 ml-1" for="cbLeft" hidden>Kiri</label>
+                                <input class="outline-none ml-4" type="checkbox" id="cbRight"
+                                    name="cbRight{{ $loop->iteration - 1 }}" onclick="cbRightAction(this)" hidden>
+                                <label class="text-[0.7rem] text-stone-900 ml-1" for="cbRight" hidden>Kanan</label>
+                            @endif
+                        </div>
+                        <div class="flex">
+                            <label class="w-10">Catatan</label>
+                            <label class="ml-2">: </label>
+                            <input id="serviceNotes" type="text"
+                                value="{{ $price->dataServiceNotes[$loop->iteration - 1]->serviceNote }}"
+                                class="ml-1 border rounded-md w-full outline-none px-1 font-semibold">
+                        </div>
+                    </td>
+                    @php
+                        $totalPrint =
+                            $price->objPrints[$loop->iteration - 1]->price *
+                            $price->objSideView[$loop->iteration - 1]->wide;
+                        $totalInstall =
+                            $price->objInstalls[$loop->iteration - 1]->price *
+                            $price->objSideView[$loop->iteration - 1]->wide;
+                        $subTotal = $subTotal + $totalInstall + $totalPrint;
+                        $printProduct = $price->objPrints[$loop->iteration - 1]->printProduct;
+                    @endphp
+                    <td class="text-[0.7rem] text-black border border-black px-1 text-center">
+                        <div class="flex">
+                            @if (
+                                (isset($price->objPrints[$loop->iteration - 1]->print) && $price->objPrints[$loop->iteration - 1]->print == true) ||
+                                    $price->objPrints[$loop->iteration - 1]->price != 0)
+                                <input class="outline-none ml-2" type="checkbox" id="cbPrint" checked
+                                    onclick="cbPrintAction(this)" name="cbPrint{{ $loop->iteration - 1 }}">
+                            @else
+                                <input class="outline-none ml-2" type="checkbox" id="cbPrint"
+                                    onclick="cbPrintAction(this)" name="cbPrint{{ $loop->iteration - 1 }}">
+                            @endif
+                            <span class="ml-1">Cetak</span>
+                        </div>
+                    </td>
+                    <td class="text-[0.7rem] text-black border border-black text-center">
+                        <select id="selectPrint" name="printing_product{{ $loop->iteration - 1 }}"
+                            class="flex px-2 text-[0.7rem] text-stone-900 w-28 border rounded-md outline-none"
+                            value="{{ $price->objPrints[$loop->iteration - 1]->printProduct }}" required
+                            onchange="selectPrintProduct(this)">
+                            <option value="pilih">Pilih Bahan</option>
+                            @foreach ($printing_products as $printingProduct)
+                                @if ($printingProduct->type == $description->lighting)
+                                    @if ($printingProduct->name == $printProduct)
+                                        <option id="{{ $printingProduct->price }}"
+                                            value="{{ $printingProduct->name }}" selected>
+                                            {{ $printingProduct->name }}
+                                        </option>
+                                    @else
+                                        <option id="{{ $printingProduct->price }}"
+                                            value="{{ $printingProduct->name }}">
+                                            {{ $printingProduct->name }}
+                                        </option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </select>
+                    </td>
+                    <td id="locationSide" class="text-[0.7rem] text-black border border-black text-center px-1"
+                        rowspan="2" hidden>
+                        {{ $price->objSideView[$loop->iteration - 1]->side }}
+                    </td>
+                    <td id="wide" class="text-[0.7rem] text-black border border-black text-center"
+                        rowspan="2">
+                        {{ $price->objSideView[$loop->iteration - 1]->wide }}
+                    </td>
+                    <td class="text-[0.7rem] text-black border border-black text-center px-1">
+                        <input id="printPrice" name="printPrice{{ $loop->iteration - 1 }}"
+                            class="flex px-1 text-[0.7rem] text-stone-900 w-12 text-right border rounded-md outline-none in-out-spin-none"
+                            type="number" min="0"
+                            value="{{ $price->objPrints[$loop->iteration - 1]->price }}"
+                            onkeyup="printPriceChanged(this)">
+                    </td>
+                    <td class="text-[0.7rem] text-black border border-black text-right px-2">
+                        <input id="printTotal"
+                            class="flex px-1 text-[0.7rem] text-black w-16 text-right outline-none in-out-spin-none"
+                            type="number" min="0" value="{{ $totalPrint }}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-[0.7rem] text-black border border-black px-1 text-center">
+                        <div class="flex">
+                            @if (
+                                (isset($price->objInstalls[$loop->iteration - 1]->install) &&
+                                    $price->objInstalls[$loop->iteration - 1]->install == true) ||
+                                    $price->objInstalls[$loop->iteration - 1]->price != 0)
+                                <input class="outline-none ml-2" type="checkbox" id="cbInstall" checked
+                                    onclick="cbInstallAction(this)" name="cbInstall{{ $loop->iteration - 1 }}">
+                            @else
+                                <input class="outline-none ml-2" type="checkbox" id="cbInstall"
+                                    onclick="cbInstallAction(this)" name="cbInstall{{ $loop->iteration - 1 }}">
+                            @endif
+                            <span class="ml-2">Pasang</span>
+                        </div>
+                        <input type="text" id="freeInstalls"
+                            value="{{ $price->objInstalls[$loop->iteration - 1]->freeInstall }}" hidden>
+                    </td>
+                    <td class="text-[0.7rem] text-black border border-black text-center">
+                        @if (isset($price->objInstalls[$loop->iteration - 1]->install) &&
+                                $price->objInstalls[$loop->iteration - 1]->install == true)
+                            <input id="installProduct" type="text"
+                                class="flex px-1 text-[0.7rem] text-black w-full text-center border rounded-md outline-none in-out-spin-none"
+                                value="{{ $price->objInstalls[$loop->iteration - 1]->type }}">
+                        @else
+                            <input id="installProduct" type="text"
+                                class="flex px-1 text-[0.7rem] text-black w-full text-center border rounded-md outline-none in-out-spin-none"
+                                value="{{ $description->lighting }}">
+                        @endif
+                    </td>
+                    <td class="text-[0.7rem] text-black border border-black text-center px-1">
+                        @php
+                            $getInstallPrice = 25000;
+                        @endphp
+                        @foreach ($installation_prices as $installationPrice)
+                            @if ($installationPrice->type == $description->lighting)
+                                @php
+                                    $getInstallPrice = $installationPrice->price;
+                                @endphp
+                            @endif
+                        @endforeach
+                        <input type="number" id="installationPrice" value="{{ $getInstallPrice }}" hidden>
+                        <input id="installPrice" name="instalPrice{{ $loop->iteration - 1 }}"
+                            class="flex px-1 text-[0.7rem] text-stone-900 w-12 text-right border rounded-md outline-none in-out-spin-none"
+                            type="number" min="0"
+                            value="{{ $price->objInstalls[$loop->iteration - 1]->price }}"
+                            onkeyup="installPriceChanged(this)">
+                    </td>
+                    <td class="text-[0.7rem] text-black border border-black text-right px-2">
+                        <input id="installTotal"
+                            class="flex px-1 text-[0.7rem] text-black w-16 text-right outline-none in-out-spin-none"
+                            type="number" min="0" value="{{ $totalInstall }}" readonly>
+                    </td>
+                </tr>
+                {{-- @if ($price->objServiceType->print == true && $price->objServiceType->install == true)
                     <tr>
                         <td class="text-[0.7rem] text-black border border-black text-center" rowspan="2">
                             {{ $loop->iteration }}
@@ -348,7 +551,7 @@
                                 </select>
                             </td>
                             <td id="locationSide"
-                                class="text-[0.7rem] text-black border border-black text-center px-1">
+                                class="text-[0.7rem] text-black border border-black text-center px-1" hidden>
                                 {{ $price->objSideView[$loop->iteration - 1]->side }}</td>
                             <td id="wide" class="text-[0.7rem] text-black border border-black text-center">
                                 {{ $price->objSideView[$loop->iteration - 1]->wide }}</td>
@@ -392,7 +595,7 @@
                             </td>
                         @endif
                     </tr>
-                @endif
+                @endif --}}
             @endforeach
             <tr>
                 <td class="text-[0.7rem] text-black border border-black text-right font-semibold px-2" colspan="6">

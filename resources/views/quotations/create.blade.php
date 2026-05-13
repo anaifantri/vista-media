@@ -1,115 +1,128 @@
 @extends('dashboard.layouts.main');
 
 @section('container')
-    <?php
-    $dataProducts = [];
-    $location_photos = [];
-    foreach ($data_photos as $photo) {
-        if ($photo->company_id == $company->id) {
-            array_push($location_photos, $photo->photo);
-        }
-    }
-    if ($quotation_type == 'new') {
-        $i = 0;
-        foreach ($locations as $location) {
-            $dataProduct = new stdClass();
-            $dataProduct->id = $location->id;
-            $dataProduct->code = $location->code;
-            $dataProduct->category = $location->media_category->name;
-            $dataProduct->area = $location->area->area;
-            $dataProduct->city = $location->city->city;
-            $dataProduct->city_code = $location->city->code;
-            $dataProduct->address = $location->address;
-            if (count($location_photos) > 0) {
-                $dataProduct->photo = $location_photos[$i];
-            } else {
-                $dataProduct->photo = '';
+    @php
+        $dataProducts = [];
+        $location_photos = [];
+        foreach ($data_photos as $photo) {
+            if ($photo->company_id == $company->id) {
+                array_push($location_photos, $photo->photo);
             }
-            $dataProduct->description = $location->description;
-            $dataProduct->size = $location->media_size->size;
-            $dataProduct->width = $location->media_size->width;
-            $dataProduct->height = $location->media_size->height;
-            $dataProduct->side = $location->side;
-            $dataProduct->price = $location->price;
-            $dataProduct->orientation = $location->orientation;
-            $dataProduct->road_segment = $location->road_segment;
-            $dataProduct->max_distance = $location->max_distance;
-            $dataProduct->speed_average = $location->speed_average;
-            $dataProduct->sector = $location->sector;
-            $dataProduct->type = 'new';
-            array_push($dataProducts, $dataProduct);
-            $i++;
         }
-    } elseif ($quotation_type == 'extend' || $quotation_type == 'existing') {
-        foreach ($locations as $sale) {
-            if (count($sale->quotation->quotation_revisions) != 0) {
-                $dataRevisions = $sale->quotation->quotation_revisions->last();
-                $price = json_decode($dataRevisions->price);
-                $notes = json_decode($dataRevisions->notes);
-                $freePrint = $notes->freePrint;
-                $usedPrint = count($sale->print_orders);
-                $freeInstall = $notes->freeInstall;
-                $usedInstall = count($sale->install_orders);
-            } else {
-                $price = json_decode($sale->quotation->price);
-                $notes = json_decode($sale->quotation->notes);
-                $freePrint = $notes->freePrint;
-                $usedPrint = count($sale->print_orders);
-                $freeInstall = $notes->freeInstall;
-                $usedInstall = count($sale->install_orders);
+        if ($quotation_type == 'new') {
+            $i = 0;
+            foreach ($locations as $location) {
+                $dataProduct = new stdClass();
+                $dataProduct->id = $location->id;
+                $dataProduct->code = $location->code;
+                $dataProduct->category = $location->media_category->name;
+                $dataProduct->area = $location->area->area;
+                $dataProduct->city = $location->city->city;
+                $dataProduct->city_code = $location->city->code;
+                $dataProduct->address = $location->address;
+                if (count($location_photos) > 0) {
+                    $dataProduct->photo = $location_photos[$i];
+                } else {
+                    $dataProduct->photo = '';
+                }
+                $dataProduct->description = $location->description;
+                $dataProduct->size = $location->media_size->size;
+                $dataProduct->width = $location->media_size->width;
+                $dataProduct->height = $location->media_size->height;
+                $dataProduct->side = $location->side;
+                $dataProduct->price = $location->price;
+                $dataProduct->orientation = $location->orientation;
+                $dataProduct->road_segment = $location->road_segment;
+                $dataProduct->max_distance = $location->max_distance;
+                $dataProduct->speed_average = $location->speed_average;
+                $dataProduct->sector = $location->sector;
+                $dataProduct->type = 'new';
+                array_push($dataProducts, $dataProduct);
+                $i++;
             }
-            $getLocation = json_decode($sale->product);
-            $dataProduct = new stdClass();
-            $dataProduct->id = $getLocation->id;
-            $dataProduct->code = $getLocation->code;
-            $dataProduct->category = $getLocation->category;
-            $dataProduct->area = $getLocation->area;
-            $dataProduct->city = $getLocation->city;
-            $dataProduct->city_code = $getLocation->city_code;
-            $dataProduct->address = $getLocation->address;
-            $dataProduct->photo = $getLocation->photo;
-            $dataProduct->description = $getLocation->description;
-            $dataProduct->size = $getLocation->size;
-            $dataProduct->width = $getLocation->width;
-            $dataProduct->height = $getLocation->height;
-            $dataProduct->side = $getLocation->side;
-            $dataProduct->price = $getLocation->price;
-            $dataProduct->orientation = $getLocation->orientation;
-            $dataProduct->road_segment = $getLocation->road_segment;
-            $dataProduct->max_distance = $getLocation->max_distance;
-            $dataProduct->speed_average = $getLocation->speed_average;
-            $dataProduct->sector = $getLocation->sector;
-            $dataProduct->free_print = $freePrint;
-            $dataProduct->used_print = $usedPrint;
-            $dataProduct->get_print = $usedPrint + 1;
-            $dataProduct->free_install = $freeInstall;
-            $dataProduct->used_install = $usedInstall;
-            $dataProduct->get_install = $usedInstall + 1;
-            if ($quotation_type == 'extend') {
-                $dataProduct->type = 'extend';
-                $dataProduct->sale_id = $sale->id;
-            } elseif ($quotation_type == 'existing') {
-                $dataProduct->type = 'existing';
-                $dataProduct->sale_id = $sale->id;
+        } elseif ($quotation_type == 'extend' || $quotation_type == 'existing') {
+            foreach ($locations as $sale) {
+                if (count($sale->quotation->quotation_revisions) != 0) {
+                    $dataRevisions = $sale->quotation->quotation_revisions->last();
+                    $price = json_decode($dataRevisions->price);
+                    $notes = json_decode($dataRevisions->notes);
+                    $freePrint = $notes->freePrint;
+                    $usedPrint = count($sale->print_orders);
+                    $freeInstall = $notes->freeInstall;
+                    $usedInstall = count($sale->install_orders);
+                } else {
+                    $price = json_decode($sale->quotation->price);
+                    $notes = json_decode($sale->quotation->notes);
+                    $freePrint = $notes->freePrint;
+                    $usedPrint = count($sale->print_orders);
+                    $freeInstall = $notes->freeInstall;
+                    $usedInstall = count($sale->install_orders);
+                }
+                $getLocation = json_decode($sale->product);
+                $dataProduct = new stdClass();
+                $dataProduct->id = $getLocation->id;
+                $dataProduct->code = $getLocation->code;
+                $dataProduct->category = $getLocation->category;
+                $dataProduct->area = $getLocation->area;
+                $dataProduct->city = $getLocation->city;
+                $dataProduct->city_code = $getLocation->city_code;
+                $dataProduct->address = $getLocation->address;
+                $dataProduct->photo = $getLocation->photo;
+                $dataProduct->description = $getLocation->description;
+                $dataProduct->size = $getLocation->size;
+                $dataProduct->width = $getLocation->width;
+                $dataProduct->height = $getLocation->height;
+                $dataProduct->side = $getLocation->side;
+                $dataProduct->price = $getLocation->price;
+                $dataProduct->orientation = $getLocation->orientation;
+                $dataProduct->road_segment = $getLocation->road_segment;
+                $dataProduct->max_distance = $getLocation->max_distance;
+                $dataProduct->speed_average = $getLocation->speed_average;
+                $dataProduct->sector = $getLocation->sector;
+                $dataProduct->free_print = $freePrint;
+                $dataProduct->used_print = $usedPrint;
+                $dataProduct->get_print = $usedPrint + 1;
+                $dataProduct->free_install = $freeInstall;
+                $dataProduct->used_install = $usedInstall;
+                $dataProduct->get_install = $usedInstall + 1;
+                if ($quotation_type == 'extend') {
+                    $dataProduct->type = 'extend';
+                    $dataProduct->sale_id = $sale->id;
+                } elseif ($quotation_type == 'existing') {
+                    $dataProduct->type = 'existing';
+                    $dataProduct->sale_id = $sale->id;
+                }
+                array_push($dataProducts, $dataProduct);
+
+                $dataClient = json_decode($sale->quotation->clients);
             }
-            array_push($dataProducts, $dataProduct);
-    
-            $dataClient = json_decode($sale->quotation->clients);
         }
-    }
-    
-    $products = new stdClass();
-    $products = $dataProducts;
-    
-    $created_by = new stdClass();
-    $created_by->id = auth()->user()->id;
-    $created_by->name = auth()->user()->name;
-    $created_by->position = auth()->user()->position;
-    $created_by->phone = auth()->user()->phone;
-    
-    $bulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
-    ?>
+
+        $products = new stdClass();
+        $products = $dataProducts;
+
+        $created_by = new stdClass();
+        $created_by->id = auth()->user()->id;
+        $created_by->name = auth()->user()->name;
+        $created_by->position = auth()->user()->position;
+        $created_by->phone = auth()->user()->phone;
+
+        $bulan = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+        $romawi = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VII', 'IX', 'X', 'XI', 'XII'];
+    @endphp
     <!-- Quotation start -->
     <form id="formCreate" action="/marketing/quotations" method="post" enctype="multipart/form-data">
         @csrf

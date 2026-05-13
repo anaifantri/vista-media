@@ -3,6 +3,7 @@
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BillCoverLetterController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\ChangeReviewController;
 use App\Http\Controllers\ChangeSaleController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientCategoryController;
@@ -61,6 +62,7 @@ use App\Http\Controllers\VatTaxInvoiceController;
 use App\Http\Controllers\VendorCategoryController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\VoidReviewController;
 use App\Http\Controllers\VoidSaleController;
 use App\Http\Controllers\WorkReportController;
 use Illuminate\Support\Facades\Route;
@@ -198,7 +200,13 @@ Route::get('/get-printing-prices/{id}/{type}', [PrintOrderController::class,'get
 Route::get('/sales-review/{companyID}', [SalesReviewController::class,'index'])->middleware(['auth','user_access']);
 Route::post('/sales-review', [SalesReviewController::class,'store'])->middleware(['auth','user_access']);
 Route::get('/sales-review/review/{saleID}', [SalesReviewController::class,'review'])->middleware(['auth','user_access']);
+Route::post('/void-review', [VoidReviewController::class,'store'])->middleware(['auth','user_access']);
+Route::get('/void-review/{voidID}', [VoidReviewController::class,'voidReview'])->middleware(['auth','user_access']);
+Route::post('/change-review', [ChangeReviewController::class,'store'])->middleware(['auth','user_access']);
+Route::get('/change-review/{changeID}', [ChangeReviewController::class,'changeReview'])->middleware(['auth','user_access']);
 Route::get('/sales-review/unchecked/{reviewedID}', [SalesReviewController::class,'unReview'])->middleware(['auth','user_access']);
+Route::get('/void-review/unchecked/{reviewedID}', [VoidReviewController::class,'unReview'])->middleware(['auth','user_access']);
+Route::get('/change-review/unchecked/{reviewedID}', [ChangeReviewController::class,'unReview'])->middleware(['auth','user_access']);
 
 Route::get('/payment-review/{companyID}', [PaymentReviewController::class,'index'])->middleware(['auth','user_access']);
 Route::post('/payment-review', [PaymentReviewController::class,'store'])->middleware(['auth','user_access']);

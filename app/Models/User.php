@@ -144,8 +144,30 @@ class User extends Authenticatable
         ->withTimestamps();
     }
 
+    public function void_sales()
+    {
+        return $this->belongsToMany(VoidSale::class, 'void_reviews')
+        ->withPivot('note')
+        ->withTimestamps();
+    }
+
+    public function change_sales()
+    {
+        return $this->belongsToMany(ChangeSale::class, 'change_reviews')
+        ->withPivot('note')
+        ->withTimestamps();
+    }
+
     public function sales_reviews(){
         return $this->hasMany(SalesReview::class, 'user_id', 'id');
+    }
+
+    public function void_reviews(){
+        return $this->hasMany(VoidReview::class, 'user_id', 'id');
+    }
+
+    public function change_reviews(){
+        return $this->hasMany(ChangeReview::class, 'user_id', 'id');
     }
 
     public function payments()

@@ -182,8 +182,42 @@
                 </td>
             @endif
             <td class="text-sm text-black border border-black text-right px-2 font-semibold">
-                {{ number_format($getPrice + $sale->dpp * ($sale->ppn / 100) - $sale->dpp * ($sale->pph / 100) + $totalPrint + $totalInstall) }}
+                @php
+                    $grandTotal = $getPrice + $sale->dpp * ($sale->ppn / 100) + $totalPrint + $totalInstall;
+                @endphp
+                {{ number_format($grandTotal) }}
             </td>
         </tr>
+        @if (isset($change_sale))
+            <tr>
+                <td class="text-sm text-black border text-center font-semibold px-2" colspan="7">
+                    Detail Perubahan
+                </td>
+            </tr>
+            <tr>
+                <td class="text-sm text-black border text-right font-semibold px-2" colspan="6">
+                    SELISIH HARGA
+                </td>
+                <td class="text-sm text-black border text-right font-semibold px-2">
+                    {{ number_format($change_sale->price_diff) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-sm text-black border text-right font-semibold px-2" colspan="6">
+                    SELISIH PPN
+                </td>
+                <td class="text-sm text-black border text-right font-semibold px-2">
+                    {{ number_format($change_sale->ppn_diff) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-sm text-black border text-right font-semibold px-2" colspan="6">
+                    GRAND TOTAL SETELAH PERUBAHAN
+                </td>
+                <td class="text-sm text-black border text-right font-semibold px-2">
+                    {{ number_format($grandTotal + $change_sale->price_diff + $change_sale->ppn_diff) }}
+                </td>
+            </tr>
+        @endif
     </tbody>
 </table>

@@ -84,6 +84,286 @@
                 <!-- Alert end -->
             </div>
             <!-- View start -->
+            @if (count($change_sales) > 0)
+                <div class="font-semibold text-xl text-white border-b p-1 my-2">
+                    Perubahan Penjualan
+                </div>
+                <div class="w-full mt-2">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-stone-400">
+                                <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center">No
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center">Tanggal
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm w-48 text-center">
+                                    <button class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor Penjualan')
+                                        <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                        </svg>
+                                    </button>
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-64">
+                                    Klien
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    Lokasi
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
+                                    Jenis
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">
+                                    Periode
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
+                                    Harga
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
+                                    PPN
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
+                                    Total
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-stone-200">
+                            @foreach ($change_sales as $changeSale)
+                                @php
+                                    $client = json_decode($changeSale->sale->quotation->clients);
+                                    $ppn = $changeSale->dpp * ($changeSale->ppn / 100);
+                                    $totalPpn = $totalPpn + $ppn;
+                                    $changeReviewed = false;
+                                @endphp
+                                <tr>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ date('d', strtotime($changeSale->created_at)) }}-{{ $bulan[(int) date('m', strtotime($changeSale->created_at))] }}-{{ date('Y', strtotime($changeSale->created_at)) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $changeSale->sale->number }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                        @if ($client->type == 'Perusahaan')
+                                            {{ $client->company }}
+                                        @else
+                                            {{ $client->name }}
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                        {{ $changeSale->sale->location->address }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        @if ($changeSale->sale->media_category->name == 'Service')
+                                            Revisual
+                                        @else
+                                            Sewa Media
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        @if ($changeSale->sale->media_category->name == 'Service')
+                                            -
+                                        @else
+                                            {{ $changeSale->duration }}
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                        {{ number_format($changeSale->price_diff) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                        {{ number_format($changeSale->ppn_diff) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                        {{ number_format($changeSale->price_diff + $changeSale->ppn_diff) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        @foreach ($changeSale->change_reviews as $review)
+                                            @php
+                                                if (auth()->user()->id == $review->user_id) {
+                                                    $changeReviewed = true;
+                                                }
+                                            @endphp
+                                        @endforeach
+                                        <div class="flex justify-center items-center">
+                                            @if ($changeReviewed == false)
+                                                <a href="/change-review/{{ $changeSale->id }}"
+                                                    class="index-link text-white w-full rounded bg-amber-500 hover:bg-amber-600 drop-shadow-md m-1">
+                                                    <span>Check</span>
+                                                </a>
+                                            @else
+                                                <a href="/change-review/{{ $changeSale->id }}"
+                                                    class="index-link text-white w-full rounded bg-green-500 hover:bg-green-600 drop-shadow-md m-1">
+                                                    <span>Checked</span>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2"
+                                    colspan="7">Total</td>
+                                <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
+                                    {{ number_format($change_sales->sum('price_diff')) }}</td>
+                                <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
+                                    {{ number_format($change_sales->sum('ppn_diff')) }}</td>
+                                <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
+                                    {{ number_format($change_sales->sum('price_diff') + $change_sales->sum('ppn_diff')) }}
+                                </td>
+                                <td
+                                    class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+            @if (count($void_sales) > 0)
+                <div class="font-semibold text-xl text-white border-b p-1 my-2">
+                    Pembatalan Penjualan
+                </div>
+                <div class="w-full mt-2">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr class="bg-stone-400">
+                                <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center">No
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center">Tanggal
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm w-48 text-center">
+                                    <button class="flex justify-center items-center w-full">@sortablelink('number', 'Nomor Penjualan')
+                                        <svg class="fill-current w-3 ml-1" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path d="M12 0l8 10h-16l8-10zm8 14h-16l8 10 8-10z" />
+                                        </svg>
+                                    </button>
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-64">
+                                    Klien
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center">
+                                    Lokasi
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
+                                    Jenis
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">
+                                    Periode
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
+                                    Harga
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
+                                    PPN
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
+                                    Total
+                                </th>
+                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-20">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-stone-200">
+                            @foreach ($void_sales as $voidSale)
+                                @php
+                                    $client = json_decode($voidSale->sale->quotation->clients);
+                                    $ppn = $voidSale->dpp * ($voidSale->ppn / 100);
+                                    $totalPpn = $totalPpn + $ppn;
+                                    $voidReviewed = false;
+                                @endphp
+                                <tr>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ date('d', strtotime($voidSale->created_at)) }}-{{ $bulan[(int) date('m', strtotime($voidSale->created_at))] }}-{{ date('Y', strtotime($voidSale->created_at)) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        {{ $voidSale->sale->number }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                        @if ($client->type == 'Perusahaan')
+                                            {{ $client->company }}
+                                        @else
+                                            {{ $client->name }}
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm px-2">
+                                        {{ $voidSale->sale->location->address }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        @if ($voidSale->sale->media_category->name == 'Service')
+                                            Revisual
+                                        @else
+                                            Sewa Media
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        @if ($voidSale->sale->media_category->name == 'Service')
+                                            -
+                                        @else
+                                            {{ $voidSale->duration }}
+                                        @endif
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                        {{ number_format($voidSale->price) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                        {{ number_format($voidSale->ppn) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-right px-2">
+                                        {{ number_format($voidSale->price + $voidSale->ppn) }}
+                                    </td>
+                                    <td class="text-stone-900 border border-stone-900 text-sm text-center">
+                                        @foreach ($voidSale->void_reviews as $review)
+                                            @php
+                                                if (auth()->user()->id == $review->user_id) {
+                                                    $voidReviewed = true;
+                                                }
+                                            @endphp
+                                        @endforeach
+                                        <div class="flex justify-center items-center">
+                                            @if ($voidReviewed == false)
+                                                <a href="/void-review/{{ $voidSale->id }}"
+                                                    class="index-link text-white w-full rounded bg-amber-500 hover:bg-amber-600 drop-shadow-md m-1">
+                                                    <span>Check</span>
+                                                </a>
+                                            @else
+                                                <a href="/void-review/{{ $voidSale->id }}"
+                                                    class="index-link text-white w-full rounded bg-green-500 hover:bg-green-600 drop-shadow-md m-1">
+                                                    <span>Checked</span>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2"
+                                    colspan="7">Total</td>
+                                <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
+                                    {{ number_format($void_sales->sum('price')) }}</td>
+                                <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
+                                    {{ number_format($void_sales->sum('ppn')) }}</td>
+                                <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
+                                    {{ number_format($void_sales->sum('price') + $void_sales->sum('ppn')) }}</td>
+                                <td
+                                    class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+            <div class="font-semibold text-xl text-white border-b p-1 my-2">
+                Penjualan
+            </div>
             <div class="w-full mt-2">
                 <table class="table-auto w-full">
                     <thead>

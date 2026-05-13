@@ -279,5 +279,36 @@
                 {{ number_format($getGrandTotal) }}
             </td>
         </tr>
+        @if (isset($change_sale))
+            <tr>
+                <td class="text-sm text-black border text-center font-semibold px-2" colspan="7">
+                    Detail Perubahan
+                </td>
+            </tr>
+            <tr>
+                <td class="text-sm text-black border text-right font-semibold px-2" colspan="6">
+                    SELISIH HARGA
+                </td>
+                <td class="text-sm text-black border text-right font-semibold px-2">
+                    {{ number_format($change_sale->price_diff) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-sm text-black border text-right font-semibold px-2" colspan="6">
+                    SELISIH PPN
+                </td>
+                <td class="text-sm text-black border text-right font-semibold px-2">
+                    {{ number_format($change_sale->ppn_diff) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-sm text-black border text-right font-semibold px-2" colspan="6">
+                    GRAND TOTAL SETELAH PERUBAHAN
+                </td>
+                <td class="text-sm text-black border text-right font-semibold px-2">
+                    {{ number_format($getGrandTotal + $change_sale->price_diff + $change_sale->ppn_diff) }}
+                </td>
+            </tr>
+        @endif
     </tbody>
 </table>

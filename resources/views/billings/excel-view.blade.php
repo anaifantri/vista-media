@@ -103,9 +103,16 @@
                     <td class="text-stone-900 px-1 border border-black text-sm text-right">
                         <div class="w-full">
                             @foreach ($billing->bill_payments as $payment)
-                                <div class="flex justify-end px-1 w-full">{{ $payment->nominal }}</div>
                                 @php
-                                    $totalPayment = $totalPayment + $payment->nominal;
+                                    $matches = array_filter(
+                                        json_decode($payment->billing_nominal),
+                                        fn($obj) => $obj->billing_id === $billing->id,
+                                    );
+                                    $found = reset($matches) ?: null;
+                                @endphp
+                                <div class="flex justify-end px-1 w-full">{{ $found->nominal }}</div>
+                                @php
+                                    $totalPayment = $totalPayment + $found->nominal;
                                 @endphp
                             @endforeach
                         </div>
@@ -114,10 +121,12 @@
                         <div class="w-full">
                             @foreach ($billing->bill_payments as $payment)
                                 @php
-                                    $totalPph = $totalPph + $payment->income_taxes->sum('nominal');
+                                    $totalPph =
+                                        $totalPph +
+                                        $payment->income_taxes->where('billing_id', $billing->id)->sum('nominal');
                                 @endphp
                                 <div class="flex justify-end px-1 w-full">
-                                    {{ number_format($payment->income_taxes->sum('nominal')) }}
+                                    {{ number_format($payment->income_taxes->where('billing_id', $billing->id)->sum('nominal')) }}
                                 </div>
                             @endforeach
                         </div>
@@ -125,13 +134,14 @@
                     <td class="text-stone-900 px-1 border border-black text-sm bg-red-50  text-right">
                         @foreach ($billing->bill_payments as $payment)
                             @php
+                                $countBilling = count(json_decode($payment->billing_nominal));
                                 if ($payment->other_fee) {
-                                    $totalOtherFee = $totalOtherFee + $payment->other_fee->nominal;
+                                    $totalOtherFee = $totalOtherFee + $payment->other_fee->nominal / $countBilling;
                                 }
                             @endphp
                             <div class="flex justify-end px-1 w-full">
                                 @if ($payment->other_fee)
-                                    {{ number_format($payment->other_fee->nominal) }}
+                                    {{ number_format($payment->other_fee->nominal / $countBilling) }}
                                 @else
                                     -
                                 @endif

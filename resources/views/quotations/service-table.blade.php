@@ -1,10 +1,10 @@
 <div class="w-[780px]">
     <div class="flex items-center w-full py-2">
-        <label class="text-sm text-black">Opsi penawaran :</label>
+        {{-- <label class="text-sm text-black">Opsi penawaran :</label>
         <input class="outline-none ml-2" type="checkbox" id="cbPrint" checked onclick="cbPrintAction(this)">
         <label class="text-sm text-black ml-1">Cetak</label>
         <input class="outline-none ml-2" type="checkbox" id="cbInstall" checked onclick="cbInstallAction(this)">
-        <label class="text-sm text-black ml-1">Pasang</label>
+        <label class="text-sm text-black ml-1">Pasang</label> --}}
         @if (count($products) == 1)
             <label class="text-sm text-black ml-6">Jumlah :</label>
             <input id="productQty" type="number" min="0" value="1"
@@ -114,7 +114,13 @@
                                 class="ml-1 border rounded-md w-full outline-none px-1 font-semibold">
                         </div>
                     </td>
-                    <td class="text-[0.7rem] text-black border border-black px-1 text-center">Cetak</td>
+                    <td class="text-[0.7rem] text-black border border-black px-1 text-center">
+                        <div class="flex">
+                            <input class="outline-none ml-2" type="checkbox" id="cbPrint" checked
+                                onclick="cbPrintAction(this)" name="cbPrint{{ $loop->iteration - 1 }}">
+                            <span class="ml-1">Cetak</span>
+                        </div>
+                    </td>
                     <td class="text-[0.7rem] text-black border border-black text-center">
                         <select id="selectPrint" name="printing_product{{ $loop->iteration - 1 }}"
                             class="flex px-2 text-[0.7rem] text-black border rounded-md outline-none"
@@ -164,7 +170,11 @@
                 </tr>
                 <tr>
                     <td class="text-[0.7rem] text-black border border-black px-1 text-center">
-                        Pasang
+                        <div class="flex">
+                            <input class="outline-none ml-2" type="checkbox" id="cbInstall" checked
+                                onclick="cbInstallAction(this)" name="cbInstall{{ $loop->iteration - 1 }}">
+                            <span class="ml-2">Pasang</span>
+                        </div>
                     </td>
                     @php
                         $indexInstall = $loop->iteration - 1;

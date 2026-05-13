@@ -58,4 +58,15 @@ class VoidSale extends Model
     public function sale(){
         return $this->belongsTo(Sale::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'void_reviews')
+        ->withPivot('note')
+        ->withTimestamps();
+    }
+    
+    public function void_reviews(){
+        return $this->hasMany(VoidReview::class, 'void_sale_id', 'id');
+    }
 }

@@ -58,4 +58,15 @@ class ChangeSale extends Model
     public function sale(){
         return $this->belongsTo(Sale::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'change_reviews')
+        ->withPivot('note')
+        ->withTimestamps();
+    }
+    
+    public function change_reviews(){
+        return $this->hasMany(ChangeReview::class, 'change_sale_id', 'id');
+    }
 }

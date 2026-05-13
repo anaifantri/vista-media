@@ -475,41 +475,89 @@
                                     <td class="text-stone-900 border border-stone-900 text-[0.65rem] text-start align-top">
                                         <div>
                                             @if ($sale->media_category->name == 'Service')
-                                                @if ($price->objServiceType->print == true)
-                                                    <div class="flex ml-1">
-                                                        <label class="w-10">Jenis</label>
-                                                        <label>:</label>
-                                                        <label class="ml-1">Cetak</label>
-                                                    </div>
-                                                    <div class="flex ml-1">
-                                                        <label class="w-10">Bahan</label>
-                                                        <label>:</label>
-                                                        <label class="ml-1">
-                                                            @foreach ($price->objPrints as $objPrint)
-                                                                @if ($objPrint->code == $product->code)
-                                                                    {{ $objPrint->printProduct }}
-                                                                @endif
-                                                            @endforeach
-                                                        </label>
-                                                    </div>
+                                                @if (isset($price->objServiceType))
+                                                    @if ($price->objServiceType->print == true)
+                                                        <div class="flex ml-1">
+                                                            <label class="w-10">Jenis</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">Cetak</label>
+                                                        </div>
+                                                        <div class="flex ml-1">
+                                                            <label class="w-10">Bahan</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">
+                                                                @foreach ($price->objPrints as $objPrint)
+                                                                    @if ($objPrint->code == $product->code)
+                                                                        {{ $objPrint->printProduct }}
+                                                                    @endif
+                                                                @endforeach
+                                                            </label>
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    @php
+                                                        foreach ($price->objPrints as $objPrint) {
+                                                            if ($objPrint->code == $product->code) {
+                                                                $getObjPrint = $objPrint;
+                                                            }
+                                                        }
+                                                    @endphp
+                                                    @if ($getObjPrint->print == true)
+                                                        <div class="flex ml-1">
+                                                            <label class="w-10">Jenis</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">Cetak</label>
+                                                        </div>
+                                                        <div class="flex ml-1">
+                                                            <label class="w-10">Bahan</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">
+                                                                {{ $getObjPrint->printProduct }}
+                                                            </label>
+                                                        </div>
+                                                    @endif
                                                 @endif
-                                                @if ($price->objServiceType->install == true)
-                                                    <div class="flex ml-1 mt-2">
-                                                        <label class="w-10">Jenis</label>
-                                                        <label>:</label>
-                                                        <label class="ml-1">Pasang</label>
-                                                    </div>
-                                                    <div class="flex ml-1">
-                                                        <label class="w-10">Bahan</label>
-                                                        <label>:</label>
-                                                        <label class="ml-1">
-                                                            @foreach ($price->objInstalls as $objInstall)
-                                                                @if ($objInstall->code == $product->code)
-                                                                    {{ $objInstall->type }}
-                                                                @endif
-                                                            @endforeach
-                                                        </label>
-                                                    </div>
+                                                @if (isset($price->objServiceType))
+                                                    @if ($price->objServiceType->install == true)
+                                                        <div class="flex ml-1 mt-2">
+                                                            <label class="w-10">Jenis</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">Pasang</label>
+                                                        </div>
+                                                        <div class="flex ml-1">
+                                                            <label class="w-10">Bahan</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">
+                                                                @foreach ($price->objInstalls as $objInstall)
+                                                                    @if ($objInstall->code == $product->code)
+                                                                        {{ $objInstall->type }}
+                                                                    @endif
+                                                                @endforeach
+                                                            </label>
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    @php
+                                                        foreach ($price->objInstalls as $objInstall) {
+                                                            if ($objInstall->code == $product->code) {
+                                                                $getObjInstall = $objInstall;
+                                                            }
+                                                        }
+                                                    @endphp
+                                                    @if ($getObjInstall->install == true)
+                                                        <div class="flex ml-1">
+                                                            <label class="w-10">Jenis</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">Pasang</label>
+                                                        </div>
+                                                        <div class="flex ml-1">
+                                                            <label class="w-10">Bahan</label>
+                                                            <label>:</label>
+                                                            <label class="ml-1">
+                                                                {{ $getObjInstall->type }}
+                                                            </label>
+                                                        </div>
+                                                    @endif
                                                 @endif
                                             @else
                                                 <div class="flex ml-1">
