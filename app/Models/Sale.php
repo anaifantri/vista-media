@@ -170,7 +170,8 @@ class Sale extends Model
                                     $query->where('name', '=', 'Service');
                     })
                     ->whereHas('quotation', function($query){
-                        $query->where('price->objServiceType->print', '=', true);
+                        $query->where('price->objServiceType->print', '=', true)
+                        ->orWhereJsonContains('price->objPrints', ['print' => true]);
                     })
                     ->whereDoesntHave('print_order');
     }
@@ -180,7 +181,8 @@ class Sale extends Model
                                     $query->where('name', '=', 'Service');
                     })
                     ->whereHas('quotation', function($query){
-                        $query->where('price->objServiceType->print', '=', true);
+                        $query->where('price->objServiceType->print', '=', true)
+                        ->orWhereJsonContains('price->objPrints', ['print' => true]);
                     });
     }
 
@@ -189,7 +191,8 @@ class Sale extends Model
                                     $query->where('name', '=', 'Service');
                     })
                     ->whereHas('quotation', function($query){
-                        $query->where('price->objServiceType->install', '=', true);
+                        $query->where('price->objServiceType->install', '=', true)
+                        ->orWhereJsonContains('price->objInstalls', ['install' => true]);
                     })
                     ->whereDoesntHave('install_order');
     }

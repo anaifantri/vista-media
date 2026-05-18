@@ -12,7 +12,7 @@ use App\Models\Location;
 use App\Models\LocationPhoto;
 use App\Models\Quotation;
 use App\Models\QuotationRevision;
-use App\Models\InstallationPrice;
+// use App\Models\InstallationPrice;
 use App\Models\Area;
 use App\Models\City;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +21,7 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use Validator;
+// use Validator;
 use Gate;
 
 class InstallOrderController extends Controller
@@ -108,7 +108,7 @@ class InstallOrderController extends Controller
                     $clients = [];
                     $usedInstalls = [];
                     $freeInstalls = [];
-                    $dataSales = Sale::where('company_id', $company_id)->free()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->free()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("created_at", "desc")->get();
                     foreach($dataSales as $dataSale){
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
                         if($revision){
@@ -146,7 +146,7 @@ class InstallOrderController extends Controller
                     $usedInstalls = [];
                     $freeInstalls = [];
                     $installTypes = [];
-                    $dataSales = Sale::where('company_id', $company_id)->installOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->installOrder()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("created_at", "desc")->get();
                     foreach($dataSales as $dataSale){
                         $product = json_decode($dataSale->product);
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
@@ -242,7 +242,7 @@ class InstallOrderController extends Controller
                 $usedInstalls = [];
                 $freeInstalls = [];
                 $installTypes = [];
-                $dataSales = Sale::where('company_id', $company_id)->installOrder()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                $dataSales = Sale::where('company_id', $company_id)->installOrder()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("created_at", "desc")->get();
                 foreach($dataSales as $dataSale){
                     $product = json_decode($dataSale->product);
                     $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();

@@ -21,7 +21,7 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use Validator;
+// use Validator;
 use Gate;
 
 class PrintOrderController extends Controller
@@ -118,7 +118,7 @@ class PrintOrderController extends Controller
                     $clients = [];
                     $usedPrints = [];
                     $freePrints = [];
-                    $dataSales = Sale::where('company_id', $company_id)->free()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->free()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("created_at", "desc")->get();
                     foreach($dataSales as $dataSale){
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
                         if($revision){
@@ -156,7 +156,7 @@ class PrintOrderController extends Controller
                     $usedPrints = [];
                     $freePrints = [];
                     $printProducts = [];
-                    $dataSales = Sale::where('company_id', $company_id)->printOrderSide()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                    $dataSales = Sale::where('company_id', $company_id)->printOrderSide()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("created_at", "desc")->get();
                     foreach($dataSales as $dataSale){
                         $product = json_decode($dataSale->product);
                         $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
@@ -232,7 +232,7 @@ class PrintOrderController extends Controller
                 $usedPrints = [];
                 $freePrints = [];
                 $printProducts = [];
-                $dataSales = Sale::where('company_id', $company_id)->printOrderSide()->filter(request('search'))->area()->city()->category()->sortable()->get();
+                $dataSales = Sale::where('company_id', $company_id)->printOrderSide()->filter(request('search'))->area()->city()->category()->sortable()->orderBy("created_at", "desc")->get();
                 foreach($dataSales as $dataSale){
                     $product = json_decode($dataSale->product);
                     $revision = QuotationRevision::where('quotation_id', $dataSale->quotation->id)->get()->last();
