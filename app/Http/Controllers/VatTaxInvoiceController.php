@@ -8,9 +8,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use Validator;
+// use Validator;
 use Gate;
 
 class VatTaxInvoiceController extends Controller
@@ -48,7 +48,7 @@ class VatTaxInvoiceController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             return view ('vat-tax-invoices.select-billings', [
-                'billings' => Billing::where('company_id', $companyId)->whereDoesntHave('vat_tax_invoice')->get(),
+                'billings' => Billing::where('company_id', $companyId)->whereDoesntHave('vat_tax_invoice')->orderBy("created_at", "desc")->get(),
                 'title' => 'Menambahkan Data Faktur PPN'
             ]);
         } else {

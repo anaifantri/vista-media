@@ -26,20 +26,45 @@
             $price = json_decode($quotationDeal->price);
         }
         $getService = '';
-
-        if ($sale->media_category->name == 'Service') {
-            if ($price->objServiceType->print == true && $price->objServiceType->install == true) {
-                $getService = 'Cetak dan Pasang';
-            } elseif ($price->objServiceType->print == true && $price->objServiceType->install == false) {
-                $getService = 'Cetak';
-            } elseif ($price->objServiceType->print == false && $price->objServiceType->install == true) {
-                $getService = 'Pasang';
-            }
-        }
-
         $product = json_decode($sale->product);
         $description = json_decode($product->description);
         $client = json_decode($sale->quotation->clients);
+        $printService = false;
+        $installService = false;
+
+        if ($sale->media_category->name == 'Service') {
+            if(isset($price->objServiceType)){
+                if ($price->objServiceType->print == true && $price->objServiceType->install == true) {
+                    $getService = 'Cetak dan Pasang';
+                } elseif ($price->objServiceType->print == true && $price->objServiceType->install == false) {
+                    $getService = 'Cetak';
+                } elseif ($price->objServiceType->print == false && $price->objServiceType->install == true) {
+                    $getService = 'Pasang';
+                }
+            }else{
+                foreach ($price->objPrints as $objPrint) {
+                    if($objPrint->code == $product->code){
+                        if($objPrint->print == true){
+                            $printService = true;
+                        }
+                    }
+                }
+                foreach ($price->objInstalls as $objInstall) {
+                    if($objInstall->code == $product->code){
+                        if($objInstall->install == true){
+                            $installService = true;
+                        }
+                    }
+                }
+                if ($printService == true && $installService == true) {
+                    $getService = 'Cetak dan Pasang';
+                } elseif ($printService == true) {
+                    $getService = 'Cetak';
+                } elseif ($installService == true) {
+                    $getService = 'Pasang';
+                }
+            }
+        }
 
         $dayDisable = false;
         $nightDisable = false;

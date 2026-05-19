@@ -81,36 +81,85 @@
         $getService = '';
         $getQty = 1;
         $getSide = 1;
+        $printService = false;
+        $installService = false;
 
         if ($sale->media_category->name == 'Service') {
-            if ($price->objServiceType->print == true && $price->objServiceType->install == true) {
-                $getService = 'Cetak dan Pasang';
-            } elseif ($price->objServiceType->print == true && $price->objServiceType->install == false) {
-                $getService = 'Cetak';
-            } elseif ($price->objServiceType->print == false && $price->objServiceType->install == true) {
-                $getService = 'Pasang';
-            }
-            if ($price->objServiceType->print == true) {
-                $i = 0;
-                foreach ($price->objPrints as $objPrint) {
-                    if ($objPrint->code == $product->code) {
-                        if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
-                            $getQty = 2;
-                            $getSide = 2;
-                        }
-                    }
-                    $i++;
+            if(isset($price->objServiceType)){
+                if ($price->objServiceType->print == true && $price->objServiceType->install == true) {
+                    $getService = 'Cetak dan Pasang';
+                } elseif ($price->objServiceType->print == true && $price->objServiceType->install == false) {
+                    $getService = 'Cetak';
+                } elseif ($price->objServiceType->print == false && $price->objServiceType->install == true) {
+                    $getService = 'Pasang';
                 }
-            } else {
-                $i = 0;
-                foreach ($price->objInstalls as $objInstall) {
-                    if ($objInstall->code == $product->code) {
-                        if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
-                            $getQty = 2;
-                            $getSide = 2;
+                if ($price->objServiceType->print == true) {
+                    $i = 0;
+                    foreach ($price->objPrints as $objPrint) {
+                        if ($objPrint->code == $product->code) {
+                            if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
+                                $getQty = 2;
+                                $getSide = 2;
+                            }
+                        }
+                        $i++;
+                    }
+                } else {
+                    $i = 0;
+                    foreach ($price->objInstalls as $objInstall) {
+                        if ($objInstall->code == $product->code) {
+                            if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
+                                $getQty = 2;
+                                $getSide = 2;
+                            }
+                        }
+                        $i++;
+                    }
+                }
+            }else{
+                foreach ($price->objPrints as $objPrint) {
+                    if($objPrint->code == $product->code){
+                        if($objPrint->print == true){
+                            $printService = true;
                         }
                     }
-                    $i++;
+                }
+                foreach ($price->objInstalls as $objInstall) {
+                    if($objInstall->code == $product->code){
+                        if($objInstall->install == true){
+                            $installService = true;
+                        }
+                    }
+                }
+                if ($printService == true && $installService == true) {
+                    $getService = 'Cetak dan Pasang';
+                } elseif ($printService == true && $installService == false) {
+                    $getService = 'Cetak';
+                } elseif ($printService == false && $installService == true) {
+                    $getService = 'Pasang';
+                }
+                if ($printService == true) {
+                    $i = 0;
+                    foreach ($price->objPrints as $objPrint) {
+                        if ($objPrint->code == $product->code) {
+                            if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
+                                $getQty = 2;
+                                $getSide = 2;
+                            }
+                        }
+                        $i++;
+                    }
+                } else {
+                    $i = 0;
+                    foreach ($price->objInstalls as $objInstall) {
+                        if ($objInstall->code == $product->code) {
+                            if ($price->objSideView[$i]->left == true && $price->objSideView[$i]->right == true) {
+                                $getQty = 2;
+                                $getSide = 2;
+                            }
+                        }
+                        $i++;
+                    }
                 }
             }
         }

@@ -13,16 +13,16 @@ use App\Models\Client;
 use App\Models\Quotation;
 use App\Models\QuotationOrder;
 use App\Models\InstallOrder;
-use App\Models\QuotationApproval;
-use App\Models\QuotationAgreement;
+// use App\Models\QuotationApproval;
+// use App\Models\QuotationAgreement;
 use App\Models\QuotationRevision;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use Validator;
+// use Validator;
 use Gate;
 
 class BillingController extends Controller
@@ -102,7 +102,7 @@ class BillingController extends Controller
             $quotations = Quotation::with('sales')->get();
             $quotation_revisions = QuotationRevision::with('quotation')->get();
             if($category == "media"){
-                $data_sales = Sale::with('billings')->billMedia()->where('company_id', $companyId)->get();
+                $data_sales = Sale::with('billings')->billMedia()->where('company_id', $companyId)->orderBy("created_at", "desc")->get();
                 return view ('billings.select-sale', [
                     'title' => 'Menambahkan Data Penagihan',
                     'data_sales' => $data_sales,
@@ -111,7 +111,7 @@ class BillingController extends Controller
                     compact('quotations', 'quotation_revisions')
                 ]);
             }else if($category == "service"){
-                $data_sales = Sale::billService()->where('company_id', $companyId)->get();
+                $data_sales = Sale::billService()->where('company_id', $companyId)->orderBy("created_at", "desc")->get();
                 return view ('billings.select-sale', [
                     'title' => 'Menambahkan Data Penagihan',
                     'data_sales' => $data_sales,

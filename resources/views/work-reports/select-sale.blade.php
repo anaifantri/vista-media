@@ -20,7 +20,7 @@
     @endphp
     <div class="flex justify-center bg-black p-10">
         <div>
-            <div class="flex items-center w-[1200px] border-b px-2">
+            <div class="flex items-center w-[1550px] border-b px-2">
                 <!-- Title start -->
                 <h1 class="index-h1 w-[1200px]">Membuat BAST</h1>
                 <!-- Title end -->
@@ -57,7 +57,7 @@
             </div>
             {{-- @include('work-reports.sale-detail') --}}
             <div class="flex justify-center w-full">
-                <div class="w-[1200px] mb-10 p-2">
+                <div class="w-[1550px] mb-10 p-2">
                     <div id="modalSelectSale">
                         <div class="flex w-full bg-stone-400 rounded-xl items-center border-b p-2">
                             <span class="text-center w-full text-lg font-semibold">PILIH DATA PENJUALAN YANG AKAN
@@ -65,7 +65,7 @@
                         </div>
                         <div
                             class="flex w-full h-[560px] bg-stone-200 items-center justify-center border rounded-lg border-stone-400 my-2 p-4 pt-2 border-b pb-2">
-                            <div class="w-[1135px]">
+                            <div class="w-[1550px]">
                                 <div class="flex">
                                     <input
                                         id="search"class="flex border border-stone-900 rounded-lg p-1 outline-none text-sm text-stone-900 px-2"
@@ -78,7 +78,7 @@
                                                 <th class="text-stone-900 border border-stone-900 text-sm w-8 text-center"
                                                     rowspan="2">No
                                                 </th>
-                                                <th class="text-stone-900 border border-stone-900 text-sm w-20 text-center"
+                                                <th class="text-stone-900 border border-stone-900 text-sm w-24 text-center"
                                                     rowspan="2">
                                                     Kode
                                                 </th>
@@ -98,13 +98,13 @@
                                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
                                                     Jenis
                                                 </th>
-                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
+                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-48">
                                                     No. Penju.
                                                 </th>
-                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-24">
+                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-48">
                                                     No. Penaw.
                                                 </th>
-                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-40">
+                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-56">
                                                     Klien</th>
                                             </tr>
                                         </thead>
@@ -155,12 +155,18 @@
                                                             <td
                                                                 class="text-stone-900 border border-stone-900 text-sm text-center">
                                                                 <a href="/marketing/sales/{{ $sale->id }}"
-                                                                    class="ml-1 w-32">{{ substr($sale->number, 0, 8) }}..</a>
+                                                                    class="ml-1 w-32">
+                                                                    {{ $sale->number }}
+                                                                    {{-- {{ substr($sale->number, 0, 8) }}.. --}}
+                                                                </a>
                                                             </td>
                                                             <td
                                                                 class="text-stone-900 border border-stone-900 text-sm text-center">
                                                                 <a href="/marketing/quotations/{{ $quotationDeal->id }}"
-                                                                    class="ml-1 w-32">{{ substr($quotationDeal->number, 0, 8) }}..</a>
+                                                                    class="ml-1 w-32">
+                                                                    {{ $quotationDeal->number }}
+                                                                    {{-- {{ substr($quotationDeal->number, 0, 8) }}.. --}}
+                                                                </a>
                                                             </td>
                                                             <td
                                                                 class="text-stone-900 border border-stone-900 text-sm text-center">
@@ -213,12 +219,18 @@
                                                         <td
                                                             class="text-stone-900 border border-stone-900 text-sm text-center">
                                                             <a href="/marketing/sales/{{ $sale->id }}"
-                                                                class="ml-1 w-32">{{ substr($sale->number, 0, 8) }}..</a>
+                                                                class="ml-1 w-32">
+                                                                {{ $sale->number }}
+                                                                {{-- {{ substr($sale->number, 0, 8) }}.. --}}
+                                                            </a>
                                                         </td>
                                                         <td
                                                             class="text-stone-900 border border-stone-900 text-sm text-center">
                                                             <a href="/marketing/quotations/{{ $quotationDeal->id }}"
-                                                                class="ml-1 w-32">{{ substr($quotationDeal->number, 0, 8) }}..</a>
+                                                                class="ml-1 w-32">
+                                                                {{ $quotationDeal->number }}
+                                                                {{-- {{ substr($quotationDeal->number, 0, 8) }}.. --}}
+                                                            </a>
                                                         </td>
                                                         <td
                                                             class="text-stone-900 border border-stone-900 text-sm text-center">

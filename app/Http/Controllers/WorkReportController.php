@@ -15,9 +15,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use Validator;
+// use Validator;
 use Gate;
 
 class WorkReportController extends Controller
@@ -167,9 +167,9 @@ class WorkReportController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             if($category == "Media"){
-                $data_sales = Sale::with('billings')->workMedia()->where('company_id', $companyId)->get();
+                $data_sales = Sale::with('billings')->workMedia()->where('company_id', $companyId)->orderBy("created_at", "desc")->get();
             }else if($category == "Service"){
-                $data_sales = Sale::workService()->where('company_id', $companyId)->get();
+                $data_sales = Sale::workService()->where('company_id', $companyId)->orderBy("created_at", "desc")->get();
             }
             $quotations = Quotation::with('sales')->get();
             $install_orders = InstallOrder::with('sale')->get();
