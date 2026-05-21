@@ -1,6 +1,19 @@
 @php
-    $printStatus = $price->objServiceType->print;
-    $installStatus = $price->objServiceType->install;
+    if (isset($price->objServiceType)) {
+        $printStatus = $price->objServiceType->print;
+        $installStatus = $price->objServiceType->install;
+    } else {
+        foreach ($price->objInstalls as $objInstall) {
+            if ($objInstall->code == $product->code) {
+                $installStatus = $objInstall->install;
+            }
+        }
+        foreach ($price->objPrints as $objPrint) {
+            if ($objPrint->code == $product->code) {
+                $printStatus = $objPrint->print;
+            }
+        }
+    }
     $getPriceInstall = 0;
     $getPricePrint = 0;
     if ($printStatus == true && $installStatus == true) {

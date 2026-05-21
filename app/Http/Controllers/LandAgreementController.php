@@ -6,7 +6,7 @@ use App\Models\LandAgreement;
 use App\Models\LandDocument;
 use App\Models\Location;
 use App\Models\MediaCategory;
-use App\Models\Company;
+// use App\Models\Company;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\MediaSize;
@@ -16,7 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use \stdClass;
+// use \stdClass;
 use Gate;
 
 class LandAgreementController extends Controller
@@ -26,7 +26,7 @@ class LandAgreementController extends Controller
      */
     public function index(): Response
     {
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $active_agreements = count(Location::activeAgreements()->get());
             $expired_agreements = count(Location::expiredAgreements()->get());
             $expired_soon_agreements = count(Location::expiredSoonAgreements()->get());
@@ -43,7 +43,7 @@ class LandAgreementController extends Controller
 
     public function allAgreement(): View
     {
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
@@ -65,7 +65,7 @@ class LandAgreementController extends Controller
 
     public function activeAgreement(): View
     { 
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
@@ -87,7 +87,7 @@ class LandAgreementController extends Controller
 
     public function expiredAgreement(): View
     { 
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
@@ -109,7 +109,7 @@ class LandAgreementController extends Controller
 
     public function expiredSoonAgreement(): View
     { 
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $areas = Area::with('locations')->get();
             $cities = City::with('locations')->get();
             $media_sizes = MediaSize::with('locations')->get();
@@ -145,7 +145,7 @@ class LandAgreementController extends Controller
 
     public function showLandAgreement(String $locationId): View
     { 
-        if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $dataAgreements = LandAgreement::where('location_id', $locationId)->get();
             $location = Location::where('id', $locationId)->firstOrFail();
             $areas = Area::with('locations')->get();
@@ -243,7 +243,7 @@ class LandAgreementController extends Controller
      */
     public function show(LandAgreement $landAgreement): Response
     {
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $locations = Location::with('land_agreements')->get();
             $agreements = LandDocument::where('land_agreement_id', $landAgreement->id)->where('name', 'agreement')->get();
             $certificates = LandDocument::where('land_agreement_id', $landAgreement->id)->where('name', 'certificate')->get();

@@ -7,7 +7,7 @@ use App\Models\LicenseDocument;
 use App\Models\LicensingCategory;
 use App\Models\Location;
 use App\Models\MediaCategory;
-use App\Models\Company;
+// use App\Models\Company;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\MediaSize;
@@ -25,7 +25,7 @@ class LicenseController extends Controller
      */
     public function index(): Response
     {
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $prinsip = LicensingCategory::where('name', 'Prinsip')->get()->last();
             $pbg = LicensingCategory::where('name', 'PBG')->get()->last();
             $slf = LicensingCategory::where('name', 'SLF')->get()->last();
@@ -59,7 +59,7 @@ class LicenseController extends Controller
 
     public function activeLicenses(): View
     { 
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $prinsip = LicensingCategory::where('name', 'Prinsip')->get()->last();
             $pbg = LicensingCategory::where('name', 'PBG')->get()->last();
             $slf = LicensingCategory::where('name', 'SLF')->get()->last();
@@ -93,7 +93,7 @@ class LicenseController extends Controller
 
     public function expiredLicenses(): View
     { 
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $prinsip = LicensingCategory::where('name', 'Prinsip')->get()->last();
             $pbg = LicensingCategory::where('name', 'PBG')->get()->last();
             $slf = LicensingCategory::where('name', 'SLF')->get()->last();
@@ -127,7 +127,7 @@ class LicenseController extends Controller
 
     public function expiredSoonLicenses(): View
     { 
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $prinsip = LicensingCategory::where('name', 'Prinsip')->get()->last();
             $pbg = LicensingCategory::where('name', 'PBG')->get()->last();
             $slf = LicensingCategory::where('name', 'SLF')->get()->last();
@@ -176,7 +176,7 @@ class LicenseController extends Controller
 
     public function showLicense(String $locationId): View
     { 
-        if((Gate::allows('isAdmin') && Gate::allows('isLegal') && Gate::allows('isMediaCreate')) || (Gate::allows('isMedia') && Gate::allows('isLegal') && Gate::allows('isMediaCreate'))){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $dataPrinsip = License::where('location_id', $locationId)->whereHas('licensing_category', function($query){
                 $query->where('name', '=', "Prinsip");
             })->get();
@@ -277,7 +277,7 @@ class LicenseController extends Controller
      */
     public function show(License $license): Response
     {
-        if(Gate::allows('isLegal') && Gate::allows('isMediaRead')){
+        if(Gate::allows('isLegal') || Gate::allows('isMediaRead')){
             $licensing_categories = LicensingCategory::with('licenses')->get();
             $locations = Location::with('licenses')->get();
             $license_documents = LicenseDocument::where('license_id', $license->id)->get();

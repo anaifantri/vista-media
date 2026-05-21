@@ -228,6 +228,17 @@
                                 {{ date('Y', strtotime($payment->payment_date)) }}
                             </label>
                         </div>
+                        <div class="flex mt-1">
+                            <label class="text-md text-stone-100 w-40">Keterangan</label>
+                            <label class="text-md text-stone-100 ml-2">:</label>
+                            <label class="px-1 w-[700px] text-white text-md">
+                                @if ($payment->note)
+                                    {{ $payment->note }}
+                                @else
+                                    -
+                                @endif
+                            </label>
+                        </div>
                     </div>
                     <div class="mt-4 border rounded-lg">
                         <div class="flex items-center w-full justify-center">

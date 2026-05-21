@@ -5,6 +5,9 @@
     $bulan = [1 => 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
     $bulan_full = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     $totalPpn = 0;
+    $salesTotal = 0;
+    $changeTotal = 0;
+    $voidTotal = 0;
     ?>
     <!-- Container start -->
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
@@ -213,7 +216,11 @@
                                 <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
                                     {{ number_format($change_sales->sum('ppn_diff')) }}</td>
                                 <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
-                                    {{ number_format($change_sales->sum('price_diff') + $change_sales->sum('ppn_diff')) }}
+                                    @php
+                                        $changeTotal =
+                                            $change_sales->sum('price_diff') + $change_sales->sum('ppn_diff');
+                                    @endphp
+                                    {{ number_format($changeTotal) }}
                                 </td>
                                 <td
                                     class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500">
@@ -352,7 +359,10 @@
                                 <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
                                     {{ number_format($void_sales->sum('ppn')) }}</td>
                                 <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
-                                    {{ number_format($void_sales->sum('price') + $void_sales->sum('ppn')) }}</td>
+                                    @php
+                                        $voidTotal = $void_sales->sum('price') + $void_sales->sum('ppn');
+                                    @endphp
+                                    {{ number_format($voidTotal) }}</td>
                                 <td
                                     class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500">
                                 </td>
@@ -489,9 +499,55 @@
                             <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
                                 {{ number_format($totalPpn) }}</td>
                             <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2">
-                                {{ number_format($sales->sum('price') + $totalPpn) }}</td>
+                                @php
+                                    $salesTotal = $sales->sum('price') + $totalPpn;
+                                @endphp
+                                {{ number_format($salesTotal) }}</td>
                             <td
                                 class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="w-full mt-2">
+                <table class="table-auto w-full">
+                    <tbody class="bg-stone-200">
+                        <tr>
+                            <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2"
+                                colspan="9">TOTAL PENJUALAN (A)</td>
+                            <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 w-28">
+                                {{ number_format($salesTotal) }}</td>
+                            <td
+                                class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500 w-20">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2"
+                                colspan="9">TOTAL PERUBAHAN PENJUALAN (B)</td>
+                            <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 w-28">
+                                {{ number_format($changeTotal) }}</td>
+                            <td
+                                class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500 w-20">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2"
+                                colspan="9">TOTAL PEMBATALAN PENJUALAN (C)</td>
+                            <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 w-28">
+                                {{ number_format($voidTotal) }}</td>
+                            <td
+                                class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500 w-20">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2"
+                                colspan="9">GRAND TOTAL (A + B - C)</td>
+                            <td class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 w-28">
+                                {{ number_format($salesTotal + $changeTotal - $voidTotal) }}
+                            </td>
+                            <td
+                                class="text-stone-900 border border-stone-900 font-semibold text-sm text-right px-2 bg-slate-500 w-20">
                             </td>
                         </tr>
                     </tbody>

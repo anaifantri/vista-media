@@ -37,7 +37,6 @@
                 </div>
             @enderror
             <!-- Alert end -->
-            <!-- table start -->
             <div class="flex justify-center border rounded-lg w-[1200px] p-4 mt-4">
                 <div class="w-[950px]">
                     <label class="text-lg font-bold text-white">DETAIL PEMBAYARAN</label>
@@ -173,11 +172,10 @@
                                 <label class="text-lg text-stone-100 w-48">Pemotongan Lainnya</label>
                                 <label class="text-lg text-stone-100 ml-2">:</label>
                                 <label class="text-lg text-stone-100 ml-2">Rp. </label>
-                                <label
-                                    class="text-lg text-stone-100 text-right w-28">
+                                <label class="text-lg text-stone-100 text-right w-28">
                                     @if ($payment->other_fee)
-                                    {{ number_format($payment->other_fee->nominal) }},-
-                                        @else
+                                        {{ number_format($payment->other_fee->nominal) }},-
+                                    @else
                                         0,-
                                     @endif
                                 </label>
@@ -223,9 +221,18 @@
                             @endforeach
                         </div>
                     </div>
+                    <label class="flex text-lg font-bold text-white mt-2">KETERANGAN</label>
+                    <div class="mt-2">
+                        <label class="px-1 w-[1200px] text-white text-md">
+                            @if ($payment->note)
+                                {{ $payment->note }}
+                            @else
+                                -
+                            @endif
+                        </label>
+                    </div>
                 </div>
             </div>
-            <!-- table end -->
 
             <div class="flex justify-center items-center mt-2 border rounded-lg p-2">
                 <a class="flex justify-center items-center btn-danger"

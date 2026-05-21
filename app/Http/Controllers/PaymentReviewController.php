@@ -18,7 +18,7 @@ class PaymentReviewController extends Controller
             $payment_review = PaymentReview::with('payment')->get();
             $user_review = PaymentReview::with('user')->get();
             return view ('payment-reviews.index', [
-                'payments'=>Payment::where('company_id', $companyId)->yearReport()->monthReport()->sortable()->orderBy("payment_date", "desc")->get(),
+                'payments'=>Payment::where('company_id', $companyId)->yearReport()->monthReport()->sortable()->orderBy("payment_date", "asc")->get(),
                 'title' => 'Review Pembayaran',
                 compact('payment_review', 'user_review')
             ]);
