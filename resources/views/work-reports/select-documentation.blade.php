@@ -33,7 +33,7 @@
         $installService = false;
 
         if ($sale->media_category->name == 'Service') {
-            if(isset($price->objServiceType)){
+            if (isset($price->objServiceType)) {
                 if ($price->objServiceType->print == true && $price->objServiceType->install == true) {
                     $getService = 'Cetak dan Pasang';
                 } elseif ($price->objServiceType->print == true && $price->objServiceType->install == false) {
@@ -41,17 +41,17 @@
                 } elseif ($price->objServiceType->print == false && $price->objServiceType->install == true) {
                     $getService = 'Pasang';
                 }
-            }else{
+            } else {
                 foreach ($price->objPrints as $objPrint) {
-                    if($objPrint->code == $product->code){
-                        if($objPrint->print == true){
+                    if ($objPrint->code == $product->code) {
+                        if ($objPrint->print == true) {
                             $printService = true;
                         }
                     }
                 }
                 foreach ($price->objInstalls as $objInstall) {
-                    if($objInstall->code == $product->code){
-                        if($objInstall->install == true){
+                    if ($objInstall->code == $product->code) {
+                        if ($objInstall->install == true) {
                             $installService = true;
                         }
                     }
@@ -69,30 +69,49 @@
         $dayDisable = false;
         $nightDisable = false;
 
-        if (count($installation_photos) > 0) {
-            if (count($first_photos) == 0) {
-                $dayDisable = true;
-                $first_photos = $second_photos;
-            }
+        if ($sale->media_category->name == 'Videotron') {
+            $videotronImages = json_decode($publish_content->images);
+            $first_photos = $videotronImages;
+            $second_photos = $videotronImages;
+            $nightDisable = false;
+            $dayDisable = false;
 
-            if (count($second_photos) == 0) {
-                $nightDisable = true;
-                $second_photos = $first_photos;
-            }
+            $firstPhotoId = '';
+            $firstTitle = '';
+            $secondPhotoId = '';
+            $secondTitle = '';
+            $install_order = $publish_content;
+
+            $created_by = new stdClass();
+            $created_by->id = auth()->user()->id;
+            $created_by->name = auth()->user()->name;
+            $created_by->position = auth()->user()->position;
         } else {
-            $nightDisable = true;
-            $dayDisable = true;
+            if (count($installation_photos) > 0) {
+                if (count($first_photos) == 0) {
+                    $dayDisable = true;
+                    $first_photos = $second_photos;
+                }
+
+                if (count($second_photos) == 0) {
+                    $nightDisable = true;
+                    $second_photos = $first_photos;
+                }
+            } else {
+                $nightDisable = true;
+                $dayDisable = true;
+            }
+
+            $firstPhotoId = '';
+            $firstTitle = '';
+            $secondPhotoId = '';
+            $secondTitle = '';
+
+            $created_by = new stdClass();
+            $created_by->id = auth()->user()->id;
+            $created_by->name = auth()->user()->name;
+            $created_by->position = auth()->user()->position;
         }
-
-        $firstPhotoId = '';
-        $firstTitle = '';
-        $secondPhotoId = '';
-        $secondTitle = '';
-
-        $created_by = new stdClass();
-        $created_by->id = auth()->user()->id;
-        $created_by->name = auth()->user()->name;
-        $created_by->position = auth()->user()->position;
     @endphp
     <div class="flex justify-center pl-14 py-10 bg-stone-800">
         <div class="z-0 mb-8 bg-stone-700 p-2 border rounded-md">
@@ -204,44 +223,86 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($install_orders as $order)
-                                            <tr class="text-sm">
-                                                <td class="border border-black px-1 text-center">{{ $loop->iteration }}
-                                                </td>
-                                                <td class="border border-black px-1">{{ $order->theme }}</td>
-                                                <td class="border border-black px-1 text-center">
-                                                    {{ date('d', strtotime($order->install_at)) }}
-                                                    {{ $bulan[(int) date('m', strtotime($order->install_at))] }}
-                                                    {{ date('Y', strtotime($order->install_at)) }}
-                                                </td>
-                                                <td class="border border-black px-1">
-                                                    <div class="flex justify-center w-full">
-                                                        @if (request('rb_install_order'))
-                                                            @if ($order->id == request('rb_install_order'))
-                                                                <input id="{{ $order->id }}" type="radio"
-                                                                    name="rb_install_order" value="{{ $order->id }}"
-                                                                    onclick="submit()" checked>
+                                        @if ($sale->media_category->name == 'Videotron')
+                                            @foreach ($publish_contents as $content)
+                                                <tr class="text-sm">
+                                                    <td class="border border-black px-1 text-center">{{ $loop->iteration }}
+                                                    </td>
+                                                    <td class="border border-black px-1">{{ $content->theme }}</td>
+                                                    <td class="border border-black px-1 text-center">
+                                                        {{ date('d', strtotime($content->publish_date)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($content->publish_date))] }}
+                                                        {{ date('Y', strtotime($content->publish_date)) }}
+                                                    </td>
+                                                    <td class="border border-black px-1">
+                                                        <div class="flex justify-center w-full">
+                                                            @if (request('rb_content'))
+                                                                @if ($content->id == request('rb_content'))
+                                                                    <input id="{{ $content->id }}" type="radio"
+                                                                        name="rb_content" value="{{ $content->id }}"
+                                                                        onclick="submit()" checked>
+                                                                @else
+                                                                    <input id="{{ $content->id }}" type="radio"
+                                                                        name="rb_content" value="{{ $content->id }}"
+                                                                        onclick="submit()">
+                                                                @endif
                                                             @else
-                                                                <input id="{{ $order->id }}" type="radio"
-                                                                    name="rb_install_order" value="{{ $order->id }}"
-                                                                    onclick="submit()">
+                                                                @if ($loop->iteration == 1)
+                                                                    <input id="{{ $content->id }}" type="radio"
+                                                                        name="rb_content" value="{{ $content->id }}"
+                                                                        onclick="submit()" checked>
+                                                                @else
+                                                                    <input id="{{ $content->id }}" type="radio"
+                                                                        name="rb_content" value="{{ $content->id }}"
+                                                                        onclick="submit()">
+                                                                @endif
                                                             @endif
-                                                        @else
-                                                            @if ($loop->iteration == 1)
-                                                                <input id="{{ $order->id }}" type="radio"
-                                                                    name="rb_install_order" value="{{ $order->id }}"
-                                                                    onclick="submit()" checked>
+                                                            <span class="ml-2">pilih</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            @foreach ($install_orders as $order)
+                                                <tr class="text-sm">
+                                                    <td class="border border-black px-1 text-center">{{ $loop->iteration }}
+                                                    </td>
+                                                    <td class="border border-black px-1">{{ $order->theme }}</td>
+                                                    <td class="border border-black px-1 text-center">
+                                                        {{ date('d', strtotime($order->install_at)) }}
+                                                        {{ $bulan[(int) date('m', strtotime($order->install_at))] }}
+                                                        {{ date('Y', strtotime($order->install_at)) }}
+                                                    </td>
+                                                    <td class="border border-black px-1">
+                                                        <div class="flex justify-center w-full">
+                                                            @if (request('rb_install_order'))
+                                                                @if ($order->id == request('rb_install_order'))
+                                                                    <input id="{{ $order->id }}" type="radio"
+                                                                        name="rb_install_order" value="{{ $order->id }}"
+                                                                        onclick="submit()" checked>
+                                                                @else
+                                                                    <input id="{{ $order->id }}" type="radio"
+                                                                        name="rb_install_order" value="{{ $order->id }}"
+                                                                        onclick="submit()">
+                                                                @endif
                                                             @else
-                                                                <input id="{{ $order->id }}" type="radio"
-                                                                    name="rb_install_order" value="{{ $order->id }}"
-                                                                    onclick="submit()">
+                                                                @if ($loop->iteration == 1)
+                                                                    <input id="{{ $order->id }}" type="radio"
+                                                                        name="rb_install_order"
+                                                                        value="{{ $order->id }}" onclick="submit()"
+                                                                        checked>
+                                                                @else
+                                                                    <input id="{{ $order->id }}" type="radio"
+                                                                        name="rb_install_order"
+                                                                        value="{{ $order->id }}" onclick="submit()">
+                                                                @endif
                                                             @endif
-                                                        @endif
-                                                        <span class="ml-2">pilih</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                            <span class="ml-2">pilih</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -259,11 +320,11 @@
                                         onclick="rbFirstTitle(this)" disabled>
                                 @else
                                     @if ($work_category != 'Service')
-                                        <input type="radio" name="rbFirstTitle" class="outline-none ml-4" id="Foto Siang"
-                                            onclick="rbFirstTitle(this)" checked>
+                                        <input type="radio" name="rbFirstTitle" class="outline-none ml-4"
+                                            id="Foto Siang" onclick="rbFirstTitle(this)" checked>
                                     @else
-                                        <input type="radio" name="rbFirstTitle" class="outline-none ml-4" id="Foto Siang"
-                                            onclick="rbFirstTitle(this)">
+                                        <input type="radio" name="rbFirstTitle" class="outline-none ml-4"
+                                            id="Foto Siang" onclick="rbFirstTitle(this)">
                                     @endif
                                 @endif
                                 <label class="flex text-sm font-semibold ml-2">Foto Siang</label>
@@ -313,53 +374,95 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    @foreach ($first_photos as $photo)
-                                        @if (count($first_photos) > 2)
-                                            @if ($loop->iteration - 1 == intdiv(count($first_photos), 2))
-                                                <div
-                                                    class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
-                                                    <img src="{{ asset('storage/' . $photo->image) }}" alt=""
-                                                        class="h-[250px] w-[420px] rounded-lg">
-                                                    @php
-                                                        $firstPhotoId = $photo->id;
-                                                        if ($photo->type == 'day') {
+                                    @if ($sale->media_category->name == 'Videotron')
+                                        @foreach ($first_photos as $photo)
+                                            @if (count($first_photos) > 2)
+                                                @if ($loop->iteration - 1 == intdiv(count($first_photos), 2))
+                                                    <div
+                                                        class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                                        <img src="{{ asset('storage/' . $photo) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                        @php
+                                                            $firstPhotoId = $loop->iteration - 1;
                                                             $firstTitle = 'Foto Siang';
-                                                        } else {
-                                                            $firstTitle = 'Foto Malam';
-                                                        }
-                                                    @endphp
-                                                </div>
+                                                        @endphp
+                                                    </div>
+                                                @else
+                                                    <div class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
+                                                        hidden>
+                                                        <img src="{{ asset('storage/' . $photo) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                    </div>
+                                                @endif
                                             @else
-                                                <div class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
-                                                    hidden>
-                                                    <img src="{{ asset('storage/' . $photo->image) }}" alt=""
-                                                        class="h-[250px] w-[420px] rounded-lg">
-                                                </div>
-                                            @endif
-                                        @else
-                                            @if ($loop->iteration == 1)
-                                                <div
-                                                    class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
-                                                    <img src="{{ asset('storage/' . $photo->image) }}" alt=""
-                                                        class="h-[250px] w-[420px] rounded-lg">
-                                                    @php
-                                                        $firstPhotoId = $photo->id;
-                                                        if ($photo->type == 'day') {
+                                                @if ($loop->iteration == 1)
+                                                    <div
+                                                        class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                        @php
+                                                            $firstPhotoId = $loop->iteration - 1;
                                                             $firstTitle = 'Foto Siang';
-                                                        } else {
-                                                            $firstTitle = 'Foto Malam';
-                                                        }
-                                                    @endphp
-                                                </div>
-                                            @else
-                                                <div class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
-                                                    hidden>
-                                                    <img src="{{ asset('storage/' . $photo->image) }}" alt=""
-                                                        class="h-[250px] w-[420px] rounded-lg">
-                                                </div>
+                                                        @endphp
+                                                    </div>
+                                                @else
+                                                    <div class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
+                                                        hidden>
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                    </div>
+                                                @endif
                                             @endif
-                                        @endif
-                                    @endforeach
+                                        @endforeach
+                                    @else
+                                        @foreach ($first_photos as $photo)
+                                            @if (count($first_photos) > 2)
+                                                @if ($loop->iteration - 1 == intdiv(count($first_photos), 2))
+                                                    <div
+                                                        class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                        @php
+                                                            $firstPhotoId = $photo->id;
+                                                            if ($photo->type == 'day') {
+                                                                $firstTitle = 'Foto Siang';
+                                                            } else {
+                                                                $firstTitle = 'Foto Malam';
+                                                            }
+                                                        @endphp
+                                                    </div>
+                                                @else
+                                                    <div class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
+                                                        hidden>
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                    </div>
+                                                @endif
+                                            @else
+                                                @if ($loop->iteration == 1)
+                                                    <div
+                                                        class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                        @php
+                                                            $firstPhotoId = $photo->id;
+                                                            if ($photo->type == 'day') {
+                                                                $firstTitle = 'Foto Siang';
+                                                            } else {
+                                                                $firstTitle = 'Foto Malam';
+                                                            }
+                                                        @endphp
+                                                    </div>
+                                                @else
+                                                    <div class="divFirstPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
+                                                        hidden>
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 @else
                                     <div class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
                                         <button
@@ -452,53 +555,95 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    @foreach ($second_photos as $photo)
-                                        @if (count($second_photos) > 2)
-                                            @if ($loop->iteration - 1 == intdiv(count($second_photos), 2))
-                                                <div
-                                                    class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
-                                                    <img src="{{ asset('storage/' . $photo->image) }}" alt=""
-                                                        class="h-[250px] w-[420px] rounded-lg">
-                                                    @php
-                                                        $secondPhotoId = $photo->id;
-                                                        if ($photo->type == 'day') {
-                                                            $secondTitle = 'Foto Siang';
-                                                        } else {
+                                    @if ($sale->media_category->name == 'Videotron')
+                                        @foreach ($second_photos as $photo)
+                                            @if (count($second_photos) > 2)
+                                                @if ($loop->iteration - 1 == intdiv(count($second_photos), 2))
+                                                    <div
+                                                        class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                                        <img src="{{ asset('storage/' . $photo) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                        @php
+                                                            $secondPhotoId = $loop->iteration - 1;
                                                             $secondTitle = 'Foto Malam';
-                                                        }
-                                                    @endphp
-                                                </div>
+                                                        @endphp
+                                                    </div>
+                                                @else
+                                                    <div class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
+                                                        hidden>
+                                                        <img src="{{ asset('storage/' . $photo) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                    </div>
+                                                @endif
                                             @else
-                                                <div class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
-                                                    hidden>
-                                                    <img src="{{ asset('storage/' . $photo->image) }}" alt=""
-                                                        class="h-[250px] w-[420px] rounded-lg">
-                                                </div>
-                                            @endif
-                                        @else
-                                            @if ($loop->iteration == 1)
-                                                <div
-                                                    class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
-                                                    <img src="{{ asset('storage/' . $photo->image) }}" alt=""
-                                                        class="h-[250px] w-[420px] rounded-lg">
-                                                    @php
-                                                        $secondPhotoId = $photo->id;
-                                                        if ($photo->type == 'day') {
-                                                            $secondTitle = 'Foto Siang';
-                                                        } else {
+                                                @if ($loop->iteration == 1)
+                                                    <div
+                                                        class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                                        <img src="{{ asset('storage/' . $photo) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                        @php
+                                                            $secondPhotoId = $loop->iteration - 1;
                                                             $secondTitle = 'Foto Malam';
-                                                        }
-                                                    @endphp
-                                                </div>
-                                            @else
-                                                <div class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
-                                                    hidden>
-                                                    <img src="{{ asset('storage/' . $photo->image) }}" alt=""
-                                                        class="h-[250px] w-[420px] rounded-lg">
-                                                </div>
+                                                        @endphp
+                                                    </div>
+                                                @else
+                                                    <div class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
+                                                        hidden>
+                                                        <img src="{{ asset('storage/' . $photo) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                    </div>
+                                                @endif
                                             @endif
-                                        @endif
-                                    @endforeach
+                                        @endforeach
+                                    @else
+                                        @foreach ($second_photos as $photo)
+                                            @if (count($second_photos) > 2)
+                                                @if ($loop->iteration - 1 == intdiv(count($second_photos), 2))
+                                                    <div
+                                                        class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                        @php
+                                                            $secondPhotoId = $photo->id;
+                                                            if ($photo->type == 'day') {
+                                                                $secondTitle = 'Foto Siang';
+                                                            } else {
+                                                                $secondTitle = 'Foto Malam';
+                                                            }
+                                                        @endphp
+                                                    </div>
+                                                @else
+                                                    <div class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
+                                                        hidden>
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                    </div>
+                                                @endif
+                                            @else
+                                                @if ($loop->iteration == 1)
+                                                    <div
+                                                        class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1">
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                        @php
+                                                            $secondPhotoId = $photo->id;
+                                                            if ($photo->type == 'day') {
+                                                                $secondTitle = 'Foto Siang';
+                                                            } else {
+                                                                $secondTitle = 'Foto Malam';
+                                                            }
+                                                        @endphp
+                                                    </div>
+                                                @else
+                                                    <div class="divSecondPhoto border rounded-lg border-stone-900 mx-[84px] h-[260px] mt-4 p-1"
+                                                        hidden>
+                                                        <img src="{{ asset('storage/' . $photo->image) }}" alt=""
+                                                            class="h-[250px] w-[420px] rounded-lg">
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 @else
                                     <div class="absolute inset-y-0 left-0 w-7 h-12 m-auto" hidden>
                                         <button
@@ -568,11 +713,16 @@
         var sale = @json($sale);
         var mainSaleId = @json($main_sale_id);
         var bastCategory = @json($bast_category);
-        var installOrder = @json($install_order);
-        if (installOrder.length == 0) {
-            var installOrderId = 0;
+        if (sale.media_category.name == "Videotron") {
+            var installOrder = @json($publish_content);
+            var installOrderId = installOrder.id;
         } else {
-            var installOrderId = installOrder[0].id;
+            var installOrder = @json($install_order);
+            if (installOrder.length == 0) {
+                var installOrderId = 0;
+            } else {
+                var installOrderId = installOrder[0].id;
+            }
         }
         const previewFirstPhoto = document.getElementById("previewFirstPhoto");
         const previewSecondPhoto = document.getElementById("previewSecondPhoto");
@@ -581,16 +731,12 @@
         const formSelectFormat = document.getElementById("formSelectFormat");
 
         if (document.querySelectorAll(".divSecondPhoto").length > 2) {
-            var indexSecond = Math.floor(document.querySelectorAll(".divSecondPhoto").length / 2);
-            secondPhotoId = secondImages[indexSecond].id;
-            if (secondImages[indexSecond].type == "day") {
-                secondTitle = "Foto Siang";
-            } else {
+            if (sale.media_category.name == "Videotron") {
+                var indexSecond = Math.floor(document.querySelectorAll(".divSecondPhoto").length / 2);
+                secondPhotoId = indexSecond;
                 secondTitle = "Foto Malam";
-            }
-        } else {
-            var indexSecond = 0;
-            if (Object.keys(secondImages).length != 0) {
+            } else {
+                var indexSecond = Math.floor(document.querySelectorAll(".divSecondPhoto").length / 2);
                 secondPhotoId = secondImages[indexSecond].id;
                 if (secondImages[indexSecond].type == "day") {
                     secondTitle = "Foto Siang";
@@ -598,118 +744,262 @@
                     secondTitle = "Foto Malam";
                 }
             }
+        } else {
+            if (sale.media_category.name == "Videotron") {
+                var indexSecond = 0;
+                if (Object.keys(secondImages).length != 0) {
+                    secondPhotoId = indexSecond;
+                    secondTitle = "Foto Malam";
+                }
+            } else {
+                var indexSecond = 0;
+                if (Object.keys(secondImages).length != 0) {
+                    secondPhotoId = secondImages[indexSecond].id;
+                    if (secondImages[indexSecond].type == "day") {
+                        secondTitle = "Foto Siang";
+                    } else {
+                        secondTitle = "Foto Malam";
+                    }
+                }
+            }
         }
 
         if (document.querySelectorAll(".divFirstPhoto").length > 2) {
-            var indexFirst = Math.floor(document.querySelectorAll(".divFirstPhoto").length / 2);
-            firstPhotoId = firstImages[indexSecond].id;
-            if (firstImages[indexFirst].type == "day") {
+            if (sale.media_category.name == "Videotron") {
+                var indexFirst = Math.floor(document.querySelectorAll(".divFirstPhoto").length / 2);
+                firstPhotoId = indexFirst;
                 firstTitle = "Foto Siang";
             } else {
-                firstTitle = "Foto Malam";
-            }
-        } else {
-            var indexFirst = 0;
-            if (Object.keys(firstImages).length != 0) {
-                firstPhotoId = firstImages[indexSecond].id;
+                var indexFirst = Math.floor(document.querySelectorAll(".divFirstPhoto").length / 2);
+                firstPhotoId = firstImages[indexFirst].id;
                 if (firstImages[indexFirst].type == "day") {
                     firstTitle = "Foto Siang";
                 } else {
                     firstTitle = "Foto Malam";
                 }
             }
+        } else {
+            if (sale.media_category.name == "Videotron") {
+                var indexFirst = 0;
+                if (Object.keys(firstImages).length != 0) {
+                    firstPhotoId = indexFirst;
+                    firstTitle = "Foto Siang";
+                }
+            } else {
+                var indexFirst = 0;
+                if (Object.keys(firstImages).length != 0) {
+                    firstPhotoId = firstImages[indexFirst].id;
+                    if (firstImages[indexFirst].type == "day") {
+                        firstTitle = "Foto Siang";
+                    } else {
+                        firstTitle = "Foto Malam";
+                    }
+                }
+            }
         }
 
         buttonSecondNext = () => {
-            if (indexSecond == imageSecondViews.length - 1) {
-                imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
-                imageSecondViews[0].removeAttribute('hidden');
-                indexSecond = 0;
-                secondPhotoId = secondImages[indexSecond].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
-                    '/' + installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
-                    bastCategory);
+            if (sale.media_category.name == "Videotron") {
+                if (indexSecond == imageSecondViews.length - 1) {
+                    imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
+                    imageSecondViews[0].removeAttribute('hidden');
+                    indexSecond = 0;
+                    secondPhotoId = indexSecond;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                } else {
+                    imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
+                    imageSecondViews[indexSecond + 1].removeAttribute('hidden');
+                    indexSecond = indexSecond + 1;
+                    secondPhotoId = indexSecond;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                }
             } else {
-                imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
-                imageSecondViews[indexSecond + 1].removeAttribute('hidden');
-                indexSecond = indexSecond + 1;
-                secondPhotoId = secondImages[indexSecond].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
-                    '/' + installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
-                    bastCategory);
+                if (indexSecond == imageSecondViews.length - 1) {
+                    imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
+                    imageSecondViews[0].removeAttribute('hidden');
+                    indexSecond = 0;
+                    secondPhotoId = secondImages[indexSecond].id;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder[0]
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                } else {
+                    imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
+                    imageSecondViews[indexSecond + 1].removeAttribute('hidden');
+                    indexSecond = indexSecond + 1;
+                    secondPhotoId = secondImages[indexSecond].id;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder[0]
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                }
             }
         }
         buttonFirstNext = () => {
-            if (indexFirst == imageFirstViews.length - 1) {
-                imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
-                imageFirstViews[0].removeAttribute('hidden');
-                indexFirst = 0;
-                firstPhotoId = firstImages[indexFirst].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
-                    '/' + installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
-                    bastCategory);
+            if (sale.media_category.name == "Videotron") {
+                if (indexFirst == imageFirstViews.length - 1) {
+                    imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
+                    imageFirstViews[0].removeAttribute('hidden');
+                    indexFirst = 0;
+                    firstPhotoId = indexFirst;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                } else {
+                    imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
+                    imageFirstViews[indexFirst + 1].removeAttribute('hidden');
+                    indexFirst = indexFirst + 1;
+                    firstPhotoId = indexFirst;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                }
             } else {
-                imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
-                imageFirstViews[indexFirst + 1].removeAttribute('hidden');
-                indexFirst = indexFirst + 1;
-                firstPhotoId = firstImages[indexFirst].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
-                    '/' + installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
-                    bastCategory);
+                if (indexFirst == imageFirstViews.length - 1) {
+                    imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
+                    imageFirstViews[0].removeAttribute('hidden');
+                    indexFirst = 0;
+                    firstPhotoId = firstImages[indexFirst].id;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder[0]
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                } else {
+                    imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
+                    imageFirstViews[indexFirst + 1].removeAttribute('hidden');
+                    indexFirst = indexFirst + 1;
+                    firstPhotoId = firstImages[indexFirst].id;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder[0]
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                }
             }
         }
         buttonSecondPrev = () => {
-            if (indexSecond == 0) {
-                imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
-                imageSecondViews[imageSecondViews.length - 1].removeAttribute('hidden');
-                indexSecond = imageSecondViews.length - 1;
-                secondPhotoId = secondImages[indexSecond].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
-                    '/' + installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
-                    bastCategory);
+            if (sale.media_category.name == "Videotron") {
+                if (indexSecond == 0) {
+                    imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
+                    imageSecondViews[imageSecondViews.length - 1].removeAttribute('hidden');
+                    indexSecond = imageSecondViews.length - 1;
+                    secondPhotoId = indexSecond;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                } else {
+                    imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
+                    imageSecondViews[indexSecond - 1].removeAttribute('hidden');
+                    indexSecond = indexSecond - 1;
+                    secondPhotoId = indexSecond;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                }
             } else {
-                imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
-                imageSecondViews[indexSecond - 1].removeAttribute('hidden');
-                indexSecond = indexSecond - 1;
-                secondPhotoId = secondImages[indexSecond].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
-                    '/' + installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
-                    bastCategory);
+                if (indexSecond == 0) {
+                    imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
+                    imageSecondViews[imageSecondViews.length - 1].removeAttribute('hidden');
+                    indexSecond = imageSecondViews.length - 1;
+                    secondPhotoId = secondImages[indexSecond].id;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder[0]
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                } else {
+                    imageSecondViews[indexSecond].setAttribute('hidden', 'hidden');
+                    imageSecondViews[indexSecond - 1].removeAttribute('hidden');
+                    indexSecond = indexSecond - 1;
+                    secondPhotoId = secondImages[indexSecond].id;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder[0]
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                }
             }
         }
         buttonFirstPrev = () => {
-            if (indexFirst == 0) {
-                imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
-                imageFirstViews[imageFirstViews.length - 1].removeAttribute('hidden');
-                indexFirst = imageFirstViews.length - 1;
-                firstPhotoId = firstImages[indexFirst].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
-                    '/' + installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
-                    bastCategory);
+            if (sale.media_category.name == "Videotron") {
+                if (indexFirst == 0) {
+                    imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
+                    imageFirstViews[imageFirstViews.length - 1].removeAttribute('hidden');
+                    indexFirst = imageFirstViews.length - 1;
+                    firstPhotoId = indexFirst;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                } else {
+                    imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
+                    imageFirstViews[indexFirst - 1].removeAttribute('hidden');
+                    indexFirst = indexFirst - 1;
+                    firstPhotoId = indexFirst;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                }
             } else {
-                imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
-                imageFirstViews[indexFirst - 1].removeAttribute('hidden');
-                indexFirst = indexFirst - 1;
-                firstPhotoId = firstImages[indexFirst].id;
-                formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' + mainSaleId +
-                    '/' + installOrder[0]
-                    .id +
-                    '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
-                    bastCategory);
+                if (indexFirst == 0) {
+                    imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
+                    imageFirstViews[imageFirstViews.length - 1].removeAttribute('hidden');
+                    indexFirst = imageFirstViews.length - 1;
+                    firstPhotoId = firstImages[indexFirst].id;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder[0]
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                } else {
+                    imageFirstViews[indexFirst].setAttribute('hidden', 'hidden');
+                    imageFirstViews[indexFirst - 1].removeAttribute('hidden');
+                    indexFirst = indexFirst - 1;
+                    firstPhotoId = firstImages[indexFirst].id;
+                    formSelectFormat.setAttribute('action', '/work-reports/select-format/' + sale.id + '/' +
+                        mainSaleId +
+                        '/' + installOrder[0]
+                        .id +
+                        '/' + firstPhotoId + '/' + firstTitle + '/' + secondPhotoId + '/' + secondTitle + '/' +
+                        bastCategory);
+                }
             }
         }
         rbFirstTitle = (sel) => {

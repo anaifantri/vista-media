@@ -16,11 +16,19 @@
             <div class="flex mt-6 ml-6">
                 <label class="w-40">Tanggal BAST</label>
                 <label>:</label>
-                <form
-                    action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->install_order_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
-                    <input id="djarumDate" type="date" class="ml-2 outline-none px-2 border rounded-md"
-                        value="{{ $content->date }}" onchange="submit()" name="bast_date">
-                </form>
+                @if ($work_category == 'Videotron')
+                    <form
+                        action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->publish_content_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
+                        <input id="djarumDate" type="date" class="ml-2 outline-none px-2 border rounded-md"
+                            value="{{ $content->date }}" onchange="submit()" name="bast_date">
+                    </form>
+                @else
+                    <form
+                        action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->install_order_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
+                        <input id="djarumDate" type="date" class="ml-2 outline-none px-2 border rounded-md"
+                            value="{{ $content->date }}" onchange="submit()" name="bast_date">
+                    </form>
+                @endif
             </div>
             <div class="p-4">
                 <div class="flex text-md items-center ml-2 mt-4">

@@ -13,7 +13,7 @@
     <div class="p-4">
         <div class="flex text-md items-center ml-2">
             <label class="font-semibold">1.</label>
-            <label class="font-semibold w-24 ml-2">Nomor</label>
+            <label class="font-semibold w-40 ml-2">Nomor</label>
             <label>:</label>
             <label class="ml-2">{{ $work_report->number }}</label>
             <label class="font-semibold w-24 ml-60">Tanggal</label>

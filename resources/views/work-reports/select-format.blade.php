@@ -85,7 +85,7 @@
         $installService = false;
 
         if ($sale->media_category->name == 'Service') {
-            if(isset($price->objServiceType)){
+            if (isset($price->objServiceType)) {
                 if ($price->objServiceType->print == true && $price->objServiceType->install == true) {
                     $getService = 'Cetak dan Pasang';
                 } elseif ($price->objServiceType->print == true && $price->objServiceType->install == false) {
@@ -116,17 +116,17 @@
                         $i++;
                     }
                 }
-            }else{
+            } else {
                 foreach ($price->objPrints as $objPrint) {
-                    if($objPrint->code == $product->code){
-                        if($objPrint->print == true){
+                    if ($objPrint->code == $product->code) {
+                        if ($objPrint->print == true) {
                             $printService = true;
                         }
                     }
                 }
                 foreach ($price->objInstalls as $objInstall) {
-                    if($objInstall->code == $product->code){
-                        if($objInstall->install == true){
+                    if ($objInstall->code == $product->code) {
+                        if ($objInstall->install == true) {
                             $installService = true;
                         }
                     }
@@ -165,20 +165,30 @@
         }
 
         $content = new stdClass();
-        if ($install_order == '') {
-            $content->install_order_id = '0';
-            $content->theme = '';
+        if ($work_category == 'Videotron') {
+            if ($publish_content == '') {
+                $content->publish_content_id = '0';
+                $content->theme = '';
+            } else {
+                $content->publish_content_id = $publish_content->id;
+                $content->theme = $publish_content->theme;
+            }
         } else {
-            $content->install_order_id = $install_order->id;
-            $content->theme = $install_order->theme;
+            if ($install_order == '') {
+                $content->install_order_id = '0';
+                $content->theme = '';
+            } else {
+                $content->install_order_id = $install_order->id;
+                $content->theme = $install_order->theme;
+            }
         }
-        $content->category = $sale->media_category->name;
+        $content->category = $work_category;
         if (request('bast_date')) {
             $content->date = request('bast_date');
         } else {
             $content->date = date('Y-m-d');
         }
-        if ($sale->media_category->name == 'Service') {
+        if ($work_category == 'Service') {
             $content->periode = '';
             $content->type = 'Jasa ' . $getService . ' ' . 'Visual Media Luar Ruang';
             if ($product->category == 'Signage') {
@@ -291,7 +301,7 @@
                     'PMLR ' .
                         $product->category .
                         ' ' .
-                        $description->lighting .
+                        $content->location_lighting .
                         ', Lokasi : ' .
                         $content->location_address .
                         ', Ukuran : ' .
@@ -304,7 +314,7 @@
                     'Tax ' .
                         $product->category .
                         ' ' .
-                        $description->lighting .
+                        $content->location_lighting .
                         ', Lokasi : ' .
                         $content->location_address .
                         ', Ukuran : ' .
@@ -362,22 +372,40 @@
 
         $first_photos = new stdClass();
         $first_photos->title = $first_title;
-        if ($first_photo == '') {
-            $first_photos->id = '0';
-            $first_photos->image = '';
+        if ($work_category == 'Videotron') {
+            $first_photos->id = $first_photo_id;
+            if ($first_photo == '') {
+                $first_photos->image = '';
+            } else {
+                $first_photos->image = $first_photo;
+            }
         } else {
-            $first_photos->id = $first_photo->id;
-            $first_photos->image = $first_photo->image;
+            if ($first_photo == '') {
+                $first_photos->id = '0';
+                $first_photos->image = '';
+            } else {
+                $first_photos->id = $first_photo->id;
+                $first_photos->image = $first_photo->image;
+            }
         }
 
         $second_photos = new stdClass();
         $second_photos->title = $second_title;
-        if ($second_photo == '') {
-            $second_photos->id = '0';
-            $second_photos->image = '';
+        if ($work_category == 'Videotron') {
+            $second_photos->id = $second_photo_id;
+            if ($second_photo == '') {
+                $second_photos->image = '';
+            } else {
+                $second_photos->image = $second_photo;
+            }
         } else {
-            $second_photos->id = $second_photo->id;
-            $second_photos->image = $second_photo->image;
+            if ($second_photo == '') {
+                $second_photos->id = '0';
+                $second_photos->image = '';
+            } else {
+                $second_photos->id = $second_photo->id;
+                $second_photos->image = $second_photo->image;
+            }
         }
 
         $created_by = new stdClass();
@@ -459,40 +487,89 @@
                                 Gagal menyimpan BAST, ukuran file foto dokumentasi max 2048 kb, tipe file jpeg/jpg/png
                             </div>
                         @enderror
-                        <form
-                            action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->install_order_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
-                            <div class="flex items-center w-[950px] border rounded-md px-2">
-                                <span class="text-sm font-semibold text-white">Pilih format BAST :</span>
-                                @foreach ($bastFormats as $format)
-                                    @if (request('bast_format'))
-                                        @if (request('bast_format') == strtolower($format))
-                                            <input type="radio" name="bast_format" value="{{ strtolower($format) }}"
-                                                class="ml-4 outline-none" onclick="submit()" checked>
-                                            <span class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                        @if ($work_category == 'Videotron')
+                            <form
+                                action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->publish_content_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
+                                <div class="flex items-center w-[950px] border rounded-md px-2">
+                                    <span class="text-sm font-semibold text-white">Pilih format BAST :</span>
+                                    @foreach ($bastFormats as $format)
+                                        @if (request('bast_format'))
+                                            @if (request('bast_format') == strtolower($format))
+                                                <input type="radio" name="bast_format" value="{{ strtolower($format) }}"
+                                                    class="ml-4 outline-none" onclick="submit()" checked>
+                                                <span
+                                                    class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @else
+                                                <input type="radio" name="bast_format" value="{{ strtolower($format) }}"
+                                                    class="ml-4 outline-none" onclick="submit()">
+                                                <span
+                                                    class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @endif
                                         @else
-                                            <input type="radio" name="bast_format" value="{{ strtolower($format) }}"
-                                                class="ml-4 outline-none" onclick="submit()">
-                                            <span class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @if ($loop->iteration == 1)
+                                                <input type="radio" name="bast_format" value="{{ strtolower($format) }}"
+                                                    class="ml-4 outline-none" onclick="submit()" checked>
+                                                <span
+                                                    class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @else
+                                                <input type="radio" name="bast_format" value="{{ strtolower($format) }}"
+                                                    class="ml-4 outline-none" onclick="submit()">
+                                                <span
+                                                    class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @endif
                                         @endif
-                                    @else
-                                        @if ($loop->iteration == 1)
-                                            <input type="radio" name="bast_format" value="{{ strtolower($format) }}"
-                                                class="ml-4 outline-none" onclick="submit()" checked>
-                                            <span class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                    @endforeach
+                                </div>
+                                @if (request('bast_format'))
+                                    @include('work-reports.' . request('bast_format'))
+                                @else
+                                    @include('work-reports.standar')
+                                @endif
+                            </form>
+                        @else
+                            <form
+                                action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->install_order_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
+                                <div class="flex items-center w-[950px] border rounded-md px-2">
+                                    <span class="text-sm font-semibold text-white">Pilih format BAST :</span>
+                                    @foreach ($bastFormats as $format)
+                                        @if (request('bast_format'))
+                                            @if (request('bast_format') == strtolower($format))
+                                                <input type="radio" name="bast_format"
+                                                    value="{{ strtolower($format) }}" class="ml-4 outline-none"
+                                                    onclick="submit()" checked>
+                                                <span
+                                                    class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @else
+                                                <input type="radio" name="bast_format"
+                                                    value="{{ strtolower($format) }}" class="ml-4 outline-none"
+                                                    onclick="submit()">
+                                                <span
+                                                    class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @endif
                                         @else
-                                            <input type="radio" name="bast_format" value="{{ strtolower($format) }}"
-                                                class="ml-4 outline-none" onclick="submit()">
-                                            <span class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @if ($loop->iteration == 1)
+                                                <input type="radio" name="bast_format"
+                                                    value="{{ strtolower($format) }}" class="ml-4 outline-none"
+                                                    onclick="submit()" checked>
+                                                <span
+                                                    class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @else
+                                                <input type="radio" name="bast_format"
+                                                    value="{{ strtolower($format) }}" class="ml-4 outline-none"
+                                                    onclick="submit()">
+                                                <span
+                                                    class="ml-2 text-sm font-semibold text-white">{{ $format }}</span>
+                                            @endif
                                         @endif
-                                    @endif
-                                @endforeach
-                            </div>
-                            @if (request('bast_format'))
-                                @include('work-reports.' . request('bast_format'))
-                            @else
-                                @include('work-reports.standar')
-                            @endif
-                        </form>
+                                    @endforeach
+                                </div>
+                                @if (request('bast_format'))
+                                    @include('work-reports.' . request('bast_format'))
+                                @else
+                                    @include('work-reports.standar')
+                                @endif
+                            </form>
+                        @endif
 
                         <!-- Documentation start -->
                         <div class="flex justify-center w-full mt-2">

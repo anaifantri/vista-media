@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\WorkReport;
 use App\Models\Company;
-use App\Models\Sale;
-use App\Models\Quotation;
-use App\Models\QuotationOrder;
-use App\Models\QuotationAgreement;
-use App\Models\QuotationRevision;
 use App\Models\InstallationPhoto;
 use App\Models\InstallOrder;
+use App\Models\PublishContent;
+use App\Models\Quotation;
+use App\Models\QuotationAgreement;
+use App\Models\QuotationOrder;
+use App\Models\QuotationRevision;
+use App\Models\Sale;
+use App\Models\WorkReport;
+use Carbon\Carbon;
+use Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-// use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
-// use Validator;
-use Gate;
 
 class WorkReportController extends Controller
 {
@@ -44,7 +43,7 @@ class WorkReportController extends Controller
             $first_photo = json_decode($data_work_report->first_photo);
             $second_photo = json_decode($data_work_report->second_photo);
             $content = json_decode($data_work_report->content);
-            $install_order_id = $content->install_order_id;
+            // $install_order_id = $content->install_order_id;
             $sale = Sale::with('work_reports')->get();
             return view('work-reports.preview', [
                 'work_report' => $data_work_report,
@@ -67,48 +66,77 @@ class WorkReportController extends Controller
     {
         if((Gate::allows('isAdmin') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate')) || (Gate::allows('isAccounting') && Gate::allows('isCollect') && Gate::allows('isAccountingCreate'))){
             $sale = Sale::findOrFail($saleId);
-            if($mainSaleId == 0){
-                $data_orders = InstallOrder::photo($saleId)->orderBy("id", "desc")->get();
-            }else{
-                $data_orders = InstallOrder::photo($mainSaleId)->orderBy("id", "desc")->get();
-            }
-            if(request('rb_install_order')){
-                $data_photos = InstallationPhoto::where('install_order_id', request('rb_install_order'))->get();
-                $data_order = InstallOrder::where('id', request('rb_install_order'))->get();
-                $first_photos = InstallationPhoto::where('install_order_id', request('rb_install_order'))->where('type', 'day')->get();
-                $second_photos = InstallationPhoto::where('install_order_id', request('rb_install_order'))->where('type', 'night')->get();
-            }else{
-                if(count($data_orders) != 0){
-                    $data_photos = InstallationPhoto::where('install_order_id', $data_orders[0]->id)->get();
-                    $data_order = InstallOrder::where('id', $data_orders[0]->id)->get();
-                    $first_photos = InstallationPhoto::where('install_order_id',  $data_orders[0]->id)->where('type', 'day')->get();
-                    $second_photos = InstallationPhoto::where('install_order_id',  $data_orders[0]->id)->where('type', 'night')->get();
+            if($sale->media_category->name == "Videotron"){
+                $publish_contents = PublishContent::where('sale_id', $saleId)->orderBy("id", "desc")->get();
+                if(request('rb_content')){
+                    $publish_content = PublishContent::where('id', request('rb_content'))->get()->last();
                 }else{
-                    $data_photos = collect([]);
-                    $data_order = collect([]);
-                    $first_photos = collect([]);
-                    $second_photos = collect([]);
+                    $publish_content = $publish_contents[0];
                 }
+                $quotations = Quotation::with('sales')->get();
+                $quotation_revisions = QuotationRevision::with('quotation')->get();
+                $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
+                $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
+                // dd($publish_content);
+                return view ('work-reports.select-documentation', [
+                    'title' => 'Membuat BAST',
+                    'publish_contents' => $publish_contents,
+                    'quotation_orders' => $quotation_orders,
+                    'quotation_agreements' => $quotation_agreements,
+                    'publish_content' => $publish_content,
+                    'sale' => $sale,
+                    'main_sale_id' => $mainSaleId,
+                    'bast_category' => $category,
+                    'work_category' => $sale->media_category->name,
+                    // 'installation_photos' => $data_photos,
+                    // 'first_photos' => $first_photos,
+                    // 'second_photos' => $second_photos,
+                    compact('quotations','quotation_revisions')
+                ]);
+            }else{
+                if($mainSaleId == 0){
+                    $data_orders = InstallOrder::photo($saleId)->orderBy("id", "desc")->get();
+                }else{
+                    $data_orders = InstallOrder::photo($mainSaleId)->orderBy("id", "desc")->get();
+                }
+                if(request('rb_install_order')){
+                    $data_photos = InstallationPhoto::where('install_order_id', request('rb_install_order'))->get();
+                    $data_order = InstallOrder::where('id', request('rb_install_order'))->get();
+                    $first_photos = InstallationPhoto::where('install_order_id', request('rb_install_order'))->where('type', 'day')->get();
+                    $second_photos = InstallationPhoto::where('install_order_id', request('rb_install_order'))->where('type', 'night')->get();
+                }else{
+                    if(count($data_orders) != 0){
+                        $data_photos = InstallationPhoto::where('install_order_id', $data_orders[0]->id)->get();
+                        $data_order = InstallOrder::where('id', $data_orders[0]->id)->get();
+                        $first_photos = InstallationPhoto::where('install_order_id',  $data_orders[0]->id)->where('type', 'day')->get();
+                        $second_photos = InstallationPhoto::where('install_order_id',  $data_orders[0]->id)->where('type', 'night')->get();
+                    }else{
+                        $data_photos = collect([]);
+                        $data_order = collect([]);
+                        $first_photos = collect([]);
+                        $second_photos = collect([]);
+                    }
+                }
+                $quotations = Quotation::with('sales')->get();
+                $quotation_revisions = QuotationRevision::with('quotation')->get();
+                $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
+                $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
+                return view ('work-reports.select-documentation', [
+                    'title' => 'Membuat BAST',
+                    'install_orders' => $data_orders,
+                    'quotation_orders' => $quotation_orders,
+                    'quotation_agreements' => $quotation_agreements,
+                    'install_order' => $data_order,
+                    'sale' => $sale,
+                    'main_sale_id' => $mainSaleId,
+                    'bast_category' => $category,
+                    'work_category' => $sale->media_category->name,
+                    'installation_photos' => $data_photos,
+                    'first_photos' => $first_photos,
+                    'second_photos' => $second_photos,
+                    compact('quotations','quotation_revisions')
+                ]);
             }
-            $quotations = Quotation::with('sales')->get();
-            $quotation_revisions = QuotationRevision::with('quotation')->get();
-            $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
-            $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
-            return view ('work-reports.select-documentation', [
-                'title' => 'Membuat BAST',
-                'install_orders' => $data_orders,
-                'quotation_orders' => $quotation_orders,
-                'quotation_agreements' => $quotation_agreements,
-                'install_order' => $data_order,
-                'sale' => $sale,
-                'main_sale_id' => $mainSaleId,
-                'bast_category' => $category,
-                'work_category' => $sale->media_category->name,
-                'installation_photos' => $data_photos,
-                'first_photos' => $first_photos,
-                'second_photos' => $second_photos,
-                compact('quotations','quotation_revisions')
-            ]);
         } else {
             abort(403);
         }
@@ -122,39 +150,80 @@ class WorkReportController extends Controller
             $quotation_revisions = QuotationRevision::with('quotation')->get();
             $quotation_orders = QuotationOrder::where('sale_id', $saleId)->get();
             $quotation_agreements = QuotationAgreement::where('sale_id', $saleId)->get();
-            if($installOrderId == "0"){
-                $installOrder = "";
-                $firstPhoto = "";
-                $secondPhoto = "";
-            }else{
-                $installOrder = InstallOrder::findOrFail($installOrderId);
-                if($firstPhoto == "0"){
+            if($sale->media_category->name == "Videotron"){
+                if($installOrderId == "0"){
+                    $installOrder = "";
                     $firstPhoto = "";
-                }else{
-                    $firstPhoto = InstallationPhoto::findOrFail($firstPhoto);
-                }
-                if($secondPhoto == "0"){
                     $secondPhoto = "";
                 }else{
-                    $secondPhoto = InstallationPhoto::findOrFail($secondPhoto);
+                    $publishContent = PublishContent::findOrFail($installOrderId);
+                    $images = json_decode($publishContent->images);
+                    if($firstPhoto == "0"){
+                        $firstPhoto = "";
+                        $firstPhotoId = 0;
+                    }else{
+                        $firstPhotoId = $firstPhoto;
+                        $firstPhoto = $images[$firstPhoto];
+                    }
+                    if($secondPhoto == "0"){
+                        $secondPhoto = "";
+                        $secondPhotoId = 0;
+                    }else{
+                        $secondPhotoId = $secondPhoto;
+                        $secondPhoto = $images[$secondPhoto];
+                    }
                 }
+                return view ('work-reports.select-format', [
+                    'title' => 'Membuat BAST',
+                    'publish_content' => $publishContent,
+                    'quotation_orders' => $quotation_orders,
+                    'quotation_agreements' => $quotation_agreements,
+                    'sale' => $sale,
+                    'main_sale_id' => $mainSaleId,
+                    'work_category' => $sale->media_category->name,
+                    'bast_category' => $category,
+                    'first_photo' => $firstPhoto,
+                    'first_photo_id' => $firstPhotoId,
+                    'second_photo_id' => $secondPhotoId,
+                    'first_title' => $firstTitle,
+                    'second_photo' => $secondPhoto,
+                    'second_title' => $secondTitle,
+                    compact('quotations','quotation_revisions')
+                ]);
+            }else{
+                if($installOrderId == "0"){
+                    $installOrder = "";
+                    $firstPhoto = "";
+                    $secondPhoto = "";
+                }else{
+                    $installOrder = InstallOrder::findOrFail($installOrderId);
+                    if($firstPhoto == "0"){
+                        $firstPhoto = "";
+                    }else{
+                        $firstPhoto = InstallationPhoto::findOrFail($firstPhoto);
+                    }
+                    if($secondPhoto == "0"){
+                        $secondPhoto = "";
+                    }else{
+                        $secondPhoto = InstallationPhoto::findOrFail($secondPhoto);
+                    }
+                }
+                return view ('work-reports.select-format', [
+                    'title' => 'Membuat BAST',
+                    'install_order' => $installOrder,
+                    'quotation_orders' => $quotation_orders,
+                    'quotation_agreements' => $quotation_agreements,
+                    'sale' => $sale,
+                    'main_sale_id' => $mainSaleId,
+                    'work_category' => $sale->media_category->name,
+                    'bast_category' => $category,
+                    'first_photo' => $firstPhoto,
+                    'first_title' => $firstTitle,
+                    'second_photo' => $secondPhoto,
+                    'second_title' => $secondTitle,
+                    compact('quotations','quotation_revisions')
+                ]);
             }
-            // dd($installOrder);
-            return view ('work-reports.select-format', [
-                'title' => 'Membuat BAST',
-                'install_order' => $installOrder,
-                'quotation_orders' => $quotation_orders,
-                'quotation_agreements' => $quotation_agreements,
-                'sale' => $sale,
-                'main_sale_id' => $mainSaleId,
-                'work_category' => $sale->media_category->name,
-                'bast_category' => $category,
-                'first_photo' => $firstPhoto,
-                'first_title' => $firstTitle,
-                'second_photo' => $secondPhoto,
-                'second_title' => $secondTitle,
-                compact('quotations','quotation_revisions')
-            ]);
         } else {
             abort(403);
         }

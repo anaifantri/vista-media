@@ -20,11 +20,19 @@
                 <div class="flex mt-6">
                     <label class="w-40">Tanggal BAST</label>
                     <label>:</label>
-                    <form
-                        action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->install_order_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
-                        <input type="date" class="ml-2 outline-none px-2 border rounded-md"
-                            value="{{ $content->date }}" onchange="submit()" name="bast_date" required>
-                    </form>
+                    @if ($work_category == 'Videotron')
+                        <form
+                            action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->publish_content_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
+                            <input type="date" class="ml-2 outline-none px-2 border rounded-md"
+                                value="{{ $content->date }}" onchange="submit()" name="bast_date" required>
+                        </form>
+                    @else
+                        <form
+                            action="/work-reports/select-format/{{ $sale->id }}/{{ $main_sale_id }}/{{ $content->install_order_id }}/{{ $first_photos->id }}/{{ $first_photos->title }}/{{ $second_photos->id }}/{{ $second_photos->title }}/{{ $bast_category }}">
+                            <input type="date" class="ml-2 outline-none px-2 border rounded-md"
+                                value="{{ $content->date }}" onchange="submit()" name="bast_date" required>
+                        </form>
+                    @endif
                 </div>
                 <div id="letterTop" class="text-md mt-12 w-full">Pada hari ini
                     @php

@@ -98,11 +98,11 @@
                                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-28">
                                                     Jenis
                                                 </th>
-                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-48">
-                                                    No. Penju.
+                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-60">
+                                                    No. Penjualan
                                                 </th>
-                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-48">
-                                                    No. Penaw.
+                                                <th class="text-stone-900 border border-stone-900 text-sm text-center w-60">
+                                                    No. Penawaran
                                                 </th>
                                                 <th class="text-stone-900 border border-stone-900 text-sm text-center w-56">
                                                     Klien</th>

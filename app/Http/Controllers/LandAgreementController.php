@@ -16,7 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-// use \stdClass;
+use \stdClass;
 use Gate;
 
 class LandAgreementController extends Controller
