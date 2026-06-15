@@ -70,7 +70,11 @@
         $nightDisable = false;
 
         if ($sale->media_category->name == 'Videotron') {
-            $videotronImages = json_decode($publish_content->images);
+            if($publish_content){
+                $videotronImages = json_decode($publish_content->images);
+                }else{
+                $videotronImages = null;
+            }
             $first_photos = $videotronImages;
             $second_photos = $videotronImages;
             $nightDisable = false;
@@ -351,7 +355,7 @@
                                 @endif
                             </div>
                             <div class="relative m-auto w-[540px] h-max mt-2">
-                                @if (count($first_photos) > 0)
+                                @if ($first_photos && count($first_photos) > 0)
                                     <div class="absolute inset-y-0 left-0 w-7 h-12 m-auto">
                                         <button
                                             class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
@@ -532,7 +536,7 @@
                                 @endif
                             </div>
                             <div class="relative m-auto w-[540px] h-max mt-2">
-                                @if (count($second_photos) > 0)
+                                @if ($second_photos && count($second_photos) > 0)
                                     <div class="absolute inset-y-0 left-0 w-7 h-12 m-auto">
                                         <button
                                             class="flex items-center justify-center rounded-r-lg w-7 h-12 bg-slate-700 bg-opacity-30 hover:bg-opacity-75 transition duration-500 ease-in-out cursor-pointer"
@@ -715,7 +719,11 @@
         var bastCategory = @json($bast_category);
         if (sale.media_category.name == "Videotron") {
             var installOrder = @json($publish_content);
-            var installOrderId = installOrder.id;
+            if(installOrder){
+                var installOrderId = installOrder.id;
+            }else{
+                var installOrderId = 0;
+            }
         } else {
             var installOrder = @json($install_order);
             if (installOrder.length == 0) {
@@ -747,7 +755,7 @@
         } else {
             if (sale.media_category.name == "Videotron") {
                 var indexSecond = 0;
-                if (Object.keys(secondImages).length != 0) {
+                if (secondImages && Object.keys(secondImages).length != 0) {
                     secondPhotoId = indexSecond;
                     secondTitle = "Foto Malam";
                 }
@@ -781,7 +789,7 @@
         } else {
             if (sale.media_category.name == "Videotron") {
                 var indexFirst = 0;
-                if (Object.keys(firstImages).length != 0) {
+                if (firstImages && Object.keys(firstImages).length != 0) {
                     firstPhotoId = indexFirst;
                     firstTitle = "Foto Siang";
                 }

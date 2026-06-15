@@ -70,8 +70,10 @@ class WorkReportController extends Controller
                 $publish_contents = PublishContent::where('sale_id', $saleId)->orderBy("id", "desc")->get();
                 if(request('rb_content')){
                     $publish_content = PublishContent::where('id', request('rb_content'))->get()->last();
-                }else{
+                }elseif(count($publish_contents) > 0){
                     $publish_content = $publish_contents[0];
+                }else{
+                    $publish_content = null;
                 }
                 $quotations = Quotation::with('sales')->get();
                 $quotation_revisions = QuotationRevision::with('quotation')->get();
@@ -124,6 +126,8 @@ class WorkReportController extends Controller
                 return view ('work-reports.select-documentation', [
                     'title' => 'Membuat BAST',
                     'install_orders' => $data_orders,
+                    'publish_contents' => null,
+                    'publish_content' => null,
                     'quotation_orders' => $quotation_orders,
                     'quotation_agreements' => $quotation_agreements,
                     'install_order' => $data_order,
@@ -155,6 +159,9 @@ class WorkReportController extends Controller
                     $installOrder = "";
                     $firstPhoto = "";
                     $secondPhoto = "";
+                        $firstPhotoId = 0;
+                        $secondPhotoId = 0;
+                    $publishContent = "";
                 }else{
                     $publishContent = PublishContent::findOrFail($installOrderId);
                     $images = json_decode($publishContent->images);
