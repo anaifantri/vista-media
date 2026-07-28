@@ -813,8 +813,8 @@
                                                 </div>
                                             </td>
                                         @else
-                                            <td class="border border-black text-[0.65rem] text-center align-top">
-                                            </td>
+                                            {{-- <td class="border border-black text-[0.65rem] text-center align-top">
+                                            </td> --}}
                                             <td class="border border-black text-[0.65rem] text-center align-top">
                                             </td>
                                             <td class="border border-black text-[0.65rem] text-center align-top">
@@ -900,8 +900,8 @@
                                                 </div>
                                             </td>
                                         @else
-                                            <td class="border border-black text-[0.65rem] text-center align-top">
-                                            </td>
+                                            {{-- <td class="border border-black text-[0.65rem] text-center align-top">
+                                            </td> --}}
                                             <td class="border border-black text-[0.65rem] text-center align-top">
                                             </td>
                                             <td class="border border-black text-[0.65rem] text-center align-top">

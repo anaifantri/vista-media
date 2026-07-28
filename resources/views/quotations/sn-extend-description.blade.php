@@ -11,12 +11,12 @@
     <div class="flex mt-1">
         <span class="w-[90px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Jenis</span>
         <span class="w-[150px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-            {{ $location->media_category->name }} - {{ $description->type }}</span>
+            {{ $extend_location->media_category->name }} - {{ $description->type }}</span>
     </div>
     <div class="flex mt-1">
         <span class="w-[90px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Ukuran</span>
         <span class="w-[120px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-            {{ $location->media_size->size }} - {{ $location->side }}</span>
+            {{ $extend_location->media_size->size }} - {{ $extend_location->side }}</span>
     </div>
     <div class="flex mt-1">
         <span class="w-[90px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Jumlah</span>
@@ -38,7 +38,7 @@
     <div class="flex mt-1">
         <span class="w-[90px] text-xs font-sans font-bold tracking-wide text-teal-900 ml-2">Orientasi</span>
         <span class="w-[120px] text-xs font-sans font-bold tracking-wide text-teal-900">:
-            {{ $location->orientation }}</span>
+            {{ $extend_location->orientation }}</span>
     </div>
     @if ($description->type != 'Videotron')
         <div class="flex mt-1">
