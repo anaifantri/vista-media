@@ -137,8 +137,8 @@
                             @foreach ($change_sales as $changeSale)
                                 @php
                                     $client = json_decode($changeSale->sale->quotation->clients);
-                                    $ppn = $changeSale->dpp * ($changeSale->ppn / 100);
-                                    $totalPpn = $totalPpn + $ppn;
+                                    // $ppn = $changeSale->dpp * ($changeSale->ppn / 100);
+                                    // $totalPpn = $totalPpn + $ppn;
                                     $changeReviewed = false;
                                 @endphp
                                 <tr>
@@ -280,8 +280,8 @@
                             @foreach ($void_sales as $voidSale)
                                 @php
                                     $client = json_decode($voidSale->sale->quotation->clients);
-                                    $ppn = $voidSale->dpp * ($voidSale->ppn / 100);
-                                    $totalPpn = $totalPpn + $ppn;
+                                    // $ppn = $voidSale->dpp * ($voidSale->ppn / 100);
+                                    // $totalPpn = $totalPpn + $ppn;
                                     $voidReviewed = false;
                                 @endphp
                                 <tr>
