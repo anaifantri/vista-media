@@ -169,9 +169,25 @@
         </div>
         <input id="saveName" type="text" value="Laporan C1 - {{ date('d-m-Y') }}" hidden>
     </div>
+    @php
+        $getArea = $areas->where('id', request('area'))->last();
+        $showArea = $getArea->area;
+        $getCategory = $categories->where('id', request('media_category_id'))->last();
+        if ($getCategory->name == 'Service') {
+            $showCategory = 'Cetak / Pasang';
+        } else {
+            $showCategory = $getCategory->name;
+        }
+    @endphp
 
     <table id="exportExcelTable" class="table-auto w-full" hidden>
         <thead>
+            <tr>
+                <th colspan="2">Area : {{ $showArea }}</th>
+                <th colspan="2">Category : {{ $showCategory }}</th>
+                <th colspan="2">Bulan : {{ $bulan[request('month')] }}</th>
+                <th colspan="2">Tahun : {{ request('year') }}</th>
+            </tr>
             <tr class="bg-teal-100">
                 <th class="sticky top-0 border border-black text-[0.65rem] w-6" rowspan="2">
                     No.

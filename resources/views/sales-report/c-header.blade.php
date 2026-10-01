@@ -3,7 +3,46 @@
         <div class="flex justify-center items-center border rounded-lg mt-2 p-2 w-[1580px]">
             <div>
                 <div class="flex h-14">
-                    <div class="w-24">
+                    <div class="w-36">
+                        <span class="text-base text-stone-200">Area</span>
+                        <select class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1" name="area"
+                            id="area" onchange="submit()" value="{{ request('area') }}">
+                            <option value="All">All</option>
+                            @foreach ($areas as $area)
+                                @if (request('area') == $area->id)
+                                    <option value="{{ $area->id }}" selected>{{ $area->area }}</option>
+                                @else
+                                    <option value="{{ $area->id }}">{{ $area->area }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="w-36 ml-2">
+                        <span class="text-base text-stone-200">Katagori</span>
+                        <select class="w-full border rounded-lg text-sm text-stone-900 outline-none p-1"
+                            name="media_category_id" id="media_category_id" onchange="submit()"
+                            value="{{ request('media_category_id') }}">
+                            <option value="All">All</option>
+                            @foreach ($categories as $category)
+                                @if ($category->name != 'Service')
+                                    @if (request('media_category_id') == $category->id)
+                                        <option value="{{ $category->id }}" selected>{{ $category->name }}
+                                        </option>
+                                    @else
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endif
+                                @else
+                                    @if (request('media_category_id') == $category->id)
+                                        <option value="{{ $category->id }}" selected>Cetak / Pasang
+                                        </option>
+                                    @else
+                                        <option value="{{ $category->id }}">Cetak / Pasang</option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="w-24 ml-2">
                         <span class="text-base text-stone-100">Bulan</span>
                         <select name="month"
                             class="p-1 outline-none border w-full text-sm text-stone-900 rounded-md bg-stone-100"

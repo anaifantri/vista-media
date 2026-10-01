@@ -8,6 +8,27 @@ use Carbon\Carbon;
 class VoidSale extends Model
 {
     protected $guarded = ['id'];
+    
+
+    public function scopeCategory($query, $filter){
+        if (request('media_category_id') != "All") {
+            $query->whereHas('sale', function($query){
+                            $query->where('media_category_id', 'like', '%' . request('media_category_id') . '%');
+                        });
+        }
+    }    
+
+    public function scopeArea($query){
+        if (request('area') != 'All') {
+            $query->whereHas('sale', function($query){
+                    $query->whereHas('location', function($query){
+                        $query->whereHas('area', function($query){
+                            $query->where('area_id', 'like', '%' . request('area') . '%');
+                        });
+                    });
+                });
+        }
+    }
 
     public function scopeYear($query){
         if(request('year')){

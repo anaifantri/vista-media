@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use App\Models\Billing;
 use App\Models\Payment;
-use App\Models\OtherFee;
+// use App\Models\OtherFee;
 use App\Models\IncomeTax;
 use App\Models\VoidSale;
 use App\Models\ChangeSale;
@@ -106,9 +106,11 @@ class SalesReportController extends Controller
             $change_sales = VoidSale::with('sale')->get();
             $billings = Billing::with('sales')->get();
             return view ('sales-report.c-reports', [
-                'sales'=>Sale::unionAll(Sale::void()->where('company_id', $company_id))->unionAll(Sale::change()->where('company_id', $company_id))->where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->sortable()->orderBy("number", "asc")->get(),
-                'void_sales'=>VoidSale::where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->get(),
-                'change_sales'=>ChangeSale::where('company_id', $company_id)->filter(request('search'))->year()->monthReport()->get(),
+                'sales'=>Sale::unionAll(Sale::void()->where('company_id', $company_id)->area(request('area'))->category(request('media_category_id')))->unionAll(Sale::change()->where('company_id', $company_id)->area(request('area'))->category(request('media_category_id')))->where('company_id', $company_id)->filter(request('search'))->area(request('area'))->category(request('media_category_id'))->year()->monthReport()->sortable()->orderBy("number", "asc")->get(),
+                'void_sales'=>VoidSale::where('company_id', $company_id)->filter(request('search'))->area(request('area'))->category(request('media_category_id'))->year()->monthReport()->get(),
+                'change_sales'=>ChangeSale::where('company_id', $company_id)->filter(request('search'))->area(request('area'))->category(request('media_category_id'))->year()->monthReport()->get(),
+                'areas' => $areas,
+                'categories' => $location_categories,
                 'title' => 'Laporan C1',
                 compact('sales_categories', 'companies','quotations', 'location_categories', 'areas', 'cities', 'media_sizes', 'locations', 'void_sales', 'change_sales', 'billings')
             ]);
