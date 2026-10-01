@@ -170,21 +170,30 @@
         <input id="saveName" type="text" value="Laporan C1 - {{ date('d-m-Y') }}" hidden>
     </div>
     @php
-        $getArea = $areas->where('id', request('area'))->last();
-        $showArea = $getArea->area;
-        $getCategory = $categories->where('id', request('media_category_id'))->last();
-        if ($getCategory->name == 'Service') {
-            $showCategory = 'Cetak / Pasang';
-        } else {
-            $showCategory = $getCategory->name;
+        if (request('area') && request('area') != 'All') {
+            $getArea = $areas->where('id', request('area'))->last();
+            $showArea = $getArea->area;
         }
+        if (request('media_category_id') && request('media_category_id') != 'All') {
+            $getCategory = $categories->where('id', request('media_category_id'))->last();
+            if ($getCategory->name == 'Service') {
+                $showCategory = 'Cetak / Pasang';
+            } else {
+                $showCategory = $getCategory->name;
+            }
+        }
+
     @endphp
 
     <table id="exportExcelTable" class="table-auto w-full" hidden>
         <thead>
             <tr>
-                <th colspan="2">Area : {{ $showArea }}</th>
-                <th colspan="2">Category : {{ $showCategory }}</th>
+                @if (request('area') && request('area') != 'All')
+                    <th colspan="2">Area : {{ $showArea }}</th>
+                @endif
+                @if (request('media_category_id') && request('media_category_id') != 'All')
+                    <th colspan="2">Category : {{ $showCategory }}</th>
+                @endif
                 <th colspan="2">Bulan : {{ $bulan[request('month')] }}</th>
                 <th colspan="2">Tahun : {{ request('year') }}</th>
             </tr>
